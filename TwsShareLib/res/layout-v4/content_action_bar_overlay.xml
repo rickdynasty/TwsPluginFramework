@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<android.widget.TwsActionBarFrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true" >
+
+    <FrameLayout
+        android:id="@android:id/content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top" >
+
+        <com.tencent.tws.assistant.internal.widget.ActionBarContainer
+            android:id="@+id/tws_action_bar_container"
+            style="?attr/actionBarStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:gravity="top" >
+
+            <com.tencent.tws.assistant.internal.widget.ActionBarView
+                android:id="@+id/tws_action_bar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <com.tencent.tws.assistant.internal.widget.ActionBarContextView
+                android:id="@+id/tws_action_context_bar"
+                style="?attr/actionModeStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone" />
+        </com.tencent.tws.assistant.internal.widget.ActionBarContainer>
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tws_action_bar_container"
+            android:scaleType="fitXY"
+            android:src="?android:attr/windowContentOverlay" />
+    </LinearLayout>
+
+    <com.tencent.tws.assistant.internal.widget.ActionBarContainer
+        android:id="@+id/tws_split_action_bar"
+        style="?attr/actionBarStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:gravity="center"
+        android:visibility="gone" />
+
+</android.widget.TwsActionBarFrameLayout>

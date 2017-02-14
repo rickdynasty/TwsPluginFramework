@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="hello_world1">来自插件文字1</string>
+    <string name="hello_world2">来自插件文字2</string>
+    <string name="hello_world3">来自插件文字3</string>
+    <string name="hello_world4">来自插件文字4</string>
+    <string name="app_name">TwsPluginDemo</string>
+    
+    <string name="open_ft">Open FileTransfer Demo</string>
+</resources>

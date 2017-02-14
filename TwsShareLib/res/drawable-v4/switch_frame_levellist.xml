@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<level-list xmlns:android="http://schemas.android.com/apk/res/android"
+    >
+    <item android:maxLevel="0" android:drawable="@drawable/switch_frame00" />
+    <item android:maxLevel="1" android:drawable="@drawable/switch_frame01" />
+    <item android:maxLevel="2" android:drawable="@drawable/switch_frame02" />
+    <item android:maxLevel="3" android:drawable="@drawable/switch_frame03" />
+    <item android:maxLevel="4" android:drawable="@drawable/switch_frame04" />
+    <item android:maxLevel="5" android:drawable="@drawable/switch_frame05" />
+    <item android:maxLevel="6" android:drawable="@drawable/switch_frame06" />
+    <item android:maxLevel="7" android:drawable="@drawable/switch_frame07" />
+    <item android:maxLevel="8" android:drawable="@drawable/switch_frame08" />
+    <item android:maxLevel="9" android:drawable="@drawable/switch_frame09" />
+    <item android:maxLevel="10" android:drawable="@drawable/switch_frame10" />
+</level-list>

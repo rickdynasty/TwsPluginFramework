@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project name="build_local_path_template" default="">
+
+    <!--
+         配置这个xml文件里面的参数，是为了在local的机器上，能正常运行build_template脚本
+         注： 1. 如果不配置local变量，是不会影响DB服务器编译的
+              2. 这个文件纸开发自己本地编译测试所用，可以不提交到git上
+    -->
+
+    <!-- TODO : 这里要要配置local变量(android sdk的根路径)，本地自行配置
+                为了保证编译环境的兼容性，文件夹路径的分隔符，统一使用“/”符号，而不要使用“\”
+    --> 
+    
+    <property name="sdk.local.dir" location="${env.ANDROID_HOME}"/>
+    
+    <!-- property name="sdk.local.dir" location="D:/sdk"/ -->
+
+    <!-- TODO : 这里要要配置local变量(qrom sdk库的根路径)，本地自行配置  -->
+    <!-- <property name="qrom.sdk.git.local.dir" value="H:/rom_projects/external_libs/qrom_sdk"/>  -->
+    
+    <tstamp>
+        <format property="publish.build.AppVnDay" pattern="yyMMdd"/>
+    </tstamp>
+    
+    <property name="publish.build.AppSnHead" value="ADRDMTWS"/>
+
+</project>

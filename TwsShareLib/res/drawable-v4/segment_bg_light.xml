@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tws="http://schemas.android.com/apk/res-auto">
+    <item android:state_checked="true" android:drawable="@drawable/tab_bg_first_selected_light" tws:state_first_h="true" />
+    <item android:state_pressed="true" android:drawable="@drawable/tab_bg_first_pressed_light" tws:state_first_h="true" />
+    <item android:drawable="@drawable/tab_bg_first_normal_light" tws:state_first_h="true" />
+    <item android:state_checked="true" android:drawable="@drawable/tab_bg_middle_selected_light" tws:state_middle_h="true" />
+    <item android:state_pressed="true" android:drawable="@drawable/tab_bg_middle_pressed_light" tws:state_middle_h="true" />
+    <item android:drawable="@drawable/tab_bg_middle_normal_light" tws:state_middle_h="true" />
+    <item android:state_checked="true" android:drawable="@drawable/tab_bg_last_selected_light" tws:state_last_h="true" />
+    <item android:state_pressed="true" android:drawable="@drawable/tab_bg_last_pressed_light" tws:state_last_h="true" />
+    <item android:drawable="@drawable/tab_bg_last_normal_light" tws:state_last_h="true" />
+    <item android:state_checked="true" android:drawable="@drawable/tab_bg_single_selected_light" />
+    <item android:state_pressed="true" android:drawable="@drawable/tab_bg_single_pressed_light" />
+    <item android:drawable="@drawable/tab_bg_single_normal_light" />
+</selector>

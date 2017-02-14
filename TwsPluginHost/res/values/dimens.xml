@@ -1,0 +1,43 @@
+<resources>
+
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+    <dimen name="home_bottom_tab_img_width">25dp</dimen>
+    <dimen name="home_bottom_tab_img_height">25dp</dimen>
+    <dimen name="home_bottom_tab_img_margin_top">5dp</dimen>
+    <dimen name="home_bottom_tab_text_margin_top">1dp</dimen>
+
+    <!-- Home Fragment -->
+    <dimen name="my_watch_fragment_revision_watch_info_height">180dp</dimen>
+    <dimen name="my_watch_fragment_revision_watch_name">18sp</dimen>
+    <dimen name="my_watch_fragment_revision_connect_text_size">12sp</dimen>
+    <dimen name="my_watch_fragment_revision_watch_name_margin_top">68dp</dimen>
+    <dimen name="my_watch_fragment_revision_watch_redpoint_margin_top">72dp</dimen>
+    <dimen name="my_watch_fragment_revision_watch_name_margin_left">54dp</dimen>
+    <dimen name="my_watch_fragment_revision_conncet_btn_margin_left">54dp</dimen>
+    <dimen name="my_watch_fragment_revision_conncet_btn_margin_top">8dp</dimen>
+    <dimen name="my_watch_fragment_revision_watch_img_width">180dp</dimen>
+    <dimen name="my_watch_fragment_revision_watch_img_height">180dp</dimen>
+    <dimen name="my_watch_fragment_revision_watch_arrow_img_width">18dp</dimen>
+    <dimen name="my_watch_fragment_revision_watch_arrow_img_height">18dp</dimen>
+    <dimen name="my_watch_fragment_revision_watch_arrow_img_margin_right">20dp</dimen>
+    <dimen name="my_watch_fragment_revision_watch_arrow_img_margin_top">81dp</dimen>
+    <dimen name="my_watch_fragment_revision_watch_img_margin_right">8dp</dimen>
+    <dimen name="my_watch_fragment_revision_watch_img_margin_top">18dp</dimen>
+    <dimen name="my_watch_fragment_revision_item_arrow_img_width">16dp</dimen>
+    <dimen name="my_watch_fragment_revision_item_arrow_img_height">16dp</dimen>
+    <dimen name="my_watch_fragment_revision_item_arrow_img_margin_right">20dp</dimen>
+    <dimen name="my_watch_fragment_revision_item_height">60dp</dimen>
+    <dimen name="my_watch_fragment_revision_item_margin_left">21dp</dimen>
+    <dimen name="my_watch_fragment_revision_item_divider_line_height">1dp</dimen>
+    <dimen name="my_watch_fragment_revision_item_divider_line_margin_left">20dp</dimen>
+    <dimen name="my_watch_fragment_revision_item_img_size">24dp</dimen>
+    <dimen name="my_watch_fragment_revision_item_text_size">16sp</dimen>
+    <dimen name="my_watch_fragment_revision_item_text_margin_left">9dp</dimen>
+    <dimen name="my_watch_fragment_revision_item_big_divider">30dp</dimen>
+
+    <!-- notification -->
+    <dimen name="notification_my_watch_fragment_red_point_margin_top">21dp</dimen>
+    <dimen name="home_bottom_tab_height">54dp</dimen>
+
+</resources>

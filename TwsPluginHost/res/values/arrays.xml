@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+
+    <string-array name="default_hotset_pos">
+        <item>com.tencent.tws.devicemanager.sports</item>
+        <item>com.tencent.tws.devicemanager.sports</item>
+        <item>com.pacewear.tws.phoneside.store</item>
+        <item>com.example.plugindemo</item>
+    </string-array>
+    <string-array name="default_mywatch_pos">
+        <item>com.pacewear.tws.phoneside.store</item>
+        <item>com.pacewear.tws.phoneside.wallet</item>
+        <item>com.pacewear.tws.phoneside.musictransfer</item>
+        <item>com.tencent.tws.devicemanager.sports</item>
+        <item>com.tencent.tws.phoneside.smartdoor</item>
+        <item>com.example.plugindemo</item>
+    </string-array>
+
+</resources>

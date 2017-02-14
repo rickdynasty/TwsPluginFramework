@@ -1,0 +1,359 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project name="build_common_template" basedir=".">
+
+    <!--
+        ********************************************************************************
+        ******************************** 设置编译参数 **********************************
+        ********************************************************************************
+    -->
+
+    <!-- 系统属性，请不要擅自修改 -->
+    <property environment="env"/>
+						    
+    <property name="dex.force.jumbo" value="true"/>
+    
+    <!-- 如果是本地，设置value的值 -->
+	<condition property="MajorVersion" value="${env.MajorVersion}">
+		<istrue value="${isCI}"/>
+	</condition>
+	<condition property="MinorVersion" value="${env.MinorVersion}">
+		<istrue value="${isCI}"/>
+	</condition>
+	<condition property="FixVersion" value="${env.FixVersion}">
+		<istrue value="${isCI}"/>
+	</condition>
+	<condition property="BuildNo" value="${env.BuildNo}">
+		<istrue value="${isCI}"/>
+	</condition>
+	<condition property="PLATFORM" value="${env.PLATFORM}">
+		<istrue value="${isCI}"/>
+	</condition>
+	
+    <!-- 导入app的自定义task文件 -->
+    <import file="build_custom_template.xml"/>
+
+    <!-- 预置android sdk中自带的默认build文件中所需的参数 -->
+    <!-- ANDROIDSDK_LINUX_R19 -->
+    <condition property="sdk.dir" value="${env.ANDROIDSDK_LINUX_R21}" else="${sdk.local.dir}">
+        <!-- 是否服务器构建（一般本地编译为window环境，DB编译为linux环境） -->
+        <os family="unix"/>
+    </condition>
+
+	<!-- 是否RDM服务器构建 -->
+    <condition property="has.rdm.env">
+        <and>
+            <isset property="env.CI" />
+        </and>
+    </condition>
+    
+    <!-- 签名配置 -->
+	<echo>has.rdm.env - ${has.rdm.env}</echo>
+
+    <!-- 先检查RDM服务器的签名 -->
+    <condition property="has.rdm.signature">
+        <and>
+            <istrue value="${has.rdm.env}" />
+            <isset property="env.KEYSTORE_PATH" />
+            <isset property="env.ALIAS" />
+            <isset property="env.STOREPASS" />
+            <isset property="env.KEYPASS" />
+        </and>
+    </condition>
+    <echo>has.rdm.signature - ${has.rdm.signature}</echo>
+    <!-- 设置RDM签名 -->
+    <condition property="key.store" value="${env.KEYSTORE_PATH}">
+        <istrue value="${has.rdm.signature}" />
+    </condition>
+    <condition property="key.alias" value="${env.ALIAS}">
+        <istrue value="${has.rdm.signature}" />
+    </condition>
+    <condition property="key.store.password" value="${env.STOREPASS}">
+        <istrue value="${has.rdm.signature}" />
+    </condition>
+    <condition property="key.alias.password" value="${env.KEYPASS}">
+        <istrue value="${has.rdm.signature}" />
+    </condition>
+    
+    <echo>key.store - ${key.store}</echo>
+    <echo>key.alias - ${key.alias}</echo>
+    <echo>key.store.password - ${key.store.password}</echo>
+    <echo>key.alias.password - ${key.alias.password}</echo>
+    
+    <!-- 导入android sdk中自带的默认build文件 -->
+    <import file="${sdk.dir}/tools/ant/build.xml"/>
+
+    <!-- 导入工程描述文件 -->
+    <property file="project.properties"/>
+    
+    <!--
+        按照规范，指定输出的文件名
+        (如果是非DB环境编译，会记录COMPUTERNAME，方便回溯版本)
+    -->
+    <tstamp>
+        <format property="output.file.build.date" pattern="yyMMdd"/>
+    </tstamp>
+    <condition property="env.all.params.available" value="true" else="false">
+        <and>
+            <isset property="MajorVersion"/>
+            <isset property="MinorVersion"/>
+            <isset property="FixVersion"/>
+            <isset property="BuildNo"/>
+            <isset property="PLATFORM"/>
+        </and>
+    </condition>
+
+    <condition
+            property="output.file.build.basename"
+            value="${output.file.build.first.name}_${MajorVersion}.${MinorVersion}.${output.file.build.date}_${BuildNo}_10000"
+            else="${output.file.build.first.name}_${env.COMPUTERNAME}_${output.file.build.date}_10000">
+        <istrue value="${env.all.params.available}"/>
+    </condition>
+
+    <path id="original.target.class.path"/>
+    <path id="original.all.jars.path"/>
+    <path id="custom.dex.injars.path"/>
+    <path id="custom.dex.libraryjars.path"/>
+    <path id="custom.intermediate.jars.path"/>
+
+    <!--
+        ********************************************************************************
+        ************************* build脚本的base模本（start） *************************
+        ***************************** (通用方法，谨慎修改) *****************************
+        ********************************************************************************
+    -->
+
+    <target name="build_release_implement" depends="-set-internal-mode">
+        <echo>build.release.mode.internal = ${build.release.mode.internal}</echo>
+		<echo>dex.force.jumbo = ${dex.force.jumbo}</echo>
+        <replaceregexp file="AndroidManifest.xml"
+            match="android:debuggable\s*=\s*&quot;([^&quot;]*)&quot;"
+            replace="android:debuggable=&quot;false&quot;" byline="false" encoding="utf-8"/>
+        <antcall target="release"/>
+    </target>
+
+    <target name="build_debug_implement" depends="-set-internal-mode">
+        <echo>build.release.mode.internal = ${build.release.mode.internal}</echo>
+		<echo>dex.force.jumbo = ${dex.force.jumbo}</echo>
+        <replaceregexp file="AndroidManifest.xml"
+                       match="android:debuggable\s*=\s*&quot;([^&quot;]*)&quot;"
+                       replace="android:debuggable=&quot;true&quot;" byline="false" encoding="utf-8"/>
+        <antcall target="debug"/>
+    </target>
+
+    <target name="-set-internal-mode">
+        <condition property="build.release.mode.internal" value="true" else="false">
+<!--             <or> -->
+<!--                 <and> -->
+<!--                     <isset property="env.QROM_SDK_BASE_PATH"/> -->
+<!--                     <istrue value="${env.ROM_INTEGRATION}"/> -->
+<!--                 </and> -->
+                <istrue value="${build_internal}"/>
+<!--             </or> -->
+        </condition>
+    </target>
+	
+    <target name="-pre-build">
+        <!-- 动态设置qrom.properties的参数 -->
+       <!--   <copy file="${qrom.widget.property.file}" tofile="qrom.properties" overwrite="true"/>  
+        <replaceregexp file="qrom.properties" match="qrom_lib_path\s*=.*" encoding="utf-8"
+                       replace="qrom_lib_path = ${qrom.widget.res.dir}" byline="true"/>
+        <if condition="${build.release.mode.internal}">
+            <then>
+                <replaceregexp file="qrom.properties" match="include_qrom_res\s*=.*" encoding="utf-8"
+                               replace="include_qrom_res = 0" byline="true"/>
+            </then>
+            <else>
+                <replaceregexp file="qrom.properties" match="include_qrom_res\s*=.*" encoding="utf-8"
+                               replace="include_qrom_res = 1" byline="true"/>
+            </else>
+        </if>
+         -->
+        <!-- 如果是app的内置模式，要先单独把so打包出来 -->
+        <if condition="${build.release.mode.internal}">
+            <then>
+<!--                 <zip destfile="${out.absolute.dir}/${output.file.build.basename}_so.zip" update="true"> -->
+<!--                     <fileset dir="${jar.libs.dir}"> -->
+<!--                         <include name="**/*.so"/> -->
+<!--                     </fileset> -->
+<!--                 </zip> -->
+<!--                 <delete includeemptydirs="true" dir="${jar.libs.dir}" excludes="**/*.jar"/> -->
+				 <!-- <delete includeemptydirs="true" dir="${jar.libs.dir}" excludes="*.jar"/> -->
+				 <!-- 下面指定你导入的lib库 -->
+			     <!-- <delete includeemptydirs="true" dir="TencentWearServiceLibApp/libs" excludes="*.jar"/> -->
+			     <!-- <delete includeemptydirs="true" dir="TwsPluginShareLib/libs" excludes="*.jar"/> -->
+            </then>
+        </if>
+
+        <antcall target="-set-standard-pre-build" inheritAll="true" inheritRefs="true"/>
+        <antcall target="-set-custom-pre-build" inheritAll="true" inheritRefs="true"/>
+    </target>
+
+    <target name="-set-standard-pre-build">
+        <!--******************** base模板不修改（start） ********************-->
+
+        <!-- 如果是DB上编译，配置了env的环境变量，ant编译时就按照标准修改versionName和versionCode -->
+        <if condition="${env.all.params.available}">
+            <then>
+                <replaceregexp file="AndroidManifest.xml"
+                               match="android:versionCode\s*=\s*&quot;([^&quot;]*)&quot;"
+                               replace="android:versionCode = &quot;${MajorVersion}${MinorVersion}${output.file.build.date}&quot;"
+                               byline="false" encoding="utf-8"/>
+                <replaceregexp file="AndroidManifest.xml"
+                               match="android:versionName\s*=\s*&quot;(.*)&quot;"
+                               replace="android:versionName = &quot;${MajorVersion}.${MinorVersion}.${output.file.build.date}.${BuildNo}&quot;"
+                               byline="false" encoding="utf-8"/>
+            </then>
+        </if>
+
+        <!--******************** base模板不修改（start） ********************-->
+    </target>
+
+    <target name="-pre-compile" depends="-set-original-path,-set-compile-libs">
+        <!--******************** base模板不修改（start） ********************-->
+        <path id="project.all.jars.path">
+            <path path="${toString:custom.dex.injars.path}"/>
+        </path>
+        <path id="project.target.class.path">
+            <path path="${toString:custom.intermediate.jars.path}"/>
+            <path refid="custom.dex.libraryjars.path"/>
+            <path path="${toString:original.target.class.path}"/>
+        </path>
+        <!--******************** base模板不修改（end） ********************-->
+    </target>
+
+    <target name="-set-original-path">
+        <path id="original.target.class.path">
+            <path path="${toString:project.target.class.path}"/>
+        </path>
+        <path id="original.all.jars.path">
+            <path path="${toString:project.all.jars.path}"/>
+        </path>
+    </target>
+
+    <!--
+      *  implement task name="-post-compile"
+         (在这个task任务的依赖中，可以配置obfuscate的应用jar)
+      -->
+    <target name="-post-compile">
+        <if condition="${build.release.mode.internal}">
+            <then>
+                <!-- <delete includeemptydirs="true" dir="${out.classes.absolute.dir}"
+                        includes="**/com/tencent/qrom/R*.class"/> -->
+            </then>
+        </if>
+    </target>
+
+    <target name="-post-build">
+        <!--******************** base模板不修改（start） ********************-->
+        <!-- 给debug包签名 -->
+        <!-- 如果有Key和密码的话才签名, 否则就算了 -->
+        <do-only-if-not-library elsetext="Library project: do not -post-build">
+            <!-- 找不到签名, 拒绝构建 -->
+            <echo>has.keystore --- ${has.keystore}</echo>
+            <fail message="no keystore.">
+                <condition><isfalse value="${has.keystore}" /></condition>
+            </fail>
+
+            <echo>has.password --- ${has.password}</echo>
+            <fail message="no keystore password.">
+                <condition><isfalse value="${has.password}" /></condition>
+            </fail>
+
+            <if>
+                <condition>
+                    <and>
+                        <istrue value="${has.keystore}" />
+                        <istrue value="${has.password}" />
+                    </and>
+                </condition>
+                <then>
+                    <if>
+                        <condition>
+                            <equals arg1="${build.target}" arg2="debug" casesensitive="false" />
+                        </condition>
+                        <then>
+                            <property
+                                name="temp.out.unaligned.file"
+                                location="${out.absolute.dir}/temp-debug-unaligned.apk" />
+                            <property
+                                name="temp.out.final.file"
+                                location="${out.absolute.dir}/temp-debug-signed.apk" />
+
+                            <signapk
+                                input="${out.final.file}"
+                                output="${temp.out.unaligned.file}"
+                                keystore="${key.store}"
+                                storepass="${key.store.password}"
+                                alias="${key.alias}"
+                                keypass="${key.alias.password}"/>
+
+                            <zipalign-helper
+                                in.package="${temp.out.unaligned.file}"
+                                out.package="${temp.out.final.file}" />
+                        </then>
+                        <else>
+                            <property
+                                name="temp.out.final.file"
+                                value="${out.final.file}" />
+                        </else>
+                    </if>
+                </then>
+                <else>
+                    <if>
+                        <condition>
+                            <equals arg1="${build.target}" arg2="release" casesensitive="false" />
+                        </condition>
+                        <then>
+                            <property
+                                name="temp.out.final.file"
+                                value="${out.packaged.file}" />
+                        </then>
+                        <else>
+                            <property
+                                name="temp.out.final.file"
+                                value="${out.final.file}" />
+                        </else>
+                    </if>
+                </else>
+            </if>
+			<echo>按照命名规范，对输出的apk进行重命名 ...</echo>
+			<echo>${output.file.build.basename}</echo>
+			<echo>${androidmanifest.versionCode}</echo>
+			<echo>${androidmanifest.versionName}</echo>
+	        <condition property="out.final.build.release.mode" value="internal" else="normal">
+	            <istrue value="${build.release.mode.internal}"/>
+	        </condition>
+	        <if condition="${proguard.enabled}">
+	            <then>
+	                <!-- <move file="${out.final.file}" -->
+	                <move file="${temp.out.final.file}"
+	                      tofile="${out.absolute.dir}/${output.file.build.basename}_release_${out.final.build.release.mode}.apk"/>
+	                <move file="${obfuscate.absolute.dir}/mapping.txt"
+	                      tofile="${out.absolute.dir}/${output.file.build.basename}_mapping_${out.final.build.release.mode}.txt"/>
+	            </then>
+	            <else>
+	                <move file="${temp.out.final.file}"
+	                      tofile="${out.absolute.dir}/${output.file.build.basename}_debug_${out.final.build.release.mode}.apk"/>
+<!-- 	                <move file="${temp.out.final.file}" -->
+<!-- 	                      tofile="${out.absolute.dir}/${output.file.build.basename}_debug_signed_${out.final.build.release.mode}.apk"/> -->
+	            </else>
+	        </if>
+        </do-only-if-not-library>
+        
+
+        <echo>删除多余的文件 ...</echo>
+        <delete includeemptydirs="true" dir="${out.absolute.dir}"
+                excludes="**/${output.file.build.basename}*/** ${output.file.build.basename}*"/> 
+        <!--******************** base模板不修改（end） ********************-->
+    </target>
+
+    <!--
+        ********************************************************************************
+        ************************** build脚本的base模本（end） **************************
+        ***************************** (通用方法，谨慎修改) *****************************
+        ********************************************************************************
+    -->
+
+
+</project>

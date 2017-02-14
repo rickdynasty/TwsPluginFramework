@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+
+    <string name="back_button_label">Back</string>
+    <string name="skip_button_label">Skip</string>
+    <string name="next_button_label">Next</string>
+    <string name="searchview_description_query">Search query</string>
+    <string name="searchview_description_clear">Clear query</string>
+    <string name="choose_ring_title">"手机铃声"</string>
+    <string name="choose_notification_title">"通知铃声"</string>
+    <string name="choose_alarm_title">"闹钟铃声"</string>
+    <string name="choose_other_ringtone">"选择其他铃声或歌曲"</string>
+    <string name="menu_done">"保存"</string>
+    <string name="menu_doNotSave">"取消"</string>
+    <string name="pick_other_ring_title">"其他铃声"</string>
+    <string name="ring_empty">"无相关铃声"</string>
+    <string name="current_ring">"当前铃声"</string>
+    <string name="update_sdcard">更新SD卡数据中...</string>
+    <string name="clearDefaultHintMsg" msgid="4815455344600932173">"通过主屏幕上的“设置”&gt;“应用程序”&gt;“管理应用程序”清除默认设置"</string>
+    <string name="ringtone_default">"默认铃声"</string>
+    <string name="ringtone_silent">"静音"</string>
+    <string name="ok" msgid="5970060430562524910">"确定"</string>
+    <string name="cancel" msgid="6442560571259935130">"取消"</string>
+    <string name="yes" msgid="5362982303337969312">"确定"</string>
+    <string name="action_bar_home_description">"导航首页"</string>
+    <string name="action_bar_up_description">"向上导航"</string>
+    <string name="number_picker_increment_button" msgid="4830170763103463443">"增加"</string>
+    <string name="number_picker_decrement_button" msgid="2576606679160067262">"减少"</string>
+    <string name="chooseActivity">"选择一项操作"</string>
+    <string name="whichApplication">"选择要使用的应用程序："</string>
+    <string name="alwaysUse">"设为默认选项"</string>
+    <string name="noApplications">"没有应用程序可执行此操作。"</string>
+    <string name="activity_list_empty">No matching activities found</string>
+    <string name="capital_on">打开</string>
+    <string name="capital_off">关闭</string>
+    <string name="loading" msgid="1760724998928255250">"正在载入..."</string>
+    <string name="togglebutton_pressed">"已按下"</string>
+    <string name="togglebutton_not_pressed">"未按下"</string>
+    <string name="select_input_method">Choose Input Method</string>
+    <string name="hardware">硬件</string>
+    <string name="use_physical_keyboard">物理键盘</string>
+    <string name="lunar_leap">闰</string>
+    <string name="picker_dialog_positive_text">"完成"</string>
+    <string name="resolver_setting_text">更多</string>
+    <string name="resolver_always_text">始终选择该应用打开</string>
+    <string name="time_picker_increment_minute_button" msgid="2843066823236250329">"增加分钟数"</string>
+    <string name="time_picker_decrement_minute_button" msgid="4357907223628449595">"减少分钟数"</string>
+    <string name="time_picker_increment_hour_button" msgid="2484204991937119057">"增加小时数"</string>
+    <string name="time_picker_decrement_hour_button" msgid="4659353501775842780">"减少小时数"</string>
+    <string name="time_picker_increment_set_pm_button" msgid="4147590696151230863">"设置下午时间"</string>
+    <string name="time_picker_decrement_set_am_button" msgid="8302140353539486752">"设置上午时间"</string>
+    <string name="date_picker_increment_month_button" msgid="6324978841467899081">"增加月份值"</string>
+    <string name="date_picker_decrement_month_button" msgid="7304349355000398077">"减少月份值"</string>
+    <string name="date_picker_increment_day_button" msgid="4397040141921413183">"增加天数"</string>
+    <string name="date_picker_decrement_day_button" msgid="2427816793443629131">"减少天数"</string>
+    <string name="date_picker_increment_year_button" msgid="3058553394722295105">"增加年数"</string>
+    <string name="date_picker_decrement_year_button" msgid="5193062846559743823">"减少年份值"</string>
+    <string name="calendar_year">年</string>
+    <string name="calendar_month">月</string>
+    <string name="calendar_day">日</string>
+    <string name="calendar_hour">时</string>
+    <string name="calendar_mintue">分</string>
+    <string name="next">下一步</string>
+    <string name="begin_sport_travel">开启运动之旅</string>
+
+</resources>

@@ -1,0 +1,1913 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <style name="AlertDialog"></style>
+
+    <style name="AlertDialog.tws">
+        <item name="android:fullDark">@drawable/dialog_full_holo_light</item>
+        <item name="android:topDark">@drawable/dialog_top_holo_light</item>
+        <item name="android:centerDark">@drawable/dialog_middle_holo_light</item>
+        <item name="android:bottomDark">@drawable/dialog_bottom_holo_light</item>
+        <item name="android:fullBright">@drawable/dialog_full_holo_light</item>
+        <item name="android:topBright">@drawable/dialog_top_holo_light</item>
+        <item name="android:centerBright">@drawable/dialog_middle_holo_light</item>
+        <item name="android:bottomBright">@drawable/dialog_bottom_holo_light</item>
+        <item name="android:bottomMedium">@drawable/dialog_bottom_holo_light</item>
+        <item name="android:centerMedium">@drawable/dialog_middle_holo_light</item>
+    </style>
+
+    <style name="AlertDialog.tws.ButtonBar" parent="@android:style/Holo.ButtonBar">
+        <item name="android:background">@null</item>
+        <item name="android:dividerPadding">8dp</item>
+    </style>
+
+    <style name="AlertDialog.tws.ButtonBar.Second">
+        <item name="android:divider">@null</item>
+        <item name="android:background">@null</item>
+        <item name="android:dividerPadding">5dip</item>
+    </style>
+
+    <style name="AlertDialog.tws.Second">
+        <item name="android:fullDark">@drawable/dialog_full_holo_light</item>
+        <item name="android:topDark">@drawable/dialog_top_holo_light</item>
+        <item name="android:centerDark">@drawable/dialog_middle_holo_light</item>
+        <item name="android:bottomDark">@drawable/dialog_bottom_holo_light</item>
+        <item name="android:fullBright">@drawable/dialog_full_holo_light</item>
+        <item name="android:topBright">@drawable/dialog_top_holo_light</item>
+        <item name="android:centerBright">@drawable/dialog_middle_holo_light</item>
+        <item name="android:bottomBright">@drawable/dialog_bottom_holo_light</item>
+        <item name="android:bottomMedium">@drawable/dialog_bottom_holo_light</item>
+        <item name="android:centerMedium">@drawable/dialog_middle_holo_light</item>
+    </style>
+
+    <style name="AlertDialog.tws.Second.Bottom">
+        <item name="android:fullDark">@color/tws_operat_view_bg</item>
+        <item name="android:topDark">@color/tws_operat_view_bg</item>
+        <item name="android:centerDark">@color/tws_operat_view_bg</item>
+        <item name="android:bottomDark">@color/tws_operat_view_bg</item>
+        <item name="android:fullBright">@color/tws_operat_view_bg</item>
+        <item name="android:topBright">@color/tws_operat_view_bg</item>
+        <item name="android:centerBright">@color/tws_operat_view_bg</item>
+        <item name="android:bottomBright">@color/tws_operat_view_bg</item>
+        <item name="android:bottomMedium">@color/tws_operat_view_bg</item>
+        <item name="android:centerMedium">@color/tws_operat_view_bg</item>
+    </style>
+
+    <style name="AlertDialog.tws.Second.Dark">
+        <item name="android:fullDark">@drawable/dialog_full_holo_dark</item>
+        <item name="android:topDark">@drawable/dialog_top_holo_dark</item>
+        <item name="android:centerDark">@drawable/dialog_middle_holo_dark</item>
+        <item name="android:bottomDark">@drawable/dialog_bottom_holo_dark</item>
+        <item name="android:fullBright">@drawable/dialog_full_holo_dark</item>
+        <item name="android:topBright">@drawable/dialog_top_holo_dark</item>
+        <item name="android:centerBright">@drawable/dialog_middle_holo_dark</item>
+        <item name="android:bottomBright">@drawable/dialog_bottom_holo_dark</item>
+        <item name="android:bottomMedium">@drawable/dialog_bottom_holo_dark</item>
+        <item name="android:centerMedium">@drawable/dialog_middle_holo_dark</item>
+    </style>
+
+    <style name="AlertDialog.tws.Second.Transparent">
+        <item name="android:fullDark">@drawable/transparent_background</item>
+        <item name="android:topDark">@drawable/transparent_background</item>
+        <item name="android:centerDark">@drawable/transparent_background</item>
+        <item name="android:bottomDark">@drawable/transparent_background</item>
+        <item name="android:fullBright">@drawable/transparent_background</item>
+        <item name="android:topBright">@drawable/transparent_background</item>
+        <item name="android:centerBright">@drawable/transparent_background</item>
+        <item name="android:bottomBright">@drawable/transparent_background</item>
+        <item name="android:bottomMedium">@drawable/transparent_background</item>
+        <item name="android:centerMedium">@drawable/transparent_background</item>
+    </style>
+
+    <style name="AlertDialog.tws.Second.Transparent.Total">
+        <item name="android:fullDark">@drawable/transparent_full_bg</item>
+        <item name="android:fullBright">@drawable/transparent_full_bg</item>
+    </style>
+
+    <style name="AlertDialog.tws.Second.default">
+        <item name="android:fullDark">@drawable/dialog_full_holo_dark</item>
+        <item name="android:topDark">@drawable/dialog_top_holo_dark</item>
+        <item name="android:centerDark">@drawable/dialog_middle_holo_dark</item>
+        <item name="android:bottomDark">@drawable/dialog_bottom_holo_dark</item>
+        <item name="android:fullBright">@drawable/dialog_full_holo_light</item>
+        <item name="android:topBright">@drawable/dialog_top_holo_light</item>
+        <item name="android:centerBright">@drawable/dialog_middle_holo_light</item>
+        <item name="android:bottomBright">@drawable/dialog_bottom_holo_light</item>
+        <item name="android:bottomMedium">@drawable/dialog_bottom_holo_dark</item>
+        <item name="android:centerMedium">@drawable/dialog_middle_holo_light</item>
+    </style>
+
+    <style name="Animation" parent="@android:style/Animation"></style>
+
+    <style name="Animation.Activity.tws" parent="@android:style/Animation.Activity">
+        <item name="android:activityOpenEnterAnimation">@anim/activity_open_enter</item>
+        <item name="android:activityOpenExitAnimation">@anim/activity_open_exit</item>
+        <item name="android:activityCloseEnterAnimation">@anim/activity_close_enter</item>
+        <item name="android:activityCloseExitAnimation">@anim/activity_close_exit</item>
+        <item name="android:taskOpenEnterAnimation">@anim/task_open_enter</item>
+        <item name="android:taskOpenExitAnimation">@anim/task_open_exit</item>
+        <item name="android:taskCloseEnterAnimation">@anim/task_close_enter</item>
+        <item name="android:taskCloseExitAnimation">@anim/task_close_exit</item>
+        <item name="android:taskToFrontEnterAnimation">@anim/task_open_enter</item>
+        <item name="android:taskToFrontExitAnimation">@anim/task_open_exit</item>
+        <item name="android:taskToBackEnterAnimation">@anim/task_close_enter</item>
+        <item name="android:taskToBackExitAnimation">@anim/task_close_exit</item>
+        <item name="android:wallpaperOpenEnterAnimation">@anim/wallpaper_open_enter</item>
+        <item name="android:wallpaperOpenExitAnimation">@anim/wallpaper_open_exit</item>
+        <item name="android:wallpaperCloseEnterAnimation">@anim/wallpaper_close_enter</item>
+        <item name="android:wallpaperCloseExitAnimation">@anim/wallpaper_close_exit</item>
+        <item name="android:wallpaperIntraOpenEnterAnimation">@anim/wallpaper_intra_open_enter</item>
+        <item name="android:wallpaperIntraOpenExitAnimation">@anim/wallpaper_intra_open_exit</item>
+        <item name="android:wallpaperIntraCloseEnterAnimation">@anim/wallpaper_intra_close_enter</item>
+        <item name="android:wallpaperIntraCloseExitAnimation">@anim/wallpaper_intra_close_exit</item>
+        <item name="android:fragmentOpenEnterAnimation">@animator/fragment_open_enter</item>
+        <item name="android:fragmentOpenExitAnimation">@animator/fragment_open_exit</item>
+        <item name="android:fragmentCloseEnterAnimation">@animator/fragment_close_enter</item>
+        <item name="android:fragmentCloseExitAnimation">@animator/fragment_close_exit</item>
+        <item name="android:fragmentFadeEnterAnimation">@animator/fragment_fade_enter</item>
+        <item name="android:fragmentFadeExitAnimation">@animator/fragment_fade_exit</item>
+    </style>
+
+    <style name="Animation.DropDownUp">
+        <item name="android:windowEnterAnimation">@anim/grow_fade_in_from_bottom</item>
+        <item name="android:windowExitAnimation">@anim/shrink_fade_out_from_bottom</item>
+    </style>
+
+    <style name="Animation.DropDownUp.FloatView">
+        <item name="android:windowEnterAnimation">@anim/floatview_grow_fade_in_from_bottom</item>
+        <item name="android:windowExitAnimation">@anim/floatview_shrink_fade_out_from_bottom</item>
+    </style>
+
+    <style name="Animation.DropDownUp.tws">
+        <item name="android:windowEnterAnimation">@anim/slide_in_up</item>
+        <item name="android:windowExitAnimation">@anim/slide_out_down</item>
+    </style>
+
+    <style name="Animation.Toast.tws" parent="@android:style/Animation.Toast">
+        <item name="android:windowEnterAnimation">@anim/toast_enter</item>
+        <item name="android:windowExitAnimation">@anim/toast_exit</item>
+    </style>
+
+    <style name="Animation.TypingFilter">
+        <item name="android:windowEnterAnimation">@anim/grow_fade_in_center</item>
+        <item name="android:windowExitAnimation">@anim/shrink_fade_out_center</item>
+    </style>
+
+    <style name="Animation.TypingFilterRestore">
+        <item name="android:windowEnterAnimation">@null</item>
+        <item name="android:windowExitAnimation">@anim/shrink_fade_out_center</item>
+    </style>
+
+    <style name="Animation.tws"></style>
+
+    <style name="Animation.tws.Dialog">
+        <item name="android:windowEnterAnimation">@anim/dialog_enter</item>
+        <item name="android:windowExitAnimation">@anim/dialog_exit</item>
+    </style>
+
+    <style name="Animation.tws.Dialog.Bottom">
+        <item name="android:windowEnterAnimation">@anim/bottom_dialog_enter</item>
+        <item name="android:windowExitAnimation">@anim/bottom_dialog_exit</item>
+    </style>
+
+    <style name="Animation.tws.DropDownDown">
+        <item name="android:windowEnterAnimation">@anim/grow_fade_in</item>
+        <item name="android:windowExitAnimation">@anim/shrink_fade_out</item>
+    </style>
+
+    <style name="Animation.tws.DropDownDown.FloatView">
+        <item name="android:windowEnterAnimation">@anim/floatview_grow_fade_in</item>
+        <item name="android:windowExitAnimation">@anim/floatview_shrink_fade_out</item>
+    </style>
+
+    <style name="Animation.tws.DropDownLeft">
+        <item name="android:windowEnterAnimation">@anim/grow_fade_in_from_left</item>
+        <item name="android:windowExitAnimation">@anim/shrink_fade_out_from_left</item>
+    </style>
+
+    <style name="Animation.tws.PopupWindow"></style>
+
+    <style name="DialogWindowTitle"></style>
+
+    <style name="DialogWindowTitle.tws">
+        <item name="android:maxLines">5</item>
+        <item name="android:scrollHorizontally">true</item>
+        <item name="android:textAppearance">@style/TextAppearance.tws.DialogWindowTitle</item>
+    </style>
+
+    <style name="DialogWindowTitle.tws.Second">
+        <item name="android:maxLines">5</item>
+        <item name="android:scrollHorizontally">true</item>
+        <item name="android:textAppearance">@style/TextAppearance.tws.Second.twsTextMediumLightBody</item>
+    </style>
+
+    <style name="DialogWindowTitle.tws.Second.Dark">
+        <item name="android:textAppearance">@style/TextAppearance.tws.Second.twsTextMediumDarkBody</item>
+    </style>
+
+    <style name="DialogWindowTitle.tws.Second.default">
+        <item name="android:textAppearance">@style/TextAppearance.tws.Second.windowTitle</item>
+    </style>
+
+    <style name="FloatViewTheme" parent="@android:style/Theme.Holo.Dialog">
+        <item name="android:windowBackground">@color/tws_view_bg</item>
+    </style>
+
+    <style name="FloatViewTheme.HoloLight">
+        <item name="android:windowBackground">@color/tws_view_bg</item>
+    </style>
+
+    <style name="Preference"></style>
+
+    <style name="Preference.tws">
+        <item name="android:layout">@layout/preference_holo</item>
+        <item name="android:textColor">@color/tws_white</item>
+    </style>
+
+    <style name="Preference.tws.Category">
+        <item name="android:layout">@layout/preference_category_holo</item>
+        <item name="android:shouldDisableView">false</item>
+        <item name="preferenceDivider">false</item>
+        <item name="android:selectable">false</item>
+    </style>
+
+    <style name="Preference.tws.CheckBoxPreference">
+        <item name="android:widgetLayout">@layout/preference_widget_checkbox</item>
+    </style>
+
+    <style name="Preference.tws.DialogPreference">
+        <item name="android:positiveButtonText">@string/ok</item>
+        <item name="android:negativeButtonText">@string/cancel</item>
+    </style>
+
+    <style name="Preference.tws.DialogPreference.EditTextPreference">
+        <item name="android:dialogLayout">@layout/preference_dialog_edittext</item>
+    </style>
+
+    <style name="Preference.tws.Information">
+        <item name="android:layout">@layout/preference_information_holo</item>
+        <item name="android:selectable">false</item>
+    </style>
+
+    <style name="Preference.tws.RingtonePreference">
+        <item name="android:ringtoneType">ringtone</item>
+        <item name="android:showSilent">false</item>
+        <item name="android:showDefault">true</item>
+    </style>
+
+    <style name="Preference.tws.SwitchPreference">
+        <item name="android:widgetLayout">@layout/preference_widget_switch</item>
+        <item name="android:switchTextOn"></item>
+        <item name="android:switchTextOff"></item>
+    </style>
+
+    <style name="PreferenceFragment">
+        <item name="android:paddingLeft">@dimen/preference_fragment_padding_side</item>
+        <item name="android:paddingRight">@dimen/preference_fragment_padding_side</item>
+    </style>
+
+    <style name="TextAppearance.tws" parent="@android:style/TextAppearance">
+        <item name="android:fontFamily">NotoSansCJKsc-Light</item>
+    </style>
+
+    <style name="TextAppearance.tws.Transparent">
+        <item name="android:textSize">0sp</item>
+        <item name="android:textColor">@color/transparent</item>
+    </style>
+
+    <style name="TextAppearance.tws.DialogWindowTitle">
+        <item name="android:textSize">@dimen/tws_Large_TextSize</item>
+        <item name="android:textColor">@color/tws_white</item>
+    </style>
+
+    <style name="TextAppearance.tws.ListViewEmptyText">
+        <item name="textSize">16sp</item>
+        <item name="textColor">#678da1</item>
+    </style>
+
+    <style name="TextAppearance.tws.ListViewEmptyTextSecond">
+        <item name="textSize">14sp</item>
+        <item name="textColor">#678da1</item>
+    </style>
+
+    <style name="TextAppearance.tws.Second" parent="@style/TextAppearance.tws"></style>
+
+    <style name="TextAppearance.tws.Second.twsTextDialogButton">
+        <item name="android:textSize">@dimen/tws_Large_TextSize</item>
+        <item name="android:textColor">@color/tws_white</item>
+    </style>
+
+    <style name="TextAppearance.tws.Second.twsTextDialogButton.Dark">
+        <item name="android:textColor">@color/tws_dialog_button_text_dark</item>
+    </style>
+
+    <style name="TextAppearance.tws.Second.twsTextLargerDarkTitle">
+        <item name="android:textSize">@dimen/tws_Larger_TextSize</item>
+        <item name="android:textColor">@color/tws_dark_title</item>
+        <item name="android:textColorHint">@color/tws_second_Hint</item>
+    </style>
+
+    <style name="TextAppearance.tws.Second.twsTextLargerDarkTitle.ActionBarTitle">
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="TextAppearance.tws.Second.twsTextLargerDarkTitleLeftButton" parent="Widget.tws.Button.Second">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/tws_text_dark_title</item>
+        <item name="android:textColorHint">@color/tws_second_Hint</item>
+    </style>
+
+    <style name="TextAppearance.tws.Second.twsTextLargerDarkTitleMenuItem">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/tws_menuitem_text_dark</item>
+        <item name="android:textColorHint">@color/tws_second_Hint</item>
+    </style>
+
+    <style name="TextAppearance.tws.Second.twsTextLargerDarkTitleMenuItem.Bottom">
+        <item name="android:textColor">@color/tws_menuitem_bottom_text_dark</item>
+    </style>
+
+    <style name="TextAppearance.tws.Second.twsTextLargerDarkTitleRightButton" parent="Widget.tws.Button.Second">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/tws_text_dark_title</item>
+        <item name="android:textColorHint">@color/tws_second_Hint</item>
+    </style>
+
+    <style name="TextAppearance.tws.Second.twsTextLargerLightTitle">
+        <item name="android:textSize">@dimen/tws_Larger_TextSize</item>
+        <item name="android:textColor">@color/tws_light_title</item>
+        <item name="android:textColorHint">@color/tws_second_Hint</item>
+    </style>
+
+    <style name="TextAppearance.tws.Second.twsTextLargerLightTitle.ActionBarTitle">
+        <item name="android:textColor">@color/tws_light_title_actionBar</item>
+        <item name="android:textSize">18sp</item>
+    </style>
+
+    <style name="TextAppearance.tws.Second.twsTextLargerLightTitleLeftButton" parent="Widget.tws.Button.Second">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/tws_text_light_title_actionbarbtn</item>
+        <item name="android:textColorHint">@color/tws_second_Hint</item>
+        <item name="android:background">@color/transparent</item>
+    </style>
+
+    <style name="TextAppearance.tws.Second.twsTextLargerLightTitleMenuItem">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/tws_menuitem_text_light</item>
+        <item name="android:textColorHint">@color/tws_second_Hint</item>
+    </style>
+
+    <style name="TextAppearance.tws.Second.twsTextLargerLightTitleMenuItem.Bottom">
+        <item name="android:textColor">@color/tws_menuitem_bottom_text_light</item>
+    </style>
+
+    <style name="TextAppearance.tws.Second.twsTextLargerLightTitleRightButton" parent="Widget.tws.Button.Second">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/tws_text_light_title_actionbarbtn</item>
+        <item name="android:textColorHint">@color/tws_second_Hint</item>
+        <item name="android:background">@color/transparent</item>
+    </style>
+
+    <style name="TextAppearance.tws.Second.twsTextMediumDarkBody">
+        <item name="android:textSize">@dimen/tws_Medium_TextSize</item>
+        <item name="android:textColor">@color/tws_dark_body</item>
+        <item name="android:textColorHint">@color/tws_second_Hint</item>
+    </style>
+
+    <style name="TextAppearance.tws.Second.twsTextMediumDarkBodyL">
+        <item name="android:textSize">@dimen/tws_Medium_TextSize</item>
+        <item name="android:textColor">@color/tws_dark_body</item>
+        <item name="android:textColorHint">@color/tws_second_Hint</item>
+    </style>
+
+    <style name="TextAppearance.tws.Second.twsTextMediumLightBody">
+        <item name="android:textSize">@dimen/tws_Large_TextSize</item>
+        <item name="android:textColor">@color/tws_white</item>
+        <item name="android:textColorHint">@color/tws_second_Hint</item>
+    </style>
+
+    <style name="TextAppearance.tws.Second.twsTextMediumLightBodyL">
+        <item name="android:textSize">@dimen/tws_Large_TextSize</item>
+        <item name="android:textColor">@color/tws_white</item>
+        <item name="android:textColorHint">@color/tws_second_Hint</item>
+    </style>
+
+    <style name="TextAppearance.tws.Second.twsTextMediumLightTitle">
+        <item name="android:textSize">@dimen/tws_Medium_TextSize</item>
+        <item name="android:textColor">@color/tws_light_title</item>
+        <item name="android:textColorHint">@color/tws_second_Hint</item>
+    </style>
+
+    <style name="TextAppearance.tws.Second.twsTextSmallBlackShadowZ">
+        <item name="android:textColor">@color/tws_black</item>
+        <item name="android:textColorHint">@color/tws_second_Hint</item>
+        <item name="android:textSize">@dimen/tws_Medium_TextSize</item>
+        <item name="android:shadowDy">@integer/shadowDyUp</item>
+        <item name="android:shadowRadius">@integer/shadowRadius</item>
+    </style>
+
+    <style name="TextAppearance.tws.Second.twsTextSmallDarkBody">
+        <item name="android:textSize">@dimen/tws_Small_TextSize</item>
+        <item name="android:textColor">@color/tws_dark_body</item>
+        <item name="android:textColorHint">@color/tws_second_Hint</item>
+    </style>
+
+    <style name="TextAppearance.tws.Second.twsTextSmallDarkBodySub">
+        <item name="android:textSize">@dimen/tws_Small_TextSize</item>
+        <item name="android:textColor">@color/tws_dark_body_sub</item>
+        <item name="android:textColorHint">@color/tws_second_Hint</item>
+    </style>
+
+    <style name="TextAppearance.tws.Second.twsTextSmallDarkTitle">
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">@color/tws_dark_title</item>
+        <item name="android:textColorHint">@color/tws_second_Hint</item>
+    </style>
+
+    <style name="TextAppearance.tws.Second.twsTextSmallLightBody">
+        <item name="android:textSize">@dimen/tws_Small_TextSize</item>
+        <item name="android:textColor">@color/tws_light_body</item>
+        <item name="android:textColorHint">@color/tws_second_Hint</item>
+    </style>
+
+    <style name="TextAppearance.tws.Second.twsTextSmallLightBodySub">
+        <item name="android:textSize">@dimen/tws_Small_TextSize</item>
+        <item name="android:textColor">@color/tws_white</item>
+        <item name="android:textColorHint">@color/tws_second_Hint</item>
+    </style>
+
+    <style name="TextAppearance.tws.Second.twsTextSmallLightTitle">
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">@color/tws_light_subtitle_actionBar</item>
+        <item name="android:textColorHint">@color/tws_second_Hint</item>
+    </style>
+
+    <style name="TextAppearance.tws.Second.twsTextSuperBigDarkDisplay">
+        <item name="android:textSize">@dimen/tws_SuperBig_TextSize</item>
+        <item name="android:textColor">@color/tws_dark_display</item>
+        <item name="android:textColorHint">@color/tws_second_Hint</item>
+    </style>
+
+    <style name="TextAppearance.tws.Second.twsTextSuperBigLightDisplay">
+        <item name="android:textSize">@dimen/tws_SuperBig_TextSize</item>
+        <item name="android:textColor">@color/tws_light_display</item>
+        <item name="android:textColorHint">@color/tws_second_Hint</item>
+    </style>
+
+    <style name="TextAppearance.tws.Second.twsTextSuperBigerDarkDisplay">
+        <item name="android:textSize">@dimen/tws_SuperBiger_TextSize</item>
+        <item name="android:textColor">@color/tws_dark_display</item>
+        <item name="android:textColorHint">@color/tws_second_Hint</item>
+    </style>
+
+    <style name="TextAppearance.tws.Second.twsTextSuperBigerLightDisplay">
+        <item name="android:textSize">@dimen/tws_SuperBiger_TextSize</item>
+        <item name="android:textColor">@color/tws_light_display</item>
+        <item name="android:textColorHint">@color/tws_second_Hint</item>
+    </style>
+
+    <style name="TextAppearance.tws.Second.twsTextSuperDarkTitle">
+        <item name="android:textSize">@dimen/tws_Super_TextSize</item>
+        <item name="android:textColor">@color/tws_dark_title</item>
+        <item name="android:textColorHint">@color/tws_second_Hint</item>
+    </style>
+
+    <style name="TextAppearance.tws.Second.twsTextSuperDarkTitle.ActionModeTitle">
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="TextAppearance.tws.Second.twsTextSuperLightTitle">
+        <item name="android:textSize">@dimen/tws_Super_TextSize</item>
+        <item name="android:textColor">@color/tws_light_title</item>
+        <item name="android:textColorHint">@color/tws_second_Hint</item>
+    </style>
+
+    <style name="TextAppearance.tws.Second.twsTextSuperLightTitle.ActionModeTitle">
+        <item name="android:textColor">@color/tws_light_title_actionBar</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="TextAppearance.tws.Second.twstextMicroDarkSummary">
+        <item name="android:textSize">@dimen/tws_Micro_TextSize</item>
+        <item name="android:textColor">@color/tws_dark_summary</item>
+        <item name="android:textColorHint">@color/tws_second_Hint</item>
+    </style>
+
+    <style name="TextAppearance.tws.Second.twstextMicroLightSummary">
+        <item name="android:textSize">@dimen/tws_Micro_TextSize</item>
+        <item name="android:textColor">@color/tws_light_summary</item>
+        <item name="android:textColorHint">@color/tws_second_Hint</item>
+    </style>
+
+    <style name="TextAppearance.tws.Second.twstextSmallLightSummary">
+        <item name="android:textSize">@dimen/tws_Small_TextSize</item>
+        <item name="android:textColor">@color/tws_light_summary</item>
+        <item name="android:textColorHint">@color/tws_second_Hint</item>
+    </style>
+
+    <style name="TextAppearance.tws.Second.windowTitle" parent="@android:style/TextAppearance.DialogWindowTitle">
+        <item name="android:textSize">20sp</item>
+        <item name="android:textColor">@color/tws_light_black</item>
+    </style>
+
+    <style name="TextAppearance.tws.StatusBar"></style>
+
+    <style name="TextAppearance.tws.StatusBar.EventContent">
+        <item name="android:textSize">12sp</item>
+    </style>
+
+    <style name="TextAppearance.tws.StatusBar.EventContent.Info">
+        <item name="android:textSize">12sp</item>
+    </style>
+
+    <style name="TextAppearance.tws.StatusBar.EventContent.Line2">
+        <item name="android:textSize">12sp</item>
+    </style>
+
+    <style name="TextAppearance.tws.StatusBar.EventContent.Time">
+        <item name="android:textSize">12sp</item>
+    </style>
+
+    <style name="TextAppearance.tws.StatusBar.EventContent.Title">
+        <item name="android:textColor">@color/tws_white</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="Theme.tws" parent="@android:style/Theme.Holo.Light">
+        <item name="twsTextSizeSuperBiger">@dimen/tws_SuperBig_TextSize</item>
+        <item name="twsTextSizeSuperBig">@dimen/tws_SuperBig_TextSize</item>
+        <item name="twsTextSizeSuper">@dimen/tws_Super_TextSize</item>
+        <item name="twsTextSizeLarger">@dimen/tws_Larger_TextSize</item>
+        <item name="twsTextSizeLarge">@dimen/tws_Large_TextSize</item>
+        <item name="twsTextSizeMedium">@dimen/tws_Medium_TextSize</item>
+        <item name="twsTextSizeSmall">@dimen/tws_Small_TextSize</item>
+        <item name="twsTextSizeMicro">@dimen/tws_Micro_TextSize</item>
+        <item name="twsTextSizeMini">@dimen/tws_Mini_TextSize</item>
+        <item name="twsColorBlue">@color/tws_blue</item>
+        <item name="twsColorBlack">@color/tws_black</item>
+        <item name="twsColorWhite">@color/tws_white</item>
+        <item name="twsColorRed">@color/tws_red</item>
+        <item name="twsColorBlackAlphaMedium">@color/tws_black_alpha_medium</item>
+        <item name="twsColorLightDisplay">@color/tws_light_display</item>
+        <item name="twsColorLightTitle">@color/tws_light_title</item>
+        <item name="twsColorLightBody">@color/tws_light_body</item>
+        <item name="twsColorLightBodySub">@color/tws_light_body_sub</item>
+        <item name="twsColorLightSummary">@color/tws_light_summary</item>
+        <item name="twsColorDarkDisplay">@color/tws_dark_display</item>
+        <item name="twsColorDarkTitle">@color/tws_dark_title</item>
+        <item name="twsColorDarkBody">@color/tws_dark_body</item>
+        <item name="twsColorDarkBodySub">@color/tws_dark_body_sub</item>
+        <item name="twsColorDarkSummary">@color/tws_dark_summary</item>
+        <item name="twsTextSuperBigerDarkDisplay">@style/TextAppearance.tws.Second.twsTextSuperBigerDarkDisplay</item>
+        <item name="twsTextSuperBigDarkDisplay">@style/TextAppearance.tws.Second.twsTextSuperBigDarkDisplay</item>
+        <item name="twsTextSuperBigerLightDisplay">@style/TextAppearance.tws.Second.twsTextSuperBigerLightDisplay</item>
+        <item name="twsTextSuperBigLightDisplay">@style/TextAppearance.tws.Second.twsTextSuperBigLightDisplay</item>
+        <item name="twsTextSuperDarkTitle">@style/TextAppearance.tws.Second.twsTextSuperDarkTitle</item>
+        <item name="twsTextLargerDarkTitle">@style/TextAppearance.tws.Second.twsTextLargerDarkTitle</item>
+        <item name="twsTextSuperLightTitle">@style/TextAppearance.tws.Second.twsTextSuperLightTitle</item>
+        <item name="twsTextLargerLightTitle">@style/TextAppearance.tws.Second.twsTextLargerLightTitle</item>
+        <item name="twsTextMediumDarkBody">@style/TextAppearance.tws.Second.twsTextMediumDarkBody</item>
+        <item name="twsTextMediumDarkBodyL">@style/TextAppearance.tws.Second.twsTextMediumDarkBodyL</item>
+        <item name="twsTextMediumDarkBodySub">@style/TextAppearance.tws.Second.twsTextSmallDarkBodySub</item>
+        <item name="twsTextSmallDarkBody">@style/TextAppearance.tws.Second.twsTextSmallDarkBody</item>
+        <item name="twsTextMediumLightBody">@style/TextAppearance.tws.Second.twsTextMediumLightBody</item>
+        <item name="twsTextMediumLightBodyL">@style/TextAppearance.tws.Second.twsTextMediumLightBodyL</item>
+        <item name="twsTextMediumLightBodySub">@style/TextAppearance.tws.Second.twsTextSmallLightBodySub</item>
+        <item name="twsTextSmallLightBody">@style/TextAppearance.tws.Second.twsTextSmallLightBody</item>
+        <item name="twstextMicroDarkSummary">@style/TextAppearance.tws.Second.twstextMicroDarkSummary</item>
+        <item name="twstextMicroLightSummary">@style/TextAppearance.tws.Second.twstextMicroLightSummary</item>
+        <item name="homebackground">@color/transparent</item>
+        <item name="twsActionbarBackgroud">@drawable/ab_solid_holo_light</item>
+        <item name="twsActionModMenuFontColor">@color/tws_text_light_title</item>
+        <item name="twsTextHintColor">@color/tws_black_alpha_medium</item>
+        <item name="actionBarStyle">@style/Widget.tws.ActionBar</item>
+        <item name="android:actionBarStyle">@style/Widget.tws.ActionBar.Transparent</item>
+        <item name="actionMenuTextColor">@color/tws_text_light_title</item>
+        <item name="actionBarItemBackground">@drawable/item_background_holo_light</item>
+        <item name="actionBarWidgetTheme">@null</item>
+        <item name="actionModeSplitBackground">@drawable/cab_background_bottom_holo_light</item>
+        <item name="actionModeStyle">@style/Widget.tws.ActionMode</item>
+        <item name="actionModeCloseButtonStyle">@style/Widget.tws.ActionButton.CloseMode</item>
+        <item name="actionButtonStyle">@style/Widget.tws.ActionButton</item>
+        <item name="actionOverflowButtonStyle">@style/Widget.tws.ActionButton.Overflow</item>
+        <item name="actionOverflowButtonBottomStyle">@style/Widget.tws.ActionButton.Overflow.Bottom</item>
+        <item name="actionModePopupWindowStyle">@style/Widget.tws.PopupWindow</item>
+        <item name="switchStyle">@style/Widget.CompoundButton.Switch</item>
+        <item name="actionBarDivider">@drawable/list_divider_holo_light</item>
+        <item name="listViewStyle">@style/Widget.tws.ListView</item>
+        <item name="listPopupWindowStyle">@style/Widget.tws.ListPopupWindow</item>
+        <item name="numberPickerStyle">@style/Widget.tws.NumberPicker</item>
+        <item name="datePickerStyle">@style/Widget.tws.DatePicker.Second</item>
+        <item name="searchViewTextField">@drawable/textfield_searchview_holo_light</item>
+        <item name="searchViewTextFieldRight">@drawable/textfield_searchview_right_holo_light</item>
+        <item name="searchViewCloseIcon">@drawable/ic_clear_holo_light</item>
+        <item name="textColorSearchUrl">@color/search_url_text_holo</item>
+        <item name="dropDownListViewStyle">@style/Widget.tws.Holo.ListView.DropDown</item>
+        <item name="searchViewEditQuery">@drawable/ic_commit_search_api_holo_light</item>
+        <item name="searchViewGoIcon">@drawable/ic_go_search_api_holo_light</item>
+        <item name="searchViewVoiceIcon">@drawable/ic_voice_search_api_holo_light</item>
+        <item name="numberPickerUpButtonStyle">@style/Widget.tws.ImageButton.NumberPickerUpButton</item>
+        <item name="numberPickerDownButtonStyle">@style/Widget.tws.ImageButton.NumberPickerDownButton</item>
+        <item name="absListViewStyle">@style/Widget.Holo.Light.AbsListView</item>
+        <item name="twsEditTextStyle">@style/Widget.tws.EditText.TwsEditTextStyle</item>
+        <item name="fastScrollTextColor">@android:color/primary_text_dark</item>
+        <item name="fastScrollThumbDrawable">@drawable/fastscroll_thumb_holo</item>
+        <item name="fastScrollPreviewBackgroundLeft">@drawable/fastscroll_label_left_holo_light</item>
+        <item name="fastScrollPreviewBackgroundRight">@drawable/fastscroll_label_right_holo_light</item>
+        <item name="fastScrollTrackDrawable">@drawable/fastscroll_track_holo_light</item>
+        <item name="fastScrollOverlayPosition">atThumb</item>
+        <item name="expandableListViewStyle">@style/Widget.Holo.Light.ExpandableListView</item>
+        <item name="expandableListPreferredItemIndicatorLeft">3dip</item>
+        <item name="expandableListPreferredItemIndicatorRight">0dip</item>
+        <item name="listDivider">@drawable/list_divider_holo_light</item>
+        <item name="listChoiceBackgroundIndicator">@drawable/list_selector_holo_light</item>
+        <item name="popupWindowStyle">@style/Widget.tws.PopupWindow</item>
+        <item name="activatedBackgroundIndicator">@drawable/activated_background_holo_light</item>
+        <item name="android:scrollbarThumbHorizontal">@drawable/scrollbar_handle_holo_light</item>
+        <item name="android:scrollbarThumbVertical">@drawable/scrollbar_handle_holo_light</item>
+        <item name="spinnerStyle">@style/Widget.Spinner</item>
+        <item name="android:textColorPrimary">@color/tws_text_light_body</item>
+        <item name="android:textColorSecondary">@color/tws_text_light_body_sub</item>
+        <item name="android:textColorTertiary">@color/tws_text_light_summary</item>
+        <item name="android:textColorPrimaryInverse">@color/tws_text_dark_body</item>
+        <item name="android:textColorSecondaryInverse">@color/tws_text_dark_body_sub</item>
+        <item name="android:textColorTertiaryInverse">@color/tws_text_dark_summary</item>
+        <item name="android:textCursorDrawable">@drawable/text_cursor_holo_light</item>
+        <item name="android:windowBackground">@color/tws_view_bg</item>
+        <item name="android:textColorHint">@color/tws_second_Hint</item>
+        <item name="android:textColorHintInverse">@color/tws_second_Hint</item>
+        <item name="android:colorPressedHighlight">@color/tws_blue</item>
+        <item name="android:textColorLink">@color/tws_blue</item>
+        <item name="android:textColorLinkInverse">@color/tws_blue</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:actionBarSize">@dimen/tws_action_bar_height</item>
+        <item name="android:actionMenuTextColor">@color/tws_text_light_title</item>
+        <item name="android:listSeparatorTextViewStyle">@style/Widget.tws.TextView.ListSeparator</item>
+        <item name="android:panelBackground">@drawable/menu_dropdown_panel_holo_light</item>
+        <item name="android:panelColorForeground">@color/tws_text_dark_body</item>
+        <item name="android:alertDialogStyle">@style/AlertDialog.tws</item>
+        <item name="android:dialogTheme">@style/Theme.tws.Dialog</item>
+        <item name="android:alertDialogTheme">@style/Theme.tws.Dialog.Alert</item>
+        <item name="android:alertDialogIcon">@drawable/ic_dialog_alert_holo_light</item>
+        <item name="android:textAppearanceListItemSmall">?android:attr/textAppearanceMedium</item>
+        <item name="android:textAppearanceListItem">?android:attr/textAppearanceMedium</item>
+        <item name="android:ringtonePreferenceStyle">@style/Preference.tws.RingtonePreference</item>
+        <item name="android:listChoiceIndicatorMultiple">@drawable/btn_check_holo_light</item>
+        <item name="android:listChoiceIndicatorSingle">@drawable/btn_radio_holo_light</item>
+        <item name="android:buttonStyle">@style/Widget.tws.Button</item>
+        <item name="android:buttonStyleSmall">@style/Widget.tws.Button.Small</item>
+        <item name="android:imageButtonStyle">@style/Widget.tws.ImageButton</item>
+        <item name="android:activatedBackgroundIndicator">@drawable/activated_background_holo_light</item>
+        <item name="android:selectableItemBackground">@drawable/item_background_holo_light</item>
+        <item name="android:listChoiceBackgroundIndicator">@drawable/list_selector_holo_light</item>
+        <item name="android:listDivider">@drawable/list_divider_holo_light</item>
+        <item name="android:listDividerAlertDialog">@drawable/list_divider_holo_light</item>
+        <item name="android:autoCompleteTextViewStyle">@style/Widget.tws.AutoCompleteTextView</item>
+        <item name="android:dropDownSpinnerStyle">@style/Widget.tws.Spinner.DropDown</item>
+        <item name="android:spinnerItemStyle">@style/Widget.tws.SpinnerItem</item>
+        <item name="android:progressBarStyleHorizontal">@style/Widget.tws.ProgressBar.Horizontal</item>
+        <item name="android:progressBarStyle">@style/Widget.tws.ProgressBar</item>
+        <item name="android:progressBarStyleSmall">@style/Widget.tws.ProgressBar.Small</item>
+        <item name="android:progressBarStyleLarge">@style/Widget.tws.ProgressBar.Large</item>
+        <item name="android:progressBarStyleInverse">@style/Widget.tws.ProgressBar</item>
+        <item name="android:progressBarStyleSmallInverse">@style/Widget.tws.ProgressBar.Small</item>
+        <item name="android:progressBarStyleLargeInverse">@style/Widget.tws.ProgressBar.Large</item>
+        <item name="android:dividerHorizontal">@drawable/list_divider_holo_light</item>
+        <item name="android:editTextBackground">@drawable/edit_text_holo_light</item>
+        <item name="numberPickerInputTextStyle">@style/Widget.tws.EditText.NumberPickerInputText</item>
+        <item name="android:windowAnimationStyle">@style/Animation.Activity.tws</item>
+        <item name="android:editTextPreferenceStyle">@style/Preference.tws.DialogPreference.EditTextPreference</item>
+        <item name="android:dividerVertical">?android:attr/listDivider</item>
+        <item name="android:switchPreferenceStyle">@style/Preference.tws.SwitchPreference</item>
+        <item name="twsButtonStyle">@style/Widget.tws.TwsButtonStyle</item>
+    </style>
+
+    <style name="Theme.tws.CompactMenu" parent="@android:style/Theme.Holo">
+        <item name="android:itemTextAppearance">?android:attr/textAppearanceMedium</item>
+        <item name="android:listViewStyle">@style/Widget.tws.ListViewMenu</item>
+        <item name="android:windowAnimationStyle">@style/Animation.DropDownUp.tws</item>
+        <item name="android:background">@null</item>
+    </style>
+
+    <style name="Theme.tws.CompactMenu.Second">
+        <item name="listViewStyle">@style/Widget.tws.ListViewMenu.Second</item>
+        <item name="android:itemTextAppearance">@style/TextAppearance.tws.Second.twsTextMediumLightBody</item>
+    </style>
+
+    <style name="Theme.tws.Dialog" parent="@android:style/Theme.Holo.Light.Dialog">
+        <item name="actionModePopupWindowStyle">@style/Widget.tws.PopupWindow</item>
+        <item name="textColorSearchUrl">@color/search_url_text_holo</item>
+        <item name="android:editTextBackground">@drawable/edit_text_holo_light</item>
+        <item name="twsTextSizeSuperBiger">@dimen/tws_SuperBig_TextSize</item>
+        <item name="twsTextSizeSuperBig">@dimen/tws_SuperBig_TextSize</item>
+        <item name="twsTextSizeSuper">@dimen/tws_Super_TextSize</item>
+        <item name="twsTextSizeLarger">@dimen/tws_Larger_TextSize</item>
+        <item name="twsTextSizeLarge">@dimen/tws_Large_TextSize</item>
+        <item name="twsTextSizeMedium">@dimen/tws_Medium_TextSize</item>
+        <item name="twsTextSizeSmall">@dimen/tws_Small_TextSize</item>
+        <item name="twsTextSizeMicro">@dimen/tws_Micro_TextSize</item>
+        <item name="twsTextSizeMini">@dimen/tws_Mini_TextSize</item>
+        <item name="twsColorBlue">@color/tws_blue</item>
+        <item name="twsColorBlack">@color/tws_black</item>
+        <item name="twsColorWhite">@color/tws_white</item>
+        <item name="twsColorRed">@color/tws_red</item>
+        <item name="android:textColorPrimary">@color/tws_text_light_body</item>
+        <item name="android:textColorSecondary">@color/tws_text_light_body_sub</item>
+        <item name="android:textColorTertiary">@color/tws_text_light_summary</item>
+        <item name="android:textColorPrimaryInverse">@color/tws_text_dark_body</item>
+        <item name="android:textColorSecondaryInverse">@color/tws_text_dark_body_sub</item>
+        <item name="android:textColorTertiaryInverse">@color/tws_text_dark_summary</item>
+        <item name="twsColorBlackAlphaMedium">@color/tws_black_alpha_medium</item>
+        <item name="twsColorLightDisplay">@color/tws_light_display</item>
+        <item name="twsColorLightTitle">@color/tws_light_title</item>
+        <item name="twsColorLightBody">@color/tws_light_body</item>
+        <item name="twsColorLightSummary">@color/tws_light_summary</item>
+        <item name="twsColorDarkDisplay">@color/tws_dark_display</item>
+        <item name="twsColorDarkTitle">@color/tws_dark_title</item>
+        <item name="twsColorDarkBody">@color/tws_dark_body</item>
+        <item name="twsColorDarkSummary">@color/tws_dark_summary</item>
+        <item name="twsTextSuperBigerDarkDisplay">@style/TextAppearance.tws.Second.twsTextSuperBigerDarkDisplay</item>
+        <item name="twsTextSuperBigDarkDisplay">@style/TextAppearance.tws.Second.twsTextSuperBigDarkDisplay</item>
+        <item name="twsTextSuperBigerLightDisplay">@style/TextAppearance.tws.Second.twsTextSuperBigerLightDisplay</item>
+        <item name="twsTextSuperBigLightDisplay">@style/TextAppearance.tws.Second.twsTextSuperBigLightDisplay</item>
+        <item name="twsTextSuperDarkTitle">@style/TextAppearance.tws.Second.twsTextSuperDarkTitle</item>
+        <item name="twsTextLargerDarkTitle">@style/TextAppearance.tws.Second.twsTextLargerDarkTitle</item>
+        <item name="twsTextSuperLightTitle">@style/TextAppearance.tws.Second.twsTextSuperLightTitle</item>
+        <item name="twsTextLargerLightTitle">@style/TextAppearance.tws.Second.twsTextLargerLightTitle</item>
+        <item name="twsTextMediumDarkBody">@style/TextAppearance.tws.Second.twsTextMediumDarkBody</item>
+        <item name="twsTextMediumDarkBodyL">@style/TextAppearance.tws.Second.twsTextMediumDarkBodyL</item>
+        <item name="twsTextMediumDarkBodySub">@style/TextAppearance.tws.Second.twsTextSmallDarkBodySub</item>
+        <item name="twsTextSmallDarkBody">@style/TextAppearance.tws.Second.twsTextSmallDarkBody</item>
+        <item name="twsTextMediumLightBody">@style/TextAppearance.tws.Second.twsTextMediumLightBody</item>
+        <item name="twsTextMediumLightBodyL">@style/TextAppearance.tws.Second.twsTextMediumLightBodyL</item>
+        <item name="twsTextMediumLightBodySub">@style/TextAppearance.tws.Second.twsTextSmallLightBodySub</item>
+        <item name="twsTextSmallLightBody">@style/TextAppearance.tws.Second.twsTextSmallLightBody</item>
+        <item name="twstextMicroDarkSummary">@style/TextAppearance.tws.Second.twstextMicroDarkSummary</item>
+        <item name="twstextMicroLightSummary">@style/TextAppearance.tws.Second.twstextMicroLightSummary</item>
+        <item name="homebackground">@color/transparent</item>
+        <item name="homebutton">@drawable/ic_ab_back</item>
+        <item name="twsActionbarBackgroud">@drawable/ab_solid_holo_light</item>
+        <item name="twsActionModMenuFontColor">@color/tws_text_light_title</item>
+        <item name="twsTextHintColor">@color/tws_black_alpha_medium</item>
+        <item name="android:alertDialogStyle">@style/AlertDialog.tws</item>
+        <item name="android:dialogTheme">@style/Theme.tws.Dialog</item>
+        <item name="android:alertDialogTheme">@style/Theme.tws.Dialog.Alert</item>
+        <item name="android:alertDialogIcon">@drawable/ic_dialog_alert_holo_light</item>
+        <item name="android:textAppearanceListItemSmall">?android:attr/textAppearanceMedium</item>
+        <item name="android:textAppearanceListItem">?android:attr/textAppearanceMedium</item>
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowTitleStyle">@style/DialogWindowTitle.tws</item>
+        <item name="windowTitleStyle">@style/DialogWindowTitle.tws</item>
+        <item name="android:windowBackground">@color/tws_view_bg</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowAnimationStyle">@style/Animation.tws.Dialog</item>
+        <item name="android:windowSoftInputMode">stateUnspecified|adjustPan</item>
+        <item name="android:windowActionBar">false</item>
+        <item name="android:windowActionModeOverlay">true</item>
+        <item name="android:windowCloseOnTouchOutside">@bool/config_closeDialogWhenTouchOutside</item>
+        <item name="android:colorBackgroundCacheHint">@null</item>
+        <item name="android:buttonBarStyle">@style/AlertDialog.tws.ButtonBar</item>
+        <item name="android:borderlessButtonStyle">@android:style/Widget.Holo.Light.Button.Borderless.Small</item>
+        <item name="numberPickerInputTextStyle">@style/Widget.tws.EditText.NumberPickerInputText</item>
+        <item name="android:listPreferredItemHeight">48dip</item>
+        <item name="numberPickerStyle">@style/Widget.tws.NumberPicker</item>
+        <item name="datePickerStyle">@style/Widget.tws.DatePicker.Second</item>
+        <item name="android:spinnerItemStyle">@style/Widget.tws.SpinnerItem</item>
+        <item name="android:listChoiceIndicatorMultiple">@drawable/btn_check_holo_light</item>
+        <item name="android:listChoiceIndicatorSingle">@drawable/btn_radio_holo_light</item>
+        <item name="android:textColorPrimaryDisableOnly">@color/tws_text_light_body</item>
+    </style>
+
+    <style name="Theme.tws.Dialog.Alert">
+        <item name="android:windowBackground">@color/transparent</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowMinWidthMajor">@dimen/dialog_min_width_major</item>
+        <item name="android:windowMinWidthMinor">@dimen/dialog_min_width_minor</item>
+    </style>
+
+    <style name="Theme.tws.Dialog.NoActionBar">
+        <item name="android:windowActionBar">false</item>
+        <item name="android:windowNoTitle">true</item>
+    </style>
+
+    <style name="Theme.tws.Panel.Volume" parent="@android:style/Theme.Light.Panel">
+        <item name="android:windowCloseOnTouchOutside">true</item>
+    </style>
+
+    <style name="Theme.tws.Second">
+        <item name="actionBarStyle">@style/Widget.tws.ActionBar.Second</item>
+        <item name="textColorSearchUrl">@color/search_url_text_holo</item>
+        <item name="menuitemstyle">@style/TextAppearance.tws.Second.twsTextLargerLightTitleMenuItem</item>
+        <item name="menuitemBottomStyle">@style/TextAppearance.tws.Second.twsTextLargerLightTitleMenuItem.Bottom</item>
+        <item name="android:textAppearanceLarge">@style/TextAppearance.tws.Second.twsTextLargerLightTitle</item>
+        <item name="android:textAppearanceLargeInverse">@style/TextAppearance.tws.Second.twsTextLargerDarkTitle</item>
+        <item name="android:textAppearanceMedium">@style/TextAppearance.tws.Second.twsTextMediumLightBody</item>
+        <item name="textAppearanceMedium">@style/TextAppearance.tws.Second.twsTextMediumLightBody</item>
+        <item name="android:textAppearanceMediumInverse">@style/TextAppearance.tws.Second.twsTextMediumDarkBody</item>
+        <item name="android:textAppearance">@style/TextAppearance.tws.Second.twsTextSmallLightBody</item>
+        <item name="android:textAppearanceInverse">@style/TextAppearance.tws.Second.twsTextSmallDarkBody</item>
+        <item name="android:textAppearanceSmall">@style/TextAppearance.tws.Second.twstextMicroLightSummary</item>
+        <item name="android:textAppearanceSmallInverse">@style/TextAppearance.tws.Second.twstextMicroDarkSummary</item>
+        <item name="android:textAppearanceListItem">@style/TextAppearance.tws.Second.twsTextMediumLightBody</item>
+        <item name="android:textAppearanceListItemSmall">@style/TextAppearance.tws.Second.twstextMicroLightSummary</item>
+        <item name="actionModePopupWindowStyle">@style/Widget.tws.PopupWindow</item>
+        <item name="searchViewTextField">@drawable/second_textfield_searchview</item>
+        <item name="searchViewTextFieldRight">@drawable/second_textfield_searchview</item>
+        <item name="searchViewSearchIcon">@drawable/ic_search</item>
+        <item name="searchViewCloseIcon">@drawable/second_ic_clear_holo_light</item>
+        <item name="searchViewBackground">@drawable/search_view_light_background</item>
+        <item name="searchViewEditorBackground">@drawable/search_view_editor_light_background</item>
+        <item name="searchViewCancel">@color/tws_white</item>
+        <item name="searchViewTextColor">@color/search_view_text_color_light</item>
+        <item name="searchViewTextColorHint">@color/search_view_text_color_hint_light</item>
+        <item name="searchViewCursorDrawable">@drawable/search_view_cursor_drawable_light</item>
+        <item name="android:textColorAlertDialogListItem">@color/tws_light_body</item>
+        <item name="searchViewStyle">@style/Widget.tws.SearchViewStyle</item>
+        <item name="gifViewStyle">@style/Widget.tws.GifViewStyle</item>
+        <item name="actionModeSplitBackground">@drawable/cab_background_bottom_holo_light</item>
+        <item name="actionModeStyle">@style/Widget.tws.ActionMode.Second</item>
+        <item name="actionModeCloseButtonStyle">@style/Widget.tws.ActionButton.CloseMode</item>
+        <item name="actionButtonStyle">@style/Widget.tws.ActionButton</item>
+        <item name="actionButtonStyle_menuitem">@style/Widget.tws.ActionButton.menuitem</item>
+        <item name="actionOverflowButtonStyle">@style/Widget.tws.ActionButton.Overflow</item>
+        <item name="actionOverflowButtonBottomStyle">@style/Widget.tws.ActionButton.Overflow.Bottom</item>
+        <item name="listViewStyle">@style/Widget.tws.ListView.Second</item>
+        <item name="android:selectableItemBackground">@drawable/second_item_background_holo_light</item>
+        <item name="android:listChoiceBackgroundIndicator">@drawable/second_list_selector_holo_light</item>
+        <item name="android:listDivider">@drawable/list_divider_holo_light</item>
+        <item name="android:dropDownSpinnerStyle">@style/Widget.tws.Spinner.DropDown.Second</item>
+        <item name="actionDropDownStyle">@style/Widget.tws.Spinner.DropDown.Second.ActionBar</item>
+        <item name="listPopupWindowStyle">@style/Widget.tws.ListPopupWindow.Second</item>
+        <item name="popupWindowStyle">@style/Widget.tws.PopupWindow</item>
+        <item name="actionBarItemBackground">@drawable/second_item_background_holo_light</item>
+        <item name="android:listChoiceIndicatorMultiple">@drawable/second_btn_check_holo_light</item>
+        <item name="android:checkboxStyle">@style/Widget.tws.CompoundButton.CheckBox</item>
+        <item name="android:listChoiceIndicatorSingle">@drawable/second_btn_radio_holo_light</item>
+        <item name="android:radioButtonStyle">@style/Widget.tws.CompoundButton.RadioButton</item>
+        <item name="checkboxStyle">@style/Widget.tws.CompoundButton.CheckBox</item>
+        <item name="radioButtonStyle">@style/Widget.tws.CompoundButton.RadioButton</item>
+        <item name="android:editTextBackground">@drawable/second_edit_text_holo_light</item>
+        <item name="popupMenuStyle">@style/Widget.tws.ListPopupMenu.Second</item>
+        <item name="android:dropDownListViewStyle">@style/Widget.tws.Holo.ListView.DropDown.Second</item>
+        <item name="android:alertDialogStyle">@style/AlertDialog.tws.Second</item>
+        <item name="android:dialogTheme">@style/Theme.tws.Second.Dialog</item>
+        <item name="android:alertDialogTheme">@style/Theme.tws.Second.Dialog.Alert</item>
+        <item name="android:alertDialogIcon">@drawable/ic_dialog_alert_holo_light</item>
+        <item name="android:listDividerAlertDialog">@drawable/list_divider_holo_light</item>
+        <item name="preferenceFragmentStyle">@style/PreferenceFragment</item>
+        <item name="android:preferenceScreenStyle">@style/Preference.tws</item>
+        <item name="android:preferenceStyle">@style/Preference.tws</item>
+        <item name="android:preferenceCategoryStyle">@style/Preference.tws.Category</item>
+        <item name="checkBoxPreferenceStyle">@style/Preference.tws.CheckBoxPreference</item>
+        <item name="android:switchPreferenceStyle">@style/Preference.tws.SwitchPreference</item>
+        <item name="android:dialogPreferenceStyle">@style/Preference.tws.DialogPreference</item>
+        <item name="android:editTextPreferenceStyle">@style/Preference.tws.DialogPreference.EditTextPreference</item>
+        <item name="android:listSeparatorTextViewStyle">@style/Widget.tws.TextView.ListSeparator.Second</item>
+        <item name="android:preferenceInformationStyle">@style/Preference.tws.Information</item>
+        <item name="android:preferenceLayoutChild">@layout/preference_child_holo</item>
+        <item name="preferenceFrameLayoutStyle">@style/Widget.tws.PreferenceFrameLayout</item>
+        <item name="android:buttonStyle">@style/Widget.tws.Button.Second</item>
+        <item name="android:buttonStyleSmall">@style/Widget.tws.Button.Small.Second</item>
+        <item name="android:imageButtonStyle">@style/Widget.tws.ImageButton.Second</item>
+        <item name="android:seekBarStyle">@style/Theme.tws.Second.seekBarStyle</item>
+        <item name="seekBarStyle">@style/Theme.tws.Second.seekBarStyle</item>
+        <item name="android:progressBarStyleHorizontal">@style/Widget.tws.ProgressBar.Horizontal.Second</item>
+        <item name="numberPickerStyle">@style/Widget.tws.NumberPicker.Second</item>
+        <item name="datePickerStyle">@style/Widget.tws.DatePicker.Second</item>
+        <item name="timePickerStyle">@style/Widget.tws.TimePicker</item>
+        <item name="numberPickerInputTextStyle">@style/Widget.tws.EditText.NumberPickerInputText.Second</item>
+        <item name="listChoiceBackgroundIndicator">@drawable/second_list_selector_holo_light</item>
+        <item name="listDivider">@drawable/list_divider_holo_light</item>
+        <item name="android:ratingBarStyle">@style/Widget.tws.RatingBar.Second</item>
+        <item name="android:ratingBarStyleIndicator">@style/Widget.tws.RatingBar.Indicator.Second</item>
+        <item name="android:ratingBarStyleSmall">@style/Widget.tws.RatingBar.Small.Second</item>
+        <item name="tabWidgetStyle">@style/Widget.tws.TabBar</item>
+        <item name="buttonStyleToggle">@style/Widget.tws.Button.Second.Toggle</item>
+        <item name="segmentButtonStyle">@style/Widget.tws.SegmentButton</item>
+        <item name="segmentBarStyle">@style/Widget.tws.SegmentBar</item>
+        <item name="tabIndicatorStyle">@style/Widget.tws.TabIndicator</item>
+        <item name="bottomAlertDialogStyle">@style/AlertDialog.tws.Second.Bottom</item>
+        <item name="bottomDialogTheme">@style/Theme.tws.Second.Dialog.Bottom</item>
+        <item name="bottomalertDialogTheme">@style/AlertDialog.tws.Second.Bottom</item>
+        <item name="SideBarStyle">@style/Widget.tws.SideBar</item>
+        <item name="actionBarTabTextStyle">@style/Widget.tws.ActionBar.TabText</item>
+        <item name="actionBarSubTabTextStyle">@style/Widget.tws.ActionBar.TabText.Sub</item>
+        <item name="actionBarTabStyle">@style/Widget.tws.ActionBar.TabView</item>
+        <item name="actionBarSubTabStyle">@style/Widget.tws.ActionBar.TabView.Sub</item>
+        <item name="android:actionBarTabTextStyle">@style/Widget.tws.ActionBar.TabText</item>
+        <item name="android:actionBarTabBarStyle">@style/Widget.tws.ActionBar.TabBar</item>
+        <item name="android:actionBarTabStyle">@style/Widget.tws.ActionBar.TabView</item>
+        <item name="windowActionBar">true</item>
+        <item name="colorPrimaryDark">@color/primary_dark_material_light</item>
+        <item name="colorPrimary">@color/primary_material_light</item>
+        <item name="colorAccent">@color/accent_material_light</item>
+        <item name="colorControlNormal">@color/control_normal</item>
+        <item name="colorControlActivated">@color/control_activated</item>
+        <item name="android:progressBarStyle">@style/Widget.tws.ProgressBar</item>
+        <item name="android:progressBarStyleSmall">@style/Widget.tws.ProgressBar.Small</item>
+        <item name="android:progressBarStyleLarge">@style/Widget.tws.ProgressBar.Large</item>
+        <item name="android:progressBarStyleInverse">@style/Widget.tws.ProgressBar</item>
+        <item name="android:progressBarStyleSmallInverse">@style/Widget.tws.ProgressBar.Small</item>
+        <item name="android:progressBarStyleLargeInverse">@style/Widget.tws.ProgressBar.Large</item>
+        <item name="preferenceLeftPadding">@dimen/preference_default_leftpadding</item>
+        <item name="preferenceRightPadding">@dimen/preference_default_rightpadding</item>
+    </style>
+
+    <style name="Theme.tws.Second.Dark">
+        <item name="actionBarStyle">@style/Widget.tws.ActionBar.Second.Holo</item>
+        <item name="actionModeStyle">@style/Widget.tws.ActionMode.Second.Holo</item>
+        <item name="menuitemstyle">@style/TextAppearance.tws.Second.twsTextLargerDarkTitleMenuItem</item>
+        <item name="menuitemBottomStyle">@style/TextAppearance.tws.Second.twsTextLargerDarkTitleMenuItem.Bottom</item>
+        <item name="actionOverflowButtonStyle">@style/Widget.tws.ActionButton.Overflow.Holo</item>
+        <item name="actionOverflowButtonBottomStyle">@style/Widget.tws.ActionButton.Overflow.Bottom.Holo</item>
+        <item name="searchViewBackground">@drawable/search_view_dark_background</item>
+        <item name="searchViewEditorBackground">@drawable/search_view_editor_dark_background</item>
+        <item name="searchViewSearchIcon">@drawable/ic_search_holo</item>
+        <item name="searchViewCloseIcon">@drawable/second_ic_clear_holo</item>
+        <item name="searchViewCancel">@color/tws_text_dark_title</item>
+        <item name="searchViewTextColor">@color/search_view_text_color_dark</item>
+        <item name="searchViewTextColorHint">@color/search_view_text_color_hint_dark</item>
+        <item name="searchViewCursorDrawable">@drawable/search_view_cursor_drawable_dark</item>
+        <item name="searchViewStyle">@style/Widget.tws.SearchViewStyle</item>
+        <item name="gifViewStyle">@style/Widget.tws.GifViewStyle</item>
+        <item name="actionBarTabTextStyle">@style/Widget.tws.ActionBar.TabText.Holo</item>
+        <item name="actionBarSubTabTextStyle">@style/Widget.tws.ActionBar.TabText.Sub.Holo</item>
+        <item name="actionBarTabStyle">@style/Widget.tws.ActionBar.TabView.Holo</item>
+        <item name="actionBarSubTabStyle">@style/Widget.tws.ActionBar.TabView.Sub.Holo</item>
+        <item name="android:actionBarTabTextStyle">@style/Widget.tws.ActionBar.TabText.Holo</item>
+        <item name="android:actionBarTabBarStyle">@style/Widget.tws.ActionBar.TabBar.Holo</item>
+        <item name="android:actionBarTabStyle">@style/Widget.tws.ActionBar.TabView.Holo</item>
+    </style>
+
+    <style name="Theme.tws.Second.Dialog" parent="@style/Theme.tws.Dialog">
+        <item name="android:textAppearanceLarge">@style/TextAppearance.tws.Second.twsTextLargerLightTitle</item>
+        <item name="android:textAppearanceLargeInverse">@style/TextAppearance.tws.Second.twsTextLargerDarkTitle</item>
+        <item name="android:textAppearanceMedium">@style/TextAppearance.tws.Second.twsTextMediumLightBody</item>
+        <item name="textAppearanceMedium">@style/TextAppearance.tws.Second.twsTextMediumLightBody</item>
+        <item name="android:textAppearanceMediumInverse">@style/TextAppearance.tws.Second.twsTextMediumDarkBody</item>
+        <item name="android:textAppearance">@style/TextAppearance.tws.Second.twsTextSmallLightBody</item>
+        <item name="android:textAppearanceInverse">@style/TextAppearance.tws.Second.twsTextSmallDarkBody</item>
+        <item name="android:textAppearanceSmall">@style/TextAppearance.tws.Second.twstextMicroLightSummary</item>
+        <item name="android:textAppearanceSmallInverse">@style/TextAppearance.tws.Second.twstextMicroDarkSummary</item>
+        <item name="android:textColorAlertDialogListItem">@color/tws_light_body</item>
+        <item name="textColorSearchUrl">@color/search_url_text_holo</item>
+        <item name="actionModePopupWindowStyle">@style/Widget.tws.PopupWindow</item>
+        <item name="listViewStyle">@style/Widget.tws.ListView.Second</item>
+        <item name="android:selectableItemBackground">@drawable/second_item_background_holo_light</item>
+        <item name="android:listChoiceBackgroundIndicator">@drawable/second_list_selector_holo_light</item>
+        <item name="android:listDivider">@drawable/list_divider_holo_light</item>
+        <item name="android:alertDialogStyle">@style/AlertDialog.tws.Second</item>
+        <item name="android:dialogTheme">@style/Theme.tws.Second.Dialog</item>
+        <item name="android:alertDialogTheme">@style/Theme.tws.Second.Dialog.Alert</item>
+        <item name="android:alertDialogIcon">@drawable/ic_dialog_alert_holo_light</item>
+        <item name="android:listDividerAlertDialog">@drawable/list_divider_holo_light</item>
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowTitleStyle">@style/DialogWindowTitle.tws.Second</item>
+        <item name="windowTitleStyle">@style/DialogWindowTitle.tws.Second</item>
+        <item name="android:windowBackground">@color/transparent</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowAnimationStyle">@style/Animation.tws.Dialog</item>
+        <item name="android:windowSoftInputMode">stateUnspecified|adjustPan</item>
+        <item name="android:windowActionBar">false</item>
+        <item name="android:windowActionModeOverlay">true</item>
+        <item name="android:windowCloseOnTouchOutside">@bool/config_closeDialogWhenTouchOutside</item>
+        <item name="android:colorBackgroundCacheHint">@null</item>
+        <item name="android:buttonBarStyle">@style/AlertDialog.tws.ButtonBar.Second</item>
+        <item name="android:buttonBarButtonStyle">@style/TextAppearance.tws.Second.twsTextDialogButton</item>
+        <item name="buttonBarButtonStyle">@style/TextAppearance.tws.Second.twsTextDialogButton</item>
+        <item name="numberPickerInputTextStyle">@style/Widget.tws.EditText.NumberPickerInputText.Second</item>
+        <item name="android:listPreferredItemHeight">@dimen/tws_listview_item_height</item>
+        <item name="numberPickerStyle">@style/Widget.tws.NumberPicker.Second</item>
+        <item name="datePickerStyle">@style/Widget.tws.DatePicker.Second</item>
+        <item name="android:editTextBackground">@drawable/second_edit_text_holo_light</item>
+        <item name="android:seekBarStyle">@style/Theme.tws.Second.seekBarStyle</item>
+        <item name="android:buttonStyle">@style/Widget.tws.Button.Second</item>
+        <item name="android:buttonStyleSmall">@style/Widget.tws.Button.Small.Second</item>
+        <item name="android:imageButtonStyle">@style/Widget.tws.ImageButton.Second</item>
+        <item name="android:progressBarStyleHorizontal">@style/Widget.tws.ProgressBar.Horizontal.Second</item>
+        <item name="android:listChoiceIndicatorMultiple">@drawable/second_btn_check_holo_light</item>
+        <item name="android:checkboxStyle">@style/Widget.tws.CompoundButton.CheckBox</item>
+        <item name="android:listChoiceIndicatorSingle">@drawable/second_btn_radio_holo_light</item>
+        <item name="android:radioButtonStyle">@style/Widget.tws.CompoundButton.RadioButton</item>
+        <item name="checkboxStyle">@style/Widget.tws.CompoundButton.CheckBox</item>
+        <item name="radioButtonStyle">@style/Widget.tws.CompoundButton.RadioButton</item>
+        <item name="listChoiceBackgroundIndicator">@drawable/second_list_selector_holo_light</item>
+        <item name="listDivider">@drawable/list_divider_holo_light</item>
+        <item name="bottomAlertDialogStyle">@style/AlertDialog.tws.Second.Bottom</item>
+        <item name="bottomDialogTheme">@style/Theme.tws.Second.Dialog.Bottom</item>
+        <item name="bottomalertDialogTheme">@style/AlertDialog.tws.Second.Bottom</item>
+    </style>
+
+    <style name="Theme.tws.Second.Dialog.Alert">
+        <item name="android:seekBarStyle">@style/Theme.tws.Second.seekBarStyle</item>
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowTitleStyle">@style/DialogWindowTitle.tws.Second</item>
+        <item name="android:windowBackground">@color/transparent</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowAnimationStyle">@style/Animation.tws.Dialog</item>
+        <item name="android:windowSoftInputMode">stateUnspecified|adjustPan</item>
+        <item name="android:windowCloseOnTouchOutside">@bool/config_closeDialogWhenTouchOutside</item>
+        <item name="android:windowActionModeOverlay">true</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowMinWidthMajor">@dimen/dialog_min_width_major</item>
+        <item name="android:windowMinWidthMinor">@dimen/dialog_min_width_minor</item>
+    </style>
+
+    <style name="Theme.tws.Second.Dialog.Alert.Bottom">
+        <item name="android:windowBackground">@color/transparent</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowMinWidthMajor">@dimen/bottom_dialog_min_width_major</item>
+        <item name="android:windowMinWidthMinor">@dimen/bottom_dialog_min_width_minor</item>
+        <item name="android:seekBarStyle">@style/Theme.tws.Second.seekBarStyle</item>
+    </style>
+
+    <style name="Theme.tws.Second.Dialog.Alert.Context">
+        <item name="android:windowBackground">@color/transparent</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowMinWidthMajor">@dimen/dialog_min_width_major</item>
+        <item name="android:windowMinWidthMinor">@dimen/dialog_min_width_minor_context</item>
+        <item name="android:alertDialogStyle">@style/AlertDialog.tws.Second.Transparent</item>
+    </style>
+
+    <style name="Theme.tws.Second.Dialog.Alert.RadioBlue">
+        <item name="android:listChoiceIndicatorSingle">@drawable/second_btn_radio_holo_light</item>
+        <item name="android:textColorAlertDialogListItem">@color/tws_text_light_body</item>
+    </style>
+
+    <style name="Theme.tws.Second.Dialog.Bottom">
+        <item name="android:windowMinWidthMajor">@dimen/bottom_dialog_min_width_major</item>
+        <item name="android:windowMinWidthMinor">@dimen/bottom_dialog_min_width_minor</item>
+        <item name="android:windowBackground">@drawable/bottom_dialog_full_holo_light</item>
+        <item name="android:windowAnimationStyle">@style/Animation.tws.Dialog.Bottom</item>
+        <item name="android:alertDialogStyle">@style/AlertDialog.tws.Second.Bottom</item>
+        <item name="android:dialogTheme">@style/Theme.tws.Second.Dialog.Bottom</item>
+        <item name="android:alertDialogTheme">@style/Theme.tws.Second.Dialog.Alert.Bottom</item>
+    </style>
+
+    <style name="Theme.tws.Second.Dialog.Dark" parent="@android:style/Theme.Holo.Dialog">
+        <item name="android:windowBackground">@color/transparent</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowMinWidthMajor">@dimen/dialog_min_width_major</item>
+        <item name="android:windowMinWidthMinor">@dimen/dialog_min_width_minor</item>
+        <item name="android:alertDialogStyle">@style/AlertDialog.tws.Second.Dark</item>
+        <item name="android:textAppearanceLargeInverse">@style/TextAppearance.tws.Second.twsTextLargerLightTitle</item>
+        <item name="android:textAppearanceLarge">@style/TextAppearance.tws.Second.twsTextLargerDarkTitle</item>
+        <item name="android:textAppearanceMediumInverse">@style/TextAppearance.tws.Second.twsTextMediumLightBody</item>
+        <item name="android:textAppearanceMedium">@style/TextAppearance.tws.Second.twsTextMediumDarkBody</item>
+        <item name="textAppearanceMedium">@style/TextAppearance.tws.Second.twsTextMediumDarkBody</item>
+        <item name="android:textAppearanceInverse">@style/TextAppearance.tws.Second.twsTextSmallLightBody</item>
+        <item name="android:textAppearance">@style/TextAppearance.tws.Second.twsTextSmallDarkBody</item>
+        <item name="android:textAppearanceSmallInverse">@style/TextAppearance.tws.Second.twstextMicroLightSummary</item>
+        <item name="android:textAppearanceSmall">@style/TextAppearance.tws.Second.twstextMicroDarkSummary</item>
+        <item name="android:textColorAlertDialogListItem">@color/tws_dark_body</item>
+        <item name="actionModePopupWindowStyle">@style/Widget.tws.PopupWindow</item>
+        <item name="textColorSearchUrl">@color/search_url_text_holo</item>
+        <item name="android:dialogTheme">@style/Theme.tws.Second.Dialog.Dark</item>
+        <item name="android:alertDialogTheme">@style/Theme.tws.Second.Dialog.Alert</item>
+        <item name="android:alertDialogIcon">@drawable/ic_dialog_alert_holo_light</item>
+        <item name="android:windowTitleStyle">@style/DialogWindowTitle.tws.Second.Dark</item>
+        <item name="windowTitleStyle">@style/DialogWindowTitle.tws.Second.Dark</item>
+        <item name="android:buttonBarStyle">@style/AlertDialog.tws.ButtonBar.Second</item>
+        <item name="android:buttonBarButtonStyle">@style/TextAppearance.tws.Second.twsTextDialogButton.Dark</item>
+        <item name="buttonBarButtonStyle">@style/TextAppearance.tws.Second.twsTextDialogButton.Dark</item>
+        <item name="android:listPreferredItemHeight">@dimen/tws_listview_item_height</item>
+        <item name="android:listDividerAlertDialog">@color/transparent</item>
+        <item name="listViewStyle">@style/Widget.tws.ListView.Second.Dialog.Dark</item>
+        <item name="android:selectableItemBackground">@color/tws_black</item>
+        <item name="android:listChoiceBackgroundIndicator">@color/tws_black</item>
+        <item name="listChoiceBackgroundIndicator">@color/tws_black</item>
+        <item name="listDivider">@color/transparent</item>
+        <item name="android:editTextBackground">@drawable/second_edit_text_holo_light</item>
+        <item name="android:windowActionBar">false</item>
+        <item name="android:seekBarStyle">@style/Theme.tws.Second.seekBarStyle</item>
+        <item name="android:buttonStyle">@style/Widget.tws.Button.Second.Dark</item>
+        <item name="android:buttonStyleSmall">@style/Widget.tws.Button.Small.Second</item>
+        <item name="android:imageButtonStyle">@style/Widget.tws.ImageButton.Second.Dark</item>
+        <item name="android:listChoiceIndicatorMultiple">@drawable/second_btn_check_holo_light</item>
+        <item name="android:listChoiceIndicatorSingle">@drawable/second_btn_radio_holo_light</item>
+    </style>
+
+    <style name="Theme.tws.Second.Dialog.TotalTransparent">
+        <item name="android:windowBackground">@color/transparent</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowMinWidthMajor">@dimen/dialog_min_width_major</item>
+        <item name="android:windowMinWidthMinor">@dimen/dialog_min_width_minor_context</item>
+        <item name="android:alertDialogStyle">@style/AlertDialog.tws.Second.Transparent.Total</item>
+        <item name="listViewStyle">@style/Widget.tws.ListView.Second.Dialog</item>
+    </style>
+
+    <style name="Theme.tws.Second.Dialog.Transparent">
+        <item name="android:windowBackground">@color/transparent</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowMinWidthMajor">@dimen/dialog_min_width_major</item>
+        <item name="android:alertDialogStyle">@style/AlertDialog.tws.Second</item>
+    </style>
+
+    <style name="Theme.tws.Second.Dialog.default" parent="@android:style/Theme.Dialog">
+        <item name="android:windowBackground">@color/transparent</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowMinWidthMajor">@dimen/dialog_min_width_major</item>
+        <item name="android:windowMinWidthMinor">@dimen/dialog_min_width_minor</item>
+        <item name="android:alertDialogStyle">@style/AlertDialog.tws.Second.default</item>
+        <item name="android:dialogTheme">@style/Theme.tws.Second.Dialog.default</item>
+        <item name="android:alertDialogTheme">@style/Theme.tws.Second.Dialog.default</item>
+        <item name="android:alertDialogIcon">@drawable/ic_dialog_alert_holo_light</item>
+        <item name="android:windowTitleStyle">@style/DialogWindowTitle.tws.Second.default</item>
+        <item name="windowTitleStyle">@style/DialogWindowTitle.tws.Second.default</item>
+        <item name="android:itemTextAppearance">@android:style/TextAppearance.Large.Inverse</item>
+        <item name="android:textAppearanceListItem">@style/TextAppearance.tws.Second.twsTextMediumLightBody</item>
+        <item name="android:textAppearanceListItemSmall">@style/TextAppearance.tws.Second.twstextMicroLightSummary</item>
+        <item name="android:listPreferredItemHeight">@dimen/tws_listview_item_height</item>
+        <item name="android:editTextBackground">@drawable/second_edit_text_holo_light</item>
+        <item name="android:windowActionBar">false</item>
+        <item name="android:seekBarStyle">@style/Theme.tws.Second.seekBarStyle</item>
+        <item name="android:listChoiceIndicatorMultiple">@drawable/second_btn_check_holo_light</item>
+        <item name="android:listChoiceIndicatorSingle">@drawable/second_btn_radio_holo_light</item>
+        <item name="android:buttonStyle">@style/Widget.tws.Button.Second.Dark</item>
+        <item name="android:buttonStyleSmall">@style/Widget.tws.Button.Small.Second</item>
+        <item name="android:imageButtonStyle">@style/Widget.tws.ImageButton.Second.Dark</item>
+        <item name="android:buttonBarStyle">@style/AlertDialog.tws.ButtonBar.Second</item>
+        <item name="android:buttonBarButtonStyle">@style/TextAppearance.tws.Second.twsTextDialogButton</item>
+        <item name="buttonBarButtonStyle">@style/TextAppearance.tws.Second.twsTextDialogButton</item>
+    </style>
+
+    <style name="Theme.tws.Second.Dialog.NoBackground" parent="@style/Theme.tws.Second.Dialog.default">
+        <item name="android:windowBackground">@null</item>
+        <item name="android:windowIsTranslucent">false</item>
+        <item name="android:windowNoTitle">true</item>
+    </style>
+    
+    <style name="Theme.tws.Second.NoActionBar">
+        <item name="android:windowActionBar">false</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:seekBarStyle">@style/Theme.tws.Second.seekBarStyle</item>
+    </style>
+
+    <style name="Theme.tws.Second.RadioBlue">
+        <item name="android:listChoiceIndicatorSingle">@drawable/second_btn_radio_holo_light</item>
+    </style>
+
+    <style name="Theme.tws.Second.Translucent">
+        <item name="android:windowBackground">@color/transparent</item>
+        <item name="android:colorBackgroundCacheHint">@null</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowAnimationStyle">@android:style/Animation</item>
+    </style>
+
+    <style name="Theme.tws.Second.Translucent.NoTitleBar">
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+    </style>
+
+    <style name="Theme.tws.Second.seekBarStyle" parent="@android:style/Widget.Holo.SeekBar">
+        <item name="android:progressDrawable">@drawable/seekbar_progress_holo_light</item>
+        <item name="android:indeterminateDrawable">@drawable/seekbar_progress_holo_light</item>
+        <item name="android:thumb">@drawable/seek_thumb</item>
+        <item name="android:minHeight">@dimen/tws_seekbar_min_height</item>
+        <item name="android:maxHeight">@dimen/tws_seekbar_max_height</item>
+        <item name="android:paddingStart">0dp</item>
+        <item name="android:paddingEnd">0dp</item>
+        <item name="android:thumbOffset">0dp</item>
+    </style>
+
+    <style name="Theme.tws.Translucent">
+        <item name="android:windowBackground">@color/transparent</item>
+        <item name="android:colorBackgroundCacheHint">@null</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowAnimationStyle">@android:style/Animation</item>
+    </style>
+
+    <style name="Theme.tws.dark" parent="@android:style/Theme.Holo">
+        <item name="actionModePopupWindowStyle">@style/Widget.tws.PopupWindow</item>
+        <item name="textColorSearchUrl">@color/search_url_text_holo</item>
+        <item name="twsTextSizeSuperBiger">@dimen/tws_SuperBig_TextSize</item>
+        <item name="twsTextSizeSuperBig">@dimen/tws_SuperBig_TextSize</item>
+        <item name="twsTextSizeSuper">@dimen/tws_Super_TextSize</item>
+        <item name="twsTextSizeLarger">@dimen/tws_Larger_TextSize</item>
+        <item name="twsTextSizeLarge">@dimen/tws_Large_TextSize</item>
+        <item name="twsTextSizeMedium">@dimen/tws_Medium_TextSize</item>
+        <item name="twsTextSizeSmall">@dimen/tws_Small_TextSize</item>
+        <item name="twsTextSizeMicro">@dimen/tws_Micro_TextSize</item>
+        <item name="twsTextSizeMini">@dimen/tws_Mini_TextSize</item>
+        <item name="twsColorBlue">@color/tws_blue</item>
+        <item name="twsColorBlack">@color/tws_black</item>
+        <item name="twsColorWhite">@color/tws_white</item>
+        <item name="twsColorRed">@color/tws_red</item>
+        <item name="twsColorBlackAlphaMedium">@color/tws_black_alpha_medium</item>
+        <item name="twsColorLightDisplay">@color/tws_light_display</item>
+        <item name="twsColorLightTitle">@color/tws_light_title</item>
+        <item name="twsColorLightBody">@color/tws_light_body</item>
+        <item name="twsColorLightSummary">@color/tws_light_summary</item>
+        <item name="twsColorDarkDisplay">@color/tws_dark_display</item>
+        <item name="twsColorDarkTitle">@color/tws_dark_title</item>
+        <item name="twsColorDarkBody">@color/tws_dark_body</item>
+        <item name="twsColorDarkSummary">@color/tws_dark_summary</item>
+        <item name="twsTextSuperBigerDarkDisplay">@style/TextAppearance.tws.Second.twsTextSuperBigerDarkDisplay</item>
+        <item name="twsTextSuperBigDarkDisplay">@style/TextAppearance.tws.Second.twsTextSuperBigDarkDisplay</item>
+        <item name="twsTextSuperBigerLightDisplay">@style/TextAppearance.tws.Second.twsTextSuperBigerLightDisplay</item>
+        <item name="twsTextSuperBigLightDisplay">@style/TextAppearance.tws.Second.twsTextSuperBigLightDisplay</item>
+        <item name="twsTextSuperDarkTitle">@style/TextAppearance.tws.Second.twsTextSuperDarkTitle</item>
+        <item name="twsTextLargerDarkTitle">@style/TextAppearance.tws.Second.twsTextLargerDarkTitle</item>
+        <item name="twsTextSuperLightTitle">@style/TextAppearance.tws.Second.twsTextSuperLightTitle</item>
+        <item name="twsTextLargerLightTitle">@style/TextAppearance.tws.Second.twsTextLargerLightTitle</item>
+        <item name="twsTextMediumDarkBody">@style/TextAppearance.tws.Second.twsTextMediumDarkBody</item>
+        <item name="twsTextMediumDarkBodyL">@style/TextAppearance.tws.Second.twsTextMediumDarkBodyL</item>
+        <item name="twsTextMediumDarkBodySub">@style/TextAppearance.tws.Second.twsTextSmallDarkBodySub</item>
+        <item name="twsTextSmallDarkBody">@style/TextAppearance.tws.Second.twsTextSmallDarkBody</item>
+        <item name="twsTextMediumLightBody">@style/TextAppearance.tws.Second.twsTextMediumLightBody</item>
+        <item name="twsTextMediumLightBodyL">@style/TextAppearance.tws.Second.twsTextMediumLightBodyL</item>
+        <item name="twsTextMediumLightBodySub">@style/TextAppearance.tws.Second.twsTextSmallLightBodySub</item>
+        <item name="twsTextSmallLightBody">@style/TextAppearance.tws.Second.twsTextSmallLightBody</item>
+        <item name="twstextMicroDarkSummary">@style/TextAppearance.tws.Second.twstextMicroDarkSummary</item>
+        <item name="twstextMicroLightSummary">@style/TextAppearance.tws.Second.twstextMicroLightSummary</item>
+        <item name="twsActionModMenuFontColor">@color/tws_text_light_body</item>
+        <item name="twsTextHintColor">@color/tws_black_alpha_medium</item>
+        <item name="actionModeSplitBackground">@drawable/cab_background_bottom_holo_light</item>
+        <item name="android:actionBarSize">@dimen/tws_action_bar_height</item>
+        <item name="android:actionBarStyle">@android:style/Widget.Holo.ActionBar.Solid</item>
+        <item name="actionModeCloseButtonStyle">@style/Widget.tws.ActionButton.CloseMode</item>
+        <item name="android:scrollbarThumbHorizontal">@drawable/scrollbar_handle_holo_dark</item>
+        <item name="android:scrollbarThumbVertical">@drawable/scrollbar_handle_holo_dark</item>
+        <item name="windowActionBar">true</item>
+    </style>
+
+    <style name="Theme.tws.dark.NoActionBar">
+        <item name="android:windowActionBar">false</item>
+        <item name="android:windowNoTitle">true</item>
+    </style>
+
+    <style name="Widget.AbsListView" parent="@android:style/Widget">
+        <item name="android:scrollbars">vertical</item>
+        <item name="android:fadingEdge">vertical</item>
+    </style>
+
+    <style name="Widget.CompoundButton.Switch" parent="@android:style/Widget.CompoundButton">
+        <item name="track">@drawable/switch_track</item>
+        <item name="trackOverLayer">@drawable/switch_track_overlayer</item>
+        <item name="thumb">@drawable/switch_thumb</item>
+        <item name="thumbOverLayer">@drawable/switch_thumb_overlayer</item>
+        <item name="switchMinWidth">@dimen/tws_switch_width</item>
+    </style>
+
+    <style name="Widget.Holo.Light.AbsListView" parent="Widget.AbsListView"></style>
+
+    <style name="Widget.Holo.Light.ExpandableListView" parent="Widget.tws.ListView">
+        <item name="groupIndicator">@drawable/expander_group_holo_light</item>
+        <item name="indicatorLeft">?attr/expandableListPreferredItemIndicatorLeft</item>
+        <item name="indicatorRight">?attr/expandableListPreferredItemIndicatorRight</item>
+        <item name="childDivider">?attr/listDivider</item>
+    </style>
+
+    <style name="Widget.ListView" parent="Widget.AbsListView">
+        <item name="listSelector">@drawable/list_selector_background</item>
+        <item name="cacheColorHint">@null</item>
+        <item name="divider">@drawable/list_divider_holo_light</item>
+    </style>
+
+    <style name="Widget.PreferenceListView" parent="Widget.AbsListView">
+        <item name="cacheColorHint">@null</item>
+        <item name="divider">@drawable/list_divider_holo_light</item>
+        <item name="android:background">@color/home_bg</item>
+    </style>
+
+    <style name="Widget.Spinner" parent="@style/Widget.tws.Spinner.DropDown">
+        <item name="spinnerMode">dialog</item>
+        <item name="android:dropDownWidth">wrap_content</item>
+        <item name="android:gravity">center</item>
+    </style>
+
+    <style name="Widget.tws" parent="@android:style/Widget"></style>
+
+    <style name="Widget.tws.ActionBar.Transparent" parent="@android:style/Widget.Holo.Light.ActionBar.Solid">
+        <item name="android:homeAsUpIndicator">@drawable/transparent_background</item>
+        <item name="android:titleTextStyle">@style/TextAppearance.tws.Transparent</item>
+        <item name="android:subtitleTextStyle">@style/TextAppearance.tws.Transparent</item>
+        <item name="android:background">@drawable/transparent_background</item>
+        <item name="android:backgroundStacked">@drawable/transparent_background</item>
+        <item name="android:backgroundSplit">@drawable/transparent_background</item>
+        <item name="android:displayOptions">showTitle</item>
+        <item name="android:height">0dip</item>
+    </style>
+
+    <style name="Widget.tws.ActionBar">
+        <item name="homeAsUpIndicator">@drawable/ic_ab_back</item>
+        <item name="background">@drawable/ab_solid_holo_light</item>
+        <item name="backgroundStacked">@drawable/ab_solid_holo_light</item>
+        <item name="backgroundSplit">@drawable/cab_background_bottom_holo_light</item>
+        <item name="divider">?android:attr/dividerVertical</item>
+        <item name="progressBarStyle">@style/Widget.tws.ProgressBar.Horizontal</item>
+        <item name="indeterminateProgressStyle">@style/Widget.tws.ProgressBar.Small</item>
+        <item name="progressBarPadding">32dip</item>
+        <item name="itemPadding">8dip</item>
+        <item name="displayOptions">useLogo|showHome|showTitle</item>
+        <item name="height">?android:attr/actionBarSize</item>
+        <item name="android:paddingLeft">0dip</item>
+        <item name="android:paddingTop">0dip</item>
+        <item name="android:paddingRight">0dip</item>
+        <item name="android:paddingBottom">0dip</item>
+    </style>
+
+    <style name="Widget.tws.ActionBar.Second">
+        <item name="titleTextStyle">@style/TextAppearance.tws.Second.twsTextLargerLightTitle.ActionBarTitle</item>
+        <item name="subtitleTextStyle">@style/TextAppearance.tws.Second.twsTextSmallLightTitle</item>
+        <item name="background">@color/tws_view_bg</item>
+        <item name="backgroundStacked">@drawable/ab_solid_holo_light</item>
+        <item name="backgroundSplit">@color/tws_operat_view_bg</item>
+        <item name="homebutton">@drawable/ic_ab_back</item>
+        <item name="homebackground">@color/transparent</item>
+        <item name="actionbarleftbtnstyle">@style/TextAppearance.tws.Second.twsTextLargerLightTitleLeftButton</item>
+        <item name="actionbarrightbtnstyle">@style/TextAppearance.tws.Second.twsTextLargerLightTitleRightButton</item>
+        <item name="backgroundMode">gradient</item>
+        <item name="actionbartabTheme">tab_wave</item>
+        <item name="gradientBackgroundStartColor">@color/actionbar_gradient_background_start_color</item>
+        <item name="gradientBackgroundEndColor">@color/actionbar_gradient_background_end_color</item>
+    </style>
+
+    <style name="Widget.tws.ActionBar.Second.Holo">
+        <item name="titleTextStyle">@style/TextAppearance.tws.Second.twsTextLargerDarkTitle.ActionBarTitle</item>
+        <item name="subtitleTextStyle">@style/TextAppearance.tws.Second.twsTextSmallDarkTitle</item>
+        <item name="background">@color/tws_view_bg</item>
+        <item name="backgroundStacked">@drawable/ab_solid_holo_dark</item>
+        <item name="backgroundSplit">@drawable/ab_solid_holo_dark</item>
+        <item name="homebutton">@drawable/ic_ab_back_holo</item>
+        <item name="homebackground">@color/transparent</item>
+        <item name="actionbarleftbtnstyle">@style/TextAppearance.tws.Second.twsTextLargerDarkTitleLeftButton</item>
+        <item name="actionbarrightbtnstyle">@style/TextAppearance.tws.Second.twsTextLargerDarkTitleRightButton</item>
+    </style>
+
+    <style name="Widget.tws.ActionBar.TabBar" parent="@android:style/Widget.Holo.ActionBar.TabBar">
+        <item name="android:showDividers">none</item>
+    </style>
+
+    <style name="Widget.tws.ActionBar.TabBar.Holo">
+        <item name="android:showDividers">none</item>
+    </style>
+
+    <style name="Widget.tws.ActionBar.TabText" parent="@android:style/Widget.Holo.ActionBar.TabText">
+        <item name="android:textColor">@color/tab_text_light</item>
+        <item name="android:gravity">center</item>
+        <item name="android:background">@drawable/tab_bg_light</item>
+        <item name="android:textSize">16dp</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:layout_weight">@integer/action_bar_tab_layout_weight</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:ellipsize">end</item>
+    </style>
+
+    <style name="Widget.tws.ActionBar.TabText.Holo">
+        <item name="android:textColor">@color/tws_dark_title</item>
+    </style>
+
+    <style name="Widget.tws.ActionBar.TabView" parent="@android:style/Widget.Holo.ActionBar.TabView">
+        <item name="android:background">@drawable/tab_indicator_ab</item>
+        <item name="android:paddingLeft">2dip</item>
+        <item name="android:paddingRight">2dip</item>
+    </style>
+
+    <style name="Widget.tws.ActionBar.TabView.Holo">
+        <item name="android:background">@drawable/tab_indicator_ab_holo</item>
+    </style>
+
+    <style name="Widget.tws.ActionBar.TabView.Sub">
+        <item name="android:background">@drawable/tab_indicator_ab_sub</item>
+    </style>
+
+    <style name="Widget.tws.ActionBar.TabView.Sub.Holo">
+        <item name="android:background">@drawable/tab_indicator_ab_sub_holo</item>
+    </style>
+
+    <style name="Widget.tws.ActionBar.TabView.sub">
+        <item name="android:background">@drawable/tab_indicator_ab_sub</item>
+    </style>
+
+    <style name="Widget.tws.ActionButton" parent="@android:style/Widget.Holo">
+        <item name="android:gravity">center</item>
+        <item name="android:scaleType">center</item>
+        <item name="android:maxLines">2</item>
+        <item name="android:minWidth">@dimen/actionbar_overflow_minwidth</item>
+        <item name="android:minHeight">?android:attr/actionBarSize</item>
+        <item name="android:background">@drawable/tws_action_menu_item_background_holo_light</item>
+    </style>
+
+    <style name="Widget.tws.ActionButton.CloseMode">
+        <item name="android:background">@null</item>
+        <item name="android:padding">0dip</item>
+        <item name="android:minWidth">@dimen/action_bar_back_btn_width</item>
+        <item name="android:minHeight">?android:attr/actionBarSize</item>
+    </style>
+
+    <style name="Widget.tws.ActionButton.Overflow">
+        <item name="android:src">@drawable/ic_menu_moreoverflow</item>
+    </style>
+
+    <style name="Widget.tws.ActionButton.Overflow.Bottom">
+        <item name="android:src">@drawable/ic_menu_moreoverflow_bottom</item>
+    </style>
+
+    <style name="Widget.tws.ActionButton.Overflow.Bottom.Holo">
+        <item name="android:src">@drawable/ic_menu_moreoverflow_bottom_holo</item>
+    </style>
+
+    <style name="Widget.tws.ActionButton.Overflow.Holo">
+        <item name="android:src">@drawable/ic_menu_moreoverflow_holo</item>
+    </style>
+
+    <style name="Widget.tws.ActionButton.menuitem">
+        <item name="android:minWidth">@dimen/actionbar_menuitem_minwidth</item>
+        <item name="android:background">@drawable/tws_action_menu_item_background_holo_light_menuitem</item>
+    </style>
+
+    <style name="Widget.tws.ActionMode">
+        <item name="backgroundSplit">?attr/actionModeSplitBackground</item>
+        <item name="height">?android:attr/actionBarSize</item>
+    </style>
+
+    <style name="Widget.tws.ActionMode.Second">
+        <item name="titleTextStyle">@style/TextAppearance.tws.Second.twsTextSuperLightTitle.ActionModeTitle</item>
+        <item name="subtitleTextStyle">@style/TextAppearance.tws.Second.twsTextSmallLightTitle</item>
+        <item name="backgroundActionMode">@color/tws_view_bg</item>
+        <item name="backgroundSplit">@color/tws_view_bg</item>
+        <item name="backgroundMode">gradient</item>
+        <item name="gradientBackgroundStartColor">@color/tws_view_bg</item>
+        <item name="gradientBackgroundEndColor">@color/tws_view_bg</item>
+    </style>
+
+    <style name="Widget.tws.ActionMode.Second.Holo">
+        <item name="titleTextStyle">@style/TextAppearance.tws.Second.twsTextSuperDarkTitle.ActionModeTitle</item>
+        <item name="subtitleTextStyle">@style/TextAppearance.tws.Second.twsTextSmallDarkTitle</item>
+        <item name="backgroundActionMode">@drawable/ab_solid_holo_dark</item>
+        <item name="backgroundSplit">@drawable/ab_solid_holo_dark</item>
+    </style>
+
+    <style name="Widget.tws.AutoCompleteTextView" parent="@android:style/Widget.AutoCompleteTextView">
+        <item name="android:dropDownSelector">@drawable/list_selector_holo_light</item>
+        <item name="popupBackground">@drawable/menu_dropdown_panel_holo_light</item>
+    </style>
+
+    <style name="Widget.tws.AutoCompleteTextView.second">
+        <item name="android:dropDownSelector">@drawable/second_list_selector_holo_light</item>
+        <item name="android:textAppearance">@style/TextAppearance.tws.Second.twsTextMediumLightBody</item>
+        <item name="android:textColorHint">@color/tws_second_Hint</item>
+    </style>
+
+    <style name="Widget.tws.Button" parent="@android:style/Widget.Button">
+        <item name="android:background">@drawable/btn_default_holo_light</item>
+        <item name="android:textAppearance">?android:attr/textAppearanceMediumInverse</item>
+        <item name="android:textColor">@color/tws_text_light_body</item>
+        <item name="android:minHeight">48dip</item>
+        <item name="android:minWidth">64dip</item>
+    </style>
+
+    <style name="Widget.tws.Button.Second">
+        <item name="android:background">@drawable/second_btn_default_holo_light</item>
+        <item name="android:textColor">@color/tws_text_blue</item>
+        <item name="android:textSize">18sp</item>
+    </style>
+
+    <style name="Widget.tws.Button.Second.Dark">
+        <item name="android:background">@drawable/second_btn_default_holo_light</item>
+    </style>
+
+    <style name="Widget.tws.Button.Second.Toggle">
+        <item name="background">@drawable/btn_toggle_bg</item>
+        <item name="textOn">@string/capital_on</item>
+        <item name="textOff">@string/capital_off</item>
+        <item name="disabledAlpha">0.5</item>
+    </style>
+
+    <style name="Widget.tws.Button.Small">
+        <item name="android:textAppearance">?android:attr/textAppearanceSmall</item>
+        <item name="android:minHeight">48dip</item>
+        <item name="android:minWidth">48dip</item>
+    </style>
+
+    <style name="Widget.tws.Button.Small.Second">
+        <item name="android:textAppearance">?android:attr/textAppearanceSmall</item>
+        <item name="android:minHeight">48dip</item>
+        <item name="android:minWidth">48dip</item>
+    </style>
+
+    <style name="Widget.tws.CompoundButton.CheckBox" parent="@android:style/Widget.CompoundButton.CheckBox">
+        <item name="android:paddingLeft">0dip</item>
+    </style>
+
+    <style name="Widget.tws.CompoundButton.RadioButton" parent="@android:style/Widget.CompoundButton.RadioButton">
+        <item name="android:paddingLeft">0dip</item>
+    </style>
+
+    <style name="Widget.tws.DatePicker"></style>
+
+    <style name="Widget.tws.DatePicker.Second">
+        <item name="layout">@layout/date_picker</item>
+        <item name="calendarViewShown">false</item>
+    </style>
+
+    <style name="Widget.tws.EditText" parent="@android:style/Widget.Holo.EditText">
+        <item name="android:background">?android:attr/editTextBackground</item>
+        <item name="android:textAppearance">?android:attr/textAppearanceMediumInverse</item>
+        <item name="android:textColor">@color/tws_text_light_body</item>
+        <item name="android:minHeight">48dp</item>
+        <item name="android:textColorHighlight">@color/highlighted_text_holo_light</item>
+    </style>
+
+    <style name="Widget.tws.EditText.NumberPickerInputText">
+        <item name="android:textAppearance">@style/TextAppearance.tws</item>
+        <item name="android:gravity">center</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:textColorHighlight">@color/highlighted_text_holo_light</item>
+        <item name="android:paddingTop">13sp</item>
+        <item name="android:paddingBottom">13sp</item>
+        <item name="android:paddingLeft">2sp</item>
+        <item name="android:paddingRight">2sp</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:background">@null</item>
+    </style>
+
+    <style name="Widget.tws.EditText.NumberPickerInputText.Second">
+        <item name="android:textSize">18dp</item>
+        <item name="android:textColor">@color/tws_picker_selected_textcolor</item>
+        <item name="android:gravity">center</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:paddingTop">0dp</item>
+        <item name="android:paddingBottom">0dp</item>
+        <item name="android:paddingLeft">0dp</item>
+        <item name="android:paddingRight">0dp</item>
+        <item name="android:background">@null</item>
+    </style>
+
+    <style name="Widget.tws.EditText.TwsEditTextStyle">
+        <item name="showClear">true</item>
+        <item name="isWhiteBackground">true</item>
+    </style>
+
+    <style name="Widget.tws.GifViewStyle">
+        <item name="freezesAnimation">false</item>
+        <item name="cachePercent">0</item>
+    </style>
+
+    <style name="Widget.tws.Holo.ListView.DropDown" parent="@style/Widget.ListView">
+        <item name="divider">@drawable/list_divider_holo_light</item>
+        <item name="listSelector">@null</item>
+    </style>
+
+    <style name="Widget.tws.Holo.ListView.DropDown.Second">
+        <item name="android:divider">@drawable/panel_menu_divider</item>
+        <item name="android:listSelector">@drawable/second_list_selector_holo_light</item>
+    </style>
+
+    <style name="Widget.tws.ImageButton" parent="@android:style/Widget.Holo.ImageButton">
+        <item name="android:background">@drawable/btn_default_holo_light</item>
+    </style>
+
+    <style name="Widget.tws.ImageButton.NumberPickerDownButton" parent="@style/Widget.tws.ImageButton.NumberPickerUpButton">
+        <item name="android:src">@drawable/numberpicker_down_btn</item>
+    </style>
+
+    <style name="Widget.tws.ImageButton.NumberPickerUpButton">
+        <item name="android:background">@null</item>
+        <item name="android:src">@drawable/numberpicker_up_btn</item>
+        <item name="android:paddingTop">16dip</item>
+        <item name="android:paddingBottom">22dip</item>
+    </style>
+
+    <style name="Widget.tws.ImageButton.Second">
+        <item name="android:background">@drawable/second_btn_noframe_blue</item>
+    </style>
+
+    <style name="Widget.tws.ImageButton.Second.Dark">
+        <item name="android:background">@drawable/second_btn_default_holo_light</item>
+    </style>
+
+    <style name="Widget.tws.ListPopupMenu.Second" parent="@android:style/Widget.ListPopupWindow">
+        <item name="android:listSelector">?android:attr/listChoiceBackgroundIndicator</item>
+        <item name="popupBackground">@drawable/menu_dropdown_panel_holo_light</item>
+        <item name="android:dropDownVerticalOffset">0dip</item>
+        <item name="android:dropDownHorizontalOffset">0dip</item>
+        <item name="android:dropDownWidth">wrap_content</item>
+    </style>
+
+    <style name="Widget.tws.ListPopupWindow" parent="@android:style/Widget.ListPopupWindow">
+        <item name="android:dropDownSelector">@drawable/list_selector_holo_light</item>
+        <item name="popupBackground">@drawable/menu_dropdown_panel_holo_light</item>
+        <item name="android:dropDownVerticalOffset">0dip</item>
+        <item name="android:dropDownHorizontalOffset">0dip</item>
+        <item name="android:dropDownWidth">wrap_content</item>
+    </style>
+
+    <style name="Widget.tws.ListPopupWindow.Second">
+        <item name="android:dropDownSelector">@drawable/second_list_selector_holo_light</item>
+    </style>
+
+    <style name="Widget.tws.ListView" parent="@android:style/Widget.ListView">
+        <item name="android:background">@color/tws_view_bg</item>
+        <item name="divider">@drawable/list_divider_holo_light</item>
+        <item name="listSelector">@null</item>
+        <item name="emptyListBackground">@drawable/transparent_background</item>
+        <item name="emptyListTextAppearance">@style/TextAppearance.tws.ListViewEmptyText</item>
+        <item name="emptyListSecondTextAppearance">@style/TextAppearance.tws.ListViewEmptyTextSecond</item>
+        <item name="emptyListMarginLeft">12dp</item>
+        <item name="emptyListMarginTop">12dp</item>
+        <item name="emptyListMarginRight">12dp</item>
+        <item name="emptyListMarginBottom">12dp</item>
+    </style>
+
+    <style name="Widget.tws.ListView.Second">
+        <item name="divider">@drawable/list_divider_holo_light</item>
+        <item name="listSelector">@null</item>
+    </style>
+
+	<!-- <item name="listSelector">@drawable/list_menu_selector</item> -->
+    <style name="Widget.tws.ListView.Second.Dialog">
+        <item name="android:background">@color/tws_operat_view_bg</item>
+        <item name="divider">@null</item>
+    </style>
+
+    <style name="Widget.tws.ListView.Second.Dialog.Dark">
+        <item name="android:background">@color/tws_view_bg</item>
+        <item name="listSelector">@color/tws_black</item>
+    </style>
+
+    <style name="Widget.tws.ListViewMenu" parent="@android:style/Widget.ListView">
+        <item name="android:divider">@drawable/list_divider_holo_light</item>
+        <item name="android:listSelector">?android:attr/listChoiceBackgroundIndicator</item>
+    </style>
+
+    <style name="Widget.tws.ListViewMenu.Second">
+        <item name="divider">@drawable/panel_menu_divider</item>
+        <item name="listSelector">@color/transparent</item>
+    </style>
+
+    <style name="Widget.tws.NumberPicker">
+        <item name="selectionDivider">@drawable/list_divider_holo_light</item>
+        <item name="minWidth">48dip</item>
+        <item name="maxHeight">200dip</item>
+        <item name="android:orientation">vertical</item>
+        <item name="android:fadingEdge">vertical</item>
+        <item name="android:fadingEdgeLength">50dip</item>
+        <item name="solidColor">@color/transparent</item>
+        <item name="flingable">true</item>
+        <item name="selectionDividerHeight">2dip</item>
+    </style>
+
+    <style name="Widget.tws.NumberPicker.Second">
+        <item name="layout">@layout/number_picker</item>
+        <item name="selectionDivider">@drawable/transparent_background</item>
+        <item name="selectionDividerHeight">0px</item>
+        <item name="selectionDividersDistance">48dip</item>
+        <item name="minWidth">60dip</item>
+        <item name="minHeight">30dip</item>
+        <item name="maxHeight">210dip</item>
+        <item name="virtualButtonPressedDrawable">@null</item>
+        <item name="normalTextSize">14dp</item>
+        <item name="normalTextColor">@color/tws_picker_normal_textcolor</item>
+    </style>
+
+    <style name="Widget.tws.PopupWindow" parent="@android:style/Widget">
+        <item name="popupBackground">@drawable/menu_dropdown_panel_holo_light</item>
+        <item name="popupAnimationStyle">@style/Animation.tws.PopupWindow</item>
+    </style>
+
+    <style name="Widget.tws.PreferenceFrameLayout">
+        <item name="borderTop">0dip</item>
+        <item name="borderBottom">@dimen/preference_fragment_padding_bottom</item>
+        <item name="borderLeft">@dimen/preference_fragment_padding_side</item>
+        <item name="borderRight">@dimen/preference_fragment_padding_side</item>
+    </style>
+
+    <style name="Widget.tws.ProgressBar" parent="@android:style/Widget.Holo.ProgressBar">
+        <item name="android:indeterminateDrawable">@drawable/progress_medium_holo</item>
+        <item name="android:animationResolution">33</item>
+        <item name="android:indeterminateDuration">3300</item>
+    </style>
+
+    <style name="Widget.tws.ProgressBar.Horizontal" parent="@android:style/Widget.Holo.ProgressBar.Horizontal">
+        <item name="android:progressDrawable">@drawable/progress_horizontal_holo_light</item>
+        <item name="android:indeterminateDrawable">@drawable/progress_horizontal_holo_light</item>
+    </style>
+
+    <style name="Widget.tws.ProgressBar.Horizontal.Second">
+        <item name="android:progressDrawable">@drawable/progress_horizontal_holo_light</item>
+        <item name="android:indeterminateDrawable">@drawable/progress_horizontal_holo_light</item>
+        <item name="android:minHeight">@dimen/tws_progressbar_min_height</item>
+        <item name="android:maxHeight">@dimen/tws_progressbar_max_height</item>
+    </style>
+
+    <style name="Widget.tws.ProgressBar.Large">
+        <item name="android:indeterminateDrawable">@drawable/progress_large_holo</item>
+        <item name="android:animationResolution">33</item>
+    </style>
+
+    <style name="Widget.tws.ProgressBar.Small">
+        <item name="android:indeterminateDrawable">@drawable/progress_small_holo</item>
+        <item name="android:animationResolution">33</item>
+    </style>
+
+    <style name="Widget.tws.RatingBar.Indicator.Second" parent="@android:style/Widget.Holo.Light.RatingBar.Indicator">
+        <item name="android:progressDrawable">@drawable/ratingbar_holo_light</item>
+        <item name="android:indeterminateDrawable">@drawable/ratingbar_holo_light</item>
+    </style>
+
+    <style name="Widget.tws.RatingBar.Second" parent="@android:style/Widget.Holo.Light.RatingBar">
+        <item name="android:progressDrawable">@drawable/ratingbar_holo_light</item>
+        <item name="android:indeterminateDrawable">@drawable/ratingbar_holo_light</item>
+    </style>
+
+    <style name="Widget.tws.RatingBar.Small.Second" parent="@android:style/Widget.Holo.Light.RatingBar.Small">
+        <item name="android:progressDrawable">@drawable/ratingbar_small_holo_light</item>
+        <item name="android:indeterminateDrawable">@drawable/ratingbar_small_holo_light</item>
+    </style>
+
+    <style name="Widget.tws.SearchViewStyle">
+        <item name="iconifiedByDefault">false</item>
+        <item name="maxWidth">-1dip</item>
+        <item name="queryHint">@null</item>
+        <item name="android:imeOptions">normal</item>
+        <item name="focusable">true</item>
+    </style>
+
+    <style name="Widget.tws.SegmentBar" parent="@style/Widget.tws">
+        <item name="android:gravity">center_horizontal</item>
+        <item name="android:orientation">horizontal</item>
+        <item name="android:background">@drawable/tab_bar_bg_light</item>
+    </style>
+
+    <style name="Widget.tws.SegmentButton" parent="@style/Widget.tws.Button">
+        <item name="android:textColor">@color/tws_text_light_title</item>
+        <item name="android:gravity">center</item>
+        <item name="android:background">@drawable/segment_bg_light</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:minHeight">@dimen/tab_bar_height</item>
+    </style>
+
+    <style name="Widget.tws.SideBar">
+        <item name="checkedLetter">-1</item>
+        <item name="android:entries">@array/side_bar_entries</item>
+        <item name="android:background">@null</item>
+        <item name="android:layout">@layout/sidebar_position</item>
+        <item name="childTextSize">12dp</item>
+        <item name="childNormalTextColor">@color/sidebar_normal_textcolor</item>
+        <item name="childSelectedTextColor">@color/sidebar_selected_textcolor</item>
+        <item name="childNonExistTextColor">@color/sidebar_nonexist_textcolor</item>
+        <item name="hubbleNormalBackground">@color/hubble_normal_background</item>
+        <item name="hubbleNonExistBackground">@color/hubble_nonexist_background</item>
+        <item name="hubbleNormalTextColor">@color/hubble_normal_textcolor</item>
+        <item name="hubbleNonExistTextColor">@color/hubble_nonexist_textcolor</item>
+    </style>
+
+    <style name="Widget.tws.Spinner.DropDown" parent="@android:style/Widget.Holo.Light.Spinner">
+        <item name="android:background">@drawable/spinner_background_holo_light</item>
+        <item name="android:dropDownSelector">@drawable/list_selector_holo_light</item>
+        <item name="popupBackground">@drawable/menu_dropdown_panel_holo_light</item>
+    </style>
+
+    <style name="Widget.tws.Spinner.DropDown.Second">
+        <item name="android:dropDownSelector">@color/transparent</item>
+        <item name="popupBackground">@drawable/menu_dropdown_panel_holo_light</item>
+        <item name="android:spinnerMode">dialog</item>
+    </style>
+
+    <style name="Widget.tws.Spinner.DropDown.Second.ActionBar">
+        <item name="android:background">@drawable/second_actionbar_spinner</item>
+        <item name="popupBackground">@drawable/menu_dropdown_panel_holo_light</item>
+        <item name="android:dropDownSelector">@drawable/second_list_selector_holo_light</item>
+        <item name="android:paddingLeft">0dp</item>
+        <item name="android:paddingRight">0dp</item>
+        <item name="android:spinnerMode">dropdown</item>
+    </style>
+
+    <style name="Widget.tws.SpinnerItem" parent="@android:style/Widget.Holo.TextView.SpinnerItem">
+        <item name="android:textAppearance">?android:attr/textAppearanceMedium</item>
+        <item name="android:paddingLeft">8dp</item>
+        <item name="android:paddingRight">8dp</item>
+    </style>
+
+    <style name="Widget.tws.Tab" parent="@android:style/Widget.Holo.ActionBar.TabView">
+        <item name="android:background">@drawable/tab_indicator_holo</item>
+        <item name="android:layout_width">0dip</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:minWidth">78dip</item>
+    </style>
+
+    <style name="Widget.tws.TabBar" parent="@android:style/Widget.Holo.TabWidget">
+        <item name="android:background">@color/tws_view_bg</item>
+        <item name="android:gravity">center_horizontal</item>
+        <item name="tabStripLeft">@null</item>
+        <item name="tabStripRight">@null</item>
+        <item name="tabStripEnabled">false</item>
+        <item name="tabLayout">@layout/tws_tab_indicator_holo</item>
+        <item name="android:divider">@null</item>
+        <item name="android:showDividers">middle</item>
+        <item name="android:dividerPadding">0dip</item>
+    </style>
+
+    <style name="Widget.tws.TabIndicator" parent="@style/Widget.tws">
+        <item name="indicatorFades">@bool/default_tab_indicator_fades</item>
+        <item name="indicatorFadeDelay">@integer/default_tab_indicator_fade_delay</item>
+        <item name="indicatorFadeLength">@integer/default_tab_indicator_fade_length</item>
+        <item name="indicatorSelectedColor">@color/default_tab_indicator_selected_color</item>
+        <item name="android:src">@drawable/tab_indicator_light</item>
+    </style>
+
+    <style name="Widget.tws.TabText" parent="@android:style/Widget.Holo.ActionBar.TabText">
+        <item name="android:maxWidth">180dip</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:textSize">@dimen/tws_Small_TextSize</item>
+        <item name="android:textColor">@color/tab_text_light</item>
+    </style>
+
+    <style name="Widget.tws.TabText.sub" parent="@style/Widget.tws.ActionBar.TabText">
+        <item name="android:textSize">14dp</item>
+        <item name="android:textColor">@drawable/tab_indicator_holo_sub</item>
+    </style>
+
+    <style name="Widget.tws.ActionBar.TabText.Sub">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:gravity">top|center_horizontal</item>
+        <item name="android:textSize">14dp</item>
+    </style>
+
+    <style name="Widget.tws.ActionBar.TabText.Sub.Holo">
+        <item name="android:textColor">@color/tws_dark_title</item>
+    </style>
+
+    <style name="Widget.tws.TabView" parent="@android:style/Widget.Holo.ActionBar.TabView">
+        <item name="android:textColor">@color/tab_text_light</item>
+        <item name="android:textSize">@dimen/tws_Small_TextSize</item>
+        <item name="android:gravity">center</item>
+        <item name="android:background">@drawable/tab_bg_light</item>
+        <item name="android:layout_weight">@integer/action_bar_tab_layout_weight</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:minHeight">60dip</item>
+        <item name="android:minWidth">78dip</item>
+    </style>
+
+    <style name="Widget.tws.TabView.sub">
+        <item name="android:layout_height">@dimen/tws_action_bar_tab_second_height</item>
+        <item name="android:minHeight">20dip</item>
+    </style>
+
+    <style name="Widget.tws.TextView"></style>
+
+    <style name="Widget.tws.TextView.ListSeparator" parent="@android:style/Widget.TextView">
+        <item name="android:background">@drawable/list_section_divider_holo_light</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textColor">@color/tws_blue</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:paddingTop">10dp</item>
+        <item name="android:paddingBottom">8dp</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:gravity">center_vertical</item>
+    </style>
+
+    <style name="Widget.tws.TextView.ListSeparator.Second">
+        <item name="android:background">@color/tws_split_view_bg</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:paddingTop">6dp</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:minHeight">@dimen/preference_category_height</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:textSize">@dimen/tws_Micro_TextSize</item>
+        <item name="android:paddingLeft">@dimen/tws_listview_item_padding_side_left</item>
+        <item name="android:textColor">@color/tws_split_text_view_color</item>
+    </style>
+
+    <style name="Widget.tws.TimePicker">
+        <item name="layout">@layout/time_picker</item>
+    </style>
+
+    <style name="Widget.tws.TwsButtonStyle">
+        <item name="height">@dimen/tws_button_high</item>
+        <item name="radius">@dimen/tws_button_round_radius</item>
+        <item name="normal_background">@color/tws_button_normal_background</item>
+        <item name="pressed_background">@color/tws_button_pressed_background</item>
+        <item name="focused_background">@color/tws_button_focused_background</item>
+        <item name="disabled_background">@color/tws_button_disabled_background</item>
+        <item name="normal_borderColor">@color/tws_button_normal_borderColor</item>
+        <item name="focused_borderColor">@color/tws_button_focused_borderColor</item>
+        <item name="pressed_borderColor">@color/tws_button_pressed_borderColor</item>
+        <item name="disabled_borderColor">@color/tws_button_disabled_borderColor</item>
+        <item name="borderWidth">1dp</item>
+        <item name="textSize">@dimen/tws_Medium_TextSize</item>
+        <item name="textColor">@color/tws_button_textColor</item>
+        <item name="disabled_textColor">@color/tws_button_disabled_textColor</item>
+    </style>
+    <style name="twsProgressBarStyleLarge">
+　　       	<item name="android:indeterminateDrawable">@drawable/tws_common_progress_bar_bg</item>
+　　        	<item name="android:minWidth">12dp</item>
+　　        	<item name="android:maxWidth">48dp</item>
+　　        	<item name="android:minHeight">12dp</item>
+　　        	<item name="android:maxHeight">48dp</item>
+    </style>
+</resources>

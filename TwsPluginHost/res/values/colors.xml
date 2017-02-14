@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- =================改版首页 Begin================= -->
+    <color name="home_header_bar_bg">#292634</color>
+    <color name="home_bar_middle_text_color">#ffffff</color>
+    <color name="home_bottom_bg">#292634</color>
+    <color name="home_bottom_tab_text_default_color">#4cffffff</color>
+    <color name="home_bottom_tab_text_pressed_color">#46dc5f</color>
+    <color name="my_watch_fragment_revision_watch_info_bg">#1f1c27</color>
+    <color name="my_watch_fragment_revision_watch_name">#ffffff</color>
+    <color name="my_watch_fragment_revision_item_bg_focusd">#3324212d</color>
+    <color name="my_watch_fragment_revision_item_bg_pressed">#6624212d</color>
+    <color name="my_watch_fragment_revision_divider">#0dffffff</color>
+    <color name="my_watch_fragment_revision_big_divider">#1f1c27</color>
+    <color name="circle_img_cilck_transparent_focused">#ccffffff</color>
+    <color name="circle_img_cilck_transparent_pressed">#80ffffff</color>
+    <!-- =================改版首页 End================= -->
+
+    <color name="dm_common_single_item_focused">#201D28</color>
+
+</resources>

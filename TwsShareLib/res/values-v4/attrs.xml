@@ -1,0 +1,795 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="AbsListView">
+        <attr name="bottomListSelector" format="color|reference" />
+        <attr name="cacheColorHint" format="color" />
+        <attr name="choiceMode">
+            <enum name="none" value="0" />
+            <enum name="singleChoice" value="1" />
+            <enum name="multipleChoice" value="2" />
+            <enum name="multipleChoiceModal" value="3" />
+        </attr>
+        <attr name="drawSelectorOnTop" format="boolean" />
+        <attr name="fastScrollAlwaysVisible" format="boolean" />
+        <attr name="fastScrollEnabled" format="boolean" />
+        <attr name="listSelector" format="color|reference" />
+        <attr name="scrollingCache" format="boolean" />
+        <attr name="smoothScrollbar" format="boolean" />
+        <attr name="stackFromBottom" format="boolean" />
+        <attr name="textFilterEnabled" format="boolean" />
+        <attr name="topListSelector" format="color|reference" />
+        <attr name="transcriptMode">
+            <enum name="disabled" value="0" />
+            <enum name="normal" value="1" />
+            <enum name="alwaysScroll" value="2" />
+        </attr>
+        <attr name="useShapedSelector" format="boolean" />
+    </declare-styleable>
+    <declare-styleable name="ActionBar">
+        <attr name="actionOverflowButtonBottomStyle" format="reference" />
+        <attr name="actionbarleftbtnstyle" format="reference|color" />
+        <attr name="actionbarrightbtnstyle" format="reference|color" />
+        <attr name="actionbartabTheme">
+            <enum name="tab_normal" value="0" />
+            <enum name="tab_wave" value="1" />
+        </attr>
+        <attr name="background" />
+        <attr name="backgroundMode">
+            <enum name="normal" value="0" />
+            <enum name="gradient" value="1" />
+        </attr>
+        <attr name="backgroundSplit" />
+        <attr name="backgroundStacked" />
+        <attr name="customNavigationLayout" />
+        <attr name="displayOptions" />
+        <attr name="divider" />
+        <attr name="gradientBackgroundEndColor" format="reference|color" />
+        <attr name="gradientBackgroundStartColor" format="reference|color" />
+        <attr name="height" />
+        <attr name="homeLayout" />
+        <attr name="homebackground" format="reference|color" />
+        <attr name="homebutton" format="reference|color" />
+        <attr name="indeterminateProgressStyle" />
+        <attr name="itemPadding" />
+        <attr name="menuitemBottomStyle" format="reference|color" />
+        <attr name="menuitemstyle" format="reference|color" />
+        <attr name="navigationMode" />
+        <attr name="progressBarPadding" />
+        <attr name="progressBarStyle" />
+        <attr name="subtitle" />
+        <attr name="subtitleTextStyle" />
+        <attr name="title" />
+        <attr name="titleTextStyle" />
+    </declare-styleable>
+    <declare-styleable name="ActionMode">
+        <attr name="backgroundActionMode" format="reference" />
+        <attr name="backgroundMode" />
+        <attr name="backgroundSplit" />
+        <attr name="gradientBackgroundEndColor" />
+        <attr name="gradientBackgroundStartColor" />
+        <attr name="height" />
+        <attr name="subtitleTextStyle" />
+        <attr name="titleTextStyle" />
+    </declare-styleable>
+    <declare-styleable name="AnimatedStateListDrawable">
+        <attr name="android:constantSize" />
+        <attr name="android:dither" />
+        <attr name="android:enterFadeDuration" />
+        <attr name="android:exitFadeDuration" />
+        <attr name="android:variablePadding" />
+        <attr name="android:visible" />
+    </declare-styleable>
+    <declare-styleable name="AnimatedStateListDrawableItem">
+        <attr name="android:drawable" />
+        <attr name="android:id" />
+    </declare-styleable>
+    <declare-styleable name="AnimatedStateListDrawableTransition">
+        <attr name="drawable" format="reference" />
+        <attr name="fromId" format="reference" />
+        <attr name="reversible" format="boolean" />
+        <attr name="toId" format="reference" />
+    </declare-styleable>
+    <declare-styleable name="CheckBoxPreference">
+        <attr name="disableDependentsState" format="boolean" />
+        <attr name="summaryOff" format="string" />
+        <attr name="summaryOn" format="string" />
+    </declare-styleable>
+    <declare-styleable name="CheckedTextView">
+        <attr name="android:checkMark" />
+        <attr name="android:checked" />
+        <attr name="checkMarkGravity">
+            <flag name="left" value="0x03" />
+            <flag name="right" value="0x05" />
+            <flag name="start" value="0x00800003" />
+            <flag name="end" value="0x00800005" />
+        </attr>
+        <attr name="checkMarkTint" format="color" />
+        <attr name="checkMarkTintMode">
+            <enum name="src_over" value="3" />
+            <enum name="src_in" value="5" />
+            <enum name="src_atop" value="9" />
+            <enum name="multiply" value="14" />
+            <enum name="screen" value="15" />
+            <enum name="add" value="16" />
+        </attr>
+        <attr name="twsCheckStyle">
+            <enum name="system" value="0" />
+            <enum name="twsSingle" value="1" />
+            <enum name="twsMulti" value="2" />
+        </attr>
+    </declare-styleable>
+    <declare-styleable name="CompoundButton">
+        <attr name="android:button" />
+        <attr name="buttonTint" format="color" />
+        <attr name="buttonTintMode">
+            <enum name="src_over" value="3" />
+            <enum name="src_in" value="5" />
+            <enum name="src_atop" value="9" />
+            <enum name="multiply" value="14" />
+            <enum name="screen" value="15" />
+        </attr>
+    </declare-styleable>
+    <declare-styleable name="DatePicker">
+        <attr name="calendarViewShown" format="boolean" />
+        <attr name="endYear" format="integer" />
+        <attr name="layout" format="reference" />
+        <attr name="maxDate" format="string" />
+        <attr name="minDate" format="string" />
+        <attr name="spinnersShown" format="boolean" />
+        <attr name="startYear" format="integer" />
+    </declare-styleable>
+    <declare-styleable name="EdgeEffect">
+        <attr name="colorEdgeEffect" format="color" />
+    </declare-styleable>
+    <declare-styleable name="ExpandableListChildIndicatorState">
+        <attr name="state_last" format="boolean" />
+    </declare-styleable>
+    <declare-styleable name="ExpandableListGroupIndicatorState">
+        <attr name="state_empty" format="boolean" />
+        <attr name="state_expanded" format="boolean" />
+    </declare-styleable>
+    <declare-styleable name="ExpandableListView">
+        <attr name="childDivider" format="reference|color" />
+        <attr name="childIndicator" format="reference" />
+        <attr name="childIndicatorLeft" format="dimension" />
+        <attr name="childIndicatorRight" format="dimension" />
+        <attr name="groupIndicator" format="reference" />
+        <attr name="indicatorLeft" format="dimension" />
+        <attr name="indicatorRight" format="dimension" />
+    </declare-styleable>
+    <declare-styleable name="GifTextureView">
+        <attr name="gifSource" format="reference|string" />
+        <attr name="isOpaque" format="boolean" />
+    </declare-styleable>
+    <declare-styleable name="GifView">
+        <attr name="cachePercent" format="integer" />
+        <attr name="freezesAnimation" format="boolean" />
+    </declare-styleable>
+    <declare-styleable name="TwsEditText">
+        <attr name="showClear" format="boolean" />
+        <attr name="isWhiteBackground" format="boolean" />
+    </declare-styleable>
+    <declare-styleable name="LayerDrawable">
+        <attr name="android:paddingBottom" />
+        <attr name="android:paddingEnd" />
+        <attr name="android:paddingLeft" />
+        <attr name="android:paddingRight" />
+        <attr name="android:paddingStart" />
+        <attr name="android:paddingTop" />
+        <attr name="autoMirrored" format="boolean" />
+        <attr name="opacity">
+            <enum name="opaque" value="-1" />
+            <enum name="transparent" value="-2" />
+            <enum name="translucent" value="-3" />
+        </attr>
+        <attr name="paddingMode">
+            <enum name="nest" value="0" />
+            <enum name="stack" value="1" />
+        </attr>
+    </declare-styleable>
+    <declare-styleable name="LayerDrawableItem">
+        <attr name="android:drawable" />
+        <attr name="android:gravity" />
+        <attr name="android:id" />
+        <attr name="bottom" format="dimension" />
+        <attr name="end" format="dimension" />
+        <attr name="height" />
+        <attr name="left" format="dimension" />
+        <attr name="right" format="dimension" />
+        <attr name="start" format="dimension" />
+        <attr name="top" format="dimension" />
+        <attr name="width" format="dimension" />
+    </declare-styleable>
+    <declare-styleable name="ListView">
+        <attr name="divider" />
+        <attr name="dividerHeight" format="dimension" />
+        <attr name="emptyListBackground" format="reference" />
+        <attr name="emptyListIcon" format="reference" />
+        <attr name="emptyListMarginBottom" format="dimension" />
+        <attr name="emptyListMarginLeft" format="dimension" />
+        <attr name="emptyListMarginRight" format="dimension" />
+        <attr name="emptyListMarginTop" format="dimension" />
+        <attr name="emptyListMaxHeight" format="dimension" />
+        <attr name="emptyListSecondText" format="reference|string" />
+        <attr name="emptyListSecondTextAppearance" format="reference" />
+        <attr name="emptyListText" format="reference|string" />
+        <attr name="emptyListTextAppearance" format="reference" />
+        <attr name="enableSelectedState" format="boolean" />
+        <attr name="entries" format="reference" />
+        <attr name="footerDividersEnabled" format="boolean" />
+        <attr name="headerDividersEnabled" format="boolean" />
+        <attr name="overScrollFooter" format="reference|color" />
+        <attr name="overScrollHeader" format="reference|color" />
+    </declare-styleable>
+    <declare-styleable name="MenuView">
+        <attr name="headerBackground" format="color|reference" />
+        <attr name="horizontalDivider" format="reference" />
+        <attr name="itemBackground" format="color|reference" />
+        <attr name="itemIconDisabledAlpha" format="float" />
+        <attr name="itemTextAppearance" format="reference" />
+        <attr name="preserveIconSpacing" format="boolean" />
+        <attr name="verticalDivider" format="reference" />
+        <attr name="windowAnimationStyle" />
+    </declare-styleable>
+    <declare-styleable name="NumberPicker">
+        <attr name="flingable" format="boolean" />
+        <attr name="layout" />
+        <attr name="maxHeight" />
+        <attr name="maxWidth" format="dimension" />
+        <attr name="minHeight" format="dimension" />
+        <attr name="minWidth" format="dimension" />
+        <attr name="normalTextColor" format="color|reference" />
+        <attr name="normalTextSize" format="dimension" />
+        <attr name="selectionDivider" format="reference" />
+        <attr name="selectionDividerHeight" format="dimension" />
+        <attr name="selectionDividersDistance" format="dimension" />
+        <attr name="solidColor" format="color|reference" />
+        <attr name="virtualButtonPressedDrawable" format="reference" />
+    </declare-styleable>
+    <declare-styleable name="PopupWindow">
+        <attr name="popupAnimationStyle" format="reference" />
+        <attr name="popupBackground" format="reference|color" />
+    </declare-styleable>
+    <declare-styleable name="PopupWindowBackgroundState">
+        <attr name="state_above_anchor" format="boolean" />
+    </declare-styleable>
+    <declare-styleable name="PreferenceFrameLayout">
+        <attr name="borderBottom" format="dimension" />
+        <attr name="borderLeft" format="dimension" />
+        <attr name="borderRight" format="dimension" />
+        <attr name="borderTop" format="dimension" />
+    </declare-styleable>
+    <declare-styleable name="PreferenceFrameLayout_Layout">
+        <attr name="layout_removeBorders" format="boolean" />
+    </declare-styleable>
+    <declare-styleable name="PreferenceGroup">
+        <attr name="orderingFromXml" format="boolean" />
+    </declare-styleable>
+    <declare-styleable name="TwsLinearLayout">
+        <attr name="maxHeight" format="dimension" />
+    </declare-styleable>
+    <declare-styleable name="RadioGroup">
+        <attr name="android:checkedButton" />
+        <attr name="android:orientation" />
+    </declare-styleable>
+    <declare-styleable name="RippleDrawable">
+        <attr name="android:color" />
+        <attr name="android:radius" />
+    </declare-styleable>
+    <declare-styleable name="SearchView">
+        <attr name="android:imeOptions" />
+        <attr name="android:inputType" />
+        <attr name="focusable" format="boolean" />
+        <attr name="iconifiedByDefault" />
+        <attr name="maxWidth" />
+        <attr name="queryHint" />
+    </declare-styleable>
+    <declare-styleable name="SegmentBar">
+        <attr name="android:background" />
+        <attr name="android:orientation" />
+        <attr name="checkedButton" format="integer" />
+    </declare-styleable>
+    <declare-styleable name="SegmentButton">
+        <attr name="button" format="reference" />
+        <attr name="checked" format="boolean" />
+    </declare-styleable>
+    <declare-styleable name="SideBar">
+        <attr name="android:background" />
+        <attr name="android:entries" />
+        <attr name="android:layout" />
+        <attr name="checkedLetter" format="integer" />
+        <attr name="childNonExistTextColor" format="reference|color" />
+        <attr name="childNormalTextColor" format="reference|color" />
+        <attr name="childSelectedBackground" format="reference|color" />
+        <attr name="childSelectedTextColor" format="reference|color" />
+        <attr name="childTextSize" format="dimension" />
+        <attr name="hubbleNonExistBackground" format="reference|color" />
+        <attr name="hubbleNonExistTextColor" format="reference|color" />
+        <attr name="hubbleNormalBackground" format="reference|color" />
+        <attr name="hubbleNormalTextColor" format="reference|color" />
+    </declare-styleable>
+    <declare-styleable name="Spinner">
+        <attr name="android:dropDownWidth" />
+        <attr name="android:gravity" />
+        <attr name="prompt" />
+        <attr name="spinnerMode" />
+    </declare-styleable>
+    <declare-styleable name="StateListDrawable">
+        <attr name="android:constantSize" />
+        <attr name="android:dither" />
+        <attr name="android:enterFadeDuration" />
+        <attr name="android:exitFadeDuration" />
+        <attr name="android:variablePadding" />
+        <attr name="android:visible" />
+    </declare-styleable>
+    <declare-styleable name="StateListDrawableItem">
+        <attr name="android:drawable" />
+    </declare-styleable>
+    <declare-styleable name="Switch">
+        <attr name="switchMinWidth" format="dimension" />
+        <attr name="switchPadding" format="dimension" />
+        <attr name="thumb" format="reference" />
+        <attr name="thumbOverLayer" format="reference" />
+        <attr name="thumbTint" format="color" />
+        <attr name="thumbTintMode">
+            <enum name="src_over" value="3" />
+            <enum name="src_in" value="5" />
+            <enum name="src_atop" value="9" />
+            <enum name="multiply" value="14" />
+            <enum name="screen" value="15" />
+            <enum name="add" value="16" />
+        </attr>
+        <attr name="track" format="reference" />
+        <attr name="trackOverLayer" format="reference" />
+        <attr name="trackTint" format="color" />
+        <attr name="trackTintMode">
+            <enum name="src_over" value="3" />
+            <enum name="src_in" value="5" />
+            <enum name="src_atop" value="9" />
+            <enum name="multiply" value="14" />
+            <enum name="screen" value="15" />
+            <enum name="add" value="16" />
+        </attr>
+    </declare-styleable>
+    <declare-styleable name="TabIndicator">
+        <attr name="android:background" />
+        <attr name="android:src" />
+        <attr name="indicatorFadeDelay" format="integer" />
+        <attr name="indicatorFadeLength" format="integer" />
+        <attr name="indicatorFades" format="boolean" />
+        <attr name="indicatorSelectedColor" format="color" />
+    </declare-styleable>
+    <declare-styleable name="TabWidget">
+        <attr name="tabLayout" format="reference" />
+        <attr name="tabStripEnabled" format="boolean" />
+        <attr name="tabStripLeft" format="reference" />
+        <attr name="tabStripRight" format="reference" />
+    </declare-styleable>
+    <declare-styleable name="TextAppearance">
+        <attr name="android:shadowColor" />
+        <attr name="android:shadowDx" />
+        <attr name="android:shadowDy" />
+        <attr name="android:shadowRadius" />
+        <attr name="android:textColor" />
+        <attr name="android:textSize" />
+        <attr name="android:textStyle" />
+        <attr name="android:typeface" />
+        <attr name="textAllCaps" />
+    </declare-styleable>
+    <declare-styleable name="Theme">
+        <attr name="absListViewStyle" format="reference" />
+        <attr name="actionBarDivider" />
+        <attr name="actionBarItemBackground" />
+        <attr name="actionBarSize" />
+        <attr name="actionBarSplitStyle" />
+        <attr name="actionBarStyle" />
+        <attr name="actionBarTabBarStyle" />
+        <attr name="actionBarTabStyle" />
+        <attr name="actionBarSubTabStyle" format="reference" />
+        <attr name="actionBarTabTextStyle" />
+        <attr name="actionBarSubTabTextStyle" format="reference" />
+        <attr name="actionBarWidgetTheme" />
+        <attr name="actionButtonStyle" />
+        <attr name="actionButtonStyle_menuitem" format="reference" />
+        <attr name="actionDropDownStyle" />
+        <attr name="actionMenuTextColor" />
+        <attr name="actionModeBackground" />
+        <attr name="actionModeCloseButtonStyle" />
+        <attr name="actionModeCloseDrawable" />
+        <attr name="actionModeCopyDrawable" />
+        <attr name="actionModeCutDrawable" />
+        <attr name="actionModeFindDrawable" />
+        <attr name="actionModePasteDrawable" />
+        <attr name="actionModePopupWindowStyle" />
+        <attr name="actionModeSelectAllDrawable" />
+        <attr name="actionModeShareDrawable" />
+        <attr name="actionModeSplitBackground" />
+        <attr name="actionModeStyle" />
+        <attr name="actionModeWebSearchDrawable" />
+        <attr name="actionOverflowButtonStyle" />
+        <attr name="activatedBackgroundIndicator" format="reference" />
+        <attr name="activityChooserViewStyle" />
+        <attr name="alertDialogButtonGroupStyle" format="reference" />
+        <attr name="alertDialogCenterButtons" format="boolean" />
+        <attr name="alertDialogIcon" format="reference" />
+        <attr name="alertDialogStyle" format="reference" />
+        <attr name="alertDialogTheme" format="reference" />
+        <attr name="autoCompleteTextViewStyle" format="reference" />
+        <attr name="backgroundDimAmount" format="float" />
+        <attr name="backgroundDimEnabled" format="boolean" />
+        <attr name="borderlessButtonStyle" format="reference" />
+        <attr name="buttonBarButtonStyle" />
+        <attr name="buttonBarStyle" />
+        <attr name="buttonStyle" format="reference" />
+        <attr name="buttonStyleInset" format="reference" />
+        <attr name="buttonStyleSmall" format="reference" />
+        <attr name="buttonStyleToggle" format="reference" />
+        <attr name="calendarViewStyle" format="reference" />
+        <attr name="candidatesTextStyleSpans" format="reference|string" />
+        <attr name="checkBoxPreferenceStyle" format="reference" />
+        <attr name="checkboxStyle" format="reference" />
+        <attr name="checkedTextViewStyle" format="reference" />
+        <attr name="colorAccent" format="color" />
+        <attr name="colorActivatedHighlight" format="color" />
+        <attr name="colorBackground" format="color" />
+        <attr name="colorBackgroundCacheHint" format="color" />
+        <attr name="colorControlActivated" format="color" />
+        <attr name="colorControlHighlight" format="color" />
+        <attr name="colorControlNormal" format="color" />
+        <attr name="colorFocusedHighlight" format="color" />
+        <attr name="colorForeground" format="color" />
+        <attr name="colorForegroundInverse" format="color" />
+        <attr name="colorLongPressedHighlight" format="color" />
+        <attr name="colorMultiSelectHighlight" format="color" />
+        <attr name="colorPressedHighlight" format="color" />
+        <attr name="colorPrimary" format="color" />
+        <attr name="colorPrimaryDark" format="color" />
+        <attr name="datePickerStyle" format="reference" />
+        <attr name="dateTimePickerStyle" format="reference" />
+        <attr name="detailsElementBackground" format="reference" />
+        <attr name="dialogCustomTitleDecorLayout" format="reference" />
+        <attr name="dialogPreferenceStyle" format="reference" />
+        <attr name="dialogTheme" format="reference" />
+        <attr name="dialogTitleDecorLayout" format="reference" />
+        <attr name="dialogTitleIconsDecorLayout" format="reference" />
+        <attr name="disabledAlpha" format="float" />
+        <attr name="dividerHorizontal" />
+        <attr name="dividerVertical" />
+        <attr name="dropDownHintAppearance" format="reference" />
+        <attr name="dropDownItemStyle" format="reference" />
+        <attr name="dropDownListViewStyle" />
+        <attr name="dropDownSpinnerStyle" format="reference" />
+        <attr name="dropdownListPreferredItemHeight" />
+        <attr name="editTextBackground" format="reference" />
+        <attr name="editTextColor" format="reference|color" />
+        <attr name="editTextPreferenceStyle" format="reference" />
+        <attr name="errorMessageAboveBackground" format="reference" />
+        <attr name="errorMessageBackground" format="reference" />
+        <attr name="expandableListPreferredChildIndicatorLeft" format="dimension" />
+        <attr name="expandableListPreferredChildIndicatorRight" format="dimension" />
+        <attr name="expandableListPreferredChildPaddingLeft" format="dimension" />
+        <attr name="expandableListPreferredItemIndicatorLeft" format="dimension" />
+        <attr name="expandableListPreferredItemIndicatorRight" format="dimension" />
+        <attr name="expandableListPreferredItemPaddingLeft" format="dimension" />
+        <attr name="expandableListViewStyle" format="reference" />
+        <attr name="expandableListViewWhiteStyle" format="reference" />
+        <attr name="fastScrollOverlayPosition">
+            <enum name="floating" value="0" />
+            <enum name="atThumb" value="1" />
+        </attr>
+        <attr name="fastScrollPreviewBackgroundLeft" format="reference" />
+        <attr name="fastScrollPreviewBackgroundRight" format="reference" />
+        <attr name="fastScrollTextColor" format="color" />
+        <attr name="fastScrollThumbDrawable" format="reference" />
+        <attr name="fastScrollTrackDrawable" format="reference" />
+        <attr name="galleryItemBackground" format="reference" />
+        <attr name="galleryStyle" format="reference" />
+        <attr name="gestureOverlayViewStyle" format="reference" />
+        <attr name="gifViewStyle" format="reference" />
+        <attr name="twsEditTextStyle" format="reference" />
+        <attr name="gridViewStyle" format="reference" />
+        <attr name="homeAsUpIndicator" />
+        <attr name="horizontalScrollViewStyle" format="reference" />
+        <attr name="imageButtonStyle" format="reference" />
+        <attr name="imageWellStyle" format="reference" />
+        <attr name="listChoiceBackgroundIndicator" />
+        <attr name="listChoiceIndicatorMultiple" format="reference" />
+        <attr name="listChoiceIndicatorSingle" format="reference" />
+        <attr name="listDivider" format="reference" />
+        <attr name="listDividerAlertDialog" format="reference" />
+        <attr name="listPopupWindowStyle" />
+        <attr name="listPreferredItemHeight" />
+        <attr name="listPreferredItemHeightLarge" />
+        <attr name="listPreferredItemHeightSmall" />
+        <attr name="listPreferredItemPaddingLeft" />
+        <attr name="listPreferredItemPaddingRight" />
+        <attr name="listSeparatorTextViewStyle" format="reference" />
+        <attr name="listViewStyle" format="reference" />
+        <attr name="listViewWhiteStyle" format="reference" />
+        <attr name="mapViewStyle" format="reference" />
+        <attr name="numberPickerDownButtonStyle" format="reference" />
+        <attr name="numberPickerInputTextStyle" format="reference" />
+        <attr name="numberPickerStyle" format="reference" />
+        <attr name="numberPickerUpButtonStyle" format="reference" />
+        <attr name="panelBackground" format="reference|color" />
+        <attr name="panelColorBackground" format="reference|color" />
+        <attr name="panelColorForeground" format="reference|color" />
+        <attr name="panelFullBackground" format="reference|color" />
+        <attr name="panelMenuIsCompact" format="boolean" />
+        <attr name="panelMenuListTheme" />
+        <attr name="panelMenuListWidth" />
+        <attr name="pointerStyle" format="reference" />
+        <attr name="popupMenuStyle" />
+        <attr name="popupWindowStyle" format="reference" />
+        <attr name="preferenceCategoryStyle" format="reference" />
+        <attr name="preferenceFragmentStyle" format="reference" />
+        <attr name="preferenceFrameLayoutStyle" format="reference" />
+        <attr name="preferenceInformationStyle" format="reference" />
+        <attr name="preferenceLayoutChild" format="reference" />
+        <attr name="preferenceLeftPadding" format="dimension" />
+        <attr name="preferencePanelStyle" format="reference" />
+        <attr name="preferenceRightPadding" format="dimension" />
+        <attr name="preferenceScreenStyle" format="reference" />
+        <attr name="preferenceStyle" format="reference" />
+        <attr name="progressBarStyle" />
+        <attr name="progressBarStyleHorizontal" format="reference" />
+        <attr name="progressBarStyleInverse" format="reference" />
+        <attr name="progressBarStyleLarge" format="reference" />
+        <attr name="progressBarStyleLargeInverse" format="reference" />
+        <attr name="progressBarStyleSmall" format="reference" />
+        <attr name="progressBarStyleSmallInverse" format="reference" />
+        <attr name="progressBarStyleSmallTitle" format="reference" />
+        <attr name="quickContactBadgeOverlay" format="reference" />
+        <attr name="quickContactBadgeStyleSmallWindowLarge" format="reference" />
+        <attr name="quickContactBadgeStyleSmallWindowMedium" format="reference" />
+        <attr name="quickContactBadgeStyleSmallWindowSmall" format="reference" />
+        <attr name="quickContactBadgeStyleWindowLarge" format="reference" />
+        <attr name="quickContactBadgeStyleWindowMedium" format="reference" />
+        <attr name="quickContactBadgeStyleWindowSmall" format="reference" />
+        <attr name="radioButtonStyle" format="reference" />
+        <attr name="ratingBarStyle" format="reference" />
+        <attr name="ratingBarStyleIndicator" format="reference" />
+        <attr name="ratingBarStyleSmall" format="reference" />
+        <attr name="ringtonePreferenceStyle" format="reference" />
+        <attr name="scrollViewStyle" format="reference" />
+        <attr name="searchDialogTheme" format="reference" />
+        <attr name="searchDropdownBackground" />
+        <attr name="searchResultListItemHeight" />
+        <attr name="searchViewBackground" format="reference" />
+        <attr name="searchViewCancel" format="reference" />
+        <attr name="searchViewCloseIcon" />
+        <attr name="searchViewCursorDrawable" format="reference" />
+        <attr name="searchViewEditQuery" />
+        <attr name="searchViewEditQueryBackground" />
+        <attr name="searchViewEditorBackground" format="reference" />
+        <attr name="searchViewGoIcon" />
+        <attr name="searchViewSearchIcon" />
+        <attr name="searchViewStyle" format="reference" />
+        <attr name="searchViewTextColor" format="reference" />
+        <attr name="searchViewTextColorHint" format="reference" />
+        <attr name="searchViewTextField" />
+        <attr name="searchViewTextFieldRight" />
+        <attr name="searchViewVoiceIcon" />
+        <attr name="searchWidgetCorpusItemBackground" format="reference|color" />
+        <attr name="seekBarStyle" format="reference" />
+        <attr name="segmentedButtonStyle" format="reference" />
+        <attr name="selectableItemBackground" />
+        <attr name="spinnerDropDownItemStyle" />
+        <attr name="spinnerItemStyle" format="reference" />
+        <attr name="spinnerStyle" />
+        <attr name="stackViewStyle" format="reference" />
+        <attr name="starStyle" format="reference" />
+        <attr name="switchPreferenceStyle" format="reference" />
+        <attr name="switchStyle" format="reference" />
+        <attr name="tabWidgetStyle" format="reference" />
+        <attr name="textAppearance" format="reference" />
+        <attr name="textAppearanceAutoCorrectionSuggestion" format="reference" />
+        <attr name="textAppearanceButton" format="reference" />
+        <attr name="textAppearanceEasyCorrectSuggestion" format="reference" />
+        <attr name="textAppearanceInverse" format="reference" />
+        <attr name="textAppearanceLarge" format="reference" />
+        <attr name="textAppearanceLargeInverse" format="reference" />
+        <attr name="textAppearanceLargePopupMenu" />
+        <attr name="textAppearanceListItem" />
+        <attr name="textAppearanceListItemSmall" />
+        <attr name="textAppearanceMedium" format="reference" />
+        <attr name="textAppearanceMediumInverse" format="reference" />
+        <attr name="textAppearanceMisspelledSuggestion" format="reference" />
+        <attr name="textAppearanceSearchResultSubtitle" />
+        <attr name="textAppearanceSearchResultTitle" />
+        <attr name="textAppearanceSmall" format="reference" />
+        <attr name="textAppearanceSmallInverse" format="reference" />
+        <attr name="textCheckMark" format="reference" />
+        <attr name="textCheckMarkInverse" format="reference" />
+        <attr name="textColorAlertDialogListItem" format="reference|color" />
+        <attr name="textColorHighlightInverse" format="reference|color" />
+        <attr name="textColorHintInverse" format="reference|color" />
+        <attr name="textColorLinkInverse" format="reference|color" />
+        <attr name="textColorPrimary" format="reference|color" />
+        <attr name="textColorPrimaryDisableOnly" format="reference|color" />
+        <attr name="textColorPrimaryInverse" format="reference|color" />
+        <attr name="textColorPrimaryInverseDisableOnly" format="reference|color" />
+        <attr name="textColorPrimaryInverseNoDisable" format="reference|color" />
+        <attr name="textColorPrimaryNoDisable" format="reference|color" />
+        <attr name="textColorSearchUrl" />
+        <attr name="textColorSecondary" format="reference|color" />
+        <attr name="textColorSecondaryInverse" format="reference|color" />
+        <attr name="textColorSecondaryInverseNoDisable" format="reference|color" />
+        <attr name="textColorSecondaryNoDisable" format="reference|color" />
+        <attr name="textColorTertiary" format="reference|color" />
+        <attr name="textColorTertiaryInverse" format="reference|color" />
+        <attr name="textEditNoPasteWindowLayout" format="reference" />
+        <attr name="textEditPasteWindowLayout" format="reference" />
+        <attr name="textEditSideNoPasteWindowLayout" format="reference" />
+        <attr name="textEditSidePasteWindowLayout" format="reference" />
+        <attr name="textEditSuggestionItemLayout" format="reference" />
+        <attr name="textSelectHandle" format="reference" />
+        <attr name="textSelectHandleLeft" format="reference" />
+        <attr name="textSelectHandleRight" format="reference" />
+        <attr name="textSelectHandleWindowStyle" format="reference" />
+        <attr name="textSuggestionsWindowStyle" format="reference" />
+        <attr name="textUnderlineColor" format="reference|color" />
+        <attr name="textUnderlineThickness" format="reference|dimension" />
+        <attr name="textViewStyle" format="reference" />
+        <attr name="timePickerStyle" format="reference" />
+        <attr name="toastFrameBackground" format="reference" />
+        <attr name="webTextViewStyle" format="reference" />
+        <attr name="webViewStyle" format="reference" />
+        <attr name="windowActionBar" />
+        <attr name="windowActionBarOverlay" />
+        <attr name="windowAnimationStyle" format="reference" />
+        <attr name="windowBackground" format="reference" />
+        <attr name="windowCloseOnTouchOutside" format="boolean" />
+        <attr name="windowContentOverlay" format="reference" />
+        <attr name="windowDisablePreview" format="boolean" />
+        <attr name="windowEnableSplitTouch" format="boolean" />
+        <attr name="windowFrame" format="reference" />
+        <attr name="windowFullscreen" format="boolean" />
+        <attr name="windowIsFloating" format="boolean" />
+        <attr name="windowIsTranslucent" format="boolean" />
+        <attr name="windowNoDisplay" format="boolean" />
+        <attr name="windowNoTitle" format="boolean" />
+        <attr name="windowShowWallpaper" format="boolean" />
+        <attr name="windowSoftInputMode">
+            <flag name="stateUnspecified" value="0" />
+            <flag name="stateUnchanged" value="1" />
+            <flag name="stateHidden" value="2" />
+            <flag name="stateAlwaysHidden" value="3" />
+            <flag name="stateVisible" value="4" />
+            <flag name="stateAlwaysVisible" value="5" />
+            <flag name="adjustUnspecified" value="0x00" />
+            <flag name="adjustResize" value="0x10" />
+            <flag name="adjustPan" value="0x20" />
+            <flag name="adjustNothing" value="0x30" />
+        </attr>
+        <attr name="windowSplitActionBar" />
+        <attr name="windowTitleBackgroundStyle" format="reference" />
+        <attr name="windowTitleSize" format="dimension" />
+        <attr name="windowTitleStyle" format="reference" />
+        <attr name="yesNoPreferenceStyle" format="reference" />
+        <attr name="twsButtonStyle" format="reference" />
+    </declare-styleable>
+    <declare-styleable name="TimePicker">
+        <attr name="layout" />
+    </declare-styleable>
+    <declare-styleable name="ToggleButton">
+        <attr name="disabledAlpha" />
+        <attr name="textOff" format="reference" />
+        <attr name="textOn" format="reference" />
+    </declare-styleable>
+    <declare-styleable name="tws">
+        <attr name="twsActionModMenuFontColor" format="reference|color" />
+        <attr name="twsActionbarBackgroud" format="reference" />
+        <attr name="twsBackGroudColor" format="reference|color" />
+        <attr name="twsColorBlack" format="reference|color" />
+        <attr name="twsColorBlackAlphaHight" format="reference|color" />
+        <attr name="twsColorBlackAlphaLow" format="reference|color" />
+        <attr name="twsColorBlackAlphaMedium" format="reference|color" />
+        <attr name="twsColorBlue" format="reference|color" />
+        <attr name="twsColorDarkBody" format="reference|color" />
+        <attr name="twsColorDarkBodySub" format="reference|color" />
+        <attr name="twsColorDarkDisplay" format="reference|color" />
+        <attr name="twsColorDarkSummary" format="reference|color" />
+        <attr name="twsColorDarkTitle" format="reference|color" />
+        <attr name="twsColorGray" format="reference|color" />
+        <attr name="twsColorGrayAlphaHight" format="reference|color" />
+        <attr name="twsColorGrayAlphaLow" format="reference|color" />
+        <attr name="twsColorGrayLow" format="reference|color" />
+        <attr name="twsColorGreen" format="reference|color" />
+        <attr name="twsColorLightBody" format="reference|color" />
+        <attr name="twsColorLightBodySub" format="reference|color" />
+        <attr name="twsColorLightDisplay" format="reference|color" />
+        <attr name="twsColorLightSummary" format="reference|color" />
+        <attr name="twsColorLightTitle" format="reference|color" />
+        <attr name="twsColorOrange" format="reference|color" />
+        <attr name="twsColorRed" format="reference|color" />
+        <attr name="twsColorWhite" format="reference|color" />
+        <attr name="twsColorWhiteAlphaHight" format="reference|color" />
+        <attr name="twsColorWhiteAlphaLow" format="reference|color" />
+        <attr name="twsHomeAsUp" format="reference" />
+        <attr name="twsSecondColorGray" format="reference|color" />
+        <attr name="twsTextHintColor" format="reference|color" />
+        <attr name="twsTextLargerDarkTitle" format="reference" />
+        <attr name="twsTextLargerLightTitle" format="reference" />
+        <attr name="twsTextMediumDarkBody" format="reference" />
+        <attr name="twsTextMediumDarkBodyL" format="reference" />
+        <attr name="twsTextMediumDarkBodySub" format="reference" />
+        <attr name="twsTextMediumLightBody" format="reference" />
+        <attr name="twsTextMediumLightBodyL" format="reference" />
+        <attr name="twsTextMediumLightBodySub" format="reference" />
+        <attr name="twsTextMicroGray" format="reference" />
+        <attr name="twsTextSizeLarge" format="dimension" />
+        <attr name="twsTextSizeLarger" format="dimension" />
+        <attr name="twsTextSizeMedium" format="dimension" />
+        <attr name="twsTextSizeMicro" format="dimension" />
+        <attr name="twsTextSizeMini" format="dimension" />
+        <attr name="twsTextSizeSmall" format="dimension" />
+        <attr name="twsTextSizeSuper" format="dimension" />
+        <attr name="twsTextSizeSuperBig" format="dimension" />
+        <attr name="twsTextSizeSuperBiger" format="dimension" />
+        <attr name="twsTextSmallDarkBody" format="reference" />
+        <attr name="twsTextSmallLightBody" format="reference" />
+        <attr name="twsTextSuperBigDarkDisplay" format="reference" />
+        <attr name="twsTextSuperBigLightDisplay" format="reference" />
+        <attr name="twsTextSuperBigerDarkDisplay" format="reference" />
+        <attr name="twsTextSuperBigerLightDisplay" format="reference" />
+        <attr name="twsTextSuperDarkTitle" format="reference" />
+        <attr name="twsTextSuperLightTitle" format="reference" />
+        <attr name="twstextMicroDarkSummary" format="reference" />
+        <attr name="twstextMicroLightSummary" format="reference" />
+    </declare-styleable>
+    <declare-styleable name="twsPreference">
+        <attr name="preferenceArrow" format="boolean" />
+        <attr name="preferenceDivider" format="boolean" />
+        <attr name="preferenceRippleEffect" format="boolean" />
+    </declare-styleable>
+
+    <attr name="SideBarStyle" format="reference" />
+    <attr name="bottomAlertDialogStyle" format="reference" />
+    <attr name="bottomDialogTheme" format="reference" />
+    <attr name="bottomalertDialogTheme" format="reference" />
+    <attr name="segmentBarStyle" format="reference" />
+    <attr name="segmentButtonStyle" format="reference" />
+    <attr name="state_first_h" format="boolean" />
+    <attr name="state_first_v" format="boolean" />
+    <attr name="state_last_h" format="boolean" />
+    <attr name="state_last_v" format="boolean" />
+    <attr name="state_middle_h" format="boolean" />
+    <attr name="state_middle_v" format="boolean" />
+    <attr name="state_single_h" format="boolean" />
+    <attr name="state_single_v" format="boolean" />
+    <attr name="tabIndicatorStyle" format="reference" />
+    <attr name="textColor" format="reference|color" />
+    <attr name="textSize" format="dimension" />
+
+    <declare-styleable name="ActionMenuItemView">
+        <attr name="minWidth" />
+    </declare-styleable>
+    <declare-styleable name="TwsButton">
+        <attr name="text" format="string" />
+        <attr name="height" />
+        <attr name="radius" format="dimension" />
+        <attr name="twsButtonMode">
+            <enum name="normal" value="0" />
+            <enum name="recommended" value="1" />
+            <enum name="progress" value="2" />
+        </attr>
+        <attr name="normal_background" format="color" />
+        <attr name="focused_background" format="color" />
+        <attr name="pressed_background" format="color" />
+        <attr name="disabled_background" format="color" />
+        <attr name="normal_borderColor" format="color" />
+        <attr name="focused_borderColor" format="color" />
+        <attr name="pressed_borderColor" format="color" />
+        <attr name="disabled_borderColor" format="color" />
+        <attr name="borderWidth" format="dimension" />
+        <attr name="progressColor" format="color" />
+        <attr name="progress_borderColor" format="color" />
+        <attr name="android:max" />
+        <attr name="textSize" />
+        <attr name="textColor" />
+        <attr name="disabled_textColor" format="dimension" />
+    </declare-styleable>
+
+</resources>

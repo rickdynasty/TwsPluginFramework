@@ -1,0 +1,43 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <LinearLayout
+        android:id="@+id/content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
+
+        <Button
+            android:id="@+id/onClickHellowrld"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="3dp"
+            android:text="点击 唤起HelloWorld插件" />
+        <Button
+            android:id="@+id/onClickFacebook"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="点击 唤起facebook插件" />
+
+        <Button
+            android:id="@+id/test_base"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="点击进入测试框架基础能力" />
+
+
+        <Button
+            android:id="@+id/test_ShareWidget"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="点击进入测试共享控件" />
+        
+        <Button
+            android:id="@+id/onClickCommunicationDMA"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="点击进入测试和DMA通讯" />
+    </LinearLayout>
+
+</ScrollView>

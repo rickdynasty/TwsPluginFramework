@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sleepmode>
+  <!-- All values are in mAh except as noted -->
+	<item name="com.snda.tt"></item>
+	<item name="com.baozoumanhua.android"></item>
+	<item name="com.sina.weibo"></item>
+  <item name="com.sina.news"></item>
+	<item name="com.yoka.magazine"></item>
+	<item name="org.peter.corp.fruit.llk"></item>
+	<item name="com.wandoujia.phoenix2"></item>
+	<item name="com.tenpay.android"></item>
+	<item name="com.tencent.pengyou"></item>
+	<item name="com.tencent.news"></item>
+	<item name="com.silence.dcs"></item>
+	<item name="com.renren.mobile.chat"></item>
+	<item name="com.qzone"></item>
+	<item name="com.qq.qcloud"></item>
+	<item name="com.qihoo360.contacts"></item>
+	<item name="com.qihoo.appstore"></item>
+	<item name="com.qihoo360.mobilesafe"></item>
+	<item name="com.polarbit.rthunder2play"></item>
+	<item name="com.netease.pris"></item>
+	<item name="com.netease.newsreader.activity"></item>
+	<item name="com.nd.sms"></item>
+	<item name="com.jiubang.app.sports"></item>
+	<item name="com.google.android.apps.plus"></item>
+	<item name="com.feinno.felio"></item>
+	<item name="com.estrongs.android.pop"></item>
+	<item name="com.eg.android.AlipayGphone"></item>
+	<item name="com.disney.WMWLite"></item>
+	<item name="com.ailiaoicall"></item>
+	<item name="com.sohu.sohuvideo"></item>
+</sleepmode>

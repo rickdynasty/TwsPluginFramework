@@ -1,0 +1,13 @@
+/.settings
+/bin
+/gen
+/.idea
+/*.iml
+*.class
+*.classpath
+*.ap_
+proguard/
+/out
+local.properties
+/qrom.properties
+/project.properties

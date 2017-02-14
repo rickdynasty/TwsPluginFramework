@@ -1,0 +1,79 @@
+package com.tws.plugin.util;
+
+import tws.component.log.TwsLog;
+import android.app.ActivityManager;
+import android.content.ComponentName;
+import android.content.Context;
+import android.content.pm.PackageManager;
+import android.content.pm.ProviderInfo;
+
+import com.tws.plugin.core.PluginLoader;
+import com.tws.plugin.manager.PluginManagerProvider;
+
+public class ProcessUtil {
+
+	private static final String TAG = "rick_Print:ProcessUtil";
+	// 这是一个潜规则，插件的进程除PluginManagerProvider的标配外，其他的都统一规定前缀：
+	private static final String PLUGIN_MULTI_PROCESS_PREFIX = "com.tencent.tws.gdevicemanager:plugin";
+	private static Boolean isPluginProcess = null;
+	private static Boolean isHostProcess = null;
+
+	public static String getHostProcessName() {
+		return "com.tencent.tws.gdevicemanager";
+	}
+
+	public static boolean isPluginProcess(Context context) {
+		ensure(context);
+		return isPluginProcess;
+	}
+
+	public static boolean isHostProcess(Context context) {
+		ensure(context);
+		return isHostProcess;
+	}
+
+	private static void ensure(Context context) {
+		// 注意：当前宿主和插件是一个进程
+		if (isPluginProcess == null) {
+			String processName = getCurProcessName(context);
+			String pluginProcessName = getPluginProcessName(context);
+
+			isHostProcess = processName.equals(pluginProcessName);
+			isPluginProcess = isHostProcess || processName.startsWith(PLUGIN_MULTI_PROCESS_PREFIX);
+		}
+	}
+
+	public static boolean isPluginProcess() {
+		return isPluginProcess(PluginLoader.getApplication());
+	}
+
+	public static boolean isHostProcess() {
+		return isHostProcess(PluginLoader.getApplication());
+	}
+
+	private static String getCurProcessName(Context context) {
+		final int pid = android.os.Process.myPid();
+		TwsLog.d(TAG, "getCurProcessName pid=" + pid);
+		ActivityManager activityManager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+		for (ActivityManager.RunningAppProcessInfo appProcess : activityManager.getRunningAppProcesses()) {
+			if (appProcess.pid == pid) {
+				return appProcess.processName;
+			}
+		}
+		return "";
+	}
+
+	public static String getPluginProcessName(Context context) {
+		try {
+			// 这里取个巧, 直接查询ContentProvider的信息中包含的processName
+			// 因为Contentprovider是被配置在插件进程的.
+			// 但是这个api只支持9及以上,
+			ProviderInfo pinfo = context.getPackageManager().getProviderInfo(
+					new ComponentName(context, PluginManagerProvider.class), 0);
+			return pinfo.processName;
+		} catch (PackageManager.NameNotFoundException e) {
+			e.printStackTrace();
+		}
+		return "";
+	}
+}

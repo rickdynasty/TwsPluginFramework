@@ -1,0 +1,115 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<project name="build_template" default="build" basedir=".">
+
+    <property environment="env"/>
+    <!-- true表示服务器环境，false表示本地环境 -->
+    <property name="isCI" value="${env.CI}"/>
+    
+    <property name="LibBranchName" value="${env.LibBranchName}"/>
+    
+    <!-- 依赖工程配置 -->
+<!-- 	<condition property="appcompat_v7_phone.dir" value="appcompat_v7_phone/" else="../appcompat_v7_phone/">
+		<istrue value="${isCI}"/>
+	</condition> -->
+	
+		
+    <!--
+        这个build.xml是整个项目编译的入口，build_common.xml是具体的编译实现
+        为了修改和删除代码，所以脚本会让实现的逻辑在temp空间内进行，而不影响正式的代码）
+    -->
+
+    <target name="build">         
+        <antcall target="-pre-build" />
+        <delete dir="bin" />
+        <mkdir dir="bin"/>
+        <!-- 1. 编译release模式 -->
+        <!-- <exec_build target="build_release_implement"/> -->
+        <!-- 2. 编译debug模式 -->
+        <exec_build target="build_debug_implement"/>
+        <!-- 3. 编译release(internal)模式-->
+        <exec_build target="build_release_implement" internalmode="true"/>
+        <!-- 4. 编译debug(internal)模式 -->
+        <exec_build target="build_debug_implement" internalmode="true"/>
+        <antcall target="delete_gitlib" />
+    </target>
+    
+    <target name="build_release">
+        <delete dir="bin" />
+        <mkdir dir="bin"/>
+        <exec_build target="build_release_implement"/>
+    </target>
+
+    <target name="build_debug">
+        <delete dir="bin" />
+        <mkdir dir="bin"/>
+        <exec_build target="build_debug_implement"/>
+    </target>
+
+    <target name="build_release_internal">
+        <delete dir="bin" />
+        <mkdir dir="bin"/>
+        <exec_build target="build_release_implement" internalmode="true"/>
+    </target>
+
+    <target name="build_debug_internal">
+        <delete dir="bin" />
+        <mkdir dir="bin"/>
+        <exec_build target="build_debug_implement" internalmode="true"/>
+    </target>
+
+    <macrodef name="exec_build">
+        <attribute name="target"/>
+        <attribute name="internalmode" default="false"/>
+        <sequential>
+            <antcall target="-pre-build"/>
+            <ant antfile="build_common_template.xml" dir="temp" target="@{target}">
+                <property name="build_internal" value="@{internalmode}"/>
+            </ant>
+            <copy todir="bin" filtering="true">
+                <fileset dir="temp/bin"/>
+            </copy>
+            <delete dir="temp"/>
+        </sequential>
+    </macrodef>
+    
+    <!-- clone依赖工程 -->
+    <target name="git-clone" if="${isCI}">
+ <!--        <echo>LibBranchName = ${LibBranchName}</echo> -->
+<!--          <echo>git clone http://git.code.oa.com/wear/appcompat_v7_phone.git ${appcompat_v7_phone.dir} -b ${LibBranchName}</echo> -->
+<!--         <exec executable="git"> -->
+<!-- 		    <arg line="clone http://git.code.oa.com/wear/appcompat_v7_phone.git ${appcompat_v7_phone.dir} -b ${LibBranchName}"/> -->
+<!-- 		</exec> -->
+		
+    </target>
+    
+    <!-- 清理依赖工程 -->
+    <target name="delete_gitlib" if="${isCI}">
+<!-- 		<echo>删除git clone的appcompat_v7_phone文件 ...dir : ${appcompat_v7_phone.dir}</echo> -->
+<!-- 		<delete dir="${appcompat_v7_phone.dir}"/> -->
+    </target>
+
+    <target name="-pre-build">
+        
+        <delete dir="temp"/>
+        <mkdir dir="temp"/>
+        <copy todir="temp" filtering="true">
+            <fileset dir=".">
+                <exclude name="**/.svn/**"/>
+                <exclude name="**/.settings/**"/>
+                <exclude name="**/gen/**"/>
+                <exclude name="**/.git/**"/>
+                <exclude name="**/.idea/**"/>
+                <exclude name="**/out/**"/>
+                <exclude name="**/bin/**"/>
+            </fileset>
+        </copy>
+<!--         <copy todir="temp/appcompat_v7_phone"> -->
+<!--             <fileset dir="${appcompat_v7_phone.dir}"> -->
+<!--                 <include name="**/**"/> -->
+<!--             </fileset> -->
+<!--         </copy> -->        
+        <move file="temp/ant.project.properties" tofile="temp/project.properties">
+        </move>
+    </target>
+
+</project>

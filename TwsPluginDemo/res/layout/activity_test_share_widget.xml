@@ -1,0 +1,40 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <LinearLayout
+        android:id="@+id/content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
+
+        <Button
+            android:id="@+id/progress_dialog"
+            android:layout_width="fill_parent"
+            android:layout_height="50dp"
+            android:layout_margin="3dp"
+            android:text="Progress Dialog" />
+
+        <Button
+            android:id="@+id/widget_tabviewpager"
+            android:layout_width="fill_parent"
+            android:layout_height="50dp"
+            android:layout_margin="3dp"
+            android:text="TabViewpager" />
+
+        <Button
+            android:id="@+id/widget_toast"
+            android:layout_width="fill_parent"
+            android:layout_height="50dp"
+            android:layout_margin="3dp"
+            android:text="Toast" />
+
+        <Button
+            android:id="@+id/widget_sidebar"
+            android:layout_width="fill_parent"
+            android:layout_height="50dp"
+            android:layout_margin="3dp"
+            android:text="SideBar" />
+    </LinearLayout>
+
+</ScrollView>

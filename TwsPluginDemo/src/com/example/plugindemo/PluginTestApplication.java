@@ -6,9 +6,6 @@ import android.app.Application;
 import android.content.Context;
 import android.util.Log;
 
-import com.example.plugindemo.communicationdma.account.AccountTest;
-import com.example.plugindemo.communicationdma.cmd.CommandRegister;
-
 public class PluginTestApplication extends Application {
 
 	private static final String TAG = "rick_Pring:PluginTestApplication";
@@ -26,8 +23,6 @@ public class PluginTestApplication extends Application {
 			TwsLog.d(TAG, "api欺骗成功，让插件以为自己在主进程运行");
 		}
 		sContext = this;
-		CommandRegister.registerCommandHandler();
-		AccountTest.testGetAccountInfo();
 	}
 
 	private boolean isApplicationProcess() {

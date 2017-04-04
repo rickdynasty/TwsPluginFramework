@@ -23,7 +23,6 @@ import android.view.View.OnClickListener;
 import android.widget.Toast;
 
 import com.example.plugindemo.R;
-import com.example.plugindemo.communicationdma.CommunicationDMAActivity;
 import com.example.plugindemo.provider.PluginDbTables;
 import com.example.plugindemo.receiver.PluginTestReceiver2;
 import com.example.plugindemo.service.PluginTestService;
@@ -167,11 +166,6 @@ public class TestPluginCoreBaseActivity extends TwsActivity implements OnClickLi
 			break;
 		case R.id.test_notification:
 			testNotification();
-			break;
-		case R.id.onClickCommunicationDMA:
-			intent = new Intent();
-			intent.setClassName(this, CommunicationDMAActivity.class.getName());
-			startActivity(intent);
 			break;
 		default:
 			break;

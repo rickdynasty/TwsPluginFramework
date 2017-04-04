@@ -225,28 +225,6 @@
             android:name="com.example.plugindemo.provider.PluginContentProvider"
             android:authorities="com.example.plugindemo.provider"
             android:exported="true" />
-
-        <!-- 和DMA通讯 -->
-        <activity android:name="com.example.plugindemo.communicationdma.CommunicationDMAActivity" >
-            <intent-filter>
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
-        <activity android:name="com.example.plugindemo.communicationdma.FTDemoActivity" >
-            <intent-filter>
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
-        <activity android:name="com.example.plugindemo.communicationdma.filetransfer.FileTransferDemoActivity" >
-            <intent-filter>
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
-        <activity android:name="com.example.plugindemo.communicationdma.download.DownloadDemoActivity" >
-            <intent-filter>
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
     </application>
 
 </manifest>

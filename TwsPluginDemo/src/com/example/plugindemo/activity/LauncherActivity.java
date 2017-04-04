@@ -19,7 +19,6 @@ import android.view.Menu;
 import android.view.View;
 
 import com.example.plugindemo.R;
-import com.example.plugindemo.communicationdma.CommunicationDMAActivity;
 import com.tencent.tws.sharelib.SharePOJO;
 
 public class LauncherActivity extends TwsActivity implements View.OnClickListener {
@@ -68,7 +67,6 @@ public class LauncherActivity extends TwsActivity implements View.OnClickListene
 		findViewById(R.id.onClickFacebook).setOnClickListener(this);
 		findViewById(R.id.test_base).setOnClickListener(this);
 		findViewById(R.id.test_ShareWidget).setOnClickListener(this);
-		findViewById(R.id.onClickCommunicationDMA).setOnClickListener(this);
 
 		if (Build.VERSION.SDK_INT >= 21) {// Build.VERSION_CODES.KITKAT
 			findViewById(R.id.onClickFacebook).setOnClickListener(this);
@@ -92,11 +90,6 @@ public class LauncherActivity extends TwsActivity implements View.OnClickListene
 			break;
 		case R.id.test_ShareWidget:
 			testShareWidget();
-			break;
-		case R.id.onClickCommunicationDMA:
-			intent = new Intent();
-			intent.setClassName(this, CommunicationDMAActivity.class.getName());
-			startActivity(intent);
 			break;
 		default:
 			break;

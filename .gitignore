@@ -1,0 +1,10 @@
+/TwsPluginHelloWorld/bin/*
+/TwsPluginHelloWorld/gen/*
+/TwsShareLib/bin/*
+/TwsShareLib/gen/*
+/TwsPluginCore/bin/*
+/TwsPluginCore/gen/*
+/TwsPluginHost/bin/*
+/TwsPluginHost/gen/*
+/TwsPluginDemo/bin/*
+/TwsPluginDemo/gen/*

@@ -8,5 +8,7 @@
     <string name="notify_mgr">通知管理</string>
     <string name="settings">设置</string>
     <string name="watch_name">Pacewear</string>
-
+    
+    <!-- 首页 begin -->
+    <string name="home_my_watch">我的手表</string>
 </resources>

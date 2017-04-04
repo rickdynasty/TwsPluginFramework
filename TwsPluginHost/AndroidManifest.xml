@@ -135,7 +135,7 @@
             android:authorities="com.tencent.tws.pluginhost.manager"
             android:exported="false" />
         <provider
-            android:name="com.limpoxe.support.servicemanager.ServiceProvider"
+            android:name="com.tws.plugin.servicemanager.ServiceProvider"
             android:authorities="com.tencent.tws.pluginhost.svcmgr"
             android:exported="false" />
 
@@ -272,9 +272,9 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.tencent.tws.pluginhost.stub.PluginStubActivity0"
+            android:name=".stub.PluginStubActivity0"
             android:exported="true"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar" >
+            android:screenOrientation="portrait" >
             <intent-filter>
                 <action android:name="com.tencent.tws.pluginhost.STUB_DEFAULT" />
 
@@ -284,7 +284,8 @@
         <activity
             android:name=".stub.PluginStubActivity1"
             android:exported="true"
-            android:launchMode="singleTask" >
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" >
             <intent-filter>
                 <action android:name="com.tencent.tws.pluginhost.STUB_DEFAULT" />
 
@@ -294,7 +295,8 @@
         <activity
             android:name=".stub.PluginStubActivity2"
             android:exported="true"
-            android:launchMode="singleTask" >
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" >
             <intent-filter>
                 <action android:name="com.tencent.tws.pluginhost.STUB_DEFAULT" />
 
@@ -304,7 +306,8 @@
         <activity
             android:name=".stub.PluginStubActivity3"
             android:exported="true"
-            android:launchMode="singleTask" >
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" >
             <intent-filter>
                 <action android:name="com.tencent.tws.pluginhost.STUB_DEFAULT" />
 
@@ -314,7 +317,8 @@
         <activity
             android:name=".stub.PluginStubActivity4"
             android:exported="true"
-            android:launchMode="singleTask" >
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" >
             <intent-filter>
                 <action android:name="com.tencent.tws.pluginhost.STUB_DEFAULT" />
 
@@ -324,7 +328,8 @@
         <activity
             android:name=".stub.PluginStubActivity5"
             android:exported="true"
-            android:launchMode="singleTop" >
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait" >
             <intent-filter>
                 <action android:name="com.tencent.tws.pluginhost.STUB_DEFAULT" />
 
@@ -334,7 +339,8 @@
         <activity
             android:name=".stub.PluginStubActivity6"
             android:exported="true"
-            android:launchMode="singleTop" >
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait" >
             <intent-filter>
                 <action android:name="com.tencent.tws.pluginhost.STUB_DEFAULT" />
 
@@ -344,7 +350,8 @@
         <activity
             android:name=".stub.PluginStubActivity7"
             android:exported="true"
-            android:launchMode="singleTop" >
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait" >
             <intent-filter>
                 <action android:name="com.tencent.tws.pluginhost.STUB_DEFAULT" />
 
@@ -352,9 +359,10 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.tencent.tws.pluginhost.stub.PluginStubActivity8"
+            android:name=".stub.PluginStubActivity8"
             android:exported="true"
-            android:launchMode="singleInstance" >
+            android:launchMode="singleInstance"
+            android:screenOrientation="portrait" >
             <intent-filter>
                 <action android:name="com.tencent.tws.pluginhost.STUB_DEFAULT" />
 
@@ -364,7 +372,8 @@
         <activity
             android:name=".stub.PluginStubActivity9"
             android:exported="true"
-            android:launchMode="singleInstance" >
+            android:launchMode="singleInstance"
+            android:screenOrientation="portrait" >
             <intent-filter>
                 <action android:name="com.tencent.tws.pluginhost.STUB_DEFAULT" />
 
@@ -374,7 +383,8 @@
         <activity
             android:name=".stub.PluginStubActivity10"
             android:exported="true"
-            android:launchMode="singleInstance" >
+            android:launchMode="singleInstance"
+            android:screenOrientation="portrait" >
             <intent-filter>
                 <action android:name="com.tencent.tws.pluginhost.STUB_DEFAULT" />
 

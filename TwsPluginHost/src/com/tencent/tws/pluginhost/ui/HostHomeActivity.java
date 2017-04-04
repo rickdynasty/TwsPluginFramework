@@ -8,12 +8,17 @@ import java.util.HashMap;
 import tws.component.log.TwsLog;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.FrameLayout;
 
+import com.tencent.tws.assistant.app.ActionBar;
 import com.tencent.tws.assistant.support.v4.app.Fragment;
 import com.tencent.tws.assistant.support.v4.app.FragmentPagerAdapter;
 import com.tencent.tws.assistant.support.v4.app.TwsFragmentActivity;
 import com.tencent.tws.assistant.widget.Toast;
+import com.tencent.tws.framework.utils.HostProxy;
+import com.tencent.tws.pluginhost.HostApplication;
 import com.tencent.tws.pluginhost.R;
 import com.tencent.tws.pluginhost.content.CellItem.ComponentName;
 import com.tencent.tws.pluginhost.ui.view.Hotseat;
@@ -47,6 +52,11 @@ public class HostHomeActivity extends TwsFragmentActivity {
 	private HashMap<String, Integer> mPluginMywatchPos = new HashMap<String, Integer>();
 	private final int POS_WEIGHT = 5; // 位置信息的权重值
 
+	private int mNormalTextColor;
+	private int mFocusTextColor;
+	// private HomeBar mHomeBar;
+	private ActionBar mActionBar;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -54,6 +64,9 @@ public class HostHomeActivity extends TwsFragmentActivity {
 		setContentView(R.layout.activity_home);
 		mHotseat = (Hotseat) findViewById(R.id.home_bottom_tab);
 		mFragmentContainer = (FrameLayout) findViewById(R.id.home_fragment_container);
+
+		mNormalTextColor = getResources().getColor(R.color.home_bottom_tab_text_default_color);
+		mFocusTextColor = getResources().getColor(R.color.home_bottom_tab_text_pressed_color);
 
 		initPluginPosFromConfig(POS_HOTSEAT);
 		initPluginPosFromConfig(POS_HOME_FRAGEMENT);
@@ -75,11 +88,68 @@ public class HostHomeActivity extends TwsFragmentActivity {
 			}
 
 		};
+
+		initActionBar();
+		
+		// 默认聚焦位置
+		final int fouceIndex = mHotseat.getPosByClassId(((HostApplication) HostApplication.getInstance()).getFouceTabClassId());
+		switchFragment(mHotseat.setFocusIndex(fouceIndex));
 	}
 
 	private void initHotseat() {
-		// TODO Auto-generated method stub
+		if (mHotseat == null) {
+			mHotseat = (Hotseat) findViewById(R.id.home_bottom_tab);
+		}
 
+		if (mHotseat == null) {
+			TwsLog.e(TAG, "initBottomTabView() mHotseat is null");
+			return;
+		}
+		// 添加my watch fragment
+		mHotseat.addOneBottomButton(Hotseat.MY_WATCH_FRAGMENT, null, Hotseat.FRAGMENT_COMPONENT, getResources()
+				.getString(R.string.home_my_watch),
+				getResources().getDrawable(R.drawable.home_bottom_tab_my_watch_default),
+				getResources().getDrawable(R.drawable.home_bottom_tab_my_watch_pressed), mNormalTextColor,
+				mFocusTextColor, 0);
+
+		// 其他的根据插件配置来
+		for (DisplayInfo info : mHotseatDisplayInfos) {
+			// 当前Hotseat上暂时之放置fragment
+			if (info.componentType != DisplayConfig.TYPE_FRAGMENT) {
+				continue;
+			}
+
+			mHotseat.addOneBottomButtonForPlugin(info, mNormalTextColor, mFocusTextColor, false);
+		}
+	}
+
+	private void initActionBar() {
+		mActionBar = getTwsActionBar();
+		mActionBar.getActionBarHome().setVisibility(View.GONE);
+		mActionBar.getRightButtonView().setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				// handleActionBarRightButtonClick();
+			}
+		});
+		mActionBar.getRightButtonView().setClickable(false);
+	}
+
+	// 这个函数同步FragmentPagerAdapter，建议直接用FragmentPagerAdapter里面的接口
+	private String makeFragmentName(int viewId, long id) {
+		return "android:switcher:" + viewId + ":" + id;
+	}
+
+	private void switchFragment(int tagIndex) {
+		if (tagIndex < 0) {
+			TwsLog.e(TAG, "我的乖乖，怎么会有位置是：" + tagIndex + " 的内容可以切换咧，得check一下是否Hotseat没有内容？");
+			return;
+		}
+
+		TwsLog.d(TAG, "switchFragment:" + tagIndex);
+		Fragment fragment = (Fragment) mFragmentPagerAdapter.instantiateItem(mFragmentContainer, tagIndex);
+		mFragmentPagerAdapter.setPrimaryItem(mFragmentContainer, tagIndex, fragment);
+		mFragmentPagerAdapter.finishUpdate(mFragmentContainer);
 	}
 
 	private void initPluginsDisplayInfo() {

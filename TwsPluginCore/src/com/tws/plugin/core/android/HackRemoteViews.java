@@ -25,9 +25,13 @@ public class HackRemoteViews {
 		return (Integer) RefInvoker.getField(instance, ClassName, Field_mLayoutId);
 	}
 
-	public void setApplicationInfo(ApplicationInfo info) {
-		RefInvoker.setField(instance, ClassName, Field_mApplication, info);
-	}
+    public void setLayoutId(int layoutId) {
+        RefInvoker.setField(instance, ClassName, Field_mLayoutId, new Integer(layoutId));
+    }
+
+    public void setApplicationInfo(ApplicationInfo info) {
+        RefInvoker.setField(instance, ClassName, Field_mApplication, info);
+    }
 
 	public void setPackage(String packageName) {
 		RefInvoker.setField(instance, ClassName, Field_mPackage, packageName);

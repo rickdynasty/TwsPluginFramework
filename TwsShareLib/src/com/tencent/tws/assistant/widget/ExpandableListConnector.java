@@ -637,6 +637,9 @@ class ExpandableListConnector extends BaseAdapter implements Filterable {
     boolean expandGroup(int groupPos) {
         PositionMetadata pm = getFlattenedPos(ExpandableListPosition.obtain(
                 ExpandableListPosition.GROUP, groupPos, -1, -1));
+        if (pm == null) {
+        	return false;
+        }
         boolean retValue = expandGroup(pm);
         pm.recycle();
         return retValue;

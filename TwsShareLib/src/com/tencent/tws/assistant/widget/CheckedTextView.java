@@ -23,6 +23,8 @@ import android.graphics.Canvas;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.AnimationDrawable;
 import android.graphics.drawable.Drawable;
+import android.support.annotation.DrawableRes;
+import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.ViewDebug;
@@ -31,8 +33,6 @@ import android.widget.TextView;
 
 import com.tencent.tws.assistant.drawable.TwsAnimatedStateListDrawable;
 import com.tencent.tws.assistant.drawable.TwsRippleDrawable;
-import com.tencent.tws.assistant.support.annotation.DrawableRes;
-import com.tencent.tws.assistant.support.annotation.Nullable;
 import com.tencent.tws.assistant.utils.ThemeUtils;
 import com.tencent.tws.sharelib.R;
 

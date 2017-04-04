@@ -2642,15 +2642,12 @@ public class TwsGridView extends AbsListView {
                         && mHeaderViewInfos.get(position / mNumColumns).isSelectable;
             }
 
-            if (position < numHeadersAndPlaceholders + mAdapter.getCount()) {
+            if (mAdapter != null && position < numHeadersAndPlaceholders + mAdapter.getCount()) {
                 final int adjPosition = position - numHeadersAndPlaceholders;
-                int adapterCount = 0;
-                if (mAdapter != null) {
-                    adapterCount = mAdapter.getCount();
-                    if (adjPosition < adapterCount) {
-                        return mAdapter.isEnabled(adjPosition);
-                    }
-                }
+				int adapterCount = mAdapter.getCount();
+				if (adjPosition < adapterCount) {
+					return mAdapter.isEnabled(adjPosition);
+				}
             }
 
             if (position < numHeadersAndPlaceholders + mAdapter.getCount() + (mAdapter.getCount() % mNumColumns)) {
@@ -2676,15 +2673,12 @@ public class TwsGridView extends AbsListView {
                 return null;
             }
 
-            if (position < numHeadersAndPlaceholders + mAdapter.getCount()) {
+            if (mAdapter != null && position < numHeadersAndPlaceholders + mAdapter.getCount()) {
                 final int adjPosition = position - numHeadersAndPlaceholders;
-                int adapterCount = 0;
-                if (mAdapter != null) {
-                    adapterCount = mAdapter.getCount();
-                    if (adjPosition < adapterCount) {
-                        return mAdapter.getItem(adjPosition);
-                    }
-                }
+				int adapterCount = mAdapter.getCount();
+				if (adjPosition < adapterCount) {
+					return mAdapter.getItem(adjPosition);
+				}
             }
 
             if (position < numHeadersAndPlaceholders + mAdapter.getCount() + (mAdapter.getCount() % mNumColumns)) {
@@ -2740,15 +2734,13 @@ public class TwsGridView extends AbsListView {
                 }
             }
 
-            if (position < numHeadersAndPlaceholders + mAdapter.getCount()) {
+            if (mAdapter != null && (position < numHeadersAndPlaceholders + mAdapter.getCount())) {
                 final int adjPosition = position - numHeadersAndPlaceholders;
                 int adapterCount = 0;
-                if (mAdapter != null) {
-                    adapterCount = mAdapter.getCount();
-                    if (adjPosition < adapterCount) {
-                        return mAdapter.getView(adjPosition, convertView, parent);
-                    }
-                }
+				adapterCount = mAdapter.getCount();
+				if (adjPosition < adapterCount) {
+					return mAdapter.getView(adjPosition, convertView, parent);
+				}
             }
 
             if (position < numHeadersAndPlaceholders + mAdapter.getCount() + (mAdapter.getCount() % mNumColumns)) {

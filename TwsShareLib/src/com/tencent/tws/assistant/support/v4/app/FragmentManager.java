@@ -801,16 +801,6 @@ final class FragmentManagerImpl extends FragmentManager {
             return null;
         }
         
-        //TypedArray attrs = mActivity.obtainStyledAttributes(transitionStyle,
-        //        com.android.internal.R.styleable.FragmentAnimation);
-        //int anim = attrs.getResourceId(styleIndex, 0);
-        //attrs.recycle();
-        
-        //if (anim == 0) {
-        //    return null;
-        //}
-        
-        //return AnimatorInflater.loadAnimator(mActivity, anim);
         return null;
     }
     

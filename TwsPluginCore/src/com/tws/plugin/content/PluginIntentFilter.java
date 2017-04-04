@@ -1099,15 +1099,6 @@ public class PluginIntentFilter implements Serializable {
                     addDataScheme(name);
                 }
                 
-//                String ssp = parser.getAttributeValue(null, SSP_STR);
-//                if (ssp != null) {
-//                    addDataSchemeSpecificPart(ssp, PluginPatternMatcher.PATTERN_LITERAL);
-//                } else if ((ssp=parser.getAttributeValue(null, PREFIX_STR)) != null) {
-//                    addDataSchemeSpecificPart(ssp, PluginPatternMatcher.PATTERN_PREFIX);
-//                } else if ((ssp=parser.getAttributeValue(null, SGLOB_STR)) != null) {
-//                    addDataSchemeSpecificPart(ssp, PluginPatternMatcher.PATTERN_SIMPLE_GLOB);
-//                }
-            
                 //AUTH_STR
                 String host = parser.getAttributeValue(null, HOST_STR);
                 String port = parser.getAttributeValue(null, PORT_STR);

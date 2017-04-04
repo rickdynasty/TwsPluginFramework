@@ -7,6 +7,7 @@ import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import tws.component.log.TwsLog;
 import android.app.Application;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -37,6 +38,7 @@ import com.tws.plugin.util.ProcessUtil;
  * 注意：意外覆写父类方法可能会抛出LingageError 也就是说如果要在这个类里添加非override的public方法的话要小心了。
  */
 public class PluginContextTheme extends PluginBaseContextWrapper {
+	private static final String TAG = "rick_Print_TT:PluginContextTheme";
 	private int mThemeResource;
 	Resources.Theme mTheme;
 	private LayoutInflater mInflater;
@@ -145,14 +147,9 @@ public class PluginContextTheme extends PluginBaseContextWrapper {
 
 	@Override
 	public String getPackageName() {
-
-		// packagemanager、activitymanager、wifi、window、inputservice
-		// 等等系统服务会获取packageName去查询信息，如果获取到插件的packageName则会crash
-		// 而这里返回的正是插件本身的packageName, 因此需要通过安装AndroidOsServiceManager这个hook去修正,
-		// 如果不安装AndroidOsServiceManager或者安装失败,这里应当返回宿主的packageName
-		return mPluginDescriptor.getPackageName();
-		// return PluginLoader.getApplication().getPackageName();
-
+		// packagemanager、activitymanager、wifi、window、inputservice、toast等等系统服务会获取上下文的packageName去查询信息，
+		// 插件自身的packageName对系统而言是不合法的，这里必须用宿主的packageName
+		return PluginLoader.getApplication().getPackageName();
 	}
 
 	// @hide
@@ -251,27 +248,36 @@ public class PluginContextTheme extends PluginBaseContextWrapper {
 	 */
 	@Override
 	public SharedPreferences getSharedPreferences(String name, int mode) {
-
 		if (Build.VERSION.SDK_INT > 23) {
 			synchronized (PluginContextTheme.class) {
 				HackContextImpl impl = new HackContextImpl(getContextImpl());
 
 				ArrayMap<String, File> mSharedPrefsPaths = impl.getSharedPrefsPaths();
-				String parent = new File(getDataDir(), "shared_prefs").getAbsolutePath();
+				File sharedPrefsFile = new File(getPluginRootDir(), "shared_prefs");
+				String sharedPrefsPath = sharedPrefsFile.getAbsolutePath();
+				TwsLog.w(TAG, "getSharedPreferences sharedPrefsFile is " + sharedPrefsPath);
 				if (mSharedPrefsPaths != null) {
 					File file = mSharedPrefsPaths.get(name);
-					if (file != null && !file.getParent().equals(parent)) {
+
+					// log
+					if (file != null) {
+						TwsLog.w(TAG, "mSharedPrefsPaths.get:" + name + " is " + file.getAbsolutePath());
+					}
+
+					if (file != null && !file.getParent().equals(sharedPrefsPath)) {
+						TwsLog.w(TAG, "mSharedPrefsPaths.remove:" + name);
 						mSharedPrefsPaths.remove(name);// 置空之后再get会触发重建，则getDataDir有机会生效
 					}
 				}
 
 				File mPreferencesDir = impl.getPreferencesDir();
-				if (mPreferencesDir == null || !mPreferencesDir.getAbsolutePath().equals(parent)) {
-					impl.setPreferencesDir(new File(getDataDir(), "shared_prefs"));
+				if (mPreferencesDir == null || !mPreferencesDir.getAbsolutePath().equals(sharedPrefsPath)) {
+					TwsLog.w(TAG, "impl.setPreferencesDir(sharedPrefsFile)");
+					impl.setPreferencesDir(sharedPrefsFile);
 				}
 			}
 
-			return super.getSharedPreferences(name, mode);
+			return getSharedPreferencesEx(name, mode);
 		}
 
 		// 这里之所以需要追加前缀是因为ContextImpl类中的全局静态缓存sSharedPrefs
@@ -321,12 +327,12 @@ public class PluginContextTheme extends PluginBaseContextWrapper {
 		if (!name.startsWith(mPluginDescriptor.getPackageName() + "_")) {
 			name = mPluginDescriptor.getPackageName() + "_" + name;
 		}
-		return makeFilename(new File(getDataDir(), "shared_prefs"), name + ".xml");
+		return makeFilename(new File(getPluginRootDir(), "shared_prefs"), name + ".xml");
 	}
 
 	@Override
 	public File getDir(String name, int mode) {
-		File dir = makeFilename(getDataDir(), "app_" + name);
+		File dir = makeFilename(getPluginRootDir(), "app_" + name);
 		if (!dir.exists()) {
 			dir.mkdirs();
 			// setpermisssion
@@ -336,7 +342,7 @@ public class PluginContextTheme extends PluginBaseContextWrapper {
 
 	@Override
 	public File getFilesDir() {
-		File dir = new File(getDataDir(), "files");
+		File dir = new File(getPluginRootDir(), "files");
 		if (!dir.exists()) {
 			dir.mkdirs();
 			// setpermisssion
@@ -370,7 +376,7 @@ public class PluginContextTheme extends PluginBaseContextWrapper {
 
 	@Override
 	public File getNoBackupFilesDir() {
-		File dir = new File(getDataDir(), "no_backup");
+		File dir = new File(getPluginRootDir(), "no_backup");
 		if (!dir.exists()) {
 			dir.mkdirs();
 			// setpermisssion
@@ -380,7 +386,7 @@ public class PluginContextTheme extends PluginBaseContextWrapper {
 
 	@Override
 	public File getCacheDir() {
-		File dir = new File(getDataDir(), "cache");
+		File dir = new File(getPluginRootDir(), "cache");
 		if (!dir.exists()) {
 			dir.mkdirs();
 			// setpermisssion
@@ -390,7 +396,7 @@ public class PluginContextTheme extends PluginBaseContextWrapper {
 
 	@Override
 	public File getCodeCacheDir() {
-		File dir = new File(getDataDir(), "code_cache");
+		File dir = new File(getPluginRootDir(), "code_cache");
 		if (!dir.exists()) {
 			dir.mkdirs();
 			// setpermisssion
@@ -425,7 +431,7 @@ public class PluginContextTheme extends PluginBaseContextWrapper {
 
 	@Override
 	public String[] databaseList() {
-		File f = new File(getDataDir(), "databases");
+		File f = new File(getPluginRootDir(), "databases");
 		final String[] list = f.list();
 		return (list != null) ? list : EMPTY_STRING_ARRAY;
 	}
@@ -444,7 +450,7 @@ public class PluginContextTheme extends PluginBaseContextWrapper {
 
 	private String getAbsuloteDatabasePath(String name) {
 		if (name.charAt(0) != File.separatorChar) {
-			File f = makeFilename(new File(getDataDir(), "databases"), name);
+			File f = makeFilename(new File(getPluginRootDir(), "databases"), name);
 			name = f.getAbsolutePath();
 		}
 		return name;
@@ -467,12 +473,13 @@ public class PluginContextTheme extends PluginBaseContextWrapper {
 
 	// android-N
 	// @Override
-	public File getDataDir() {
+	public File getPluginRootDir() {
 		if (dataDir == null) {
-			dataDir = new File(new File(mPluginDescriptor.getInstalledPath()).getParentFile().getParentFile(), "data");
+			File pluginFile = new File(mPluginDescriptor.getInstalledPath());
+			TwsLog.d(TAG, "getDataDir pluginFile is " + pluginFile.getAbsolutePath());
+			dataDir = new File(pluginFile.getParentFile().getParentFile(), "data");
 			if (!dataDir.exists()) {
 				dataDir.mkdirs();
-				// setpermisssion
 			}
 		}
 		return dataDir;
@@ -487,18 +494,5 @@ public class PluginContextTheme extends PluginBaseContextWrapper {
 			base = new HackContextImpl(base).getOuterContext();
 		}
 		return base;
-	}
-
-	private Object getContextImpl() {
-		int dep = 0;// 这个dep限制是以防万一陷入死循环
-		Context base = getBaseContext();
-		while (base instanceof ContextWrapper && dep < 10) {
-			base = ((ContextWrapper) base).getBaseContext();
-			dep++;
-		}
-		if (HackContextImpl.instanceOf(base)) {
-			return base;
-		}
-		return null;
 	}
 }

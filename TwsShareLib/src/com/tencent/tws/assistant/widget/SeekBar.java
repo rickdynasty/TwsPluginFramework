@@ -21,9 +21,9 @@ import android.content.res.ColorStateList;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
+import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 
-import com.tencent.tws.assistant.support.annotation.Nullable;
 import com.tencent.tws.assistant.utils.ThemeUtils;
 import com.tencent.tws.sharelib.R;
 

@@ -1,11 +1,15 @@
 package com.tws.plugin.core;
 
+import java.util.HashMap;
+
 import tws.component.log.TwsLog;
-import android.app.Service;
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.Intent;
-import android.os.IBinder;
+import android.text.TextUtils;
+
+import com.tws.plugin.bridge.TwsPluginBridgeReceiver;
+import com.tws.plugin.bridge.TwsPluginBridgeService;
+import com.tws.plugin.content.PluginDescriptor;
+import com.tws.plugin.manager.PluginManagerHelper;
+
 import dalvik.system.DexClassLoader;
 
 /**
@@ -17,6 +21,12 @@ import dalvik.system.DexClassLoader;
 public class HostClassLoader extends DexClassLoader {
 
 	private static final String TAG = "rick_Print:HostClassLoader";
+	private static HashMap<String, String> sPluginInHostAMF_ServiceMap = new HashMap<String, String>();
+	static {
+		sPluginInHostAMF_ServiceMap.clear();
+//		sPluginInHostAMF_ServiceMap.put("com.pacewear.tws.demo.service.PaceService", "com.example.plugindemo");
+		sPluginInHostAMF_ServiceMap.put("com.pacewear.tws.wallet.service.PaceApduService", "com.pacewear.tws.phoneside.wallet");
+	}
 
 	public HostClassLoader(String dexPath, String optimizedDirectory, String libraryPath, ClassLoader parent) {
 		super(dexPath, optimizedDirectory, libraryPath, parent);
@@ -48,7 +58,7 @@ public class HostClassLoader extends DexClassLoader {
 			// 在serviceDoneExecuting这个方法里面, 会将这个service再还原成插件的servcie对象
 			if (className.equals(PluginIntentResolver.CLASS_PREFIX_SERVICE + "null")) {
 				TwsLog.e(TAG, "到了这里说明出bug了,这里做个容错处理, 避免出现classnotfound");
-				return TolerantService.class;
+				return TwsPluginBridgeService.class;
 			} else {
 				return PluginShadowService.class;
 			}
@@ -57,31 +67,33 @@ public class HostClassLoader extends DexClassLoader {
 
 			String realName = className.replace(PluginIntentResolver.CLASS_PREFIX_RECEIVER, "");
 
-			Class clazz = PluginLoader.loadPluginClassByName(realName);
+			Class<?> clazz = PluginLoader.loadPluginClassByName(realName);
 			if (clazz != null) {
 				TwsLog.d(TAG, "className is " + className + " target is " + realName
 						+ (clazz == null ? " null" : " found"));
 				return clazz;
 			} else {
 				TwsLog.e(TAG, "到了这里说明出bug了,这里做个容错处理, 避免出现classnotfound");
-				return TolerantBroadcastReceiver.class;
+				return TwsPluginBridgeReceiver.class;
+			}
+		} else {
+			final String pluginId = sPluginInHostAMF_ServiceMap.get(className);
+			if (!TextUtils.isEmpty(pluginId)) {
+				PluginDescriptor pluginDescriptor = PluginManagerHelper.getPluginDescriptorByPluginId(pluginId);
+				if (pluginDescriptor != null) {
+					Class<?> clazz = PluginLoader.loadPluginClassByName(pluginDescriptor, className);
+					if (clazz != null) {
+						TwsLog.d(TAG, "className is " + className + " target is in plugin:" + className
+								+ (clazz == null ? " null" : " found"));
+						return clazz;
+					}
+				}
+
+				TwsLog.e(TAG, "到了这里说明出bug了,这里做个容错处理, 避免出现classnotfound");
+				return TwsPluginBridgeService.class;
 			}
 		}
 
 		return super.loadClass(className, resolve);
 	}
-
-	public static class TolerantBroadcastReceiver extends BroadcastReceiver {
-		@Override
-		public void onReceive(Context context, Intent intent) {
-		}
-	}
-
-	public static class TolerantService extends Service {
-		@Override
-		public IBinder onBind(Intent intent) {
-			return null;
-		}
-	}
-
 }

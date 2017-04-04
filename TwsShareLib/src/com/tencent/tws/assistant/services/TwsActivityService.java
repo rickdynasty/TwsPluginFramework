@@ -167,6 +167,9 @@ public class TwsActivityService {
 	ArrayList<String> twsmBacklistApp = new ArrayList<String>();
     void twsReadBlackListAppPkgNameFromXml(Context ctx){
     	XmlResourceParser parser = ctx.getResources().getXml(R.xml.sleepmode_blacklist);
+    	if (parser == null) {
+    		return;
+    	}
     	try {
 			XmlUtils.beginDocument(parser, QROM_TAG_DEVICE);
 			

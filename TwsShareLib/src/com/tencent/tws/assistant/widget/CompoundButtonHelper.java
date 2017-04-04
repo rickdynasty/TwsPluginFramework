@@ -16,18 +16,18 @@
 
 package com.tencent.tws.assistant.widget;
 
-import com.tencent.tws.assistant.support.annotation.Nullable;
-import com.tencent.tws.assistant.support.v4.graphics.drawable.DrawableCompat;
-import com.tencent.tws.assistant.support.v4.widget.CompoundButtonCompat;
-import com.tencent.tws.sharelib.R;
-
 import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
+import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.widget.CompoundButton;
+
+import com.tencent.tws.assistant.support.v4.graphics.drawable.DrawableCompat;
+import com.tencent.tws.assistant.support.v4.widget.CompoundButtonCompat;
+import com.tencent.tws.sharelib.R;
 
 class CompoundButtonHelper {
 

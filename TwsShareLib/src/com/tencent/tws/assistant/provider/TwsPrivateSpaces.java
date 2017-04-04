@@ -176,6 +176,9 @@ public class TwsPrivateSpaces {
 			if (privateSpace <= 0) return -1;
 			
 			String email = getPrivateSpaceEmail(context);
+			if (email == null) {
+				return -1;
+			}
 			if (!email.equals(oldEmail)) return -1;
 			
 			ContentValues values = new ContentValues();

@@ -1,5 +1,7 @@
 package com.tws.plugin.util;
 
+import java.util.List;
+
 import tws.component.log.TwsLog;
 import android.app.ActivityManager;
 import android.content.ComponentName;
@@ -55,7 +57,8 @@ public class ProcessUtil {
 		final int pid = android.os.Process.myPid();
 		TwsLog.d(TAG, "getCurProcessName pid=" + pid);
 		ActivityManager activityManager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
-		for (ActivityManager.RunningAppProcessInfo appProcess : activityManager.getRunningAppProcesses()) {
+		List<ActivityManager.RunningAppProcessInfo> list = activityManager.getRunningAppProcesses();
+		for (ActivityManager.RunningAppProcessInfo appProcess : list) {
 			if (appProcess.pid == pid) {
 				return appProcess.processName;
 			}

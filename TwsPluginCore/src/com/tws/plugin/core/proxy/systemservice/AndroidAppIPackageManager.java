@@ -17,11 +17,13 @@ import android.content.pm.ProviderInfo;
 import android.content.pm.ResolveInfo;
 import android.content.pm.ServiceInfo;
 import android.os.Build;
+import android.text.TextUtils;
 
 import com.tws.plugin.content.ComponentInfo;
 import com.tws.plugin.content.PluginActivityInfo;
 import com.tws.plugin.content.PluginDescriptor;
 import com.tws.plugin.content.PluginProviderInfo;
+import com.tws.plugin.core.PluginIntentResolver;
 import com.tws.plugin.core.PluginLoader;
 import com.tws.plugin.core.android.HackActivityThread;
 import com.tws.plugin.core.android.HackApplicationPackageManager;
@@ -42,7 +44,7 @@ public class AndroidAppIPackageManager extends MethodProxy {
 
 	static {
 		sMethods.put("getInstalledPackages", new getInstalledPackages());
-		sMethods.put("getPackageInfo", new getPackageInfo());
+//		sMethods.put("getPackageInfo", new getPackageInfo());
 		sMethods.put("getApplicationInfo", new getApplicationInfo());
 		sMethods.put("getActivityInfo", new getActivityInfo());
 		sMethods.put("getReceiverInfo", new getReceiverInfo());
@@ -56,42 +58,42 @@ public class AndroidAppIPackageManager extends MethodProxy {
 	}
 
 	public static void installProxy(PackageManager manager) {
-		TwsLog.d(TAG, "安装PackageManagerProxy");
+		TwsLog.i(TAG, "安装PackageManagerProxy");
 		Object androidAppIPackageManagerStubProxy = HackActivityThread.getPackageManager();
 		Object androidAppIPackageManagerStubProxyProxy = ProxyUtil.createProxy(androidAppIPackageManagerStubProxy,
 				new AndroidAppIPackageManager());
 		HackActivityThread.setPackageManager(androidAppIPackageManagerStubProxyProxy);
 		HackApplicationPackageManager hackApplicationPackageManager = new HackApplicationPackageManager(manager);
 		hackApplicationPackageManager.setPM(androidAppIPackageManagerStubProxyProxy);
-		TwsLog.d(TAG, "安装完成");
+		TwsLog.i(TAG, "安装完成");
 	}
 
-	public static class getPackageInfo extends MethodDelegate {
-		@Override
-		public Object beforeInvoke(Object target, Method method, Object[] args) {
-			String packageName = (String) args[0];
-			TwsLog.d(TAG, "beforeInvoke method:" + method.getName() + " packageName:" + packageName);
-			if (!packageName.equals(PluginLoader.getApplication().getPackageName())) {
-				PluginDescriptor pluginDescriptor = PluginManagerHelper.getPluginDescriptorByPluginId(packageName);
-				if (pluginDescriptor != null) {
-					PackageInfo packageInfo = PluginLoader.getApplication().getPackageManager()
-							.getPackageArchiveInfo(pluginDescriptor.getInstalledPath(), (Integer) args[1]);
-					if (packageInfo.applicationInfo != null) {
-						packageInfo.applicationInfo.sourceDir = pluginDescriptor.getInstalledPath();
-						packageInfo.applicationInfo.publicSourceDir = pluginDescriptor.getInstalledPath();
-					}
-					return packageInfo;
-				}
-			}
-			return super.beforeInvoke(target, method, args);
-		}
-	}
+//	public static class getPackageInfo extends MethodDelegate {
+//		@Override
+//		public Object beforeInvoke(Object target, Method method, Object[] args) {
+//			String packageName = (String) args[0];
+//			TwsLog.i(TAG, "beforeInvoke method:" + method.getName() + " packageName:" + packageName);
+//			if (!packageName.equals(PluginLoader.getApplication().getPackageName())) {
+//				PluginDescriptor pluginDescriptor = PluginManagerHelper.getPluginDescriptorByPluginId(packageName);
+//				if (pluginDescriptor != null) {
+//					PackageInfo packageInfo = PluginLoader.getApplication().getPackageManager()
+//							.getPackageArchiveInfo(pluginDescriptor.getInstalledPath(), (Integer) args[1]);
+//					if (packageInfo.applicationInfo != null) {
+//						packageInfo.applicationInfo.sourceDir = pluginDescriptor.getInstalledPath();
+//						packageInfo.applicationInfo.publicSourceDir = pluginDescriptor.getInstalledPath();
+//					}
+//					return packageInfo;
+//				}
+//			}
+//			return super.beforeInvoke(target, method, args);
+//		}
+//	}
 
 	public static class getInstalledPackages extends MethodDelegate {
 
 		@Override
 		public Object afterInvoke(Object target, Method method, Object[] args, Object beforeResult, Object invokeResult) {
-			TwsLog.d(TAG, "afterInvoke method:" + method.getName());
+			TwsLog.i(TAG, "afterInvoke method:" + method.getName());
 
 			if (Build.VERSION.SDK_INT >= 18) {// android4.3
 				Collection<PluginDescriptor> plugins = PluginManagerHelper.getPlugins();
@@ -122,9 +124,9 @@ public class AndroidAppIPackageManager extends MethodProxy {
 	public static class queryIntentActivities extends MethodDelegate {
 		@Override
 		public Object beforeInvoke(Object target, Method method, Object[] args) {
-			TwsLog.d(TAG, "beforeInvoke method:" + method.getName());
+			TwsLog.i(TAG, "beforeInvoke method:" + method.getName());
 			final String packageName = PluginLoader.getPackageName((Intent) args[0]);
-			ArrayList<ComponentInfo> componentInfos = PluginLoader.matchPlugin((Intent) args[0],
+			ArrayList<ComponentInfo> componentInfos = PluginIntentResolver.matchPlugin((Intent) args[0],
 					PluginDescriptor.ACTIVITY, packageName);
 			if (componentInfos != null && componentInfos.size() > 0) {
 				PluginDescriptor pluginDescriptor = PluginLoader.getApplication().getPackageName().equals(packageName) ? PluginManagerHelper
@@ -158,7 +160,7 @@ public class AndroidAppIPackageManager extends MethodProxy {
 		@Override
 		public Object beforeInvoke(Object target, Method method, Object[] args) {
 			String packageName = (String) args[0];
-			TwsLog.d(TAG, "beforeInvoke method:" + method.getName() + " packageName:" + packageName);
+			TwsLog.i(TAG, "beforeInvoke method:" + method.getName() + " packageName:" + packageName);
 			if (!packageName.equals(PluginLoader.getApplication().getPackageName())) {
 				PluginDescriptor pluginDescriptor = PluginManagerHelper.getPluginDescriptorByPluginId(packageName);
 				if (pluginDescriptor != null) {
@@ -174,7 +176,7 @@ public class AndroidAppIPackageManager extends MethodProxy {
 	public static class getActivityInfo extends MethodDelegate {
 		@Override
 		public Object beforeInvoke(Object target, Method method, Object[] args) {
-			TwsLog.d(TAG, "getActivityInfo beforeInvoke method:" + method.getName());
+			TwsLog.i(TAG, "getActivityInfo beforeInvoke method:" + method.getName());
 			String className = ((ComponentName) args[0]).getClassName();
 			PluginDescriptor pluginDescriptor = PluginManagerHelper.getPluginDescriptorByClassName(className);
 			if (pluginDescriptor != null) {
@@ -188,7 +190,7 @@ public class AndroidAppIPackageManager extends MethodProxy {
 	public static class getReceiverInfo extends MethodDelegate {
 		@Override
 		public Object beforeInvoke(Object target, Method method, Object[] args) {
-			TwsLog.d(TAG, "getReceiverInfo beforeInvoke method:" + method.getName());
+			TwsLog.i(TAG, "getReceiverInfo beforeInvoke method:" + method.getName());
 			String className = ((ComponentName) args[0]).getClassName();
 			PluginDescriptor pluginDescriptor = PluginManagerHelper.getPluginDescriptorByClassName(className);
 			if (pluginDescriptor != null) {
@@ -203,7 +205,7 @@ public class AndroidAppIPackageManager extends MethodProxy {
 	public static class getServiceInfo extends MethodDelegate {
 		@Override
 		public Object beforeInvoke(Object target, Method method, Object[] args) {
-			TwsLog.d(TAG, "getServiceInfo beforeInvoke method:" + method.getName());
+			TwsLog.i(TAG, "getServiceInfo beforeInvoke method:" + method.getName());
 			String className = ((ComponentName) args[0]).getClassName();
 			PluginDescriptor pluginDescriptor = PluginManagerHelper.getPluginDescriptorByClassName(className);
 			if (pluginDescriptor != null) {
@@ -217,7 +219,7 @@ public class AndroidAppIPackageManager extends MethodProxy {
 	public static class getProviderInfo extends MethodDelegate {
 		@Override
 		public Object beforeInvoke(Object target, Method method, Object[] args) {
-			TwsLog.d(TAG, "getProviderInfo beforeInvoke method:" + method.getName());
+			TwsLog.i(TAG, "getProviderInfo beforeInvoke method:" + method.getName());
 			String className = ((ComponentName) args[0]).getClassName();
 			if (!className.equals(PluginManagerProvider.class.getName())) {
 				PluginDescriptor pluginDescriptor = PluginManagerHelper.getPluginDescriptorByClassName(className);
@@ -242,9 +244,9 @@ public class AndroidAppIPackageManager extends MethodProxy {
 	public static class queryIntentServices extends MethodDelegate {
 		@Override
 		public Object beforeInvoke(Object target, Method method, Object[] args) {
-			TwsLog.d(TAG, "queryIntentServices beforeInvoke method:" + method.getName());
+			TwsLog.i(TAG, "queryIntentServices beforeInvoke method:" + method.getName());
 			final String packageName = PluginLoader.getPackageName((Intent) args[0]);
-			ArrayList<ComponentInfo> componentInfos = PluginLoader.matchPlugin((Intent) args[0],
+			ArrayList<ComponentInfo> componentInfos = PluginIntentResolver.matchPlugin((Intent) args[0],
 					PluginDescriptor.SERVICE, packageName);
 			if (componentInfos != null && componentInfos.size() > 0) {
 				PluginDescriptor pluginDescriptor = PluginLoader.getApplication().getPackageName().equals(packageName) ? PluginManagerHelper
@@ -278,9 +280,9 @@ public class AndroidAppIPackageManager extends MethodProxy {
 	public static class resolveIntent extends MethodDelegate {
 		@Override
 		public Object beforeInvoke(Object target, Method method, Object[] args) {
-			TwsLog.d(TAG, "resolveIntent beforeInvoke method:" + method.getName());
+			TwsLog.i(TAG, "resolveIntent beforeInvoke method:" + method.getName());
 			final String packageName = PluginLoader.getPackageName((Intent) args[0]);
-			ArrayList<ComponentInfo> componentInfos = PluginLoader.matchPlugin((Intent) args[0],
+			ArrayList<ComponentInfo> componentInfos = PluginIntentResolver.matchPlugin((Intent) args[0],
 					PluginDescriptor.ACTIVITY, packageName);
 			if (componentInfos != null && componentInfos.size() > 0) {
 				PluginDescriptor pluginDescriptor = PluginLoader.getApplication().getPackageName().equals(packageName) ? PluginManagerHelper
@@ -300,9 +302,9 @@ public class AndroidAppIPackageManager extends MethodProxy {
 	public static class resolveService extends MethodDelegate {
 		@Override
 		public Object beforeInvoke(Object target, Method method, Object[] args) {
-			TwsLog.d(TAG, "resolveService beforeInvoke method:" + method.getName());
+			TwsLog.i(TAG, "resolveService beforeInvoke method:" + method.getName());
 			final String packageName = PluginLoader.getPackageName((Intent) args[0]);
-			ArrayList<ComponentInfo> componentInfos = PluginLoader.matchPlugin((Intent) args[0],
+			ArrayList<ComponentInfo> componentInfos = PluginIntentResolver.matchPlugin((Intent) args[0],
 					PluginDescriptor.SERVICE, packageName);
 			if (componentInfos != null && componentInfos.size() > 0) {
 				PluginDescriptor pluginDescriptor = PluginLoader.getApplication().getPackageName().equals(packageName) ? PluginManagerHelper
@@ -326,14 +328,14 @@ public class AndroidAppIPackageManager extends MethodProxy {
 			if (arg0 instanceof ComponentName) {
 				ComponentName mComponentName = ((ComponentName) args[0]);
 
-				TwsLog.d(TAG, "getComponentEnabledSetting beforeInvoke method:" + method.getName() + " PackageName:"
+				TwsLog.i(TAG, "getComponentEnabledSetting beforeInvoke method:" + method.getName() + " PackageName:"
 						+ mComponentName.getPackageName() + " ClassName:" + mComponentName.getClassName());
 
 				if ("com.htc.android.htcsetupwizard".equalsIgnoreCase(mComponentName.getPackageName())) {
 					return PackageManager.COMPONENT_ENABLED_STATE_DISABLED;
 				}
 			} else {
-				TwsLog.d(TAG, "getComponentEnabledSetting beforeInvoke method:" + method.getName() + " arg0 is " + arg0);
+				TwsLog.i(TAG, "getComponentEnabledSetting beforeInvoke method:" + method.getName() + " arg0 is " + arg0);
 			}
 
 			return super.beforeInvoke(target, method, args);
@@ -359,7 +361,12 @@ public class AndroidAppIPackageManager extends MethodProxy {
 		// info.nativeLibraryDir = new
 		// File(pluginDescriptor.getInstalledPath()).getParentFile().getAbsolutePath()
 		// + "/lib";
-		info.targetSdkVersion = PluginLoader.getApplication().getApplicationInfo().targetSdkVersion;
+		String targetSdkVersion = pluginDescriptor.getTargetSdkVersion();
+		if (!TextUtils.isEmpty(targetSdkVersion)) {
+			info.targetSdkVersion = Integer.valueOf(targetSdkVersion);
+		} else {
+			info.targetSdkVersion = PluginLoader.getApplication().getApplicationInfo().targetSdkVersion;
+		}
 		return info;
 	}
 

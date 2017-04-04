@@ -16,33 +16,25 @@
 
 package com.tencent.tws.assistant.widget;
 
-import com.tencent.tws.assistant.drawable.TwsDrawable;
-import com.tencent.tws.assistant.drawable.TwsLayerDrawable;
-import com.tencent.tws.assistant.drawable.TwsRippleDrawable;
-import com.tencent.tws.assistant.interpolator.*;
-import com.tencent.tws.assistant.utils.TwsRippleEffectInterface;
-import com.tencent.tws.assistant.utils.ReflectUtils;
-import com.tencent.tws.assistant.utils.ThemeUtils;
-import com.tencent.tws.assistant.widget.RemoteViewsAdapterWrapper;
-import com.tencent.tws.assistant.widget.ListView.OnScrollStateListener;
-import com.tencent.tws.sharelib.R;
+import java.util.ArrayList;
+import java.util.List;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.Resources;
 import android.content.res.TypedArray;
+import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Paint;
+import android.graphics.PixelFormat;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.TransitionDrawable;
 import android.os.Bundle;
-import android.os.Debug;
-import android.os.Handler;
-import android.os.HandlerThread;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.os.StrictMode;
-import android.os.Trace;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextUtils;
@@ -71,8 +63,6 @@ import android.view.ViewGroup;
 import android.view.ViewParent;
 import android.view.ViewTreeObserver;
 import android.view.accessibility.AccessibilityEvent;
-import android.view.accessibility.AccessibilityNodeInfo;
-import android.view.animation.DecelerateInterpolator;
 import android.view.animation.Interpolator;
 import android.view.animation.LinearInterpolator;
 import android.view.inputmethod.BaseInputConnection;
@@ -82,28 +72,24 @@ import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.ExtractedText;
 import android.view.inputmethod.ExtractedTextRequest;
 import android.view.inputmethod.InputConnection;
-import android.view.inputmethod.InputConnectionWrapper;
 import android.view.inputmethod.InputMethodManager;
-
-import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.List;
-
+import android.widget.Adapter;
 import android.widget.Checkable;
-import android.widget.ListAdapter;
+import android.widget.EditText;
 import android.widget.Filter;
+import android.widget.Filterable;
+import android.widget.ListAdapter;
+import android.widget.OverScroller;
+import android.widget.SectionIndexer;
 
+import com.tencent.tws.assistant.drawable.TwsDrawable;
+import com.tencent.tws.assistant.drawable.TwsRippleDrawable;
+import com.tencent.tws.assistant.interpolator.CubicEaseInInterpolator;
+import com.tencent.tws.assistant.utils.ThemeUtils;
+import com.tencent.tws.assistant.widget.ListView.OnScrollStateListener;
+import com.tencent.tws.sharelib.R;
 // tws-start fix hide class problem in android4.4::2014-07-19
 // tws-end fix hide class problem in android4.4::2014-07-19
-import android.widget.EditText;
-import android.widget.OverScroller;
-import android.widget.Filterable;
-import android.widget.ArrayAdapter;
-import android.widget.Scroller;
-import android.graphics.*;
-import android.graphics.drawable.*;
-
-import android.util.Log;
 
 /**
  * Base class that can be used to implement virtualized lists of items. A list does
@@ -832,7 +818,6 @@ public abstract class AbsListView extends AdapterView<ListAdapter> implements Te
         mOwnerThread = Thread.currentThread();
 
         setVerticalScrollBarEnabled(true);
-        // NOTICE make sure id of com.android.internal.R.styleable.View is the same as all other ROMs
         TypedArray a = context.obtainStyledAttributes(com.android.internal.R.styleable.View);
         initializeScrollbars(a);
         a.recycle();

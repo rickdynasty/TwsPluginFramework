@@ -154,15 +154,9 @@ public abstract class PreferenceFragment extends Fragment implements
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-            Bundle savedInstanceState) {
-        //NANJISTART::modified for tws theme ::20121002
-        //return inflater.inflate(com.android.internal.R.layout.preference_list_fragment, container,
-                //false);
-        return inflater.inflate(R.layout.preference_list_fragment, container,
-                false);
-		//NANJIEND::modified for tws theme ::20121002
-    }
+	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+		return inflater.inflate(R.layout.preference_list_fragment, container, false);
+	}
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {

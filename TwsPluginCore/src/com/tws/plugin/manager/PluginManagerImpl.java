@@ -313,15 +313,6 @@ class PluginManagerImpl {
 				FileUtil.deleteAll(tempSoDir);
 			}
 
-			// try {
-			// ArrayList<String> multiDexFiles =
-			// PluginMultiDexExtractor.performExtractions(new File(destApkPath),
-			// new File(apkParent, "secondDexes"));
-			// pluginDescriptor.setMuliDexList(multiDexFiles);
-			// } catch (IOException e) {
-			// e.printStackTrace();
-			// }
-
 			// 第6步 添加到已安装插件列表
 			pluginDescriptor.setInstalledPath(destApkPath);
 			boolean isInstallSuccess = false;

@@ -26,7 +26,6 @@ import com.tws.plugin.content.PluginDescriptor;
 import com.tws.plugin.core.android.HackContextImpl;
 import com.tws.plugin.core.android.HackInstrumentation;
 import com.tws.plugin.core.annotation.PluginContainer;
-import com.tws.plugin.core.loading.WaitForLoadingPluginActivity;
 import com.tws.plugin.core.localservice.LocalServiceManager;
 import com.tws.plugin.core.viewfactory.PluginViewFactory;
 import com.tws.plugin.manager.PluginActivityMonitor;
@@ -105,7 +104,8 @@ public class PluginInstrumentionWrapper extends Instrumentation {
 		if (ProcessUtil.isHostProcess() && TwsPluginBridgeActivity.class.getName().equals(className)) {
 			// 第三方应用启动了TwsPluginBridgeActivity
 			String packageName = PluginLoader.getPackageName(intent);
-			ArrayList<ComponentInfo> componentInfos = PluginLoader.matchPlugin(intent, PluginDescriptor.ACTIVITY, packageName);
+			ArrayList<ComponentInfo> componentInfos = PluginIntentResolver.matchPlugin(intent, PluginDescriptor.ACTIVITY,
+					packageName);
 			String pluginClassName = null;
 			if (componentInfos != null && componentInfos.size() > 0) {
 				pluginClassName = componentInfos.get(0).name;
@@ -120,11 +120,6 @@ public class PluginInstrumentionWrapper extends Instrumentation {
 
 				if (pluginDescriptor != null) {
 					packageName = pluginDescriptor.getPackageName();
-					boolean isRunning = PluginLauncher.instance().isRunning(packageName);
-					if (!isRunning) {
-						return waitForLoading(pluginDescriptor);
-					}
-
 					Class<?> clazz = PluginLoader.loadPluginClassByName(pluginDescriptor, pluginClassName);
 					if (clazz != null) {
 						intent.putExtra(PluginIntentResolver.INTENT_EXTRA_BRIDGE_RAMP, className);
@@ -152,16 +147,14 @@ public class PluginInstrumentionWrapper extends Instrumentation {
 					String[] targetClassName = action.split(PluginIntentResolver.CLASS_SEPARATOR);
 					String pluginClassName = targetClassName[0];
 
-					final String pid = intent.getStringExtra(PluginIntentResolver.INTENT_EXTRA_PID).trim();
-					PluginDescriptor pluginDescriptor = TextUtils.isEmpty(pid) ? PluginManagerHelper
-							.getPluginDescriptorByClassName(pluginClassName) : PluginManagerHelper
-							.getPluginDescriptorByPluginId(pid);
+					final String pid = targetClassName.length > 2 ? targetClassName[2] : "";
+					PluginDescriptor pluginDescriptor = null;
+					if (!TextUtils.isEmpty(pid)) {
+						pluginDescriptor = PluginManagerHelper.getPluginDescriptorByPluginId(pid);
+					}
 
-					if (pluginDescriptor != null) {
-						boolean isRunning = PluginLauncher.instance().isRunning(pid);
-						if (!isRunning) {
-							return waitForLoading(pluginDescriptor);
-						}
+					if (null == pluginDescriptor) {
+						pluginDescriptor = PluginManagerHelper.getPluginDescriptorByClassName(pluginClassName);
 					}
 
 					Class<?> clazz = PluginLoader.loadPluginClassByName(pluginDescriptor, pluginClassName);
@@ -187,13 +180,6 @@ public class PluginInstrumentionWrapper extends Instrumentation {
 					// 这个逻辑是为了支持外部app唤起配置了stub_exact的插件Activity
 					PluginDescriptor pluginDescriptor = PluginManagerHelper.getPluginDescriptorByClassName(className);
 
-					if (pluginDescriptor != null) {
-						boolean isRunning = PluginLauncher.instance().isRunning(pluginDescriptor.getPackageName());
-						if (!isRunning) {
-							return waitForLoading(pluginDescriptor);
-						}
-					}
-
 					Class<?> clazz = PluginLoader.loadPluginClassByName(pluginDescriptor, className);
 					if (clazz != null) {
 						cl = clazz.getClassLoader();
@@ -215,14 +201,6 @@ public class PluginInstrumentionWrapper extends Instrumentation {
 
 								PluginDescriptor pluginDescriptor = PluginManagerHelper
 										.getPluginDescriptorByClassName(className);
-
-								if (pluginDescriptor != null) {
-									boolean isRunning = PluginLauncher.instance().isRunning(
-											pluginDescriptor.getPackageName());
-									if (!isRunning) {
-										return waitForLoading(pluginDescriptor);
-									}
-								}
 
 								Class<?> clazz = PluginLoader.loadPluginClassByName(pluginDescriptor, className);
 								cl = clazz.getClassLoader();
@@ -267,12 +245,6 @@ public class PluginInstrumentionWrapper extends Instrumentation {
 		}
 	}
 
-	private Activity waitForLoading(PluginDescriptor pluginDescriptor) {
-		WaitForLoadingPluginActivity waitForLoadingPluginActivity = new WaitForLoadingPluginActivity();
-		waitForLoadingPluginActivity.setTargetPlugin(pluginDescriptor);
-		return waitForLoadingPluginActivity;
-	}
-
 	@Override
 	public void callActivityOnCreate(Activity activity, Bundle icicle) {
 
@@ -292,11 +264,6 @@ public class PluginInstrumentionWrapper extends Instrumentation {
 
 		if (ProcessUtil.isPluginProcess()) {
 			installPluginViewFactory(activity);
-
-			if (activity instanceof WaitForLoadingPluginActivity) {
-				// NOTHING
-			} else {
-			}
 
 			if (activity.isChild()) {
 				// 修正TabActivity中的Activity的ContextImpl的packageName

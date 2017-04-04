@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+**
+** Copyright 2007, The Android Open Source Project
+**
+** Licensed under the Apache License, Version 2.0 (the "License");
+** you may not use this file except in compliance with the License.
+** You may obtain a copy of the License at
+**
+**     http://www.apache.org/licenses/LICENSE-2.0
+**
+** Unless required by applicable law or agreed to in writing, software
+** distributed under the License is distributed on an "AS IS" BASIS,
+** WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+** See the License for the specific language governing permissions and
+** limitations under the License.
+*/-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <RelativeLayout
+        android:id="@id/picker_dialog_buttons"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clipChildren="false"
+        android:visibility="gone"
+        android:background="@color/tws_picker_dialog_btn_bg" >
+
+        <TextView
+            android:id="@id/picker_dialog_positive"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:minHeight="46dip"
+            android:layout_alignParentRight="true"
+            android:gravity="center"
+            android:paddingLeft="20dip"
+            android:paddingRight="20dip"
+            android:textSize="20dp"
+            android:text="@string/picker_dialog_positive_text"
+            android:textColor="@color/tws_text_blue"
+             />
+    </RelativeLayout>
+
+    <com.tencent.tws.assistant.widget.DateTimePicker
+        android:id="@+id/dateTimePicker"
+        android:layout_width="match_parent"
+        android:layout_height="234dip"
+        android:paddingTop="12dip"
+        android:paddingBottom="12dip"
+        android:layout_gravity="center_horizontal" />
+
+</LinearLayout>

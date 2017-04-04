@@ -53,6 +53,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.tencent.tws.assistant.app.ActionBar;
+import com.tencent.tws.assistant.utils.ResIdentifierUtils;
 import com.tencent.tws.assistant.utils.ThemeUtils;
 import com.tencent.tws.sharelib.R;
 
@@ -322,6 +323,7 @@ public class ScrollingTabContainerView extends HorizontalScrollView
         }
 
         public TabLayout(Context context, AttributeSet attrs) {
+        	//这里暂时不替换
             this(context, attrs, com.android.internal.R.attr.actionBarTabBarStyle);
         }
 
@@ -342,8 +344,9 @@ public class ScrollingTabContainerView extends HorizontalScrollView
     };
     
     private LinearLayout createTabLayout() {
-        final LinearLayout tabLayout = new TabLayout(getContext(), null,
-                com.android.internal.R.attr.actionBarTabBarStyle);
+		int attrId = ResIdentifierUtils.getSysAttrId("actionBarTabBarStyle");
+		final LinearLayout tabLayout = new TabLayout(getContext(), null,
+				attrId == 0 ? com.android.internal.R.attr.actionBarTabBarStyle : attrId);
         tabLayout.setMeasureWithLargestChildEnabled(true);
         tabLayout.setLayoutParams(new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.MATCH_PARENT));
@@ -384,8 +387,9 @@ public class ScrollingTabContainerView extends HorizontalScrollView
     }
     
     private LinearLayout createTabInternalLayout() {
-        final LinearLayout tabLayout = new LinearLayout(getContext(), null,
-                com.android.internal.R.attr.actionBarTabBarStyle);
+		int attrId = ResIdentifierUtils.getSysAttrId("actionBarTabBarStyle");
+		final LinearLayout tabLayout = new LinearLayout(getContext(), null,
+				attrId == 0 ? com.android.internal.R.attr.actionBarTabBarStyle : attrId);
         tabLayout.setMeasureWithLargestChildEnabled(true);
         tabLayout.setLayoutParams(new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.MATCH_PARENT));
@@ -393,8 +397,9 @@ public class ScrollingTabContainerView extends HorizontalScrollView
     }
 
     private Spinner createSpinner() {
-        final Spinner spinner = new Spinner(getContext(), null,
-                com.android.internal.R.attr.actionDropDownStyle);
+		int attrId = ResIdentifierUtils.getSysAttrId("actionDropDownStyle");
+		final Spinner spinner = new Spinner(getContext(), null,
+				attrId == 0 ? com.android.internal.R.attr.actionDropDownStyle : attrId);
         spinner.setLayoutParams(new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.MATCH_PARENT));
         spinner.setOnItemSelectedListener(this);
@@ -404,11 +409,9 @@ public class ScrollingTabContainerView extends HorizontalScrollView
     @Override
     protected void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
-
-        // Action bar can change size on configuration changes.
-        // Reread the desired height from the theme-specified style.
-        TypedArray a = getContext().obtainStyledAttributes(null, R.styleable.ActionBar,
-                com.android.internal.R.attr.actionBarStyle, 0);
+        int attrId = ResIdentifierUtils.getSysAttrId("actionBarStyle");
+		TypedArray a = getContext().obtainStyledAttributes(null, R.styleable.ActionBar,
+				attrId == 0 ? com.android.internal.R.attr.actionBarStyle : attrId, 0);
         setContentHeight(a.getLayoutDimension(R.styleable.ActionBar_height, 0));
         
         setTabContentHeight(mTabMode);

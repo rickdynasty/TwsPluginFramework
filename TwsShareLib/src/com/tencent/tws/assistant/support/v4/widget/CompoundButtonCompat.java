@@ -20,10 +20,10 @@ import android.content.res.ColorStateList;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.widget.CompoundButton;
 
-import com.tencent.tws.assistant.support.annotation.NonNull;
-import com.tencent.tws.assistant.support.annotation.Nullable;
 import com.tencent.tws.assistant.support.v4.graphics.drawable.DrawableCompat;
 
 /**

@@ -16,6 +16,11 @@
 
 package com.tencent.tws.assistant.drawable;
 
+import java.io.IOException;
+
+import org.xmlpull.v1.XmlPullParser;
+import org.xmlpull.v1.XmlPullParserException;
+
 import android.animation.ObjectAnimator;
 import android.animation.TimeInterpolator;
 import android.annotation.TargetApi;
@@ -26,24 +31,14 @@ import android.graphics.drawable.Animatable;
 import android.graphics.drawable.AnimationDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.util.SparseIntArray;
 import android.util.StateSet;
 
-
-
-
-
-
-import org.xmlpull.v1.XmlPullParser;
-import org.xmlpull.v1.XmlPullParserException;
-
-import com.tencent.tws.assistant.support.annotation.NonNull;
-import com.tencent.tws.assistant.support.annotation.Nullable;
 import com.tencent.tws.assistant.utils.LongSparseLongArray;
 import com.tencent.tws.sharelib.R;
-
-import java.io.IOException;
 
 /**
  * Drawable containing a set of Drawable keyframes where the currently displayed

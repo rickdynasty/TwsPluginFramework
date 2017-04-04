@@ -47,6 +47,7 @@ import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 
+import com.tencent.tws.assistant.utils.ResIdentifierUtils;
 import com.tencent.tws.assistant.widget.ListView;
 import com.tencent.tws.sharelib.R;
 
@@ -274,10 +275,14 @@ public abstract class PreferenceActivity extends TwsListActivity implements
             if (convertView == null) {
                 view = mInflater.inflate(mLayoutResId, parent, false);
                 holder = new HeaderViewHolder();
-                holder.icon = (ImageView) view.findViewById(com.android.internal.R.id.icon);
-                holder.title = (TextView) view.findViewById(com.android.internal.R.id.title);
-                holder.summary = (TextView) view.findViewById(com.android.internal.R.id.summary);
-                view.setTag(holder);
+				int valueId = ResIdentifierUtils.getSysId("icon");
+				holder.icon = (ImageView) view.findViewById(valueId == 0 ? com.android.internal.R.id.icon : valueId);
+				valueId = ResIdentifierUtils.getSysId("title");
+				holder.title = (TextView) view.findViewById(valueId == 0 ? com.android.internal.R.id.title : valueId);
+				valueId = ResIdentifierUtils.getSysId("summary");
+				holder.summary = (TextView) view.findViewById(valueId == 0 ? com.android.internal.R.id.summary
+						: valueId);
+				view.setTag(holder);
             } else {
                 view = convertView;
                 holder = (HeaderViewHolder) view.getTag();

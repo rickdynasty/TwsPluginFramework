@@ -265,17 +265,7 @@ public class ActionMenuItemView extends LinearLayout
         final int midy = screenPos[1] + height / 2;
         final int screenWidth = context.getResources().getDisplayMetrics().widthPixels;
 
-        Toast cheatSheet = Toast.makeText(context, mItemData.getTitle(), Toast.LENGTH_SHORT);
-//        if (midy < displayFrame.height()-40) {
-//	
-//            // Show along the top; follow action buttons
-//            cheatSheet.setGravity(Gravity.TOP | Gravity.RIGHT,
-//                    screenWidth - screenPos[0] - width / 2, height);
-//        } else {
-//            // Show along the bottom center
-//            cheatSheet.setGravity(Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, height);
-//        }
-        cheatSheet.show();
+        Toast.makeText(context, mItemData.getTitle(), Toast.LENGTH_SHORT).show();
         return true;
     }
 

@@ -23,9 +23,9 @@ public class TwsButton extends FrameLayout {
 
 	private Context mContext;
 	private int mButtomMode = -1;
-	private final int NormalButton = 0;
-	private final int RecommendedButton = 1;
-	private final int ProgressButton = 2;
+	public static final int NormalButton = 0;
+	public static final int RecommendedButton = 1;
+	public static final int ProgressButton = 2;
 	private boolean isProgressButton = false;
 
 	private int mBackground;
@@ -72,20 +72,30 @@ public class TwsButton extends FrameLayout {
 
 		TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.TwsButton, 0, 0);
 		mText = a.getString(R.styleable.TwsButton_text);
-		mHeight = (int) a.getDimension(R.styleable.TwsButton_height, getResources().getDimensionPixelSize(R.dimen.tws_button_high));
+		mHeight = (int) a.getDimension(R.styleable.TwsButton_height,
+				getResources().getDimensionPixelSize(R.dimen.tws_button_high));
 		mButtomMode = a.getInt(R.styleable.TwsButton_twsButtonMode, -1);
 		if (-1 == mButtomMode) {
-			mBackground = a.getColor(R.styleable.TwsButton_normal_background, getResources().getColor(R.color.tws_button_normal_background));
-			mPressedBackground = a.getColor(R.styleable.TwsButton_pressed_background, getResources().getColor(R.color.tws_button_pressed_background));
-			mFocusBackground = a.getColor(R.styleable.TwsButton_focused_background, getResources().getColor(R.color.tws_button_focused_background));
-			mDisabledBackground = a.getColor(R.styleable.TwsButton_disabled_background, getResources().getColor(R.color.tws_button_disabled_background));
+			mBackground = a.getColor(R.styleable.TwsButton_normal_background,
+					getResources().getColor(R.color.tws_button_normal_background));
+			mPressedBackground = a.getColor(R.styleable.TwsButton_pressed_background,
+					getResources().getColor(R.color.tws_button_pressed_background));
+			mFocusBackground = a.getColor(R.styleable.TwsButton_focused_background,
+					getResources().getColor(R.color.tws_button_focused_background));
+			mDisabledBackground = a.getColor(R.styleable.TwsButton_disabled_background,
+					getResources().getColor(R.color.tws_button_disabled_background));
 
-			mBorderColor = a.getColor(R.styleable.TwsButton_normal_borderColor, getResources().getColor(R.color.tws_button_normal_borderColor));
-			mFocusedBorderColor = a.getColor(R.styleable.TwsButton_focused_borderColor, getResources().getColor(R.color.tws_button_focused_borderColor));
-			mPressedBorderColor = a.getColor(R.styleable.TwsButton_pressed_borderColor, getResources().getColor(R.color.tws_button_pressed_borderColor));
-			mDisabledBorderColor = a.getColor(R.styleable.TwsButton_disabled_borderColor, getResources().getColor(R.color.tws_button_disabled_borderColor));
+			mBorderColor = a.getColor(R.styleable.TwsButton_normal_borderColor,
+					getResources().getColor(R.color.tws_button_normal_borderColor));
+			mFocusedBorderColor = a.getColor(R.styleable.TwsButton_focused_borderColor,
+					getResources().getColor(R.color.tws_button_focused_borderColor));
+			mPressedBorderColor = a.getColor(R.styleable.TwsButton_pressed_borderColor,
+					getResources().getColor(R.color.tws_button_pressed_borderColor));
+			mDisabledBorderColor = a.getColor(R.styleable.TwsButton_disabled_borderColor,
+					getResources().getColor(R.color.tws_button_disabled_borderColor));
 
-			mBorderWidth = (int) a.getDimension(R.styleable.TwsButton_borderWidth, getResources().getDimensionPixelSize(R.dimen.tws_button_border));
+			mBorderWidth = (int) a.getDimension(R.styleable.TwsButton_borderWidth, getResources()
+					.getDimensionPixelSize(R.dimen.tws_button_border));
 			mProgressColor = a.getColor(R.styleable.TwsButton_progressColor, Color.TRANSPARENT);
 			if (mProgressColor != Color.TRANSPARENT) {
 				isProgressButton = true;
@@ -95,11 +105,15 @@ public class TwsButton extends FrameLayout {
 				mProgressMax = a.getInt(R.styleable.TwsButton_android_max, 100);
 			}
 
-			mRadius = (int) a.getDimension(R.styleable.TwsButton_radius, getResources().getDimensionPixelSize(R.dimen.tws_button_round_radius));
-			mTextColor = a.getColor(R.styleable.TwsButton_textColor, getResources().getColor(R.color.tws_button_textColor));
+			mRadius = (int) a.getDimension(R.styleable.TwsButton_radius,
+					getResources().getDimensionPixelSize(R.dimen.tws_button_round_radius));
+			mTextColor = a.getColor(R.styleable.TwsButton_textColor,
+					getResources().getColor(R.color.tws_button_textColor));
 			mPressedTextColor = mTextColor;
-			mDisableTextColor = a.getColor(R.styleable.TwsButton_disabled_textColor, getResources().getColor(R.color.tws_button_disabled_textColor));
-			mTextSize = (int) a.getDimension(R.styleable.TwsButton_textSize, getResources().getDimensionPixelSize(R.dimen.tws_Medium_TextSize));
+			mDisableTextColor = a.getColor(R.styleable.TwsButton_disabled_textColor,
+					getResources().getColor(R.color.tws_button_disabled_textColor));
+			mTextSize = (int) a.getDimension(R.styleable.TwsButton_textSize,
+					getResources().getDimensionPixelSize(R.dimen.tws_Medium_TextSize));
 		} else {
 			initDataFromMode(a);
 		}
@@ -118,7 +132,8 @@ public class TwsButton extends FrameLayout {
 		mTv.setTextSize(TypedValue.COMPLEX_UNIT_PX, mTextSize);
 		mTv.setSingleLine(true);
 		mTv.setEllipsize(TruncateAt.END);
-		FrameLayout.LayoutParams layoutParam = new FrameLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+		FrameLayout.LayoutParams layoutParam = new FrameLayout.LayoutParams(LayoutParams.WRAP_CONTENT,
+				LayoutParams.WRAP_CONTENT);
 		layoutParam.gravity = Gravity.CENTER;
 		layoutParam.leftMargin = getResources().getDimensionPixelSize(R.dimen.tws_button_content_margin_left);
 		layoutParam.rightMargin = getResources().getDimensionPixelSize(R.dimen.tws_button_content_margin_right);
@@ -128,41 +143,11 @@ public class TwsButton extends FrameLayout {
 			setupProgressBar();
 		}
 
-		GradientDrawable normalDrawable = new GradientDrawable();
-		normalDrawable.setCornerRadius(mRadius);
-		normalDrawable.setColor(mBackground);
-		normalDrawable.setStroke(mBorderWidth, mBorderColor);
-
-		GradientDrawable focusDrawable = new GradientDrawable();
-		focusDrawable.setCornerRadius(mRadius);
-		focusDrawable.setColor(mFocusBackground);
-		focusDrawable.setStroke(mBorderWidth, mFocusedBorderColor);
-
-		GradientDrawable pressedDrawable = new GradientDrawable();
-		pressedDrawable.setCornerRadius(mRadius);
-		pressedDrawable.setColor(mPressedBackground);
-		pressedDrawable.setStroke(mBorderWidth, mPressedBorderColor);
-
-		GradientDrawable disabledDrawable = new GradientDrawable();
-		disabledDrawable.setCornerRadius(mRadius);
-		disabledDrawable.setColor(mDisabledBackground);
-		disabledDrawable.setStroke(mBorderWidth, mDisabledBorderColor);
-
-		StateListDrawable states = new StateListDrawable();
-
-		states.addState(new int[] { -android.R.attr.state_enabled }, disabledDrawable);
-		states.addState(new int[] { android.R.attr.state_pressed }, pressedDrawable);
-		states.addState(new int[] { android.R.attr.state_focused }, focusDrawable);
-		states.addState(new int[] {}, normalDrawable);
-
-		if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.JELLY_BEAN) {
-			this.setBackgroundDrawable(states);
-		} else {
-			this.setBackground(states);
-		}
+		updateButtonBackground();
 
 		if (mTv != null) {
-			ColorStateList colors = new ColorStateList(new int[][] { { -android.R.attr.state_enabled }, { android.R.attr.state_pressed, android.R.attr.state_focused }, { 0 } }, new int[] {
+			ColorStateList colors = new ColorStateList(new int[][] { { -android.R.attr.state_enabled },
+					{ android.R.attr.state_pressed, android.R.attr.state_focused }, { 0 } }, new int[] {
 					mDisableTextColor, mPressedTextColor, mTextColor });
 			mTv.setTextColor(colors);
 		}
@@ -210,6 +195,18 @@ public class TwsButton extends FrameLayout {
 			mTv.setTextColor(color);
 	}
 
+	public void setTextSize() {
+		if (mTv != null) {
+
+		}
+	}
+
+	public void setTextSize(float size) {
+		if (mTv != null) {
+			mTv.setTextSize(size);
+		}
+	}
+
 	private void initDataFromMode(TypedArray mTypedArray) {
 		isProgressButton = false;
 		mBackground = getResources().getColor(R.color.tws_button_normal_background);
@@ -221,48 +218,11 @@ public class TwsButton extends FrameLayout {
 
 		mRadius = getResources().getDimensionPixelSize(R.dimen.tws_button_round_radius);
 
-//		mTextSize = getResources().getDimensionPixelSize(R.dimen.tws_Medium_TextSize);
-		mTextSize = (int) mTypedArray.getDimension(R.styleable.TwsButton_textSize, getResources().getDimensionPixelSize(R.dimen.tws_Medium_TextSize));
-		switch (mButtomMode) {
-		case RecommendedButton:
-
-			mBorderColor = getResources().getColor(R.color.tws_button_normal_borderColor_Recommended);
-			mFocusedBorderColor = getResources().getColor(R.color.tws_button_focused_borderColor_Recommended);
-			mPressedBorderColor = getResources().getColor(R.color.tws_button_pressed_borderColor_Recommended);
-			mDisabledBorderColor = getResources().getColor(R.color.tws_button_disabled_borderColor_Recommended);
-
-			mTextColor = getResources().getColor(R.color.tws_button_textColor_Recommended);
-			mPressedTextColor = mTextColor;
-			mDisableTextColor = getResources().getColor(R.color.tws_button_disabled_textColor_Recommended);
-			break;
-		case ProgressButton:
-			isProgressButton = true;
-
-			mBorderColor = getResources().getColor(R.color.tws_button_normal_borderColor_Recommended);
-			mFocusedBorderColor = getResources().getColor(R.color.tws_button_focused_borderColor_Recommended);
-			mPressedBorderColor = getResources().getColor(R.color.tws_button_pressed_borderColor_Recommended);
-			mDisabledBorderColor = getResources().getColor(R.color.tws_button_disabled_borderColor_Progress);
-
-			mProgressColor = getResources().getColor(R.color.tws_brand_percent_20);
-			mProgressBorderColor = getResources().getColor(R.color.tws_button_progress_borderColor);
-			mProgressBorderWith = mBorderWidth;
-			mTextColor = getResources().getColor(R.color.tws_button_textColor_Progress);
-			mPressedTextColor = mTextColor;
-			mDisableTextColor = getResources().getColor(R.color.tws_button_disabled_textColor_Progress);
-			break;
-
-		case NormalButton:
-		default:
-			mBorderColor = getResources().getColor(R.color.tws_button_normal_borderColor);
-			mFocusedBorderColor = getResources().getColor(R.color.tws_button_focused_borderColor);
-			mPressedBorderColor = getResources().getColor(R.color.tws_button_pressed_borderColor);
-			mDisabledBorderColor = getResources().getColor(R.color.tws_button_disabled_borderColor);
-
-			mTextColor = getResources().getColor(R.color.tws_button_textColor);
-			mPressedTextColor = mTextColor;
-			mDisableTextColor = getResources().getColor(R.color.tws_button_disabled_textColor);
-			break;
-		}
+		// mTextSize =
+		// getResources().getDimensionPixelSize(R.dimen.tws_Medium_TextSize);
+		mTextSize = (int) mTypedArray.getDimension(R.styleable.TwsButton_textSize, getResources()
+				.getDimensionPixelSize(R.dimen.tws_Medium_TextSize));
+		updateBgColorsByMode();
 	}
 
 	private void setupProgressBar() {
@@ -291,9 +251,83 @@ public class TwsButton extends FrameLayout {
 
 		mProgressBar.setProgressDrawable(progressLayerDrawable);
 		mProgressBar.setMax(mProgressMax);
-		FrameLayout.LayoutParams layoutParam = new FrameLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
+		FrameLayout.LayoutParams layoutParam = new FrameLayout.LayoutParams(LayoutParams.MATCH_PARENT,
+				LayoutParams.MATCH_PARENT);
 		mProgressBar.setLayoutParams(layoutParam);
 		mProgressBar.setProgress(0);
+	}
+
+	private void updateBgColorsByMode() {
+		switch (mButtomMode) {
+		case RecommendedButton:
+			mBorderColor = getResources().getColor(R.color.tws_button_normal_borderColor_Recommended);
+			mFocusedBorderColor = getResources().getColor(R.color.tws_button_focused_borderColor_Recommended);
+			mPressedBorderColor = getResources().getColor(R.color.tws_button_pressed_borderColor_Recommended);
+			mDisabledBorderColor = getResources().getColor(R.color.tws_button_disabled_borderColor_Recommended);
+
+			mTextColor = getResources().getColor(R.color.tws_button_textColor_Recommended);
+			mPressedTextColor = mTextColor;
+			mDisableTextColor = getResources().getColor(R.color.tws_button_disabled_textColor_Recommended);
+			break;
+		case ProgressButton:
+			isProgressButton = true;
+			mBorderColor = getResources().getColor(R.color.tws_button_normal_borderColor_Recommended);
+			mFocusedBorderColor = getResources().getColor(R.color.tws_button_focused_borderColor_Recommended);
+			mPressedBorderColor = getResources().getColor(R.color.tws_button_pressed_borderColor_Recommended);
+			mDisabledBorderColor = getResources().getColor(R.color.tws_button_disabled_borderColor_Progress);
+			mProgressColor = getResources().getColor(R.color.tws_brand_percent_20);
+			mProgressBorderColor = getResources().getColor(R.color.tws_button_progress_borderColor);
+			mProgressBorderWith = mBorderWidth;
+			mTextColor = getResources().getColor(R.color.tws_button_textColor_Progress);
+			mPressedTextColor = mTextColor;
+			mDisableTextColor = getResources().getColor(R.color.tws_button_disabled_textColor_Progress);
+			break;
+		case NormalButton:
+		default:
+			mBorderColor = getResources().getColor(R.color.tws_button_normal_borderColor);
+			mFocusedBorderColor = getResources().getColor(R.color.tws_button_focused_borderColor);
+			mPressedBorderColor = getResources().getColor(R.color.tws_button_pressed_borderColor);
+			mDisabledBorderColor = getResources().getColor(R.color.tws_button_disabled_borderColor);
+			mTextColor = getResources().getColor(R.color.tws_button_textColor);
+			mPressedTextColor = mTextColor;
+			mDisableTextColor = getResources().getColor(R.color.tws_button_disabled_textColor);
+			break;
+		}
+	}
+
+	private void updateButtonBackground() {
+		GradientDrawable normalDrawable = new GradientDrawable();
+		normalDrawable.setCornerRadius(mRadius);
+		normalDrawable.setColor(mBackground);
+		normalDrawable.setStroke(mBorderWidth, mBorderColor);
+
+		GradientDrawable focusDrawable = new GradientDrawable();
+		focusDrawable.setCornerRadius(mRadius);
+		focusDrawable.setColor(mFocusBackground);
+		focusDrawable.setStroke(mBorderWidth, mFocusedBorderColor);
+
+		GradientDrawable pressedDrawable = new GradientDrawable();
+		pressedDrawable.setCornerRadius(mRadius);
+		pressedDrawable.setColor(mPressedBackground);
+		pressedDrawable.setStroke(mBorderWidth, mPressedBorderColor);
+
+		GradientDrawable disabledDrawable = new GradientDrawable();
+		disabledDrawable.setCornerRadius(mRadius);
+		disabledDrawable.setColor(mDisabledBackground);
+		disabledDrawable.setStroke(mBorderWidth, mDisabledBorderColor);
+
+		StateListDrawable states = new StateListDrawable();
+
+		states.addState(new int[] { -android.R.attr.state_enabled }, disabledDrawable);
+		states.addState(new int[] { android.R.attr.state_pressed }, pressedDrawable);
+		states.addState(new int[] { android.R.attr.state_focused }, focusDrawable);
+		states.addState(new int[] {}, normalDrawable);
+
+		if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.JELLY_BEAN) {
+			this.setBackgroundDrawable(states);
+		} else {
+			this.setBackground(states);
+		}
 	}
 
 	@Override
@@ -306,5 +340,11 @@ public class TwsButton extends FrameLayout {
 		if (mProgressBar != null) {
 			mProgressBar.setEnabled(enabled);
 		}
+	}
+
+	public void setButtonMode(int mode) {
+		mButtomMode = mode;
+		updateBgColorsByMode();
+		updateButtonBackground();
 	}
 }

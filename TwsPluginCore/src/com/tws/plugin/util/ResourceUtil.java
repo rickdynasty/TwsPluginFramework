@@ -93,24 +93,24 @@ public class ResourceUtil {
 		return 0;
 	}
 
-	public static String getLabel(PluginDescriptor pd) {
+	public static String getLabel(PluginDescriptor pluginDescriptor) {
 		PackageManager pm = PluginLoader.getApplication().getPackageManager();
-		PackageInfo info = pm.getPackageArchiveInfo(pd.getInstalledPath(), PackageManager.GET_ACTIVITIES);
+		PackageInfo info = pm.getPackageArchiveInfo(pluginDescriptor.getInstalledPath(), PackageManager.GET_ACTIVITIES);
 		if (info != null) {
 			ApplicationInfo appInfo = info.applicationInfo;
-			appInfo.sourceDir = pd.getInstalledPath();
-			appInfo.publicSourceDir = pd.getInstalledPath();
+			appInfo.sourceDir = pluginDescriptor.getInstalledPath();
+			appInfo.publicSourceDir = pluginDescriptor.getInstalledPath();
 			String label = null;
 			try {
-				if (!isMainResId(appInfo.labelRes)) {
+				if (!isMainResId(appInfo.labelRes)) {//pluginDescriptor.isStandalone() ||
 					label = pm.getApplicationLabel(appInfo).toString();
 				}
 			} catch (Resources.NotFoundException e) {
 			}
-			if (label == null || label.equals(pd.getPackageName())) {
+			if (label == null || label.equals(pluginDescriptor.getPackageName())) {
 				// 可能设置的lable是来自宿主的资源
-				if (pd.getDescription() != null) {
-					int id = ResourceUtil.getResourceId(pd.getDescription());
+				if (pluginDescriptor.getDescription() != null) {
+					int id = ResourceUtil.getResourceId(pluginDescriptor.getDescription());
 					if (id != 0) {
 						// 再宿主中查一次
 						try {
@@ -124,7 +124,7 @@ public class ResourceUtil {
 				return label;
 			}
 		}
-		return pd.getDescription();
+		return pluginDescriptor.getDescription();
 	}
 
 	public static Bundle getApplicationMetaData(String apkPath) {
@@ -146,6 +146,21 @@ public class ResourceUtil {
 				appInfo.sourceDir = pd.getInstalledPath();
 				appInfo.publicSourceDir = pd.getInstalledPath();
 				Drawable logo = pm.getApplicationLogo(appInfo);
+				return logo;
+			}
+		}
+		return null;
+	}
+
+	public static Drawable getIcon(PluginDescriptor pd) {
+		if (Build.VERSION.SDK_INT >= 9) {
+			PackageManager pm = PluginLoader.getApplication().getPackageManager();
+			PackageInfo info = pm.getPackageArchiveInfo(pd.getInstalledPath(), PackageManager.GET_ACTIVITIES);
+			if (info != null) {
+				ApplicationInfo appInfo = info.applicationInfo;
+				appInfo.sourceDir = pd.getInstalledPath();
+				appInfo.publicSourceDir = pd.getInstalledPath();
+				Drawable logo = pm.getApplicationIcon(appInfo);
 				return logo;
 			}
 		}

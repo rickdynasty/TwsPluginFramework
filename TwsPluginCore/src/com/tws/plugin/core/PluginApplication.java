@@ -11,6 +11,7 @@ import tws.component.log.TwsLog;
 import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Environment;
 import android.text.TextUtils;
 
@@ -24,7 +25,12 @@ public class PluginApplication extends Application {
 
 	private static final String TAG = "rick_Print:PluginApplication";
 	private static PluginApplication instance;
-	private ArrayList<String> mEliminatePlugins = new ArrayList<String>();;
+	private ArrayList<String> mEliminatePlugins = new ArrayList<String>();
+
+	public static String EXCLUDE_PLUGIN_FILE = "/plugins/exclude_plugin.ini";
+	public static String PLUGIN_BLACKLIST_FILE = "/plugins/plugin_blacklist.ini";
+
+	private Configuration mSaveConfiguration = null;
 
 	public static PluginApplication getInstance() {
 		return instance;
@@ -75,6 +81,10 @@ public class PluginApplication extends Application {
 	public void onCreate() {
 		super.onCreate();
 		// 注册日志广播 全局生命周期 高优先级 需要放在application中
+		if (mSaveConfiguration == null) {
+			mSaveConfiguration = new Configuration(getResources().getConfiguration());
+		}
+
 		TwsLog.registerLogReceiver(this);
 		initEliminatePlugins();
 		if (ProcessUtil.isPluginProcess(this)) {
@@ -94,8 +104,8 @@ public class PluginApplication extends Application {
 						TwsLog.e(TAG, "My god !!! how can have such a situatio~!");
 						continue;
 					}
-					
-					if(mEliminatePlugins.contains(pluginDescriptor.getPackageName())){
+
+					if (mEliminatePlugins.contains(pluginDescriptor.getPackageName())) {
 						TwsLog.w(TAG, "当前插件" + pluginDescriptor.getPackageName() + "已经被列入黑名单了");
 						continue;
 					}
@@ -127,7 +137,7 @@ public class PluginApplication extends Application {
 	}
 
 	private void initEliminatePlugins() {
-		String configFile = Environment.getExternalStorageDirectory().getPath() + "/plugins/exclude_plugin.ini";
+		String configFile = Environment.getExternalStorageDirectory().getPath() + EXCLUDE_PLUGIN_FILE;
 		try {
 			File file = new File(configFile);
 			if (!file.exists()) {
@@ -157,6 +167,16 @@ public class PluginApplication extends Application {
 			for (String pStr : mEliminatePlugins) {
 				TwsLog.d(TAG, " " + pStr);
 			}
+		}
+	}
+
+	@Override
+	public void onConfigurationChanged(Configuration newConfig) {
+		super.onConfigurationChanged(newConfig);
+		if (mSaveConfiguration.diff(newConfig) != 0 && ProcessUtil.isPluginProcess(this)) {
+			mSaveConfiguration.updateFrom(newConfig);
+			TwsLog.d(TAG, "更新所有插件的Config配置");
+			PluginLauncher.instance().onConfigurationChanged(newConfig);
 		}
 	}
 }

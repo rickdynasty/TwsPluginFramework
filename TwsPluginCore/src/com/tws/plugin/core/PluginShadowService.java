@@ -54,9 +54,7 @@ public class PluginShadowService extends Service {
 			Class clazz = PluginLoader.loadPluginClassByName(realName);
 			realService = (Service) clazz.newInstance();
 		} catch (Exception e) {
-			throw new RuntimeException(
-					"Unable to instantiate service " + mClassName
-							+ ": " + e.toString(), e);
+			throw new RuntimeException("Unable to instantiate service " + mClassName + ": " + e.toString(), e);
 		}
 
 		try {
@@ -65,14 +63,12 @@ public class PluginShadowService extends Service {
 			hackService.attach(mBaseContext, mThread, mClassName, mToken, mApplication, mActivityManager);
 			hackService.setStartCompatibility(mStartCompatibility);
 
-			//拿到创建好的service，重新 设置mBase和mApplicaiton
+			// 拿到创建好的service，重新 设置mBase和mApplicaiton
 			PluginInjector.replacePluginServiceContext(realName, realService);
 
 			realService.onCreate();
 		} catch (Exception e) {
-			throw new RuntimeException(
-					"Unable to create service " + mClassName
-							+ ": " + e.toString(), e);
+			throw new RuntimeException("Unable to create service " + mClassName + ": " + e.toString(), e);
 		}
 	}
 

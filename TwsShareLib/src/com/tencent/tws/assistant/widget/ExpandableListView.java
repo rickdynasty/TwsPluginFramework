@@ -631,6 +631,9 @@ public class ExpandableListView extends ListView {
     public boolean expandGroup(int groupPos, boolean animate) {
         PositionMetadata pm = mConnector.getFlattenedPos(ExpandableListPosition.obtain(
                 ExpandableListPosition.GROUP, groupPos, -1, -1));
+        if (pm == null) {
+        	return false;
+        }
         boolean retValue = mConnector.expandGroup(pm);
 
         if (mOnGroupExpandListener != null) {

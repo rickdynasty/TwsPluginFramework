@@ -254,15 +254,23 @@ public class TwsRingtonePickerActivity extends TwsActivity implements Runnable{
         mIsDefault = RingtoneManager.isDefault(mExistingUri);
 		mUriCurrentItem = RingtoneManager.getActualDefaultRingtoneUri(this, mRinfTypes);
 		if (mExistingUri != null && !mIsDefault) {
-            Cursor mCurrentCursor = getContentResolver().query(mExistingUri,mCurrentprojection, null, null, null);
-    		if(mCurrentCursor != null && mCurrentCursor.getCount()>0){
-    			mCurrentCursor.moveToFirst();
-    			mCurrentTitle = mCurrentCursor.getString(0);
-				mCurrentCursor.close();
-    			if(mCurrentTitle != null){
-    				mCurrentRingtonePos = addCurrentItem(listView);
-    			}
-    		}
+			Cursor currentCursor = null;
+			try {
+				currentCursor = getContentResolver().query(mExistingUri,mCurrentprojection, null, null, null);
+				if(currentCursor != null && currentCursor.getCount()>0){
+					currentCursor.moveToFirst();
+					mCurrentTitle = currentCursor.getString(0);
+					if(mCurrentTitle != null){
+						mCurrentRingtonePos = addCurrentItem(listView);
+					}
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			} finally {
+				if (currentCursor != null) {
+					currentCursor.close();
+				}
+			}
 			mClickedPos = getListPosition(mRingtoneManager.getRingtonePosition(mExistingUri));
         }	
         if (mHasDefaultItem) {

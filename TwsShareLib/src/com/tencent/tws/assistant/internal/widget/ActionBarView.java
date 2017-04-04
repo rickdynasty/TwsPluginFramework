@@ -65,8 +65,9 @@ public class ActionBarView extends AbsActionBarView {
 
     /**
      * Display options applied by default
+     * yongchen modify for plugin theme
      */
-    public static final int DISPLAY_DEFAULT = 0;
+    public static final int DISPLAY_DEFAULT = 0xb;
 
     /**
      * Display options that require re-layout as opposed to a simple invalidate
@@ -142,6 +143,7 @@ public class ActionBarView extends AbsActionBarView {
 	
 	public boolean mIsMarksPointFlag;
 	private boolean mIsMenuConfigFlag;
+	private boolean mIsRunInPlugins;
 	
     public void setActionbarViewActivity(Activity fatherActivity,boolean sendMessage) {
     	mActivity=fatherActivity;
@@ -203,13 +205,27 @@ public class ActionBarView extends AbsActionBarView {
         mNavigationMode = a.getInt(R.styleable.ActionBar_navigationMode,
                 ActionBar.NAVIGATION_MODE_STANDARD);
         
-        mTitleStyleRes = a.getResourceId(R.styleable.ActionBar_titleTextStyle, 0);
-        mSubtitleStyleRes = a.getResourceId(R.styleable.ActionBar_subtitleTextStyle, 0);
-        mItemPadding = a.getDimensionPixelOffset(R.styleable.ActionBar_itemPadding, 0);
-        mMultiStyleRes = a.getResourceId(R.styleable.ActionBar_actionbarrightbtnstyle, 0);
-        mCloseStyleRes = a.getResourceId(R.styleable.ActionBar_actionbarleftbtnstyle, 0);
-        mHomeBGStyleRes = a.getResourceId(R.styleable.ActionBar_homebackground, 0);
-        mHomeSrcStyleRes = a.getResourceId(R.styleable.ActionBar_homebutton, 0);
+		// yongchen modify for plugin theme
+		mIsRunInPlugins = false;
+		mTitleStyleRes = a.getResourceId(R.styleable.ActionBar_titleTextStyle, 0);
+		mIsRunInPlugins = 0 == mTitleStyleRes ? true : false;
+
+		if (mIsRunInPlugins) {
+			mTitleStyleRes = R.style.TextAppearance_tws_Second_twsTextLargerLightTitle_ActionBarTitle;
+			mSubtitleStyleRes = R.style.TextAppearance_tws_Second_twsTextSmallLightTitle;
+			mItemPadding = getResources().getDimensionPixelSize(R.dimen.actionbar_itemPadding);
+			mMultiStyleRes = R.style.TextAppearance_tws_Second_twsTextLargerLightTitleRightButton;
+			mCloseStyleRes = R.style.TextAppearance_tws_Second_twsTextLargerLightTitleLeftButton;
+			mHomeBGStyleRes = R.color.transparent;
+			mHomeSrcStyleRes = R.drawable.ic_ab_back;
+		} else {
+			mSubtitleStyleRes = a.getResourceId(R.styleable.ActionBar_subtitleTextStyle, 0);
+			mItemPadding = a.getDimensionPixelOffset(R.styleable.ActionBar_itemPadding, 0);
+			mMultiStyleRes = a.getResourceId(R.styleable.ActionBar_actionbarrightbtnstyle, 0);
+			mCloseStyleRes = a.getResourceId(R.styleable.ActionBar_actionbarleftbtnstyle, 0);
+			mHomeBGStyleRes = a.getResourceId(R.styleable.ActionBar_homebackground, 0);
+			mHomeSrcStyleRes = a.getResourceId(R.styleable.ActionBar_homebutton, 0);
+		}
         
         initHome(context);
 
@@ -676,6 +692,12 @@ public class ActionBarView extends AbsActionBarView {
 			
             if (mTitleStyleRes != 0) {
                 mTitleView.setTextAppearance(mContext, mTitleStyleRes);
+				// yongchen add for plugin theme
+				if (mIsRunInPlugins) {
+					mTitleView.setTextColor(getResources().getColor(R.color.tws_light_title_actionBar));
+					// <dimen name="tws_Large_TextSize_Title">18sp</dimen>
+					mTitleView.setTextSize(18.0f);
+				}
             }
             if (mTitle != null) {
                 mTitleView.setText(mTitle);
@@ -707,6 +729,14 @@ public class ActionBarView extends AbsActionBarView {
     		
 		if (mSubtitleStyleRes != 0) {
             mSubtitleView.setTextAppearance(mContext, mSubtitleStyleRes);
+			// yongchen add for plugin theme
+			if (mIsRunInPlugins) {
+				mSubtitleView.setTextColor(getResources().getColor(R.color.tws_light_subtitle_actionBar));
+				mSubtitleView.setHintTextColor(getResources().getColor(R.color.tws_second_Hint));
+				// mSubtitleView.setTextSize(getResources().getDimension(R.dimen.tws_Micro_TextSize));
+				// <dimen name="tws_Micro_TextSize">12sp</dimen>
+				mSubtitleView.setTextSize(12.0f);
+			}
         }
         if (mSubtitle != null) {
             mSubtitleView.setText(mSubtitle);

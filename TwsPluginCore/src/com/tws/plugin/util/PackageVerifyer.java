@@ -88,8 +88,7 @@ public class PackageVerifyer {
 						continue;
 					if (je.getName().startsWith("META-INF/"))
 						continue;
-                    Certificate[] localCerts = loadCertificates(jarFile, je,
-                            readBuffer);
+					Certificate[] localCerts = loadCertificates(jarFile, je, readBuffer);
 					if (DEBUG) {
 						TwsLog.d(TAG, "File " + sourcePath + " entry " + je.getName() + ": certs=" + certs + " ("
 								+ (certs != null ? certs.length : 0) + ")");
@@ -130,8 +129,7 @@ public class PackageVerifyer {
 				final int N = certs.length;
 				mSignatures = new Signature[certs.length];
 				for (int i = 0; i < N; i++) {
-                    mSignatures[i] = new Signature(
-                            certs[i].getEncoded());
+					mSignatures[i] = new Signature(certs[i].getEncoded());
 				}
 			} else {
 				TwsLog.e(TAG, "Package " + " has no certificates; ignoring!");

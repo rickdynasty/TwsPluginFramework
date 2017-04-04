@@ -1413,7 +1413,7 @@ public class ActionBarImpl extends ActionBar {
         if (mCurrentShowAnim != null) {
             mCurrentShowAnim.end();
         }
-        if (mSplitView.getVisibility() == View.VISIBLE) {
+        if (mSplitView != null && mSplitView.getVisibility() == View.VISIBLE) {
             return;
         }
 

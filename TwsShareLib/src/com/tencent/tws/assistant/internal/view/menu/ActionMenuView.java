@@ -80,11 +80,12 @@ public class ActionMenuView extends LinearLayout implements MenuBuilder.ItemInvo
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
-        mPresenter.updateMenuView(false);
-
-        if (mPresenter != null && mPresenter.isOverflowMenuShowing()) {
-            mPresenter.hideOverflowMenu();
-            mPresenter.showOverflowMenu();
+        if (mPresenter != null) {
+        	mPresenter.updateMenuView(false);
+        	if (mPresenter.isOverflowMenuShowing()) {
+        		mPresenter.hideOverflowMenu();
+                mPresenter.showOverflowMenu();
+        	}
         }
     }
 

@@ -17,11 +17,10 @@
 package com.tencent.tws.assistant.support.v4.graphics;
 
 import android.graphics.Color;
-
-import com.tencent.tws.assistant.support.annotation.ColorInt;
-import com.tencent.tws.assistant.support.annotation.FloatRange;
-import com.tencent.tws.assistant.support.annotation.IntRange;
-import com.tencent.tws.assistant.support.annotation.NonNull;
+import android.support.annotation.ColorInt;
+import android.support.annotation.FloatRange;
+import android.support.annotation.IntRange;
+import android.support.annotation.NonNull;
 
 /**
  * A set of color-related utility methods, building upon those available in {@code Color}.

@@ -121,17 +121,23 @@ public abstract class FragmentPagerAdapter extends PagerAdapter {
     @Override
     public void setPrimaryItem(ViewGroup container, int position, Object object) {
         Fragment fragment = (Fragment)object;
-        if (fragment != mCurrentPrimaryItem) {
-            if (mCurrentPrimaryItem != null) {
-                mCurrentPrimaryItem.setMenuVisibility(false);
-                mCurrentPrimaryItem.setUserVisibleHint(false);
-            }
-            if (fragment != null) {
-                fragment.setMenuVisibility(true);
-                fragment.setUserVisibleHint(true);
-            }
-            mCurrentPrimaryItem = fragment;
-        }
+		if (fragment != mCurrentPrimaryItem) {
+			if (mCurrentPrimaryItem != null) {
+				mCurrentPrimaryItem.setMenuVisibility(false);
+				mCurrentPrimaryItem.setUserVisibleHint(false);
+				if (mCurrentPrimaryItem.getView() != null) {
+					mCurrentPrimaryItem.getView().setVisibility(View.GONE);
+				}
+			}
+			if (fragment != null) {
+				fragment.setMenuVisibility(true);
+				fragment.setUserVisibleHint(true);
+				if (fragment.getView() != null) {
+					fragment.getView().setVisibility(View.VISIBLE);
+				}
+			}
+			mCurrentPrimaryItem = fragment;
+		}
     }
 
     @Override

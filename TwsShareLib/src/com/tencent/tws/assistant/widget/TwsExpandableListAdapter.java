@@ -155,7 +155,7 @@ public abstract class TwsExpandableListAdapter  extends BaseExpandableListAdapte
 		if (parentDivider != null)
 			holder.setDivider(parentDivider);
 		
-		boolean hasTitle = (holder.title.getText().toString().equals("") || holder.title == null) ? false : true;
+		boolean hasTitle = (holder.title == null || holder.title.getText().toString().equals("")) ? false : true;
 		boolean hasSubTitle = (holder.subtitle.getText().toString().equals("") || holder.subtitle == null) ? false : true;
 		
 		if (hasTitle && !hasSubTitle) {

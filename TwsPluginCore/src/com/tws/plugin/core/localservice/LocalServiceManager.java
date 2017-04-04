@@ -6,12 +6,12 @@ import java.util.Map;
 
 import tws.component.log.TwsLog;
 
-import com.limpoxe.support.servicemanager.ServiceManager;
-import com.limpoxe.support.servicemanager.local.ServicePool;
 import com.tws.plugin.content.LoadedPlugin;
 import com.tws.plugin.content.PluginDescriptor;
 import com.tws.plugin.core.PluginLauncher;
 import com.tws.plugin.core.PluginLoader;
+import com.tws.plugin.servicemanager.ServiceManager;
+import com.tws.plugin.servicemanager.local.ServicePool;
 
 /**
  * @author yongchen
@@ -23,7 +23,7 @@ public class LocalServiceManager {
 
 	static {
 		try {
-			Class ServiceManager = Class.forName("com.limpoxe.support.servicemanager.ServiceManager");
+			Class ServiceManager = Class.forName("com.tws.plugin.servicemanager.ServiceManager");
 			isSupport = ServiceManager != null;
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();

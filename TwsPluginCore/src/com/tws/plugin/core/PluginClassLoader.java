@@ -101,7 +101,6 @@ public class PluginClassLoader extends DexClassLoader {
 
 	@Override
 	protected Class<?> findClass(String className) throws ClassNotFoundException {
-		TwsLog.d(TAG, "findClass:" + className);
 		Class<?> clazz = null;
 		ClassNotFoundException suppressed = null;
 		try {

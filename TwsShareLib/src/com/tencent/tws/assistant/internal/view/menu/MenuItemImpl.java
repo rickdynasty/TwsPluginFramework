@@ -18,6 +18,7 @@ package com.tencent.tws.assistant.internal.view.menu;
 
 
 import com.tencent.tws.assistant.internal.view.menu.MenuView.ItemView;
+import com.tencent.tws.assistant.utils.ResIdentifierUtils;
 
 import android.view.MenuItem;
 
@@ -117,17 +118,21 @@ public final class MenuItemImpl implements MenuItem {
     MenuItemImpl(MenuBuilder menu, int group, int id, int categoryOrder, int ordering,
             CharSequence title, int showAsAction) {
 
-        if (sPrependShortcutLabel == null) {
-            // This is instantiated from the UI thread, so no chance of sync issues 
-            sPrependShortcutLabel = menu.getContext().getResources().getString(
-                    com.android.internal.R.string.prepend_shortcut_label);
-            sEnterShortcutLabel = menu.getContext().getResources().getString(
-                    com.android.internal.R.string.menu_enter_shortcut_label);
-            sDeleteShortcutLabel = menu.getContext().getResources().getString(
-                    com.android.internal.R.string.menu_delete_shortcut_label);
-            sSpaceShortcutLabel = menu.getContext().getResources().getString(
-                    com.android.internal.R.string.menu_space_shortcut_label);
-        }
+		if (sPrependShortcutLabel == null) {
+			// This is instantiated from the UI thread, so no chance of sync
+			// issues
+			int stringID = ResIdentifierUtils.getSysStringId("prepend_shortcut_label");
+			sPrependShortcutLabel = (stringID == 0 ? "MENU+" : menu.getContext().getResources().getString(stringID));
+
+			stringID = ResIdentifierUtils.getSysStringId("menu_enter_shortcut_label");
+			sEnterShortcutLabel = (stringID == 0 ? "Enter 键" : menu.getContext().getResources().getString(stringID));
+
+			stringID = ResIdentifierUtils.getSysStringId("menu_delete_shortcut_label");
+			sDeleteShortcutLabel = (stringID == 0 ? "删除" : menu.getContext().getResources().getString(stringID));
+
+			stringID = ResIdentifierUtils.getSysStringId("menu_space_shortcut_label");
+			sSpaceShortcutLabel = (stringID == 0 ? "空格" : menu.getContext().getResources().getString(stringID));
+		}
         
         mMenu = menu;
         mId = id;

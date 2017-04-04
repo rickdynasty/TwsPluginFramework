@@ -46,6 +46,7 @@ import android.widget.RemoteViews.OnClickHandler;
 import com.android.internal.widget.IRemoteViewsAdapterConnection;
 import com.android.internal.widget.IRemoteViewsFactory;
 import com.android.internal.widget.LockPatternUtils;
+import com.tencent.tws.assistant.utils.ResIdentifierUtils;
 
 import android.widget.BaseAdapter;
 import android.widget.RemoteViews;
@@ -487,8 +488,9 @@ public class RemoteViewsAdapter extends BaseAdapter implements Handler.Callback 
                     try {
                         View loadingView = mUserLoadingView.apply(parent.getContext(), parent,
                                 handler);
-                        loadingView.setTagInternal(com.android.internal.R.id.rowTypeId,
-                                new Integer(0));
+						int valueID = ResIdentifierUtils.getSysId("rowTypeId");
+						loadingView.setTagInternal(valueID == 0 ? com.android.internal.R.id.rowTypeId : valueID,
+								new Integer(0));
                         layout.addView(loadingView);
                         customLoadingViewAvailable = true;
                     } catch (Exception e) {
@@ -517,9 +519,10 @@ public class RemoteViewsAdapter extends BaseAdapter implements Handler.Callback 
                     }
 
                     // Compose the loading view text
-                    TextView loadingTextView = (TextView) layoutInflater.inflate(
-                            com.android.internal.R.layout.remote_views_adapter_default_loading_view,
-                            layout, false);
+					int layoutID = ResIdentifierUtils.getSysLayoutId("remote_views_adapter_default_loading_view");
+					TextView loadingTextView = (TextView) layoutInflater.inflate(
+							layoutID == 0 ? com.android.internal.R.layout.remote_views_adapter_default_loading_view
+									: layoutID, layout, false);
                     loadingTextView.setHeight(mFirstViewHeight);
                     loadingTextView.setTag(new Integer(0));
 
@@ -1048,14 +1051,14 @@ public class RemoteViewsAdapter extends BaseAdapter implements Handler.Callback 
             return;
         }
 
-        if (remoteViews == null) {
-            // If a null view was returned, we break early to prevent it from getting
-            // into our cache and causing problems later. The effect is that the child  at this
-            // position will remain as a loading view until it is updated.
-            Log.e(TAG, "Error in updateRemoteViews(" + position + "): " + " null RemoteViews " +
-                    "returned from RemoteViewsFactory.");
-            return;
-        }
+//        if (remoteViews == null) {
+//            // If a null view was returned, we break early to prevent it from getting
+//            // into our cache and causing problems later. The effect is that the child  at this
+//            // position will remain as a loading view until it is updated.
+//            Log.e(TAG, "Error in updateRemoteViews(" + position + "): " + " null RemoteViews " +
+//                    "returned from RemoteViewsFactory.");
+//            return;
+//        }
 
         int layoutId = remoteViews.getLayoutId();
         RemoteViewsMetaData metaData = mCache.getMetaData();
@@ -1113,6 +1116,10 @@ public class RemoteViewsAdapter extends BaseAdapter implements Handler.Callback 
     public long getItemId(int position) {
         synchronized (mCache) {
             if (mCache.containsMetaDataAt(position)) {
+            	RemoteViewsIndexMetaData metaData = mCache.getMetaDataAt(position);
+            	if (metaData == null) {
+            		return 0;
+            	}
                 return mCache.getMetaDataAt(position).itemId;
             }
             return 0;
@@ -1123,6 +1130,10 @@ public class RemoteViewsAdapter extends BaseAdapter implements Handler.Callback 
         int typeId = 0;
         synchronized (mCache) {
             if (mCache.containsMetaDataAt(position)) {
+            	RemoteViewsIndexMetaData metaData = mCache.getMetaDataAt(position);
+            	if (metaData == null) {
+            		return 0;
+            	}
                 typeId = mCache.getMetaDataAt(position).typeId;
             } else {
                 return 0;
@@ -1142,10 +1153,13 @@ public class RemoteViewsAdapter extends BaseAdapter implements Handler.Callback 
     private int getConvertViewTypeId(View convertView) {
         int typeId = -1;
         if (convertView != null) {
-            Object tag = convertView.getTag(com.android.internal.R.id.rowTypeId);
-            if (tag != null) {
-                typeId = (Integer) tag;
-            }
+			int valueID = ResIdentifierUtils.getSysId("rowTypeId");
+			if (0 != valueID) {
+				Object tag = convertView.getTag(valueID);
+				if (tag != null) {
+					typeId = (Integer) tag;
+				}
+			}
         }
         return typeId;
     }
@@ -1213,8 +1227,9 @@ public class RemoteViewsAdapter extends BaseAdapter implements Handler.Callback 
 
                     // Otherwise, create a new view to be returned
                     View newView = rv.apply(context, parent, mRemoteViewsOnClickHandler);
-                    newView.setTagInternal(com.android.internal.R.id.rowTypeId,
-                            new Integer(typeId));
+					int valueID = ResIdentifierUtils.getSysId("rowTypeId");
+					newView.setTagInternal(valueID == 0 ? com.android.internal.R.id.rowTypeId : valueID, new Integer(
+							typeId));
                     layout.addView(newView);
                     return layout;
 

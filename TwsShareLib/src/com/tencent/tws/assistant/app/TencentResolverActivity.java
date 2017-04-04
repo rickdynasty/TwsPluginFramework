@@ -194,7 +194,7 @@ public class TencentResolverActivity extends AlertActivity {
 		mList = new ArrayList<DisplayResolveInfo>();
 		rebuildList();
 		
-		int itemCount = mList == null ? 0 : mList.size();
+		int itemCount = mList.size();
 		int pageCount = 0;
 		
 		if (itemCount > 0) {

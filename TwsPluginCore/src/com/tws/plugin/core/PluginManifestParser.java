@@ -120,23 +120,23 @@ public class PluginManifestParser {
 												+ " No configuration secondary location information!!!");
 									}
 								} else if ("title".equals(values[0])) {
-									displayConfig.title = values[1];
+									displayConfig.title = values[1].trim();
 								} else if ("ctyle".equals(values[0]) || "ctype".equals(values[0])) {// 手贱，之前的写错了
 									displayConfig.contentType = Integer.parseInt(values[1]);
 								} else if ("content".equals(values[0])) {
-									displayConfig.content = values[1];
+									displayConfig.content = values[1].trim();
 								} else if ("icon".equals(values[0])) {
-									displayConfig.iconResName = values[1]; // 不在这里解析图片，统一放到需要的时候在解析
+									displayConfig.iconResName = values[1].trim(); // 不在这里解析图片，统一放到需要的时候在解析
 								} else if ("statkey".equals(values[0])) {
-									displayConfig.statKey = values[1];
+									displayConfig.statKey = values[1].trim();
 								} else if ("ab-title".equals(values[0])) {
-									displayConfig.ab_title = values[1];
+									displayConfig.ab_title = values[1].trim();
 								} else if ("ab-rbtnrestype".equals(values[0])) {
 									displayConfig.ab_rbtnrestype = Integer.parseInt(values[1]);
 								} else if ("ab-rbtnres".equals(values[0])) {
-									displayConfig.ab_rbtnres = values[1];
+									displayConfig.ab_rbtnres = values[1].trim();
 								} else if ("ab-rbtncontent".equals(values[0])) {
-									displayConfig.ab_rbtncontent = values[1];
+									displayConfig.ab_rbtncontent = values[1].trim();
 								} else if ("ab-rbtnctype".equals(values[0])) {
 									displayConfig.ab_rbtnctype = Integer.parseInt(values[1]);
 								} else if ("dependOn".equals(values[0])) {
@@ -145,9 +145,9 @@ public class PluginManifestParser {
 										dependOns = new ArrayList<String>();
 										desciptor.setDependOns(dependOns);
 									}
-									
+
 									if (!dependOns.contains(values[1])) {
-										dependOns.add(values[1]);
+										dependOns.add(values[1].trim());
 									}
 								}
 							}

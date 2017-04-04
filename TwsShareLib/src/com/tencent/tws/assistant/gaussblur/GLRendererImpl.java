@@ -429,8 +429,8 @@ public class GLRendererImpl{
 	{	
 		// Create middle render fbo result 
 		if((gaussFboTexttures[0] != 0 && gaussFboTexttures[1] != 0) ||
-			(gaussFboRenderBuffers[0] != 0 && gaussFboRenderBuffers[0] != 0) ||
-			(gaussFboFrameBuffers[0] != 0 && gaussFboFrameBuffers[0] != 0))
+			(gaussFboRenderBuffers[0] != 0 && gaussFboRenderBuffers[1] != 0) ||
+			(gaussFboFrameBuffers[0] != 0 && gaussFboFrameBuffers[1] != 0))
 		{
 			if(setbitmap != null && (fboTextureWidth == setbitmap.getWidth() && fboTextureHeight == setbitmap.getHeight()))
 				return;

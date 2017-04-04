@@ -1,6 +1,8 @@
 package com.tws.plugin.core;
 
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 import tws.component.log.TwsLog;
 import android.content.ComponentName;
@@ -24,15 +26,15 @@ public class PluginIntentResolver {
 	public static final String CLASS_SEPARATOR = "@";// 字符串越短,判断时效率越高
 	public static final String CLASS_PREFIX_RECEIVER = "#";// 字符串越短,判断时效率越高
 	public static final String CLASS_PREFIX_SERVICE = "%";// 字符串越短,判断时效率越高
-
-	public static final String INTENT_EXTRA_PID = "extra_plugin_packagename";
 	// 保存跳转的跳板
 	public static final String INTENT_EXTRA_BRIDGE_RAMP = "extra_bridge_ramp";
 	// 保存跳转的目的
 	public static final String INTENT_EXTRA_BRIDGE_TO_PLUGIN = "extra_bridge_to_plugin";
+	// 特殊作用 - 过滤用
+	public static final String INTENT_EXTRA_BACK_TO_LAUNCHER = "back_to_launcher";
 
 	public static void resolveService(Intent intent) {
-		ArrayList<ComponentInfo> componentInfos = PluginLoader.matchPlugin(intent, PluginDescriptor.SERVICE,
+		ArrayList<ComponentInfo> componentInfos = matchPlugin(intent, PluginDescriptor.SERVICE,
 				PluginLoader.getPackageName(intent));
 		if (componentInfos != null && componentInfos.size() > 0) {
 			String stubServiceName = PluginManagerHelper.bindStubService(componentInfos.get(0).name,
@@ -54,8 +56,8 @@ public class PluginIntentResolver {
 		// 如果在插件中发现了匹配intent的receiver项目，替换掉ClassLoader
 		// 不需要在这里记录目标className，className将在Intent中传递
 		ArrayList<Intent> result = new ArrayList<Intent>();
-		ArrayList<ComponentInfo> componentInfos = PluginLoader.matchPlugin(intent, PluginDescriptor.BROADCAST,
-				PluginLoader.getPackageName(intent));
+		final String packageName = PluginLoader.getPackageName(intent);
+		ArrayList<ComponentInfo> componentInfos = matchPlugin(intent, PluginDescriptor.BROADCAST, packageName);
 		if (componentInfos != null && componentInfos.size() > 0) {
 			for (ComponentInfo info : componentInfos) {
 				Intent newIntent = new Intent(intent);
@@ -63,7 +65,8 @@ public class PluginIntentResolver {
 						PluginManagerHelper.bindStubReceiver()));
 				// hackReceiverForClassLoader检测到这个标记后会进行替换
 				newIntent.setAction(info.name + CLASS_SEPARATOR
-						+ (intent.getAction() == null ? "" : intent.getAction()));
+						+ (intent.getAction() == null ? "" : intent.getAction()) + CLASS_SEPARATOR
+						+ (TextUtils.isEmpty(packageName) ? "" : packageName));
 				result.add(newIntent);
 			}
 		} else {
@@ -89,8 +92,19 @@ public class PluginIntentResolver {
 			TwsLog.d(TAG, "action:" + action);
 			if (action != null) {
 				String[] targetClassName = action.split(CLASS_SEPARATOR);
-				@SuppressWarnings("rawtypes")
-				Class clazz = PluginLoader.loadPluginClassByName(targetClassName[0]);
+				final String packageName = targetClassName.length > 2 ? targetClassName[2] : "";
+				Class<?> clazz = null;
+				if (!packageName.isEmpty()) {
+					PluginDescriptor pluginDescriptor = PluginManagerHelper.getPluginDescriptorByPluginId(packageName);
+					if (pluginDescriptor != null) {
+						clazz = PluginLoader.loadPluginClassByName(pluginDescriptor, targetClassName[0]);
+					}
+				}
+
+				if (clazz == null) {
+					clazz = PluginLoader.loadPluginClassByName(targetClassName[0]);
+				}
+
 				if (clazz != null) {
 					intent.setExtrasClassLoader(clazz.getClassLoader());
 					// 由于之前intent被修改过 这里再吧Intent还原到原始的intent
@@ -153,8 +167,7 @@ public class PluginIntentResolver {
 	public static void resolveActivity(Intent intent) {
 		String packageName = PluginLoader.getPackageName(intent);
 		// 如果在插件中发现Intent的匹配项，记下匹配的插件Activity的ClassName
-		ArrayList<ComponentInfo> componentInfos = PluginLoader.matchPlugin(intent, PluginDescriptor.ACTIVITY,
-				packageName);
+		ArrayList<ComponentInfo> componentInfos = matchPlugin(intent, PluginDescriptor.ACTIVITY, packageName);
 		if (componentInfos != null && componentInfos.size() > 0) {
 			String className = componentInfos.get(0).name;
 			final String applicationPackageName = PluginLoader.getApplication().getPackageName();
@@ -172,15 +185,18 @@ public class PluginIntentResolver {
 					Integer.parseInt(pluginActivityInfo.getLaunchMode()));
 
 			intent.setComponent(new ComponentName(applicationPackageName, stubActivityName));
-			intent.putExtra(INTENT_EXTRA_PID, packageName);
 			// PluginInstrumentationWrapper检测到这个标记后会进行替换
-			intent.setAction(className + CLASS_SEPARATOR + (intent.getAction() == null ? "" : intent.getAction()));
+			intent.setAction(className + CLASS_SEPARATOR + (intent.getAction() == null ? "" : intent.getAction())
+					+ CLASS_SEPARATOR + (TextUtils.isEmpty(packageName) ? "" : packageName));
 		} else {
-			if (intent.getComponent() != null
-					&& null != PluginManagerHelper
-							.getPluginDescriptorByPluginId(intent.getComponent().getPackageName())) {
-				intent.setComponent(new ComponentName(PluginLoader.getApplication().getPackageName(), intent
-						.getComponent().getClassName()));
+			if (intent.getComponent() != null) {
+				String targetPackageName = intent.getComponent().getPackageName();
+				PluginDescriptor pluginDescriptor = PluginManagerHelper
+						.getPluginDescriptorByPluginId(targetPackageName);
+				if (pluginDescriptor != null) {
+					intent.setComponent(new ComponentName(PluginLoader.getApplication().getPackageName(), intent
+							.getComponent().getClassName()));
+				}
 			}
 		}
 	}
@@ -189,4 +205,38 @@ public class PluginIntentResolver {
 		// 不常用。需要时再实现此方法，
 	}
 
+	public static ArrayList<ComponentInfo> matchPlugin(Intent intent, int type, final String packageName) {
+		ArrayList<ComponentInfo> result = null;
+
+		if (packageName != null && !packageName.equals(PluginLoader.getApplication().getPackageName())) {
+			PluginDescriptor dp = PluginManagerHelper.getPluginDescriptorByPluginId(packageName);
+			if (dp != null) {
+				List<ComponentInfo> list = dp.matchPlugin(intent, type);
+				if (list != null && list.size() > 0) {
+					if (result == null) {
+						result = new ArrayList<ComponentInfo>();
+					}
+					result.addAll(list);
+				}
+			}
+		} else { // 我了个去，这得遍历所有插件才能得到结果啊~，姿势得规范一下，不然这效率就被拉下来了
+			String SpecialFlg = intent.getStringExtra(INTENT_EXTRA_BACK_TO_LAUNCHER);
+			if (TextUtils.isEmpty(SpecialFlg)) {
+				Iterator<PluginDescriptor> itr = PluginManagerHelper.getPlugins().iterator();
+				while (itr.hasNext()) {
+					List<ComponentInfo> list = itr.next().matchPlugin(intent, type);
+					if (list != null && list.size() > 0) {
+						if (result == null) {
+							result = new ArrayList<ComponentInfo>();
+						}
+						result.addAll(list);
+					}
+					if (result != null && type != PluginDescriptor.BROADCAST) {
+						break;
+					}
+				}
+			}
+		}
+		return result;
+	}
 }

@@ -40,7 +40,6 @@ import com.tws.plugin.core.android.HackService;
 import com.tws.plugin.core.android.HackWindow;
 import com.tws.plugin.core.annotation.PluginContainer;
 import com.tws.plugin.core.compat.CompatForSupportv7_23_2;
-import com.tws.plugin.core.loading.WaitForLoadingPluginActivity;
 import com.tws.plugin.manager.PluginManagerHelper;
 import com.tws.plugin.util.ProcessUtil;
 import com.tws.plugin.util.ResourceUtil;
@@ -112,10 +111,6 @@ public class PluginInjector {
 	}
 
 	static void injectActivityContext(final Activity activity) {
-		if (activity instanceof WaitForLoadingPluginActivity) {
-			return;
-		}
-
 		TwsLog.d(TAG, "injectActivityContext");
 		String pluginId = null;
 		boolean isStubActivity = false;
@@ -357,33 +352,9 @@ public class PluginInjector {
 	 */
 	private static int getPluginTheme(ActivityInfo activityInfo, PluginActivityInfo pluginActivityInfo,
 			PluginDescriptor pd) {
-		int pluginAppTheme = 0;
-		if ("samsung".equalsIgnoreCase(Build.BRAND)) {
-			TwsLog.d(TAG, "getPluginTheme is samsung device！");
+		int pluginAppTheme = PluginLoader.getApplication().getApplicationInfo().theme;
+		if (pluginAppTheme == 0 && pd.isStandalone()) {
 			pluginAppTheme = android.R.style.Theme_Holo_Light;
-			// if (pluginActivityInfo != null) {
-			// pluginAppTheme =
-			// ResourceUtil.getResourceId(pluginActivityInfo.getTheme());
-			// }
-			// if (pluginAppTheme == 0) {
-			// pluginAppTheme = pd.getApplicationTheme();
-			// }
-			//
-			// if (pluginAppTheme == 0 && pd.isStandalone()) {
-			// pluginAppTheme = android.R.style.Theme_Holo_Light;
-			// }
-			//
-			// if (pluginAppTheme == 0) {
-			// // If the activity defines a theme, that is used; else, the
-			// // application theme is used.
-			// pluginAppTheme = activityInfo.getThemeResource();
-			// }
-		} else {
-			TwsLog.d(TAG, "getPluginTheme " + Build.BRAND + " use HostApplicationTheme!");
-			pluginAppTheme = PluginLoader.getApplication().getApplicationInfo().theme;
-			if (pluginAppTheme == 0 && pd.isStandalone()) {
-				pluginAppTheme = android.R.style.Theme_Holo_Light;
-			}
 		}
 
 		return pluginAppTheme;

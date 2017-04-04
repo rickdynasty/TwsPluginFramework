@@ -16,6 +16,7 @@
 
 package com.tws.plugin.core;
 
+import java.io.File;
 import java.util.ArrayList;
 
 import tws.component.log.TwsLog;
@@ -26,17 +27,20 @@ import android.content.Context;
 import android.content.ContextWrapper;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.UserHandle;
+import android.util.ArrayMap;
 
+import com.tws.plugin.core.android.HackContextImpl;
 import com.tws.plugin.manager.PluginManagerHelper;
 
 public class PluginBaseContextWrapper extends ContextWrapper {
 
-	private static final String TAG = "rick_Print:PluginBaseContextWrapper";
+	private static final String TAG = "rick_Print_TT:PluginBaseContextWrapper";
 
 	public PluginBaseContextWrapper(Context base) {
 		super(base);
@@ -196,5 +200,56 @@ public class PluginBaseContextWrapper extends ContextWrapper {
 			return PluginLoader.getNewPluginApplicationContext(packageName);
 		}
 		return super.createPackageContext(packageName, flags);
+	}
+
+	private File mHostPreferencesFile = null;
+
+	@Override
+	public SharedPreferences getSharedPreferences(String name, int mode) {
+		if (Build.VERSION.SDK_INT > 23) {
+			synchronized (PluginContextTheme.class) {
+				HackContextImpl impl = new HackContextImpl(getContextImpl());
+				ArrayMap<String, File> mSharedPrefsPaths = impl.getSharedPrefsPaths();
+
+				String privateDir = PluginLoader.getApplication().getFilesDir().getParentFile().getPath();
+				if (mHostPreferencesFile == null) {
+					mHostPreferencesFile = new File(privateDir, "shared_prefs");
+				}
+				String preferencesDir = mHostPreferencesFile.getAbsolutePath();
+				TwsLog.d(TAG, "preferencesDir is " + preferencesDir);
+				if (mSharedPrefsPaths != null) {
+					File file = mSharedPrefsPaths.get(name);
+					if (file != null) {
+						TwsLog.d(TAG, "file path is " + file.getAbsolutePath() + " parent is " + file.getParent());
+					}
+					if (file != null && !file.getParent().equals(preferencesDir)) {
+						mSharedPrefsPaths.remove(name);// 置空之后再get会触发重建，则getDataDir有机会生效
+					}
+				}
+				File preferencesDirFile = impl.getPreferencesDir();
+				if (preferencesDirFile == null || !preferencesDirFile.getAbsolutePath().equals(preferencesDir)) {
+					impl.setPreferencesDir(mHostPreferencesFile);
+				}
+			}
+		}
+
+		return super.getSharedPreferences(name, mode);
+	}
+
+	protected Object getContextImpl() {
+		int dep = 0;// 这个dep限制是以防万一陷入死循环
+		Context base = getBaseContext();
+		while (base instanceof ContextWrapper && dep < 10) {
+			base = ((ContextWrapper) base).getBaseContext();
+			dep++;
+		}
+		if (HackContextImpl.instanceOf(base)) {
+			return base;
+		}
+		return null;
+	}
+
+	protected SharedPreferences getSharedPreferencesEx(String name, int mode) {
+		return super.getSharedPreferences(name, mode);
 	}
 }

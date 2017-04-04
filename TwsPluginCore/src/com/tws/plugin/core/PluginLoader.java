@@ -1,10 +1,11 @@
 package com.tws.plugin.core;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
 
 import tws.component.log.TwsLog;
 import android.app.Activity;
@@ -19,18 +20,18 @@ import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.res.AssetManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.text.TextUtils;
+import android.util.Log;
 import android.widget.Toast;
 
-import com.tws.plugin.content.ComponentInfo;
 import com.tws.plugin.content.LoadedPlugin;
 import com.tws.plugin.content.PluginDescriptor;
 import com.tws.plugin.core.android.HackLayoutInflater;
 import com.tws.plugin.core.compat.CompatForSupportv7ViewInflater;
 import com.tws.plugin.core.proxy.systemservice.AndroidAppIActivityManager;
 import com.tws.plugin.core.proxy.systemservice.AndroidAppIPackageManager;
-import com.tws.plugin.core.proxy.systemservice.AndroidOsServiceManager;
 import com.tws.plugin.core.proxy.systemservice.AndroidWebkitWebViewFactoryProvider;
 import com.tws.plugin.manager.PluginManagerHelper;
 import com.tws.plugin.util.FileUtil;
@@ -47,10 +48,7 @@ public class PluginLoader {
 	private static boolean isLoaderInited = false;
 	private static boolean isLoaderPlugins = false;
 	private static final String ASSETS_PLUGS_DIR = "plugins";
-
-	private static int sLoadingResId;
-
-	private static long sMinLoadingTime = 400;
+	private static final String PLUGIN_PRIVATE_EXTERNAL_FILLS_DIR = "/storage/emulated/0/Android/data/com.tencent.tws.gdevicemanager/files";
 
 	private PluginLoader() {
 	}
@@ -78,11 +76,6 @@ public class PluginLoader {
 			// 这里的isPluginProcess方法需要在安装AndroidAppIActivityManager之前执行一次。
 			// 原因见AndroidAppIActivityManager的getRunningAppProcesses()方法
 			boolean isPluginProcess = ProcessUtil.isPluginProcess();
-			if (isPluginProcess) {
-				// 这里代理了系统的绝大部分服务以及几个proxy，主要是解决在插件内部通过上下文获取包名不是宿主的问题，比如Toast等
-				// 这里存在一定概率的失败，并非100%成功的，比如小米的手机就有些Toast使用插件的上下文会失败
-				AndroidOsServiceManager.installProxy();
-			}
 
 			// 进行PendingIntent的resolve、进程欺骗等主要是为了让插件在四大组件之外的组件等单元也具备自己的运行权限
 			AndroidAppIActivityManager.installProxy();
@@ -309,40 +302,7 @@ public class PluginLoader {
 		return false;
 	}
 
-	public static ArrayList<ComponentInfo> matchPlugin(Intent intent, int type, final String packageName) {
-		ArrayList<ComponentInfo> result = null;
-
-		if (packageName != null && !packageName.equals(PluginLoader.getApplication().getPackageName())) {
-			PluginDescriptor dp = PluginManagerHelper.getPluginDescriptorByPluginId(packageName);
-			if (dp != null) {
-				List<ComponentInfo> list = dp.matchPlugin(intent, type);
-				if (list != null && list.size() > 0) {
-					if (result == null) {
-						result = new ArrayList<ComponentInfo>();
-					}
-					result.addAll(list);
-				}
-			}
-		} else { // 我了个去，这得遍历所有插件才能得到结果啊~，姿势得规范一下，不然这效率就被拉下来了
-			Iterator<PluginDescriptor> itr = PluginManagerHelper.getPlugins().iterator();
-			while (itr.hasNext()) {
-				List<ComponentInfo> list = itr.next().matchPlugin(intent, type);
-				if (list != null && list.size() > 0) {
-					if (result == null) {
-						result = new ArrayList<ComponentInfo>();
-					}
-					result.addAll(list);
-				}
-				if (result != null && type != PluginDescriptor.BROADCAST) {
-					break;
-				}
-			}
-
-		}
-		return result;
-	}
-
-	public static synchronized void loadPlugins(Application app) {
+	public static synchronized void loadPlugins(Context app) {
 		if (!isLoaderPlugins) {
 			long beginTime = System.currentTimeMillis();
 			// step1 判断application的版本号，通过版本号来判断是否要全部更新插件内容
@@ -352,10 +312,12 @@ public class PluginLoader {
 						PackageManager.GET_CONFIGURATIONS);
 				currentVersionCode = pi.versionCode;
 			} catch (NameNotFoundException e) {
-				e.printStackTrace();
+				TwsLog.w(TAG, "loadPlugins getPackageInfo Exception:", e);
 			}
 
-			if (getVersionCode() < currentVersionCode) {
+			final int oldVersion = getVersionCode();
+			TwsLog.d(TAG, "call loadPlugins - oldVersion is " + oldVersion + ", newVersion is " + currentVersionCode);
+			if (oldVersion != currentVersionCode) {
 				TwsLog.d(TAG, "首次/升级安装,先清理...");// rick_Note:这个有个问题需要确定：如果新版本里面不包含之前版本的插件包该怎么处理？？？？
 				// 版本升级 清理掉之前安装的所有插件
 				PluginManagerHelper.removeAll();
@@ -368,12 +330,42 @@ public class PluginLoader {
 			TwsLog.d(TAG, "loadPlugins 耗时：" + (System.currentTimeMillis() - beginTime) + "ms");
 
 			isLoaderPlugins = true;
+		} else {
+			Exception here = new Exception();
+			here.fillInStackTrace();
+			TwsLog.w(TAG, "===仅用于查看调用栈[非异常]===has loadPlugins", here);
 		}
 	}
 
 	// 安装内置插件
 	private static synchronized void installAssetsPlugins() {
 		TwsLog.d(TAG, "installAssetsPlugins()");
+		// 加载插件黑名单
+		ArrayList<String> blacklist = null;
+		String configFile = Environment.getExternalStorageDirectory().getPath()
+				+ PluginApplication.PLUGIN_BLACKLIST_FILE;
+		try {
+			File file = new File(configFile);
+			if (file.exists()) {
+				BufferedReader br = new BufferedReader(new FileReader(file));
+				String line = "";
+				while ((line = br.readLine()) != null) {
+					line = line.trim();
+					if (TextUtils.isEmpty(line) || line.startsWith("#"))
+						continue;
+
+					if (blacklist == null) {
+						blacklist = new ArrayList<String>();
+					}
+
+					blacklist.add(line);
+				}
+				br.close();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
 		final AssetManager asset = getApplication().getAssets();
 		String[] files = null;
 		try {
@@ -385,6 +377,12 @@ public class PluginLoader {
 		if (files != null) {
 			for (String apk : files) {
 				if (!apk.endsWith(".apk")) {
+					TwsLog.e(TAG, "主意 - fill：" + apk + "不是apk，将放弃走插件安装流程...");
+					continue;
+				}
+
+				if (blacklist != null && blacklist.contains(apk)) {
+					TwsLog.d(TAG, "插件：" + apk + "在黑名单中，continue~");
 					continue;
 				}
 
@@ -412,13 +410,23 @@ public class PluginLoader {
 
 	public static void copyAndInstall(String name) {
 		try {
+			Log.d(TAG, "copyAndInstall:" + name);
 			InputStream assestInput = getApplication().getAssets().open(name);
-			String dest = getApplication().getExternalFilesDir(null).getAbsolutePath() + "/" + name;
+			File file = getApplication().getExternalFilesDir(null);
+			String dest = (file == null ? PLUGIN_PRIVATE_EXTERNAL_FILLS_DIR : file.getAbsolutePath() + "/" + name);
+
 			if (FileUtil.copyFile(assestInput, dest)) {
 				PluginManagerHelper.installPlugin(dest);
 			} else {
 				assestInput = getApplication().getAssets().open(name);
-				dest = getApplication().getCacheDir().getAbsolutePath() + "/" + name;
+				file = getApplication().getCacheDir();
+				if (file == null) {
+					Toast.makeText(getApplication(), "抽取assets中的Apk：" + name + " 02  因getCacheDir()==null失败",
+							Toast.LENGTH_SHORT).show();
+					return;
+				}
+
+				dest = file.getAbsolutePath() + "/" + name;
 				if (FileUtil.copyFile(assestInput, dest)) {
 					PluginManagerHelper.installPlugin(dest);
 				} else {
@@ -429,22 +437,6 @@ public class PluginLoader {
 			e.printStackTrace();
 			Toast.makeText(getApplication(), "安装失败", Toast.LENGTH_SHORT).show();
 		}
-	}
-
-	public static void setLoadingResId(int resId) {
-		sLoadingResId = resId;
-	}
-
-	public static int getLoadingResId() {
-		return sLoadingResId;
-	}
-
-	public static void setMinLoadingTime(long minLoadingTime) {
-		sMinLoadingTime = minLoadingTime;
-	}
-
-	public static long getMinLoadingTime() {
-		return sMinLoadingTime;
 	}
 
 	public static String getPackageName(final Intent intent) {

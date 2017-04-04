@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tws="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center_horizontal"
+    android:gravity="center"
+    android:orientation="horizontal" >
+
+    <!-- lunar -->
+    <com.tencent.tws.assistant.widget.NumberPicker
+        android:id="@+id/datetime_lunar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        tws:minWidth="70dip"
+        android:focusable="true"
+        android:focusableInTouchMode="true" />
+
+    <!-- date -->
+    <com.tencent.tws.assistant.widget.NumberPicker
+        android:id="@+id/datetime_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        tws:minWidth="120dip" />
+
+    <!-- hour -->
+    <com.tencent.tws.assistant.widget.NumberPicker
+        android:id="@+id/datetime_hour"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        tws:minWidth="85dip" />
+
+    <!-- minute -->
+    <com.tencent.tws.assistant.widget.NumberPicker
+        android:id="@+id/datetime_minute"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        tws:minWidth="65dip" />
+
+</LinearLayout>

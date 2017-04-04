@@ -16,22 +16,22 @@
 
 package com.tencent.tws.assistant.drawable;
 
-import org.xmlpull.v1.XmlPullParser;
-import org.xmlpull.v1.XmlPullParserException;
-
-import com.tencent.tws.assistant.support.annotation.NonNull;
-import com.tencent.tws.assistant.support.annotation.Nullable;
-import com.tencent.tws.sharelib.R;
-
 import java.io.IOException;
 import java.util.Arrays;
 
+import org.xmlpull.v1.XmlPullParser;
+import org.xmlpull.v1.XmlPullParserException;
+
 import android.content.res.Resources;
-import android.content.res.TypedArray;
 import android.content.res.Resources.Theme;
+import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.util.StateSet;
+
+import com.tencent.tws.sharelib.R;
 
 /**
  * Lets you assign a number of graphic images to a single Drawable and swap out the visible item by a string

@@ -1154,10 +1154,13 @@ public class AlertDialog extends TwsDialog implements DialogInterface {
          * Creates a {@link AlertDialog} with the arguments supplied to this builder and {@link Dialog#show()}
          * 's the dialog.
          */
+        private AlertDialog mAlertDialog = null;
         public AlertDialog show() {
-            AlertDialog dialog = create();
-            dialog.show();
-            return dialog;
+            if(null == mAlertDialog){
+                mAlertDialog = create();
+            }
+            mAlertDialog.show();
+            return mAlertDialog;
         }
 
         // tws-start bottom dialog::2014-10-2

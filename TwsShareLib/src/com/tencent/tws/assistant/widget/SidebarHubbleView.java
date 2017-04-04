@@ -223,7 +223,7 @@ public class SidebarHubbleView extends View {
 		animateCount = 0;
 
 		mAnimator = ValueAnimator.ofInt(0, IN_FRAME_COUNT - 1);
-		long duratime = IN_FRAME_COUNT * hubble_in_per_frame;
+		long duratime = (long)IN_FRAME_COUNT * hubble_in_per_frame;
 		mAnimator.setDuration(duratime);
 		//mAnimator.setEvaluator(new QuadEaseOut(duratime));
 		mAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
@@ -280,7 +280,7 @@ public class SidebarHubbleView extends View {
 		animateCount = 0;
 
 		mAnimator = ValueAnimator.ofInt(0, OUT_FRAME_COUNT - 1);
-		long duratime = OUT_FRAME_COUNT * hubble_out_per_frame;
+		long duratime = (long)OUT_FRAME_COUNT * hubble_out_per_frame;
 		mAnimator.setDuration(duratime);
 		//mAnimator.setEvaluator(new QuadEaseOut(duratime));
 		mAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {

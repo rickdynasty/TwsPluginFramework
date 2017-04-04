@@ -55,6 +55,7 @@ import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 
 import com.tencent.tws.assistant.app.AlertDialog.ButtonColor;
+import com.tencent.tws.assistant.utils.ResIdentifierUtils;
 import com.tencent.tws.assistant.utils.ThemeUtils;
 import com.tencent.tws.assistant.utils.TwsRippleUtils;
 import com.tencent.tws.assistant.widget.AdapterView;
@@ -632,7 +633,8 @@ public class AlertController {
 
 		LinearLayout topPanel = (LinearLayout) mWindow.findViewById(R.id.topPanel);
 		// tws-start bottom dialog::2014-10-3
-		int alertDialogStyle = com.android.internal.R.attr.alertDialogStyle;
+		int alertDialogStyle = ResIdentifierUtils.getSysAttrId("alertDialogStyle");
+		if (0 == alertDialogStyle) alertDialogStyle = com.android.internal.R.attr.alertDialogStyle;
 		if (mIsBottomDialog) {
 			alertDialogStyle = R.attr.bottomAlertDialogStyle;
 		}

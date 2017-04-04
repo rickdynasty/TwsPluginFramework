@@ -16,6 +16,11 @@
 
 package com.tencent.tws.assistant.internal.view.menu;
 
+import java.lang.ref.WeakReference;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
+
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -36,18 +41,13 @@ import android.view.MenuItem;
 import android.view.SubMenu;
 import android.view.View;
 
-import java.lang.ref.WeakReference;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.CopyOnWriteArrayList;
+import com.tencent.tws.assistant.utils.ResIdentifierUtils;
 
 /**
  * Implementation of the {@link android.view.Menu} interface for creating a
  * standard menu UI.
  */
 public class MenuBuilder implements Menu {
-    private static final String TAG = "MenuBuilder";
-
     private static final String PRESENTER_KEY = "android:menu:presenters";
     private static final String ACTION_VIEW_STATES_KEY = "android:menu:actionviewstates";
     private static final String EXPANDED_ACTION_VIEW_ID = "android:menu:expandedactionview";
@@ -127,12 +127,6 @@ public class MenuBuilder implements Menu {
     Drawable mHeaderIcon;
     /** Header custom view for menu types that have a header and support custom views (context) */
     View mHeaderView;
-
-    /**
-     * Contains the state of the View hierarchy for all menu views when the menu
-     * was frozen.
-     */
-    private SparseArray<Parcelable> mFrozenViewStates;
 
     /**
      * Prevents onItemsChanged from doing its junk, useful for batching commands
@@ -709,10 +703,15 @@ public class MenuBuilder implements Menu {
     }
 
     private void setShortcutsVisibleInner(boolean shortcutsVisible) {
-        mShortcutsVisible = shortcutsVisible
-                && mResources.getConfiguration().keyboard != Configuration.KEYBOARD_NOKEYS
-                && mResources.getBoolean(
-                        com.android.internal.R.bool.config_showMenuShortcutsWhenKeyboardPresent);
+		int boolId = ResIdentifierUtils.getSysBoolId("config_showMenuShortcutsWhenKeyboardPresent");
+		if (0 != boolId) {
+			mShortcutsVisible = shortcutsVisible
+					&& mResources.getConfiguration().keyboard != Configuration.KEYBOARD_NOKEYS
+					&& mResources.getBoolean(boolId);
+		} else {
+			mShortcutsVisible = shortcutsVisible
+					&& mResources.getConfiguration().keyboard != Configuration.KEYBOARD_NOKEYS;
+		}
     }
 
     /**

@@ -20,6 +20,7 @@ import com.android.internal.policy.PolicyManager;
 import com.android.internal.policy.PhoneWindow;
 import com.tencent.tws.assistant.internal.app.ActionBarImpl;
 import com.tencent.tws.assistant.internal.widget.ActionBarView;
+import com.tencent.tws.assistant.utils.ResIdentifierUtils;
 import com.tencent.tws.sharelib.R;
 import com.android.internal.policy.PhoneWindow;
 //import com.android.internal.policy.PolicyManager;
@@ -187,8 +188,14 @@ public class TwsDialog implements DialogInterface, Window.Callback, KeyEvent.Cal
     public TwsDialog(Context context, int theme, boolean createContextWrapper, boolean isBottomDialog) {
         if (theme == 0) {
             TypedValue outValue = new TypedValue();
-            context.getTheme().resolveAttribute(com.android.internal.R.attr.dialogTheme, outValue, true);
-            theme = outValue.resourceId;
+			int attrId = ResIdentifierUtils.getSysAttrId("dialogTheme");
+			if (attrId != 0) {
+				context.getTheme().resolveAttribute(attrId, outValue, true);
+				theme = outValue.resourceId;
+			} else {
+				context.getTheme().resolveAttribute(R.attr.dialogTheme, outValue, true);
+				theme = outValue.resourceId;
+			}
         }
         if (isBottomDialog) {
             TypedValue outValue = new TypedValue();

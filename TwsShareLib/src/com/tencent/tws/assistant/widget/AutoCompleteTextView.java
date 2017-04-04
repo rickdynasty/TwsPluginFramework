@@ -16,6 +16,8 @@
 
 package com.tencent.tws.assistant.widget;
 
+import com.tencent.tws.assistant.utils.ResIdentifierUtils;
+
 import android.R;
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -133,15 +135,17 @@ public class AutoCompleteTextView extends EditText implements Filter.FilterListe
         this(context, null);
     }
 
-    public AutoCompleteTextView(Context context, AttributeSet attrs) {
-        this(context, attrs, com.android.internal.R.attr.autoCompleteTextViewStyle);
-    }
+	public AutoCompleteTextView(Context context, AttributeSet attrs) {
+		// 这里暂时不替换
+		this(context, attrs, com.android.internal.R.attr.autoCompleteTextViewStyle);
+	}
 
     public AutoCompleteTextView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
 
-        mPopup = new ListPopupWindow(context, attrs,
-                com.android.internal.R.attr.autoCompleteTextViewStyle);
+		int attrID = ResIdentifierUtils.getSysAttrId("autoCompleteTextViewStyle");
+		mPopup = new ListPopupWindow(context, attrs,
+				attrID == 0 ? com.android.internal.R.attr.autoCompleteTextViewStyle : attrID);
         mPopup.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
         mPopup.setPromptPosition(ListPopupWindow.POSITION_PROMPT_BELOW);
 
@@ -233,8 +237,9 @@ public class AutoCompleteTextView extends EditText implements Filter.FilterListe
         mHintText = hint;
         if (hint != null) {
             if (mHintView == null) {
-                final TextView hintView = (TextView) LayoutInflater.from(getContext()).inflate(
-                        mHintResource, null).findViewById(com.android.internal.R.id.text1);
+				int valueID = ResIdentifierUtils.getSysId("text1");
+				final TextView hintView = (TextView) LayoutInflater.from(getContext()).inflate(mHintResource, null)
+						.findViewById(valueID == 0 ? com.android.internal.R.id.text1 : valueID);
                 hintView.setText(mHintText);
                 mHintView = hintView;
                 mPopup.setPromptView(hintView);

@@ -187,8 +187,6 @@ public class FileUtil {
 
 		try {
 			boolean isSuccess = false;
-			// 图标需要更具当前的分辨率来进行拷贝
-			TwsLog.d(TAG, "copyIcon iconFolder=" + iconFolder);
 
 			String name = PREFIX_ICON_PATH + File.separator + iconFolder + File.separator + icon;
 			File sourceFile = new File(sourceDir, name);
@@ -391,7 +389,6 @@ public class FileUtil {
 	}
 
 	public static void printAll(File file) {
-		TwsLog.d(TAG, "printAll:" + file.getAbsolutePath());
 		if (file.isDirectory()) {
 			File[] childFiles = file.listFiles();
 			if (childFiles != null && childFiles.length > 0) {

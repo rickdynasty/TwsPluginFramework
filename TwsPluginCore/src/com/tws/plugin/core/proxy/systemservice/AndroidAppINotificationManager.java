@@ -130,70 +130,91 @@ public class AndroidAppINotificationManager extends MethodProxy {
 				}
 			}
 
-			if (layoutId != 0) {
+			if (layoutId == 0) {
+				return;
+			}
 
-				// 检查资源布局资源Id是否属于宿主
-				if (!ResourceUtil.isMainResId(layoutId)) {
+			// 检查资源布局资源Id是否属于宿主
+			if (ResourceUtil.isMainResId(layoutId)) {
+				return;
+			}
 
-					if (Build.VERSION.SDK_INT > 23) {
-						TwsLog.e(TAG, "not support");
-						notification.contentView = null;
-						notification.bigContentView = null;
-						notification.headsUpContentView = null;
-						notification.tickerView = null;
-						return;
-					}
+			// 检查资源布局资源Id是否属于系统
+			if (layoutId >> 24 == 0x1f) {
+				return;
+			}
 
-					ApplicationInfo newInfo = new ApplicationInfo();
-					String packageName = null;
+			if ("Xiaomi".equals(Build.MANUFACTURER)) {
+				TwsLog.e(TAG, "Xiaomi, not support, caused by MiuiResource");
+				if (notification.contentView != null) {
+					// 重置layout，避免crash
+					new HackRemoteViews(notification.contentView).setLayoutId(android.R.layout.test_list_item);
+				}
+				notification.bigContentView = null;
+				notification.headsUpContentView = null;
+				notification.tickerView = null;
+				return;
+			}
 
-					if (notification.tickerView != null) {
-						packageName = notification.tickerView.getPackage();
-						new HackRemoteViews(notification.tickerView).setApplicationInfo(newInfo);
-					}
-					if (notification.contentView != null) {
-						if (packageName == null) {
-							packageName = notification.contentView.getPackage();
+			ApplicationInfo newInfo = new ApplicationInfo();
+			String packageName = null;
+
+			if (notification.tickerView != null) {
+				packageName = notification.tickerView.getPackage();
+				new HackRemoteViews(notification.tickerView).setApplicationInfo(newInfo);
+			}
+			if (notification.contentView != null) {
+				if (packageName == null) {
+					packageName = notification.contentView.getPackage();
+				}
+				new HackRemoteViews(notification.contentView).setApplicationInfo(newInfo);
+			}
+			if (notification.bigContentView != null) {
+				if (packageName == null) {
+					packageName = notification.bigContentView.getPackage();
+				}
+				new HackRemoteViews(notification.bigContentView).setApplicationInfo(newInfo);
+			}
+			if (notification.headsUpContentView != null) {
+				if (packageName == null) {
+					packageName = notification.headsUpContentView.getPackage();
+				}
+				new HackRemoteViews(notification.headsUpContentView).setApplicationInfo(newInfo);
+			}
+
+			ApplicationInfo applicationInfo = PluginLoader.getApplication().getApplicationInfo();
+			newInfo.packageName = applicationInfo.packageName;
+			newInfo.sourceDir = applicationInfo.sourceDir;
+			newInfo.dataDir = applicationInfo.dataDir;
+
+			if (packageName != null && !packageName.equals(hostPackageName)) {
+
+				PluginDescriptor pluginDescriptor = PluginManagerHelper.getPluginDescriptorByPluginId(packageName);
+				newInfo.packageName = pluginDescriptor.getPackageName();
+				// 要确保publicSourceDir这个路径可以被SystemUI应用读取，
+				newInfo.publicSourceDir = prepareNotificationResourcePath(pluginDescriptor.getInstalledPath(),
+						PluginLoader.getApplication().getExternalCacheDir().getAbsolutePath() + "/notification_res.apk");
+
+			} else if (packageName != null && packageName.equals(hostPackageName)) {
+				// 如果packageName是宿主，由于前面已经判断出，layoutid不是来自插件，则尝试查找notifications的目标页面，如果目标是插件，则尝试使用此插件作为通知栏的资源来源
+				if (notification.contentIntent != null) {// 只处理contentIntent，其他不管
+					Intent intent = new HackPendingIntent(notification.contentIntent).getIntent();
+					final String action = intent != null ? intent.getAction() : null;
+					if (action != null && action.contains(PluginIntentResolver.CLASS_SEPARATOR)) {
+						String[] targetClassName = action.split(PluginIntentResolver.CLASS_SEPARATOR);
+						PluginDescriptor pluginDescriptor = null;
+						if (2 < targetClassName.length) {
+							pluginDescriptor = PluginManagerHelper.getPluginDescriptorByPluginId(targetClassName[2]);
 						}
-						new HackRemoteViews(notification.contentView).setApplicationInfo(newInfo);
-					}
-					if (notification.bigContentView != null) {
-						if (packageName == null) {
-							packageName = notification.bigContentView.getPackage();
+
+						if (pluginDescriptor == null) {
+							PluginManagerHelper.getPluginDescriptorByClassName(targetClassName[0]);
 						}
-						new HackRemoteViews(notification.bigContentView).setApplicationInfo(newInfo);
-					}
-					if (notification.headsUpContentView != null) {
-						if (packageName == null) {
-							packageName = notification.headsUpContentView.getPackage();
-						}
-						new HackRemoteViews(notification.headsUpContentView).setApplicationInfo(newInfo);
-					}
-
-					ApplicationInfo applicationInfo = PluginLoader.getApplication().getApplicationInfo();
-					newInfo.packageName = applicationInfo.packageName;
-					newInfo.sourceDir = applicationInfo.sourceDir;
-					newInfo.dataDir = applicationInfo.dataDir;
-
-					if (packageName != null && !packageName.equals(hostPackageName)) {
-
-						PluginDescriptor pd = PluginManagerHelper.getPluginDescriptorByPluginId(packageName);
+						newInfo.packageName = pluginDescriptor.getPackageName();
 						// 要确保publicSourceDir这个路径可以被SystemUI应用读取，
-						newInfo.publicSourceDir = prepareNotificationResourcePath(pd.getInstalledPath(), PluginLoader
-								.getApplication().getExternalCacheDir().getAbsolutePath()
-								+ "/notification_res.apk");
-
-					} else if (packageName != null && packageName.equals(hostPackageName)) {
-						Intent intent = new HackPendingIntent(notification.contentIntent).getIntent();
-						if (intent != null && intent.getAction() != null
-								&& intent.getAction().contains(PluginIntentResolver.CLASS_SEPARATOR)) {
-							String className = intent.getAction().split(PluginIntentResolver.CLASS_SEPARATOR)[0];
-							PluginDescriptor pd = PluginManagerHelper.getPluginDescriptorByClassName(className);
-							// 要确保publicSourceDir这个路径可以被SystemUI应用读取，
-							newInfo.publicSourceDir = prepareNotificationResourcePath(pd.getInstalledPath(),
-									PluginLoader.getApplication().getExternalCacheDir().getAbsolutePath()
-											+ "/notification_res.apk");
-						}
+						newInfo.publicSourceDir = prepareNotificationResourcePath(pluginDescriptor.getInstalledPath(),
+								PluginLoader.getApplication().getExternalCacheDir().getAbsolutePath()
+										+ "/notification_res.apk");
 					}
 				}
 			}

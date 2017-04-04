@@ -32,12 +32,12 @@ import android.graphics.PixelFormat;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.View;
 
-import com.tencent.tws.assistant.support.annotation.NonNull;
-import com.tencent.tws.assistant.support.annotation.Nullable;
 import com.tencent.tws.sharelib.R;
 
 /**
@@ -1649,8 +1649,9 @@ public class TwsLayerDrawable extends TwsDrawable implements Drawable.Callback {
 		ChildDrawable(ChildDrawable orig, TwsLayerDrawable owner, Resources res) {
 			final Drawable dr = orig.mDrawable;
 			final Drawable clone;
-			if (dr != null) {
-				final ConstantState cs = dr.getConstantState();
+			final ConstantState cs = dr.getConstantState();
+			if (dr != null&&cs !=null) {
+				
 				if (res != null) {
 					clone = cs.newDrawable(res);
 				} else {

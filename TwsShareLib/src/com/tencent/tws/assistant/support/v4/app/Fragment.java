@@ -1725,4 +1725,6 @@ public class Fragment implements ComponentCallbacks, OnCreateContextMenuListener
                     + " did not call through to super.onDestroy()");
         }
     }
+    
+	public void acceptExtras(int extras) {}
 }

@@ -5,8 +5,10 @@ import java.util.HashSet;
 
 import tws.component.log.TwsLog;
 import android.content.res.AssetManager;
+import android.content.res.ColorStateList;
 import android.content.res.Configuration;
 import android.content.res.Resources;
+import android.graphics.drawable.Drawable;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
 
@@ -169,5 +171,66 @@ public class PluginResourceWrapper extends Resources {
 			}
 		}
 		return super.getIdentifier(entry, type, packageName);
+	}
+
+	@Override
+	@Deprecated
+	public Drawable getDrawable(int id) throws NotFoundException {
+		try {
+			return super.getDrawable(id);
+		} catch (Exception e) {
+			TwsLog.e(TAG, "NotFoundException Try Following");
+
+			// 7.1 Nexus 6p会跑到这里来
+			if (ResourceUtil.isMainResId(id)) {
+				return PluginLoader.getApplication().getResources().getDrawable(id);
+			}
+			throw new NotFoundException("Unable to find Drawable resource ID #0x" + Integer.toHexString(id));
+		}
+	}
+
+	@Override
+	public Drawable getDrawable(int id, Theme theme) throws NotFoundException {
+		try {
+			return super.getDrawable(id, theme);
+		} catch (Exception e) {
+			TwsLog.e(TAG, "NotFoundException Try Following");
+
+			// 7.1 Nexus 6p会跑到这里来
+			if (ResourceUtil.isMainResId(id)) {
+				return PluginLoader.getApplication().getResources().getDrawable(id, theme);
+			}
+			throw new NotFoundException("Unable to find Drawable resource ID #0x" + Integer.toHexString(id));
+		}
+	}
+
+	@Override
+	public int getColor(int id) throws NotFoundException {
+		try {
+			return super.getColor(id);
+		} catch (Exception e) {
+			TwsLog.e(TAG, "NotFoundException Try Following");
+
+			// 7.1 Nexus 6p会跑到这里来
+			if (ResourceUtil.isMainResId(id)) {
+				return PluginLoader.getApplication().getResources().getColor(id);
+			}
+			throw new NotFoundException("Unable to find Color resource ID #0x" + Integer.toHexString(id));
+		}
+	}
+
+	@Override
+	public ColorStateList getColorStateList(int id) throws NotFoundException {
+		try {
+			return super.getColorStateList(id);
+		} catch (Exception e) {
+			TwsLog.e(TAG, "NotFoundException Try Following");
+
+			// 7.1 Nexus 6p会跑到这里来
+			if (ResourceUtil.isMainResId(id)) {
+				return PluginLoader.getApplication().getResources().getColorStateList(id);
+			}
+			throw new NotFoundException("Unable to find Color resource ID #0x" + Integer.toHexString(id));
+		}
 	}
 }

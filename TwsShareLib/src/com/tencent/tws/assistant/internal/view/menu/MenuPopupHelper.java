@@ -94,11 +94,8 @@ public class MenuPopupHelper implements AdapterView.OnItemClickListener, View.On
         mOverflowOnly = overflowOnly;
 
         final Resources res = context.getResources();
-        mPopupMaxWidth = Math.max(res.getDisplayMetrics().widthPixels / 2,
-        /*NANJI-START::change::haoranma::2012-11-09*/
-        // res.getDimensionPixelSize(com.android.internal.R.dimen.config_prefDialogWidth));
-                res.getDimensionPixelSize(R.dimen.config_prefDialogWidth));
-        /*NANJI-END::change::haoranma::2012-11-09*/
+		mPopupMaxWidth = Math.max(res.getDisplayMetrics().widthPixels / 2,
+				res.getDimensionPixelSize(R.dimen.config_prefDialogWidth));
 
         mAnchorView = anchorView;
 

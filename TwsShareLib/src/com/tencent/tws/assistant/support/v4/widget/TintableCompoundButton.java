@@ -16,11 +16,10 @@
 
 package com.tencent.tws.assistant.support.v4.widget;
 
-import com.tencent.tws.assistant.support.annotation.Nullable;
-
 import android.content.res.ColorStateList;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
+import android.support.annotation.Nullable;
 
 /**
  * Interface which allows a {@link android.widget.CompoundButton} to receive tinting

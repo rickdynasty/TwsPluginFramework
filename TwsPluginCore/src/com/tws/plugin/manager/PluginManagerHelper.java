@@ -155,11 +155,7 @@ public class PluginManagerHelper {
 	 */
 	public static synchronized void removeAll() {
 		clearLocalCache();
-		/* Bundle bundle = */call(PluginManagerProvider.buildUri(), PluginManagerProvider.ACTION_REMOVE_ALL, null, null);
-		// boolean success = bundle == null ? false :
-		// bundle.getBoolean(PluginManagerProvider.REMOVE_RESULT);
-		// Toast.makeText(PluginLoader.getApplication(), success ? "卸载成功" :
-		// "卸载失败", Toast.LENGTH_LONG).show();
+		call(PluginManagerProvider.buildUri(), PluginManagerProvider.ACTION_REMOVE_ALL, null, null);
 	}
 
 	public static void clearLocalCache() {
@@ -222,7 +218,7 @@ public class PluginManagerHelper {
 
 	public static String bindStubService(String pluginServiceClassName, String process) {
 		Bundle extras = null;
-		if(!TextUtils.isEmpty(process)){
+		if (!TextUtils.isEmpty(process)) {
 			extras = new Bundle();
 			extras.putString(PluginManagerProvider.EXTRAS_BUNDLE_PROCESS, process);
 		}

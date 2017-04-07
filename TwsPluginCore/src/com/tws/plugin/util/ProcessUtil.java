@@ -16,12 +16,12 @@ public class ProcessUtil {
 
 	private static final String TAG = "rick_Print:ProcessUtil";
 	// 这是一个潜规则，插件的进程除PluginManagerProvider的标配外，其他的都统一规定前缀：
-	private static final String PLUGIN_MULTI_PROCESS_PREFIX = "com.tencent.tws.gdevicemanager:plugin";
+	private static final String PLUGIN_MULTI_PROCESS_PREFIX = "com.tencent.tws.pluginhost:plugin";
 	private static Boolean isPluginProcess = null;
 	private static Boolean isHostProcess = null;
 
 	public static String getHostProcessName() {
-		return "com.tencent.tws.gdevicemanager";
+		return "com.tencent.tws.pluginhost";
 	}
 
 	public static boolean isPluginProcess(Context context) {

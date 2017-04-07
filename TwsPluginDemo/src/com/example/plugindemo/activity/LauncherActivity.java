@@ -47,9 +47,6 @@ public class LauncherActivity extends TwsActivity implements View.OnClickListene
 		TwsLog.d("xxx6",
 				getResources().getString(getResources().getIdentifier("app_name", "string", "com.example.plugindemo")));
 		TwsLog.d("xxx7", getResources().getString(getResources().getIdentifier("app_name", "string", getPackageName())));
-		// TwsLog.e("xxx8",
-		// getResources().getString(getResources().getIdentifier("app_name",
-		// "string", "com.tencent.tws.gdevicemanager")));
 
 		ActionBar actionBar = getActionBar();
 		if (actionBar == null) {

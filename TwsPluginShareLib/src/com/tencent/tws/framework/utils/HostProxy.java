@@ -12,7 +12,7 @@ public class HostProxy {
 
 	private static Application sApplication = null;
 	private static HomeUIProxy sHomeUIProxy = null;
-	private static String HOST_PACKAGE_NAME = "com.tencent.tws.gdevicemanager";
+	private static String HOST_PACKAGE_NAME = "com.tencent.tws.pluginhost";
 
 	public static void setApplication(Application context) {
 		sApplication = context;

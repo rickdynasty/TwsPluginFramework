@@ -48,7 +48,7 @@ public class PluginLoader {
 	private static boolean isLoaderInited = false;
 	private static boolean isLoaderPlugins = false;
 	private static final String ASSETS_PLUGS_DIR = "plugins";
-	private static final String PLUGIN_PRIVATE_EXTERNAL_FILLS_DIR = "/storage/emulated/0/Android/data/com.tencent.tws.gdevicemanager/files";
+	private static final String PLUGIN_PRIVATE_EXTERNAL_FILLS_DIR = "/storage/emulated/0/Android/data/com.tencent.tws.pluginhost/files";
 
 	private PluginLoader() {
 	}

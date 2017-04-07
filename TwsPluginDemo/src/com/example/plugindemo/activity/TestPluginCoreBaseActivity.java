@@ -61,7 +61,7 @@ public class TestPluginCoreBaseActivity extends TwsActivity implements OnClickLi
 
 	private static void startFragmentInHostActivity(Context context, String targetId) {
 		Intent pluginActivity = new Intent();
-		pluginActivity.setClassName(context, "com.tencent.tws.gdevicemanager.plugindebug.TestFragmentActivity");
+		pluginActivity.setClassName(context, "com.tencent.tws.pluginhost.plugindebug.TestFragmentActivity");
 		pluginActivity.putExtra("PluginDispatcher.fragmentId", targetId);
 		pluginActivity.putExtra("PluginDispatcher.fragment.PluginId", "com.example.plugindemo");
 		pluginActivity.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -70,7 +70,7 @@ public class TestPluginCoreBaseActivity extends TwsActivity implements OnClickLi
 
 	private static void startTwsFragmentInHostActivity(Context context, String targetId) {
 		Intent pluginActivity = new Intent();
-		pluginActivity.setClassName(context, "com.tencent.tws.gdevicemanager.plugindebug.TestTwsFragmentActivity");
+		pluginActivity.setClassName(context, "com.tencent.tws.pluginhost.plugindebug.TestTwsFragmentActivity");
 		pluginActivity.putExtra("PluginDispatcher.fragmentId", targetId);
 		pluginActivity.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 		context.startActivity(pluginActivity);

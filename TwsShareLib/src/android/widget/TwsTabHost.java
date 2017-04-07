@@ -19,10 +19,7 @@ package android.widget;
 import java.util.ArrayList;
 import java.util.List;
 
-import android.app.Activity;
-import android.app.Fragment;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
+import tws.component.log.TwsLog;
 import android.app.LocalActivityManager;
 import android.content.Context;
 import android.content.Intent;
@@ -41,9 +38,13 @@ import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.view.Window;
 
+import com.tencent.tws.assistant.support.v4.app.Fragment;
+import com.tencent.tws.assistant.support.v4.app.FragmentManager;
+import com.tencent.tws.assistant.support.v4.app.FragmentTransaction;
 import com.tencent.tws.assistant.support.v4.view.PagerAdapter;
 import com.tencent.tws.assistant.support.v4.view.ViewPager;
 import com.tencent.tws.assistant.widget.TabIndicator;
+import com.tencent.tws.framework.utils.HostProxy;
 import com.tencent.tws.sharelib.R;
 
 /**
@@ -102,6 +103,23 @@ public class TwsTabHost extends FrameLayout implements ViewTreeObserver.OnTouchM
 	private ColorStateList mTextColors = null;
 	// private ColorStateList mNormalColors;
 	// tws-end add smooth scroll feature to tab ::2014-11-18
+	
+	public static TwsTabHost inflateFromHost() {
+		final LayoutInflater li = (LayoutInflater) HostProxy.getApplication().getSystemService(
+				Context.LAYOUT_INFLATER_SERVICE);
+		return (TwsTabHost) li.inflate(R.layout.tab_content_v4, null);
+	}
+	
+	public static TwsTabHost inflateFromHost(String layoutResName) {
+		final LayoutInflater li = (LayoutInflater) HostProxy.getApplication().getSystemService(
+				Context.LAYOUT_INFLATER_SERVICE);
+		final int id = HostProxy.getShareLayoutId(layoutResName);
+		if (0 == id)
+			return null;
+		else {
+			return (TwsTabHost) li.inflate(id, null);
+		}
+	}
 
 	private ViewPager.OnPageChangeListener mViewPagerListener = new ViewPager.OnPageChangeListener() {
 		public void onPageScrollStateChanged(int state) {
@@ -199,12 +217,8 @@ public class TwsTabHost extends FrameLayout implements ViewTreeObserver.OnTouchM
 
 		TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.TabWidget, R.attr.tabWidgetStyle, 0);
 
-		mTabLayoutId = a.getResourceId(R.styleable.TabWidget_tabLayout, 0);
+		mTabLayoutId = a.getResourceId(R.styleable.TabWidget_tabLayout, R.layout.tws_tab_indicator_holo);
 		a.recycle();
-
-		if (mTabLayoutId == 0) {
-			mTabLayoutId = R.layout.tab_indicator_holo;
-		}
 
 		mTabspecSpace = getResources().getDimensionPixelSize(R.dimen.tws_tabspec_space);
 		initTabHost();
@@ -282,6 +296,7 @@ public class TwsTabHost extends FrameLayout implements ViewTreeObserver.OnTouchM
 
 		// if FragmentManager is not passed in when setup, then not support
 		// slide tab switch
+		TwsLog.d(TAG, "mFragmentManager:"+mFragmentManager);
 		if (mFragmentManager != null) {
 			// R.id.tabviewpager is a ViewPager used for slide tab switch
 			mViewPager = (ViewPager) findViewById(R.id.tabviewpager);
@@ -321,11 +336,11 @@ public class TwsTabHost extends FrameLayout implements ViewTreeObserver.OnTouchM
 	 * @param activityGroup
 	 *            Used to launch activities for tab content.
 	 */
-	public void setup(LocalActivityManager activityGroup) {
-		mLocalActivityManager = activityGroup;
-		Activity curActivity = mLocalActivityManager.getCurrentActivity();
-		setup(curActivity != null ? curActivity.getFragmentManager() : null);
-	}
+//	public void setup(LocalActivityManager activityGroup) {
+//		mLocalActivityManager = activityGroup;
+//		Activity curActivity = mLocalActivityManager.getCurrentActivity();
+//		setup(curActivity != null ? curActivity.getFragmentManager() : null);
+//	}
 
 	// if you want to enable slide tab switch, pass in a valid FragmentManager
 	public void setup(LocalActivityManager activityGroup, FragmentManager fragmentManager) {
@@ -350,10 +365,10 @@ public class TwsTabHost extends FrameLayout implements ViewTreeObserver.OnTouchM
 		setup();
 	}
 
-	public void setup(LocalActivityManager activityGroup, int initialTab) {
-		mInitialTabIndex = initialTab;
-		setup(activityGroup);
-	}
+//	public void setup(LocalActivityManager activityGroup, int initialTab) {
+//		mInitialTabIndex = initialTab;
+//		setup(activityGroup);
+//	}
 
 	public void setup(LocalActivityManager activityGroup, FragmentManager fragmentManager, int initialTab) {
 		mInitialTabIndex = initialTab;
@@ -504,6 +519,10 @@ public class TwsTabHost extends FrameLayout implements ViewTreeObserver.OnTouchM
 
 	public ViewPager getViewPager() {
 		return mViewPager;
+	}
+	
+	public TabIndicator getTabIndicator() {
+		return mTabIndicator;
 	}
 
 	/**
@@ -1096,7 +1115,7 @@ public class TwsTabHost extends FrameLayout implements ViewTreeObserver.OnTouchM
 		private View mTabContent;
 		private String mTag;
 		private TabContentFactory mFactory;
-		private TwsFactoryContentStrategy2Fragment mFragment;
+		private TwsFactoryContentStrategy2FragmentV4 mFragment;
 
 		public FactoryContentStrategy2(String tag, TabContentFactory factory) {
 			mTag = tag;
@@ -1105,7 +1124,7 @@ public class TwsTabHost extends FrameLayout implements ViewTreeObserver.OnTouchM
 			mTabContent = mFactory.createTabContent(mTag);
 			// tws-start modify fragment not an empty
 			// constructor::2014-12-19
-			mFragment = new TwsFactoryContentStrategy2Fragment(mTabContent);
+			mFragment = new TwsFactoryContentStrategy2FragmentV4(mTabContent);
 			// tws-end modify fragment not an empty
 			// constructor::2014-12-19
 			FragmentTransaction transaction = mFragmentManager.beginTransaction();

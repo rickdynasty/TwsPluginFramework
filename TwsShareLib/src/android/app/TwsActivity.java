@@ -59,6 +59,7 @@ import com.tencent.tws.assistant.internal.widget.ActionBarContainer;
 import com.tencent.tws.assistant.internal.widget.ActionBarContextView;
 import com.tencent.tws.assistant.internal.widget.ActionBarView;
 import com.tencent.tws.assistant.utils.ReflectUtils;
+import com.tencent.tws.assistant.utils.ResIdentifierUtils;
 import com.tencent.tws.assistant.utils.ThemeUtils;
 import com.tencent.tws.sharelib.R;
 
@@ -134,9 +135,9 @@ public class TwsActivity extends Activity {
 			mActionBarView.setContentHeight(getResources().getBoolean(R.bool.config_statusbar_state) ? tws_action_bar_height + getStatusBarHeight()
 					: tws_action_bar_height);
 			mActionBarView.setPadding(0, mStatusBarOverlay ? getStatusBarHeight() : 0, 0, 0);
-			if (mActionBarView == null) {
-				throw new AndroidRuntimeException("twsAddContentView no mActionBarView");
-			}
+//			if (mActionBarView == null) {
+//				throw new AndroidRuntimeException("twsAddContentView no mActionBarView");
+//			}
 
 			// make TwsActivity support NoActionBar theme
 			TypedArray a = obtainStyledAttributes(R.styleable.Theme);
@@ -848,9 +849,13 @@ public class TwsActivity extends Activity {
 							}
 						};
 					} else {
-						ViewStub stub = (ViewStub) findViewById(com.android.internal.R.id.action_mode_bar_stub);
-						if (stub != null) {
-							mActionModeView = (ActionBarContextView) stub.inflate();
+						int stubID = ResIdentifierUtils.getSysId("action_mode_bar_stub");
+						if (0 != stubID) {
+							ViewStub stub = (ViewStub) findViewById(stubID);
+
+							if (stub != null) {
+								mActionModeView = (ActionBarContextView) stub.inflate();
+							}
 						}
 					}
 				}

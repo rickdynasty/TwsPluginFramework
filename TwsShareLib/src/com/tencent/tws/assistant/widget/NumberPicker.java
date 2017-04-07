@@ -583,7 +583,7 @@ public class NumberPicker extends LinearLayout {
 		mNormalTextSize = attributesArray.getDimensionPixelSize(R.styleable.NumberPicker_normalTextSize,
 				defNormalTextSize);
 		mNormalTextColor = attributesArray.getColor(R.styleable.NumberPicker_normalTextColor,
-				getResources().getColor(R.color.tws_white));
+				getResources().getColor(R.color.tws_light_summary));
 		// tws-end label::2014-8-7
 
 		mSolidColor = attributesArray.getColor(R.styleable.NumberPicker_solidColor, 0);
@@ -925,12 +925,13 @@ public class NumberPicker extends LinearLayout {
 					} else {
 						int selectorIndexOffset = (eventY / mSelectorElementHeight) - SELECTOR_MIDDLE_ITEM_INDEX;
 						if (selectorIndexOffset >= 0) {
-							changeValueByOne(true);
-							mPressedStateHelper.buttonTapped(PressedStateHelper.BUTTON_INCREMENT);
-						} else if (selectorIndexOffset < 0) {
-							changeValueByOne(false);
-							mPressedStateHelper.buttonTapped(PressedStateHelper.BUTTON_DECREMENT);
+							selectorIndexOffset = Math.min(selectorIndexOffset, SELECTOR_WHEEL_ITEM_COUNT / 2);
+						} else {
+							selectorIndexOffset = -Math.min(-selectorIndexOffset, SELECTOR_WHEEL_ITEM_COUNT / 2);
 						}
+						
+						changeValueByOffset(selectorIndexOffset);
+						mPressedStateHelper.buttonTapped(PressedStateHelper.BUTTON_INCREMENT);
 					}
 				} else {
 					mFlingScroller.forceFinished(true);
@@ -1568,23 +1569,21 @@ public class NumberPicker extends LinearLayout {
 			float clip = Math.abs(currentY - getHeight() / 2);
 			float elementHeight = mSelectorElementHeight * 1.5f;
 			float textScale = mTextScale - 1;
-			// int color = (Integer) argbEvaluator.evaluate(clip /
-			// (mSelectorElementHeight * 3), selectColor,
-			// mNormalTextColor);
+			int color = (Integer) argbEvaluator.evaluate(clip / (mSelectorElementHeight * 3), selectColor,
+					mNormalTextColor);
 			if (clip <= elementHeight) {
 				currentTextSize = mNormalTextSize * (1 + Math.abs(textScale - ((clip * textScale) / elementHeight)));
 			} else {
 				currentTextSize = mNormalTextSize;
 			}
 
-			mSelectorWheelPaint.setColor(Color.WHITE);
 			mSelectorWheelPaint.setTextSize(currentTextSize);
 
 			if (i == SELECTOR_MIDDLE_ITEM_INDEX) {
 				mSelectorWheelPaint.setColor(getResources().getColor(R.color.tws_picker_selected_textcolor));
 				canvas.drawText(scrollSelectorValue, x, y, mSelectorWheelPaint);
 			} else {
-				mSelectorWheelPaint.setAlpha(127);
+				mSelectorWheelPaint.setColor(color);
 				if (i != SELECTOR_MIDDLE_ITEM_INDEX || mInputText.getVisibility() != VISIBLE) {
 					canvas.drawText(scrollSelectorValue, x, y, mSelectorWheelPaint);
 				}
@@ -1613,19 +1612,22 @@ public class NumberPicker extends LinearLayout {
 			int mFontHeight = (int) (Math.ceil(fm.descent - fm.ascent));
 			// Log.d(TAG,"mFontHeight = "+mFontHeight);
 			int length = mInputText.getText().length();
+
 			if (mLabelLocation == LABEL_RIGHT) {
 				if (length > 3) {
-					canvas.drawText(mLabel, getWidth() / 2 + 45 * displayMetrics.density, getHeight() / 2, mLabelPaint);
+					x = getWidth() / 2 + 45 * displayMetrics.density;
 				} else {
-					canvas.drawText(mLabel, getWidth() / 2 + 32 * displayMetrics.density, getHeight() / 2, mLabelPaint);
+					x = getWidth() / 2 + 32 * displayMetrics.density;
 				}
 			} else {
 				if (length > 3) {
-					canvas.drawText(mLabel, getWidth() / 2 - 45 * displayMetrics.density, getHeight() / 2, mLabelPaint);
+					x = getWidth() / 2 - 45 * displayMetrics.density;
 				} else {
-					canvas.drawText(mLabel, getWidth() / 2 - 32 * displayMetrics.density, getHeight() / 2, mLabelPaint);
+					x = getWidth() / 2 - 32 * displayMetrics.density;
 				}
 			}
+			y = getHeight() / 2;
+			canvas.drawText(mLabel, x, y, mLabelPaint);
 		}
 		canvas.restoreToCount(restoreCount);
 		// tws-end label::2014-8-6
@@ -1776,6 +1778,24 @@ public class NumberPicker extends LinearLayout {
 			} else {
 				setValueInternal(mValue - 1, true);
 			}
+		}
+	}
+
+	private void changeValueByOffset(int selectorIndexOffset) {
+		if (!mChangeValueByOneEable) {
+			return;
+		}
+
+		if (mHasSelectorWheel) {
+			mInputText.setVisibility(View.INVISIBLE);
+			if (!moveToFinalScrollerPosition(mFlingScroller)) {
+				moveToFinalScrollerPosition(mAdjustScroller);
+			}
+			mPreviousScrollerY = 0;
+			mFlingScroller.startScroll(0, 0, 0, -mSelectorElementHeight * selectorIndexOffset, SNAP_SCROLL_DURATION);
+			invalidate();
+		} else {
+			setValueInternal(mValue + selectorIndexOffset, true);
 		}
 	}
 
@@ -2810,10 +2830,7 @@ public class NumberPicker extends LinearLayout {
 				 * allowed. We have to allow less than min as the user might
 				 * want to delete some numbers and then type a new number.
 				 */
-				/*
-				 * NANJISTART::modify::geofffeng::20120522 add for too many
-				 * zeros
-				 */
+				/* tws-start::add for too many zeros */
 				if (val > mMaxValue || (result.length() > Integer.toString(mMaxValue).length() && val == 0)) {
 					return "";
 				} else {

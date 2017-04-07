@@ -2,7 +2,10 @@
 /TwsPluginHelloWorld/gen/*
 /TwsShareLib/bin/*
 /TwsShareLib/gen/*
-/TwsPluginCore/bin/*
+/TwsPluginCore/bin/classes
+/TwsPluginCore/bin/res
+/TwsPluginCore/bin/AndroidManifest.xml
+/TwsPluginCore/bin/R.txt
 /TwsPluginCore/gen/*
 /TwsPluginHost/bin/*
 /TwsPluginHost/gen/*

@@ -105,7 +105,7 @@ public class DatePicker extends FrameLayout {
 
 	private int mNumberOfMonths;
 
-	private Calendar mTempDate;
+	private Calendar mCalendar;
 
 	private ChineseCalendar mMinDate;
 
@@ -115,6 +115,10 @@ public class DatePicker extends FrameLayout {
 
 	private boolean mIsEnabled = DEFAULT_ENABLED_STATE;
 	private Context mContext;
+
+	// default is false
+	private boolean mUnitShown = false;
+	private boolean mLunarShown = false;
 
 	/**
 	 * The callback used to indicate the user changes\d the date.
@@ -162,6 +166,10 @@ public class DatePicker extends FrameLayout {
 				.getBoolean(R.styleable.DatePicker_spinnersShown, DEFAULT_SPINNERS_SHOWN);
 		boolean calendarViewShown = attributesArray.getBoolean(R.styleable.DatePicker_calendarViewShown,
 				DEFAULT_CALENDAR_VIEW_SHOWN);
+
+		mUnitShown = attributesArray.getBoolean(R.styleable.DatePicker_unitShown, false);
+		mLunarShown = attributesArray.getBoolean(R.styleable.DatePicker_lunarShown, false);
+
 		int startYear = attributesArray.getInt(R.styleable.DatePicker_startYear, DEFAULT_START_YEAR);
 		int endYear = attributesArray.getInt(R.styleable.DatePicker_endYear, DEFAULT_END_YEAR);
 		String minDate = attributesArray.getString(R.styleable.DatePicker_minDate);
@@ -175,7 +183,7 @@ public class DatePicker extends FrameLayout {
 		OnValueChangeListener onChangeListener = new OnValueChangeListener() {
 			public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
 				updateInputState();
-				mTempDate.setTimeInMillis(mCurrentDate.getTimeInMillis());
+				mCalendar.setTimeInMillis(mCurrentDate.getTimeInMillis());
 				// take care of wrapping of days and months to update greater
 				// fields
 				if (picker == mLunarSpinner) {
@@ -196,15 +204,15 @@ public class DatePicker extends FrameLayout {
 					}
 				} else {
 					if (picker == mDaySpinner) {
-						mTempDate.add(Calendar.DAY_OF_MONTH, newVal - oldVal);
+						mCalendar.add(Calendar.DAY_OF_MONTH, newVal - oldVal);
 					} else if (picker == mMonthSpinner) {
-						mTempDate.add(Calendar.MONTH, newVal - oldVal);
+						mCalendar.add(Calendar.MONTH, newVal - oldVal);
 					} else if (picker == mYearSpinner) {
-						mTempDate.set(Calendar.YEAR, newVal);
+						mCalendar.set(Calendar.YEAR, newVal);
 					}
 					// now set the date to the adjusted one
-					setDate(mTempDate.get(Calendar.YEAR), mTempDate.get(Calendar.MONTH),
-							mTempDate.get(Calendar.DAY_OF_MONTH));
+					setDate(mCalendar.get(Calendar.YEAR), mCalendar.get(Calendar.MONTH),
+							mCalendar.get(Calendar.DAY_OF_MONTH));
 				}
 
 				updateSpinners();
@@ -214,10 +222,6 @@ public class DatePicker extends FrameLayout {
 		};
 
 		mSpinners = (LinearLayout) findViewById(R.id.pickers);
-
-		// calendar view day-picker
-		// mCalendarView = (CalendarView) findViewById(R.id.calendar_view);
-		// mCalendarView.setOnDateChangeListener(mCalendarChange);
 
 		// tws-start lunar calendar::2014-10-9
 		mLunarSpinner = (NumberPicker) findViewById(R.id.lunar);
@@ -232,55 +236,50 @@ public class DatePicker extends FrameLayout {
 
 		// day
 		mDaySpinner = (NumberPicker) findViewById(R.id.day);
-		mDaySpinner.setFormatter(mDayFormatter);
 		mDaySpinner.setOnLongPressUpdateInterval(100);
 		mDaySpinner.setOnValueChangedListener(onChangeListener);
 		mDaySpinnerInput = (EditText) mDaySpinner.findViewById(R.id.numberpicker_input);
 
 		// month
 		mMonthSpinner = (NumberPicker) findViewById(R.id.month);
-		mMonthSpinner.setFormatter(mMonthFormatter);
 		mMonthSpinner.setOnLongPressUpdateInterval(100);
 		mMonthSpinner.setOnValueChangedListener(onChangeListener);
 		mMonthSpinnerInput = (EditText) mMonthSpinner.findViewById(R.id.numberpicker_input);
 
 		// year
 		mYearSpinner = (NumberPicker) findViewById(R.id.year);
-		mYearSpinner.setFormatter(mYearFormatter);
 		mYearSpinner.setOnLongPressUpdateInterval(100);
 		mYearSpinner.setOnValueChangedListener(onChangeListener);
 		mYearSpinnerInput = (EditText) mYearSpinner.findViewById(R.id.numberpicker_input);
-
-		// show only what the user required but make sure we
-		// show something and the spinners have higher priority
-		// if (!spinnersShown && !calendarViewShown) {
-		// setSpinnersShown(true);
-		// } else {
-		// setSpinnersShown(spinnersShown);
-		// setCalendarViewShown(calendarViewShown);
-		// }
+		if (mUnitShown) {
+			mYearSpinner.setFormatter(mYearFormatter);
+			mMonthSpinner.setFormatter(mMonthFormatter);
+			mDaySpinner.setFormatter(mDayFormatter);
+		} else {
+			mMonthSpinner.setFormatter(mMonthNoUnitFormatter);
+		}
 
 		// set the min date giving priority of the minDate over startYear
-		mTempDate.clear();
+		mCalendar.clear();
 		if (!TextUtils.isEmpty(minDate)) {
-			if (!parseDate(minDate, mTempDate)) {
-				mTempDate.set(startYear, 0, 1);
+			if (!parseDate(minDate, mCalendar)) {
+				mCalendar.set(startYear, 0, 1);
 			}
 		} else {
-			mTempDate.set(startYear, 0, 1);
+			mCalendar.set(startYear, 0, 1);
 		}
-		setMinDate(mTempDate.getTimeInMillis());
+		setMinDate(mCalendar.getTimeInMillis());
 
 		// set the max date giving priority of the maxDate over endYear
-		mTempDate.clear();
+		mCalendar.clear();
 		if (!TextUtils.isEmpty(maxDate)) {
-			if (!parseDate(maxDate, mTempDate)) {
-				mTempDate.set(endYear, 11, 31);
+			if (!parseDate(maxDate, mCalendar)) {
+				mCalendar.set(endYear, 11, 31);
 			}
 		} else {
-			mTempDate.set(endYear, 11, 31);
+			mCalendar.set(endYear, 11, 31);
 		}
-		setMaxDate(mTempDate.getTimeInMillis());
+		setMaxDate(mCalendar.getTimeInMillis());
 
 		// initialize to current date
 		mCurrentDate.setTimeInMillis(System.currentTimeMillis());
@@ -296,20 +295,45 @@ public class DatePicker extends FrameLayout {
 		}
 	}
 
-	public void setLunarEnable(boolean enable) {
-		if (mLunarSpinner == null)
+	public void setLunarShown(boolean lunarShown) {
+		if (mLunarSpinner == null || lunarShown == mLunarShown)
 			return;
 
-		mLunarSpinner.setEnabled(enable);
-		if (enable) {
+		mLunarShown = lunarShown;
+		mLunarSpinner.setEnabled(mLunarShown);
+		if (mLunarShown) {
 			mLunarSpinner.setVisibility(View.VISIBLE);
 		} else {
 			mLunarSpinner.setVisibility(View.GONE);
 		}
-	}
-	
-	public void setNeedShowUnit(boolean needShowUnit) {
 
+		invalidate();
+	}
+
+	public void setUnitShown(boolean unitShown) {
+		if (mUnitShown == unitShown)
+			return;
+
+		mUnitShown = unitShown;
+		if (mUnitShown) {
+			mYearSpinner.setFormatter(mYearFormatter);
+
+			if (mIsLunar) {
+				mDaySpinner.setFormatter(mLunarDayFormatter);
+				mMonthSpinner.setFormatter(null);
+			} else {
+				mMonthSpinner.setFormatter(mMonthFormatter);
+				mDaySpinner.setFormatter(mDayFormatter);
+			}
+		} else {
+			mYearSpinner.setFormatter(null);
+			mMonthSpinner.setFormatter(mMonthNoUnitFormatter);
+			mDaySpinner.setFormatter(null);
+		}
+
+		mYearSpinner.invalidate();
+		mMonthSpinner.invalidate();
+		mDaySpinner.invalidate();
 	}
 
 	/**
@@ -336,9 +360,9 @@ public class DatePicker extends FrameLayout {
 	 *            The minimal supported date.
 	 */
 	public void setMinDate(long minDate) {
-		mTempDate.setTimeInMillis(minDate);
-		if (mTempDate.get(Calendar.YEAR) == mMinDate.get(Calendar.YEAR)
-				&& mTempDate.get(Calendar.DAY_OF_YEAR) != mMinDate.get(Calendar.DAY_OF_YEAR)) {
+		mCalendar.setTimeInMillis(minDate);
+		if (mCalendar.get(Calendar.YEAR) == mMinDate.get(Calendar.YEAR)
+				&& mCalendar.get(Calendar.DAY_OF_YEAR) != mMinDate.get(Calendar.DAY_OF_YEAR)) {
 			return;
 		}
 		mMinDate.setTimeInMillis(minDate);
@@ -374,9 +398,9 @@ public class DatePicker extends FrameLayout {
 	 *            The maximal supported date.
 	 */
 	public void setMaxDate(long maxDate) {
-		mTempDate.setTimeInMillis(maxDate);
-		if (mTempDate.get(Calendar.YEAR) == mMaxDate.get(Calendar.YEAR)
-				&& mTempDate.get(Calendar.DAY_OF_YEAR) != mMaxDate.get(Calendar.DAY_OF_YEAR)) {
+		mCalendar.setTimeInMillis(maxDate);
+		if (mCalendar.get(Calendar.YEAR) == mMaxDate.get(Calendar.YEAR)
+				&& mCalendar.get(Calendar.DAY_OF_YEAR) != mMaxDate.get(Calendar.DAY_OF_YEAR)) {
 			return;
 		}
 		mMaxDate.setTimeInMillis(maxDate);
@@ -496,7 +520,7 @@ public class DatePicker extends FrameLayout {
 
 		mCurrentLocale = locale;
 
-		mTempDate = getCalendarForLocale(mTempDate, locale);
+		mCalendar = getCalendarForLocale(mCalendar, locale);
 		// mMinDate = getCalendarForLocale(mMinDate, locale);
 		// mMaxDate = getCalendarForLocale(mMaxDate, locale);
 		// mCurrentDate = (ChineseCalendar) getCalendarForLocale(mCurrentDate,
@@ -505,7 +529,7 @@ public class DatePicker extends FrameLayout {
 		mMaxDate = new ChineseCalendar(getContext());
 		mCurrentDate = new ChineseCalendar(getContext());
 
-		mNumberOfMonths = mTempDate.getActualMaximum(Calendar.MONTH) + 1;
+		mNumberOfMonths = mCalendar.getActualMaximum(Calendar.MONTH) + 1;
 		mShortMonths = new DateFormatSymbols().getShortMonths();
 
 		if (usingNumericMonths()) {
@@ -556,6 +580,7 @@ public class DatePicker extends FrameLayout {
 	 * by the user and if no such is set fall back to the current locale's
 	 * default format.
 	 */
+	@SuppressWarnings("deprecation")
 	private void reorderSpinners() {
 		mSpinners.removeAllViews();
 		mSpinners.addView(mLunarSpinner);
@@ -677,7 +702,10 @@ public class DatePicker extends FrameLayout {
 		mYearSpinner.setMinValue(mMinDate.get(Calendar.YEAR));
 		mYearSpinner.setMaxValue(mMaxDate.get(Calendar.YEAR));
 		mYearSpinner.setWrapSelectorWheel(true);
-		mYearSpinner.setFormatter(mYearFormatter);
+		if (mUnitShown) {
+			mYearSpinner.setFormatter(mYearFormatter);
+		}
+
 		if (mIsLunar) {
 			mDaySpinner.setFormatter(mLunarDayFormatter);
 			mMonthSpinner.setFormatter(null);
@@ -745,39 +773,24 @@ public class DatePicker extends FrameLayout {
 
 		} else {
 			mMonthSpinner.setDisplayedValues(null);
-			mMonthSpinner.setFormatter(mMonthFormatter);
-			mDaySpinner.setFormatter(mDayFormatter);
-			// set the spinner ranges respecting the min and max dates
-			// if (mCurrentDate.equals(mMinDate)) {
-			// mDaySpinner.setMinValue(mCurrentDate.get(Calendar.DAY_OF_MONTH));
-			// mDaySpinner.setMaxValue(mCurrentDate.getActualMaximum(Calendar.DAY_OF_MONTH));
-			// mDaySpinner.setWrapSelectorWheel(false);
-			// mMonthSpinner.setMinValue(mCurrentDate.get(Calendar.MONTH));
-			// mMonthSpinner.setMaxValue(mCurrentDate.getActualMaximum(Calendar.MONTH));
-			// mMonthSpinner.setWrapSelectorWheel(false);
-			// } else if (mCurrentDate.equals(mMaxDate)) {
-			// mDaySpinner.setMinValue(mCurrentDate.getActualMinimum(Calendar.DAY_OF_MONTH));
-			// mDaySpinner.setMaxValue(mCurrentDate.get(Calendar.DAY_OF_MONTH));
-			// mDaySpinner.setWrapSelectorWheel(false);
-			// mMonthSpinner.setMinValue(mCurrentDate.getActualMinimum(Calendar.MONTH));
-			// mMonthSpinner.setMaxValue(mCurrentDate.get(Calendar.MONTH));
-			// mMonthSpinner.setWrapSelectorWheel(false);
-			// } else {
+			if (mUnitShown) {
+				mMonthSpinner.setFormatter(mMonthFormatter);
+				mDaySpinner.setFormatter(mDayFormatter);
+			} else {
+				mMonthSpinner.setFormatter(mMonthNoUnitFormatter);
+				mDaySpinner.setFormatter(null);
+			}
+
 			mDaySpinner.setMinValue(1);
 			mDaySpinner.setMaxValue(mCurrentDate.getActualMaximum(Calendar.DAY_OF_MONTH));
 			mDaySpinner.setWrapSelectorWheel(true);
 			mMonthSpinner.setMinValue(0);
 			mMonthSpinner.setMaxValue(11);
 			mMonthSpinner.setWrapSelectorWheel(true);
-			// }
 			mMonthSpinner.setValue(mCurrentDate.get(Calendar.MONTH));
 			mDaySpinner.setValue(mCurrentDate.get(Calendar.DAY_OF_MONTH));
 			mYearSpinner.setValue(mCurrentDate.get(Calendar.YEAR));
 		}
-
-		// if (usingNumericMonths()) {
-		// mMonthSpinnerInput.setRawInputType(InputType.TYPE_CLASS_NUMBER);
-		// }
 	}
 
 	/**
@@ -978,6 +991,12 @@ public class DatePicker extends FrameLayout {
 		@Override
 		public String format(int value) {
 			return (value + 1) + mMonthName;
+		}
+	};
+	Formatter mMonthNoUnitFormatter = new Formatter() {
+		@Override
+		public String format(int value) {
+			return (value + 1) + "";
 		}
 	};
 	Formatter mDayFormatter = new Formatter() {

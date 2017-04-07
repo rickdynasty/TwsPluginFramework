@@ -138,6 +138,8 @@
         <attr name="minDate" format="string" />
         <attr name="spinnersShown" format="boolean" />
         <attr name="startYear" format="integer" />
+        <attr name="lunarShown" format="boolean" />
+        <attr name="unitShown" format="boolean" />
     </declare-styleable>
     <declare-styleable name="EdgeEffect">
         <attr name="colorEdgeEffect" format="color" />

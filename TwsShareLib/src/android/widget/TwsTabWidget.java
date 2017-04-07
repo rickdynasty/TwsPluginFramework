@@ -23,17 +23,13 @@ import android.graphics.Canvas;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
-import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.view.View.OnFocusChangeListener;
 import android.view.ViewGroup;
 import android.view.accessibility.AccessibilityEvent;
 
 import com.tencent.tws.sharelib.R;
-//import android.widget.TwsLinearLayout;
-//import java.lang.reflect.Field;
-//import java.lang.reflect.Method;
-//import java.lang.reflect.InvocationTargetException;
 
 /**
  *
@@ -103,6 +99,7 @@ public class TwsTabWidget extends TwsMaxHeightLinearLayout implements OnFocusCha
 
         a.recycle();
 
+        setGravity(Gravity.CENTER_HORIZONTAL);
         initTabWidget();
     }
 

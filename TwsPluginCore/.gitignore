@@ -1,5 +1,8 @@
 /.settings
-/bin
+/bin/classes
+/bin/res
+/bin/AndroidManifest.xml
+/bin/R.txt
 /gen
 /.idea
 /*.iml

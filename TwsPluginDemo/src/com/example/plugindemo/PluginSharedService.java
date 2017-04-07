@@ -10,11 +10,11 @@ import com.tencent.tws.sharelib.ShareService;
  */
 public class PluginSharedService implements ShareService {
 
-	private static final String TAG = "rick_Pring:PluginSharedService";
+	private static final String TAG = "rick_Print:PluginSharedService";
 
 	@Override
 	public SharePOJO doSomething(String condition) {
 		TwsLog.d(TAG, condition);
-        return new SharePOJO(condition + " : 插件追加的文字");
-    }
+		return new SharePOJO(condition + " : 插件追加的文字");
+	}
 }

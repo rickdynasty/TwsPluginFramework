@@ -8,7 +8,7 @@ import android.util.Log;
 
 public class PluginTestApplication extends Application {
 
-	private static final String TAG = "rick_Pring:PluginTestApplication";
+	private static final String TAG = "rick_Print:PluginTestApplication";
 	private String packageName;
 	public static Context sContext;
 

@@ -17,7 +17,6 @@ import com.tencent.tws.framework.HostProxy;
  */
 public class PluginNormalFragment extends Fragment implements OnClickListener {
 
-	private static final String TAG = "rick_Print:";
 	private ViewGroup mRoot;
 	private LayoutInflater mInflater;
 

@@ -32,6 +32,7 @@
              <zipfileset src="libs/android-support-v4.jar"/>
              <zipfileset src="libs/android-support-v7-appcompat.jar"/>
              <zipfileset src="linklib/tws_component_log.jar"/>
+             <zipfileset src="linklib/twsservicemanager.jar"/>
             <!-- META-INF/MANIFEST.MF里设置成功了，Java代码中获取的不对... -->
             <manifest>
 		      <attribute name="Specification-Title" value="TencentWearServiceSdk"/>

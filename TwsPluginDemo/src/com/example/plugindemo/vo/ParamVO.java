@@ -3,7 +3,7 @@ package com.example.plugindemo.vo;
 import java.io.Serializable;
 
 /**
- * Created by cailiming on 15/9/22.
+ * @author yongchen
  */
 public class ParamVO implements Serializable {
     public String name;

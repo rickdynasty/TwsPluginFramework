@@ -2,6 +2,7 @@ package com.tencent.tws.pluginhost.ui.view;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.Locale;
 
 import tws.component.log.TwsLog;
 import android.content.Intent;
@@ -22,7 +23,7 @@ import android.widget.TextView;
 import com.tencent.tws.assistant.support.v4.app.Fragment;
 import com.tencent.tws.pluginhost.R;
 import com.tencent.tws.pluginhost.ui.HostHomeActivity.DisplayInfo;
-import com.tencent.tws.pluginhost.ui.NotificationManagerActivity;
+import com.tencent.tws.pluginhost.ui.MessageManagerActivity;
 import com.tencent.tws.pluginhost.ui.SettingsActivity;
 import com.tws.plugin.content.DisplayConfig;
 import com.tws.plugin.manager.PluginManagerHelper;
@@ -47,7 +48,7 @@ public class MyWatchFragmentRevision extends Fragment implements OnClickListener
 	private ArrayList<WatchFragmentContentItem> mContentItems = new ArrayList<WatchFragmentContentItem>();
 
 	// 通知管理 和 设置是DM 固有的两项
-	private WatchFragmentContentItem mNotifyMgrItem = null, mSettingsItem = null;
+	private WatchFragmentContentItem mMessageMgrItem = null, mSettingsItem = null;
 
 	private TextView mNotificationDescTextView;
 
@@ -65,8 +66,8 @@ public class MyWatchFragmentRevision extends Fragment implements OnClickListener
 		View rootView = inflater.inflate(R.layout.fragment_my_watch_revision, container, false);
 
 		mResources = getResources();
-		item_layout_height = (int) mResources.getDimension(R.dimen.my_watch_fragment_revision_item_height);
-		item_paddingLeft = (int) mResources.getDimension(R.dimen.my_watch_fragment_revision_item_margin_left);
+		item_layout_height = (int) mResources.getDimension(R.dimen.HOST_HOME_FRAGMENT_revision_item_height);
+		item_paddingLeft = (int) mResources.getDimension(R.dimen.HOST_HOME_FRAGMENT_revision_item_margin_left);
 
 		initView(rootView);
 
@@ -104,7 +105,20 @@ public class MyWatchFragmentRevision extends Fragment implements OnClickListener
 		item.setLayoutParams(lp);
 		item.setBackgroundResource(R.drawable.dm_common_single_item_selector);
 		item.setImageViewImageDrawable(PluginManagerHelper.getPluginIcon(info.normalResName));
-		item.setText(info.title_zh);
+
+		final Locale locale = getActivity().getResources().getConfiguration().locale;
+		if ("zh".equals(locale.getLanguage())) {
+			if ("HK".equals(locale.getCountry())) {
+				item.setText(info.title_zh_HK);
+			} else if ("TW".equals(locale.getCountry())) {
+				item.setText(info.title_zh_TW);
+			} else {
+				item.setText(info.title_zh_CN);
+			}
+		} else {
+			item.setText(info.title_en);
+		}
+
 		item.setOnClickListener(this);
 		item.mStatKey = info.statKey;
 		item.setActionClass(info.classId, info.componentType);
@@ -172,8 +186,8 @@ public class MyWatchFragmentRevision extends Fragment implements OnClickListener
 
 		final Resources res = rootView.getContext().getResources();
 
-		final int thickSplitHeight = (int) res.getDimension(R.dimen.my_watch_fragment_revision_item_big_divider);
-		final Drawable thickSplitBackground = res.getDrawable(R.color.my_watch_fragment_revision_big_divider);
+		final int thickSplitHeight = (int) res.getDimension(R.dimen.HOST_HOME_FRAGMENT_revision_item_big_divider);
+		final Drawable thickSplitBackground = res.getDrawable(R.color.HOST_HOME_FRAGMENT_revision_big_divider);
 
 		// 注意：插件提供的Item 索引值应该是从1开始的，上面有一个mWatchInfoLayout
 		if (mDisplayInfos != null) {
@@ -185,23 +199,23 @@ public class MyWatchFragmentRevision extends Fragment implements OnClickListener
 		}
 
 		// add 通知管理
-		mNotifyMgrItem = new WatchFragmentContentItem(rootView.getContext());
-		mNotifyMgrItem.setToNotify();
+		mMessageMgrItem = new WatchFragmentContentItem(rootView.getContext());
+		mMessageMgrItem.setToNotify();
 		LayoutParams lp_notify = new LayoutParams(LayoutParams.MATCH_PARENT, item_layout_height);
-		mNotifyMgrItem.setPadding(item_paddingLeft, 0, 0, 0);
-		mNotifyMgrItem.setLayoutParams(lp_notify);
-		mNotifyMgrItem.setBackgroundResource(R.drawable.dm_common_single_item_selector);
-		mNotifyMgrItem.setImageViewImageDrawable(R.drawable.home_item_my_notify_mgr);
-		mNotifyMgrItem.setText(res.getString(R.string.notify_mgr));
-		mNotifyMgrItem.setOnClickListener(this);
-		mNotifyMgrItem.mSpecialFlg = WatchFragmentContentItem.ITEM_NOTIFY;
-		mNotifyMgrItem.setActionClass(NotificationManagerActivity.class.getName(), DisplayConfig.TYPE_ACTIVITY);
-		mNotifyMgrItem.setLocation(FIX_LOCATION_BEGIN);
-		mFragmentContainer.addView(mNotifyMgrItem);
+		mMessageMgrItem.setPadding(item_paddingLeft, 0, 0, 0);
+		mMessageMgrItem.setLayoutParams(lp_notify);
+		mMessageMgrItem.setBackgroundResource(R.drawable.dm_common_single_item_selector);
+		mMessageMgrItem.setImageViewImageDrawable(R.drawable.home_item_my_message_mgr);
+		mMessageMgrItem.setText(res.getString(R.string.message_mgr));
+		mMessageMgrItem.setOnClickListener(this);
+		mMessageMgrItem.mSpecialFlg = WatchFragmentContentItem.ITEM_MESSAGE;
+		mMessageMgrItem.setActionClass(MessageManagerActivity.class.getName(), DisplayConfig.TYPE_ACTIVITY);
+		mMessageMgrItem.setLocation(FIX_LOCATION_BEGIN);
+		mFragmentContainer.addView(mMessageMgrItem);
 		// mContentItems.add(notifyMgr); //notifyMgr 作为DM固有的item可以不参与管理
 
-		mNotiRedpointImg = mNotifyMgrItem.getNotifyImageView();
-		mNotificationDescTextView = mNotifyMgrItem.getNotifyTextView();
+		mNotiRedpointImg = mMessageMgrItem.getNotifyImageView();
+		mNotificationDescTextView = mMessageMgrItem.getNotifyTextView();
 
 		// 添加分割线 - 粗的
 		insertSplit(mFragmentContainer, thickSplitHeight, 0, thickSplitBackground);
@@ -249,7 +263,7 @@ public class MyWatchFragmentRevision extends Fragment implements OnClickListener
 				break;
 			}
 
-			if (item.mSpecialFlg == WatchFragmentContentItem.ITEM_NOTIFY && item.isNotify()
+			if (item.mSpecialFlg == WatchFragmentContentItem.ITEM_MESSAGE && item.isNotify()
 					&& mNotiRedpointImg.getVisibility() == View.VISIBLE) {
 				mNotiRedpointImg.setVisibility(View.INVISIBLE);
 			}

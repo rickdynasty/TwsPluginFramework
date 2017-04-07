@@ -13,7 +13,7 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.example.plugindemo.R;
-import com.tencent.tws.sharelib.util.HostProxy;
+import com.tencent.tws.framework.HostProxy;
 
 public class PluginForOppoAndVivoActivity extends Activity implements OnClickListener {
 
@@ -77,5 +77,4 @@ public class PluginForOppoAndVivoActivity extends Activity implements OnClickLis
 			((Button) v).setText(getResources().getString(HostProxy.getShareStringId("share_string_2")));
 		}
 	}
-
 }

@@ -17,7 +17,7 @@ import com.example.plugindemo.PluginTestApplication;
 import com.example.plugindemo.R;
 import com.example.plugindemo.receiver.PluginTestReceiver;
 import com.example.plugindemo.vo.ParamVO;
-import com.tencent.tws.sharelib.util.HostProxy;
+import com.tencent.tws.framework.HostProxy;
 
 /**
  * 完整生命周期模式 不使用反射、也不使用代理，真真正证实现activity无需在Manifest中注册！

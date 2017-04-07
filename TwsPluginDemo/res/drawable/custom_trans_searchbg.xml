@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<transition
+xmlns:android="http://schemas.android.com/apk/res/android" >
+    <item
+        android:drawable="@drawable/tws_windowbackground" />
+    <item
+        android:drawable="@drawable/custom_tab_background" />
+</transition>

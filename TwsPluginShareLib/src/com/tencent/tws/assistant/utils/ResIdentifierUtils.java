@@ -4,7 +4,7 @@ import java.lang.reflect.Field;
 
 import android.content.res.Resources;
 
-import com.tencent.tws.framework.utils.HostProxy;
+import com.tencent.tws.framework.HostProxy;
 
 public class ResIdentifierUtils {
 	private static Resources sApplicationRes = null;

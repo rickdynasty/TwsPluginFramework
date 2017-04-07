@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/home_bg"
+    android:orientation="vertical" >
+
+    <RelativeLayout
+        android:id="@+id/about_watch_assistant_privacy_layout"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="@drawable/dm_common_single_item_selector"
+        android:gravity="center_vertical"
+        android:paddingLeft="21dp" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/use_terms_privacy_statement"
+            android:textColor="@color/white"
+            android:textSize="@dimen/about_watch_assistant_item_text_size" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="@dimen/about_watch_assistant_item_img_margin_right"
+            android:src="@drawable/arrow" />
+    </RelativeLayout>
+    <include layout="@layout/item_separate_line" />
+    <RelativeLayout
+        android:id="@+id/debug_plugin_framework"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/about_watch_assistant_item_height"
+        android:background="@drawable/dm_common_single_item_selector"
+        android:gravity="center_vertical"
+        android:paddingLeft="@dimen/about_watch_assistant_item_margin_left" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/debug_plugin_framework"
+            android:textColor="@color/white"
+            android:textSize="@dimen/about_watch_assistant_item_text_size" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="@dimen/about_watch_assistant_item_img_margin_right"
+            android:src="@drawable/arrow" />
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/debug_trapdoor"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/about_watch_assistant_top_divider"
+        android:background="@color/my_watch_fragment_revision_big_divider" />
+
+    <RelativeLayout
+        android:id="@+id/settings_account_logout_btn"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/about_watch_assistant_item_height"
+        android:background="@drawable/dm_common_single_item_selector"
+        android:gravity="center_vertical"
+        android:paddingLeft="@dimen/about_watch_assistant_item_margin_left" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/account_logout"
+            android:textColor="@color/warning_red"
+            android:textSize="@dimen/about_watch_assistant_item_text_size" />
+    </RelativeLayout>
+
+    <include layout="@layout/item_separate_line" />
+
+</LinearLayout>

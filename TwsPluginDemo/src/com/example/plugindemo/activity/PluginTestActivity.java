@@ -14,7 +14,7 @@ import android.widget.Toast;
 
 import com.example.plugindemo.R;
 import com.example.plugindemo.vo.ParamVO;
-import com.tencent.tws.sharelib.util.HostProxy;
+import com.tencent.tws.framework.HostProxy;
 
 /**
  * 插件中引用主程序资源文件需要显式的指定引用的R 因为主程序的资源id每次编译时都会变化 所以使用主程序资源id的时候必须使用引用

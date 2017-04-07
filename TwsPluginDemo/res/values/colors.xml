@@ -3,4 +3,15 @@
     <color name="light_btn_normal_color">#eeeeee</color>
     <color name="light_btn_press_color">#dadada</color>
     <color name="light_btn_disable_color">#dddddd</color>
+    <color name="custom_checkbox_normal_color">#ffb2b2b2</color>
+    <color name="custom_checkbox_disabled_color">#ffe5e5e5</color>
+    <color name="custom_checkbox_activated_color">#ff49cbce</color>
+    <color name="custom_checkbox_activate_disabled_color">#ffdbf5f5</color>
+    <color name="green">#008000</color>
+    <color name="red">#ff0000</color>
+    <color name="yellow">#ffff00</color>
+    <color name="tws_light_disabled">#26000000</color>
+    <color name="tws_blue">#ff22b2b6</color>
+    <color name="tws_light_title">#cc000000</color>
+
 </resources>

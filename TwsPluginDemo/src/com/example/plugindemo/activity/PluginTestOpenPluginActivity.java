@@ -13,7 +13,7 @@ import android.widget.Button;
 
 import com.example.plugindemo.service.PluginTestService;
 import com.example.plugindemo.vo.ParamVO;
-import com.tencent.tws.sharelib.SharePOJO;
+
 
 public class PluginTestOpenPluginActivity extends Activity implements OnClickListener {
 
@@ -26,8 +26,6 @@ public class PluginTestOpenPluginActivity extends Activity implements OnClickLis
 		btn.setText("点击测试打开插件Activity、service、receiver");
 		setContentView(btn);
 		btn.setOnClickListener(this);
-
-		Log.d("paramVO", ((SharePOJO) getIntent().getSerializableExtra("paramVO")).name);
 
 		IntentFilter testFiler = new IntentFilter();
 		testFiler.addAction("xx.nest");

@@ -15,7 +15,7 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.example.plugindemo.R;
-import com.tencent.tws.sharelib.util.HostProxy;
+import com.tencent.tws.framework.HostProxy;
 
 @SuppressWarnings("ALL")
 public class PluginWebViewActivity extends Activity implements OnClickListener {

@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
 这里配置sharedUserId的作用，是为了告诉宿主程序，这个插件需要依赖宿主程序的class和资源
-如果不配置这个参数，表示这个插件是一个独立插件，即本身可以独立安装运行
--->
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+如果不配置这个参数，表示这个插件是一个独立插件，即本身可以独立安装运行--><manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.plugindemo"
     android:sharedUserId="com.tencent.tws.pluginhost"
     android:versionCode="1"
@@ -19,9 +17,9 @@
         android:theme="@android:style/Theme.Holo.Light" >
 
         <!-- uses-library作用是用来通知插件框架此插件依赖哪些其他插件 -->
-        <uses-library
+        <!--<uses-library
             android:name="com.example.pluginbase"
-            android:required="true" />
+            android:required="true" />-->
 
         <!-- 测试插件Meta-Data -->
         <meta-data
@@ -33,19 +31,17 @@
         <!-- 图标资源icon：统一使用 模块名_[hotseat or watch_fragment or menu]_描述信息.png 配置在AndroidManifest.xml不需要带后缀。 【normal/focus/press/...】 -->
         <!-- 标题title：中文/英文 也可以只配置一个 -->
         <!-- 显示内容content：如果是fragment 直接配置name,其他的配置类名信息 -->
-        
         <!-- 内容类型ctype：1 fragment； 2 activity； 3 service； 4 application； 5 view -->
-        <!-- 插件启动时机： 1 手动触发 2 随DM启动 3 配对成功后-->
-        <!-- 插件依赖： 1 已安装的app 2 已安装的插件-->
-
+        <!-- 插件启动时机： 1 手动触发 2 随DM启动 3 配对成功后 -->
+        <!-- 插件依赖： 1 已安装的app 2 已安装的插件 -->
         <!-- ActionBar 配置只在显示位置是Hotseat的前提下可用 -->
         <!-- ActionBar标题ab-title：actionbar标题 中文/英文 也可以只配置一个 暂不支持subTitle -->
         <!-- ActionBar右侧按钮显示内容ab-rbtncontent：actionbar右侧按钮点击触发显示内容 -->
         <!-- ActionBar右侧按钮显示内容类型ab-rbtnctype：  触发显示内容 的类型 1 fragment； 2 activity； 3 service； 4 application； 5 view（当前只支持activity，如果是activity可以不配置） -->
         <!-- ActionBar右侧按钮内容ab-rbtnres: 显示在按钮上的内容根据类型不同而不一样(类型1 文本；类型2 图标 -->
         <!-- ActionBar右侧按钮内容ab-rbtnrestype:1、文本按钮(res配置中英文String) 2、ImageButton(res配置图标) -->
-        <plugin-display android:value="pos=1/3@title=示例Fragment/demoFragement@content=some_id_for_fragment3@ctyle=1@icon=demo_hotseat_default/demo_hotseat_pressed@ab-title=实例/Demo@ab-rbtnrestype=2@ab-rbtnres=demo_rbar_nomal/demo_rbar_pressed@ab-rbtnctype=2@ab-rbtncontent=com.example.plugindemo.activity.LauncherActivity" />
-        <plugin-display android:value="pos=2/5@title=demoActivity@content=com.example.plugindemo.activity.LauncherActivity@ctyle=2@icon=demo_watch_fragment_des" />
+        <plugin-display android:value="pos=1/3@title=示例Fragment/demoFragement/HK繁體碎片/TW繁體碎片@content=some_id_for_fragment3@ctyle=1@icon=demo_hotseat_default/demo_hotseat_pressed@ab-title=实例/Demo@ab-rbtnrestype=2@ab-rbtnres=demo_rbar_nomal/demo_rbar_pressed@ab-rbtnctype=2@ab-rbtncontent=com.example.plugindemo.activity.LauncherActivity" />
+        <plugin-display android:value="pos=2/5@title=示例/demoActivity/繁體示例@content=com.example.plugindemo.activity.LauncherActivity@ctyle=2@icon=demo_watch_fragment_des" />
 
         <!-- 通知插件框架哪些fragment是可以嵌入宿主Activity的，如果fragment只是插件内使用，无需对外暴露则无需配置 -->
         <exported-fragment
@@ -61,7 +57,7 @@
             android:value="com.example.plugindemo.fragment.PluginSpecTwsFragment" />
 
         <!-- 通知插件框架本插件向外提供的业务服务接口 android:value为实现,android:label为接口 -->
-        <!-- <exported-service
+        <!--<exported-service
             android:name="login_service"
             android:label="com.example.pluginbase.ILoginService"
             android:value="com.example.plugindemo.PluginLoginService" /> -->
@@ -71,28 +67,30 @@
             android:label="com.tencent.tws.sharelib.ShareService"
             android:value="com.example.plugindemo.PluginSharedService" />
 
-        <activity android:name=".activity.LauncherActivity" >
+        <activity
+            android:name=".activity.LauncherActivity"
+            android:exported="false" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.SideBarActivity" >
+        <activity android:name="com.example.plugindemo.activity.widget.SideBarActivity" >
             <intent-filter>
                 <action android:name="test.ajc" />
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.TestPluginCoreBaseActivity" >
+        <activity android:name=".activity.PluginCoreBaseActivity" >
             <intent-filter>
                 <action android:name="test.anc" />
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.TestShareWidgetAcitivity" >
+        <activity android:name=".activity.ShareWidgetAcitivity" >
             <intent-filter>
                 <action android:name="test.amc" />
 
@@ -178,7 +176,7 @@
             android:name="com.example.plugindemo.activity.PluginSingleTaskActivity"
             android:launchMode="singleTask" >
         </activity>
-        <activity android:name="com.example.plugindemo.activity.PluginTestTabActivity" >
+        <activity android:name="com.example.plugindemo.activity.widget.PluginTestTabActivity" >
         </activity>
         <activity
             android:name="com.example.plugindemo.activity.TransparentActivity"
@@ -192,8 +190,9 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </service>
-        <service android:name="com.example.plugindemo.service.PluginTestService2" 
-            android:process=":plugin">
+        <service
+            android:name="com.example.plugindemo.service.PluginTestService2"
+            android:process=":plugin" >
             <intent-filter>
                 <action android:name="test.lmn2" />
 
@@ -225,6 +224,37 @@
             android:name="com.example.plugindemo.provider.PluginContentProvider"
             android:authorities="com.example.plugindemo.provider"
             android:exported="true" />
+
+        <activity android:name="com.example.plugindemo.activity.widget.AlertDialogSamples" >
+            <intent-filter>
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity android:name="com.example.plugindemo.activity.widget.TwsBaseWidget" >
+            <intent-filter>
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.example.plugindemo.activity.widget.DateTimePickerView"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="com.example.plugindemo.activity.widget.DatePickerView"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="com.example.plugindemo.activity.widget.ProfileDataPickerView"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="com.example.plugindemo.activity.widget.PickerDialogOutside"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="com.example.plugindemo.activity.widget.TimePickerView"
+            android:screenOrientation="portrait" >
+        </activity>
     </application>
 
 </manifest>

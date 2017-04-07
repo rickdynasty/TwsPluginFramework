@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">TwsPluginDemo</string>
+    <string name="hello_world1">来自插件文字1</string>
+    <string name="hello_world2">来自插件文字2</string>
+    <string name="hello_world3">来自插件文字3</string>
+    <string name="hello_world4">来自插件文字4</string>
+    <string name="test_communication_dma">点击进入测试和DMA通讯</string>
+    <string name="test_share_widget">点击进入测试共享控件</string>
+    <string name="test_basic_ability">点击测试框架基础能力</string>
+    <string name="test_btn_des">测试按钮</string>
+    <string name="open_ft">Open FileTransfer Demo</string>
+    <string name="progress_dialog">Progress对话框</string>
+    <string name="widget_tabviewpager">TabViewpager控件</string>
+    <string name="widget_toast">Toast提示</string>
+    <string name="widget_sidebar">工具条</string>
+    <string name="tws_base_widget">Tws基础控件</string>
+
+</resources>

@@ -127,8 +127,25 @@
             </intent-filter>
         </activity>
         <activity android:name=".ui.SettingsActivity" />
-        <activity android:name=".ui.NotificationManagerActivity" />
+        <activity android:name=".ui.MessageManagerActivity" />
 
+                <!-- ============================Plugin配置============================ -->
+        <activity
+            android:name=".plugindebug.DebugPluginActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".plugindebug.PluginDetailActivity"
+            android:screenOrientation="portrait" />
+
+        <!-- 要展示插件中的fragment，所以配成插件进程 -->
+        <activity
+            android:name=".plugindebug.PluginFragmentActivity"
+            android:screenOrientation="portrait" />
+        <!-- 要展示插件中的fragment，所以配成插件进程 -->
+        <activity
+            android:name=".plugindebug.PluginTwsFragmentActivity"
+            android:screenOrientation="portrait" />
+        
         <!-- core -->
         <provider
             android:name="com.tws.plugin.manager.PluginManagerProvider"

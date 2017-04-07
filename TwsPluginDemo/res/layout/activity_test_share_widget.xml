@@ -9,32 +9,74 @@
         android:orientation="vertical" >
 
         <Button
-            android:id="@+id/progress_dialog"
+            android:id="@+id/alert_dialog"
             android:layout_width="fill_parent"
             android:layout_height="50dp"
             android:layout_margin="3dp"
-            android:text="Progress Dialog" />
+            android:text="@string/alert_dialog" />
 
         <Button
             android:id="@+id/widget_tabviewpager"
             android:layout_width="fill_parent"
             android:layout_height="50dp"
             android:layout_margin="3dp"
-            android:text="TabViewpager" />
+            android:text="@string/widget_tabviewpager" />
 
         <Button
             android:id="@+id/widget_toast"
             android:layout_width="fill_parent"
             android:layout_height="50dp"
             android:layout_margin="3dp"
-            android:text="Toast" />
+            android:text="@string/widget_toast" />
 
         <Button
             android:id="@+id/widget_sidebar"
             android:layout_width="fill_parent"
             android:layout_height="50dp"
             android:layout_margin="3dp"
-            android:text="SideBar" />
+            android:text="@string/widget_sidebar" />
+
+        <Button
+            android:id="@+id/tws_base_widget"
+            android:layout_width="fill_parent"
+            android:layout_height="50dp"
+            android:layout_margin="3dp"
+            android:text="@string/tws_base_widget" />
+
+        <Button
+            android:id="@+id/date_picker_view"
+            android:layout_width="fill_parent"
+            android:layout_height="50dp"
+            android:layout_margin="3dp"
+            android:text="DatePickerView" />
+
+        <Button
+            android:id="@+id/date_time_picker_view"
+            android:layout_width="fill_parent"
+            android:layout_height="50dp"
+            android:layout_margin="3dp"
+            android:text="DateTimePickerView" />
+
+        <Button
+            android:id="@+id/picker_dialog_outside"
+            android:layout_width="fill_parent"
+            android:layout_height="50dp"
+            android:layout_margin="3dp"
+            android:text="PickerDialogOutside" />
+
+        <Button
+            android:id="@+id/profile_data_picker_view"
+            android:layout_width="fill_parent"
+            android:layout_height="50dp"
+            android:layout_margin="3dp"
+            android:text="ProfileDataPickerView" />
+
+        <Button
+            android:id="@+id/time_picker_view"
+            android:layout_width="fill_parent"
+            android:layout_height="50dp"
+            android:layout_margin="3dp"
+            android:text="TimePickerView" />
     </LinearLayout>
 
 </ScrollView>

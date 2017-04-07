@@ -48,7 +48,7 @@ public class PluginLoader {
 	private static boolean isLoaderInited = false;
 	private static boolean isLoaderPlugins = false;
 	private static final String ASSETS_PLUGS_DIR = "plugins";
-	private static final String PLUGIN_PRIVATE_EXTERNAL_FILLS_DIR = "/storage/emulated/0/Android/data/com.tencent.tws.pluginhost/files";
+	private static String sHostPackageName;
 
 	private PluginLoader() {
 	}
@@ -67,11 +67,12 @@ public class PluginLoader {
 	 */
 	public static synchronized void initPluginFramework(Application app) {
 		if (!isLoaderInited) {
-			TwsLog.d(TAG, "begin init PluginFramework...");
 			long startTime = System.currentTimeMillis();
 
 			isLoaderInited = true;
 			sApplication = app;
+			sHostPackageName = app.getPackageName();
+			TwsLog.d(TAG, "begin init PluginFramework... HostPackageName is " + sHostPackageName);
 
 			// 这里的isPluginProcess方法需要在安装AndroidAppIActivityManager之前执行一次。
 			// 原因见AndroidAppIActivityManager的getRunningAppProcesses()方法
@@ -408,12 +409,22 @@ public class PluginLoader {
 		return sp;
 	}
 
+	public static String getHostPackageName() {
+		if (TextUtils.isEmpty(sHostPackageName)) {
+			sHostPackageName = getApplication().getPackageName();
+		}
+
+		return sHostPackageName;
+	}
+
 	public static void copyAndInstall(String name) {
 		try {
 			Log.d(TAG, "copyAndInstall:" + name);
 			InputStream assestInput = getApplication().getAssets().open(name);
 			File file = getApplication().getExternalFilesDir(null);
-			String dest = (file == null ? PLUGIN_PRIVATE_EXTERNAL_FILLS_DIR : file.getAbsolutePath() + "/" + name);
+
+			String dest = (file == null ? ("/storage/emulated/0/Android/data/" + getHostPackageName() + "/files")
+					: file.getAbsolutePath() + "/" + name);
 
 			if (FileUtil.copyFile(assestInput, dest)) {
 				PluginManagerHelper.installPlugin(dest);

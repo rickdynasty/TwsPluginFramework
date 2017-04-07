@@ -18,3 +18,135 @@
 #-keepclassmembers class fqcn.of.javascript.interface.for.webview {
 #   public *;
 #}
+
+
+-ignorewarnings
+
+#don't optimize
+-dontoptimize
+
+-keepattributes SourceFile,LineNumberTable
+-keepattributes Signature
+-keepattributes *Annotation*
+-keepattributes InnerClasses
+
+##push sdk need not proguard
+-dontwarn android.**
+-keep class android.** { *; }
+
+-dontwarn com.android.**
+-keep class com.android.** { *; }
+
+-dontwarn com.google.**
+-keep class com.google.** { *; }
+
+-keepclasseswithmembernames class * {
+    native <methods>;
+}
+
+-keepclassmembers class * implements android.os.Parcelable {
+	static ** CREATOR;
+}
+
+-keep class * extends android.content.ContentProvider
+
+-keep class tws.component.config.**{*;}
+
+
+#=================== qrom_component_log.jar begin===================
+-dontwarn tws.component.log.**
+-keep class tws.component.log.** {*;}
+-keep class tws.component.log.impl.**{*;}
+-keep class tws.component.log.upload.**{*;}
+#=================== qrom_component_log.jar end ===================
+
+
+################=================== ShareLib begin ===================################
+-keep class com.tencent.tws.assistant.**{*;}
+-keep class com.tencent.tws.framework.utils.**{*;}
+
+#=================== android-support-v4.jar begin===================
+-keep public class * extends android.support.v4.**
+-keep public class * extends android.app.Fragment
+-keep class android.support.v4.**{*;}
+-keep class android.support.annotation.**{*;}
+#=================== android-support-v4.jar end ===================
+
+#=================== android-support-v7-appcompat.jar begin===================
+-keep public class * extends android.support.v7.**
+#=================== android-support-v7-appcompat.jar end ===================
+
+#=================== assistant start =================
+-keep public class com.tencent.tws.assistant.animation.**{
+	public <fields>;
+    public <methods>;
+}
+-keep public class com.tencent.tws.assistant.animation.ease.**{
+	public <fields>;
+    public <methods>;
+}
+-keep public class com.tencent.tws.assistant.app.**{
+	public <fields>;
+    public <methods>;
+}
+-keep class com.tencent.tws.assistant.app.ActionBar$Tab { *;}
+-keep class com.tencent.tws.assistant.app.ActionBar.Tab { *;}
+-keep class com.tencent.tws.assistant.app.ActionBar$TabListener { *;}
+-keep interface com.tencent.tws.assistant.app.ActionBar$TabListener { *;}
+-keep class com.tencent.tws.assistant.app.AlertDialog$Builder { *;}
+-keep public class com.tencent.tws.assistant.content.**{
+	public <fields>;
+    public <methods>;
+}
+-keep public class com.tencent.tws.assistant.drawable.**{
+	public <fields>;
+	public <methods>;
+}
+-keep public class com.tencent.tws.assistant.gaussblur.**{
+	public <fields>;
+    public <methods>;
+}
+-keep public class com.tencent.tws.assistant.internal.app.**{
+	public <fields>;
+    public <methods>;
+}
+-keep public class com.tencent.tws.assistant.internal.view.menu.**{
+	public <fields>;
+    public <methods>;
+}
+-keep public class com.tencent.tws.assistant.internal.widget.**{
+	public <fields>;
+    public <methods>;
+}
+-keep public class com.tencent.tws.assistant.interpolator.**{
+	public <fields>;
+    public <methods>;
+}
+-keep public class com.tencent.tws.assistant.preference.**{
+	public <fields>;
+    public <methods>;
+}
+-keep public class com.tencent.tws.assistant.utils.**{
+	public <fields>;
+    public <methods>;
+}
+-keep public class com.tencent.tws.assistant.widget.**{
+	public <fields>;
+    public <methods>;
+}
+-keep class com.tencent.tws.assistant.support.v4.** { *; }
+-keep class com.tencent.tws.assistant.support.v4.**.** { 
+	public <fields>;
+    public <methods>;
+}
+-keep class com.tencent.tws.assistant.support.v4.app.TwsFragmentActivity{ *;}
+-keep class * extends com.tencent.tws.assistant.support.v4.app.TwsFragmentActivity{ *;}
+-keep class com.tencent.tws.assistant.support.v4.view.ViewPager { *;}
+-keep class com.tencent.tws.assistant.support.v4.view.ViewPager$OnPageChangeListener { *;}
+-keep interface com.tencent.tws.assistant.support.v4.view.ViewPager$OnPageChangeListener { *;}
+#=================== assistant end =================
+
+
+#tws.plugin.aidl
+-keep class com.tws.plugin.aidl.** { *;}
+################=================== ShareLib end ===================################

@@ -2,6 +2,7 @@ package com.tencent.tws.pluginhost.ui.view;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.Locale;
 
 import tws.component.log.TwsLog;
 import android.content.Context;
@@ -12,17 +13,16 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.LinearLayout;
 
-import com.tencent.tws.pluginhost.content.CellItem;
-import com.tencent.tws.pluginhost.content.CellItem.ActionBarInfo;
-import com.tencent.tws.pluginhost.content.CellItem.ComponentName;
 import com.tencent.tws.pluginhost.ui.HostHomeActivity.DisplayInfo;
+import com.tencent.tws.pluginhost.ui.view.CellItem.ActionBarInfo;
+import com.tencent.tws.pluginhost.ui.view.CellItem.ComponentName;
 import com.tws.plugin.content.DisplayConfig;
 import com.tws.plugin.manager.PluginManagerHelper;
 
 public class Hotseat extends LinearLayout implements OnClickListener {
 	private final String TAG = "rick_Print_dm:Hotseat";
 
-	public static final String MY_WATCH_FRAGMENT = "my_watch_fragment";
+	public static final String HOST_HOME_FRAGMENT = "host_home_fragment";
 
 	public static final int FRAGMENT_COMPONENT = DisplayConfig.TYPE_FRAGMENT;
 	public static final int ACTIVITY_COMPONENT = DisplayConfig.TYPE_ACTIVITY;
@@ -49,6 +49,8 @@ public class Hotseat extends LinearLayout implements OnClickListener {
 
 	public interface OnHotseatClickListener {
 		public void onItemClick(int tagIndex);
+
+		public void onItemClick(int tagIndex, int extras);
 
 		public void updateActionBar(final ActionBarInfo actionBarInfo);
 	}
@@ -114,7 +116,20 @@ public class Hotseat extends LinearLayout implements OnClickListener {
 
 		CellItem button = new CellItem(getContext());
 		button.setActionClass(info.classId, info.packageName, info.componentType);
-		button.setText(info.title_zh);
+
+		final Locale locale = getResources().getConfiguration().locale;
+		if ("zh".equals(locale.getLanguage())) {
+			if ("HK".equals(locale.getCountry())) {
+				button.setText(info.title_zh_HK);
+			} else if ("TW".equals(locale.getCountry())) {
+				button.setText(info.title_zh_TW);
+			} else {
+				button.setText(info.title_zh_CN);
+			}
+		} else {
+			button.setText(info.title_en);
+		}
+
 		button.setNormalBackground(PluginManagerHelper.getPluginIcon(info.normalResName));
 		button.setFocusBackground(PluginManagerHelper.getPluginIcon(info.focusResName));
 		button.setTextColorNormal(textNormalColor);
@@ -126,7 +141,18 @@ public class Hotseat extends LinearLayout implements OnClickListener {
 		button.setTagIndex(mAddChildIndex);
 		++mAddChildIndex;
 
-		button.mActionBarInfo.ab_title = info.ab_title_zh;
+		if ("zh".equals(locale.getLanguage())) {
+			if ("HK".equals(locale.getCountry())) {
+				button.mActionBarInfo.ab_title = info.ab_title_zh_HK;
+			} else if ("TW".equals(locale.getCountry())) {
+				button.mActionBarInfo.ab_title = info.ab_title_zh_TW;
+			} else {
+				button.mActionBarInfo.ab_title = info.ab_title_zh_CN;
+			}
+		} else {
+			button.mActionBarInfo.ab_title = info.ab_title_en;
+		}
+
 		button.mActionBarInfo.ab_rbtnctype = info.ab_rbtnctype;
 		button.mActionBarInfo.ab_rbtncontent = info.ab_rbtncontent;
 		button.mActionBarInfo.ab_rbtnrestype = info.ab_rbtnrestype;
@@ -149,7 +175,7 @@ public class Hotseat extends LinearLayout implements OnClickListener {
 			mHomeBottomButtons.add(button);
 		}
 
-		TwsLog.d(TAG, "addOneBottomButton:" + info.title_zh + " add index " + index);
+		TwsLog.d(TAG, "addOneBottomButton:" + button.getText() + " add index " + index);
 		addView(button, index);
 
 		return index;
@@ -220,8 +246,9 @@ public class Hotseat extends LinearLayout implements OnClickListener {
 				return;
 
 			setFocus((CellItem) view);
+			((CellItem) view).setHighlight(false);
 
-			if (onListeners != null) {
+			if (onListeners != null && mFoucsButton != null) {
 				for (OnHotseatClickListener listener : onListeners) {
 					listener.updateActionBar(mFoucsButton.mActionBarInfo);
 					listener.onItemClick(mFoucsButton.getTagIndex());
@@ -340,5 +367,30 @@ public class Hotseat extends LinearLayout implements OnClickListener {
 		}
 
 		return 0;
+	}
+
+	public void switchToFragment(String classId, int extras) {
+		for (CellItem item : mHomeBottomButtons) {
+			if (item.getClassId().equals(classId)) {
+				setFocus(item);
+
+				if (onListeners != null && mFoucsButton != null) {
+					for (OnHotseatClickListener listener : onListeners) {
+						listener.updateActionBar(mFoucsButton.mActionBarInfo);
+						listener.onItemClick(mFoucsButton.getTagIndex(), extras);
+					}
+				}
+				return;
+			}
+		}
+	}
+
+	public void setHighlightCellItem(String classId, boolean needHighlight) {
+		for (CellItem item : mHomeBottomButtons) {
+			if (item.getClassId().equals(classId)) {
+				item.setHighlight(needHighlight);
+				return;
+			}
+		}
 	}
 }

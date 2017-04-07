@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="TwsPluginShareLib" default="build">
+
+    <property file="ant.properties" />
+
+    <property environment="env" />
+    <property name="isCI" value="${env.CI}"/>
+    <!-- 导入app的自定义task文件 -->
+    <!--<import file="build_local_path_template.xml"/> -->
+
+    <!-- 预置android sdk中自带的默认build文件中所需的参数 -->
+    <condition property="sdk.dir" value="${env.ANDROIDSDK_LINUX_R19}" else="${env.ANDROID_HOME}">
+        <!-- 是否服务器构建（一般本地编译为window环境，DB编译为linux环境） -->
+        <os family="unix"/>
+    </condition>
+    
+    <loadproperties srcFile="project.properties" />
+
+    <!-- quick check on sdk.dir -->
+    <fail
+            message="sdk.dir is missing. Make sure to generate local.properties using 'android update project' or to inject it through the ANDROID_HOME environment variable."
+            unless="sdk.dir"
+    />
+
+    <import file="custom_rules.xml" optional="true" />
+	
+    <target name="build">
+        <delete dir="bin" />
+        <mkdir dir="bin"/>
+        <antcall target="release" />
+    </target>
+    
+    <import file="${sdk.dir}/tools/ant/build.xml" />
+	
+    <target name="-pre-compile" depends="-set-original-path,-set-compile-libs">
+        <!--******************** base模板不修改（start） ********************-->
+        <echo message="JARPATH=${toString:project.all.jars.path}"></echo>
+        <path id="project.all.jars.path">
+            <path path="${toString:custom.dex.injars.path}"/>
+        </path>
+        <path id="project.target.class.path">
+            <path path="${toString:custom.intermediate.jars.path}"/>
+            <path refid="custom.dex.libraryjars.path"/>
+            <path path="${toString:original.target.class.path}"/>
+        </path>
+        <!--******************** base模板不修改（end） ********************-->
+    </target>
+
+    <target name="-set-original-path">
+        <path id="original.target.class.path">
+            <path path="${toString:project.target.class.path}"/>
+        </path>
+        <path id="original.all.jars.path">
+            <path path="${toString:project.all.jars.path}"/>
+        </path>
+    </target>
+        
+    <target name="-set-compile-libs">
+        <echo>设置项目中引用的隐藏api的libs路径(这些属于编译时用到的特殊jar) ...</echo>
+		<path id="custom.intermediate.jars.path">
+	        <pathelement location="framework_libs/core.jar"></pathelement>
+	        <pathelement location="framework_libs/framework.jar"></pathelement>
+	        <pathelement location="framework_libs/framework2.jar"></pathelement>
+       </path>
+
+        <echo>设置项目中引用的第三方libs路径 ...</echo>
+        <if condition="${build.release.mode.internal}">
+            <then>
+                <path id="custom.dex.injars.path">
+                    <fileset dir="libs">
+                        <include name="*.jar"/>
+                    </fileset>
+                    <fileset dir="${sdk.dir}/tools/support">   
+              			<include name="*.jar"/>
+          			</fileset>
+                </path>
+                <path id="custom.dex.libraryjars.path">  
+                    <fileset dir="linklib"> <!-- 参与编译 -->
+                        <include name="*.jar"/>
+                    </fileset>                  
+                </path>
+            </then>
+            <else>
+                <path id="custom.dex.injars.path">
+                    <fileset dir="libs">
+                        <include name="*.jar"/>
+                    </fileset>
+                    <fileset dir="${sdk.dir}/tools/support">   
+              			<include name="*.jar"/>
+          			</fileset>
+                </path>
+                <path id="custom.dex.libraryjars.path">  
+                    <fileset dir="linklib"> <!-- 参与编译 -->
+                        <include name="*.jar"/>
+                    </fileset>                  
+                </path>
+            </else>
+        </if>
+    </target>
+    
+</project>

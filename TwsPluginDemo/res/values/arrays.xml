@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="list_entries">
+        <item>山东</item>
+        <item>福建</item>
+        <item>北京</item>
+        <item>河北</item>
+    </string-array>
+    <string-array name="list_entries_value">
+        <item>shandong1</item>
+        <item>fujian1</item>
+        <item>beijing1</item>
+        <item>hebei1</item>
+    </string-array>
+    <string-array name="list_entries_value2">
+        <item>shandong2</item>
+        <item>fujian2</item>
+        <item>beijing2</item>
+        <item>hebei2</item>
+    </string-array>
+    <!-- Used in app/dialog examples -->
+    <string-array name="select_dialog_items">
+        <item>Command one</item>
+        <item>Command two</item>
+        <item>Command three</item>
+        <item>Command four</item>
+    </string-array>
+    <!-- <string-array name="select_dialog_items2">
+        <item>Map</item>
+        <item>Satellite</item>
+        <item>Traffic</item>
+        <item>Street view</item>
+    </string-array> -->
+    <string-array name="select_dialog_items2">
+        <item>较弱</item>
+        <item>适中</item>
+        <item>较强</item>
+    </string-array>
+    <string-array name="select_dialog_items3">
+        <item>Every Monday</item>
+        <item>Every Tuesday</item>
+        <item>Every Wednesday</item>
+        <item>Every Thursday</item>
+        <item>Every Friday</item>
+        <item>Every Saturday</item>
+        <item>Every Sunday</item>
+    </string-array>
+
+    <string-array name="date">
+        <item>阿妹</item>
+        <item>阿郎</item>
+        <item>陈奕迅</item>
+        <item>周杰伦</item>
+        <item>曾一鸣</item>
+        <item>成龙</item>
+        <item>王力宏</item>
+        <item>汪峰</item>
+        <item>王菲</item>
+        <item>那英</item>
+        <item>张伟</item>
+        <item>张学友</item>
+        <item>李德华</item>
+        <item>郑源</item>
+        <item>白水水</item>
+        <item>白天不亮</item>
+        <item>陈龙</item>
+        <item>陈丽丽</item>
+        <item>哈林</item>
+        <item>高进</item>
+        <item>高雷</item>
+        <item>阮今天</item>
+        <item>龚琳娜</item>
+        <item>苏醒</item>
+        <item>苏永康</item>
+        <item>陶喆</item>
+        <item>沙宝亮</item>
+        <item>宋冬野</item>
+        <item>宋伟</item>
+        <item>袁成杰</item>
+        <item>戚薇</item>
+        <item>齐大友</item>
+        <item>齐天大圣</item>
+        <item>品冠</item>
+        <item>吴克群</item>
+        <item>BOBO</item>
+        <item>Jobs</item>
+        <item>动力火车</item>
+        <item>伍佰</item>
+        <item>#蔡依林</item>
+        <item>$797835344$</item>
+        <item>Jack</item>
+        <item>~夏先生</item>
+    </string-array>
+    <!-- use in epandableListView -->
+	 <string-array name="group1"> 
+		 <item>group1</item>
+		 <item>child 1</item> 
+	 </string-array> 
+	 <string-array name="group2"> 
+	     <item>group2</item>
+	     <item>child 1</item> 
+		 <item>child 2</item> 
+	  </string-array> 
+	  <string-array name="group3"> 
+	     <item>group3</item>
+	     <item>child 1</item> 
+		 <item>child 2</item>
+		 <item>child 3</item> 
+	  </string-array>
+	  <array name="groups"> 
+	      <item>@array/group1</item> 
+	      <item>@array/group2</item> 
+	      <item>@array/group3</item>
+	  </array>
+	      <string-array name="sources">
+        <item>asset file</item>
+        <item>drawable resource</item>
+        <item>byte array</item>
+        <item>file descriptor</item>
+        <item>file path</item>
+        <item>File</item>
+        <item>AssetFileDescriptor</item>
+        <item>ByteBuffer</item>
+        <item>Uri</item>
+        <item>InputStream</item>
+    </string-array>
+</resources>

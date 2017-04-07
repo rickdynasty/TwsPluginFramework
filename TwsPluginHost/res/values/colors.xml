@@ -7,16 +7,20 @@
     <color name="home_bottom_bg">#292634</color>
     <color name="home_bottom_tab_text_default_color">#4cffffff</color>
     <color name="home_bottom_tab_text_pressed_color">#46dc5f</color>
-    <color name="my_watch_fragment_revision_watch_info_bg">#1f1c27</color>
-    <color name="my_watch_fragment_revision_watch_name">#ffffff</color>
-    <color name="my_watch_fragment_revision_item_bg_focusd">#3324212d</color>
-    <color name="my_watch_fragment_revision_item_bg_pressed">#6624212d</color>
-    <color name="my_watch_fragment_revision_divider">#0dffffff</color>
-    <color name="my_watch_fragment_revision_big_divider">#1f1c27</color>
+    <color name="HOST_HOME_FRAGMENT_revision_watch_info_bg">#1f1c27</color>
+    <color name="HOST_HOME_FRAGMENT_revision_watch_name">#ffffff</color>
+    <color name="HOST_HOME_FRAGMENT_revision_item_bg_focusd">#3324212d</color>
+    <color name="HOST_HOME_FRAGMENT_revision_item_bg_pressed">#6624212d</color>
+    <color name="HOST_HOME_FRAGMENT_revision_divider">#0dffffff</color>
+    <color name="HOST_HOME_FRAGMENT_revision_big_divider">#1f1c27</color>
     <color name="circle_img_cilck_transparent_focused">#ccffffff</color>
     <color name="circle_img_cilck_transparent_pressed">#80ffffff</color>
     <!-- =================改版首页 End================= -->
-
+    <color name="white">#ffffff</color>
     <color name="dm_common_single_item_focused">#201D28</color>
+    <color name="my_watch_fragment_revision_big_divider">#1f1c27</color>
+    
+    <color name="warning_red">#FF3C55</color>
+    <color name="my_action_bar_bg_color">#292634</color>
 
 </resources>

@@ -11,11 +11,11 @@
         android:background="@color/share_color_2"
         android:text="@string/share_string_1" />
 
-    <com.tws.plugin.sharelib.ShareLayout
+    <com.tencent.tws.sharelib.ShareLayout
         android:layout_width="fill_parent"
         android:layout_height="150dp"
         android:layout_alignParentBottom="true"
         android:background="@color/share_color_1" >
-    </com.tws.plugin.sharelib.ShareLayout>
+    </com.tencent.tws.sharelib.ShareLayout>
 
 </LinearLayout>

@@ -13,7 +13,7 @@ import com.tencent.tws.pluginhost.R;
  * 一般情况是 这个ContentItem的内容是 图标+标题+右指向的箭头，但是notification的例外
  */
 public class WatchFragmentContentItem extends RelativeLayout {
-	public static final int ITEM_NOTIFY = 1;
+	public static final int ITEM_MESSAGE = 1;
 	public static final int ITEM_SETTINGS = 2;
 
 	private ImageView mImageView = null;
@@ -63,17 +63,17 @@ public class WatchFragmentContentItem extends RelativeLayout {
 		super(context, attrs, defStyle);
 		mNeedSplitLine = needSplit;
 		mImage_width = mImage_height = (int) getResources().getDimension(
-				R.dimen.my_watch_fragment_revision_item_img_size);
+				R.dimen.HOST_HOME_FRAGMENT_revision_item_img_size);
 
-		mText_marginLeft = (int) getResources().getDimension(R.dimen.my_watch_fragment_revision_item_text_margin_left);
-		mTextSize = 16;// getResources().getDimensionPixelSize(R.dimen.my_watch_fragment_revision_item_text_size);
+		mText_marginLeft = (int) getResources().getDimension(R.dimen.HOST_HOME_FRAGMENT_revision_item_text_margin_left);
+		mTextSize = 16;// getResources().getDimensionPixelSize(R.dimen.HOST_HOME_FRAGMENT_revision_item_text_size);
 		mTextColor = getResources().getColor(R.color.tws_white);
-		mArrowImage_width = (int) getResources().getDimension(R.dimen.my_watch_fragment_revision_item_arrow_img_width);
+		mArrowImage_width = (int) getResources().getDimension(R.dimen.HOST_HOME_FRAGMENT_revision_item_arrow_img_width);
 		mArrowImage_height = (int) getResources()
-				.getDimension(R.dimen.my_watch_fragment_revision_item_arrow_img_height);
+				.getDimension(R.dimen.HOST_HOME_FRAGMENT_revision_item_arrow_img_height);
 
 		mArrowImage_marginRight = (int) getResources().getDimension(
-				R.dimen.my_watch_fragment_revision_item_arrow_img_margin_right);
+				R.dimen.HOST_HOME_FRAGMENT_revision_item_arrow_img_margin_right);
 
 		init(context);
 	}
@@ -131,11 +131,11 @@ public class WatchFragmentContentItem extends RelativeLayout {
 		// create splitLine
 		if (mNeedSplitLine) {
 			TextView tv = new TextView(getContext());
-			tv.setBackground(getResources().getDrawable(R.color.my_watch_fragment_revision_divider));
+			tv.setBackground(getResources().getDrawable(R.color.HOST_HOME_FRAGMENT_revision_divider));
 			LayoutParams lp_split = new LayoutParams(LayoutParams.MATCH_PARENT, (int) getResources().getDimension(
-					R.dimen.my_watch_fragment_revision_item_divider_line_height));
+					R.dimen.HOST_HOME_FRAGMENT_revision_item_divider_line_height));
 			lp_split.leftMargin = (int) getResources().getDimension(
-					R.dimen.my_watch_fragment_revision_item_divider_line_margin_left);
+					R.dimen.HOST_HOME_FRAGMENT_revision_item_divider_line_margin_left);
 			lp_split.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
 			addView(tv, lp_split);
 		}
@@ -210,7 +210,7 @@ public class WatchFragmentContentItem extends RelativeLayout {
 		LayoutParams nivParams = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
 		nivParams.addRule(RelativeLayout.ALIGN_PARENT_TOP);
 		final int layout_marginTop = (int) getResources().getDimension(
-				R.dimen.notification_my_watch_fragment_red_point_margin_top);
+				R.dimen.notification_HOST_HOME_FRAGMENT_red_point_margin_top);
 		nivParams.topMargin = layout_marginTop;
 		int id = mArrowImage.getId();
 		nivParams.addRule(RelativeLayout.START_OF, mArrowImage.getId());
@@ -227,7 +227,7 @@ public class WatchFragmentContentItem extends RelativeLayout {
 		tvParams.addRule(RelativeLayout.CENTER_VERTICAL);
 		tvParams.addRule(RelativeLayout.START_OF, mNotifyImageView.getId());
 		mNotifyTextView.setLayoutParams(tvParams);
-		mNotifyTextView.setText(getResources().getString(R.string.my_watch_fragment_notification_menu_item));
+		mNotifyTextView.setText(getResources().getString(R.string.HOST_HOME_FRAGMENT_notification_menu_item));
 		mNotifyTextView.setTextSize(14.0f);
 		mNotifyTextView.setTextColor(getResources().getColor(R.color.tws_split_text_view_color));
 		addView(mNotifyTextView);

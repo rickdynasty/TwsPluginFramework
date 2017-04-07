@@ -44,7 +44,7 @@ import com.tencent.tws.assistant.support.v4.app.FragmentTransaction;
 import com.tencent.tws.assistant.support.v4.view.PagerAdapter;
 import com.tencent.tws.assistant.support.v4.view.ViewPager;
 import com.tencent.tws.assistant.widget.TabIndicator;
-import com.tencent.tws.framework.utils.HostProxy;
+import com.tencent.tws.framework.HostProxy;
 import com.tencent.tws.sharelib.R;
 
 /**

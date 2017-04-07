@@ -15,13 +15,14 @@ import com.tws.plugin.manager.PluginManagerProvider;
 public class ProcessUtil {
 
 	private static final String TAG = "rick_Print:ProcessUtil";
-	// 这是一个潜规则，插件的进程除PluginManagerProvider的标配外，其他的都统一规定前缀：
-	private static final String PLUGIN_MULTI_PROCESS_PREFIX = "com.tencent.tws.pluginhost:plugin";
+	
+	// 这是一个潜规则，插件的进程除PluginManagerProvider的标配外，其他的都统一规定前缀："HostPackageName" + ":plugin";
+	
 	private static Boolean isPluginProcess = null;
 	private static Boolean isHostProcess = null;
 
 	public static String getHostProcessName() {
-		return "com.tencent.tws.pluginhost";
+		return PluginLoader.getHostPackageName();
 	}
 
 	public static boolean isPluginProcess(Context context) {
@@ -41,7 +42,7 @@ public class ProcessUtil {
 			String pluginProcessName = getPluginProcessName(context);
 
 			isHostProcess = processName.equals(pluginProcessName);
-			isPluginProcess = isHostProcess || processName.startsWith(PLUGIN_MULTI_PROCESS_PREFIX);
+			isPluginProcess = isHostProcess || processName.startsWith(PluginLoader.getHostPackageName() + ":plugin");
 		}
 	}
 

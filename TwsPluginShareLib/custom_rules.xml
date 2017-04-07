@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="TwsPluginShareLib">
+    <echo>clean bin gen folder..</echo>
+    
+    <property name="bin.dir" value="bin/"/>
+    <property name="sdk.dir" value="bin/Sdk"/>
+        
+	<echo>-=-=-=-=-=-=-=-=-=TwsPluginShareLib custom_rules.xml clean bin gen folder..-=-=-=-=-=-=-=-=-=</echo>
+    <target name="-pre-build">
+    	<delete dir="bin" />
+    	<delete dir="gen" />
+    </target>
+    
+    <tstamp>
+        <format property="jar.date" pattern="yyMMdd"/>
+    </tstamp>
+    
+    <!-- 你需要配置的 -->
+    <property name="MajorVersion" value="0"/>
+    <property name="BuildNo" value="9"/>
+    
+    <target name="-post-compile">
+      <jar destfile="${out.dir}\Sdk\TwsPluginShareLib_${MajorVersion}.${BuildNo}.${jar.date}.jar">
+             <fileset dir="${out.dir}\classes">
+                	<include name="**/app/*.class" />
+                	<include name="**/widget/*.class" />
+                	<include name="**/assistant/**/*.class" />
+                    <include name="**/tws/framework/*.class" />
+                    <include name="**/tws/sharelib/*.class" />
+                    <include name="**/tws/plugin/aidl/*.*" />
+             </fileset>
+             <zipfileset src="libs/android-support-v4.jar"/>
+             <zipfileset src="libs/android-support-v7-appcompat.jar"/>
+             <zipfileset src="linklib/tws_component_log.jar"/>
+            <!-- META-INF/MANIFEST.MF里设置成功了，Java代码中获取的不对... -->
+            <manifest>
+		      <attribute name="Specification-Title" value="TencentWearServiceSdk"/>
+		      <attribute name="Specification-Version" value="${MajorVersion}.${BuildNo}.${jar.date}"/>
+		      <attribute name="Specification-Vendor" value="Tencent Inc."/>
+		      <attribute name="Implementation-Title" value="TencentWearServiceSdk"/>
+		      <attribute name="Implementation-Version" value="${MajorVersion}.${BuildNo}.${jar.date}"/>
+		      <attribute name="Implementation-Vendor" value="Tencent Inc."/>
+		    </manifest>
+        </jar>
+    </target>
+ </project>

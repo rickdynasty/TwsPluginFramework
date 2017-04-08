@@ -9,15 +9,14 @@ import android.content.Context;
 import android.content.pm.PackageManager;
 import android.content.pm.ProviderInfo;
 
+import com.tws.plugin.core.PluginApplication;
 import com.tws.plugin.core.PluginLoader;
 import com.tws.plugin.manager.PluginManagerProvider;
 
 public class ProcessUtil {
 
 	private static final String TAG = "rick_Print:ProcessUtil";
-	
-	// 这是一个潜规则，插件的进程除PluginManagerProvider的标配外，其他的都统一规定前缀："HostPackageName" + ":plugin";
-	
+
 	private static Boolean isPluginProcess = null;
 	private static Boolean isHostProcess = null;
 
@@ -42,7 +41,9 @@ public class ProcessUtil {
 			String pluginProcessName = getPluginProcessName(context);
 
 			isHostProcess = processName.equals(pluginProcessName);
-			isPluginProcess = isHostProcess || processName.startsWith(PluginLoader.getHostPackageName() + ":plugin");
+			// 这是一个潜规则，插件的进程除PluginManagerProvider的标配外，其他的都统一规定前缀："HostPackageName:plugin"+"编号";
+			isPluginProcess = isHostProcess
+					|| processName.startsWith(PluginApplication.getInstance().getPackageName() + ":plugin"); // 注意这里不能用PluginLoader的Application
 		}
 	}
 

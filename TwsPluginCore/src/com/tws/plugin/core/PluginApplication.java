@@ -14,6 +14,7 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Environment;
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.tws.plugin.content.DisplayConfig;
 import com.tws.plugin.content.PluginDescriptor;
@@ -55,14 +56,14 @@ public class PluginApplication extends Application {
 
 		// 如果initPluginFramework都在进程启动时就执行，自然很轻松满足上述条件。
 		if (ProcessUtil.isPluginProcess(this)) {
-			TwsLog.d(TAG, "插件进行 PluginLoader.initPluginFramework");
+			TwsLog.d(TAG, "插件进程 PluginLoader.initPluginFramework");
 			// 插件进程，必须在这里执行initPluginFramework
 			PluginLoader.initPluginFramework(this);
 			// init ServiceManager
 			LocalServiceManager.init();
 		} else if (ProcessUtil.isHostProcess(this)) {
 			// 宿主进程，可以在这里执行，也可以选择在宿主的其他地方在需要时再启动插件框架
-			TwsLog.d(TAG, "宿主进行 PluginLoader.initPluginFramework");
+			TwsLog.d(TAG, "宿主进程 PluginLoader.initPluginFramework");
 			PluginLoader.initPluginFramework(this);
 			// init ServiceManager
 			LocalServiceManager.init();

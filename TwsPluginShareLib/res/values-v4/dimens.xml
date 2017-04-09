@@ -168,4 +168,44 @@
     <dimen name="tws_tabhost_h">30dp</dimen>
     <dimen name="tws_tabspec_space">16dp</dimen>
 
+    <!-- values -->
+    <integer name="abc_max_action_buttons">2</integer>
+
+    <dimen name="abc_action_bar_stacked_tab_max_width">180dp</dimen>
+
+    <!-- Default height of an action bar. -->
+    <dimen name="abc_action_bar_default_height">48dip</dimen>
+    <!-- Vertical padding around action bar icons. -->
+    <dimen name="abc_action_bar_icon_vertical_padding">8dip</dimen>
+    <!-- Text size for action bar titles -->
+    <dimen name="abc_action_bar_title_text_size">18dp</dimen>
+    <!-- Text size for action bar subtitles -->
+    <dimen name="abc_action_bar_subtitle_text_size">14dp</dimen>
+    <!-- Top margin for action bar subtitles -->
+    <dimen name="abc_action_bar_subtitle_top_margin">-3dp</dimen>
+    <!-- Bottom margin for action bar subtitles -->
+    <dimen name="abc_action_bar_subtitle_bottom_margin">5dip</dimen>
+    <!-- Minimum width for an action button in the menu area of an action bar -->
+    <dimen name="abc_action_button_min_width">56dip</dimen>
+    <!-- Maximum height for a stacked tab bar as part of an action bar -->
+    <dimen name="abc_action_bar_stacked_max_height">48dp</dimen>
+    <!-- Size of the indeterminate Progress Bar -->
+    <dimen name="abc_action_bar_progress_bar_size">40dp</dimen>
+    <dimen name="abc_panel_menu_list_width">296dp</dimen>
+
+    <!-- Minimum width of the search view text entry area. -->
+    <dimen name="abc_search_view_text_min_width">160dip</dimen>
+    <!-- Preferred width of the search view. -->
+    <dimen name="abc_search_view_preferred_width">320dip</dimen>
+
+    <!-- Text padding for dropdown items -->
+    <dimen name="abc_dropdownitem_text_padding_left">8dip</dimen>
+    <dimen name="abc_dropdownitem_text_padding_right">8dip</dimen>
+    <!-- Width of the icon in a dropdown list -->
+    <dimen name="abc_dropdownitem_icon_width">32dip</dimen>
+    <dimen name="share_dimen_1">50dp</dimen>
+    <dimen name="share_dimen_2">100dp</dimen>
+    <dimen name="tws_actionbar_height">54dp</dimen>
+    <dimen name="tws_actionmod_button_height">38dp</dimen>
+
 </resources>

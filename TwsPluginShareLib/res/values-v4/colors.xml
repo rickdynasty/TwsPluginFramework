@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
     <color name="transparent">#00000000</color>
     <color name="tws_black_alpha_medium">#4c000000</color>
     <color name="empty_text_color">#b2b2b2</color>
@@ -163,4 +162,23 @@
 
     <!-- Preference -->
     <color name="tws_preference_item_caption">#7FFFFFFF</color>
+    
+    <!-- values -->
+        <color name="abc_search_url_text_normal">#7fa87f</color>
+    <color name="abc_search_url_text_selected">@android:color/black</color>
+    <color name="abc_search_url_text_pressed">@android:color/black</color>
+    
+    <!-- 通用item/listview/gridview selector -->
+	<color name="dm_common_list_item_focused">#1E1C26</color>
+    <color name="dm_common_item_normal">#FF24212d</color>
+
+    <!-- 通用dialog button selector -->
+    <color name="dm_common_dialog_button_normal">#292634</color>
+    <color name="dm_common_dialog_button_focused">#1E1C26</color>
+    
+    <!-- DM通用 -->    
+    <color name="home_bg">#24212d</color>
+
+    <color name="share_color_1">#89ef01</color>
+    <color name="share_color_2">#f8e831</color>
 </resources>

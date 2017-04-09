@@ -10,4 +10,11 @@
 	<bool name="config_voice_capable">false</bool>
 	<bool name="config_useMasterVolume">false</bool>
 	<bool name="config_useVolumeKeySounds">true</bool>
+	
+	<!-- values -->
+	<bool name="abc_action_bar_embed_tabs_pre_jb">false</bool>
+    <bool name="abc_action_bar_expanded_action_views_exclusive">true</bool>
+    <bool name="abc_split_action_bar_is_narrow">true</bool>
+
+    <bool name="abc_config_showMenuShortcutsWhenKeyboardPresent">false</bool>
 </resources>

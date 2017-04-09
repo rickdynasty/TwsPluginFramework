@@ -1,160 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <!-- alert_dialog_checkbox.xml -->
-    <item name="messageLayout" type="id"/>
-    <item name="message" type="id"/>
-    <item name="checkBox" type="id"/>
-
-    <!-- alert_dialog_edittext.xml -->
-    <!-- <item type="id" name="message" /> -->
-    <item name="edittext" type="id"/>
-
-    <!-- alert_dialog_holo.xml -->
-    <item name="parentPanel" type="id"/>
-    <item name="topPanel" type="id"/>
-    <item name="titleDividerTop" type="id"/>
-    <item name="title_template" type="id"/>
-    <item name="titleLinear" type="id"/>
-    <item name="icon" type="id"/>
-    <item name="alertTitle" type="id"/>
-    <item name="alertTitle_right_iv_btn" type="id"/>
-    <item name="titleSpacer" type="id"/>
-    <item name="titleDivider" type="id"/>
-    <item name="contentPanel" type="id"/>
-    <item name="scrollView" type="id"/>
-    <!-- <item type="id" name="messageLayout" /> -->
-    <item name="customPanel" type="id"/>
-    <item name="custom" type="id"/>
-    <item name="dialog_bottom_buttons_panel" type="id"/>
-    <item name="buttonPanel" type="id"/>
-    <item name="leftSpacer" type="id"/>
-    <item name="rightSpacer" type="id"/>
-    <item name="dialog_bottom_split" type="id"/>
-
-    <!-- alert_dialog_progress_holo.xml -->
-    <item name="progress" type="id"/>
-    <item name="progress_percent" type="id"/>
-    <!-- <item type="id" name="progress" /> -->
-    <item name="progress_number" type="id"/>
-
-    <!-- bottom_select_dialog.xml -->
-    <item name="dialog_bottom_buttons_listview" type="id"/>
-
-    <!-- bottom_select_dialog_item.xml -->
-    <item name="text1" type="id"/>
-
-    <!-- current_ring_item.xml -->
-    <item name="currentRingTitleTint" type="id"/>
-    <item name="currentRingTitleTxt" type="id"/>
-
-    <!-- date_picker_dialog.xml -->
-    <item name="picker_dialog_buttons" type="id"/>
-    <item name="picker_dialog_positive" type="id"/>
-
-    <!-- popup_menu_item_layout.xml -->
-    <item name="title" type="id"/>
-    
-    <!-- preference_child_holo.xml -->
-    <item name="summary" type="id"/>
-    <item name="widget_frame" type="id"/>
-
-    <!-- preference_dialog_edittext.xml -->
-    <item name="edittext_container" type="id"/>
-    <!-- <item type="id" name="message" /> -->
-
-
-    <!-- preference_header_item.xml -->
-    <item name="listItem" type="id"/>
-    <!-- <item type="id" name="icon" /> -->
-    <item name="titleLayout" type="id"/>
-
-    <!-- preference_holo_parent.xml -->
-    <item name="preferenceparent" type="id"/>
-    <item name="preferenceheader" type="id"/>
-    <item name="preferencefooter" type="id"/>
-    
-    <!-- preference_list_content.xml -->
-    <item name="headers" type="id"/>
-    <item name="list_footer" type="id"/>
-    <item name="prefs_frame" type="id"/>
-    <item name="prefs" type="id"/>
-    <item name="button_bar" type="id"/>
-    <item name="back_button" type="id"/>
-    <item name="skip_button" type="id"/>
-    <item name="next_button" type="id"/>
-    
-    <!-- preference_widget_checkbox.xml -->
-    <item name="checkbox" type="id"/>
-    
-    <!-- <item type="id" name="title" /> -->
-    <item name="seekbar" type="id"/>
-
-    <!-- progress_dialog_holo.xml -->
-    <item name="body" type="id"/>
-    
-    <!-- tws_alert_dialog_holo.xml -->
-    <item name="button2" type="id"/>
-    <item name="button3" type="id"/>
-    <item name="button1" type="id"/>
-
-    <!-- tws_listview_item_check.xml -->
-    <item name="progressBar" type="id"/>
-
-    <!-- tws_listview_item_normal.xml -->
-    <item name="rightIcon" type="id"/>
-
-    <!-- resolver_list_item.xml -->
-    <item name="app_icon" type="id"/>
-    <item name="is_default" type="id"/>
-
-    <!-- search_dropdown_item_icons_2line.xml -->
-    <item name="icon1" type="id"/>
-    <item name="icon2" type="id"/>
-    <item name="edit_query" type="id"/>
-    <item name="text2" type="id"/>
-
-    <!-- search_view.xml -->
-    <item name="search_bar" type="id"/>
-    <item name="search_edit_frame" type="id"/>
-    <item name="search_plate" type="id"/>
-    <item name="search_src_text" type="id"/>
-    <!-- <item type="id" name="search_edit_frame" /> -->
-    <item name="search_close_btn" type="id"/>
-
-    <!-- select_dialog.xml -->
-    <item name="select_dialog_listview" type="id"/>
-
-    <!-- tab_content.xml -->
-    <item name="tabhost" type="id"/>
-    <item name="tabs" type="id"/>
-    <item name="tab_indicator" type="id"/>
-    <item name="tabviewpager" type="id"/>
-    <item name="scrolltabs" type="id"/>
-    <item name="tabcontent" type="id"/>
-
-    <!-- Java file self-defined id that not in xml -->
+    <item name="action_bar" type="id"/>
+    <item name="action_bar_activity_content" type="id"/>
+    <item name="action_bar_container" type="id"/>
+    <item name="action_bar_overlay_layout" type="id"/>
     <item name="action_bar_subtitle" type="id"/>
+    <item name="action_bar_title" type="id"/>
+    <item name="action_context_bar" type="id"/>
+    <item name="action_menu_divider" type="id"/>
     <item name="action_menu_presenter" type="id"/>
+    <item name="action_mode_close_button" type="id"/>
     <item name="actionbar_edittext" type="id"/>
     <item name="actionbar_multichoice" type="id"/>
-    <item name="edit" type="id"/>
-    <item name="on" type="id"/>
-    <item name="off" type="id"/>
-    <item name="half" type="id"/>
-    <item name="mask" type="id"/>
-    <item name="timepicker_divider" type="id"/>
-    <item name="action_mode_close_button" type="id"/>
-    <item name="action_bar_title" type="id"/>
+    <item name="activity_chooser_view_content" type="id"/>
+    <item name="add" type="id"/>
+    <item name="adjustNothing" type="id"/>
+    <item name="adjustPan" type="id"/>
+    <item name="adjustResize" type="id"/>
+    <item name="adjustUnspecified" type="id"/>
+    <item name="alertTitle" type="id"/>
+    <item name="alertTitle_right_iv_btn" type="id"/>
+    <item name="always" type="id"/>
+    <item name="alwaysScroll" type="id"/>
     <item name="alwaysUse" type="id"/>
     <item name="amPm" type="id"/>
+    <item name="app_icon" type="id"/>
     <item name="app_name" type="id"/>
     <item name="arrowicon" type="id"/>
+    <item name="atThumb" type="id"/>
+    <item name="back_button" type="id"/>
     <item name="background" type="id"/>
+    <item name="banner_indicator" type="id"/>
+    <item name="banner_pager" type="id"/>
+    <item name="beginning" type="id"/>
+    <item name="body" type="id"/>
+    <item name="button1" type="id"/>
+    <item name="button2" type="id"/>
+    <item name="button3" type="id"/>
+    <item name="buttonPanel" type="id"/>
+    <item name="button_bar" type="id"/>
     <item name="button_text" type="id"/>
     <item name="calendar_view" type="id"/>
     <item name="cancel_search_btn" type="id"/>
     <item name="caption" type="id"/>
+    <item name="checkBox" type="id"/>
+    <item name="checkbox" type="id"/>
     <item name="child_indicate" type="id"/>
     <item name="child_info" type="id"/>
     <item name="child_title" type="id"/>
@@ -164,6 +55,12 @@
     <item name="chooserpoints" type="id"/>
     <item name="chooserviewpager" type="id"/>
     <item name="clearDefaultHint" type="id"/>
+    <item name="collapseActionView" type="id"/>
+    <item name="contentPanel" type="id"/>
+    <item name="currentRingTitleTint" type="id"/>
+    <item name="currentRingTitleTxt" type="id"/>
+    <item name="custom" type="id"/>
+    <item name="customPanel" type="id"/>
     <item name="datePicker" type="id"/>
     <item name="dateTimePicker" type="id"/>
     <item name="datetime_date" type="id"/>
@@ -172,7 +69,19 @@
     <item name="datetime_minute" type="id"/>
     <item name="day" type="id"/>
     <item name="decrement" type="id"/>
+    <item name="default_activity_button" type="id"/>
+    <item name="dialog" type="id"/>
+    <item name="dialog_bottom_buttons_listview" type="id"/>
+    <item name="dialog_bottom_buttons_panel" type="id"/>
+    <item name="dialog_bottom_split" type="id"/>
+    <item name="disableHome" type="id"/>
+    <item name="disabled" type="id"/>
     <item name="discard_menu_item" type="id"/>
+    <item name="dropdown" type="id"/>
+    <item name="edit" type="id"/>
+    <item name="edit_query" type="id"/>
+    <item name="edittext" type="id"/>
+    <item name="edittext_container" type="id"/>
     <item name="empty_list_host_1" type="id"/>
     <item name="empty_list_host_2" type="id"/>
     <item name="empty_list_host_3" type="id"/>
@@ -180,69 +89,185 @@
     <item name="empty_list_text" type="id"/>
     <item name="empty_list_text_second" type="id"/>
     <item name="empty_message" type="id"/>
-    <item name="expanded_menu" type="id"/>
-    <item name="float_view_app_icon" type="id"/>
-    <item name="float_view_app_subtitle" type="id"/>
-    <item name="float_view_app_time" type="id"/>
-    <item name="float_view_app_title" type="id"/>
-    <item name="float_view_content" type="id"/>
-    <item name="hard_keyboard_section" type="id"/>
-    <item name="hard_keyboard_switch" type="id"/>
-    <item name="hour" type="id"/>
-    <item name="imageButton" type="id"/>
-    <item name="increment" type="id"/>
-    <item name="internalEmpty" type="id"/>
-    <item name="listContainer" type="id"/>
-    <item name="lunar" type="id"/>
-    <item name="menu_divider" type="id"/>
-    <item name="menu_name" type="id"/>
-    <item name="minute" type="id"/>
-    <item name="month" type="id"/>
-    <item name="msgSpacer" type="id"/>
-    <item name="numberpicker_input" type="id"/>
-    <item name="parent_divider" type="id"/>
-    <item name="parent_indicate" type="id"/>
-    <item name="parent_subtitle" type="id"/>
-    <item name="parent_title" type="id"/>
-    <item name="pickers" type="id"/>
-    <item name="progressContainer" type="id"/>
-    <item name="tws_action_bar" type="id"/>
-    <item name="tws_action_bar_container" type="id"/>
-    <item name="tws_action_context_bar" type="id"/>
-    <item name="tws_logo" type="id"/>
-    <item name="tws_split_action_bar" type="id"/>
-    <item name="radio" type="id"/>
-    <item name="resolver_list" type="id"/>
-    <item name="ringList1" type="id"/>
-    <item name="ringList2" type="id"/>
-    <item name="ringTtitle" type="id"/>
-    <item name="save_menu_item" type="id"/>
-    <item name="switchWidget" type="id"/>
-    <item name="textButton" type="id"/>
-    <item name="timePicker" type="id"/>
-    <item name="toggle" type="id"/>
-    <item name="year" type="id"/>
     <item name="empty_view_bottom_space" type="id"/>
     <item name="empty_view_content" type="id"/>
     <item name="empty_view_host" type="id"/>
     <item name="empty_view_icon" type="id"/>
     <item name="empty_view_text" type="id"/>
     <item name="empty_view_top_space" type="id"/>
+    <item name="end" type="id"/>
+    <item name="expand_activities_button" type="id"/>
     <item name="expand_button" type="id"/>
-    <item name="slider_group" type="id"/>
-    <item name="stream_icon" type="id"/>
-    <item name="visible_panel" type="id"/>
+    <item name="expand_collapse" type="id"/>
+    <item name="expandable_text" type="id"/>
+    <item name="expanded_menu" type="id"/>
+    <item name="float_view_app_icon" type="id"/>
+    <item name="float_view_app_subtitle" type="id"/>
+    <item name="float_view_app_time" type="id"/>
+    <item name="float_view_app_title" type="id"/>
+    <item name="float_view_content" type="id"/>
+    <item name="floating" type="id"/>
+    <item name="gradient" type="id"/>
+    <item name="half" type="id"/>
+    <item name="hard_keyboard_section" type="id"/>
+    <item name="hard_keyboard_switch" type="id"/>
+    <item name="headers" type="id"/>
+    <item name="home" type="id"/>
+    <item name="homeAsUp" type="id"/>
+    <item name="hour" type="id"/>
+    <item name="icon" type="id"/>
+    <item name="icon1" type="id"/>
+    <item name="icon2" type="id"/>
+    <item name="ifRoom" type="id"/>
+    <item name="image" type="id"/>
+    <item name="image1" type="id"/>
+    <item name="imageButton" type="id"/>
+    <item name="increment" type="id"/>
+    <item name="internalEmpty" type="id"/>
+    <item name="is_default" type="id"/>
+    <item name="left" type="id"/>
+    <item name="leftSpacer" type="id"/>
+    <item name="listContainer" type="id"/>
+    <item name="listItem" type="id"/>
+    <item name="listMode" type="id"/>
+    <item name="list_footer" type="id"/>
+    <item name="list_item" type="id"/>
+    <item name="lunar" type="id"/>
+    <item name="market_banner" type="id"/>
+    <item name="mask" type="id"/>
+    <item name="menu_divider" type="id"/>
+    <item name="menu_name" type="id"/>
+    <item name="message" type="id"/>
+    <item name="messageLayout" type="id"/>
+    <item name="middle" type="id"/>
+    <item name="minute" type="id"/>
+    <item name="month" type="id"/>
+    <item name="msgSpacer" type="id"/>
+    <item name="multipleChoice" type="id"/>
+    <item name="multipleChoiceModal" type="id"/>
+    <item name="multiply" type="id"/>
+    <item name="nest" type="id"/>
+    <item name="never" type="id"/>
+    <item name="next_button" type="id"/>
+    <item name="none" type="id"/>
+    <item name="normal" type="id"/>
+    <item name="numberpicker_input" type="id"/>
+    <item name="off" type="id"/>
+    <item name="on" type="id"/>
+    <item name="opaque" type="id"/>
+    <item name="parentPanel" type="id"/>
+    <item name="parent_divider" type="id"/>
+    <item name="parent_indicate" type="id"/>
+    <item name="parent_subtitle" type="id"/>
+    <item name="parent_title" type="id"/>
+    <item name="picker_dialog_buttons" type="id"/>
+    <item name="picker_dialog_positive" type="id"/>
+    <item name="pickers" type="id"/>
+    <item name="preferencefooter" type="id"/>
+    <item name="preferenceheader" type="id"/>
+    <item name="preferenceparent" type="id"/>
+    <item name="prefs" type="id"/>
+    <item name="prefs_frame" type="id"/>
+    <item name="progress" type="id"/>
+    <item name="progressBar" type="id"/>
+    <item name="progressContainer" type="id"/>
+    <item name="progress_circular" type="id"/>
+    <item name="progress_horizontal" type="id"/>
+    <item name="progress_number" type="id"/>
+    <item name="progress_percent" type="id"/>
+    <item name="radio" type="id"/>
+    <item name="recommended" type="id"/>
+    <item name="resolver_list" type="id"/>
     <item name="resolvercheck" type="id"/>
-    <item name="resolverviewpager" type="id"/>
-    <item name="resolverpoints" type="id"/>
     <item name="resolverlayout_image" type="id"/>
     <item name="resolverlayout_text" type="id"/>
+    <item name="resolverpoints" type="id"/>
+    <item name="resolverviewpager" type="id"/>
+    <item name="right" type="id"/>
+    <item name="rightIcon" type="id"/>
+    <item name="rightSpacer" type="id"/>
+    <item name="ringList1" type="id"/>
+    <item name="ringList2" type="id"/>
+    <item name="ringTtitle" type="id"/>
+    <item name="save_menu_item" type="id"/>
+    <item name="screen" type="id"/>
+    <item name="scrollView" type="id"/>
+    <item name="scrolltabs" type="id"/>
+    <item name="search_badge" type="id"/>
+    <item name="search_bar" type="id"/>
+    <item name="search_button" type="id"/>
+    <item name="search_close_btn" type="id"/>
+    <item name="search_edit_frame" type="id"/>
+    <item name="search_go_btn" type="id"/>
+    <item name="search_mag_icon" type="id"/>
+    <item name="search_plate" type="id"/>
+    <item name="search_src_text" type="id"/>
+    <item name="search_voice_btn" type="id"/>
+    <item name="seekbar" type="id"/>
+    <item name="select_dialog_listview" type="id"/>
+    <item name="shortcut" type="id"/>
+    <item name="showCustom" type="id"/>
+    <item name="showHome" type="id"/>
+    <item name="showTitle" type="id"/>
+    <item name="singleChoice" type="id"/>
+    <item name="skip_button" type="id"/>
+    <item name="slider_group" type="id"/>
+    <item name="split_action_bar" type="id"/>
+    <item name="src_atop" type="id"/>
+    <item name="src_in" type="id"/>
+    <item name="src_over" type="id"/>
+    <item name="stack" type="id"/>
+    <item name="start" type="id"/>
+    <item name="stateAlwaysHidden" type="id"/>
+    <item name="stateAlwaysVisible" type="id"/>
+    <item name="stateHidden" type="id"/>
+    <item name="stateUnchanged" type="id"/>
+    <item name="stateUnspecified" type="id"/>
+    <item name="stateVisible" type="id"/>
+    <item name="stream_icon" type="id"/>
+    <item name="submit_area" type="id"/>
+    <item name="summary" type="id"/>
+    <item name="switchWidget" type="id"/>
+    <item name="system" type="id"/>
+    <item name="tabMode" type="id"/>
+    <item name="tab_indicator" type="id"/>
+    <item name="tab_normal" type="id"/>
+    <item name="tab_wave" type="id"/>
+    <item name="tabcontent" type="id"/>
+    <item name="tabhost" type="id"/>
+    <item name="tabs" type="id"/>
+    <item name="tabviewpager" type="id"/>
+    <item name="text1" type="id"/>
+    <item name="text2" type="id"/>
+    <item name="textButton" type="id"/>
+    <item name="timePicker" type="id"/>
+    <item name="timepicker_divider" type="id"/>
+    <item name="title" type="id"/>
+    <item name="titleDivider" type="id"/>
+    <item name="titleDividerTop" type="id"/>
+    <item name="titleLayout" type="id"/>
+    <item name="titleLinear" type="id"/>
+    <item name="titleSpacer" type="id"/>
+    <item name="title_template" type="id"/>
+    <item name="toggle" type="id"/>
+    <item name="topPanel" type="id"/>
+    <item name="top_action_bar" type="id"/>
+    <item name="translucent" type="id"/>
+    <item name="transparent" type="id"/>
+    <item name="twsMulti" type="id"/>
+    <item name="twsSingle" type="id"/>
+    <item name="tws_action_bar" type="id"/>
+    <item name="tws_action_bar_container" type="id"/>
+    <item name="tws_action_context_bar" type="id"/>
+    <item name="tws_logo" type="id"/>
+    <item name="tws_split_action_bar" type="id"/>
+    <item name="up" type="id"/>
+    <item name="useLogo" type="id"/>
+    <item name="visible_panel" type="id"/>
+    <item name="widget_frame" type="id"/>
+    <item name="withText" type="id"/>
+    <item name="wrap_content" type="id"/>
+    <item name="year" type="id"/>
 
-    <!-- market native -->
-    <item name="banner_indicator" type="id">false</item>
-    <item name="banner_pager" type="id">false</item>
-    <item name="market_banner" type="id">false</item>
-    <item name="expandable_text" type="id"/>
-    <item name="expand_collapse" type="id"/>
-
+    
 </resources>

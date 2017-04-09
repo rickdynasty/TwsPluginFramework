@@ -26,4 +26,9 @@
     <integer name="config_listItemShortDelayTime">30</integer>
     <integer name="theme_icon_dispose_type">1</integer>
     <bool name="config_statusbar_state">true</bool>
+    
+    <!-- values -->
+    <bool name="abc_config_allowActionMenuItemTextWithIcon">false</bool>
+    <dimen name="abc_config_prefDialogWidth">320dp</dimen>
+    <bool name="abc_config_actionMenuItemAllCaps">true</bool>
 </resources>

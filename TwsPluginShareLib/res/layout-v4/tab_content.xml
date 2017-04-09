@@ -13,11 +13,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fillViewport="true"
-            android:scrollbars="none"
-            android:visibility="gone" >
+            android:scrollbars="none" >
 
             <android.widget.TwsTabWidget
-                android:id="@id/tabs"
+                android:id="@+id/tabs"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/tws_tabhost_h"
                 android:background="@color/tws_view_bg"
@@ -25,96 +24,24 @@
         </HorizontalScrollView>
 
         <com.tencent.tws.assistant.widget.TabIndicator
-            android:id="@id/tab_indicator"
+            android:id="@+id/tab_indicator"
             style="?attr/tabIndicatorStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignBottom="@+id/scrolltabs"
-            android:layout_marginBottom="4dp"
-            android:visibility="gone" />
+            android:layout_marginBottom="4dp" />
 
         <com.tencent.tws.assistant.support.v4.view.ViewPager
-            android:id="@id/tabviewpager"
+            android:id="@+id/tabviewpager"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@id/scrolltabs" />
 
         <FrameLayout
-            android:id="@id/tabcontent"
+            android:id="@+id/tabcontent"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@id/scrolltabs" />
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:id="@+id/wallet_main_loading_ly"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/wallet_overall_background"
-        android:clickable="true"
-        android:visibility="gone" >
-
-        <ProgressBar
-            android:id="@+id/wallet_main_loading_process"
-            style="@style/twsProgressBarStyleLarge"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:indeterminateDuration="700" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/wallet_main_loading_process"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="5dp"
-            android:text="@string/wallet_loading_tips"
-            android:textColor="#80ffffff"
-            android:textSize="12sp" />
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:id="@+id/wallet_main_wait"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/wallet_overall_background"
-        android:clickable="true"
-        android:visibility="gone" >
-
-        <TextView
-            android:id="@+id/wallet_main_wait_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:text="@string/wallet_waiting_tips"
-            android:textColor="#80ffffff"
-            android:textSize="12sp" />
-
-        <ImageView
-            android:id="@+id/wallet_main_wait_iv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_above="@id/wallet_main_wait_tv"
-            android:layout_centerHorizontal="true"
-            android:background="@drawable/wallet_coming_soon" />
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:id="@+id/wallet_main_error"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/wallet_overall_background"
-        android:clickable="true"
-        android:visibility="gone" >
-
-        <TextView
-            android:id="@+id/wallet_main_error_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:text="@string/wallet_disconnect_tips"
-            android:textColor="#80ffffff"
-            android:textSize="12sp" />
     </RelativeLayout>
 
 </android.widget.TwsTabHost>

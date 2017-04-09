@@ -107,7 +107,7 @@ public class TwsTabHost extends FrameLayout implements ViewTreeObserver.OnTouchM
 	public static TwsTabHost inflateFromHost() {
 		final LayoutInflater li = (LayoutInflater) HostProxy.getApplication().getSystemService(
 				Context.LAYOUT_INFLATER_SERVICE);
-		return (TwsTabHost) li.inflate(R.layout.tab_content_v4, null);
+		return (TwsTabHost) li.inflate(R.layout.tab_content, null);
 	}
 	
 	public static TwsTabHost inflateFromHost(String layoutResName) {

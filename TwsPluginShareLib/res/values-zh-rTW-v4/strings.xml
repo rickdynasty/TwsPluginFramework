@@ -82,7 +82,4 @@
     <string name="share_string_2">這是宿主程序共享庫自定義控件</string>
     <string name="share_app_name">PluginTest</string>
 
-    <!-- DM通用 -->
-    <string name="app_name">Pacewear</string>
-
 </resources>

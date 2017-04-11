@@ -1,94 +1,141 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="transparent">#00000000</color>
-    <color name="tws_black_alpha_medium">#4c000000</color>
+    <color name="tws_black">#ff000000</color>
+    <color name="tws_white">#ffffffff</color>
+
+    <!-- ====================black==================== -->
+    <!-- 80% alpha black -->
+    <color name="tws_black_alpha_supperbig">#CC000000</color>
+    <!-- 70% alpha black -->
+    <color name="tws_black_alpha_supper">#B3000000</color>
+    <!-- 60% alpha black -->
+    <color name="tws_black_alpha_larger">#99000000</color>
+    <!-- 50% alpha black -->
+    <color name="tws_black_alpha_large">#80000000</color>
+    <!-- 30% alpha black -->
+    <color name="tws_black_alpha_medium">#4D000000</color>
+    <!-- 20% alpha black -->
+    <color name="tws_black_alpha_micro">#33000000</color>
+    <!-- 10% alpha black -->
+    <color name="tws_black_alpha_mini">#1A000000</color>
+    <!-- 45% alpha black -->
+    <color name="tws_black_percent_45">#73000000</color>
+    <!-- 40% alpha black -->
+    <color name="tws_black_percent_40">#66000000</color>
+    <!-- 15% alpha black -->
+    <color name="tws_black_percent_15">#26000000</color>
+
+    <!-- ====================white</color>==================== -->
+    <!-- 80% alpha white -->
+    <color name="tws_white_alpha_supperbig">#CCffffff</color>
+    <!-- 70% alpha white -->
+    <color name="tws_white_alpha_supper">#B3ffffff</color>
+    <!-- 60% alpha white -->
+    <color name="tws_white_alpha_larger">#99ffffff</color>
+    <!-- 50% alpha white -->
+    <color name="tws_white_alpha_large">#80ffffff</color>
+    <!-- 30% alpha white -->
+    <color name="tws_white_alpha_medium">#4Dffffff</color>
+    <!-- 20% alpha white -->
+    <color name="tws_white_alpha_micro">#33ffffff</color>
+    <!-- 10% alpha white -->
+    <color name="tws_white_alpha_mini">#1A000000</color>
+    <!-- 45% alpha white -->
+    <color name="tws_white_percent_45">#73ffffff</color>
+    <!-- 40% alpha white -->
+    <color name="tws_white_percent_40">#66ffffff</color>
+    <!-- 25% alpha white -->
+    <color name="tws_white_percent_25">#40ffffff</color>
+    <!-- 15% alpha white -->
+    <color name="tws_white_percent_15">#26ffffff</color>
+    
+    <!-- Other common color -->
+    <color name="tws_warning">#FD2F2F</color>    
+    
+    <drawable name="transparent_background">@color/transparent</drawable>
     <color name="empty_text_color">#b2b2b2</color>
-
-    <drawable name="transparent_background">#00000000</drawable>
-
     <color name="highlighted_text_holo_light">#330074d6</color>
-    <color name="tws_second_Hint">#33000000</color>
+    <color name="tws_second_Hint">@color/tws_black_alpha_micro</color>
     <color name="tws_light_black">#ff333333</color>
     <color name="list_item_activated">#dfe4e6</color>
-    <color name="tws_light_display">#cc000000</color>
-    <color name="tws_light_title">#cc000000</color>
-    <color name="tws_light_body">#cc000000</color>
-    <color name="tws_light_body_sub">#66000000</color>
-    <color name="tws_light_summary">#66FFFFFF</color>
-    <color name="tws_light_caption">#66000000</color>
-    <color name="tws_white">#ffffffff</color>
-    <color name="tws_black">#ff000000</color>
-    <color name="tws_dark_display">#ccffffff</color>
-    <color name="tws_dark_title">#ffffffff</color>
-    <color name="tws_dark_body">#ccffffff</color>
-    <color name="tws_dark_body_sub">#72ffffff</color>
-    <color name="tws_dark_summary">#4cffffff</color>
+    <color name="tws_light_display">@color/tws_black_alpha_supperbig</color>
+    <color name="tws_light_title">@color/tws_black_alpha_supperbig</color>
+    <color name="tws_light_body">@color/tws_black_alpha_supperbig</color>
+    <color name="tws_light_body_sub">@color/tws_black_percent_40</color>
+    <color name="tws_light_summary">@color/tws_black_percent_40</color>
+    <color name="tws_light_caption">@color/tws_black_percent_40</color>
+    <color name="tws_dark_display">@color/tws_white_alpha_supperbig</color>
+    <color name="tws_dark_title">@color/tws_white</color>
+    <color name="tws_dark_body">@color/tws_white_alpha_supperbig</color>
+    <color name="tws_dark_body_sub">@color/tws_white_percent_45</color>
+    <color name="tws_dark_summary">@color/tws_white_alpha_medium</color>
     <color name="tws_blue">#ff22b2b6</color>
     <color name="tws_red">#ff5773</color>
-    <color name="tws_light_selected">#cc000000</color>
-    <color name="tws_light_body_sub_selected">#72000000</color>
-    <color name="tws_light_selected_caption">#33000000</color>
-    <color name="tws_dark_selected">#4cffffff</color>
+    <color name="tws_light_selected">@color/tws_black_alpha_supperbig</color>
+    <color name="tws_light_body_sub_selected">@color/tws_black_percent_45</color>
+    <color name="tws_light_selected_caption">@color/tws_black_alpha_micro</color>
+    <color name="tws_dark_selected">@color/tws_white_alpha_medium</color>
     <color name="tws_blue_selected">#ff22b2b6</color>
     <color name="tws_red_selected">#72b23d50</color>
-    <color name="tws_light_disabled">#26000000</color>
-    <color name="tws_light_disabled_caption">#1a000000</color>
-    <color name="tws_dark_disabled">#1affffff</color>
+    <color name="tws_light_disabled">@color/tws_black_percent_15</color>
+    <color name="tws_light_disabled_caption">@color/tws_black_alpha_mini</color>
+    <color name="tws_dark_disabled">@color/tws_white_alpha_mini</color>
     <color name="tws_blue_disabled">#2622b2b6</color>
     <color name="tws_red_disabled">#4cb23d50</color>
-    <color name="tws_light_pressed">#cc000000</color>
-    <color name="tws_light_pressed_caption">#33000000</color>
-    <color name="tws_dark_pressed">#ccffffff</color>
+    <color name="tws_light_pressed">@color/tws_black_alpha_supperbig</color>
+    <color name="tws_light_pressed_caption">@color/tws_black_alpha_micro</color>
+    <color name="tws_dark_pressed">@color/tws_white_alpha_supperbig</color>
     <color name="tws_blue_pressed">#6622b2b6</color>
     <color name="search_view_editor_light_background">#07000000</color>
-    <color name="search_view_text_color_light">#ffffffff</color>
-    <color name="search_view_text_color_dark">#ffffffff</color>
-    <color name="search_view_text_color_hint_light">#99ffffff</color>
-    <color name="search_view_text_color_hint_dark">#99ffffff</color>
+    <color name="search_view_text_color_light">@color/tws_white</color>
+    <color name="search_view_text_color_dark">@color/tws_white</color>
+    <color name="search_view_text_color_hint_light">@color/tws_white_alpha_larger</color>
+    <color name="search_view_text_color_hint_dark">@color/tws_white_alpha_larger</color>
     <color name="list_item_ripple_light">#19000000</color>
-    <color name="list_item_ripple_dark">#33ffffff</color>
+    <color name="list_item_ripple_dark">@color/tws_white_alpha_micro</color>
     <color name="default_ripple_light">#19000000</color>
-    <color name="default_ripple_dark">#33ffffff</color>
-    <color name="tws_windowbackground_color">#ffffffff</color>
-    <color name="tws_tab_disabled">#80ffffff</color>
-    <color name="tws_tab_pressed">#ffffffff</color>
-    <color name="tws_tab_selected">#ffffffff</color>
-    <color name="tws_tab_normal">#80ffffff</color>
-    <color name="tws_tab_sub_disabled">#4c000000</color>
-    <color name="tws_tab_sub_pressed">#ff000000</color>
-    <color name="tws_tab_sub_selected">#ff000000</color>
-    <color name="tws_tab_sub_normal">#ff000000</color>
-    <color name="sidebar_position_textcolor">#4c000000</color>
-    <color name="sidebar_normal_textcolor">#cc000000</color>
-    <color name="sidebar_selected_textcolor">#cc000000</color>
-    <color name="sidebar_nonexist_textcolor">#4c000000</color>
-    <color name="hubble_normal_background">#FF000000</color>
+    <color name="default_ripple_dark">@color/tws_white_alpha_micro</color>
+    <color name="tws_windowbackground_color">@color/tws_white</color>
+    <color name="tws_tab_disabled">@color/tws_white_alpha_large</color>
+    <color name="tws_tab_pressed">@color/tws_white</color>
+    <color name="tws_tab_selected">@color/tws_white</color>
+    <color name="tws_tab_normal">@color/tws_white_alpha_large</color>
+    <color name="tws_tab_sub_disabled">@color/tws_black_alpha_medium</color>
+    <color name="tws_tab_sub_pressed">@color/tws_black</color>
+    <color name="tws_tab_sub_selected">@color/tws_black</color>
+    <color name="tws_tab_sub_normal">@color/tws_black</color>
+    <color name="sidebar_position_textcolor">@color/tws_black_alpha_medium</color>
+    <color name="sidebar_normal_textcolor">@color/tws_black_alpha_supperbig</color>
+    <color name="sidebar_selected_textcolor">@color/tws_black_alpha_supperbig</color>
+    <color name="sidebar_nonexist_textcolor">@color/tws_black_alpha_medium</color>
+    <color name="hubble_normal_background">@color/tws_black</color>
     <color name="hubble_nonexist_background">#FFe5e5e5</color>
-    <color name="hubble_normal_textcolor">#FFFFFFFF</color>
-    <color name="hubble_nonexist_textcolor">#FFFFFFFF</color>
+    <color name="hubble_normal_textcolor">@color/tws_white</color>
+    <color name="hubble_nonexist_textcolor">@color/tws_white</color>
     <color name="tws_picker_dialog_btn_bg">#f1f1f1</color>
     <color name="tws_picker_selected_textcolor">#46DC5F</color>
-    <color name="tws_picker_normal_textcolor">#26000000</color>
-    <color name="tws_menuitem_bottom_light_disabled">#26000000</color>
-    <color name="tws_menuitem_bottom_light_pressed">#cc000000</color>
+    <color name="tws_picker_normal_textcolor">@color/tws_black_percent_15</color>
+    <color name="tws_menuitem_bottom_light_disabled">@color/tws_black_percent_15</color>
+    <color name="tws_menuitem_bottom_light_pressed">@color/tws_black_alpha_supperbig</color>
     <color name="tws_menuitem_bottom_light_selected">#ff22b2b6</color>
-    <color name="tws_menuitem_bottom_light">#cc000000</color>
-    <color name="tws_menuitem_bottom_dark_disabled">#4cffffff</color>
-    <color name="tws_menuitem_bottom_dark_pressed">#ccffffff</color>
+    <color name="tws_menuitem_bottom_light">@color/tws_black_alpha_supperbig</color>
+    <color name="tws_menuitem_bottom_dark_disabled">@color/tws_white_alpha_medium</color>
+    <color name="tws_menuitem_bottom_dark_pressed">@color/tws_white_alpha_supperbig</color>
     <color name="tws_menuitem_bottom_dark_selected">#ff22b2b6</color>
-    <color name="tws_menuitem_bottom_dark">#ccffffff</color>
-    <color name="tws_dialog_button_light_disabled">#33000000</color>
-    <color name="tws_dialog_button_light_pressed">#cc000000</color>
-    <color name="tws_dialog_button_light_selected">#cc000000</color>
-    <color name="tws_dialog_button_light">#cc000000</color>
-    <color name="tws_dialog_button_dark_disabled">#1affffff</color>
-    <color name="tws_dialog_button_dark_pressed">#ccffffff</color>
-    <color name="tws_dialog_button_dark_selected">#ccffffff</color>
-    <color name="tws_dialog_button_dark">#ccffffff</color>
-    <color name="tws_bottom_dialog_list_item_light">#cc000000</color>
-    <color name="tws_chooser_layout_textcolor">#cc000000</color>
+    <color name="tws_menuitem_bottom_dark">@color/tws_white_alpha_supperbig</color>
+    <color name="tws_dialog_button_light_disabled">@color/tws_black_alpha_micro</color>
+    <color name="tws_dialog_button_light_pressed">@color/tws_black_alpha_supperbig</color>
+    <color name="tws_dialog_button_light_selected">@color/tws_black_alpha_supperbig</color>
+    <color name="tws_dialog_button_light">@color/tws_black_alpha_supperbig</color>
+    <color name="tws_dialog_button_dark_disabled">@color/tws_white_alpha_mini</color>
+    <color name="tws_dialog_button_dark_pressed">@color/tws_white_alpha_supperbig</color>
+    <color name="tws_dialog_button_dark_selected">@color/tws_white_alpha_supperbig</color>
+    <color name="tws_dialog_button_dark">@color/tws_white_alpha_supperbig</color>
+    <color name="tws_bottom_dialog_list_item_light">@color/tws_black_alpha_supperbig</color>
+    <color name="tws_chooser_layout_textcolor">@color/tws_black_alpha_supperbig</color>
     <color name="tws_toast_text_shadowcolor">#BB000000</color>
-    <color name="tws_toast_textcolor">#ccffffff</color>
+    <color name="tws_toast_textcolor">@color/tws_white_alpha_supperbig</color>
     <color name="control_normal_color">#ffb2b2b2</color>
     <color name="control_disabled_color">#ffe5e5e5</color>
     <color name="control_activated_color">#ff49cbce</color>
@@ -98,31 +145,31 @@
     <color name="accent_material_light">#FF22B2B6</color>
     <color name="actionbar_gradient_background_start_color">#FF3A414E</color>
     <color name="actionbar_gradient_background_end_color">#FF2F3540</color>
-    <color name="tws_light_title_popup">#cc000000</color>
-    <color name="tws_light_disabled_popup">#26000000</color>
-    <color name="tws_light_pressed_popup">#cc000000</color>
-    <color name="tws_light_selected_popup">#cc000000</color>
-    <color name="tws_light_title_actionBar">#ffffffff</color>
-    <color name="tws_light_subtitle_actionBar">#ffffffff</color>
-    <color name="tws_light_title_actionbarbtn">#ffffffff</color>
-    <color name="tws_light_disabled_actionbarbtn">#1affffff</color>
-    <color name="tws_light_pressed_actionbarbtn">#ccffffff</color>
-    <color name="tws_light_selected_actionbarbtn">#4cffffff</color>
+    <color name="tws_light_title_popup">@color/tws_black_alpha_supperbig</color>
+    <color name="tws_light_disabled_popup">@color/tws_black_percent_15</color>
+    <color name="tws_light_pressed_popup">@color/tws_black_alpha_supperbig</color>
+    <color name="tws_light_selected_popup">@color/tws_black_alpha_supperbig</color>
+    <color name="tws_light_title_actionBar">@color/tws_white</color>
+    <color name="tws_light_subtitle_actionBar">@color/tws_white</color>
+    <color name="tws_light_title_actionbarbtn">@color/tws_white</color>
+    <color name="tws_light_disabled_actionbarbtn">@color/tws_white_alpha_mini</color>
+    <color name="tws_light_pressed_actionbarbtn">@color/tws_white_alpha_supperbig</color>
+    <color name="tws_light_selected_actionbarbtn">@color/tws_white_alpha_medium</color>
     <color name="tws_resolver_always_textcolor">#59000000</color>
-    <color name="tws_menuitem_light">#ffffff</color>
-    <color name="tws_menuitem_light_disabled">#33FFFFFF</color>
-    <color name="tws_menuitem_light_pressed">#cc000000</color>
+    <color name="tws_menuitem_light">@color/tws_white</color>
+    <color name="tws_menuitem_light_disabled">@color/tws_white_alpha_micro</color>
+    <color name="tws_menuitem_light_pressed">@color/tws_black_alpha_supperbig</color>
     <color name="tws_menuitem_light_selected">#ff22b2b6</color>
-    <color name="tws_menuitem_dark">#ccffffff</color>
-    <color name="tws_menuitem_dark_disabled">#4cffffff</color>
-    <color name="tws_menuitem_dark_pressed">#ccffffff</color>
+    <color name="tws_menuitem_dark">@color/tws_white_alpha_supperbig</color>
+    <color name="tws_menuitem_dark_disabled">@color/tws_white_alpha_medium</color>
+    <color name="tws_menuitem_dark_pressed">@color/tws_white_alpha_supperbig</color>
     <color name="tws_menuitem_dark_selected">#ff22b2b6</color>
     <color name="tws_brand">#46DC5F</color>
     <color name="tws_view_bg">#292634</color>
     <color name="tws_operat_view_bg">#292634</color>
     <color name="tws_dialog_split">#0D979797</color>
     <color name="tws_split_view_bg">#1F1C27</color>
-    <color name="tws_split_text_view_color">#7FFFFFFF</color>
+    <color name="tws_split_text_view_color">@color/tws_white_alpha_large</color>
     <color name="tws_brand_percent_10">#1A46DC5F</color>
     <color name="tws_brand_percent_20">#3346DC5F</color>
     <color name="tws_brand_percent_50">#8046DC5F</color>
@@ -131,19 +178,19 @@
     <!-- Default Button -->
     <color name="tws_button_normal_background">@color/transparent</color>
     <!-- 0.30 -->
-    <color name="tws_button_normal_borderColor">#4DFFFFFF</color>
+    <color name="tws_button_normal_borderColor">@color/tws_white_alpha_medium</color>
     <!-- 0.06 -->
     <color name="tws_button_pressed_background">#1E1C26</color>
     <!-- 0.15 -->
-    <color name="tws_button_pressed_borderColor">#26FFFFFF</color>
+    <color name="tws_button_pressed_borderColor">@color/tws_black_percent_15</color>
     <color name="tws_button_focused_background">@color/tws_button_pressed_background</color>
     <color name="tws_button_focused_borderColor">@color/tws_button_pressed_borderColor</color>
     <color name="tws_button_disabled_background">@color/transparent</color>
     <!-- 0.10 -->
-    <color name="tws_button_disabled_borderColor">#1AFFFFFF</color>
+    <color name="tws_button_disabled_borderColor">@color/tws_white_alpha_mini</color>
     <color name="tws_button_textColor">@color/tws_white</color>
     <!-- 0.20 -->
-    <color name="tws_button_disabled_textColor">#33FFFFFF</color>
+    <color name="tws_button_disabled_textColor">@color/tws_white_alpha_micro</color>
     <color name="tws_button_progressColor">@color/tws_brand_percent_70</color>
     <color name="tws_button_progress_borderColor">@color/transparent</color>
 
@@ -161,7 +208,7 @@
     <color name="tws_button_disabled_textColor_Progress">@color/tws_white</color>
 
     <!-- Preference -->
-    <color name="tws_preference_item_caption">#7FFFFFFF</color>
+    <color name="tws_preference_item_caption">@color/tws_white_alpha_large</color>
     
     <!-- values -->
         <color name="abc_search_url_text_normal">#7fa87f</color>

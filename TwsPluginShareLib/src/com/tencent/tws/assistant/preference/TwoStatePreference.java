@@ -16,8 +16,6 @@
 
 package com.tencent.tws.assistant.preference;
 
-import com.tencent.tws.sharelib.R;
-
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.TypedArray;
@@ -25,12 +23,12 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.text.TextUtils;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 import android.view.accessibility.AccessibilityEvent;
 import android.view.accessibility.AccessibilityManager;
 import android.widget.TextView;
-import android.os.Handler;
+
+import com.tencent.tws.sharelib.R;
 
 /**
  * Common base class for preferences that have two selectable states, persist a

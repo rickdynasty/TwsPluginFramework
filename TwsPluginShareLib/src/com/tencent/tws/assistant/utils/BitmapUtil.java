@@ -13,10 +13,7 @@ import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
 import android.graphics.RectF;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.Display;
 import android.view.WindowManager;
 
@@ -43,9 +40,9 @@ public class BitmapUtil {
 	public static final String THEME_ICON_MASK = "launcher_theme_icon_mask";
 	public static final String THEME_ICON_SHADOW = "launcher_theme_icon_shadow";
 	
-	public static final int QROM_ICON_SIZE_FRAME = 192;
-	public static final int QROM_ICON_SIZE_SQUARE = 156;
-	public static final int QROM_ICON_SIZE_NOT_SQUARE = 168;
+	public static final int TWS_ICON_SIZE_FRAME = 192;
+	public static final int TWS_ICON_SIZE_SQUARE = 156;
+	public static final int TWS_ICON_SIZE_NOT_SQUARE = 168;
 	
 	public static IconAnalyzedResult analyzeBitmap1(Bitmap srcBmp) {
 //      long beforeTime = System.currentTimeMillis();
@@ -251,7 +248,7 @@ public class BitmapUtil {
 		Bitmap res = null;
 		// reuse the bitmap must be app_icon_content_size
 		// 204px
-		int outerSize = QROM_ICON_SIZE_FRAME;
+		int outerSize = TWS_ICON_SIZE_FRAME;
 		int iconSize = outerSize;
 		if (options != null && options.inSampleSize > 1) {
 			iconSize = outerSize / options.inSampleSize;
@@ -272,7 +269,7 @@ public class BitmapUtil {
 			// analysis of srcBitmap(background,shape)
 			Canvas canvas = new Canvas(res);
 			Paint paint = new Paint(DEFAULT_PAINT_FLAGS);
-			int innerSize = QROM_ICON_SIZE_SQUARE;
+			int innerSize = TWS_ICON_SIZE_SQUARE;
 			if (analyzedResult.isSquare && preprocess) {
 				float a = getScreenDensity(context);
 //				innerSize = innerSize + (int) (2 * getScreenDensity());
@@ -301,7 +298,7 @@ public class BitmapUtil {
 				// picture drawing draw the inner box,auto adapt the innersize
 				int scale = 100;
 				int dy = 0;
-				innerSize = QROM_ICON_SIZE_NOT_SQUARE;
+				innerSize = TWS_ICON_SIZE_NOT_SQUARE;
 				innerSize = (int) (innerSize * ((float) scale) / 100 * iconSize / outerSize);
 				RectF desRect = scaleInnerIcon(innerSize, analyzedResult);
 				float width1 = desRect.width();

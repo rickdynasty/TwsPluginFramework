@@ -26,10 +26,9 @@ import android.util.Log;
 import android.util.SparseArray;
 import android.view.View;
 import android.view.ViewGroup;
-
 import android.widget.Filter;
-import android.widget.Filterable;
 import android.widget.FilterQueryProvider;
+import android.widget.Filterable;
 
 /**
  * An adapter that exposes data from a series of {@link Cursor}s to an

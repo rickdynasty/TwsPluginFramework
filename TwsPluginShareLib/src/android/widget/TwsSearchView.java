@@ -453,9 +453,9 @@ public class TwsSearchView extends LinearLayout implements CollapsibleActionView
         	}
 		}
 //        TwsRippleEffectInterface.setupEffectionOverlay(mSearchCancelButton, mContext);
-		/*NANJI-START::add::haoranma::2012-10-19*/
+		/*tws-start::add 2012-10-19*/
 		//mQueryTextView.setTextSize(context.getResources().getInteger(R.integer.tws_searchview_text_size));
-		/*NANJI-END::add::haoranma::2012-10-19*/
+		/*tws-end::add 2012-10-19*/
         mQueryTextView.setSearchView(this);
         mSearchBar = (LinearLayout) findViewById(R.id.search_bar);
         mSearchEditFrame = (LinearLayout) findViewById(R.id.search_edit_frame);

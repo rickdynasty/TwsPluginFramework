@@ -4,16 +4,13 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewConfiguration;
-import android.widget.TwsTabWidget;
 import android.widget.TwsTabWidget.OnTabItemCenterPosListener;
 
 import com.tencent.tws.assistant.support.v4.view.ViewConfigurationCompat;

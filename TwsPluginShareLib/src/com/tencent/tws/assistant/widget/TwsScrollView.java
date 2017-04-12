@@ -42,13 +42,13 @@ public class TwsScrollView extends ScrollView {
 		
 		if (android.os.Build.VERSION.SDK_INT > 18 && getResources().getBoolean(R.bool.config_statusbar_state)) {
 			headerHeight =  !statusbarFlag ? 
-					(int) mContext.getResources().getDimension(R.dimen.tws_action_bar_height) : 
-						(int) mContext.getResources().getDimension(R.dimen.tws_action_bar_height) + TwsActivity.getStatusBarHeight();
+					(int) context.getResources().getDimension(R.dimen.tws_action_bar_height) : 
+						(int) context.getResources().getDimension(R.dimen.tws_action_bar_height) + TwsActivity.getStatusBarHeight();
 		}
 		else {
-			headerHeight = (int) mContext.getResources().getDimension(R.dimen.tws_action_bar_height); 
+			headerHeight = (int) context.getResources().getDimension(R.dimen.tws_action_bar_height); 
 		}
-		footerHeight = (int) mContext.getResources().getDimension(R.dimen.tws_actionbar_split_height);
+		footerHeight = (int) context.getResources().getDimension(R.dimen.tws_actionbar_split_height);
 	}
 	
 	@Override

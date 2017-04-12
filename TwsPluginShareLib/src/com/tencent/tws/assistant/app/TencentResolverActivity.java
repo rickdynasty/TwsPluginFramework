@@ -16,23 +16,24 @@
 
 package com.tencent.tws.assistant.app;
 
-import android.os.AsyncTask;
-
-import com.android.internal.content.PackageMonitor;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Set;
 
 import android.app.ActivityManager;
 import android.app.ActivityManagerNative;
 import android.app.AppGlobals;
-import android.app.TwsActivity;
-import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.ActivityInfo;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.LabeledIntent;
+import android.content.pm.PackageItemInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.pm.ResolveInfo;
@@ -42,54 +43,39 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.PatternMatcher;
 import android.os.RemoteException;
-import android.os.UserHandle;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
-import com.tencent.tws.assistant.app.AlertActivity;
-import com.tencent.tws.assistant.app.AlertController;
-import com.tencent.tws.assistant.app.AlertDialog.ButtonColor;
-import com.tencent.tws.assistant.drawable.TwsRippleDrawable;
-import com.tencent.tws.assistant.support.v4.view.PagerAdapter;
-import com.tencent.tws.assistant.support.v4.view.ViewPager;
-import com.tencent.tws.assistant.support.v4.view.ViewPager.OnPageChangeListener;
-import com.tencent.tws.assistant.utils.BitmapUtil;
-import com.tencent.tws.assistant.utils.TwsRippleUtils;
-import com.tencent.tws.assistant.utils.BitmapUtil.IconAnalyzedResult;
-import com.tencent.tws.assistant.widget.AdapterView;
-import com.tencent.tws.assistant.widget.CheckBox;
-import com.tencent.tws.assistant.widget.ListView;
-import com.tencent.tws.assistant.widget.TwsGridView;
-import com.tencent.tws.assistant.widget.AdapterView.OnItemClickListener;
-import com.tencent.tws.assistant.widget.AdapterView.OnItemLongClickListener;
-import com.tencent.tws.sharelib.R;
-import android.content.pm.PackageItemInfo;
-//Warning don't change this to tws widget!!
-
-//Warning end
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
-import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
+import com.android.internal.content.PackageMonitor;
+import com.tencent.tws.assistant.drawable.TwsRippleDrawable;
+import com.tencent.tws.assistant.support.v4.view.PagerAdapter;
+import com.tencent.tws.assistant.support.v4.view.ViewPager;
+import com.tencent.tws.assistant.support.v4.view.ViewPager.OnPageChangeListener;
+import com.tencent.tws.assistant.utils.TwsRippleUtils;
+import com.tencent.tws.assistant.widget.AdapterView;
+import com.tencent.tws.assistant.widget.AdapterView.OnItemClickListener;
+import com.tencent.tws.assistant.widget.AdapterView.OnItemLongClickListener;
+import com.tencent.tws.assistant.widget.CheckBox;
+import com.tencent.tws.assistant.widget.ListView;
+import com.tencent.tws.assistant.widget.TwsGridView;
+import com.tencent.tws.sharelib.R;
+//Warning don't change this to tws widget!!
+//Warning end
 
 
 
@@ -194,7 +180,7 @@ public class TencentResolverActivity extends AlertActivity {
 		mList = new ArrayList<DisplayResolveInfo>();
 		rebuildList();
 		
-		int itemCount = mList.size();
+		int itemCount = mList == null ? 0 : mList.size();
 		int pageCount = 0;
 		
 		if (itemCount > 0) {

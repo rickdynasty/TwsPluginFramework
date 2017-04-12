@@ -16,14 +16,13 @@
 
 package com.tencent.tws.assistant.preference;
 
-import com.tencent.tws.sharelib.R;
-
-import android.app.FragmentBreadCrumbs;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.FrameLayout;
+
+import com.tencent.tws.sharelib.R;
 
 /**
  * @hide

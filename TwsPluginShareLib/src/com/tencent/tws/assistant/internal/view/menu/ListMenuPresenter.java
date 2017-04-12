@@ -16,6 +16,8 @@
 
 package com.tencent.tws.assistant.internal.view.menu;
 
+import java.util.ArrayList;
+
 import android.content.Context;
 import android.database.DataSetObserver;
 import android.os.Bundle;
@@ -25,283 +27,282 @@ import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import com.tencent.tws.assistant.internal.view.menu.MenuBuilder;
-import com.tencent.tws.assistant.internal.view.menu.MenuItemImpl;
-import com.tencent.tws.assistant.internal.view.menu.MenuPresenter;
-import com.tencent.tws.assistant.internal.view.menu.MenuView;
-import com.tencent.tws.assistant.internal.view.menu.SubMenuBuilder;
-import com.tencent.tws.assistant.widget.AdapterView;
-import com.tencent.tws.sharelib.R;
-
 import android.widget.BaseAdapter;
 import android.widget.ListAdapter;
 
-import java.util.ArrayList;
-import android.util.Log;
+import com.tencent.tws.assistant.widget.AdapterView;
+import com.tencent.tws.sharelib.R;
+
 /**
  * MenuPresenter for list-style menus.
  */
 public class ListMenuPresenter implements MenuPresenter, AdapterView.OnItemClickListener {
-    private static final String TAG = "ListMenuPresenter";
+	private static final String TAG = "ListMenuPresenter";
 
-    Context mContext;
-    LayoutInflater mInflater;
-    MenuBuilder mMenu;
+	Context mContext;
+	LayoutInflater mInflater;
+	MenuBuilder mMenu;
 
-    ExpandedMenuView mMenuView;
+	ExpandedMenuView mMenuView;
 
-    private int mItemIndexOffset;
-    int mThemeRes;
-    int mItemLayoutRes;
+	private int mItemIndexOffset;
+	int mThemeRes;
+	int mItemLayoutRes;
 
-    private Callback mCallback;
-    MenuAdapter mAdapter;
+	private Callback mCallback;
+	MenuAdapter mAdapter;
 
-    private int mId;
+	private int mId;
 
-    public static final String VIEWS_TAG = "android:menu:list";
+	public static final String VIEWS_TAG = "android:menu:list";
 
-    /**
-     * Construct a new ListMenuPresenter.
-     * @param context Context to use for theming. This will supersede the context provided
-     *                to initForMenu when this presenter is added.
-     * @param itemLayoutRes Layout resource for individual item views.
-     */
-    public ListMenuPresenter(Context context, int itemLayoutRes) {
-        this(itemLayoutRes, 0);
-        mContext = context;
-        mInflater = LayoutInflater.from(mContext);
-    }
+	/**
+	 * Construct a new ListMenuPresenter.
+	 * 
+	 * @param context
+	 *            Context to use for theming. This will supersede the context
+	 *            provided to initForMenu when this presenter is added.
+	 * @param itemLayoutRes
+	 *            Layout resource for individual item views.
+	 */
+	public ListMenuPresenter(Context context, int itemLayoutRes) {
+		this(itemLayoutRes, 0);
+		mContext = context;
+		mInflater = LayoutInflater.from(mContext);
+	}
 
-    /**
-     * Construct a new ListMenuPresenter.
-     * @param itemLayoutRes Layout resource for individual item views.
-     * @param themeRes Resource ID of a theme to use for views.
-     */
-    public ListMenuPresenter(int itemLayoutRes, int themeRes) {
-        mItemLayoutRes = itemLayoutRes;
-        mThemeRes = themeRes;
-    }
+	/**
+	 * Construct a new ListMenuPresenter.
+	 * 
+	 * @param itemLayoutRes
+	 *            Layout resource for individual item views.
+	 * @param themeRes
+	 *            Resource ID of a theme to use for views.
+	 */
+	public ListMenuPresenter(int itemLayoutRes, int themeRes) {
+		mItemLayoutRes = itemLayoutRes;
+		mThemeRes = themeRes;
+	}
 
-    @Override
-    public void initForMenu(Context context, MenuBuilder menu) {
-        if (mThemeRes != 0) {
-            mContext = new ContextThemeWrapper(context, mThemeRes);
-            mInflater = LayoutInflater.from(mContext);
-        } else if (mContext != null) {
-            mContext = context;
-            if (mInflater == null) {
-                mInflater = LayoutInflater.from(mContext);
-            }
-        }
-        mMenu = menu;
-    }
+	@Override
+	public void initForMenu(Context context, MenuBuilder menu) {
+		if (mThemeRes != 0) {
+			mContext = new ContextThemeWrapper(context, mThemeRes);
+			mInflater = LayoutInflater.from(mContext);
+		} else if (mContext != null) {
+			mContext = context;
+			if (mInflater == null) {
+				mInflater = LayoutInflater.from(mContext);
+			}
+		}
+		mMenu = menu;
+	}
 
-    @Override
-    public MenuView getMenuView(ViewGroup root) {
-        if (mMenuView == null) {
-            mMenuView = (ExpandedMenuView) mInflater.inflate(
-                    R.layout.expanded_menu_layout, root, false);
-            if (mAdapter == null) {
-                mAdapter = new MenuAdapter();
-            }
-            mMenuView.setAdapter(mAdapter);
-            mMenuView.setOnItemClickListener(this);
-        }
-        return mMenuView;
-    }
+	@Override
+	public MenuView getMenuView(ViewGroup root) {
+		if (mMenuView == null) {
+			mMenuView = (ExpandedMenuView) mInflater.inflate(R.layout.expanded_menu_layout, root, false);
+			if (mAdapter == null) {
+				mAdapter = new MenuAdapter();
+			}
+			mMenuView.setAdapter(mAdapter);
+			mMenuView.setOnItemClickListener(this);
+		}
+		return mMenuView;
+	}
 
-    /**
-     * Call this instead of getMenuView if you want to manage your own ListView.
-     * For proper operation, the ListView hosting this adapter should add
-     * this presenter as an OnItemClickListener.
-     *
-     * @return A ListAdapter containing the items in the menu.
-     */
-    public ListAdapter getAdapter() {
-        if (mAdapter == null) {
-            mAdapter = new MenuAdapter();
-        }
-        return mAdapter;
-    }
+	/**
+	 * Call this instead of getMenuView if you want to manage your own ListView.
+	 * For proper operation, the ListView hosting this adapter should add this
+	 * presenter as an OnItemClickListener.
+	 * 
+	 * @return A ListAdapter containing the items in the menu.
+	 */
+	public ListAdapter getAdapter() {
+		if (mAdapter == null) {
+			mAdapter = new MenuAdapter();
+		}
+		return mAdapter;
+	}
 
-    @Override
-    public void updateMenuView(boolean cleared) {
-        if (mAdapter != null) mAdapter.notifyDataSetChanged();
-    }
+	@Override
+	public void updateMenuView(boolean cleared) {
+		if (mAdapter != null)
+			mAdapter.notifyDataSetChanged();
+	}
 
-    @Override
-    public void setCallback(Callback cb) {
-        mCallback = cb;
-    }
+	@Override
+	public void setCallback(Callback cb) {
+		mCallback = cb;
+	}
 
-    @Override
-    public boolean onSubMenuSelected(SubMenuBuilder subMenu) {
-        if (!subMenu.hasVisibleItems()) return false;
+	@Override
+	public boolean onSubMenuSelected(SubMenuBuilder subMenu) {
+		if (!subMenu.hasVisibleItems())
+			return false;
 
-        // The window manager will give us a token.
-        new MenuDialogHelper(subMenu).show(null);
-        if (mCallback != null) {
-            mCallback.onOpenSubMenu(subMenu);
-        }
-        return true;
-    }
+		// The window manager will give us a token.
+		new MenuDialogHelper(subMenu).show(null);
+		if (mCallback != null) {
+			mCallback.onOpenSubMenu(subMenu);
+		}
+		return true;
+	}
 
-    @Override
-    public void onCloseMenu(MenuBuilder menu, boolean allMenusAreClosing) {
-        if (mCallback != null) {
-            mCallback.onCloseMenu(menu, allMenusAreClosing);
-        }
-    }
+	@Override
+	public void onCloseMenu(MenuBuilder menu, boolean allMenusAreClosing) {
+		if (mCallback != null) {
+			mCallback.onCloseMenu(menu, allMenusAreClosing);
+		}
+	}
 
-    int getItemIndexOffset() {
-        return mItemIndexOffset;
-    }
+	int getItemIndexOffset() {
+		return mItemIndexOffset;
+	}
 
-    public void setItemIndexOffset(int offset) {
-        mItemIndexOffset = offset;
-        if (mMenuView != null) {
-            updateMenuView(false);
-        }
-    }
+	public void setItemIndexOffset(int offset) {
+		mItemIndexOffset = offset;
+		if (mMenuView != null) {
+			updateMenuView(false);
+		}
+	}
 
-    @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        mMenu.performItemAction(mAdapter.getItem(position), 0);
-    }
+	@Override
+	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+		mMenu.performItemAction(mAdapter.getItem(position), 0);
+	}
 
-    @Override
-    public boolean flagActionItems() {
-        return false;
-    }
+	@Override
+	public boolean flagActionItems() {
+		return false;
+	}
 
-    public boolean expandItemActionView(MenuBuilder menu, MenuItemImpl item) {
-        return false;
-    }
+	public boolean expandItemActionView(MenuBuilder menu, MenuItemImpl item) {
+		return false;
+	}
 
-    public boolean collapseItemActionView(MenuBuilder menu, MenuItemImpl item) {
-        return false;
-    }
+	public boolean collapseItemActionView(MenuBuilder menu, MenuItemImpl item) {
+		return false;
+	}
 
-    public void saveHierarchyState(Bundle outState) {
-        SparseArray<Parcelable> viewStates = new SparseArray<Parcelable>();
-        if (mMenuView != null) {
-            ((View) mMenuView).saveHierarchyState(viewStates);
-        }
-        outState.putSparseParcelableArray(VIEWS_TAG, viewStates);
-    }
+	public void saveHierarchyState(Bundle outState) {
+		SparseArray<Parcelable> viewStates = new SparseArray<Parcelable>();
+		if (mMenuView != null) {
+			((View) mMenuView).saveHierarchyState(viewStates);
+		}
+		outState.putSparseParcelableArray(VIEWS_TAG, viewStates);
+	}
 
-    public void restoreHierarchyState(Bundle inState) {
-        SparseArray<Parcelable> viewStates = inState.getSparseParcelableArray(VIEWS_TAG);
-        if (viewStates != null) {
-            ((View) mMenuView).restoreHierarchyState(viewStates);
-        }
-    }
+	public void restoreHierarchyState(Bundle inState) {
+		SparseArray<Parcelable> viewStates = inState.getSparseParcelableArray(VIEWS_TAG);
+		if (viewStates != null) {
+			((View) mMenuView).restoreHierarchyState(viewStates);
+		}
+	}
 
-    public void setId(int id) {
-        mId = id;
-    }
+	public void setId(int id) {
+		mId = id;
+	}
 
-    @Override
-    public int getId() {
-        return mId;
-    }
+	@Override
+	public int getId() {
+		return mId;
+	}
 
-    @Override
-    public Parcelable onSaveInstanceState() {
-        if (mMenuView == null) {
-            return null;
-        }
+	@Override
+	public Parcelable onSaveInstanceState() {
+		if (mMenuView == null) {
+			return null;
+		}
 
-        Bundle state = new Bundle();
-        saveHierarchyState(state);
-        return state;
-    }
+		Bundle state = new Bundle();
+		saveHierarchyState(state);
+		return state;
+	}
 
-    @Override
-    public void onRestoreInstanceState(Parcelable state) {
-        restoreHierarchyState((Bundle) state);
-    }
+	@Override
+	public void onRestoreInstanceState(Parcelable state) {
+		restoreHierarchyState((Bundle) state);
+	}
 
-    private class MenuAdapter extends BaseAdapter {
-        private int mExpandedIndex = -1;
+	private class MenuAdapter extends BaseAdapter {
+		private int mExpandedIndex = -1;
 
-        public MenuAdapter() {
-            registerDataSetObserver(new ExpandedIndexObserver());
-            findExpandedIndex();
-        }
+		public MenuAdapter() {
+			registerDataSetObserver(new ExpandedIndexObserver());
+			findExpandedIndex();
+		}
 
-        public int getCount() {
-            ArrayList<MenuItemImpl> items = mMenu.twsGetNonActionItems();
-            int count = items.size() - mItemIndexOffset;
-            if (mExpandedIndex < 0) {
-                return count;
-            }
-            return count - 1;
-        }
+		public int getCount() {
+			ArrayList<MenuItemImpl> items = mMenu.twsGetNonActionItems();
+			int count = items.size() - mItemIndexOffset;
+			if (mExpandedIndex < 0) {
+				return count;
+			}
+			return count - 1;
+		}
 
-        public MenuItemImpl getItem(int position) {
-            ArrayList<MenuItemImpl> items = mMenu.twsGetNonActionItems();
-            position += mItemIndexOffset;
-            if (mExpandedIndex >= 0 && position >= mExpandedIndex) {
-                position++;
-            }
-            return items.get(position);
-        }
+		public MenuItemImpl getItem(int position) {
+			ArrayList<MenuItemImpl> items = mMenu.twsGetNonActionItems();
+			position += mItemIndexOffset;
+			if (mExpandedIndex >= 0 && position >= mExpandedIndex) {
+				position++;
+			}
+			return items.get(position);
+		}
 
-        public long getItemId(int position) {
-            // Since a menu item's ID is optional, we'll use the position as an
-            // ID for the item in the AdapterView
-            return position;
-        }
+		public long getItemId(int position) {
+			// Since a menu item's ID is optional, we'll use the position as an
+			// ID for the item in the AdapterView
+			return position;
+		}
 
-        public View getView(int position, View convertView, ViewGroup parent) {
-            if (convertView == null) {
-                convertView = mInflater.inflate(mItemLayoutRes, parent, false);
-            }
+		public View getView(int position, View convertView, ViewGroup parent) {
+			if (convertView == null) {
+				convertView = mInflater.inflate(mItemLayoutRes, parent, false);
+			}
 
-            MenuView.ItemView itemView = (MenuView.ItemView) convertView;
-            itemView.initialize(getItem(position), 0);
-            ////Log.d("ListMenuPresenter.java","getView-------------- position="+position);
-            if(getItem(position).isCheckable())
-            {
-                ////Log.d("ListMenuPresenter.java","getView-------------- checkable=");
-                notifyDataSetChanged();
-            }
+			MenuView.ItemView itemView = (MenuView.ItemView) convertView;
+			itemView.initialize(getItem(position), 0);
+			// //Log.d("ListMenuPresenter.java","getView-------------- position="+position);
+			if (getItem(position).isCheckable()) {
+				// //Log.d("ListMenuPresenter.java","getView-------------- checkable=");
+				notifyDataSetChanged();
+			}
 
-        //convertView.setBackgroundResource(R.drawable.second_menu_fullwidth_selector_middle);
-        
-            return convertView;
-        }
+			// convertView.setBackgroundResource(R.drawable.second_menu_fullwidth_selector_middle);
 
-        void findExpandedIndex() {
-            final MenuItemImpl expandedItem = mMenu.getExpandedItem();
-            if (expandedItem != null) {
-                final ArrayList<MenuItemImpl> items = mMenu.twsGetNonActionItems();
-                final int count = items.size();
-                for (int i = 0; i < count; i++) {
-                    final MenuItemImpl item = items.get(i);
-                    if (item == expandedItem) {
-                        mExpandedIndex = i;
-                        return;
-                    }
-                }
-            }
-            mExpandedIndex = -1;
-        }
-    }
+			return convertView;
+		}
 
+		void findExpandedIndex() {
+			final MenuItemImpl expandedItem = mMenu.getExpandedItem();
+			if (expandedItem != null) {
+				final ArrayList<MenuItemImpl> items = mMenu.twsGetNonActionItems();
+				final int count = items.size();
+				for (int i = 0; i < count; i++) {
+					final MenuItemImpl item = items.get(i);
+					if (item == expandedItem) {
+						mExpandedIndex = i;
+						return;
+					}
+				}
+			}
+			mExpandedIndex = -1;
+		}
+	}
 
-    private class ExpandedIndexObserver extends DataSetObserver {
-        @Override
-        public void onChanged() {
-            mAdapter.findExpandedIndex();
-        }
-    }
-    public boolean isShowMenu(){
-        if(mMenuView != null && mMenuView.getAdapter() != null){
-            return mMenuView.getAdapter().getCount() > 0;
-        }
-        return false;
-    }
+	private class ExpandedIndexObserver extends DataSetObserver {
+		@Override
+		public void onChanged() {
+			mAdapter.findExpandedIndex();
+		}
+	}
+
+	public boolean isShowMenu() {
+		if (mMenuView != null && mMenuView.getAdapter() != null) {
+			return mMenuView.getAdapter().getCount() > 0;
+		}
+		return false;
+	}
 }

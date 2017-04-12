@@ -15,6 +15,7 @@
  */
 
 package com.tencent.tws.assistant.internal.view.menu;
+
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
@@ -30,30 +31,31 @@ import android.widget.TextView;
 import com.tencent.tws.assistant.widget.CheckBox;
 import com.tencent.tws.assistant.widget.RadioButton;
 import com.tencent.tws.sharelib.R;
+
 /**
  * The item view for each item in the ListView-based MenuViews.
  */
 public class ListMenuItemView extends LinearLayout implements MenuView.ItemView {
-    private static final String TAG = "ListMenuItemView";
-    private MenuItemImpl mItemData; 
-    
-    private ImageView mIconView;
-    private RadioButton mRadioButton;
-    private TextView mTitleView;
-    private CheckBox mCheckBox;
-	
-    private Drawable mBackground;
-    private int mTextAppearance;
-    private Context mTextAppearanceContext;
-    private boolean mPreserveIconSpacing;
-    
-    private int mMenuType;
-    
-    private LayoutInflater mInflater;
+	private static final String TAG = "ListMenuItemView";
+	private MenuItemImpl mItemData;
 
-    private boolean mForceShowIcon;
+	private ImageView mIconView;
+	private RadioButton mRadioButton;
+	private TextView mTitleView;
+	private CheckBox mCheckBox;
 
-    public ListMenuItemView(Context context, AttributeSet attrs, int defStyle) {
+	private Drawable mBackground;
+	private int mTextAppearance;
+	private Context mTextAppearanceContext;
+	private boolean mPreserveIconSpacing;
+
+	private int mMenuType;
+
+	private LayoutInflater mInflater;
+
+	private boolean mForceShowIcon;
+
+	public ListMenuItemView(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs);
 
 		TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.MenuView, defStyle, 0);
@@ -64,199 +66,198 @@ public class ListMenuItemView extends LinearLayout implements MenuView.ItemView 
 		mTextAppearanceContext = context;
 		setClipChildren(false);
 		a.recycle();
-    }
+	}
 
-    public ListMenuItemView(Context context, AttributeSet attrs) {
-        this(context, attrs, 0);
-    }
-
-    @Override
-    protected void onFinishInflate() {
-        super.onFinishInflate();
-        
-        setBackgroundDrawable(mBackground);
-        
-        mTitleView = (TextView) findViewById(R.id.title);
-        if (mTextAppearance != -1) {
-            mTitleView.setTextAppearance(mTextAppearanceContext,
-                                         mTextAppearance);
-        }
-    }
-
-    public void initialize(MenuItemImpl itemData, int menuType) {
-        mItemData = itemData;
-        mMenuType = menuType;
-
-        setVisibility(itemData.isVisible() ? View.VISIBLE : View.GONE);
-        
-        setTitle(itemData.twsGetTitleForItemView(this));
-        setCheckable(itemData.isCheckable());
-        setIcon(itemData.getIcon());
-        setEnabled(itemData.isEnabled());
-    }
+	public ListMenuItemView(Context context, AttributeSet attrs) {
+		this(context, attrs, 0);
+	}
 
 	@Override
-    public void setEnabled(boolean enabled) {
-        super.setEnabled(enabled);
-		//Log.d("ListMenuItemView","setEnabled -------------- enabled="+enabled);
-        if(mTitleView!=null)
+	protected void onFinishInflate() {
+		super.onFinishInflate();
+
+		setBackgroundDrawable(mBackground);
+
+		mTitleView = (TextView) findViewById(R.id.title);
+		if (mTextAppearance != -1) {
+			mTitleView.setTextAppearance(mTextAppearanceContext, mTextAppearance);
+		}
+	}
+
+	public void initialize(MenuItemImpl itemData, int menuType) {
+		mItemData = itemData;
+		mMenuType = menuType;
+
+		setVisibility(itemData.isVisible() ? View.VISIBLE : View.GONE);
+
+		setTitle(itemData.twsGetTitleForItemView(this));
+		setCheckable(itemData.isCheckable());
+		setIcon(itemData.getIcon());
+		setEnabled(itemData.isEnabled());
+	}
+
+	@Override
+	public void setEnabled(boolean enabled) {
+		super.setEnabled(enabled);
+		// Log.d("ListMenuItemView","setEnabled -------------- enabled="+enabled);
+		if (mTitleView != null)
 			mTitleView.setEnabled(enabled);
-    }
-	
-    public void setForceShowIcon(boolean forceShow) {
-        mPreserveIconSpacing = mForceShowIcon = forceShow;
-    }
+	}
 
-    public void setTitle(CharSequence title) {
-        if (title != null) {
-            mTitleView.setText(title);
-            
-            if (mTitleView.getVisibility() != VISIBLE) mTitleView.setVisibility(VISIBLE);
-        } else {
-            if (mTitleView.getVisibility() != GONE) mTitleView.setVisibility(GONE);
-        }
-    }
-    
-    public MenuItemImpl getItemData() {
-        return mItemData;
-    }
-	
-    public void setCheckable(boolean checkable) {
-        if (!checkable && mRadioButton == null && mCheckBox == null) {
-            return;
-        }
-        
-        // Depending on whether its exclusive check or not, the checkbox or
-        // radio button will be the one in use (and the other will be otherCompoundButton)
-        final CompoundButton compoundButton;
-        final CompoundButton otherCompoundButton; 
+	public void setForceShowIcon(boolean forceShow) {
+		mPreserveIconSpacing = mForceShowIcon = forceShow;
+	}
 
-        if (mItemData.isExclusiveCheckable()) {
-            if (mRadioButton == null) {
-                insertRadioButton();
-            }
-            compoundButton = mRadioButton;
-            otherCompoundButton = mCheckBox;
-        } else {
-            if (mCheckBox == null) {
-                insertCheckBox();
-            }
-            compoundButton = mCheckBox;
-            otherCompoundButton = mRadioButton;
-        }
-        
-        if (checkable) {
-            compoundButton.setChecked(mItemData.isChecked());
-            
-            final int newVisibility = checkable ? VISIBLE : GONE;
-            if (compoundButton.getVisibility() != newVisibility) {
-                compoundButton.setVisibility(newVisibility);
-            }
-            
-            // Make sure the other compound button isn't visible
-            if (otherCompoundButton != null && otherCompoundButton.getVisibility() != GONE) {
-                otherCompoundButton.setVisibility(GONE);
-            }
-        } else {
-            if (mCheckBox != null) mCheckBox.setVisibility(GONE);
-            if (mRadioButton != null) mRadioButton.setVisibility(GONE);
-        }
-    }
-    
-    public void setChecked(boolean checked) {
-        CompoundButton compoundButton;
-        
-        if (mItemData.isExclusiveCheckable()) {
-            if (mRadioButton == null) {
-                insertRadioButton();
-            }
-            compoundButton = mRadioButton;
-        } else {
-            if (mCheckBox == null) {
-                insertCheckBox();
-            }
-            compoundButton = mCheckBox;
-        }
-        
-        compoundButton.setChecked(checked);
-    }
+	public void setTitle(CharSequence title) {
+		if (title != null) {
+			mTitleView.setText(title);
 
-    public void setShortcut(boolean showShortcut, char shortcutKey) {
-    }
-    
-    public void setIcon(Drawable icon) {
-        final boolean showIcon = mItemData.shouldShowIcon() || mForceShowIcon;
-        if (!showIcon && !mPreserveIconSpacing) {
-            return;
-        }
-        
-        if (mIconView == null && icon == null && !mPreserveIconSpacing) {
-            return;
-        }
-        
-        if (mIconView == null) {
-            insertIconView();
-        }
-        
-        if (icon != null || mPreserveIconSpacing) {
-            mIconView.setImageDrawable(showIcon ? icon : null);
+			if (mTitleView.getVisibility() != VISIBLE)
+				mTitleView.setVisibility(VISIBLE);
+		} else {
+			if (mTitleView.getVisibility() != GONE)
+				mTitleView.setVisibility(GONE);
+		}
+	}
 
-            if (mIconView.getVisibility() != VISIBLE) {
-                mIconView.setVisibility(VISIBLE);
-            }
-        } else {
-            mIconView.setVisibility(GONE);
-        }
-    }
-    
-    @Override
-    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        if (mIconView != null && mPreserveIconSpacing) {
-            // Enforce minimum icon spacing
-            ViewGroup.LayoutParams lp = getLayoutParams();
-            LayoutParams iconLp = (LayoutParams) mIconView.getLayoutParams();
-            if (lp.height > 0 && iconLp.width <= 0) {
-                iconLp.width = lp.height;
-            }
-        }
-        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-    }
+	public MenuItemImpl getItemData() {
+		return mItemData;
+	}
 
-    private void insertIconView() {
-        LayoutInflater inflater = getInflater();
-        mIconView = (ImageView) inflater.inflate(R.layout.list_menu_item_icon,
-                this, false);
-        addView(mIconView, 0);
-    }
-    
-    private void insertRadioButton() {
-        LayoutInflater inflater = getInflater();
-        mRadioButton =
-                (RadioButton) inflater.inflate(R.layout.list_menu_item_radio,
-                this, false);
-        addView(mRadioButton);
-    }
-    
-    private void insertCheckBox() {
-        LayoutInflater inflater = getInflater();
-        mCheckBox =
-                (CheckBox) inflater.inflate(R.layout.list_menu_item_checkbox,
-                this, false);
-        addView(mCheckBox);
-    }
+	public void setCheckable(boolean checkable) {
+		if (!checkable && mRadioButton == null && mCheckBox == null) {
+			return;
+		}
 
-    public boolean prefersCondensedTitle() {
-        return false;
-    }
+		// Depending on whether its exclusive check or not, the checkbox or
+		// radio button will be the one in use (and the other will be
+		// otherCompoundButton)
+		final CompoundButton compoundButton;
+		final CompoundButton otherCompoundButton;
 
-    public boolean showsIcon() {
-        return mForceShowIcon;
-    }
-    
-    private LayoutInflater getInflater() {
-        if (mInflater == null) {
-            mInflater = LayoutInflater.from(mContext);
-        }
-        return mInflater;
-    }
+		if (mItemData.isExclusiveCheckable()) {
+			if (mRadioButton == null) {
+				insertRadioButton();
+			}
+			compoundButton = mRadioButton;
+			otherCompoundButton = mCheckBox;
+		} else {
+			if (mCheckBox == null) {
+				insertCheckBox();
+			}
+			compoundButton = mCheckBox;
+			otherCompoundButton = mRadioButton;
+		}
+
+		if (checkable) {
+			compoundButton.setChecked(mItemData.isChecked());
+
+			final int newVisibility = checkable ? VISIBLE : GONE;
+			if (compoundButton.getVisibility() != newVisibility) {
+				compoundButton.setVisibility(newVisibility);
+			}
+
+			// Make sure the other compound button isn't visible
+			if (otherCompoundButton != null && otherCompoundButton.getVisibility() != GONE) {
+				otherCompoundButton.setVisibility(GONE);
+			}
+		} else {
+			if (mCheckBox != null)
+				mCheckBox.setVisibility(GONE);
+			if (mRadioButton != null)
+				mRadioButton.setVisibility(GONE);
+		}
+	}
+
+	public void setChecked(boolean checked) {
+		CompoundButton compoundButton;
+
+		if (mItemData.isExclusiveCheckable()) {
+			if (mRadioButton == null) {
+				insertRadioButton();
+			}
+			compoundButton = mRadioButton;
+		} else {
+			if (mCheckBox == null) {
+				insertCheckBox();
+			}
+			compoundButton = mCheckBox;
+		}
+
+		compoundButton.setChecked(checked);
+	}
+
+	public void setShortcut(boolean showShortcut, char shortcutKey) {
+	}
+
+	public void setIcon(Drawable icon) {
+		final boolean showIcon = mItemData.shouldShowIcon() || mForceShowIcon;
+		if (!showIcon && !mPreserveIconSpacing) {
+			return;
+		}
+
+		if (mIconView == null && icon == null && !mPreserveIconSpacing) {
+			return;
+		}
+
+		if (mIconView == null) {
+			insertIconView();
+		}
+
+		if (icon != null || mPreserveIconSpacing) {
+			mIconView.setImageDrawable(showIcon ? icon : null);
+
+			if (mIconView.getVisibility() != VISIBLE) {
+				mIconView.setVisibility(VISIBLE);
+			}
+		} else {
+			mIconView.setVisibility(GONE);
+		}
+	}
+
+	@Override
+	protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+		if (mIconView != null && mPreserveIconSpacing) {
+			// Enforce minimum icon spacing
+			ViewGroup.LayoutParams lp = getLayoutParams();
+			LayoutParams iconLp = (LayoutParams) mIconView.getLayoutParams();
+			if (lp.height > 0 && iconLp.width <= 0) {
+				iconLp.width = lp.height;
+			}
+		}
+		super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+	}
+
+	private void insertIconView() {
+		LayoutInflater inflater = getInflater();
+		mIconView = (ImageView) inflater.inflate(R.layout.list_menu_item_icon, this, false);
+		addView(mIconView, 0);
+	}
+
+	private void insertRadioButton() {
+		LayoutInflater inflater = getInflater();
+		mRadioButton = (RadioButton) inflater.inflate(R.layout.list_menu_item_radio, this, false);
+		addView(mRadioButton);
+	}
+
+	private void insertCheckBox() {
+		LayoutInflater inflater = getInflater();
+		mCheckBox = (CheckBox) inflater.inflate(R.layout.list_menu_item_checkbox, this, false);
+		addView(mCheckBox);
+	}
+
+	public boolean prefersCondensedTitle() {
+		return false;
+	}
+
+	public boolean showsIcon() {
+		return mForceShowIcon;
+	}
+
+	private LayoutInflater getInflater() {
+		if (mInflater == null) {
+			mInflater = LayoutInflater.from(mContext);
+		}
+		return mInflater;
+	}
 }

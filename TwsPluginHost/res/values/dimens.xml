@@ -8,7 +8,7 @@
     <dimen name="home_bottom_tab_text_margin_top">1dp</dimen>
 
     <!-- Home Fragment -->
-    <dimen name="HOST_HOME_FRAGMENT_revision_watch_info_height">180dp</dimen>
+    <dimen name="HOST_HOME_FRAGMENT_revision_watch_info_height">234dp</dimen>
     <dimen name="HOST_HOME_FRAGMENT_revision_watch_name">18sp</dimen>
     <dimen name="HOST_HOME_FRAGMENT_revision_connect_text_size">12sp</dimen>
     <dimen name="HOST_HOME_FRAGMENT_revision_watch_name_margin_top">68dp</dimen>

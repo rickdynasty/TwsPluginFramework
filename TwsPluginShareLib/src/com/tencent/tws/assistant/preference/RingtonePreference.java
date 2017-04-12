@@ -165,9 +165,9 @@ public class RingtonePreference extends Preference implements
             ringtonePickerIntent.putExtra(RingtoneManager.EXTRA_RINGTONE_DEFAULT_URI,
                     RingtoneManager.getDefaultUri(getRingtoneType()));
         }
-		//nanji-start::modify::20120802 
+		//tws-start::modify::20120802 
 		ringtonePickerIntent.putExtra("system_settings", true);
-		//nanji-end::modify::20120802
+		//tws-end::modify::20120802
         ringtonePickerIntent.putExtra(RingtoneManager.EXTRA_RINGTONE_SHOW_SILENT, mShowSilent);
         ringtonePickerIntent.putExtra(RingtoneManager.EXTRA_RINGTONE_TYPE, mRingtoneType);
         ringtonePickerIntent.putExtra(RingtoneManager.EXTRA_RINGTONE_TITLE, getTitle());

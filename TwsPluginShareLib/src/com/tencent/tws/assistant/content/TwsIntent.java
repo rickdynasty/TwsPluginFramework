@@ -1,36 +1,31 @@
 package com.tencent.tws.assistant.content;
-import android.os.SystemProperties;
-import android.os.Build;
 import android.graphics.Bitmap;
-import android.graphics.Bitmap.Config;
 import android.graphics.Canvas;
-import android.graphics.Matrix;
 import android.graphics.Paint;
-import android.graphics.PaintFlagsDrawFilter;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
-import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.graphics.drawable.PaintDrawable;
+import android.os.Build;
+import android.os.SystemProperties;
 
 public class TwsIntent {
 	
 	/*添加App到黑名单时的广播*/
-	public static final String QROM_ADD_BLACKLIST_APP_ACTION = "tws.intent.action.ADD_BLACKLIST_APP";
+	public static final String TWS_ADD_BLACKLIST_APP_ACTION = "tws.intent.action.ADD_BLACKLIST_APP";
 	
 	/*从黑名单中取消App的广播*/
-    public static final String QROM_REMOVE_BLACKLIST_APP_ACTION = "tws.intent.action.REMOVE_BLACKLIST_APP";
+    public static final String TWS_REMOVE_BLACKLIST_APP_ACTION = "tws.intent.action.REMOVE_BLACKLIST_APP";
     
     /*添加和删除App时，携带包名的exra*/
-    public static final String QROM_BLACK_APP_PACKAGE_NAME = "tws.intent.extra.BLACKAPP_PACKAGENAME";
+    public static final String TWS_BLACK_APP_PACKAGE_NAME = "tws.intent.extra.BLACKAPP_PACKAGENAME";
     
     
     /*系统电源状态发生转换时的消息*/
-    public static final String QROM_POWER_STATE_CHANGE = "tws.intent.action.POWERSTATE_CHANGE";
-    public static final String QROM_POWER_STATE_CHANGE_EXTRA = "tws.intent.extra.POWERSTATE_CHANGE";
+    public static final String TWS_POWER_STATE_CHANGE = "tws.intent.action.POWERSTATE_CHANGE";
+    public static final String TWS_POWER_STATE_CHANGE_EXTRA = "tws.intent.extra.POWERSTATE_CHANGE";
     
-    public static final String QROM__FACE_DECTECTED_SUCCESS = "tws.action.face_detected_success";
+    public static final String TWS__FACE_DECTECTED_SUCCESS = "tws.action.face_detected_success";
     
     // flags for setPowerState
     public static final int SCREEN_ON_BIT          = 0x00000001;
@@ -72,7 +67,7 @@ public class TwsIntent {
     public static final String NANJI_VER_STR = getString("ro.build.version.nanji.display");
 	/**
      * The internal DEVICE of NANJI, in string.
-     * added by XIAOBOHU, 2012-05-15
+     * added 2012-05-15
      */
 	public static final String NANJI_DEVICE_STR = getString("ro.tws.device");
 	
@@ -80,7 +75,7 @@ public class TwsIntent {
         return SystemProperties.get(property, Build.UNKNOWN);
     }
 	
-	public static final int QROM_BRIGHTNESS_DIM = 20;
+	public static final int TWS_BRIGHTNESS_DIM = 20;
 
 	private static Canvas mCanvas;
 	private static Paint mPaint;

@@ -353,72 +353,72 @@ public final class TwsSettings {
          * The content:// style URL for this table
          */
         public static final Uri CONTENT_URI = Uri.parse("content://" + AUTHORITY + "/system");
-        public static final String QROM_POWER_SAVE_MODE = "power_save_mode";	
-        public static final String QROM_POWER_SAVE_ENABLE_LEVEL = "power_save_enable_level";
-        public static final String QROM_POWER_SAVE_MODE_SETTING = "power_save_mode_setting";      
+        public static final String TWS_POWER_SAVE_MODE = "power_save_mode";	
+        public static final String TWS_POWER_SAVE_ENABLE_LEVEL = "power_save_enable_level";
+        public static final String TWS_POWER_SAVE_MODE_SETTING = "power_save_mode_setting";      
 
 		/**add for sleep plan
 			0:close
 			1:open
 			2:running
 		*/
-		public static final String QROM_SLEEP_PLAN_STATUS = "sleep_plan_status";
-		public static final String QROM_MOBILE_DATA_USER_SET = "mobile_data_user_set";
-		public static final String QROM_NETWORK_TYPE_USER_SET = "network_type_user_set";
-		public static final String QROM_AIRPLANE_USER_SET = "airplane_user_set";
+		public static final String TWS_SLEEP_PLAN_STATUS = "sleep_plan_status";
+		public static final String TWS_MOBILE_DATA_USER_SET = "mobile_data_user_set";
+		public static final String TWS_NETWORK_TYPE_USER_SET = "network_type_user_set";
+		public static final String TWS_AIRPLANE_USER_SET = "airplane_user_set";
         
         /**
          * Control cpu power save settings
          */
-        public static final String QROM_CPU_SETTING = "cpu_setting"; 
+        public static final String TWS_CPU_SETTING = "cpu_setting"; 
         
         /**
          * Control whether enable night mode
          */
-        public static final String QROM_NIGHT_MODE_SETTING = "night_mode_setting";
+        public static final String TWS_NIGHT_MODE_SETTING = "night_mode_setting";
         
         /**
          * Control whether enable auto kill bk proc when screen off
          */
-        public static final String QROM_AUTO_KILL_BK_PROC_SETTING = "auto_kill_bk_proc";
+        public static final String TWS_AUTO_KILL_BK_PROC_SETTING = "auto_kill_bk_proc";
 
         /**
          * Control whether enable auto close wifi
          */
-        public static final String QROM_AUTO_CLOSE_WIFI_EBABLE = "auto_close_wifi_enable";
+        public static final String TWS_AUTO_CLOSE_WIFI_EBABLE = "auto_close_wifi_enable";
         
         /**
          * Control whether enable auto close bluetooth
          */
-        public static final String QROM_AUTO_CLOSE_BT_EBABLE = "auto_close_bt_enable";
+        public static final String TWS_AUTO_CLOSE_BT_EBABLE = "auto_close_bt_enable";
         
         /**
          * Control whether enable auto close bluetooth
          */
-        public static final String QROM_AUTO_DISABLE_GPS = "auto_disable_gps";
+        public static final String TWS_AUTO_DISABLE_GPS = "auto_disable_gps";
         
         /**
          * Control whether enable auto close sync 
          */
-        public static final String QROM_SYNC_POWER_SAVE_SETTING = "sync_power_save_setting";
+        public static final String TWS_SYNC_POWER_SAVE_SETTING = "sync_power_save_setting";
         
-        public static final String QROM_POWER_SAVE_AUTO_DISABLE_MOBILEDATA = "power_save_auto_disable_mobiledata";
+        public static final String TWS_POWER_SAVE_AUTO_DISABLE_MOBILEDATA = "power_save_auto_disable_mobiledata";
         
         /**
          * night mode disable option 
          */
-        public static final String QROM_NIGHT_MODE_DISABLE_OPTION = "night_mode_disable_option";
+        public static final String TWS_NIGHT_MODE_DISABLE_OPTION = "night_mode_disable_option";
 
 
-		public static final String QROM_BTN_LIGHT_SETTINGS = "btn_light_settings";
+		public static final String TWS_BTN_LIGHT_SETTINGS = "btn_light_settings";
 		
 
 		/**Control sleep mode */
-		public static final String QROM_SLEEP_MODE_STATUS = "tws_sleep_mode_status";
+		public static final String TWS_SLEEP_MODE_STATUS = "tws_sleep_mode_status";
 		
-		public static final String QROM_SHOW_SLEEP_MODE_ON_LOCKSCREEN = "show_sleep_mode_on_lockscreen";
+		public static final String TWS_SHOW_SLEEP_MODE_ON_LOCKSCREEN = "show_sleep_mode_on_lockscreen";
         
-        public static final String QROM_SAFETY_INTERCEPT_SETTING = "safety_intercept_setting";
+        public static final String TWS_SAFETY_INTERCEPT_SETTING = "safety_intercept_setting";
 
         
         
@@ -428,127 +428,127 @@ public final class TwsSettings {
     	/**
     	 * Total unplugged duration time
     	 */
-    	public final static String QROM_TOTAL_BATTERY_DURATION = "total_battery_duration";
+    	public final static String TWS_TOTAL_BATTERY_DURATION = "total_battery_duration";
     	
     	/**
     	 * total power consume
     	 */
-    	public final static String QROM_TOTAL_POWER_CONSUME = "total_power_consume";	
+    	public final static String TWS_TOTAL_POWER_CONSUME = "total_power_consume";	
     	
     	/**
     	 * total Screen on duration
     	 */
-    	public final static String QROM_TOTAL_SCREEN_ON_DURATION = "total_screen_on_duration";
+    	public final static String TWS_TOTAL_SCREEN_ON_DURATION = "total_screen_on_duration";
     	
     	/**
     	 * total suspend duration
     	 */
-    	public final static String QROM_TOTAL_SUSPEND_DURATION = "total_suspend_duration";
+    	public final static String TWS_TOTAL_SUSPEND_DURATION = "total_suspend_duration";
     	
     	
     	/**
     	 * today unplugged duration time
     	 */
-    	public final static String QROM_TODAY_BATTERY_DURATION = "today_unplugged_duration";
+    	public final static String TWS_TODAY_BATTERY_DURATION = "today_unplugged_duration";
 
     	/**
     	 * today power consume 
     	 */
-    	public final static String QROM_TODAY_POWER_CONSUME = "today_power_consume";
+    	public final static String TWS_TODAY_POWER_CONSUME = "today_power_consume";
     	
     	/**
     	 * today Screen on duration
     	 */
-    	public final static String QROM_TODAY_SCREEN_ON_DURATION = "today_screen_on_duration";
+    	public final static String TWS_TODAY_SCREEN_ON_DURATION = "today_screen_on_duration";
     	
     	/**
     	 * today suspend duration
     	 */
-    	public final static String QROM_TODAY_SUSPEND_DURATION = "today_suspend_duration";
+    	public final static String TWS_TODAY_SUSPEND_DURATION = "today_suspend_duration";
     	
     	
     	/**
     	 * Yesterday Midnight Elapsed real time
     	 */
-    	public final static String QROM_YESTERDAY_ELAPSEDREALTIME = "yesterday_elapsedrealtime";
+    	public final static String TWS_YESTERDAY_ELAPSEDREALTIME = "yesterday_elapsedrealtime";
     	
     	/**
     	 * recent unplugged to yesterday midnight screen on duration 
     	 */
-    	public final static String QROM_YESTERDAY_SCREENON_DURATION = "yesterdaymidnight_screenon_duration";
+    	public final static String TWS_YESTERDAY_SCREENON_DURATION = "yesterdaymidnight_screenon_duration";
     	
     	/**
     	 * power consume when yesterday mid night
     	 */
-    	public final static String QROM_YESTERDAY_POWER_CONSUME = "yesterday_power_consume";
+    	public final static String TWS_YESTERDAY_POWER_CONSUME = "yesterday_power_consume";
     	
     	/**
     	 * suspend duration when yesterday mid night
     	 */
-    	public final static String QROM_YESTERDAY_SUSPEND_DURATION = "yesterday_suspend_duration";
+    	public final static String TWS_YESTERDAY_SUSPEND_DURATION = "yesterday_suspend_duration";
     	
     	/**
     	 * recent unplugged batterylevel
     	 */
-    	public final static String QROM_RECENT_UNPLUGGED_BATTERYLEVEL = "recent_unplugged_batterylevel";
+    	public final static String TWS_RECENT_UNPLUGGED_BATTERYLEVEL = "recent_unplugged_batterylevel";
     	
     	/**
     	 * the battery plugged type
     	 */
-    	public final static String QROM_BATTERY_PLUGGED_TYPE = "battery_plugged_type";
+    	public final static String TWS_BATTERY_PLUGGED_TYPE = "battery_plugged_type";
     	
     	/**
     	 * the current battery level
     	 */
-    	public final static String QROM_CURRENT_BATTERY_LEVEL = "current_battery_level"; 
+    	public final static String TWS_CURRENT_BATTERY_LEVEL = "current_battery_level"; 
     	
     	
     	/**
     	 * the face detect 
     	 */
-    	public final static String QROM_FACE_DETECT_ENABLE = "tws_face_detect_enable";
+    	public final static String TWS_FACE_DETECT_ENABLE = "tws_face_detect_enable";
     	
     	/**
     	 * the mms priority 
     	 */
-    	public final static String QROM_MMS_PRIORITY = "tws_mms_priority";
+    	public final static String TWS_MMS_PRIORITY = "tws_mms_priority";
     	
     	/**
     	 * the tws screen brightness
     	 */
-    	public final static String QROM_SCREEN_BRIGHTNEE = "tws_screen_brightness";
+    	public final static String TWS_SCREEN_BRIGHTNEE = "tws_screen_brightness";
     	
     	
     	/**
     	 * the tws permission root
     	 */
-    	public final static String QROM_PERMISSION_ROOT = "tws_permission_root";
+    	public final static String TWS_PERMISSION_ROOT = "tws_permission_root";
 
 
 	/**
 	* the Virtual Key Vibe Pattern
 	*/
-		public final static String QROM_VIRTUAL_KEY_VIBERATE_PATTERN = "tws_virtual_key_viberate_pattern";
+		public final static String TWS_VIRTUAL_KEY_VIBERATE_PATTERN = "tws_virtual_key_viberate_pattern";
 
 	/**
 	* the sms notification sound
 	*/
-		public final static String QROM_SMS_NOTIFICATION_SOUND = "tws_sms_notification_sound";
+		public final static String TWS_SMS_NOTIFICATION_SOUND = "tws_sms_notification_sound";
 
-	public final static String QROM_CURRENT_POWER_STATE = "tws_current_power_state";
+	public final static String TWS_CURRENT_POWER_STATE = "tws_current_power_state";
 
-    public static final String QROM_WIFI_SLEEP_POLICY = "tws_wifi_sleep_policy";
+    public static final String TWS_WIFI_SLEEP_POLICY = "tws_wifi_sleep_policy";
 
-    public static final int QROM_WIFI_SLEEP_POLICY_DEFAULT = 0;
+    public static final int TWS_WIFI_SLEEP_POLICY_DEFAULT = 0;
 
-    public static final int QROM_WIFI_SLEEP_POLICY_NEVER_WHILE_PLUGGED = 1;
+    public static final int TWS_WIFI_SLEEP_POLICY_NEVER_WHILE_PLUGGED = 1;
 
-    public static final int QROM_WIFI_SLEEP_POLICY_NEVER = 2;
+    public static final int TWS_WIFI_SLEEP_POLICY_NEVER = 2;
 
 	/**
     	 * the sync setting of tws accunt 
     	 */
-    public final static String QROM_ACCOUNT_SYNC_FORBID_2G3G = "tws_forbid_sync_in_2g3g";
+    public final static String TWS_ACCOUNT_SYNC_FORBID_2G3G = "tws_forbid_sync_in_2g3g";
     	
 
      /**
@@ -562,33 +562,33 @@ public final class TwsSettings {
          * @hide
          */
         public static final String[] SETTINGS_TO_BACKUP = {
-        	QROM_POWER_SAVE_MODE,
-            QROM_POWER_SAVE_ENABLE_LEVEL,
-        	QROM_POWER_SAVE_MODE_SETTING,
-        	QROM_SLEEP_PLAN_STATUS,
-        	QROM_MOBILE_DATA_USER_SET,
-        	QROM_NETWORK_TYPE_USER_SET,
-        	QROM_AIRPLANE_USER_SET, 	
-            QROM_CPU_SETTING,
-            QROM_NIGHT_MODE_SETTING,
-            QROM_AUTO_KILL_BK_PROC_SETTING,
-            QROM_AUTO_CLOSE_WIFI_EBABLE,
-            QROM_AUTO_CLOSE_BT_EBABLE,
-            QROM_AUTO_DISABLE_GPS,
-            QROM_SYNC_POWER_SAVE_SETTING,
-            QROM_POWER_SAVE_AUTO_DISABLE_MOBILEDATA,
-            QROM_NIGHT_MODE_DISABLE_OPTION,
-            QROM_BTN_LIGHT_SETTINGS,
-            QROM_SLEEP_MODE_STATUS,
-            QROM_SHOW_SLEEP_MODE_ON_LOCKSCREEN,
-            QROM_SAFETY_INTERCEPT_SETTING,
-            QROM_TOTAL_BATTERY_DURATION,
-            QROM_TOTAL_POWER_CONSUME,
-            QROM_TOTAL_SCREEN_ON_DURATION,
-            QROM_TOTAL_SUSPEND_DURATION,
-            QROM_MMS_PRIORITY,
-            QROM_VIRTUAL_KEY_VIBERATE_PATTERN,
-            QROM_PERMISSION_ROOT,
+        	TWS_POWER_SAVE_MODE,
+            TWS_POWER_SAVE_ENABLE_LEVEL,
+        	TWS_POWER_SAVE_MODE_SETTING,
+        	TWS_SLEEP_PLAN_STATUS,
+        	TWS_MOBILE_DATA_USER_SET,
+        	TWS_NETWORK_TYPE_USER_SET,
+        	TWS_AIRPLANE_USER_SET, 	
+            TWS_CPU_SETTING,
+            TWS_NIGHT_MODE_SETTING,
+            TWS_AUTO_KILL_BK_PROC_SETTING,
+            TWS_AUTO_CLOSE_WIFI_EBABLE,
+            TWS_AUTO_CLOSE_BT_EBABLE,
+            TWS_AUTO_DISABLE_GPS,
+            TWS_SYNC_POWER_SAVE_SETTING,
+            TWS_POWER_SAVE_AUTO_DISABLE_MOBILEDATA,
+            TWS_NIGHT_MODE_DISABLE_OPTION,
+            TWS_BTN_LIGHT_SETTINGS,
+            TWS_SLEEP_MODE_STATUS,
+            TWS_SHOW_SLEEP_MODE_ON_LOCKSCREEN,
+            TWS_SAFETY_INTERCEPT_SETTING,
+            TWS_TOTAL_BATTERY_DURATION,
+            TWS_TOTAL_POWER_CONSUME,
+            TWS_TOTAL_SCREEN_ON_DURATION,
+            TWS_TOTAL_SUSPEND_DURATION,
+            TWS_MMS_PRIORITY,
+            TWS_VIRTUAL_KEY_VIBERATE_PATTERN,
+            TWS_PERMISSION_ROOT,
         };
     }
 }

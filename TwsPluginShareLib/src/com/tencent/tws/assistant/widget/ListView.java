@@ -16,18 +16,17 @@
 
 package com.tencent.tws.assistant.widget;
 
-import com.tencent.tws.assistant.drawable.TwsScrollBarDrawable;
-import com.tencent.tws.assistant.gaussblur.JNIBlur;
-import com.tencent.tws.assistant.gaussblur.NativeBlurProcess;
-import com.tencent.tws.assistant.utils.MathUtils;
-import com.tencent.tws.sharelib.R;
-import com.android.internal.util.Predicate;
-import com.google.android.collect.Lists;
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.List;
 
-import android.os.Handler;
 import android.animation.Animator;
-import android.animation.ValueAnimator;
 import android.animation.Animator.AnimatorListener;
+import android.animation.ValueAnimator;
 import android.animation.ValueAnimator.AnimatorUpdateListener;
 import android.content.Context;
 import android.content.Intent;
@@ -35,52 +34,43 @@ import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.PixelFormat;
-import android.graphics.PorterDuff.Mode;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
+import android.os.Handler;
+import android.os.Message;
 import android.util.AttributeSet;
+import android.util.DisplayMetrics;
+import android.util.Log;
 import android.util.SparseBooleanArray;
+import android.util.TypedValue;
 import android.view.FocusFinder;
 import android.view.KeyEvent;
-import android.view.MotionEvent;
+import android.view.LayoutInflater;
 import android.view.SoundEffectConstants;
 import android.view.View;
 import android.view.ViewDebug;
 import android.view.ViewGroup;
 import android.view.ViewParent;
-import android.view.ViewRootImpl;
-import android.view.accessibility.AccessibilityEvent;
-import android.view.accessibility.AccessibilityNodeInfo;
-import android.widget.RemoteViews.RemoteView;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
-
-import android.widget.ListAdapter;
-import android.widget.Checkable;
-import android.widget.ArrayAdapter;
-import android.widget.ScrollBarDrawable;
-import android.view.LayoutInflater;
-import android.widget.TextView;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.util.TypedValue;
 import android.view.WindowManager;
-import android.util.DisplayMetrics;
-import android.os.Message;
-import android.util.Log;
+import android.view.accessibility.AccessibilityNodeInfo;
+import android.widget.ArrayAdapter;
+import android.widget.Checkable;
+import android.widget.ImageView;
+import android.widget.ListAdapter;
+import android.widget.RemoteViews.RemoteView;
+import android.widget.TextView;
+import android.widget.WrapperListAdapter;
 
-
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
+import com.android.internal.util.Predicate;
+import com.google.android.collect.Lists;
+import com.tencent.tws.assistant.drawable.TwsScrollBarDrawable;
+import com.tencent.tws.assistant.gaussblur.JNIBlur;
+import com.tencent.tws.assistant.gaussblur.NativeBlurProcess;
+import com.tencent.tws.assistant.utils.MathUtils;
+import com.tencent.tws.sharelib.R;
 
 /*
  * Implementation Notes:
@@ -169,7 +159,7 @@ public class ListView extends AbsListView {
     // Keeps focused children visible through resizes
     private FocusSelector mFocusSelector;
 
-    //QROM-START::add empty list indicator support::hendysu::2013-05-31
+    //tws-start::add empty list indicator support 2013-05-31
     // whether show the empty view. when app supplies one of 
     // emptyListIcon, emptyListText, emptyListSecondText attr, the empty view will be displayed
     private boolean mShowEmptyList = true;
@@ -208,7 +198,7 @@ public class ListView extends AbsListView {
     private int mActivatedBackgroundIndicator = 0;
     // whether selected state background is enabled
     private boolean mSelectedStateEnabled = false;
-    //QROM-END::add empty list indicator support::hendysu::2013-05-31
+    //tws-end::add empty list indicator support 2013-05-31
     
     //tws-start add listview blur feature::2014-10-05
   	private int mBlurBottomHeight, mBlurTopHeight;
@@ -228,13 +218,13 @@ public class ListView extends AbsListView {
 	private boolean mEnableBlur = true;
   	//tws-end add listview blur feature::2014-10-05
 
-	//tws-start::by parkerxu::for item animation::2014-11-11
+	//tws-start for item animation::2014-11-11
     private static final long ANIMATION_DURATION = 200;
     private TwsOnItemRemoveListener mOnItemRemoveListener;
     private final Collection<View> mRemovedViews = new LinkedList<View>();
     private final List<Integer> mRemovedPositions = new LinkedList<Integer>();
     private int mActiveRemoveCount;
-    //tws-end::by parkerxu::for item animation::2014-11-11
+    //tws-end for item animation::2014-11-11
 
 	public ListView(Context context) {
         this(context, null);
@@ -284,7 +274,7 @@ public class ListView extends AbsListView {
         mFooterDividersEnabled = a.getBoolean(R.styleable.ListView_footerDividersEnabled, true);
         mFooterDividersEnabled = false;
 
-        //QROM-START::get attrs related to empty view::hendysu::2013-06-07
+        //tws-start::get attrs related to empty view 2013-06-07
         mEmptyListBackground = a.getResourceId(R.styleable.ListView_emptyListBackground, 0);
         mEmptyListIcon = a.getResourceId(R.styleable.ListView_emptyListIcon, 0);
         mEmptyListText = a.getResourceId(R.styleable.ListView_emptyListText, 0);
@@ -309,7 +299,7 @@ public class ListView extends AbsListView {
             mEmptyListMarginBottom = a.getDimensionPixelSize(R.styleable.ListView_emptyListMarginBottom, mEmptyListMinMargin);
             mEmptyListMaxHeight = a.getDimensionPixelSize(R.styleable.ListView_emptyListMaxHeight, 0);
         }
-        //QROM-END::get attrs related to empty view::hendysu::2013-06-07
+        //tws-end::get attrs related to empty view 2013-06-07
 
         mSelectedStateEnabled = a.getBoolean(R.styleable.ListView_enableSelectedState, false);
 
@@ -2092,11 +2082,11 @@ public class ListView extends AbsListView {
             if (p.viewType == AdapterView.ITEM_VIEW_TYPE_HEADER_OR_FOOTER) {
                 p.recycledHeaderFooter = true;
             }
-            //QROM-START::set the global activated/selected list item background::hendysu::2013-06-09
+            //tws-start::set the global activated/selected list item background 2013-06-09
             if(mSelectedStateEnabled && mActivatedBackgroundIndicator != 0) {
                 child.setBackgroundResource(mActivatedBackgroundIndicator);
             }
-            //QROM-END::hendysu::2013-06-09
+            //tws-end 2013-06-09
             addViewInLayout(child, flowDown ? -1 : 0, p, true);
         }
 
@@ -4085,7 +4075,7 @@ public class ListView extends AbsListView {
         return false;
     }
 
-    /*NANJI-START::added::haoranma::2012-09-18*/
+    /*tws-start::added 2012-09-18*/
     final int twsMeasureHeightOfChildren(int widthMeasureSpec, int startPosition, int endPosition,
             final int maxHeight, int disallowPartialChildPosition) {
 
@@ -4133,9 +4123,9 @@ public class ListView extends AbsListView {
         // completely fit, so return the returnedHeight
         return returnedHeight;
     }
-    /*NANJI-END::added::haoranma::2012-09-18*/
+    /*tws-end::added 2012-09-18*/
 
-    //QROM-START::add an empty view to the listview's parent::hendysu::2013-06-03
+    //tws-start::add an empty view to the listview's parent 2013-06-03
     //when listview is empty, the empty view will be shown
     @Override
     protected void onAttachedToWindow() {
@@ -4274,9 +4264,9 @@ public class ListView extends AbsListView {
         return Math.round(sPixelDensity * dp);
     }
 
-    //QROM-END::add an empty view to the listview's parent::hendysu::2013-06-03
+    //tws-end::add an empty view to the listview's parent 2013-06-03
 
-    //QROM-START::add selected/checked/activated state background support::hendysu::2013-06-13
+    //tws-start::add selected/checked/activated state background support 2013-06-13
     public void setSelectedStateEnabled(boolean enable) {
         mSelectedStateEnabled = enable;
     }
@@ -4636,7 +4626,7 @@ public class ListView extends AbsListView {
 
     // tws-end add listview blur feature::2014-10-05
 
-    // tws-start::by parkerxu::for item animation::2014-11-11
+    // tws-start for item animation::2014-11-11
     public void removeViewWithAnimator(final View view, final int position) {
         if (view == null || mRemovedPositions.contains(position)) {
             return;
@@ -4713,9 +4703,9 @@ public class ListView extends AbsListView {
         public void onItemRemove(int[] positions);
     }
 
-    // tws-end::by parkerxu::for item animation::2014-11-11
+    // tws-end for item animation::2014-11-11
 
-    //tws-start::by parkerxu::for item animation::2014-11-11
+    //tws-start for item animation::2014-11-11
     /**
      * @param lastPosition
      * @param position 
@@ -4749,7 +4739,7 @@ public class ListView extends AbsListView {
             }
         }
     }
-    //tws-end::by parkerxu::for item animation::2014-11-11
+    //tws-end for item animation::2014-11-11
     public void setBlurBottomBgBitmap(Bitmap bitmap) {
         mBlurBottomBgBitmap = bitmap;
     }

@@ -1186,7 +1186,7 @@ public class AlertDialog extends TwsDialog implements DialogInterface {
 
         // tws-end bottom dialog::2014-10-2
 
-        /*NANJISTART::add for dialog out window touch state::braind::20120327*/
+        /*tws-start::add for dialog out window touch state::braind::20120327*/
         boolean twsCheckButtonListener(AlertController.AlertParams P, AlertDialog dialog) {
             boolean bRet = true;
             if (P.mNegativeButtonListener != null || P.mPositiveButtonListener != null
@@ -1207,7 +1207,7 @@ public class AlertDialog extends TwsDialog implements DialogInterface {
        	 	P.mBottomButtonsListViewHeight = miniHeight;
        	 	return this;
        }
-        /*NANJIEND::add for dialog out window touch state::braind::20120327*/
+        /*tws-end::add for dialog out window touch state::braind::20120327*/
 
     }
     public void setBottomButtonsStartAnimation(boolean enable){

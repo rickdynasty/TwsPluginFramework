@@ -723,7 +723,7 @@ public class NumberPicker extends LinearLayout {
 		// tws-end number picker::2014-8-13
 		paint.setTypeface(mInputText.getTypeface());
 		ColorStateList colors = mInputText.getTextColors();
-		int color = colors.getColorForState(ENABLED_STATE_SET, Color.GREEN);
+		int color = colors.getColorForState(ENABLED_STATE_SET, Color.WHITE);
 		paint.setColor(color);
 		mSelectorWheelPaint = paint;
 
@@ -744,7 +744,7 @@ public class NumberPicker extends LinearLayout {
 		mLabelPaint.setTextSize((int) (mNormalTextSize * 0.75f));
 		mLabelPaint.setTypeface(mInputText.getTypeface());
 		ColorStateList colorsLable = mInputText.getTextColors();
-		int colorLable = colorsLable.getColorForState(ENABLED_STATE_SET, Color.GREEN);
+		int colorLable = colorsLable.getColorForState(ENABLED_STATE_SET, Color.WHITE);
 		mLabelPaint.setColor(colorLable);
 		// tws-end label::2014-8-6
 	}

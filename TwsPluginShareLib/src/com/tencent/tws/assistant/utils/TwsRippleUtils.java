@@ -2,11 +2,10 @@ package com.tencent.tws.assistant.utils;
 
 import android.content.Context;
 import android.content.res.ColorStateList;
-import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 
-import com.tencent.tws.assistant.drawable.TwsRippleDrawable;
 import com.tencent.tws.sharelib.R;
+import com.tencent.tws.assistant.drawable.TwsRippleDrawable;
 
 public class TwsRippleUtils {
 
@@ -31,7 +30,7 @@ public class TwsRippleUtils {
     }
 
     public static TwsRippleDrawable getCustomColorClearDrawable(Context context, int color) {
-    	ColorStateList colors = context.getResources().getColorStateList(color);
+        ColorStateList colors = context.getResources().getColorStateList(color);
         return getCustomDrawable(context, colors, null, null, RIPPLE_STYLE_CLEAR);
     }
 

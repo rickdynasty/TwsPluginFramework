@@ -32,13 +32,13 @@ public class TwsSecurePrivateManager extends ContextWrapper {
 	private static final Uri CONTENT_URI = Uri.withAppendedPath(AUTHORITY_URI, "spaces");
 	private static final Uri CONTENT_FILTER_URI = Uri.withAppendedPath(CONTENT_URI, "filter");
 	
-	public final static  String QROM_SECURE_CHANGE_PRIVATEID = "tws_secure_change_privateid";
-	public final static  String QROM_SECURE_DELETE_PRIVATEID = "tws_secure_delelte_privateid";
-	public final static  String QROM_PRIVATEID = "tws_privateid";
+	public final static  String TWS_SECURE_CHANGE_PRIVATEID = "tws_secure_change_privateid";
+	public final static  String TWS_SECURE_DELETE_PRIVATEID = "tws_secure_delelte_privateid";
+	public final static  String TWS_PRIVATEID = "tws_privateid";
 	public final static  int  INCOMING_SETTING_TYPE = 0;
 	public final static  int  INSMSTITLE_SETTING_TYPE = 1;
 	public final static  int  INSMSCONTENT_SETTING_TYPE = 2;
-	private final static String  QROM_SECURE_RECEIVER_PERMISSION = "com.tencent.twsprivatespaces.permission.READ_PRIVATE_SPACES";
+	private final static String  TWS_SECURE_RECEIVER_PERMISSION = "com.tencent.twsprivatespaces.permission.READ_PRIVATE_SPACES";
 	public static final  int  PRIVATE_PASSWD_MIN_LEN = 4;
 	public static final  int  PRIVATE_PASSWD_MAX_LEN = 16;
 	public static final  int  PRIVATE_COUNT_MAX = 65535;
@@ -88,10 +88,10 @@ public class TwsSecurePrivateManager extends ContextWrapper {
 		
 		Spaces.exitCurrentPrivateSpace(context);
 		mCurrentPrivateId = 0;
-		Intent intent = new Intent(QROM_SECURE_CHANGE_PRIVATEID);
-		intent.putExtra(QROM_PRIVATEID, mCurrentPrivateId);
+		Intent intent = new Intent(TWS_SECURE_CHANGE_PRIVATEID);
+		intent.putExtra(TWS_PRIVATEID, mCurrentPrivateId);
 		//context.sendBroadcast(intent);
-		context.sendOrderedBroadcast(intent, QROM_SECURE_RECEIVER_PERMISSION);
+		context.sendOrderedBroadcast(intent, TWS_SECURE_RECEIVER_PERMISSION);
 
 		return reValue;
 	}
@@ -135,10 +135,10 @@ public class TwsSecurePrivateManager extends ContextWrapper {
 //		Log.w(TAG, "setCurrentPrivateId prviateId = "+prviateId);
 		if (prviateId > 0) {			
 			mCurrentPrivateId = prviateId;
-			Intent intent = new Intent(QROM_SECURE_CHANGE_PRIVATEID);
-			intent.putExtra(QROM_PRIVATEID, mCurrentPrivateId);
+			Intent intent = new Intent(TWS_SECURE_CHANGE_PRIVATEID);
+			intent.putExtra(TWS_PRIVATEID, mCurrentPrivateId);
 			//context.sendBroadcast(intent);
-			context.sendOrderedBroadcast(intent, QROM_SECURE_RECEIVER_PERMISSION);
+			context.sendOrderedBroadcast(intent, TWS_SECURE_RECEIVER_PERMISSION);
 		}
 //		Log.w(TAG, "setCurrentPrivateId mCurrentPrivateId = "+mCurrentPrivateId);
 		return mCurrentPrivateId;
@@ -265,10 +265,10 @@ public class TwsSecurePrivateManager extends ContextWrapper {
 		int privateId = Spaces.getCurrentPrivateSpace(context);
 		if(reValue == privateId){
 			mCurrentPrivateId = privateId;
-			Intent intent = new Intent(QROM_SECURE_CHANGE_PRIVATEID);
-			intent.putExtra(QROM_PRIVATEID, mCurrentPrivateId);
+			Intent intent = new Intent(TWS_SECURE_CHANGE_PRIVATEID);
+			intent.putExtra(TWS_PRIVATEID, mCurrentPrivateId);
 			//context.sendBroadcast(intent);	
-			context.sendOrderedBroadcast(intent, QROM_SECURE_RECEIVER_PERMISSION);
+			context.sendOrderedBroadcast(intent, TWS_SECURE_RECEIVER_PERMISSION);
 			reValue = mCurrentPrivateId;
 		}
 		return reValue;
@@ -281,10 +281,10 @@ public class TwsSecurePrivateManager extends ContextWrapper {
 		}
 		reValue = Spaces.deletePrivateSpace(context, privateId);
 		if(reValue){			
-			Intent intent = new Intent(QROM_SECURE_DELETE_PRIVATEID);
-			intent.putExtra(QROM_PRIVATEID, mCurrentPrivateId);
+			Intent intent = new Intent(TWS_SECURE_DELETE_PRIVATEID);
+			intent.putExtra(TWS_PRIVATEID, mCurrentPrivateId);
 			//context.sendBroadcast(intent);	
-			context.sendOrderedBroadcast(intent, QROM_SECURE_RECEIVER_PERMISSION);
+			context.sendOrderedBroadcast(intent, TWS_SECURE_RECEIVER_PERMISSION);
 			mCurrentPrivateId = 0;
 		}
 		return reValue;

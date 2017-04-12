@@ -139,7 +139,7 @@ public class AlertController {
 
 	private boolean mButtonBGSet;
 
-	/* NANJISTART::add for special background for tws style contextmenu */
+	/* tws-start::add for special background for tws style contextmenu */
 	public boolean mIsContextMenu = false;
 	private int mListViewHeight = -1;
 	/* NANJIEMD::froyohuang::2013.4.7 */
@@ -266,7 +266,7 @@ public class AlertController {
 		mWindow = window;
 		mHandler = new ButtonHandler(di);
 
-		// NANJISTART::added for tws theme::20121002
+		// tws-start::added for tws theme::20121002
 		mAlertDialogLayout = R.layout.tws_alert_dialog_holo;
 		mListLayout = R.layout.select_dialog;
 		mMultiChoiceItemLayout = R.layout.select_dialog_multichoice;
@@ -1120,7 +1120,7 @@ public class AlertController {
 			View buttonPanel, LinearLayout bottomButtonsPanel, boolean hasBottomButtons) {
 
 		/* Get all the different background required */
-		// NANJISTART::added for tws theme::20121002
+		// tws-start::added for tws theme::20121002
 		int operatViewBgResId = R.color.tws_operat_view_bg;
 
 		if (mIsContextMenu) {
@@ -1128,7 +1128,7 @@ public class AlertController {
 			// topDark = topBright;
 		}
 
-		// NANJIEND::added for tws theme::20121002
+		// tws-end::added for tws theme::20121002
 		/*
 		 * We now set the background of all of the sections of the alert. First
 		 * collect together each section that is being displayed along with

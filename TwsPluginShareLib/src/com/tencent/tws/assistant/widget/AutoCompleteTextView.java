@@ -16,8 +16,6 @@
 
 package com.tencent.tws.assistant.widget;
 
-import com.tencent.tws.assistant.utils.ResIdentifierUtils;
-
 import android.R;
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -43,6 +41,8 @@ import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ListAdapter;
 import android.widget.TextView;
+
+import com.tencent.tws.assistant.utils.ResIdentifierUtils;
 
 
 /**

@@ -16,6 +16,13 @@
 
 package com.tencent.tws.assistant.preference;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.xmlpull.v1.XmlPullParser;
+import org.xmlpull.v1.XmlPullParserException;
+
 import android.app.Fragment;
 import android.app.FragmentBreadCrumbs;
 import android.app.FragmentManager;
@@ -34,7 +41,6 @@ import android.os.Parcelable;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.TypedValue;
-import android.util.Log;
 import android.util.Xml;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -46,21 +52,12 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
-
-import com.tencent.tws.assistant.utils.ResIdentifierUtils;
-import com.tencent.tws.assistant.widget.ListView;
-import com.tencent.tws.sharelib.R;
-
 import android.widget.TextView;
 
 import com.android.internal.util.XmlUtils;
-
-import org.xmlpull.v1.XmlPullParser;
-import org.xmlpull.v1.XmlPullParserException;
-
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+import com.tencent.tws.assistant.utils.ResIdentifierUtils;
+import com.tencent.tws.assistant.widget.ListView;
+import com.tencent.tws.sharelib.R;
 
 /**
  * This is the base class for an activity to show a hierarchy of preferences

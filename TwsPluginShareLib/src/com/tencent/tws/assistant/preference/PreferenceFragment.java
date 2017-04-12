@@ -25,14 +25,12 @@ import android.os.Message;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.View.OnKeyListener;
+import android.view.ViewGroup;
 
+import com.tencent.tws.sharelib.R;
 import com.tencent.tws.assistant.support.v4.app.Fragment;
 import com.tencent.tws.assistant.widget.ListView;
-import com.tencent.tws.sharelib.R;
-
-import android.util.Log;
 
 /**
  * Shows a hierarchy of {@link Preference} objects as

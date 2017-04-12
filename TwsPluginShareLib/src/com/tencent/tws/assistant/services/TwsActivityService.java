@@ -38,7 +38,7 @@ public class TwsActivityService {
 	boolean mbScreenOn = false;
 	boolean mbTwsTrimAppEnable = false;
 	Handler mTwsHandler = null;
-	static final int QROM_TRIMAPP_DELAY = 5*60*1000;
+	static final int TWS_TRIMAPP_DELAY = 5*60*1000;
 	Context mContext;
 	ActivityManager mActivityManager;	
 	
@@ -55,8 +55,8 @@ public class TwsActivityService {
 		mActivityManager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
 		
 		IntentFilter filter = new IntentFilter();
-        filter.addAction(TwsIntent.QROM_ADD_BLACKLIST_APP_ACTION);
-		filter.addAction(TwsIntent.QROM_REMOVE_BLACKLIST_APP_ACTION);
+        filter.addAction(TwsIntent.TWS_ADD_BLACKLIST_APP_ACTION);
+		filter.addAction(TwsIntent.TWS_REMOVE_BLACKLIST_APP_ACTION);
         filter.addAction(Intent.ACTION_SCREEN_ON);
         filter.addAction(Intent.ACTION_SCREEN_OFF);
         mContext.registerReceiver(mAddBlackListAppReceiver, filter);
@@ -68,11 +68,11 @@ public class TwsActivityService {
 		public void onReceive(Context context, Intent intent) {
 			// TODO Auto-generated method stub
 			String szAction = intent.getAction();
-			String szPackageName = intent.getStringExtra(TwsIntent.QROM_BLACK_APP_PACKAGE_NAME);
-			if (szAction.equals(TwsIntent.QROM_ADD_BLACKLIST_APP_ACTION)){
+			String szPackageName = intent.getStringExtra(TwsIntent.TWS_BLACK_APP_PACKAGE_NAME);
+			if (szAction.equals(TwsIntent.TWS_ADD_BLACKLIST_APP_ACTION)){
 				twsmBacklistApp.add(szPackageName);
 			}
-			else if (szAction.equals(TwsIntent.QROM_REMOVE_BLACKLIST_APP_ACTION)){
+			else if (szAction.equals(TwsIntent.TWS_REMOVE_BLACKLIST_APP_ACTION)){
 				twsmBacklistApp.remove(szPackageName);
 			}
 			else if (szAction.equals(Intent.ACTION_SCREEN_ON)){
@@ -82,7 +82,7 @@ public class TwsActivityService {
 			}
 			else if (szAction.equals(Intent.ACTION_SCREEN_OFF)){
 				mbScreenOn = false;
-				mTwsHandler.postDelayed(mTimeoutTask, QROM_TRIMAPP_DELAY);
+				mTwsHandler.postDelayed(mTimeoutTask, TWS_TRIMAPP_DELAY);
 			}
 		}
 	};
@@ -101,7 +101,7 @@ public class TwsActivityService {
     }
 	
 	private static final String TrimedAppKey = "tws.trimed.blacklist_app_key";
-	private static final String QROM_ACTION_SEND_TRIMED_APP_LIST = "tws.action.SEND_TRIMED_APP_LIST";
+	private static final String TWS_ACTION_SEND_TRIMED_APP_LIST = "tws.action.SEND_TRIMED_APP_LIST";
 	private ArrayList<String> TrimedApps = new ArrayList<String>();
 
 	private void twsKillBackgroundApp(){
@@ -135,7 +135,7 @@ public class TwsActivityService {
 		if (!TrimedApps.isEmpty()){
 			Bundle b = new Bundle();
 			b.putStringArrayList(TrimedAppKey, TrimedApps);
-			Intent intent = new Intent(QROM_ACTION_SEND_TRIMED_APP_LIST);
+			Intent intent = new Intent(TWS_ACTION_SEND_TRIMED_APP_LIST);
 			intent.putExtras(b);
 			mContext.sendBroadcast(intent);
 		}
@@ -161,9 +161,9 @@ public class TwsActivityService {
     	return bRet;
     }
 	
-	static final String QROM_TAG_DEVICE = "sleepmode";
-    static final String QROM_TAG_ITEM = "item";
-    static final String QROM_ATTR_NAME = "name";
+	static final String TWS_TAG_DEVICE = "sleepmode";
+    static final String TWS_TAG_ITEM = "item";
+    static final String TWS_ATTR_NAME = "name";
 	ArrayList<String> twsmBacklistApp = new ArrayList<String>();
     void twsReadBlackListAppPkgNameFromXml(Context ctx){
     	XmlResourceParser parser = ctx.getResources().getXml(R.xml.sleepmode_blacklist);
@@ -171,7 +171,7 @@ public class TwsActivityService {
     		return;
     	}
     	try {
-			XmlUtils.beginDocument(parser, QROM_TAG_DEVICE);
+			XmlUtils.beginDocument(parser, TWS_TAG_DEVICE);
 			
 			while (true){
 				XmlUtils.nextElement(parser);
@@ -179,9 +179,9 @@ public class TwsActivityService {
 				if (element == null) {
 					break;
 				}			
-				if (element.equals(QROM_TAG_ITEM)){
+				if (element.equals(TWS_TAG_ITEM)){
 					String name = null;
-					name = parser.getAttributeValue(null, QROM_ATTR_NAME);
+					name = parser.getAttributeValue(null, TWS_ATTR_NAME);
 					twsmBacklistApp.add(name);	
 				}		
 			}		
@@ -217,7 +217,7 @@ public class TwsActivityService {
         	try {
 				parser.setInput(deviceInfoReader);
 				
-				XmlUtils.beginDocument(parser, QROM_TAG_DEVICE);
+				XmlUtils.beginDocument(parser, TWS_TAG_DEVICE);
 				
 				while (true) {
 	                XmlUtils.nextElement(parser);
@@ -225,9 +225,9 @@ public class TwsActivityService {
 	                String element = parser.getName();
 	                if (element == null) break;
 	                
-	                if (element.equals(QROM_TAG_ITEM)) {
+	                if (element.equals(TWS_TAG_ITEM)) {
 	                    String name = null;
-	                    name = parser.getAttributeValue(null, QROM_ATTR_NAME);
+	                    name = parser.getAttributeValue(null, TWS_ATTR_NAME);
 	                    twsmBacklistApp.add(name);
 	                }
 	            }
@@ -243,10 +243,10 @@ public class TwsActivityService {
     	}
     }
 
-	public static final String QROM_FILE_FORBID_APP = "/data/system/user_blacklist.xml";
+	public static final String TWS_FILE_FORBID_APP = "/data/system/user_blacklist.xml";
     void twsReadUserSetBlackListApp(){
 		try {
-	    	InputStream xml = new FileInputStream(QROM_FILE_FORBID_APP);
+	    	InputStream xml = new FileInputStream(TWS_FILE_FORBID_APP);
 	        XmlPullParser pullParser = Xml.newPullParser();
 	        pullParser.setInput(xml, "UTF-8");        
 	        int event = pullParser.getEventType();

@@ -1,19 +1,18 @@
 package com.tencent.tws.assistant.widget;
 
-import com.tencent.tws.sharelib.R;
-
+import android.content.Context;
 import android.content.res.TypedArray;
+import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
-
-import android.content.Context;
-import android.graphics.Canvas;
 import android.util.FloatMath;
 import android.view.animation.AnimationUtils;
 import android.view.animation.DecelerateInterpolator;
 import android.view.animation.Interpolator;
+
+import com.tencent.tws.sharelib.R;
 
 /**
  * This class performs the graphical effect used at the edges of scrollable widgets

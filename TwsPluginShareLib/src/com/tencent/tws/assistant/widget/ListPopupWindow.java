@@ -1148,9 +1148,9 @@ public class ListPopupWindow {
             return maxHeight + padding;
         }
 
-        /*NANJI-START::commented::haoranma::2012-09-12*/ /*final*/ /*NANJI-END::commented::haoranma::2012-09-12*/ int listContent = mDropDownList.measureHeightOfChildren(MeasureSpec.UNSPECIFIED,
+        /*tws-start::commented 2012-09-12*/ /*final*/ /*tws-end::commented 2012-09-12*/ int listContent = mDropDownList.measureHeightOfChildren(MeasureSpec.UNSPECIFIED,
                 0, ListView.NO_POSITION, maxHeight - otherHeights, -1);
-		/*NANJI-START::added::haoranma::2012-09-12*/
+		/*tws-start::added 2012-09-12*/
 		/*if(twsCustomHeight >= 0){
 			int count = mDropDownList.getAdapter().getCount();
 		    if(count > twsCustomHeight){
@@ -1164,7 +1164,7 @@ public class ListPopupWindow {
 		}*/
 		
 		listContent = twsGetHeight(listContent, maxHeight, otherHeights);
-		/*NANJI-END::added::haoranma::2012-09-12*/
+		/*tws-end::added 2012-09-12*/
         // add padding only if the list has items in it, that way we don't show
         // the popup if it is not needed
         if (listContent > 0) otherHeights += padding;
@@ -1370,7 +1370,7 @@ public class ListPopupWindow {
             }
         }
     }
-	/*NANJI-START::add::haoranma::2012-09-25*/
+	/*tws-start::add 2012-09-25*/
 	int twsCustomHeight = 7;
 	public void twsSetCustomListHeight(int height){
 	    twsCustomHeight = height;
@@ -1405,5 +1405,5 @@ public class ListPopupWindow {
 			mPopup.bRemoveView = b;
 		}
 	}
-	/*NANJI-END::add::haoranma::2012-09-25*/
+	/*tws-end::add 2012-09-25*/
 }

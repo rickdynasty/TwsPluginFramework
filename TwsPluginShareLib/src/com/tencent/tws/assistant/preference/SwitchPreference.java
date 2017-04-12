@@ -18,17 +18,11 @@ package com.tencent.tws.assistant.preference;
 
 import android.content.Context;
 import android.content.res.TypedArray;
-
-
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 import android.widget.Checkable;
 import android.widget.CompoundButton;
-import com.tencent.tws.assistant.preference.PreferenceManager;
-import com.tencent.tws.assistant.preference.PreferenceScreen;
-import com.tencent.tws.assistant.preference.Preference.OnPreferenceClickListener;
-import com.tencent.tws.assistant.utils.TwsRippleEffectInterface;
+
 import com.tencent.tws.assistant.widget.Switch;
 import com.tencent.tws.sharelib.R;
 

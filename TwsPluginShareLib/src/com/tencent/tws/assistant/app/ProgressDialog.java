@@ -153,19 +153,19 @@ public class ProgressDialog extends AlertDialog {
                     }
                 }
             };
-			/*NANJISTART::modified 20120511*/ 
+			/*tws-start::modified 20120511*/ 
 			View view = inflater.inflate(R.layout.alert_dialog_progress_holo, null);
             mProgress = (ProgressBar) view.findViewById(R.id.progress);
             mProgressNumber = (TextView) view.findViewById(R.id.progress_number);
             mProgressPercent = (TextView) view.findViewById(R.id.progress_percent);
-			/*NANJIEND::modified 20120511*/ 
+			/*tws-end::modified 20120511*/ 
             setView(view);
         } else {
-        	/*NANJISTART::modified 20120511*/ 
+        	/*tws-start::modified 20120511*/ 
 			View view = inflater.inflate(R.layout.progress_dialog_holo, null);
             mProgress = (ProgressBar) view.findViewById(R.id.progress);
 			mMessageView = (TextView) view.findViewById(R.id.message);
-			/*NANJIEND::modified 20120511*/ 
+			/*tws-end::modified 20120511*/ 
             setView(view);
         }
        // a.recycle();

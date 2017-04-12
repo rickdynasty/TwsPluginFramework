@@ -41,7 +41,7 @@ public class TwsWifiService {
     private Handler mHandler = new Handler();
     private INetworkStatsSession mSession;
 	
-    private int mWifiSleepPolicy = TwsSettings.System.QROM_WIFI_SLEEP_POLICY_NEVER;
+    private int mWifiSleepPolicy = TwsSettings.System.TWS_WIFI_SLEEP_POLICY_NEVER;
 	
 	public TwsWifiService(Context context) {
 		// TODO Auto-generated constructor stub
@@ -57,13 +57,13 @@ public class TwsWifiService {
 		filter.addAction(WifiManager.NETWORK_STATE_CHANGED_ACTION);
 		mtwsContext.registerReceiver(mWiFiStateChangeReceiver, filter); 
 		
-		Intent idleIntent = new Intent(QROM_ACTION_DEVICE_IDLE, null);
+		Intent idleIntent = new Intent(TWS_ACTION_DEVICE_IDLE, null);
         mIdleIntent = PendingIntent.getBroadcast(mtwsContext, IDLE_REQUEST, idleIntent, 0);
         
-        Uri wifiSleepPolicyUri = TwsSettings.System.getUriFor(TwsSettings.System.QROM_WIFI_SLEEP_POLICY);
+        Uri wifiSleepPolicyUri = TwsSettings.System.getUriFor(TwsSettings.System.TWS_WIFI_SLEEP_POLICY);
         mWifiSleepPolicy = TwsSettings.System.getInt(mtwsContext.getContentResolver(), 
-        		TwsSettings.System.QROM_WIFI_SLEEP_POLICY, 
-        		TwsSettings.System.QROM_WIFI_SLEEP_POLICY_NEVER);
+        		TwsSettings.System.TWS_WIFI_SLEEP_POLICY, 
+        		TwsSettings.System.TWS_WIFI_SLEEP_POLICY_NEVER);
         mtwsContext.getContentResolver().registerContentObserver(wifiSleepPolicyUri, false, mWifiSleepPolicyResolver);
         
         registerForBroadcasts();
@@ -72,8 +72,8 @@ public class TwsWifiService {
 	private ContentObserver mWifiSleepPolicyResolver = new ContentObserver(new Handler()) {
     	public void onChange(boolean selfChange) {
     		mWifiSleepPolicy = TwsSettings.System.getInt(mtwsContext.getContentResolver(), 
-    				 TwsSettings.System.QROM_WIFI_SLEEP_POLICY, 
-    				 TwsSettings.System.QROM_WIFI_SLEEP_POLICY_NEVER);
+    				 TwsSettings.System.TWS_WIFI_SLEEP_POLICY, 
+    				 TwsSettings.System.TWS_WIFI_SLEEP_POLICY_NEVER);
     		Slog.d(TAG, "mWifiSleepPolicy = "+mWifiSleepPolicy);
     		
     	};
@@ -104,7 +104,7 @@ public class TwsWifiService {
                     	mHandler.removeCallbacks(mStartThread);
                     }
                     else if (mWiFiNetworkState == NetworkInfo.State.DISCONNECTED
-                    		&& mWifiSleepPolicy == TwsSettings.System.QROM_WIFI_SLEEP_POLICY_NEVER){
+                    		&& mWifiSleepPolicy == TwsSettings.System.TWS_WIFI_SLEEP_POLICY_NEVER){
                     	mHandler.removeCallbacks(mStartThread);
                     	mHandler.postDelayed(mStartThread, NEVER_SLEEP_ACTION_DELAY);
         				mForceSleep = true;
@@ -127,12 +127,12 @@ public class TwsWifiService {
 			twsmTotalBytesAfterScreenOff = twsGetWiFiFlow(twsmWifiStatStartTime);
 			
 			Slog.d(TAG, "mWifiSleepPolicy = "+mWifiSleepPolicy+", mForceSleep = "+mForceSleep);
-			if (mWifiSleepPolicy == TwsSettings.System.QROM_WIFI_SLEEP_POLICY_DEFAULT
-					|| (mWifiSleepPolicy == TwsSettings.System.QROM_WIFI_SLEEP_POLICY_NEVER_WHILE_PLUGGED && mPluggedType == 0)
+			if (mWifiSleepPolicy == TwsSettings.System.TWS_WIFI_SLEEP_POLICY_DEFAULT
+					|| (mWifiSleepPolicy == TwsSettings.System.TWS_WIFI_SLEEP_POLICY_NEVER_WHILE_PLUGGED && mPluggedType == 0)
 					|| mForceSleep){
 				twsStartWiFIFlowDetect(DEFAULT_IDLE_MS, twsmWifiStatStartTime);
 			}
-			else if (mWifiSleepPolicy == TwsSettings.System.QROM_WIFI_SLEEP_POLICY_NEVER && mWiFiNetworkState == NetworkInfo.State.DISCONNECTED){
+			else if (mWifiSleepPolicy == TwsSettings.System.TWS_WIFI_SLEEP_POLICY_NEVER && mWiFiNetworkState == NetworkInfo.State.DISCONNECTED){
 				mHandler.removeCallbacks(mStartThread);
 				mHandler.postDelayed(mStartThread, NEVER_SLEEP_ACTION_DELAY);
 				mForceSleep = true;
@@ -164,7 +164,7 @@ public class TwsWifiService {
         intentFilter.addAction(Intent.ACTION_SCREEN_ON);
         intentFilter.addAction(Intent.ACTION_SCREEN_OFF);
         intentFilter.addAction(Intent.ACTION_BATTERY_CHANGED);
-        intentFilter.addAction(QROM_ACTION_DEVICE_IDLE);
+        intentFilter.addAction(TWS_ACTION_DEVICE_IDLE);
         mtwsContext.registerReceiver(mReceiver, intentFilter);
     }
 	
@@ -190,7 +190,7 @@ public class TwsWifiService {
 					mHandler.postDelayed(mStartThread, SCREEN_OFF_ACTION_DELAY);
 				}
 			}
-			else if (action.equals(QROM_ACTION_DEVICE_IDLE)){
+			else if (action.equals(TWS_ACTION_DEVICE_IDLE)){
 				twsSetWiFiIdleState(DEFAULT_IDLE_MS);
 			}
 			else if (action.equals(Intent.ACTION_BATTERY_CHANGED)) {
@@ -227,18 +227,18 @@ public class TwsWifiService {
 		}
     }
 	
-	private static final String QROM_POWER_SAVE_ACTION = "tws.action.POWER_SAVE_ACTION";
-    private static final int QROM_WIFI_POWERSAVE_ACTION = 2;
+	private static final String TWS_POWER_SAVE_ACTION = "tws.action.POWER_SAVE_ACTION";
+    private static final int TWS_WIFI_POWERSAVE_ACTION = 2;
     private static final String ACTION_DEVICE_IDLE ="com.android.server.WifiManager.action.DEVICE_IDLE";
-    private static final String QROM_ACTION_DEVICE_IDLE = "com.tencent.tws.assistant.server.WifiManager.action.DEVICE_IDLE";
+    private static final String TWS_ACTION_DEVICE_IDLE = "com.tencent.tws.assistant.server.WifiManager.action.DEVICE_IDLE";
 	private void setWiFiEnable(boolean bEnable){
 		 if (mwifimgr != null){
 			 if (!bEnable 
 					 && mPluggedType == 0 
 					 && mWiFiNetworkState == NetworkInfo.State.DISCONNECTED
 					 && mScreenOff){
-				 Intent intent = new Intent(QROM_POWER_SAVE_ACTION);
-				 intent.putExtra(QROM_POWER_SAVE_ACTION, QROM_WIFI_POWERSAVE_ACTION);
+				 Intent intent = new Intent(TWS_POWER_SAVE_ACTION);
+				 intent.putExtra(TWS_POWER_SAVE_ACTION, TWS_WIFI_POWERSAVE_ACTION);
 				 mtwsContext.sendBroadcast(intent);
 				 Intent idleIntent = new Intent(ACTION_DEVICE_IDLE);
 				 mtwsContext.sendBroadcast(idleIntent);
@@ -253,8 +253,8 @@ public class TwsWifiService {
 
         boolean bRet = true;
         
-        if (mWifiSleepPolicy != TwsSettings.System.QROM_WIFI_SLEEP_POLICY_NEVER) {
-        	if (mWifiSleepPolicy == TwsSettings.System.QROM_WIFI_SLEEP_POLICY_DEFAULT
+        if (mWifiSleepPolicy != TwsSettings.System.TWS_WIFI_SLEEP_POLICY_NEVER) {
+        	if (mWifiSleepPolicy == TwsSettings.System.TWS_WIFI_SLEEP_POLICY_DEFAULT
         			|| plugType == 0){
         		bRet = false;
         	}
@@ -272,7 +272,7 @@ public class TwsWifiService {
 	void twsRemoveTwsSetting(){
 		mHandler.removeCallbacks(mStartThread);
 		mForceSleep = false;
-		Intent idleIntent = new Intent(QROM_ACTION_DEVICE_IDLE, null);
+		Intent idleIntent = new Intent(TWS_ACTION_DEVICE_IDLE, null);
 		PendingIntent sender = PendingIntent.getBroadcast(mtwsContext, 0, idleIntent, PendingIntent.FLAG_NO_CREATE);  
 		if (sender != null){
 			mAlarmManager.cancel(sender);

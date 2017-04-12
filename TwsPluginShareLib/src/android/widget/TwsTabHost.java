@@ -90,7 +90,7 @@ public class TwsTabHost extends FrameLayout implements ViewTreeObserver.OnTouchM
 	private TabIndicator mTabIndicator = null;
 	// tws-end add tabIndicator::2014-9-23
 
-	// QROM-START::support slide to switch tabs::hendysu::2013-05-06
+	// tws-start::support slide to switch tabs2013-05-06
 	private FragmentManager mFragmentManager;
 	private ViewPager mViewPager;
 	private ViewPagerAdapter mViewPagerAdapter;
@@ -199,7 +199,7 @@ public class TwsTabHost extends FrameLayout implements ViewTreeObserver.OnTouchM
 		}
 	}
 
-	// QROM-END::support slide to switch tabs::hendysu::2013-05-06
+	// tws-end::support slide to switch tabs2013-05-06
 
 	private int mInitialTabIndex = 0;
 

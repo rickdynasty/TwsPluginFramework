@@ -18,7 +18,6 @@ package com.tencent.tws.assistant.widget;
 
 import android.content.Context;
 import android.hardware.SensorManager;
-import android.util.FloatMath;
 import android.os.Build;
 import android.view.ViewConfiguration;
 import android.view.animation.AnimationUtils;

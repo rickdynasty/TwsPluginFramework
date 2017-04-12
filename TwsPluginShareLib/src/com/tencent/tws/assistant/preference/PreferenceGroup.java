@@ -19,16 +19,14 @@ package com.tencent.tws.assistant.preference;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
-
-import com.tencent.tws.sharelib.R;
 
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.text.TextUtils;
 import android.util.AttributeSet;
+
+import com.tencent.tws.sharelib.R;
 
 /**
  * A container for multiple

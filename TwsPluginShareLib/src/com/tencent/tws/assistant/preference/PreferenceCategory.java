@@ -16,8 +16,6 @@
 
 package com.tencent.tws.assistant.preference;
 
-import java.util.Map;
-
 import android.content.Context;
 import android.util.AttributeSet;
 

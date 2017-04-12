@@ -1260,7 +1260,7 @@ public class MenuBuilder implements Menu {
     public MenuItemImpl getExpandedItem() {
         return mExpandedItem;
     }
-	//NANJISTART goefffeng 20130307 add for menu and dialog public
+	//tws-start goefffeng 20130307 add for menu and dialog public
 	 public final void twsClose(boolean allMenusAreClosing) {
        close(allMenusAreClosing);
     }
@@ -1281,5 +1281,5 @@ public class MenuBuilder implements Menu {
     public void twsOnItemsChanged(boolean structureChanged) {
         onItemsChanged(structureChanged);
     }
-	//NANJIEND goefffeng 20130307 add for menu and dialog public
+	//tws-end goefffeng 20130307 add for menu and dialog public
 }

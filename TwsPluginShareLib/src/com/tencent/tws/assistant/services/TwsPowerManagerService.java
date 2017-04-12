@@ -30,9 +30,9 @@ public class TwsPowerManagerService {
 	private TwsMaskHandler mMaskHandler;
 	private Handler mFaceDetectHandler;
 	
-	static final String QROM_TAG = "TwsPowerManagerService";
-	static final String QROM_ACTION_START_FACEDETECT = "android.tws.action.start.facedetect";
-	static final String QROM_ACTION_STOP_FACEDETECT = "android.tws.action.stop.facedetect";
+	static final String TWS_TAG = "TwsPowerManagerService";
+	static final String TWS_ACTION_START_FACEDETECT = "android.tws.action.start.facedetect";
+	static final String TWS_ACTION_STOP_FACEDETECT = "android.tws.action.stop.facedetect";
 	boolean twsmFaceDetectEnabled = true;
 	final static boolean mb_isDebug = false; 	
 	private boolean mBootComplete = false;
@@ -64,9 +64,9 @@ public class TwsPowerManagerService {
         filter.addAction(Intent.ACTION_SCREEN_OFF);
         mtwsContext.registerReceiver(mScreenStateChangeReceiver, filter);
 		
-		Uri faceDetecUri = TwsSettings.System.getUriFor(TwsSettings.System.QROM_FACE_DETECT_ENABLE);
+		Uri faceDetecUri = TwsSettings.System.getUriFor(TwsSettings.System.TWS_FACE_DETECT_ENABLE);
 		mtwsContext.getContentResolver().registerContentObserver(faceDetecUri, false, twsmFacedetectObserver);
-		twsmFaceDetectEnabled = TwsSettings.System.getInt(mtwsContext.getContentResolver(), TwsSettings.System.QROM_FACE_DETECT_ENABLE, 0)>0;
+		twsmFaceDetectEnabled = TwsSettings.System.getInt(mtwsContext.getContentResolver(), TwsSettings.System.TWS_FACE_DETECT_ENABLE, 0)>0;
 		
 		Uri brightnessModeUri = Settings.System.getUriFor(Settings.System.SCREEN_BRIGHTNESS_MODE);
 		mtwsContext.getContentResolver().registerContentObserver(brightnessModeUri, false, mBrightnessModeObserver);
@@ -159,7 +159,7 @@ public class TwsPowerManagerService {
 					}
 				}
 				else if (mBrightnessMode == Settings.System.SCREEN_BRIGHTNESS_MODE_MANUAL){
-					int value = Settings.System.getInt(mtwsContext.getContentResolver(),Settings.System.SCREEN_BRIGHTNESS, TwsIntent.QROM_BRIGHTNESS_DIM);
+					int value = Settings.System.getInt(mtwsContext.getContentResolver(),Settings.System.SCREEN_BRIGHTNESS, TwsIntent.TWS_BRIGHTNESS_DIM);
 					twsSetBacklightBrightness(value);
 				}
 				
@@ -180,7 +180,7 @@ public class TwsPowerManagerService {
 		public void onChange(boolean selfChange) {
 			// TODO Auto-generated method stub
 			super.onChange(selfChange);
-			twsmFaceDetectEnabled = TwsSettings.System.getInt(mtwsContext.getContentResolver(), TwsSettings.System.QROM_FACE_DETECT_ENABLE, 0)>0;
+			twsmFaceDetectEnabled = TwsSettings.System.getInt(mtwsContext.getContentResolver(), TwsSettings.System.TWS_FACE_DETECT_ENABLE, 0)>0;
 		}
 	}
 	
@@ -192,10 +192,10 @@ public class TwsPowerManagerService {
 	    	if (twsmFaceDetectEnabled){
 	    		if (nextState == TwsIntent.SCREEN_DIM && (wakelockstate & TwsIntent.SCREEN_ON_BIT) == 0){
 	        		long nFaceDetectDelay = 0;
-	        		if (dimDelay > QROM_FACE_DETECT_TIME_GAP){
-	        			nFaceDetectDelay = dimDelay - QROM_FACE_DETECT_TIME_GAP;
+	        		if (dimDelay > TWS_FACE_DETECT_TIME_GAP){
+	        			nFaceDetectDelay = dimDelay - TWS_FACE_DETECT_TIME_GAP;
 	                }
-//	        		Log.d(QROM_TAG, "twsStartFaceDetectTimeoutTask:: nFaceDetectDelay = "+nFaceDetectDelay);      	
+//	        		Log.d(TWS_TAG, "twsStartFaceDetectTimeoutTask:: nFaceDetectDelay = "+nFaceDetectDelay);      	
 	        		mFaceDetectHandler.postDelayed(twsmFaceDetectTimeoutTask, nFaceDetectDelay);
 	        	}
 	    		else if (nextState == TwsIntent.SCREEN_BRIGHT){
@@ -205,7 +205,7 @@ public class TwsPowerManagerService {
 		}
     }
     
-    static final int QROM_FACE_DETECT_TIME_GAP = 4000;
+    static final int TWS_FACE_DETECT_TIME_GAP = 4000;
     TwsFaceDetectTimeoutTask twsmFaceDetectTimeoutTask = new TwsFaceDetectTimeoutTask();
     boolean twsmFaceDetectStarted = false;
     class TwsFaceDetectTimeoutTask implements Runnable{
@@ -218,9 +218,9 @@ public class TwsPowerManagerService {
     
     void twsStopFaceDetect(){
 		if (twsmFaceDetectStarted){
-			Intent intent = new Intent(QROM_ACTION_STOP_FACEDETECT);
+			Intent intent = new Intent(TWS_ACTION_STOP_FACEDETECT);
     		if (intent != null){
-//    			Log.d(QROM_TAG, "twsStopFaceDetect:: stop face detect!");
+//    			Log.d(TWS_TAG, "twsStopFaceDetect:: stop face detect!");
     			intent.addFlags(Intent.FLAG_RECEIVER_REGISTERED_ONLY);
     			mtwsContext.sendBroadcast(intent);
     			twsmFaceDetectStarted = false;
@@ -229,9 +229,9 @@ public class TwsPowerManagerService {
     }
     
     void twsStartFaceDetect(){
-    	Intent intent = new Intent(QROM_ACTION_START_FACEDETECT);
+    	Intent intent = new Intent(TWS_ACTION_START_FACEDETECT);
     	if (intent != null){
-//    		Log.d(QROM_TAG, "twsStartFaceDetect:: start face detect!");
+//    		Log.d(TWS_TAG, "twsStartFaceDetect:: start face detect!");
     		mtwsContext.sendBroadcast(intent);
     		twsmFaceDetectStarted = true;
     	}
@@ -241,10 +241,10 @@ public class TwsPowerManagerService {
     private boolean mDimMasked = false;
     public void twsSendPowerStateChangeBroadcast(int newState){
     	if (mBootComplete && mPowerState!=newState 
-    			&& (mCurrentScreenBrightness >= TwsIntent.QROM_BRIGHTNESS_DIM 
+    			&& (mCurrentScreenBrightness >= TwsIntent.TWS_BRIGHTNESS_DIM 
     			|| (mBrightnessMode == Settings.System.SCREEN_BRIGHTNESS_MODE_AUTOMATIC && !mHaveManualChangedWhenAutoMode))){
     		
-//    		Log.d(QROM_TAG, "mPowerState = "+mPowerState +", newState = "+newState);
+//    		Log.d(TWS_TAG, "mPowerState = "+mPowerState +", newState = "+newState);
     		
     		Message msg = Message.obtain(mMaskHandler);
     		
@@ -278,10 +278,10 @@ public class TwsPowerManagerService {
     		bRet = mCurrentScreenBrightness;
     		if (mIsNeedTwsMask){
         		Message msg = Message.obtain(mMaskHandler);
-        		if (bRet < TwsIntent.QROM_BRIGHTNESS_DIM){
+        		if (bRet < TwsIntent.TWS_BRIGHTNESS_DIM){
         			msg.what = SET_BRIGHTNESS_MASK;
         			msg.arg1 = bRet;
-        			bRet = TwsIntent.QROM_BRIGHTNESS_DIM;
+        			bRet = TwsIntent.TWS_BRIGHTNESS_DIM;
         		}
         		else {
         			msg.what = REMOVE_BRIGHTNESS_MASK;
@@ -308,13 +308,13 @@ public class TwsPowerManagerService {
     	
     	mCurrentScreenBrightness = value;
     	
-//    	Log.d(QROM_TAG, "twsSetBacklightBrightness:: value = "+value);
+//    	Log.d(TWS_TAG, "twsSetBacklightBrightness:: value = "+value);
     	if (mIsNeedTwsMask){
     		Message msg = Message.obtain(mMaskHandler);
-    		if (value < TwsIntent.QROM_BRIGHTNESS_DIM){
+    		if (value < TwsIntent.TWS_BRIGHTNESS_DIM){
     			msg.what = SET_BRIGHTNESS_MASK;
     			msg.arg1 = value;
-    			value = TwsIntent.QROM_BRIGHTNESS_DIM;
+    			value = TwsIntent.TWS_BRIGHTNESS_DIM;
     		}
     		else {
     			msg.what = REMOVE_BRIGHTNESS_MASK;

@@ -16,79 +16,77 @@
 
 package com.tencent.tws.assistant.internal.view.menu;
 
-
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.util.AttributeSet;
 import android.view.View;
-import com.tencent.tws.assistant.internal.view.menu.MenuBuilder;
-import com.tencent.tws.assistant.internal.view.menu.MenuItemImpl;
-import com.tencent.tws.assistant.internal.view.menu.MenuPresenter;
-import com.tencent.tws.assistant.internal.view.menu.MenuView;
-import com.tencent.tws.assistant.internal.view.menu.SubMenuBuilder;
+
 import com.tencent.tws.assistant.internal.view.menu.MenuBuilder.ItemInvoker;
 import com.tencent.tws.assistant.widget.AdapterView;
-import com.tencent.tws.assistant.widget.ListView;
 import com.tencent.tws.assistant.widget.AdapterView.OnItemClickListener;
+import com.tencent.tws.assistant.widget.ListView;
 import com.tencent.tws.sharelib.R;
 
 /**
- * The expanded menu view is a list-like menu with all of the available menu items.  It is opened
- * by the user clicking no the 'More' button on the icon menu view.
+ * The expanded menu view is a list-like menu with all of the available menu
+ * items. It is opened by the user clicking no the 'More' button on the icon
+ * menu view.
  */
 public final class ExpandedMenuView extends ListView implements ItemInvoker, MenuView, OnItemClickListener {
-    private MenuBuilder mMenu;
+	private MenuBuilder mMenu;
 
-    /** Default animations for this menu */
-    private int mAnimations;
-    
-    /**
-     * Instantiates the ExpandedMenuView that is linked with the provided MenuBuilder.
-     * @param menu The model for the menu which this MenuView will display
-     */
-    public ExpandedMenuView(Context context, AttributeSet attrs) {
-        super(context, attrs);
-        
-        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.MenuView, 0, 0);
-        mAnimations = a.getResourceId(R.styleable.MenuView_windowAnimationStyle, 0);
-        a.recycle();
+	/** Default animations for this menu */
+	private int mAnimations;
 
-        //QROM-START::set the background of the list menu::hendysu::2013-06-17
-        setBackgroundResource(R.drawable.list_menu_bg_holo_light);
-        //QROM-END::set the background of the list menu::hendysu::2013-06-17
+	/**
+	 * Instantiates the ExpandedMenuView that is linked with the provided
+	 * MenuBuilder.
+	 * 
+	 * @param menu
+	 *            The model for the menu which this MenuView will display
+	 */
+	public ExpandedMenuView(Context context, AttributeSet attrs) {
+		super(context, attrs);
 
-        //QROM-START::set the list menu selector::hendysu::2013-06-17
-        //setSelector(R.drawable.second_list_selector_holo_light, true);
-        setSelector(R.drawable.list_menu_selector,
-            R.drawable.list_menu_selector_top,
-            R.drawable.list_menu_selector_bottom);
-        //QROM-END::set the list menu selector::hendysu::2013-06-17
+		TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.MenuView, 0, 0);
+		mAnimations = a.getResourceId(R.styleable.MenuView_windowAnimationStyle, 0);
+		a.recycle();
 
-        setOnItemClickListener(this);
-    }
+		// tws-start::set the background of the list menu 2013-06-17
+		setBackgroundResource(R.drawable.list_menu_bg_holo_light);
+		// tws-end::set the background of the list menu 2013-06-17
 
-    public void initialize(MenuBuilder menu) {
-        mMenu = menu;
-    }
+		// tws-start::set the list menu selector 2013-06-17
+		// setSelector(R.drawable.second_list_selector_holo_light, true);
+		setSelector(R.drawable.list_menu_selector, R.drawable.list_menu_selector_top,
+				R.drawable.list_menu_selector_bottom);
+		// tws-end::set the list menu selector 2013-06-17
 
-    @Override
-    protected void onDetachedFromWindow() {
-        super.onDetachedFromWindow();
-        
-        // Clear the cached bitmaps of children
-        setChildrenDrawingCacheEnabled(false);
-    }
+		setOnItemClickListener(this);
+	}
 
-    public boolean invokeItem(MenuItemImpl item) {
-        return mMenu.performItemAction(item, 0);
-    }
+	public void initialize(MenuBuilder menu) {
+		mMenu = menu;
+	}
 
-    public void onItemClick(AdapterView parent, View v, int position, long id) {
-        invokeItem((MenuItemImpl) getAdapter().getItem(position));
-    }
+	@Override
+	protected void onDetachedFromWindow() {
+		super.onDetachedFromWindow();
 
-    public int getWindowAnimations() {
-        return mAnimations;
-    }
-    
+		// Clear the cached bitmaps of children
+		setChildrenDrawingCacheEnabled(false);
+	}
+
+	public boolean invokeItem(MenuItemImpl item) {
+		return mMenu.performItemAction(item, 0);
+	}
+
+	public void onItemClick(AdapterView parent, View v, int position, long id) {
+		invokeItem((MenuItemImpl) getAdapter().getItem(position));
+	}
+
+	public int getWindowAnimations() {
+		return mAnimations;
+	}
+
 }

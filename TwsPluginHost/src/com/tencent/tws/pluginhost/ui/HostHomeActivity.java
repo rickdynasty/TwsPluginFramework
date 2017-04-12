@@ -25,6 +25,7 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.Window;
 import android.widget.FrameLayout;
 
 import com.tencent.tws.assistant.app.ActionBar;
@@ -136,6 +137,7 @@ public class HostHomeActivity extends TwsFragmentActivity implements HomeUIProxy
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
+		requestWindowFeature(Window.FEATURE_ACTION_BAR_OVERLAY);
 		super.onCreate(savedInstanceState);
 		// 监听插件更新
 		registerReceiver(mPluginChangedMonitor, new IntentFilter(PluginCallback.ACTION_PLUGIN_CHANGED));

@@ -15,16 +15,6 @@
  */
 
 package com.tencent.tws.assistant.internal.view.menu;
-import com.tencent.tws.assistant.internal.view.menu.MenuBuilder;
-import com.tencent.tws.assistant.internal.view.menu.MenuItemImpl;
-import com.tencent.tws.assistant.internal.view.menu.MenuPresenter;
-import com.tencent.tws.assistant.internal.view.menu.MenuView;
-import com.tencent.tws.assistant.internal.view.menu.SubMenuBuilder;
-import com.tencent.tws.assistant.utils.TwsRippleUtils;
-import com.tencent.tws.assistant.utils.ThemeUtils;
-import com.tencent.tws.assistant.widget.Toast;
-import com.tencent.tws.sharelib.R;
-
 import android.content.Context;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
@@ -32,13 +22,17 @@ import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.text.TextUtils;
 import android.util.AttributeSet;
-import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.accessibility.AccessibilityEvent;
-import android.widget.TextView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
+
+import com.tencent.tws.assistant.utils.ThemeUtils;
+import com.tencent.tws.assistant.utils.TwsRippleUtils;
+import com.tencent.tws.assistant.widget.Toast;
+import com.tencent.tws.sharelib.R;
 
 
 /**
@@ -72,9 +66,9 @@ public class ActionMenuItemView extends LinearLayout
         super(context, attrs, defStyle);
         mContext = context;
         final Resources res = context.getResources();
-        /*NANJISTART::modified com.internal to tws 20121011*/
+        /*tws-start::modified com.internal to tws 20121011*/
         mAllowTextWithIcon = res.getBoolean(R.bool.config_allowActionMenuItemTextWithIcon);
-        /*NANJIEND::modified com.internal to tws 20121011*/
+        /*tws-end::modified com.internal to tws 20121011*/
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.ActionMenuItemView,
                 R.attr.actionButtonStyle_menuitem, 0);
         final int defaultWidth = getResources().getDimensionPixelOffset(R.dimen.actionbar_overflow_minwidth);
@@ -98,10 +92,10 @@ public class ActionMenuItemView extends LinearLayout
 
     @Override
     public void onFinishInflate() {
-        /*NANJI-START::change::haoranma::2012-10-15*/
+        /*tws-start::change 2012-10-15*/
 		mImageButton = (ImageView) findViewById(R.id.imageButton);
         mTextButton = (TextView) findViewById(R.id.textButton);
-		/*NANJI-START::change::haoranma::2012-10-15*/
+		/*tws-start::change 2012-10-15*/
         //mImageButton.setOnClickListener(this);
         //mTextButton.setOnClickListener(this);
         //mImageButton.setOnLongClickListener(this);
@@ -158,14 +152,14 @@ public class ActionMenuItemView extends LinearLayout
     public void setChecked(boolean checked) {
         // TODO Support checkable action items
     }
-    /*NANJISTART::add::geofffeng::20120830*/
+    /*tws-start::add::geofffeng::20120830*/
     @Override
     public void setSelected(boolean enabled) {
         super.setSelected(enabled);
         mImageButton.setSelected(enabled);
         mTextButton.setSelected(enabled);
     }
-    /*NANJIEND::add::geofffeng::20120830*/
+    /*tws-end::add::geofffeng::20120830*/
 
     public void setExpandedFormat(boolean expandedFormat) {
         if (mExpandedFormat != expandedFormat) {

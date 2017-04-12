@@ -127,7 +127,7 @@ public class TwsDownloadManager extends DownloadManager {
     /**
      * 在query()中返回更多的数据
      */
-    public static final String[] QROM_UNDERLYING_COLUMNS = (String[])concatenateArray(DownloadManager.UNDERLYING_COLUMNS,
+    public static final String[] TWS_UNDERLYING_COLUMNS = (String[])concatenateArray(DownloadManager.UNDERLYING_COLUMNS,
             new String[] { Downloads.Impl.COLUMN_NOTIFICATION_PACKAGE, COLUMN_TASK_ICON, COLUMN_TASK_CREATE_TIME, COLUMN_DOWNLOADING_SPEED, COLUMN_WAIT_INIT},
             String.class);
     
@@ -169,7 +169,7 @@ public class TwsDownloadManager extends DownloadManager {
     
     @Override
     public Cursor query(DownloadManager.Query query) {
-        Cursor underlyingCursor = query.runQuery(mResolver, QROM_UNDERLYING_COLUMNS, mBaseUri);
+        Cursor underlyingCursor = query.runQuery(mResolver, TWS_UNDERLYING_COLUMNS, mBaseUri);
         if (underlyingCursor == null) {
             return null;
         }

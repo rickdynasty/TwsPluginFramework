@@ -82,14 +82,14 @@ import android.widget.ListAdapter;
 import android.widget.OverScroller;
 import android.widget.SectionIndexer;
 
+import com.tencent.tws.sharelib.R;
+// tws-start fix hide class problem in android4.4::2014-07-19
+// tws-end fix hide class problem in android4.4::2014-07-19
 import com.tencent.tws.assistant.drawable.TwsDrawable;
 import com.tencent.tws.assistant.drawable.TwsRippleDrawable;
 import com.tencent.tws.assistant.interpolator.CubicEaseInInterpolator;
 import com.tencent.tws.assistant.utils.ThemeUtils;
 import com.tencent.tws.assistant.widget.ListView.OnScrollStateListener;
-import com.tencent.tws.sharelib.R;
-// tws-start fix hide class problem in android4.4::2014-07-19
-// tws-end fix hide class problem in android4.4::2014-07-19
 
 /**
  * Base class that can be used to implement virtualized lists of items. A list does
@@ -620,7 +620,7 @@ public abstract class AbsListView extends AdapterView<ListAdapter> implements Te
     private float mVelocityScale = 1.0f;
 
     //tws-start modify for listview MaxVelocity::2014-12-29
-    private static final int QROM_MAXIMUM_FLING_VELOCITY = 4800;
+    private static final int TWS_MAXIMUM_FLING_VELOCITY = 4800;
     //tws-end modify for listview MaxVelocity::2014-12-29
 
     final boolean[] mIsScrap = new boolean[1];
@@ -721,7 +721,7 @@ public abstract class AbsListView extends AdapterView<ListAdapter> implements Te
      */
     private SavedState mPendingSync;
 
-    //QROM-START::for round corners::hendysu::2013-06-14
+    //tws-start::for round corners 2013-06-14
     private boolean mDrawShapedSelector = false;
     private Paint mRoundPaint = null;
     private Canvas mRoundCanvas = null;
@@ -731,7 +731,7 @@ public abstract class AbsListView extends AdapterView<ListAdapter> implements Te
     private Drawable mTopSelector = null;
     private Drawable mBottomSelector = null;
     private Drawable mCurrentSelector = null;
-    //QROM-END::for round corners::hendysu::2013-06-14
+    //tws-end::for round corners 2013-06-14
     //tws-start add listview bounce feature::2014-08-12
     private OnScrollStateListener onScrollStateListener;
     private int mScrollState = OnScrollStateListener.EDGE;
@@ -818,6 +818,7 @@ public abstract class AbsListView extends AdapterView<ListAdapter> implements Te
         mOwnerThread = Thread.currentThread();
 
         setVerticalScrollBarEnabled(true);
+        // NOTICE make sure id of com.android.internal.R.styleable.View is the same as all other ROMs
         TypedArray a = context.obtainStyledAttributes(com.android.internal.R.styleable.View);
         initializeScrollbars(a);
         a.recycle();
@@ -870,7 +871,7 @@ public abstract class AbsListView extends AdapterView<ListAdapter> implements Te
         setFastScrollAlwaysVisible(
                 a.getBoolean(R.styleable.AbsListView_fastScrollAlwaysVisible, false));
 
-        //QROM-START::user defined top/bottom selector::hendysu::2013-06-24
+        //tws-start::user defined top/bottom selector 2013-06-24
         mDrawShapedSelector = a.getBoolean(
                 R.styleable.AbsListView_useShapedSelector, false);
 
@@ -883,7 +884,7 @@ public abstract class AbsListView extends AdapterView<ListAdapter> implements Te
         if (ddd != null) {
             setBottomSelector(ddd);
         }
-        //QROM-END::user defined top/bottom selector::hendysu::2013-06-24
+        //tws-end::user defined top/bottom selector 2013-06-24
 
         a.recycle();
     }
@@ -909,7 +910,7 @@ public abstract class AbsListView extends AdapterView<ListAdapter> implements Te
         mDensity = getContext().getResources().getDisplayMetrics().density;
         //tws-end add listview bounce feature::2014-08-12
         //tws-start modify for listview MaxVelocity::2014-12-29
-        mMaximumVelocity = (int) (QROM_MAXIMUM_FLING_VELOCITY * mDensity + 0.5f);
+        mMaximumVelocity = (int) (TWS_MAXIMUM_FLING_VELOCITY * mDensity + 0.5f);
         //tws-end modify for listview MaxVelocity::2014-12-29
     }
 
@@ -1600,7 +1601,7 @@ public abstract class AbsListView extends AdapterView<ListAdapter> implements Te
                 null, getResources().getDrawable(R.color.tws_white));
         	setSelector(drawable);
         }else{
-        	setSelector(getResources().getDrawable(R.drawable.dm_common_list_item_selector));
+        	setSelector(getResources().getDrawable(R.drawable.list_selector_background));
         }
         
         //tws-end ripple drawable::2014-12-15
@@ -2290,9 +2291,9 @@ public abstract class AbsListView extends AdapterView<ListAdapter> implements Te
         final View scrapView = mRecycler.getScrapView(position);
         final View child = mAdapter.getView(position, scrapView, this);
         if (scrapView != null) {
-            //tws-start::by parkerxu::for item animation::2014-12-09
+            //tws-start for item animation::2014-12-09
             scrapView.setTranslationX(0);
-            //tws-end::by parkerxu::for item animation::2014-12-09
+            //tws-end for item animation::2014-12-09
             if (child != scrapView) {
                 // Failed to re-bind the data, return scrap to the heap.
                 mRecycler.addScrapView(scrapView, position);
@@ -2512,7 +2513,7 @@ public abstract class AbsListView extends AdapterView<ListAdapter> implements Te
 
     private void drawSelector(Canvas canvas) {
         if (!mSelectorRect.isEmpty()) {
-            //QROM-START::top/bottom list item use top/bottom selector::hendysu::2013-06-24
+            //tws-start::top/bottom list item use top/bottom selector 2013-06-24
             if(mTopSelector != null && mSelectorRect.top <= getPaddingTop()) {
                 mCurrentSelector = mTopSelector;
             } else if(mBottomSelector != null && 
@@ -2524,7 +2525,7 @@ public abstract class AbsListView extends AdapterView<ListAdapter> implements Te
             mCurrentSelector.setState(mSelector.getState());
             mCurrentSelector.setBounds(mSelectorRect);
             mCurrentSelector.draw(canvas);
-            //QROM-END::top/bottom list item use top/bottom selector::hendysu::2013-06-24
+            //tws-end::top/bottom list item use top/bottom selector 2013-06-24
         }
     }
 
@@ -6749,12 +6750,12 @@ public abstract class AbsListView extends AdapterView<ListAdapter> implements Te
                 int position, long id, boolean checked) {
             mWrapped.onItemCheckedStateChanged(mode, position, id, checked);
 
-            /*NANJISTART::remove no items selected deal::braind::20120201*/
+            /*tws-start::remove no items selected deal::braind::20120201*/
             // If there are no items selected we no longer need the selection mode.
             /*if (getCheckedItemCount() == 0) {
                 mode.finish();
             }*/
-            /*NANJIEND::remove no items selected deal::braind::20120201*/
+            /*tws-end::remove no items selected deal::braind::20120201*/
         }
     }
 
@@ -7427,7 +7428,7 @@ public abstract class AbsListView extends AdapterView<ListAdapter> implements Te
         return (mGroupFlags & FLAG_CLIP_TO_PADDING) == FLAG_CLIP_TO_PADDING;
     }
     
-    //QROM-START::transfer drawable object to bitmap object::hendysu::2013-06-17
+    //tws-start::transfer drawable object to bitmap object 2013-06-17
     private Bitmap drawableToBitmap(Drawable drawable) {
         Bitmap bitmap = Bitmap.createBitmap(drawable.getBounds().width(),
                                         drawable.getBounds().height(),
@@ -7439,9 +7440,9 @@ public abstract class AbsListView extends AdapterView<ListAdapter> implements Te
 
         return bitmap;
     }
-    //QROM-END::transfer drawable object to bitmap object::hendysu::2013-06-17
+    //tws-end::transfer drawable object to bitmap object 2013-06-17
 
-    //QROM-START::shaped selector is not stable, add a switch::hendysu::2013-06-18
+    //tws-start::shaped selector is not stable, add a switch 2013-06-18
     public void useShapedSelector(boolean shaped) {
         mDrawShapedSelector = shaped;
     }
@@ -7457,9 +7458,9 @@ public abstract class AbsListView extends AdapterView<ListAdapter> implements Te
 
         setSelector(sel);
     }
-    //QROM-END::shaped selector is not stable, add a switch::hendysu::2013-06-18
+    //tws-end::shaped selector is not stable, add a switch 2013-06-18
 
-    //QROM-START::user defined top/bottom selector::hendysu::2013-06-24
+    //tws-start::user defined top/bottom selector 2013-06-24
     public void setTopSelector(int resId) {
         setTopSelector(getResources().getDrawable(resId));
     }
@@ -7489,7 +7490,7 @@ public abstract class AbsListView extends AdapterView<ListAdapter> implements Te
         setTopSelector(topSel);
         setBottomSelector(bottomSel);
     }
-    //QROM-END::user defined top/bottom selector::hendysu::2013-06-24
+    //tws-end::user defined top/bottom selector 2013-06-24
 
     String state2String(int state) {
         boolean fValue = false;
@@ -7562,7 +7563,7 @@ public abstract class AbsListView extends AdapterView<ListAdapter> implements Te
 	}
 	//tws-end add bounce switch getter/setter::2014-09-02
 
-    //tws-start::by parkerxu::for item animation::2014-11-11
+    //tws-start for item animation::2014-11-11
     /**
      * @param lastPosition
      * @param position 
@@ -7594,7 +7595,7 @@ public abstract class AbsListView extends AdapterView<ListAdapter> implements Te
             }
         }
     }
-    //tws-end::by parkerxu::for item animation::2014-11-11
+    //tws-end for item animation::2014-11-11
     //tws-start ripple drawable::2014-12-15
     public void twsSetHotspot(Drawable d, float x, float y) {
         try {

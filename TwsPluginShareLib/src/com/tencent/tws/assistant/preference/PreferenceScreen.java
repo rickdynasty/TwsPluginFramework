@@ -16,6 +16,7 @@
 
 package com.tencent.tws.assistant.preference;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
@@ -23,13 +24,12 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.text.TextUtils;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.Adapter;
 import android.widget.ListAdapter;
+
 import com.tencent.tws.assistant.app.TwsDialog;
-import com.tencent.tws.assistant.widget.AbsListView;
 import com.tencent.tws.assistant.widget.AdapterView;
 import com.tencent.tws.assistant.widget.ListView;
 import com.tencent.tws.sharelib.R;

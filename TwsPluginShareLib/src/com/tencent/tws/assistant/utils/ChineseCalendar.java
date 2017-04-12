@@ -4,9 +4,9 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
-import com.tencent.tws.sharelib.R;
-
 import android.content.Context;
+
+import com.tencent.tws.sharelib.R;
 
 public final class ChineseCalendar extends GregorianCalendar {
     private static final long serialVersionUID = 8L;

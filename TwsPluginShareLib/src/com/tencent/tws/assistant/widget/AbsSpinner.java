@@ -16,8 +16,6 @@
 
 package com.tencent.tws.assistant.widget;
 
-import com.tencent.tws.sharelib.R;
-
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.database.DataSetObserver;
@@ -28,9 +26,11 @@ import android.util.AttributeSet;
 import android.util.SparseArray;
 import android.view.View;
 import android.view.ViewGroup;
-//
-import android.widget.SpinnerAdapter;
 import android.widget.ArrayAdapter;
+import android.widget.SpinnerAdapter;
+
+import com.tencent.tws.sharelib.R;
+//
 //
 
 /**
@@ -78,12 +78,12 @@ public abstract class AbsSpinner extends AdapterView<SpinnerAdapter> {
         if (entries != null) {
             ArrayAdapter<CharSequence> adapter =
                     new ArrayAdapter<CharSequence>(context,
-            /*NANJI-START::change::haoranma::2012-10-12*/
+            /*tws-start::change 2012-10-12*/
                             //R.layout.simple_spinner_item, entries);
             //adapter.setDropDownViewResource(R.layout.simple_spinner_dropdown_item);
 			                R.layout.simple_spinner_item, entries);
             adapter.setDropDownViewResource(R.layout.simple_spinner_dropdown_item);
-			/*NANJI-START::change::haoranma::2012-10-12*/
+			/*tws-start::change 2012-10-12*/
             setAdapter(adapter);
         }
 

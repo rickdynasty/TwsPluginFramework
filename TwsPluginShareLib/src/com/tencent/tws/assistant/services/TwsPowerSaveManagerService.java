@@ -46,11 +46,11 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.Calendar;
 
-//NANJISTART::import library::new feature::braindwang::20120105
+//tws-start::import library::new feature::braindwang::20120105
 //import com.tencent.nanji.rootstub.IRootStub;
 
 import android.os.ServiceManager;
-import static com.tencent.tws.assistant.provider.TwsSettings.System.QROM_POWER_SAVE_MODE_SETTING;
+import static com.tencent.tws.assistant.provider.TwsSettings.System.TWS_POWER_SAVE_MODE_SETTING;
 
 public class TwsPowerSaveManagerService {
 
@@ -106,9 +106,9 @@ public class TwsPowerSaveManagerService {
 	private long mbatteryCapacity = 1500;
 	private static int mMonth;
 
-	private static final String QROM_POWER_SAVE_ACTION = "tws.action.POWER_SAVE_ACTION";
-	private static final int QROM_SYNCDATA_POWERSAVE_ACTION = 0;
-	private static final int QROM_BLUETOOTH_POWERSAVE_ACTION = 1;
+	private static final String TWS_POWER_SAVE_ACTION = "tws.action.POWER_SAVE_ACTION";
+	private static final int TWS_SYNCDATA_POWERSAVE_ACTION = 0;
+	private static final int TWS_BLUETOOTH_POWERSAVE_ACTION = 1;
 
 	private ScreenStateChangeHandler mHandler = null;
 
@@ -162,23 +162,23 @@ public class TwsPowerSaveManagerService {
 		filter.addAction(POWER_SAVE_ACTION);
 		mContext.registerReceiver(new PowerSaveRecevier(), filter);
 
-		mbPowerSaveModeEnabled = TwsSettings.System.getInt(mContext.getContentResolver(), QROM_POWER_SAVE_MODE_SETTING, 0) > 0;
-		mbCpuFreqEnabled = TwsSettings.System.getInt(mContext.getContentResolver(), TwsSettings.System.QROM_CPU_SETTING, 0) > 0;
-		mbMobiledataPowerSaveEnabled = TwsSettings.System.getInt(mContext.getContentResolver(), TwsSettings.System.QROM_POWER_SAVE_AUTO_DISABLE_MOBILEDATA, 0) > 0;
+		mbPowerSaveModeEnabled = TwsSettings.System.getInt(mContext.getContentResolver(), TWS_POWER_SAVE_MODE_SETTING, 0) > 0;
+		mbCpuFreqEnabled = TwsSettings.System.getInt(mContext.getContentResolver(), TwsSettings.System.TWS_CPU_SETTING, 0) > 0;
+		mbMobiledataPowerSaveEnabled = TwsSettings.System.getInt(mContext.getContentResolver(), TwsSettings.System.TWS_POWER_SAVE_AUTO_DISABLE_MOBILEDATA, 0) > 0;
 		mbMobiledataUserSet = isMobileDataEnable(mContext);
-		mbBluetoothPowerSaveEnabled = TwsSettings.System.getInt(mContext.getContentResolver(), TwsSettings.System.QROM_AUTO_CLOSE_BT_EBABLE, 0) > 0;
+		mbBluetoothPowerSaveEnabled = TwsSettings.System.getInt(mContext.getContentResolver(), TwsSettings.System.TWS_AUTO_CLOSE_BT_EBABLE, 0) > 0;
 		mbSyncAutoSetting = ContentResolver.getMasterSyncAutomatically();
-		mSleepModeStatus = TwsSettings.System.getInt(mContext.getContentResolver(), TwsSettings.System.QROM_SLEEP_MODE_STATUS, 0);
+		mSleepModeStatus = TwsSettings.System.getInt(mContext.getContentResolver(), TwsSettings.System.TWS_SLEEP_MODE_STATUS, 0);
 
 		updatePowerSaveModeLocked(mbPowerSaveModeEnabled);
 
-		Uri PowerSaveModeUri = TwsSettings.System.getUriFor(TwsSettings.System.QROM_POWER_SAVE_MODE_SETTING);
-		Uri CpuFreqUri = TwsSettings.System.getUriFor(TwsSettings.System.QROM_CPU_SETTING);
-		Uri AutoDisableWiFiUri = TwsSettings.System.getUriFor(TwsSettings.System.QROM_AUTO_CLOSE_WIFI_EBABLE);
-		Uri AutoDisableMobileDataUri = TwsSettings.System.getUriFor(TwsSettings.System.QROM_POWER_SAVE_AUTO_DISABLE_MOBILEDATA);
-		Uri AutoDisableBluetoothUri = TwsSettings.System.getUriFor(TwsSettings.System.QROM_AUTO_CLOSE_BT_EBABLE);
+		Uri PowerSaveModeUri = TwsSettings.System.getUriFor(TwsSettings.System.TWS_POWER_SAVE_MODE_SETTING);
+		Uri CpuFreqUri = TwsSettings.System.getUriFor(TwsSettings.System.TWS_CPU_SETTING);
+		Uri AutoDisableWiFiUri = TwsSettings.System.getUriFor(TwsSettings.System.TWS_AUTO_CLOSE_WIFI_EBABLE);
+		Uri AutoDisableMobileDataUri = TwsSettings.System.getUriFor(TwsSettings.System.TWS_POWER_SAVE_AUTO_DISABLE_MOBILEDATA);
+		Uri AutoDisableBluetoothUri = TwsSettings.System.getUriFor(TwsSettings.System.TWS_AUTO_CLOSE_BT_EBABLE);
 		mContext.getContentResolver().registerContentObserver(PowerSaveModeUri, false, mPowerSaveModeObserver);
-		Uri sleepModeUri = TwsSettings.System.getUriFor(TwsSettings.System.QROM_SLEEP_MODE_STATUS);
+		Uri sleepModeUri = TwsSettings.System.getUriFor(TwsSettings.System.TWS_SLEEP_MODE_STATUS);
 		mContext.getContentResolver().registerContentObserver(CpuFreqUri, false, mCpuFreqObserver);
 		mContext.getContentResolver().registerContentObserver(AutoDisableMobileDataUri, false, mAutoDisableMobileDataObserver);
 		mContext.getContentResolver().registerContentObserver(AutoDisableBluetoothUri, false, mAutoDisableBtObserver);
@@ -265,7 +265,7 @@ public class TwsPowerSaveManagerService {
 						if (mbSyncAutoSetting) {
 							// ContentResolver.setMasterSyncAutomatically(false);
 
-							sendPowerSaveActionIntent(QROM_SYNCDATA_POWERSAVE_ACTION);
+							sendPowerSaveActionIntent(TWS_SYNCDATA_POWERSAVE_ACTION);
 						}
 					} else {
 						/* 如果用户没有打开锁屏关闭同步的开关，则亮屏时不用去操作背景数据同步和自动同步的开关 */
@@ -297,7 +297,7 @@ public class TwsPowerSaveManagerService {
 	}
 
 	private void updateSleepModeStateLocked(boolean bEnable) {
-		TwsSettings.System.putInt(mContext.getContentResolver(), TwsSettings.System.QROM_SLEEP_MODE_STATUS, bEnable ? 1 : 0);
+		TwsSettings.System.putInt(mContext.getContentResolver(), TwsSettings.System.TWS_SLEEP_MODE_STATUS, bEnable ? 1 : 0);
 	}
 
 	private void updateCpuFreqPowerSaveLocked(boolean bPowerSaveModeEnabled) {
@@ -320,7 +320,7 @@ public class TwsPowerSaveManagerService {
 
 	private ContentObserver mPowerSaveModeObserver = new ContentObserver(new Handler()) {
 		public void onChange(boolean selfChange) {
-			final boolean bPowerSaveModeEnabled = TwsSettings.System.getInt(mContext.getContentResolver(), TwsSettings.System.QROM_POWER_SAVE_MODE_SETTING, 0) > 0;
+			final boolean bPowerSaveModeEnabled = TwsSettings.System.getInt(mContext.getContentResolver(), TwsSettings.System.TWS_POWER_SAVE_MODE_SETTING, 0) > 0;
 			tws_log(TAG_POWER_SAVE, "Power save mode change to " + bPowerSaveModeEnabled);
 			if (bPowerSaveModeEnabled != mbPowerSaveModeEnabled) {
 				mbPowerSaveModeEnabled = bPowerSaveModeEnabled;
@@ -331,7 +331,7 @@ public class TwsPowerSaveManagerService {
 
 	private ContentObserver mCpuFreqObserver = new ContentObserver(new Handler()) {
 		public void onChange(boolean selfChange) {
-			final boolean bCpuFreqEnabled = TwsSettings.System.getInt(mContext.getContentResolver(), TwsSettings.System.QROM_CPU_SETTING, 0) > 0;
+			final boolean bCpuFreqEnabled = TwsSettings.System.getInt(mContext.getContentResolver(), TwsSettings.System.TWS_CPU_SETTING, 0) > 0;
 			tws_log(TAG_POWER_SAVE, "Cpufreq change to " + bCpuFreqEnabled);
 			if (bCpuFreqEnabled != mbCpuFreqEnabled) {
 				mbCpuFreqEnabled = bCpuFreqEnabled;
@@ -343,7 +343,7 @@ public class TwsPowerSaveManagerService {
 	private ContentObserver mAutoDisableMobileDataObserver = new ContentObserver(new Handler()) {
 		public void onChange(boolean selfChange) {
 			final boolean bMobileDataPowerSaveEnabled = TwsSettings.System.getInt(mContext.getContentResolver(),
-					TwsSettings.System.QROM_POWER_SAVE_AUTO_DISABLE_MOBILEDATA, 0) > 0;
+					TwsSettings.System.TWS_POWER_SAVE_AUTO_DISABLE_MOBILEDATA, 0) > 0;
 			tws_log(TAG_MOBILEDATA_POWER_SAVE, "Mobiledata power save mode change to " + bMobileDataPowerSaveEnabled);
 			if (bMobileDataPowerSaveEnabled != mbMobiledataPowerSaveEnabled) {
 				mbMobiledataPowerSaveEnabled = bMobileDataPowerSaveEnabled;
@@ -353,7 +353,7 @@ public class TwsPowerSaveManagerService {
 
 	private ContentObserver mAutoDisableBtObserver = new ContentObserver(new Handler()) {
 		public void onChange(boolean selfChange) {
-			final boolean bAutoDisableBtEnabled = TwsSettings.System.getInt(mContext.getContentResolver(), TwsSettings.System.QROM_AUTO_CLOSE_BT_EBABLE, 0) > 0;
+			final boolean bAutoDisableBtEnabled = TwsSettings.System.getInt(mContext.getContentResolver(), TwsSettings.System.TWS_AUTO_CLOSE_BT_EBABLE, 0) > 0;
 			tws_log(TAG_BT_POWER_SAVE, "Auto disable bt change to " + bAutoDisableBtEnabled);
 			if (mbBluetoothPowerSaveEnabled != bAutoDisableBtEnabled) {
 				mbBluetoothPowerSaveEnabled = bAutoDisableBtEnabled;
@@ -400,8 +400,8 @@ public class TwsPowerSaveManagerService {
 
 	private void sendPowerSaveActionIntent(int Action) {
 		// Log.d(TAG, "sendPowerSaveActionIntent Action = "+Action);
-		Intent intent = new Intent(QROM_POWER_SAVE_ACTION);
-		intent.putExtra(QROM_POWER_SAVE_ACTION, Action);
+		Intent intent = new Intent(TWS_POWER_SAVE_ACTION);
+		intent.putExtra(TWS_POWER_SAVE_ACTION, Action);
 		mContext.sendBroadcast(intent);
 
 	}
@@ -445,7 +445,7 @@ public class TwsPowerSaveManagerService {
 
 	private ContentObserver mSleepModeObserver = new ContentObserver(new Handler()) {
 		public void onChange(boolean selfChange) {
-			int i_sleepmode_status = TwsSettings.System.getInt(mContext.getContentResolver(), TwsSettings.System.QROM_SLEEP_MODE_STATUS, 0);
+			int i_sleepmode_status = TwsSettings.System.getInt(mContext.getContentResolver(), TwsSettings.System.TWS_SLEEP_MODE_STATUS, 0);
 			if (mSleepModeStatus != i_sleepmode_status) {
 				mSleepModeStatus = i_sleepmode_status;
 
@@ -523,7 +523,7 @@ public class TwsPowerSaveManagerService {
 			switch (nRequestCode) {
 			case SLEEP_MODE_ALARM_REQUESTCODE:
 				tws_log(TAG_SLEEP_MODE, "It's time to enable sleep mode");
-				TwsSettings.System.putInt(mContext.getContentResolver(), TwsSettings.System.QROM_SLEEP_MODE_STATUS, 2);
+				TwsSettings.System.putInt(mContext.getContentResolver(), TwsSettings.System.TWS_SLEEP_MODE_STATUS, 2);
 				break;
 
 			case MOBILEDATA_AUTO_CLOSE_ALARM_REQUESTCODE:
@@ -572,7 +572,7 @@ public class TwsPowerSaveManagerService {
 				boolean success = mBtAdapter.disable();
 				if (success) {
 					mBtAutoDisableState = 2;
-					sendPowerSaveActionIntent(QROM_BLUETOOTH_POWERSAVE_ACTION);
+					sendPowerSaveActionIntent(TWS_BLUETOOTH_POWERSAVE_ACTION);
 				}
 			}
 		}
@@ -755,17 +755,17 @@ public class TwsPowerSaveManagerService {
 			mIsPowered = intent.getIntExtra(BatteryManager.EXTRA_PLUGGED, 0) > 0;
 			mBatteryLevel = intent.getIntExtra(BatteryManager.EXTRA_LEVEL, 100);
 			ContentResolver cr = mContext.getContentResolver();
-			TwsSettings.System.putInt(cr, TwsSettings.System.QROM_CURRENT_BATTERY_LEVEL, mBatteryLevel);
+			TwsSettings.System.putInt(cr, TwsSettings.System.TWS_CURRENT_BATTERY_LEVEL, mBatteryLevel);
 
 			// if battery charge state changed
 			if (mIsPowered != wasPowered) {
 
-				TwsSettings.System.putInt(cr, TwsSettings.System.QROM_BATTERY_PLUGGED_TYPE, intent.getIntExtra(BatteryManager.EXTRA_PLUGGED, 0));
+				TwsSettings.System.putInt(cr, TwsSettings.System.TWS_BATTERY_PLUGGED_TYPE, intent.getIntExtra(BatteryManager.EXTRA_PLUGGED, 0));
 
 				if (!mIsPowered) {
 					// not plugged
 					mRecentUnpluggedBatteryLevel = mBatteryLevel;
-					TwsSettings.System.putInt(cr, TwsSettings.System.QROM_RECENT_UNPLUGGED_BATTERYLEVEL, mRecentUnpluggedBatteryLevel);
+					TwsSettings.System.putInt(cr, TwsSettings.System.TWS_RECENT_UNPLUGGED_BATTERYLEVEL, mRecentUnpluggedBatteryLevel);
 				}
 			}
 		}
@@ -774,8 +774,8 @@ public class TwsPowerSaveManagerService {
 	private static boolean mbSyncAutoSetting = false;
 
 	private boolean getAutoDisableDataSyncSetting() {
-		return TwsSettings.System.getInt(mContext.getContentResolver(), TwsSettings.System.QROM_SYNC_POWER_SAVE_SETTING, 0) > 0
-				&& TwsSettings.System.getInt(mContext.getContentResolver(), TwsSettings.System.QROM_POWER_SAVE_MODE_SETTING, 0) > 0;
+		return TwsSettings.System.getInt(mContext.getContentResolver(), TwsSettings.System.TWS_SYNC_POWER_SAVE_SETTING, 0) > 0
+				&& TwsSettings.System.getInt(mContext.getContentResolver(), TwsSettings.System.TWS_POWER_SAVE_MODE_SETTING, 0) > 0;
 	}
 
 	private final static boolean mb_isDebug = false;

@@ -15,9 +15,7 @@
  */
 
 package com.tencent.tws.assistant.widget;
-import android.widget.FrameLayout;
-
-import com.tencent.tws.sharelib.R;
+import java.lang.ref.WeakReference;
 
 import android.content.Context;
 import android.content.res.Resources;
@@ -38,8 +36,9 @@ import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.view.ViewTreeObserver.OnScrollChangedListener;
 import android.view.WindowManager;
+import android.widget.FrameLayout;
 
-import java.lang.ref.WeakReference;
+import com.tencent.tws.sharelib.R;
 
 /**
  * <p>A popup window that can be used to display an arbitrary view. The popup
@@ -191,10 +190,10 @@ public class PopupWindow {
         mBackground = a.getDrawable(R.styleable.PopupWindow_popupBackground);
 
         final int animStyle = a.getResourceId(R.styleable.PopupWindow_popupAnimationStyle, -1);
-		/*NANJI-START::change::haoranma::2012-11-30*/
+		/*tws-start::change 2012-11-30*/
         mAnimationStyle = animStyle == R.style.Animation_tws_PopupWindow ? -1 :
                 animStyle;
-		/*NANJI-END::change::haoranma::2012-11-30*/
+		/*tws-end::change 2012-11-30*/
 
         // If this is a StateListDrawable, try to find and store the drawable to be
         // used when the drop-down is placed above its anchor view, and the one to be
@@ -1088,9 +1087,9 @@ public class PopupWindow {
             if (mIsDropdown) {
                 return mAboveAnchor
                         ? R.style.Animation_DropDownUp
-                        /*NANJI-START::change::haoranma::2012-11-30*/
+                        /*tws-start::change 2012-11-30*/
                         : R.style.Animation_tws_DropDownDown;
-				/*NANJI-END::change::haoranma::2012-11-30*/
+				/*tws-end::change 2012-11-30*/
             }
             return 0;
         }
@@ -1157,14 +1156,14 @@ public class PopupWindow {
             if (onTop) {
                 p.gravity = Gravity.LEFT | Gravity.BOTTOM;
                 p.y = root.getHeight() - mDrawingLocation[1] + yoff;
-                /*NANJI-START::add::haoranma::2012-11-29*/
+                /*tws-start::add 2012-11-29*/
 				twsPopupOnTop(p, displayFrame);
-				/*NANJI-END::add::haoranma::2012-11-29*/
+				/*tws-end::add 2012-11-29*/
             } else {
                 p.y = mDrawingLocation[1] + anchor.getHeight() + yoff;
-				/*NANJI-START::add::haoranma::2012-11-29*/
+				/*tws-start::add 2012-11-29*/
 				twsPopupOnBottom(p, displayFrame, anchor);
-				/*NANJI-END::add::haoranma::2012-11-29*/
+				/*tws-end::add 2012-11-29*/
             }
         }
 
@@ -1183,9 +1182,9 @@ public class PopupWindow {
             if (onTop) {
                 int popupTop = mScreenLocation[1] + yoff - mPopupHeight;
                 if (popupTop < 0) {
-					/*NANJI-START::comment::haoranma::2012-11-29*/
+					/*tws-start::comment 2012-11-29*/
                     //p.y += popupTop;
-                    /*NANJI-END::comment::haoranma::2012-11-29*/
+                    /*tws-end::comment 2012-11-29*/
                 }
             } else {
                 p.y = Math.max(p.y, displayFrame.top);
@@ -1411,9 +1410,9 @@ public class PopupWindow {
         final int finalHeight = mHeightMode < 0 ? mHeightMode : mLastHeight;
         if (height != -1 && p.height != finalHeight) {
             p.height = mLastHeight = finalHeight;
-			/*NANJI-START::add::haoranma::2012-11-29*/
+			/*tws-start::add 2012-11-29*/
 			twsSetHeight(p);
-			/*NANJI-END::add::haoranma::2012-11-29*/
+			/*tws-end::add 2012-11-29*/
             update = true;
         }
 
@@ -1637,7 +1636,7 @@ public class PopupWindow {
             }
         }
     }
-	/*NANJI-START::add::haoranma::2012-11-30*/
+	/*tws-start::add 2012-11-30*/
     private void twsSetHeight(WindowManager.LayoutParams p){
 		View anchor = mAnchor != null ? mAnchor.get() : null;
 			if(anchor != null){
@@ -1673,5 +1672,5 @@ public class PopupWindow {
 	public void setShadow(boolean b){
 		bShadow = b;
 	}
-	/*NANJI-END::add::haoranma::2012-11-30*/
+	/*tws-end::add 2012-11-30*/
 }

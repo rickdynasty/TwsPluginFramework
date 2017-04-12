@@ -15,10 +15,6 @@
  */
 package com.tencent.tws.assistant.internal.widget;
 
-import com.tencent.tws.assistant.internal.view.menu.ActionMenuPresenter;
-import com.tencent.tws.assistant.internal.view.menu.ActionMenuView;
-import com.tencent.tws.sharelib.R;
-
 import android.animation.Animator;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
@@ -28,288 +24,297 @@ import android.content.res.Configuration;
 import android.content.res.TypedArray;
 import android.util.AttributeSet;
 import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.DecelerateInterpolator;
-//
-//
 import android.widget.EditText;
 
+import com.tencent.tws.assistant.internal.view.menu.ActionMenuPresenter;
+import com.tencent.tws.assistant.internal.view.menu.ActionMenuView;
+import com.tencent.tws.sharelib.R;
+//
+//
+
 public abstract class AbsActionBarView extends ViewGroup {
-    protected ActionMenuView mMenuView;
-    protected ActionMenuPresenter mActionMenuPresenter;
-    protected ActionBarContainer mSplitView;
-    protected boolean mSplitActionBar;
-    protected boolean mSplitWhenNarrow;
-    protected int mContentHeight;
-    protected EditText mEdit;
-    
-    protected Animator mVisibilityAnim;
-    protected final VisibilityAnimListener mVisAnimListener = new VisibilityAnimListener();
+	protected ActionMenuView mMenuView;
+	protected ActionMenuPresenter mActionMenuPresenter;
+	protected ActionBarContainer mSplitView;
+	protected boolean mSplitActionBar;
+	protected boolean mSplitWhenNarrow;
+	protected int mContentHeight;
+	protected EditText mEdit;
 
-    private static final TimeInterpolator sAlphaInterpolator = new DecelerateInterpolator();
+	protected Animator mVisibilityAnim;
+	protected final VisibilityAnimListener mVisAnimListener = new VisibilityAnimListener();
 
-    private static final int FADE_DURATION = 200;
+	private static final TimeInterpolator sAlphaInterpolator = new DecelerateInterpolator();
 
-    public AbsActionBarView(Context context) {
-        super(context);
-    }
+	private static final int FADE_DURATION = 200;
 
-    public AbsActionBarView(Context context, AttributeSet attrs) {
-        super(context, attrs);
-    }
+	public AbsActionBarView(Context context) {
+		super(context);
+	}
 
-    public AbsActionBarView(Context context, AttributeSet attrs, int defStyle) {
-        super(context, attrs, defStyle);
-    }
-    
-    // tws-start add actionbar0.2 feature::2014-09-28
-    protected void initEdit() {
-        if (mEdit == null) {
-        	mEdit = new EditText(mContext);
-        	mEdit.setId(R.id.actionbar_edittext);
-        	mEdit.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
-        	mEdit.setMinWidth((int)mContext.getResources().getDimension(R.dimen.actionbar_edittext_minwidth));
-        	mEdit.setFocusable(true);
-        	mEdit.setSingleLine(true);
-        	mEdit.setGravity(Gravity.CENTER_VERTICAL);
-        	mEdit.setTextSize(18);
-        	mEdit.setVisibility(GONE);
-        	addView(mEdit);
-        } else if (mEdit.getParent() == null) {
-        	mEdit.setVisibility(GONE);
-        	addView(mEdit);
-        }
-    }
-    // tws-end add actionbar0.2 feature::2014-09-28
+	public AbsActionBarView(Context context, AttributeSet attrs) {
+		super(context, attrs);
+	}
 
-    @Override
-    protected void onConfigurationChanged(Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
+	public AbsActionBarView(Context context, AttributeSet attrs, int defStyle) {
+		super(context, attrs, defStyle);
+	}
 
-        // Action bar can change size on configuration changes.
-        // Reread the desired height from the theme-specified style.
-        TypedArray a = getContext().obtainStyledAttributes(null, R.styleable.ActionBar,
-                R.attr.actionBarStyle, 0);
-//        setContentHeight(a.getLayoutDimension(R.styleable.ActionBar_height, 0));
-        a.recycle();
-        if (mSplitWhenNarrow) {
-			//NANJISTART::added for top view background::20120623
-			setSplitActionBar(getContext().getResources().getBoolean(
-                    R.bool.split_action_bar_is_narrow));
-			//NANJIEND::added for top view background::20120623
-        }
-        if (mActionMenuPresenter != null) {
-            mActionMenuPresenter.onConfigurationChanged(newConfig);
-        }
-        
-        requestLayout();
-    }
+	// tws-start add actionbar0.2 feature::2014-09-28
+	protected void initEdit() {
+		if (mEdit == null) {
+			mEdit = new EditText(mContext);
+			mEdit.setId(R.id.actionbar_edittext);
+			mEdit.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
+			mEdit.setMinWidth((int) mContext.getResources().getDimension(R.dimen.actionbar_edittext_minwidth));
+			mEdit.setFocusable(true);
+			mEdit.setSingleLine(true);
+			mEdit.setGravity(Gravity.CENTER_VERTICAL);
+			mEdit.setTextSize(18);
+			mEdit.setVisibility(GONE);
+			addView(mEdit);
+		} else if (mEdit.getParent() == null) {
+			mEdit.setVisibility(GONE);
+			addView(mEdit);
+		}
+	}
 
-    /**
-     * Sets whether the bar should be split right now, no questions asked.
-     * @param split true if the bar should split
-     */
-    public void setSplitActionBar(boolean split) {
-        mSplitActionBar = split;
-    }
+	// tws-end add actionbar0.2 feature::2014-09-28
 
-    /**
-     * Sets whether the bar should split if we enter a narrow screen configuration.
-     * @param splitWhenNarrow true if the bar should check to split after a config change
-     */
-    public void setSplitWhenNarrow(boolean splitWhenNarrow) {
-        mSplitWhenNarrow = splitWhenNarrow;
-    }
+	@Override
+	protected void onConfigurationChanged(Configuration newConfig) {
+		super.onConfigurationChanged(newConfig);
 
-    public void setContentHeight(int height) {
-        mContentHeight = height;
-        requestLayout();
-    }
+		// Action bar can change size on configuration changes.
+		// Reread the desired height from the theme-specified style.
+		TypedArray a = getContext().obtainStyledAttributes(null, R.styleable.ActionBar, R.attr.actionBarStyle, 0);
+		// setContentHeight(a.getLayoutDimension(R.styleable.ActionBar_height,
+		// 0));
+		a.recycle();
+		if (mSplitWhenNarrow) {
+			// tws-start::added for top view background::20120623
+			setSplitActionBar(getContext().getResources().getBoolean(R.bool.split_action_bar_is_narrow));
+			// tws-end::added for top view background::20120623
+		}
+		if (mActionMenuPresenter != null) {
+			mActionMenuPresenter.onConfigurationChanged(newConfig);
+		}
 
-    public int getContentHeight() {
-        return mContentHeight;
-    }
+		requestLayout();
+	}
 
-    public void setSplitView(ActionBarContainer splitView) {
-        mSplitView = splitView;
-    }
+	/**
+	 * Sets whether the bar should be split right now, no questions asked.
+	 * 
+	 * @param split
+	 *            true if the bar should split
+	 */
+	public void setSplitActionBar(boolean split) {
+		mSplitActionBar = split;
+	}
 
-    /**
-     * @return Current visibility or if animating, the visibility being animated to.
-     */
-    public int getAnimatedVisibility() {
-        if (mVisibilityAnim != null) {
-            return mVisAnimListener.mFinalVisibility;
-        }
-        return getVisibility();
-    }
+	/**
+	 * Sets whether the bar should split if we enter a narrow screen
+	 * configuration.
+	 * 
+	 * @param splitWhenNarrow
+	 *            true if the bar should check to split after a config change
+	 */
+	public void setSplitWhenNarrow(boolean splitWhenNarrow) {
+		mSplitWhenNarrow = splitWhenNarrow;
+	}
 
-    public void animateToVisibility(int visibility) {
-        if (mVisibilityAnim != null) {
-            mVisibilityAnim.cancel();
-        }
-        if (visibility == VISIBLE) {
-            if (getVisibility() != VISIBLE) {
-                setAlpha(0);
-                if (mSplitView != null && mMenuView != null) {
-                    mMenuView.setAlpha(0);
-                }
-            }
-            ObjectAnimator anim = ObjectAnimator.ofFloat(this, "alpha", 1);
-            anim.setDuration(FADE_DURATION);
-            anim.setInterpolator(sAlphaInterpolator);
-            if (mSplitView != null && mMenuView != null) {
-                AnimatorSet set = new AnimatorSet();
-                ObjectAnimator splitAnim = ObjectAnimator.ofFloat(mMenuView, "alpha", 1);
-                splitAnim.setDuration(FADE_DURATION);
-                set.addListener(mVisAnimListener.withFinalVisibility(visibility));
-                set.play(anim).with(splitAnim);
-                set.start();
-            } else {
-                anim.addListener(mVisAnimListener.withFinalVisibility(visibility));
-                anim.start();
-            }
-        } else {
-            ObjectAnimator anim = ObjectAnimator.ofFloat(this, "alpha", 0);
-            anim.setDuration(FADE_DURATION);
-            anim.setInterpolator(sAlphaInterpolator);
-            if (mSplitView != null && mMenuView != null) {
-                AnimatorSet set = new AnimatorSet();
-                ObjectAnimator splitAnim = ObjectAnimator.ofFloat(mMenuView, "alpha", 0);
-                splitAnim.setDuration(FADE_DURATION);
-                set.addListener(mVisAnimListener.withFinalVisibility(visibility));
-                set.play(anim).with(splitAnim);
-                set.start();
-            } else {
-                anim.addListener(mVisAnimListener.withFinalVisibility(visibility));
-                anim.start();
-            }
-        }
-    }
+	public void setContentHeight(int height) {
+		mContentHeight = height;
+		requestLayout();
+	}
 
-    @Override
-    public void setVisibility(int visibility) {
-        if (mVisibilityAnim != null) {
-            mVisibilityAnim.end();
-        }
-        super.setVisibility(visibility);
-    }
+	public int getContentHeight() {
+		return mContentHeight;
+	}
 
-    public boolean showOverflowMenu() {
-        if (mActionMenuPresenter != null) {
-            return mActionMenuPresenter.showOverflowMenu();
-        }
-        return false;
-    }
+	public void setSplitView(ActionBarContainer splitView) {
+		mSplitView = splitView;
+	}
 
-    public void postShowOverflowMenu() {
-        post(new Runnable() {
-            public void run() {
-                showOverflowMenu();
-            }
-        });
-    }
+	/**
+	 * @return Current visibility or if animating, the visibility being animated
+	 *         to.
+	 */
+	public int getAnimatedVisibility() {
+		if (mVisibilityAnim != null) {
+			return mVisAnimListener.mFinalVisibility;
+		}
+		return getVisibility();
+	}
 
-    public boolean hideOverflowMenu() {
-        if (mActionMenuPresenter != null) {
-            return mActionMenuPresenter.hideOverflowMenu();
-        }
-        return false;
-    }
+	public void animateToVisibility(int visibility) {
+		if (mVisibilityAnim != null) {
+			mVisibilityAnim.cancel();
+		}
+		if (visibility == VISIBLE) {
+			if (getVisibility() != VISIBLE) {
+				setAlpha(0);
+				if (mSplitView != null && mMenuView != null) {
+					mMenuView.setAlpha(0);
+				}
+			}
+			ObjectAnimator anim = ObjectAnimator.ofFloat(this, "alpha", 1);
+			anim.setDuration(FADE_DURATION);
+			anim.setInterpolator(sAlphaInterpolator);
+			if (mSplitView != null && mMenuView != null) {
+				AnimatorSet set = new AnimatorSet();
+				ObjectAnimator splitAnim = ObjectAnimator.ofFloat(mMenuView, "alpha", 1);
+				splitAnim.setDuration(FADE_DURATION);
+				set.addListener(mVisAnimListener.withFinalVisibility(visibility));
+				set.play(anim).with(splitAnim);
+				set.start();
+			} else {
+				anim.addListener(mVisAnimListener.withFinalVisibility(visibility));
+				anim.start();
+			}
+		} else {
+			ObjectAnimator anim = ObjectAnimator.ofFloat(this, "alpha", 0);
+			anim.setDuration(FADE_DURATION);
+			anim.setInterpolator(sAlphaInterpolator);
+			if (mSplitView != null && mMenuView != null) {
+				AnimatorSet set = new AnimatorSet();
+				ObjectAnimator splitAnim = ObjectAnimator.ofFloat(mMenuView, "alpha", 0);
+				splitAnim.setDuration(FADE_DURATION);
+				set.addListener(mVisAnimListener.withFinalVisibility(visibility));
+				set.play(anim).with(splitAnim);
+				set.start();
+			} else {
+				anim.addListener(mVisAnimListener.withFinalVisibility(visibility));
+				anim.start();
+			}
+		}
+	}
 
-    public boolean isOverflowMenuShowing() {
-        if (mActionMenuPresenter != null) {
-            return mActionMenuPresenter.isOverflowMenuShowing();
-        }
-        return false;
-    }
+	@Override
+	public void setVisibility(int visibility) {
+		if (mVisibilityAnim != null) {
+			mVisibilityAnim.end();
+		}
+		super.setVisibility(visibility);
+	}
 
-    public boolean isOverflowReserved() {
-        return mActionMenuPresenter != null && mActionMenuPresenter.isOverflowReserved();
-    }
+	public boolean showOverflowMenu() {
+		if (mActionMenuPresenter != null) {
+			return mActionMenuPresenter.showOverflowMenu();
+		}
+		return false;
+	}
 
-    //tws-start Overflow Button::2014-8-29
-    public boolean isOverflowButtonShowing() {
-        if (mActionMenuPresenter != null) {
-            return mActionMenuPresenter.isOverflowButtonShowing();
-        }
-        return false;
-    }
-    //tws-end overflow Button::2014-8-29
+	public void postShowOverflowMenu() {
+		post(new Runnable() {
+			public void run() {
+				showOverflowMenu();
+			}
+		});
+	}
 
-    public void dismissPopupMenus() {
-        if (mActionMenuPresenter != null) {
-            mActionMenuPresenter.dismissPopupMenus();
-        }
-    }
+	public boolean hideOverflowMenu() {
+		if (mActionMenuPresenter != null) {
+			return mActionMenuPresenter.hideOverflowMenu();
+		}
+		return false;
+	}
 
-    protected int measureChildView(View child, int availableWidth, int childSpecHeight,
-            int spacing) {
-        child.measure(MeasureSpec.makeMeasureSpec(availableWidth, MeasureSpec.AT_MOST),
-                childSpecHeight);
+	public boolean isOverflowMenuShowing() {
+		if (mActionMenuPresenter != null) {
+			return mActionMenuPresenter.isOverflowMenuShowing();
+		}
+		return false;
+	}
 
-        availableWidth -= child.getMeasuredWidth();
-        availableWidth -= spacing;
+	public boolean isOverflowReserved() {
+		return mActionMenuPresenter != null && mActionMenuPresenter.isOverflowReserved();
+	}
 
-        return Math.max(0, availableWidth);
-    }
+	// tws-start Overflow Button::2014-8-29
+	public boolean isOverflowButtonShowing() {
+		if (mActionMenuPresenter != null) {
+			return mActionMenuPresenter.isOverflowButtonShowing();
+		}
+		return false;
+	}
 
-    protected int positionChild(View child, int x, int y, int contentHeight) {
-        int childWidth = child.getMeasuredWidth();
-        int childHeight = child.getMeasuredHeight();
-        int childTop = y + (contentHeight - childHeight) / 2;
+	// tws-end overflow Button::2014-8-29
 
-        child.layout(x, childTop, x + childWidth, childTop + childHeight);
+	public void dismissPopupMenus() {
+		if (mActionMenuPresenter != null) {
+			mActionMenuPresenter.dismissPopupMenus();
+		}
+	}
 
-        return childWidth;
-    }
+	protected int measureChildView(View child, int availableWidth, int childSpecHeight, int spacing) {
+		child.measure(MeasureSpec.makeMeasureSpec(availableWidth, MeasureSpec.AT_MOST), childSpecHeight);
 
-    protected int positionChildInverse(View child, int x, int y, int contentHeight) {
-        int childWidth = child.getMeasuredWidth();
-        int childHeight = child.getMeasuredHeight();
-        int childTop = y + (contentHeight - childHeight) / 2;
+		availableWidth -= child.getMeasuredWidth();
+		availableWidth -= spacing;
 
-        child.layout(x - childWidth, childTop, x, childTop + childHeight);
+		return Math.max(0, availableWidth);
+	}
 
-        return childWidth;
-    }
+	protected int positionChild(View child, int x, int y, int contentHeight) {
+		int childWidth = child.getMeasuredWidth();
+		int childHeight = child.getMeasuredHeight();
+		int childTop = y + (contentHeight - childHeight) / 2;
 
-    protected class VisibilityAnimListener implements Animator.AnimatorListener {
-        private boolean mCanceled = false;
-        int mFinalVisibility;
+		child.layout(x, childTop, x + childWidth, childTop + childHeight);
 
-        public VisibilityAnimListener withFinalVisibility(int visibility) {
-            mFinalVisibility = visibility;
-            return this;
-        }
+		return childWidth;
+	}
 
-        @Override
-        public void onAnimationStart(Animator animation) {
-            setVisibility(VISIBLE);
-            mVisibilityAnim = animation;
-            mCanceled = false;
-        }
+	protected int positionChildInverse(View child, int x, int y, int contentHeight) {
+		int childWidth = child.getMeasuredWidth();
+		int childHeight = child.getMeasuredHeight();
+		int childTop = y + (contentHeight - childHeight) / 2;
 
-        @Override
-        public void onAnimationEnd(Animator animation) {
-            if (mCanceled) return;
+		child.layout(x - childWidth, childTop, x, childTop + childHeight);
 
-            mVisibilityAnim = null;
-            setVisibility(mFinalVisibility);
-            if (mSplitView != null && mMenuView != null) {
-                mMenuView.setVisibility(mFinalVisibility);
-            }
-        }
+		return childWidth;
+	}
 
-        @Override
-        public void onAnimationCancel(Animator animation) {
-            mCanceled = true;
-        }
+	protected class VisibilityAnimListener implements Animator.AnimatorListener {
+		private boolean mCanceled = false;
+		int mFinalVisibility;
 
-        @Override
-        public void onAnimationRepeat(Animator animation) {
-        }
-    }
+		public VisibilityAnimListener withFinalVisibility(int visibility) {
+			mFinalVisibility = visibility;
+			return this;
+		}
+
+		@Override
+		public void onAnimationStart(Animator animation) {
+			setVisibility(VISIBLE);
+			mVisibilityAnim = animation;
+			mCanceled = false;
+		}
+
+		@Override
+		public void onAnimationEnd(Animator animation) {
+			if (mCanceled)
+				return;
+
+			mVisibilityAnim = null;
+			setVisibility(mFinalVisibility);
+			if (mSplitView != null && mMenuView != null) {
+				mMenuView.setVisibility(mFinalVisibility);
+			}
+		}
+
+		@Override
+		public void onAnimationCancel(Animator animation) {
+			mCanceled = true;
+		}
+
+		@Override
+		public void onAnimationRepeat(Animator animation) {
+		}
+	}
 }

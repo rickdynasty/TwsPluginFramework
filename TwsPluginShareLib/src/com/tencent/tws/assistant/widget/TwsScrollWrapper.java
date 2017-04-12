@@ -21,7 +21,6 @@ import android.widget.ScrollView;
 import com.tencent.tws.assistant.gaussblur.GlassBlur;
 import com.tencent.tws.assistant.gaussblur.GlassBlurTask;
 import com.tencent.tws.assistant.gaussblur.GlassBlurUtil;
-import com.tencent.tws.assistant.widget.TwsScrollView;
 import com.tencent.tws.assistant.widget.TwsScrollView.OnScrollChangedListener;
 import com.tencent.tws.sharelib.R;
 

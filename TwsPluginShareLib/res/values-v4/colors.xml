@@ -51,7 +51,14 @@
     <color name="tws_white_percent_15">#26ffffff</color>
     
     <!-- Other common color -->
-    <color name="tws_warning">#FD2F2F</color>    
+    <!-- 页面标题栏、工具栏背景色(白) -->
+    <color name="tws_bar_background">#FAFAFA</color>
+    <!-- 列表分割区、分组标题栏背景色(白) -->
+    <color name="tws_stipple">#F0F0F0</color>
+    <!-- 警示色(红色) -->
+    <color name="tws_warning">#FD2F2F</color>
+    <!-- 用于高亮、进度、健康图标等(绿色) -->
+    <color name="tws_light">#00BB00</color>
     
     <drawable name="transparent_background">@color/transparent</drawable>
     <color name="empty_text_color">#b2b2b2</color>
@@ -149,7 +156,7 @@
     <color name="tws_light_disabled_popup">@color/tws_black_percent_15</color>
     <color name="tws_light_pressed_popup">@color/tws_black_alpha_supperbig</color>
     <color name="tws_light_selected_popup">@color/tws_black_alpha_supperbig</color>
-    <color name="tws_light_title_actionBar">@color/tws_white</color>
+    <color name="tws_light_title_actionBar">@color/tws_black</color>
     <color name="tws_light_subtitle_actionBar">@color/tws_white</color>
     <color name="tws_light_title_actionbarbtn">@color/tws_white</color>
     <color name="tws_light_disabled_actionbarbtn">@color/tws_white_alpha_mini</color>
@@ -165,7 +172,7 @@
     <color name="tws_menuitem_dark_pressed">@color/tws_white_alpha_supperbig</color>
     <color name="tws_menuitem_dark_selected">#ff22b2b6</color>
     <color name="tws_brand">#46DC5F</color>
-    <color name="tws_view_bg">#292634</color>
+    <color name="tws_view_bg">@color/tws_white</color>
     <color name="tws_operat_view_bg">#292634</color>
     <color name="tws_dialog_split">#0D979797</color>
     <color name="tws_split_view_bg">#1F1C27</color>
@@ -224,7 +231,7 @@
     <color name="dm_common_dialog_button_focused">#1E1C26</color>
     
     <!-- DM通用 -->    
-    <color name="home_bg">#24212d</color>
+    <color name="home_bg">@color/tws_view_bg</color>
 
     <color name="share_color_1">#89ef01</color>
     <color name="share_color_2">#f8e831</color>

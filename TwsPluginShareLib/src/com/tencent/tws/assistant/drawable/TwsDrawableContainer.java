@@ -67,9 +67,9 @@ public class TwsDrawableContainer extends Drawable implements Drawable.Callback 
     private long mExitAnimationEnd;
 
     // overrides from Drawable
-    static final PorterDuff.Mode QROM_DEFAULT_MODE = PorterDuff.Mode.SRC_IN;
+    static final PorterDuff.Mode TWS_DEFAULT_MODE = PorterDuff.Mode.SRC_IN;
     private ColorStateList mTwsTintList;
-    private PorterDuff.Mode mTwsTintMode = QROM_DEFAULT_MODE;
+    private PorterDuff.Mode mTwsTintMode = TWS_DEFAULT_MODE;
 
     private int mCurrentColor;
     private PorterDuff.Mode mCurrentMode;

@@ -108,9 +108,9 @@ public class TwsResolverActivity extends AlertActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         onCreate(savedInstanceState, makeMyIntent(),
-			/*NANJI-START::change::haoranma::2012-11-16*/
+			/*tws-start::change 2012-11-16*/
                 getResources().getText(R.string.whichApplication),
-                /*NANJI-END::change::haoranma::2012-11-16*/
+                /*tws-end::change 2012-11-16*/
                 null, null, false);
     }
 

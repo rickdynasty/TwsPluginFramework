@@ -10,8 +10,6 @@ package com.tencent.tws.assistant.widget;
 import android.content.Context;
 import android.content.Intent;
 
-import com.tencent.tws.assistant.widget.RemoteViewsAdapter;
-
 public class RemoteViewsAdapterWrapper extends RemoteViewsAdapter {
 
     // public constructor

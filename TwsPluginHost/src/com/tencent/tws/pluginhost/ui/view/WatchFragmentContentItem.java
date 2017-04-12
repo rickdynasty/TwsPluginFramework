@@ -67,7 +67,7 @@ public class WatchFragmentContentItem extends RelativeLayout {
 
 		mText_marginLeft = (int) getResources().getDimension(R.dimen.HOST_HOME_FRAGMENT_revision_item_text_margin_left);
 		mTextSize = 16;// getResources().getDimensionPixelSize(R.dimen.HOST_HOME_FRAGMENT_revision_item_text_size);
-		mTextColor = getResources().getColor(R.color.tws_white);
+		mTextColor = getResources().getColor(R.color.tws_black);
 		mArrowImage_width = (int) getResources().getDimension(R.dimen.HOST_HOME_FRAGMENT_revision_item_arrow_img_width);
 		mArrowImage_height = (int) getResources()
 				.getDimension(R.dimen.HOST_HOME_FRAGMENT_revision_item_arrow_img_height);

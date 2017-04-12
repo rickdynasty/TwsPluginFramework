@@ -132,7 +132,7 @@ public class ActionBarView extends AbsActionBarView {
     //tws-start ActionBar Back Button::2014-7-30
     private boolean mIsBackClick = true;
     //tws-end ActionBar Back Button::2014-7-30
-    /*NANJISTART::add::geofffeng::20120219*/
+    /*tws-start::add::geofffeng::20120219*/
     private Activity mActivity=null;
 	private TwsDialog mTwsDialog = null;
     private boolean homeSendMessage=false;
@@ -148,7 +148,7 @@ public class ActionBarView extends AbsActionBarView {
     public void setActionbarViewActivity(Activity fatherActivity,boolean sendMessage) {
     	mActivity=fatherActivity;
     	homeSendMessage=sendMessage;
-    	/*NANJISTART::modified home Background 20121114*/
+    	/*tws-start::modified home Background 20121114*/
     	if(mActivity != null){
     		TypedValue out = new TypedValue();
     	    mContext.getTheme().resolveAttribute(R.attr.twsHomeAsUp, out, true);
@@ -171,9 +171,9 @@ public class ActionBarView extends AbsActionBarView {
                 // tws-end add for ripple::2014-12-21
     		}		
     	}
-    	/*NANJIEND::modified home Background 20121114*/
+    	/*tws-end::modified home Background 20121114*/
     }
-    /*NANJIEND::add::geofffeng::20120219*/
+    /*tws-end::add::geofffeng::20120219*/
 
 	
 	public void setActionbarViewDialog(TwsDialog dialog) {
@@ -370,10 +370,10 @@ public class ActionBarView extends AbsActionBarView {
         if (mActionMenuPresenter == null) {
             mActionMenuPresenter = new ActionMenuPresenter(mContext);//geofffeng
             mActionMenuPresenter.setCallback(cb);
-			/*NANJISTART::modified com.internal to tws 20121011*/
+			/*tws-start::modified com.internal to tws 20121011*/
 			//mActionMenuPresenter.setId(android.R.id.action_menu_presenter);
             mActionMenuPresenter.setId(R.id.action_menu_presenter);
-			/*NANJIEND::modified com.internal to tws 20121011*/
+			/*tws-end::modified com.internal to tws 20121011*/
             mExpandedMenuPresenter = new ExpandedActionViewMenuPresenter();
         }
 
@@ -381,11 +381,11 @@ public class ActionBarView extends AbsActionBarView {
         final LayoutParams layoutParams = new LayoutParams(LayoutParams.WRAP_CONTENT,
                 LayoutParams.MATCH_PARENT);
         if (!mSplitActionBar) {
-			/*NANJISTART::modified com.internal to tws 20121011*/
+			/*tws-start::modified com.internal to tws 20121011*/
             mActionMenuPresenter.setExpandedActionViewsExclusive(
                     getResources().getBoolean(
                     R.bool.action_bar_expanded_action_views_exclusive));
-			/*NANJIEND::modified com.internal to tws 20121011*/
+			/*tws-end::modified com.internal to tws 20121011*/
             configPresenters(builder);
             menuView = (ActionMenuView) mActionMenuPresenter.getMenuView(this);
             final ViewGroup oldParent = (ViewGroup) menuView.getParent();
@@ -456,11 +456,11 @@ public class ActionBarView extends AbsActionBarView {
 
     public void setCustomNavigationView(View view) {
         final boolean showCustom = (mDisplayOptions & ActionBar.DISPLAY_SHOW_CUSTOM) != 0;
-        //NANJISTART geofffeng 20130327 
+        //tws-start geofffeng 20130327 
 		if(showCustom) {
 			mUserTitle = true;
 		}
-		//NANJIEND geofffeng 20130327 
+		//tws-end geofffeng 20130327 
 
 		if (mCustomNavView != null && showCustom) {
             removeView(mCustomNavView);
@@ -470,7 +470,7 @@ public class ActionBarView extends AbsActionBarView {
             addView(mCustomNavView);
         }
         
-        //NANJISTART alanhuang 20130401
+        //tws-start alanhuang 20130401
         if(mCustomNavView != null){
 	        final ViewGroup.LayoutParams lp = mCustomNavView.getLayoutParams();
 	        if(lp != null){
@@ -480,7 +480,7 @@ public class ActionBarView extends AbsActionBarView {
 	        	}
 	        }
         }
-		//NANJIEND alanhuang 20130401
+		//tws-end alanhuang 20130401
     }
 
     public CharSequence getTitle() {
@@ -541,7 +541,7 @@ public class ActionBarView extends AbsActionBarView {
     public void setHomeButtonEnabled(boolean enable) {
         mHomeLayout.setFocusable(enable);
         // Make sure the home button has an accurate content description for accessibility.
-        /*NANJISTART::modified com.internal to tws 20121011*/
+        /*tws-start::modified com.internal to tws 20121011*/
         if (!enable) {
             mHomeLayout.setContentDescription(null);
         } else if ((mDisplayOptions & ActionBar.DISPLAY_HOME_AS_UP) != 0) {
@@ -551,7 +551,7 @@ public class ActionBarView extends AbsActionBarView {
             mHomeLayout.setContentDescription(mContext.getResources().getText(
                     R.string.action_bar_home_description));
         }
-		/*NANJIEND::modified com.internal to tws 20121011*/
+		/*tws-end::modified com.internal to tws 20121011*/
     }
 
     public void setDisplayOptions(int options) {
@@ -609,7 +609,7 @@ public class ActionBarView extends AbsActionBarView {
         }
 
         // Make sure the home button has an accurate content description for accessibility.
-        /*NANJISTART::modified com.internal to tws 20121011*/
+        /*tws-start::modified com.internal to tws 20121011*/
         if (!mHomeLayout.isEnabled()) {
             mHomeLayout.setContentDescription(null);
         } else if ((options & ActionBar.DISPLAY_HOME_AS_UP) != 0) {
@@ -619,7 +619,7 @@ public class ActionBarView extends AbsActionBarView {
             mHomeLayout.setContentDescription(mContext.getResources().getText(
                     R.string.action_bar_home_description));
         }
-		/*NANJIEND::modified com.internal to tws 20121011*/
+		/*tws-end::modified com.internal to tws 20121011*/
     }
 
     public void setNavigationMode(int mode) {
@@ -683,11 +683,11 @@ public class ActionBarView extends AbsActionBarView {
     private void initTitle() {
         if (mTitleLayout == null) {
             LayoutInflater inflater = LayoutInflater.from(getContext());
-			/*NANJISTART::modified com.internal to tws 20121011*/
+			/*tws-start::modified com.internal to tws 20121011*/
             mTitleLayout = (LinearLayout) inflater.inflate(R.layout.action_bar_title_item,
                     this, false);
             mTitleView = (TextView) mTitleLayout.findViewById(R.id.action_bar_title);
-			/*NANJIEND::modified com.internal to tws 20121011*/
+			/*tws-end::modified com.internal to tws 20121011*/
             mTitleLayout.setOnClickListener(mUpClickListener);
 			
             if (mTitleStyleRes != 0) {

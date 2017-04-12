@@ -17,11 +17,6 @@
 package com.tencent.tws.assistant.widget;
 
 import android.annotation.Widget;
-
-import com.tencent.tws.assistant.app.AlertDialog;
-import com.tencent.tws.assistant.widget.ListPopupWindow;
-import com.tencent.tws.assistant.widget.ListView;
-import com.tencent.tws.sharelib.R;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
@@ -30,16 +25,18 @@ import android.database.DataSetObserver;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
-//
-import android.widget.SpinnerAdapter;
+import android.widget.Adapter;
 import android.widget.ListAdapter;
-import android.view.KeyEvent;
-//
+import android.widget.SpinnerAdapter;
 
-import android.util.Log;
+import com.tencent.tws.assistant.app.AlertDialog;
+import com.tencent.tws.sharelib.R;
+//
+//
 /**
  * A view that displays one child at a time and lets the user pick among them.
  * The items in the Spinner come from the {@link Adapter} associated with
@@ -698,9 +695,9 @@ public class Spinner extends AbsSpinner implements OnClickListener {
          */
         public void setPromptText(CharSequence hintText);
         public CharSequence getHintText();
-		/*NANJI-START::add::haoranma::2012-09-25*/
+		/*tws-start::add 2012-09-25*/
 		public void twsSetCustomListHeight(int height);
-		/*NANJI-END::add::haoranma::2012-09-25*/
+		/*tws-end::add 2012-09-25*/
     }
     
     private class DialogPopup implements SpinnerPopup, DialogInterface.OnClickListener {
@@ -741,7 +738,7 @@ public class Spinner extends AbsSpinner implements OnClickListener {
                     getSelectedItemPosition(), this).show();
 	    	mPopup.setCanceledOnTouchOutside(true);
             //mPopup.getWindow().setBackgroundDrawableResource(R.drawable.transparent_background);
-            /*NANJI-START::add 2012-09-25*/
+            /*tws-start::add 2012-09-25*/
            /* ListView mListView = mPopup.getListView();
            if(mListView != null){
 	  			mListView.setSelector(R.drawable.second_list_selector_holo_light);
@@ -752,18 +749,18 @@ public class Spinner extends AbsSpinner implements OnClickListener {
 					mListView.setLayoutParams(params);
 	  			}
 	    	}*/
-		   /*NANJI-END::add 2012-09-25*/
+		   /*tws-end::add 2012-09-25*/
         }
         
         public void onClick(DialogInterface dialog, int which) {
             setSelection(which);
             dismiss();
         }
-		/*NANJI-START::add::haoranma::2012-09-25*/
+		/*tws-start::add 2012-09-25*/
 		public void twsSetCustomListHeight(int height){
 			mHeight = height;
 		}
-		/*NANJI-END::add::haoranma::2012-09-25*/
+		/*tws-end::add 2012-09-25*/
     }
     
     private class DropdownPopup extends ListPopupWindow implements SpinnerPopup {
@@ -805,7 +802,7 @@ public class Spinner extends AbsSpinner implements OnClickListener {
             if (mDropDownWidth == WRAP_CONTENT) {
                 final int spinnerWidth = Spinner.this.getWidth();
                 final int spinnerPaddingRight = Spinner.this.getPaddingRight();
-				/*NANJI-START::change::haoranma::2012-11-29*/
+				/*tws-start::change 2012-11-29*/
                 /*setContentWidth(Math.max(
                         measureContentWidth((SpinnerAdapter) mAdapter, getBackground()),
                         spinnerWidth - spinnerPaddingLeft - spinnerPaddingRight));*/
@@ -813,14 +810,14 @@ public class Spinner extends AbsSpinner implements OnClickListener {
                         //measureContentWidth((SpinnerAdapter) mAdapter, getBackground()),
                         //spinnerWidth));
 				setContentWidth(spinnerWidth);
-				/*NANJI-END::change::haoranma::2012-11-29*/
+				/*tws-end::change 2012-11-29*/
             } else if (mDropDownWidth == MATCH_PARENT) {
                 final int spinnerWidth = Spinner.this.getWidth();
                 final int spinnerPaddingRight = Spinner.this.getPaddingRight();
-				/*NANJI-START::change::haoranma::2012-11-29*/
+				/*tws-start::change 2012-11-29*/
                 //setContentWidth(spinnerWidth - spinnerPaddingLeft - spinnerPaddingRight);
 				setContentWidth(spinnerWidth);
-				/*NANJI-END::change::haoranma::2012-11-29*/
+				/*tws-end::change 2012-11-29*/
             } else {
                 setContentWidth(mDropDownWidth);
             }
@@ -830,27 +827,27 @@ public class Spinner extends AbsSpinner implements OnClickListener {
                 background.getPadding(mTempRect);
                 bgOffset = -mTempRect.left;
             }
-			/*NANJI-START::change::haoranma::2012-12-20*/
+			/*tws-start::change 2012-12-20*/
             //setHorizontalOffset(bgOffset + spinnerPaddingLeft);
             setHorizontalOffset(bgOffset);
 			setVerticalOffset(0);
-			/*NANJI-END::change::haoranma::2012-12-20*/
+			/*tws-end::change 2012-12-20*/
             setInputMethodMode(ListPopupWindow.INPUT_METHOD_NOT_NEEDED);
             super.show();
             getListView().setChoiceMode(android.widget.ListView.CHOICE_MODE_SINGLE);
-			/*NANJI-START::comment::haoranma::2012-11-20*/
+			/*tws-start::comment 2012-11-20*/
             //setSelection(Spinner.this.getSelectedItemPosition());
-			/*NANJI-END::comment::haoranma::2012-11-20*/
+			/*tws-end::comment 2012-11-20*/
         }
-		/*NANJI-START::add::haoranma::2012-09-25*/
+		/*tws-start::add 2012-09-25*/
 		public void twsSetCustomListHeight(int height){
 			super.twsSetCustomListHeight(height);
 		}
-		/*NANJI-END::add::haoranma::2012-09-25*/
+		/*tws-end::add 2012-09-25*/
     }
-	/*NANJI-START::add::haoranma::2012-09-25*/
+	/*tws-start::add 2012-09-25*/
 	public void twsSetCustomListHeight(int height){
 	    mPopup.twsSetCustomListHeight(height);
 	}
-	/*NANJI-END::add::haoranma::2012-09-25*/
+	/*tws-end::add 2012-09-25*/
 }

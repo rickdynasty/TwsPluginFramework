@@ -130,7 +130,7 @@ public class ActionBarContextView extends AbsActionBarView implements AnimatorLi
         mSplitBackground = a.getDrawable(
                 R.styleable.ActionMode_backgroundSplit);
 
-        mContextSplitHeight = mContext.getResources().getDimensionPixelSize(R.dimen.tws_actionbar_split_height);
+        mContextSplitHeight = context.getResources().getDimensionPixelSize(R.dimen.tws_actionbar_split_height);
         a.recycle();
         //tws-start add for ripple::2014-12-21
         if (android.os.Build.VERSION.SDK_INT > 17) {
@@ -326,7 +326,7 @@ public class ActionBarContextView extends AbsActionBarView implements AnimatorLi
     private void initTitle() {
         if (mTitleLayout == null) {
             LayoutInflater inflater = LayoutInflater.from(getContext());
-			/*NANJISTART::modified com.internal to tws 20121011*/
+			/*tws-start::modified com.internal to tws 20121011*/
 			TypedValue res = new TypedValue();
     		mContext.getTheme().resolveAttribute(R.attr.twsActionModMenuFontColor, res, true);
 			inflater.inflate(R.layout.action_bar_title_item, this);
@@ -374,7 +374,7 @@ public class ActionBarContextView extends AbsActionBarView implements AnimatorLi
         mSubtitleView.setVisibility(hasSubtitle ? VISIBLE : GONE);
     }
 
-    /*NANJISTART::add::geofffeng::20120224*/
+    /*tws-start::add::geofffeng::20120224*/
     public void initForMode(final ActionMode mode)
     {
     	initForMode(mode,ActionBar.DISPLAY_DEFAULT_IMAGE);
@@ -384,7 +384,7 @@ public class ActionBarContextView extends AbsActionBarView implements AnimatorLi
     	mContext.getTheme().resolveAttribute(R.attr.twsActionModMenuFontColor, res, true);
 
         if (mClose == null) {
-            /*NANJISTART::modified com.internal to tws 20121011*/
+            /*tws-start::modified com.internal to tws 20121011*/
 //          mClose = (ViewGroup)inflater.inflate(R.layout.action_mode_close_item, this, false);
             mClose = new Button(mContext);
             mClose.setId(R.id.action_mode_close_button);
@@ -437,7 +437,7 @@ public class ActionBarContextView extends AbsActionBarView implements AnimatorLi
         if (mActionMenuPresenter != null) {
             mActionMenuPresenter.dismissPopupMenus();
         }
-        /*NANJISTART::add::geofffeng::20120605 set menucolor to white*/
+        /*tws-start::add::geofffeng::20120605 set menucolor to white*/
     	//Log.d("actionbarContextView", "initForMode 2="+res.resourceId);
 	    if(res.resourceId>0) {
 	    	mActionMenuPresenter = new ActionMenuPresenter(mContext,0);//tws actionmod
@@ -470,11 +470,11 @@ public class ActionBarContextView extends AbsActionBarView implements AnimatorLi
         }
 
         mAnimateInOnLayout = true;
-       //NANJISTART alanhuang 20130509
+       //tws-start alanhuang 20130509
         mActionMode = mode;
-		//NANJIEND alanhuang 20130509
+		//tws-end alanhuang 20130509
     }
-    /*NANJIEND::add::geofffeng::20120224*/
+    /*tws-end::add::geofffeng::20120224*/
 
     public void closeMode() {
         if (mAnimationMode == ANIMATE_OUT) {
@@ -487,7 +487,7 @@ public class ActionBarContextView extends AbsActionBarView implements AnimatorLi
         }
 
         finishAnimation();
-	  /*NANJISTART::delete::geofffeng::20121103*/
+	  /*tws-start::delete::geofffeng::20121103*/
         //mAnimationMode = ANIMATE_OUT;
         //mCurrentAnimation = makeOutAnimation();
         //mCurrentAnimation.start();
@@ -496,7 +496,7 @@ public class ActionBarContextView extends AbsActionBarView implements AnimatorLi
         if (mCurrentAnimation != null) {
             mCurrentAnimation.start();
         }
-	 /*NANJIEND::delete::geofffeng::20121103*/
+	 /*tws-end::delete::geofffeng::20121103*/
     }
 
     private void finishAnimation() {
@@ -667,7 +667,7 @@ public class ActionBarContextView extends AbsActionBarView implements AnimatorLi
     }
 
     private Animator makeInAnimation() {
-	/*NANJISTART::delete::geofffeng::20121106*/
+	/*tws-start::delete::geofffeng::20121106*/
         /*mClose.setTranslationX(-mClose.getWidth() -
                 ((MarginLayoutParams) mClose.getLayoutParams()).leftMargin);
         ObjectAnimator buttonAnimator = ObjectAnimator.ofFloat(mClose, "translationX", 0);
@@ -690,12 +690,12 @@ public class ActionBarContextView extends AbsActionBarView implements AnimatorLi
                 }
             }
         }*/
-	 /*NANJIEND::delete::geofffeng::20121106*/
+	 /*tws-end::delete::geofffeng::20121106*/
         return null;
     }
 
     private Animator makeOutAnimation() {
-	/*NANJISTART::delete::geofffeng::20121106*/
+	/*tws-start::delete::geofffeng::20121106*/
         /*ObjectAnimator buttonAnimator = ObjectAnimator.ofFloat(mClose, "translationX",
                 -mClose.getWidth() - ((MarginLayoutParams) mClose.getLayoutParams()).leftMargin);
         buttonAnimator.setDuration(200);
@@ -716,7 +716,7 @@ public class ActionBarContextView extends AbsActionBarView implements AnimatorLi
                 }
             }
         }*/
-	/*NANJIEND::delete::geofffeng::20121106*/
+	/*tws-end::delete::geofffeng::20121106*/
         return null;
     }
 

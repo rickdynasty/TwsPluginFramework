@@ -16,9 +16,9 @@
 
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:state_activated="true" android:state_pressed="false" android:drawable="@color/list_item_activated" />
-    <!--QROM-START::normally, app will use check box to indicate selected/activated state::hendysu::2013-06-08-->
+    <!--tws-start::normally, app will use check box to indicate selected/activated state2013-06-08-->
     <!--so add state_checked here-->
     <item android:state_checked="true" android:state_pressed="false" android:drawable="@color/list_item_activated" />
-    <!--QROM-END::hendysu::2013-06-08-->
+    <!--tws-end2013-06-08-->
     <item android:drawable="@color/transparent" />
 </selector>

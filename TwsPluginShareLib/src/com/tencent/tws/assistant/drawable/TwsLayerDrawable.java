@@ -157,7 +157,8 @@ public class TwsLayerDrawable extends TwsDrawable implements Drawable.Callback {
 	}
 
 	@Override
-	public void inflate(Resources r, XmlPullParser parser, AttributeSet attrs) throws XmlPullParserException, IOException {
+	public void inflate(Resources r, XmlPullParser parser, AttributeSet attrs) throws XmlPullParserException,
+			IOException {
 		// super.inflate(r, parser, attrs, theme);
 
 		final TypedArray a = r.obtainAttributes(attrs, R.styleable.LayerDrawable);
@@ -210,13 +211,15 @@ public class TwsLayerDrawable extends TwsDrawable implements Drawable.Callback {
 	/**
 	 * Inflates child layers using the specified parser.
 	 */
-	private void inflateLayers(Resources r, XmlPullParser parser, AttributeSet attrs, Theme theme) throws XmlPullParserException, IOException {
+	private void inflateLayers(Resources r, XmlPullParser parser, AttributeSet attrs, Theme theme)
+			throws XmlPullParserException, IOException {
 		final LayerState state = mLayerState;
 
 		final int innerDepth = parser.getDepth() + 1;
 		int type;
 		int depth;
-		while ((type = parser.next()) != XmlPullParser.END_DOCUMENT && ((depth = parser.getDepth()) >= innerDepth || type != XmlPullParser.END_TAG)) {
+		while ((type = parser.next()) != XmlPullParser.END_DOCUMENT
+				&& ((depth = parser.getDepth()) >= innerDepth || type != XmlPullParser.END_TAG)) {
 			if (type != XmlPullParser.START_TAG) {
 				continue;
 			}
@@ -233,12 +236,13 @@ public class TwsLayerDrawable extends TwsDrawable implements Drawable.Callback {
 			// If the layer doesn't have a drawable or unresolved theme
 			// attribute for a drawable, attempt to parse one from the child
 			// element.
-			if (layer.mDrawable == null && (layer.mThemeAttrs == null || layer.mThemeAttrs[R.styleable.LayerDrawableItem_android_drawable] == 0)) {
+			if (layer.mDrawable == null
+					&& (layer.mThemeAttrs == null || layer.mThemeAttrs[R.styleable.LayerDrawableItem_android_drawable] == 0)) {
 				while ((type = parser.next()) == XmlPullParser.TEXT) {
 				}
 				if (type != XmlPullParser.START_TAG) {
-					throw new XmlPullParserException(parser.getPositionDescription() + ": <item> tag requires a 'drawable' attribute or "
-							+ "child tag defining a drawable");
+					throw new XmlPullParserException(parser.getPositionDescription()
+							+ ": <item> tag requires a 'drawable' attribute or " + "child tag defining a drawable");
 				}
 				layer.mDrawable = Drawable.createFromXmlInner(r, parser, attrs);
 			}
@@ -1401,10 +1405,12 @@ public class TwsLayerDrawable extends TwsDrawable implements Drawable.Callback {
 
 			// Establish containing region based on aggregate padding and
 			// requested insets for the current layer.
-			container.set(bounds.left + insetL + padL, bounds.top + r.mInsetT + padT, bounds.right - insetR - padR, bounds.bottom - r.mInsetB - padB);
+			container.set(bounds.left + insetL + padL, bounds.top + r.mInsetT + padT, bounds.right - insetR - padR,
+					bounds.bottom - r.mInsetB - padB);
 
 			// Apply resolved gravity to drawable based on resolved size.
-			final int gravity = resolveGravity(r.mGravity, r.mWidth, r.mHeight, d.getIntrinsicWidth(), d.getIntrinsicHeight());
+			final int gravity = resolveGravity(r.mGravity, r.mWidth, r.mHeight, d.getIntrinsicWidth(),
+					d.getIntrinsicHeight());
 			final int w = r.mWidth < 0 ? d.getIntrinsicWidth() : r.mWidth;
 			final int h = r.mHeight < 0 ? d.getIntrinsicHeight() : r.mHeight;
 			Gravity.apply(gravity, w, h, container, outRect, layoutDirection);
@@ -1549,7 +1555,8 @@ public class TwsLayerDrawable extends TwsDrawable implements Drawable.Callback {
 		if (r.mDrawable != null) {
 			final Rect rect = mTmpRect;
 			r.mDrawable.getPadding(rect);
-			if (rect.left != mPaddingL[i] || rect.top != mPaddingT[i] || rect.right != mPaddingR[i] || rect.bottom != mPaddingB[i]) {
+			if (rect.left != mPaddingL[i] || rect.top != mPaddingT[i] || rect.right != mPaddingR[i]
+					|| rect.bottom != mPaddingB[i]) {
 				mPaddingL[i] = rect.left;
 				mPaddingT[i] = rect.top;
 				mPaddingR[i] = rect.right;
@@ -1650,8 +1657,8 @@ public class TwsLayerDrawable extends TwsDrawable implements Drawable.Callback {
 			final Drawable dr = orig.mDrawable;
 			final Drawable clone;
 			final ConstantState cs = dr.getConstantState();
-			if (dr != null&&cs !=null) {
-				
+			if (dr != null && cs != null) {
+
 				if (res != null) {
 					clone = cs.newDrawable(res);
 				} else {

@@ -221,7 +221,7 @@
 
     <style name="Preference.tws">
         <item name="android:layout">@layout/preference_holo</item>
-        <item name="android:textColor">@color/tws_white</item>
+        <item name="android:textColor">@color/tws_black</item>
     </style>
 
     <style name="Preference.tws.Category">
@@ -277,7 +277,7 @@
 
     <style name="TextAppearance.tws.DialogWindowTitle">
         <item name="android:textSize">@dimen/tws_Large_TextSize</item>
-        <item name="android:textColor">@color/tws_white</item>
+        <item name="android:textColor">@color/tws_black</item>
     </style>
 
     <style name="TextAppearance.tws.ListViewEmptyText">
@@ -294,7 +294,7 @@
 
     <style name="TextAppearance.tws.Second.twsTextDialogButton">
         <item name="android:textSize">@dimen/tws_Large_TextSize</item>
-        <item name="android:textColor">@color/tws_white</item>
+        <item name="android:textColor">@color/tws_black</item>
     </style>
 
     <style name="TextAppearance.tws.Second.twsTextDialogButton.Dark">
@@ -382,13 +382,13 @@
 
     <style name="TextAppearance.tws.Second.twsTextMediumLightBody">
         <item name="android:textSize">@dimen/tws_Large_TextSize</item>
-        <item name="android:textColor">@color/tws_white</item>
+        <item name="android:textColor">@color/tws_black</item>
         <item name="android:textColorHint">@color/tws_second_Hint</item>
     </style>
 
     <style name="TextAppearance.tws.Second.twsTextMediumLightBodyL">
         <item name="android:textSize">@dimen/tws_Large_TextSize</item>
-        <item name="android:textColor">@color/tws_white</item>
+        <item name="android:textColor">@color/tws_black</item>
         <item name="android:textColorHint">@color/tws_second_Hint</item>
     </style>
 
@@ -432,7 +432,7 @@
 
     <style name="TextAppearance.tws.Second.twsTextSmallLightBodySub">
         <item name="android:textSize">@dimen/tws_Small_TextSize</item>
-        <item name="android:textColor">@color/tws_white</item>
+        <item name="android:textColor">@color/tws_black</item>
         <item name="android:textColorHint">@color/tws_second_Hint</item>
     </style>
 
@@ -529,7 +529,7 @@
     </style>
 
     <style name="TextAppearance.tws.StatusBar.EventContent.Title">
-        <item name="android:textColor">@color/tws_white</item>
+        <item name="android:textColor">@color/tws_black</item>
         <item name="android:textSize">16sp</item>
     </style>
 
@@ -912,6 +912,10 @@
         <item name="android:progressBarStyleLargeInverse">@style/Widget.tws.ProgressBar.Large</item>
         <item name="preferenceLeftPadding">@dimen/preference_default_leftpadding</item>
         <item name="preferenceRightPadding">@dimen/preference_default_rightpadding</item>
+    </style>
+    
+    <style name="Theme.tws.Second.Overlay">
+        <item name="actionBarStyle">@style/Widget.tws.ActionBar.Second.Overlay</item>
     </style>
 
     <style name="Theme.tws.Second.Dark">
@@ -1313,7 +1317,7 @@
     <style name="Widget.tws.ActionBar.Second">
         <item name="titleTextStyle">@style/TextAppearance.tws.Second.twsTextLargerLightTitle.ActionBarTitle</item>
         <item name="subtitleTextStyle">@style/TextAppearance.tws.Second.twsTextSmallLightTitle</item>
-        <item name="background">@color/tws_view_bg</item>
+        <item name="background">@color/tws_bar_background</item>
         <item name="backgroundStacked">@drawable/ab_solid_holo_light</item>
         <item name="backgroundSplit">@color/tws_operat_view_bg</item>
         <item name="homebutton">@drawable/ic_ab_back</item>
@@ -1324,6 +1328,10 @@
         <item name="actionbartabTheme">tab_wave</item>
         <item name="gradientBackgroundStartColor">@color/actionbar_gradient_background_start_color</item>
         <item name="gradientBackgroundEndColor">@color/actionbar_gradient_background_end_color</item>
+    </style>
+    
+    <style name="Widget.tws.ActionBar.Second.Overlay">
+        <item name="background">@color/transparent</item>
     </style>
 
     <style name="Widget.tws.ActionBar.Second.Holo">

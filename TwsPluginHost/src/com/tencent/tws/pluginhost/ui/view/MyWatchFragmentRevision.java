@@ -5,6 +5,7 @@ import java.util.Iterator;
 import java.util.Locale;
 
 import tws.component.log.TwsLog;
+import android.app.TwsActivity;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
@@ -12,6 +13,7 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.Window;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -168,8 +170,16 @@ public class MyWatchFragmentRevision extends Fragment implements OnClickListener
 
 	private void initView(View rootView) {
 		mFragmentContainer = (LinearLayout) rootView.findViewById(R.id.my_watch_revision_item_layout);
-
 		mWatchInfoLayout = (RelativeLayout) rootView.findViewById(R.id.my_watch_revision_watch_info_layout);
+		boolean hasOverlayActionbar = getActivity().getWindow().hasFeature(Window.FEATURE_ACTION_BAR_OVERLAY);
+		if (hasOverlayActionbar) {
+			int top = (int) getResources().getDimension(R.dimen.tws_action_bar_height);
+			if (getActivity() instanceof TwsActivity) {
+				top += TwsActivity.getStatusBarHeight();
+			}
+			mWatchInfoLayout.setPadding(0, top, 0, 0);
+		}
+
 		mWatchInfoLayout.setOnClickListener(this);
 
 		mWatchImg = (ImageView) rootView.findViewById(R.id.my_watch_revision_watch_img);

@@ -16,31 +16,15 @@
 
 package com.tencent.tws.assistant.app;
 
-import com.tencent.tws.assistant.app.AlertController;
-import com.tencent.tws.assistant.app.TwsDialog;
-import com.tencent.tws.assistant.app.AlertDialog.ButtonColor;
-import com.tencent.tws.sharelib.R;
-
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.res.TypedArray;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
-import android.view.KeyEvent;
-import android.text.Spannable;
-import android.text.SpannableString;
-import android.text.style.StyleSpan;
+import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.WindowManager;
-import android.util.TypedValue;
-import android.widget.Button;
-import android.widget.TextView;
 import android.widget.EditText;
-import android.view.ContextThemeWrapper;
-import android.text.InputType;
+import android.widget.TextView;
+
+import com.tencent.tws.sharelib.R;
 
 /**
  * <p>

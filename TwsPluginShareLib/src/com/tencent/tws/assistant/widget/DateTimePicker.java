@@ -120,8 +120,11 @@ public class DateTimePicker extends FrameLayout {
 	public interface OnDateTimeChangedListener {
 		/**
 		 * Called upon a date change.
-		 * @param view The view associated with this listener.
-		 * @param time The time that was set.
+		 * 
+		 * @param view
+		 *            The view associated with this listener.
+		 * @param time
+		 *            The time that was set.
 		 */
 		void onDateTimeChanged(DateTimePicker view, long time);
 	}

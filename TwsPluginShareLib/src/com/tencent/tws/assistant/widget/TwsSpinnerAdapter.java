@@ -1,20 +1,17 @@
 package com.tencent.tws.assistant.widget;
 
 import java.util.ArrayList;
-import java.util.List;
-
-import com.tencent.tws.sharelib.R;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.tencent.tws.sharelib.R;
 //
-import android.util.Log;
 
 public class TwsSpinnerAdapter<T> extends ArrayAdapter<T> {
 	private ImageView icon;

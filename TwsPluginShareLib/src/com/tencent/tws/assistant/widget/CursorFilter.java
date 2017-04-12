@@ -17,7 +17,6 @@
 package com.tencent.tws.assistant.widget;
 
 import android.database.Cursor;
-
 import android.widget.Filter;
 
 /**

@@ -16,8 +16,7 @@
 
 package com.tencent.tws.assistant.widget;
 
-import com.tencent.tws.assistant.widget.ExpandableListConnector.PositionMetadata;
-import com.tencent.tws.sharelib.R;
+import java.util.ArrayList;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -28,16 +27,14 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.AttributeSet;
 import android.view.ContextMenu;
+import android.view.ContextMenu.ContextMenuInfo;
 import android.view.SoundEffectConstants;
 import android.view.View;
-import android.view.ContextMenu.ContextMenuInfo;
-
-import java.util.ArrayList;
-
 import android.widget.ListAdapter;
+import android.widget.SimpleCursorTreeAdapter;
 
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
+import com.tencent.tws.assistant.widget.ExpandableListConnector.PositionMetadata;
+import com.tencent.tws.sharelib.R;
 
 /**
  * A view that shows items in a vertically scrolling two-level list. This

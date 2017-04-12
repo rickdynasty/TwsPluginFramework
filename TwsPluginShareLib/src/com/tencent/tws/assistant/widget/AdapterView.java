@@ -31,8 +31,8 @@ import android.view.ViewGroup;
 import android.view.accessibility.AccessibilityEvent;
 import android.view.accessibility.AccessibilityManager;
 import android.view.accessibility.AccessibilityNodeInfo;
-
 import android.widget.Adapter;
+import android.widget.Gallery;
 
 /**
  * An AdapterView is a view whose children are determined by an {@link Adapter}.

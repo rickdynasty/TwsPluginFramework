@@ -16,6 +16,7 @@
 
 package com.tencent.tws.assistant.widget;
 
+import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 
@@ -38,7 +39,6 @@ import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.SoundEffectConstants;
 import android.view.View;
-import android.view.View.MeasureSpec;
 import android.view.ViewDebug;
 import android.view.ViewGroup;
 import android.view.accessibility.AccessibilityEvent;
@@ -52,19 +52,10 @@ import android.widget.ListAdapter;
 import android.widget.RemoteViews.RemoteView;
 import android.widget.WrapperListAdapter;
 
-
-import android.widget.ScrollBarDrawable;
-
 import com.tencent.tws.assistant.drawable.TwsScrollBarDrawable;
 import com.tencent.tws.assistant.gaussblur.JNIBlur;
 import com.tencent.tws.assistant.gaussblur.NativeBlurProcess;
-import com.tencent.tws.assistant.utils.ReflectUtils;
-import com.tencent.tws.assistant.widget.AbsListView.AdapterDataSetObserver;
-import com.tencent.tws.assistant.widget.AbsListView.LayoutParams;
-import com.tencent.tws.assistant.widget.AbsListView.RecycleBin;
 import com.tencent.tws.sharelib.R;
-
-import java.lang.reflect.Field;
 
 /**
  * A view that shows items in two-dimensional scrolling grid. The items in the

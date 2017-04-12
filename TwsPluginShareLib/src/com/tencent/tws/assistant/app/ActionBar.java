@@ -622,7 +622,7 @@ public abstract class ActionBar {
      * content to fit the new space available.
      */
     public abstract void show();
-    /*NANJISTART::add::geofffeng::20120208*/
+    /*tws-start::add::geofffeng::20120208*/
     public void setHomeButtonEnabledQQ(boolean enable) {};
     public void setHomeButtonIconEnabled(boolean enable) {};
     public void setActionMenuItemCount(int itemCount) {};
@@ -656,12 +656,12 @@ public abstract class ActionBar {
         public void onCreatActionMode();
         public void onDestroyActionMode();
     }
-	/*NANJI-START::add::haoranma::2012-09-25*/
+	/*tws-start::add 2012-09-25*/
 	public void twsSetCustomListHeight(int height){};
-	/*NANJI-END::add::haoranma::2012-09-25*/
+	/*tws-end::add 2012-09-25*/
     public void setActionModeCallback(ActionBar.Callback callback){};
 
-    //NANJISTART alanhuang 20130411
+    //tws-start alanhuang 20130411
     public View getMultiChoiceView(){
     	return null;
     }
@@ -735,9 +735,9 @@ public abstract class ActionBar {
 	}
     // tws-end add actionbar0.2 feature::2014-09-28
     
-	//NANJIEND alanhuang 20130411
+	//tws-end alanhuang 20130411
     //public ActionMode startActionModeSimple(ActionMode.Callback callback) {return null;};
-    /*NANJIEND::add::geofffeng::20120208*/
+    /*tws-end::add::geofffeng::20120208*/
     //tws-start BottomBar Height::2014-7-23
     public abstract int getBottomBarHeight();
     //tws-end BottomBar Height::2014-7-23

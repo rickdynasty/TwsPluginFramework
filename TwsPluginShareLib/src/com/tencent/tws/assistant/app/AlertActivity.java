@@ -22,8 +22,6 @@ import android.os.Bundle;
 import android.view.Gravity;
 import android.view.KeyEvent;
 
-import android.util.Log;
-
 /**
  * An activity that follows the visual style of an AlertDialog.
  * 

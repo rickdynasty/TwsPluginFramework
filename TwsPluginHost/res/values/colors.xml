@@ -5,7 +5,7 @@
     <color name="home_header_bar_bg">#292634</color>
     <color name="home_bar_middle_text_color">#ffffff</color>
     <color name="home_bottom_bg">#292634</color>
-    <color name="home_bottom_tab_text_default_color">#4cffffff</color>
+    <color name="home_bottom_tab_text_default_color">@color/tws_black</color>
     <color name="home_bottom_tab_text_pressed_color">#46dc5f</color>
     <color name="HOST_HOME_FRAGMENT_revision_watch_info_bg">#1f1c27</color>
     <color name="HOST_HOME_FRAGMENT_revision_watch_name">#ffffff</color>
@@ -21,6 +21,6 @@
     <color name="my_watch_fragment_revision_big_divider">#1f1c27</color>
     
     <color name="warning_red">#FF3C55</color>
-    <color name="my_action_bar_bg_color">#292634</color>
+    <color name="my_action_bar_bg_color">@color/tws_bar_background</color>
 
 </resources>

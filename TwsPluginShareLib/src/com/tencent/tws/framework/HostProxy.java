@@ -131,4 +131,8 @@ public class HostProxy {
 			e.printStackTrace();
 		}
 	}
+
+	public static int getTwsActionBarHeightID() {
+		return R.dimen.tws_action_bar_height;
+	}
 }

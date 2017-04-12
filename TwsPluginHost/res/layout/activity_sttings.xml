@@ -17,7 +17,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/use_terms_privacy_statement"
-            android:textColor="@color/white"
+            android:textColor="@color/tws_black"
             android:textSize="@dimen/about_watch_assistant_item_text_size" />
 
         <ImageView
@@ -40,7 +40,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/debug_plugin_framework"
-            android:textColor="@color/white"
+            android:textColor="@color/tws_black"
             android:textSize="@dimen/about_watch_assistant_item_text_size" />
 
         <ImageView
@@ -55,7 +55,7 @@
         android:id="@+id/debug_trapdoor"
         android:layout_width="match_parent"
         android:layout_height="@dimen/about_watch_assistant_top_divider"
-        android:background="@color/my_watch_fragment_revision_big_divider" />
+        android:background="@color/tws_stipple" />
 
     <RelativeLayout
         android:id="@+id/settings_account_logout_btn"
@@ -69,7 +69,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/account_logout"
-            android:textColor="@color/warning_red"
+            android:textColor="@color/tws_alert"
             android:textSize="@dimen/about_watch_assistant_item_text_size" />
     </RelativeLayout>
 

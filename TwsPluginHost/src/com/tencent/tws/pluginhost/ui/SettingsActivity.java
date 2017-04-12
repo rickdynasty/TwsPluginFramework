@@ -43,9 +43,7 @@ public class SettingsActivity extends TwsActivity implements OnClickListener {
 
 	private void initActionBar() {
 		ActionBar actionBar = getTwsActionBar();
-		int actionBarBgColor = getResources().getColor(R.color.my_action_bar_bg_color);
 		actionBar.setTitle(getResources().getString(R.string.activity_settings_title));
-		actionBar.setBackgroundDrawable(new ColorDrawable(actionBarBgColor));
 		actionBar.setStackedBackgroundDrawable(getResources().getDrawable(R.drawable.ab_solid_light_holo_opacity));
 	}
 

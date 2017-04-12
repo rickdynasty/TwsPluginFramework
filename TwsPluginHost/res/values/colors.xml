@@ -17,7 +17,6 @@
     <color name="circle_img_cilck_transparent_pressed">#80ffffff</color>
     <!-- =================改版首页 End================= -->
     <color name="white">#ffffff</color>
-    <color name="dm_common_single_item_focused">#201D28</color>
     <color name="my_watch_fragment_revision_big_divider">#1f1c27</color>
     
     <color name="warning_red">#FF3C55</color>

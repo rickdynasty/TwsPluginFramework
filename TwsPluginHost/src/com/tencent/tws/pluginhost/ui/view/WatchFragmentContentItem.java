@@ -69,8 +69,8 @@ public class WatchFragmentContentItem extends RelativeLayout {
 		mTextSize = 16;// getResources().getDimensionPixelSize(R.dimen.HOST_HOME_FRAGMENT_revision_item_text_size);
 		mTextColor = getResources().getColor(R.color.tws_black);
 		mArrowImage_width = (int) getResources().getDimension(R.dimen.HOST_HOME_FRAGMENT_revision_item_arrow_img_width);
-		mArrowImage_height = (int) getResources()
-				.getDimension(R.dimen.HOST_HOME_FRAGMENT_revision_item_arrow_img_height);
+		mArrowImage_height = (int) getResources().getDimension(
+				R.dimen.HOST_HOME_FRAGMENT_revision_item_arrow_img_height);
 
 		mArrowImage_marginRight = (int) getResources().getDimension(
 				R.dimen.HOST_HOME_FRAGMENT_revision_item_arrow_img_margin_right);
@@ -229,7 +229,7 @@ public class WatchFragmentContentItem extends RelativeLayout {
 		mNotifyTextView.setLayoutParams(tvParams);
 		mNotifyTextView.setText(getResources().getString(R.string.HOST_HOME_FRAGMENT_notification_menu_item));
 		mNotifyTextView.setTextSize(14.0f);
-		mNotifyTextView.setTextColor(getResources().getColor(R.color.tws_split_text_view_color));
+		mNotifyTextView.setTextColor(mTextColor);
 		addView(mNotifyTextView);
 	}
 

@@ -56,10 +56,11 @@
     <!-- 列表分割区、分组标题栏背景色(白) -->
     <color name="tws_stipple">#F0F0F0</color>
     <!-- 警示色(红色) -->
-    <color name="tws_warning">#FD2F2F</color>
+    <color name="tws_alert">#FD2F2F</color>
     <!-- 用于高亮、进度、健康图标等(绿色) -->
     <color name="tws_light">#00BB00</color>
     
+    <color name="tws_dark_gray">#515151</color>
     <drawable name="transparent_background">@color/transparent</drawable>
     <color name="empty_text_color">#b2b2b2</color>
     <color name="highlighted_text_holo_light">#330074d6</color>
@@ -120,6 +121,7 @@
     <color name="hubble_nonexist_background">#FFe5e5e5</color>
     <color name="hubble_normal_textcolor">@color/tws_white</color>
     <color name="hubble_nonexist_textcolor">@color/tws_white</color>
+    <color name="tws_floatview_background">#cc000000</color>
     <color name="tws_picker_dialog_btn_bg">#f1f1f1</color>
     <color name="tws_picker_selected_textcolor">#46DC5F</color>
     <color name="tws_picker_normal_textcolor">@color/tws_black_percent_15</color>
@@ -176,7 +178,6 @@
     <color name="tws_operat_view_bg">#292634</color>
     <color name="tws_dialog_split">#0D979797</color>
     <color name="tws_split_view_bg">#1F1C27</color>
-    <color name="tws_split_text_view_color">@color/tws_white_alpha_large</color>
     <color name="tws_brand_percent_10">#1A46DC5F</color>
     <color name="tws_brand_percent_20">#3346DC5F</color>
     <color name="tws_brand_percent_50">#8046DC5F</color>
@@ -219,11 +220,12 @@
     
     <!-- values -->
         <color name="abc_search_url_text_normal">#7fa87f</color>
-    <color name="abc_search_url_text_selected">@android:color/black</color>
-    <color name="abc_search_url_text_pressed">@android:color/black</color>
+    <color name="abc_search_url_text_selected">@color/tws_black</color>
+    <color name="abc_search_url_text_pressed">@color/tws_black</color>
     
     <!-- 通用item/listview/gridview selector -->
 	<color name="dm_common_list_item_focused">#1E1C26</color>
+    <color name="dm_common_single_item_focused">#201D28</color>
     <color name="dm_common_item_normal">#FF24212d</color>
 
     <!-- 通用dialog button selector -->

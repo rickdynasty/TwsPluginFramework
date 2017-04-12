@@ -41,16 +41,16 @@
     </style>
 
     <style name="AlertDialog.tws.Second.Bottom">
-        <item name="android:fullDark">@color/tws_operat_view_bg</item>
-        <item name="android:topDark">@color/tws_operat_view_bg</item>
-        <item name="android:centerDark">@color/tws_operat_view_bg</item>
-        <item name="android:bottomDark">@color/tws_operat_view_bg</item>
-        <item name="android:fullBright">@color/tws_operat_view_bg</item>
-        <item name="android:topBright">@color/tws_operat_view_bg</item>
-        <item name="android:centerBright">@color/tws_operat_view_bg</item>
-        <item name="android:bottomBright">@color/tws_operat_view_bg</item>
-        <item name="android:bottomMedium">@color/tws_operat_view_bg</item>
-        <item name="android:centerMedium">@color/tws_operat_view_bg</item>
+        <item name="android:fullDark">@drawable/bottom_dialog_full_holo_light</item>
+        <item name="android:topDark">@drawable/bottom_dialog_top_holo_light</item>
+        <item name="android:centerDark">@drawable/bottom_dialog_middle_holo_light</item>
+        <item name="android:bottomDark">@drawable/bottom_dialog_bottom_holo_light</item>
+        <item name="android:fullBright">@drawable/bottom_dialog_full_holo_light</item>
+        <item name="android:topBright">@drawable/bottom_dialog_top_holo_light</item>
+        <item name="android:centerBright">@drawable/bottom_dialog_middle_holo_light</item>
+        <item name="android:bottomBright">@drawable/bottom_dialog_bottom_holo_light</item>
+        <item name="android:bottomMedium">@drawable/bottom_dialog_bottom_holo_light</item>
+        <item name="android:centerMedium">@drawable/bottom_dialog_middle_holo_light</item>
     </style>
 
     <style name="AlertDialog.tws.Second.Dark">
@@ -210,18 +210,17 @@
     </style>
 
     <style name="FloatViewTheme" parent="@android:style/Theme.Holo.Dialog">
-        <item name="android:windowBackground">@color/tws_view_bg</item>
+        <item name="android:windowBackground">@color/tws_floatview_background</item>
     </style>
 
     <style name="FloatViewTheme.HoloLight">
-        <item name="android:windowBackground">@color/tws_view_bg</item>
+        <item name="android:windowBackground">@color/tws_floatview_background</item>
     </style>
 
     <style name="Preference"></style>
 
     <style name="Preference.tws">
         <item name="android:layout">@layout/preference_holo</item>
-        <item name="android:textColor">@color/tws_black</item>
     </style>
 
     <style name="Preference.tws.Category">
@@ -294,7 +293,7 @@
 
     <style name="TextAppearance.tws.Second.twsTextDialogButton">
         <item name="android:textSize">@dimen/tws_Large_TextSize</item>
-        <item name="android:textColor">@color/tws_black</item>
+        <item name="android:textColor">@color/tws_dialog_button_text_light</item>
     </style>
 
     <style name="TextAppearance.tws.Second.twsTextDialogButton.Dark">
@@ -382,13 +381,13 @@
 
     <style name="TextAppearance.tws.Second.twsTextMediumLightBody">
         <item name="android:textSize">@dimen/tws_Large_TextSize</item>
-        <item name="android:textColor">@color/tws_black</item>
+        <item name="android:textColor">@color/tws_light_body</item>
         <item name="android:textColorHint">@color/tws_second_Hint</item>
     </style>
 
     <style name="TextAppearance.tws.Second.twsTextMediumLightBodyL">
         <item name="android:textSize">@dimen/tws_Large_TextSize</item>
-        <item name="android:textColor">@color/tws_black</item>
+        <item name="android:textColor">@color/tws_light_body</item>
         <item name="android:textColorHint">@color/tws_second_Hint</item>
     </style>
 
@@ -432,7 +431,7 @@
 
     <style name="TextAppearance.tws.Second.twsTextSmallLightBodySub">
         <item name="android:textSize">@dimen/tws_Small_TextSize</item>
-        <item name="android:textColor">@color/tws_black</item>
+        <item name="android:textColor">@color/tws_light_body_sub</item>
         <item name="android:textColorHint">@color/tws_second_Hint</item>
     </style>
 
@@ -529,7 +528,7 @@
     </style>
 
     <style name="TextAppearance.tws.StatusBar.EventContent.Title">
-        <item name="android:textColor">@color/tws_black</item>
+        <item name="android:textColor">@color/tws_white</item>
         <item name="android:textSize">16sp</item>
     </style>
 
@@ -633,7 +632,7 @@
         <item name="android:textColorSecondaryInverse">@color/tws_text_dark_body_sub</item>
         <item name="android:textColorTertiaryInverse">@color/tws_text_dark_summary</item>
         <item name="android:textCursorDrawable">@drawable/text_cursor_holo_light</item>
-        <item name="android:windowBackground">@color/tws_view_bg</item>
+        <item name="android:windowBackground">@drawable/tws_windowbackground</item>
         <item name="android:textColorHint">@color/tws_second_Hint</item>
         <item name="android:textColorHintInverse">@color/tws_second_Hint</item>
         <item name="android:colorPressedHighlight">@color/tws_blue</item>
@@ -758,7 +757,7 @@
         <item name="android:windowFrame">@null</item>
         <item name="android:windowTitleStyle">@style/DialogWindowTitle.tws</item>
         <item name="windowTitleStyle">@style/DialogWindowTitle.tws</item>
-        <item name="android:windowBackground">@color/tws_view_bg</item>
+        <item name="android:windowBackground">@drawable/dialog_full_holo_light</item>
         <item name="android:windowIsFloating">true</item>
         <item name="android:windowContentOverlay">@null</item>
         <item name="android:windowAnimationStyle">@style/Animation.tws.Dialog</item>
@@ -824,7 +823,6 @@
         <item name="searchViewCursorDrawable">@drawable/search_view_cursor_drawable_light</item>
         <item name="android:textColorAlertDialogListItem">@color/tws_light_body</item>
         <item name="searchViewStyle">@style/Widget.tws.SearchViewStyle</item>
-        <item name="gifViewStyle">@style/Widget.tws.GifViewStyle</item>
         <item name="actionModeSplitBackground">@drawable/cab_background_bottom_holo_light</item>
         <item name="actionModeStyle">@style/Widget.tws.ActionMode.Second</item>
         <item name="actionModeCloseButtonStyle">@style/Widget.tws.ActionButton.CloseMode</item>
@@ -934,7 +932,6 @@
         <item name="searchViewTextColorHint">@color/search_view_text_color_hint_dark</item>
         <item name="searchViewCursorDrawable">@drawable/search_view_cursor_drawable_dark</item>
         <item name="searchViewStyle">@style/Widget.tws.SearchViewStyle</item>
-        <item name="gifViewStyle">@style/Widget.tws.GifViewStyle</item>
         <item name="actionBarTabTextStyle">@style/Widget.tws.ActionBar.TabText.Holo</item>
         <item name="actionBarSubTabTextStyle">@style/Widget.tws.ActionBar.TabText.Sub.Holo</item>
         <item name="actionBarTabStyle">@style/Widget.tws.ActionBar.TabView.Holo</item>
@@ -1138,12 +1135,6 @@
         <item name="buttonBarButtonStyle">@style/TextAppearance.tws.Second.twsTextDialogButton</item>
     </style>
 
-    <style name="Theme.tws.Second.Dialog.NoBackground" parent="@style/Theme.tws.Second.Dialog.default">
-        <item name="android:windowBackground">@null</item>
-        <item name="android:windowIsTranslucent">false</item>
-        <item name="android:windowNoTitle">true</item>
-    </style>
-    
     <style name="Theme.tws.Second.NoActionBar">
         <item name="android:windowActionBar">false</item>
         <item name="android:windowNoTitle">true</item>
@@ -1273,8 +1264,7 @@
 
     <style name="Widget.PreferenceListView" parent="Widget.AbsListView">
         <item name="cacheColorHint">@null</item>
-        <item name="divider">@drawable/list_divider_holo_light</item>
-        <item name="android:background">@color/home_bg</item>
+        <item name="divider">@null</item>
     </style>
 
     <style name="Widget.Spinner" parent="@style/Widget.tws.Spinner.DropDown">
@@ -1319,7 +1309,7 @@
         <item name="subtitleTextStyle">@style/TextAppearance.tws.Second.twsTextSmallLightTitle</item>
         <item name="background">@color/tws_bar_background</item>
         <item name="backgroundStacked">@drawable/ab_solid_holo_light</item>
-        <item name="backgroundSplit">@color/tws_operat_view_bg</item>
+        <item name="backgroundSplit">@drawable/ab_solid_holo_light_bottom</item>
         <item name="homebutton">@drawable/ic_ab_back</item>
         <item name="homebackground">@color/transparent</item>
         <item name="actionbarleftbtnstyle">@style/TextAppearance.tws.Second.twsTextLargerLightTitleLeftButton</item>
@@ -1337,7 +1327,7 @@
     <style name="Widget.tws.ActionBar.Second.Holo">
         <item name="titleTextStyle">@style/TextAppearance.tws.Second.twsTextLargerDarkTitle.ActionBarTitle</item>
         <item name="subtitleTextStyle">@style/TextAppearance.tws.Second.twsTextSmallDarkTitle</item>
-        <item name="background">@color/tws_view_bg</item>
+        <item name="background">@drawable/ab_solid_holo_dark</item>
         <item name="backgroundStacked">@drawable/ab_solid_holo_dark</item>
         <item name="backgroundSplit">@drawable/ab_solid_holo_dark</item>
         <item name="homebutton">@drawable/ic_ab_back_holo</item>
@@ -1438,11 +1428,11 @@
     <style name="Widget.tws.ActionMode.Second">
         <item name="titleTextStyle">@style/TextAppearance.tws.Second.twsTextSuperLightTitle.ActionModeTitle</item>
         <item name="subtitleTextStyle">@style/TextAppearance.tws.Second.twsTextSmallLightTitle</item>
-        <item name="backgroundActionMode">@color/tws_view_bg</item>
-        <item name="backgroundSplit">@color/tws_view_bg</item>
+        <item name="backgroundActionMode">@drawable/ab_solid_holo_light_noshadow</item>
+        <item name="backgroundSplit">@drawable/ab_solid_holo_light_bottom</item>
         <item name="backgroundMode">gradient</item>
-        <item name="gradientBackgroundStartColor">@color/tws_view_bg</item>
-        <item name="gradientBackgroundEndColor">@color/tws_view_bg</item>
+        <item name="gradientBackgroundStartColor">@color/actionbar_gradient_background_start_color</item>
+        <item name="gradientBackgroundEndColor">@color/actionbar_gradient_background_end_color</item>
     </style>
 
     <style name="Widget.tws.ActionMode.Second.Holo">
@@ -1553,11 +1543,6 @@
         <item name="isWhiteBackground">true</item>
     </style>
 
-    <style name="Widget.tws.GifViewStyle">
-        <item name="freezesAnimation">false</item>
-        <item name="cachePercent">0</item>
-    </style>
-
     <style name="Widget.tws.Holo.ListView.DropDown" parent="@style/Widget.ListView">
         <item name="divider">@drawable/list_divider_holo_light</item>
         <item name="listSelector">@null</item>
@@ -1612,7 +1597,6 @@
     </style>
 
     <style name="Widget.tws.ListView" parent="@android:style/Widget.ListView">
-        <item name="android:background">@color/tws_view_bg</item>
         <item name="divider">@drawable/list_divider_holo_light</item>
         <item name="listSelector">@null</item>
         <item name="emptyListBackground">@drawable/transparent_background</item>
@@ -1629,14 +1613,16 @@
         <item name="listSelector">@null</item>
     </style>
 
-	<!-- <item name="listSelector">@drawable/list_menu_selector</item> -->
     <style name="Widget.tws.ListView.Second.Dialog">
-        <item name="android:background">@color/tws_operat_view_bg</item>
-        <item name="divider">@null</item>
+        <item name="android:background">@drawable/list_menu_bg_holo_light</item>
+        <item name="listSelector">@drawable/list_menu_selector</item>
+        <item name="topListSelector">@drawable/list_menu_selector_top</item>
+        <item name="bottomListSelector">@drawable/list_menu_selector_bottom</item>
+        <item name="useShapedSelector">true</item>
     </style>
 
     <style name="Widget.tws.ListView.Second.Dialog.Dark">
-        <item name="android:background">@color/tws_view_bg</item>
+        <item name="android:background">@color/tws_black</item>
         <item name="listSelector">@color/tws_black</item>
     </style>
 
@@ -1804,7 +1790,7 @@
     </style>
 
     <style name="Widget.tws.TabBar" parent="@android:style/Widget.Holo.TabWidget">
-        <item name="android:background">@color/tws_view_bg</item>
+        <item name="android:background">@drawable/tab_bar_bg_light</item>
         <item name="android:gravity">center_horizontal</item>
         <item name="tabStripLeft">@null</item>
         <item name="tabStripRight">@null</item>
@@ -1826,7 +1812,7 @@
     <style name="Widget.tws.TabText" parent="@android:style/Widget.Holo.ActionBar.TabText">
         <item name="android:maxWidth">180dip</item>
         <item name="android:textStyle">normal</item>
-        <item name="android:textSize">@dimen/tws_Small_TextSize</item>
+        <item name="android:textSize">@dimen/tws_Large_TextSize</item>
         <item name="android:textColor">@color/tab_text_light</item>
     </style>
 
@@ -1879,7 +1865,7 @@
     </style>
 
     <style name="Widget.tws.TextView.ListSeparator.Second">
-        <item name="android:background">@color/tws_split_view_bg</item>
+        <item name="android:background">@drawable/tws_category_bg</item>
         <item name="android:textAllCaps">false</item>
         <item name="android:paddingTop">6dp</item>
         <item name="android:layout_width">match_parent</item>
@@ -1888,7 +1874,7 @@
         <item name="android:textStyle">normal</item>
         <item name="android:textSize">@dimen/tws_Micro_TextSize</item>
         <item name="android:paddingLeft">@dimen/tws_listview_item_padding_side_left</item>
-        <item name="android:textColor">@color/tws_split_text_view_color</item>
+        <item name="android:textColor">@color/tws_light_body_sub</item>
     </style>
 
     <style name="Widget.tws.TimePicker">
@@ -1919,169 +1905,5 @@
 　　        	<item name="android:maxHeight">48dp</item>
     </style>
     
-    <!-- values -->
-    <!-- Platform-independent theme providing an action bar in a dark-themed activity. -->
-    <style name="Theme.AppCompat" parent="Theme.Base.AppCompat">
-        <item name="isLightTheme">false</item>
 
-        <!-- Required for use of support_simple_spinner_dropdown_item.xml -->
-        <item name="spinnerDropDownItemStyle">
-            @style/Widget.AppCompat.DropDownItem.Spinner
-        </item>
-        <item name="dropdownListPreferredItemHeight">?attr/listPreferredItemHeightSmall</item>
-        <item name="searchResultListItemHeight">58dip</item>
-
-        <!-- Popup Menu styles -->
-        <item name="popupMenuStyle">@style/Widget.AppCompat.PopupMenu</item>
-        <item name="textAppearanceLargePopupMenu">
-            @style/TextAppearance.AppCompat.Widget.PopupMenu.Large
-        </item>
-        <item name="textAppearanceSmallPopupMenu">
-            @style/TextAppearance.AppCompat.Widget.PopupMenu.Small
-        </item>
-
-        <item name="listPopupWindowStyle">@style/Widget.AppCompat.ListPopupWindow</item>
-        <item name="dropDownListViewStyle">@style/Widget.AppCompat.ListView.DropDown</item>
-
-        <!-- SearchView attributes -->
-        <item name="searchDropdownBackground">@drawable/abc_search_dropdown_dark</item>
-        <item name="searchViewTextField">@drawable/abc_textfield_searchview_holo_dark</item>
-        <item name="searchViewTextFieldRight">@drawable/abc_textfield_searchview_right_holo_dark
-        </item>
-        <item name="searchViewCloseIcon">@drawable/abc_ic_clear</item>
-        <item name="searchViewSearchIcon">@drawable/abc_ic_search</item>
-        <item name="searchViewGoIcon">@drawable/abc_ic_go</item>
-        <item name="searchViewVoiceIcon">@drawable/abc_ic_voice_search</item>
-        <item name="searchViewEditQuery">@drawable/abc_ic_commit_search_api_holo_dark</item>
-        <item name="searchViewEditQueryBackground">?attr/selectableItemBackground</item>
-        <item name="searchViewAutoCompleteTextView">
-            @style/Widget.AppCompat.AutoCompleteTextView</item>
-        <item name="textColorSearchUrl">@color/abc_search_url_text_holo</item>
-        <item name="textAppearanceSearchResultTitle">
-            @style/TextAppearance.AppCompat.SearchResult.Title
-        </item>
-        <item name="textAppearanceSearchResultSubtitle">
-            @style/TextAppearance.AppCompat.SearchResult.Subtitle
-        </item>
-
-        <item name="actionModeShareDrawable">@drawable/abc_ic_menu_share_holo_dark</item>
-
-        <!-- ShareActionProvider attributes -->
-        <item name="activityChooserViewStyle">@style/Widget.AppCompat.ActivityChooserView</item>
-
-    </style>
-
-    <!-- Platform-independent theme providing an action bar in a light-themed activity. -->
-    <style name="Theme.AppCompat.Light" parent="Theme.Base.AppCompat.Light">
-        <item name="isLightTheme">true</item>
-
-        <!-- Required for use of support_simple_spinner_dropdown_item.xml -->
-        <item name="spinnerDropDownItemStyle">
-            @style/Widget.AppCompat.Light.DropDownItem.Spinner
-        </item>
-        <item name="dropdownListPreferredItemHeight">?attr/listPreferredItemHeightSmall</item>
-        <item name="searchResultListItemHeight">58dip</item>
-
-        <!-- Popup Menu styles -->
-        <item name="popupMenuStyle">@style/Widget.AppCompat.Light.PopupMenu</item>
-        <item name="textAppearanceLargePopupMenu">
-            @style/TextAppearance.AppCompat.Light.Widget.PopupMenu.Large
-        </item>
-        <item name="textAppearanceSmallPopupMenu">
-            @style/TextAppearance.AppCompat.Light.Widget.PopupMenu.Small
-        </item>
-
-        <item name="listPopupWindowStyle">@style/Widget.AppCompat.Light.ListPopupWindow</item>
-        <item name="dropDownListViewStyle">@style/Widget.AppCompat.Light.ListView.DropDown</item>
-
-        <!-- SearchView attributes -->
-        <item name="searchDropdownBackground">@drawable/abc_search_dropdown_light</item>
-        <item name="searchViewTextField">@drawable/abc_textfield_searchview_holo_light</item>
-        <item name="searchViewTextFieldRight">@drawable/abc_textfield_searchview_right_holo_light
-        </item>
-        <item name="searchViewCloseIcon">@drawable/abc_ic_clear_holo_light</item>
-        <item name="searchViewSearchIcon">@drawable/abc_ic_search_api_holo_light</item>
-        <item name="searchViewGoIcon">@drawable/abc_ic_go_search_api_holo_light</item>
-        <item name="searchViewVoiceIcon">@drawable/abc_ic_voice_search_api_holo_light</item>
-        <item name="searchViewEditQuery">@drawable/abc_ic_commit_search_api_holo_light</item>
-        <item name="searchViewEditQueryBackground">?attr/selectableItemBackground</item>
-        <item name="searchViewAutoCompleteTextView">
-            @style/Widget.AppCompat.Light.AutoCompleteTextView</item>
-        <item name="textColorSearchUrl">@color/abc_search_url_text_holo</item>
-        <item name="textAppearanceSearchResultTitle">
-            @style/TextAppearance.AppCompat.Light.SearchResult.Title
-        </item>
-        <item name="textAppearanceSearchResultSubtitle">
-            @style/TextAppearance.AppCompat.Light.SearchResult.Subtitle
-        </item>
-
-        <item name="actionModeShareDrawable">@drawable/abc_ic_menu_share_holo_light</item>
-
-        <!-- ShareActionProvider attributes -->
-        <item name="activityChooserViewStyle">@style/Widget.AppCompat.Light.ActivityChooserView
-        </item>
-
-    </style>
-
-    <!-- Platform-independent theme providing an action bar in a dark-themed activity. -->
-    <style name="Theme.AppCompat.Light.DarkActionBar"
-           parent="Theme.Base.AppCompat.Light.DarkActionBar">
-        <item name="isLightTheme">true</item>
-
-        <!-- Required for use of support_simple_spinner_dropdown_item.xml -->
-        <item name="spinnerDropDownItemStyle">
-            @style/Widget.AppCompat.Light.DropDownItem.Spinner
-        </item>
-        <item name="dropdownListPreferredItemHeight">?attr/listPreferredItemHeightSmall</item>
-        <item name="searchResultListItemHeight">58dip</item>
-
-        <!-- Popup Menu styles -->
-        <item name="popupMenuStyle">@style/Widget.AppCompat.Light.PopupMenu</item>
-        <item name="textAppearanceLargePopupMenu">
-            @style/TextAppearance.AppCompat.Light.Widget.PopupMenu.Large
-        </item>
-        <item name="textAppearanceSmallPopupMenu">
-            @style/TextAppearance.AppCompat.Light.Widget.PopupMenu.Small
-        </item>
-
-        <item name="listPopupWindowStyle">@style/Widget.AppCompat.ListPopupWindow</item>
-        <item name="dropDownListViewStyle">@style/Widget.AppCompat.ListView.DropDown</item>
-
-        <!-- SearchView attributes -->
-        <item name="searchDropdownBackground">@drawable/abc_search_dropdown_dark</item>
-        <item name="searchViewTextField">@drawable/abc_textfield_searchview_holo_dark</item>
-        <item name="searchViewTextFieldRight">@drawable/abc_textfield_searchview_right_holo_dark
-        </item>
-        <item name="searchViewCloseIcon">@drawable/abc_ic_clear</item>
-        <item name="searchViewSearchIcon">@drawable/abc_ic_search</item>
-        <item name="searchViewGoIcon">@drawable/abc_ic_go</item>
-        <item name="searchViewVoiceIcon">@drawable/abc_ic_voice_search</item>
-        <item name="searchViewEditQuery">@drawable/abc_ic_commit_search_api_holo_dark</item>
-        <item name="searchViewEditQueryBackground">?attr/selectableItemBackground</item>
-        <item name="searchViewAutoCompleteTextView">
-            @style/Widget.AppCompat.AutoCompleteTextView</item>
-        <item name="textColorSearchUrl">@color/abc_search_url_text_holo</item>
-        <item name="textAppearanceSearchResultTitle">
-            @style/TextAppearance.AppCompat.SearchResult.Title
-        </item>
-        <item name="textAppearanceSearchResultSubtitle">
-            @style/TextAppearance.AppCompat.SearchResult.Subtitle
-        </item>
-
-        <item name="actionModeShareDrawable">@drawable/abc_ic_menu_share_holo_dark</item>
-
-        <!-- ShareActionProvider attributes -->
-        <item name="activityChooserViewStyle">@style/Widget.AppCompat.ActivityChooserView
-        </item>
-
-    </style>
-
-
-    <!-- Menu/item attributes -->
-    <style name="Theme.AppCompat.CompactMenu" parent="Theme.AppCompat.Base.CompactMenu">
-    </style>
-
-    <style name="Theme.AppCompat.CompactMenu.Dialog"
-           parent="Theme.AppCompat.Base.CompactMenu.Dialog">
-    </style>
 </resources>

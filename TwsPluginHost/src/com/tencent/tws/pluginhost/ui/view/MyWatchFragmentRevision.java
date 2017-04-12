@@ -197,7 +197,7 @@ public class MyWatchFragmentRevision extends Fragment implements OnClickListener
 		final Resources res = rootView.getContext().getResources();
 
 		final int thickSplitHeight = (int) res.getDimension(R.dimen.HOST_HOME_FRAGMENT_revision_item_big_divider);
-		final Drawable thickSplitBackground = res.getDrawable(R.color.HOST_HOME_FRAGMENT_revision_big_divider);
+		final Drawable thickSplitBackground = res.getDrawable(R.color.tws_stipple);
 
 		// 注意：插件提供的Item 索引值应该是从1开始的，上面有一个mWatchInfoLayout
 		if (mDisplayInfos != null) {

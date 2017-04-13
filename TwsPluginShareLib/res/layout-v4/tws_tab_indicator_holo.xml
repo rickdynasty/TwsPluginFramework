@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    style="@style/Widget.tws.TabView"
     android:orientation="horizontal"
-    android:padding="0dip" >
+     android:padding="0dip"
+    style="@style/Widget.tws.TabView">
 
     <ImageView
         android:id="@id/icon"
@@ -13,10 +13,10 @@
 
     <TextView
         android:id="@id/title"
-        style="@style/Widget.tws.TabText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
-        android:paddingBottom="5dp" />
+        style="@style/Widget.tws.TabText"
+        android:textColor="@color/tws_light_caption" />
 
 </LinearLayout>

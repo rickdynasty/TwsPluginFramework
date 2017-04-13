@@ -26,7 +26,7 @@
     android:layout_marginRight="16dip"
     android:minWidth="300dp"
     android:orientation="vertical"
-    android:background="@color/tws_operat_view_bg">
+    android:background="@drawable/dialog_bg">
 
     <LinearLayout
         android:id="@id/topPanel"
@@ -69,18 +69,10 @@
                 <TextView
                     android:id="@id/alertTitle"
                     style="?attr/windowTitleStyle"
-                    android:textColor="@color/tws_white"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:ellipsize="end"
                     android:singleLine="false" />
-                
-                  <ImageView
-                    android:id="@id/alertTitle_right_iv_btn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="12dp"
-                    android:src="@null" />
             </LinearLayout>
 
             <LinearLayout
@@ -167,13 +159,6 @@
             android:paddingBottom="10dip"
             android:paddingTop="10dip" />
     </LinearLayout>
-    
-    <View
-        android:id="@id/dialog_bottom_split"
-        android:layout_width="match_parent"
-        android:layout_height="1px"
-        android:background="@color/tws_dialog_split"
-        android:visibility="gone" />
 
     <LinearLayout
         android:id="@id/dialog_bottom_buttons_panel"

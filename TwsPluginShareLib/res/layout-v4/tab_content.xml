@@ -19,7 +19,7 @@
                 android:id="@+id/tabs"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/tws_tabhost_h"
-                android:background="@color/tws_view_bg"
+                android:background="@drawable/tab_bar_bg_light"
                 android:orientation="horizontal" />
         </HorizontalScrollView>
 

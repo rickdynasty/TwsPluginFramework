@@ -62,6 +62,7 @@
             android:layout_alignLeft="@id/title"
 			android:paddingTop="6dip"
             android:textAppearance="@style/TextAppearance.tws.Second.twstextMicroLightSummary"
+			android:textColor="@color/tws_black_alpha_medium"
             android:maxLines="2" />
 
     </RelativeLayout>

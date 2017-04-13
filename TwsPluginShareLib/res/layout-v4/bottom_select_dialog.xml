@@ -25,16 +25,12 @@
 -->
 <view class="com.tencent.tws.assistant.widget.ListView"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tws="http://schemas.android.com/apk/res-auto"
     android:id="@id/dialog_bottom_buttons_listview"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_marginTop="0dip"
     android:cacheColorHint="@null"
-    style="@style/Widget.tws.ListView.Second.Dialog"
-    android:dividerHeight="1dp"
+    android:divider="?android:attr/listDividerAlertDialog"
+    android:dividerHeight="1px"
     android:scrollbars="vertical"
-    tws:divider="@drawable/sep_line"
-    android:fadeScrollbars="false"
-    android:scrollbarFadeDuration="0"
     android:overScrollMode="ifContentScrolls" />

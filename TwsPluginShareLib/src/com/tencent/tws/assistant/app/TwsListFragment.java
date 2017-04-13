@@ -16,6 +16,7 @@
 
 package com.tencent.tws.assistant.app;
 
+import android.app.Fragment;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.LayoutInflater;
@@ -24,11 +25,10 @@ import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
 import android.widget.ListAdapter;
 import android.widget.TextView;
-import android.app.Fragment;
 
+import com.tencent.tws.sharelib.R;
 import com.tencent.tws.assistant.widget.AdapterView;
 import com.tencent.tws.assistant.widget.ListView;
-import com.tencent.tws.sharelib.R;
 
 /**
  * A fragment that displays a list of items by binding to a data source such as

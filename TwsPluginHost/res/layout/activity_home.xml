@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/home_bg" >
+    android:background="@color/tws_view_bg" >
 
     <com.tencent.tws.pluginhost.ui.view.Hotseat
         android:id="@+id/home_bottom_tab"

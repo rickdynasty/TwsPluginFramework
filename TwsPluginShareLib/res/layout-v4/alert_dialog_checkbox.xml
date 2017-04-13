@@ -41,6 +41,6 @@
 		android:gravity="center_vertical|left"
 		android:button= "@drawable/second_btn_check_holo_light"
 		android:textAppearance="@style/TextAppearance.tws.Second.twsTextMediumLightBody"
-		android:textColor="@color/tws_white" />
+		android:textColor="@color/tws_light_body_sub" />
 </LinearLayout>
 

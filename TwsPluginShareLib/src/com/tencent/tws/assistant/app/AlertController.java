@@ -22,7 +22,6 @@ import java.lang.ref.WeakReference;
 import java.util.Arrays;
 import java.util.List;
 
-import tws.component.log.TwsLog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
@@ -54,16 +53,15 @@ import android.widget.ListAdapter;
 import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 
+import com.tencent.tws.sharelib.R;
 import com.tencent.tws.assistant.app.AlertDialog.ButtonColor;
-import com.tencent.tws.assistant.utils.ResIdentifierUtils;
 import com.tencent.tws.assistant.utils.ThemeUtils;
 import com.tencent.tws.assistant.utils.TwsRippleUtils;
 import com.tencent.tws.assistant.widget.AdapterView;
-import com.tencent.tws.assistant.widget.AdapterView.OnItemClickListener;
 import com.tencent.tws.assistant.widget.CheckedTextView;
 import com.tencent.tws.assistant.widget.ListView;
 import com.tencent.tws.assistant.widget.TwsScrollView;
-import com.tencent.tws.sharelib.R;
+import com.tencent.tws.assistant.widget.AdapterView.OnItemClickListener;
 
 public class AlertController {
 
@@ -122,8 +120,6 @@ public class AlertController {
 	private ImageView mIconView;
 
 	private TextView mTitleView;
-
-	private ImageView mRightIvBtn;
 	private float mTitleTextSize;
 	private int mTitleTextColor;
 	private boolean mCustomSettitleTextColor = false;
@@ -157,7 +153,6 @@ public class AlertController {
 	private Handler mHandler;
 	// tws-start bottom dialog::2014-10-1
 	private ListView mBottomButtonsListView;
-	private int mBottomButtonsListViewHeight;
 	private ListAdapter mBottomButtonAdapter;
 	private CharSequence[] mBottomButtonItems;
 	private LinearLayout mBottomButtonsPanel;
@@ -205,7 +200,8 @@ public class AlertController {
 
 				// Post a message so we dismiss after the above handlers are
 				// executed
-				mHandler.sendMessageDelayed(mHandler.obtainMessage(ButtonHandler.MSG_DISMISS_DIALOG, mDialogInterface), 175);
+				mHandler.sendMessageDelayed(mHandler.obtainMessage(ButtonHandler.MSG_DISMISS_DIALOG, mDialogInterface),
+						175);
 			} else {
 				if (m != null) {
 					m.sendToTarget();
@@ -300,7 +296,8 @@ public class AlertController {
 		if (mBottomButtonAnimationDelayTime < 1) {
 			mBottomButtonAnimationDelayTime = DEFAULT_ANIMATION_DELAY_TIME;
 		}
-		mBottomButtonAnimationShortDelayTime = context.getResources().getInteger(R.integer.config_listItemShortDelayTime);
+		mBottomButtonAnimationShortDelayTime = context.getResources().getInteger(
+				R.integer.config_listItemShortDelayTime);
 		if (mBottomButtonAnimationShortDelayTime < 1) {
 			mBottomButtonAnimationShortDelayTime = DEFAULT_ANIMATION_SHORT_DELAY_TIME;
 		}
@@ -335,7 +332,8 @@ public class AlertController {
 		mWindow.requestFeature(Window.FEATURE_NO_TITLE);
 
 		if (mView == null || !canTextInput(mView)) {
-			mWindow.setFlags(WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM, WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
+			mWindow.setFlags(WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM,
+					WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
 		}
 		// tws-start bottom dialog::2014-10-3
 		View contentView = LayoutInflater.from(mContext).inflate(mAlertDialogLayout, null);
@@ -428,7 +426,8 @@ public class AlertController {
 		setButton(ButtonColor.BTN_NORMAL, whichButton, text, listener, msg);
 	}
 
-	public void setButton(ButtonColor buttonColor, int whichButton, CharSequence text, DialogInterface.OnClickListener listener, Message msg) {
+	public void setButton(ButtonColor buttonColor, int whichButton, CharSequence text,
+			DialogInterface.OnClickListener listener, Message msg) {
 
 		if (msg == null && listener != null) {
 			msg = mHandler.obtainMessage(whichButton, listener);
@@ -469,43 +468,40 @@ public class AlertController {
 		setBottomButtons(bottomButtonItems, null, onClickListener);
 	}
 
-	public void setBottomButtons(int bottomButtonItemsId, int[] bottomButtonColorItems, final OnClickListener onClickListener) {
+	public void setBottomButtons(int bottomButtonItemsId, int[] bottomButtonColorItems,
+			final OnClickListener onClickListener) {
 		CharSequence[] bottomButtonItems = mContext.getResources().getTextArray(bottomButtonItemsId);
 		setBottomButtons(bottomButtonItems, bottomButtonColorItems, onClickListener);
 	}
 
-	public void setButtomButtonMiniHeight(int miniHeight) {
-		if (mBottomButtonsListView == null) {
-			TwsLog.e("AlertController.setButtomButtonMiniHeight()", "mBottomButtonsListView is null");
-		}
-		mBottomButtonsListView.setMinimumHeight(miniHeight);
-	}
-
-	public void setBottomButtons(CharSequence[] bottomButtonItems, final int[] bottomButtonColorItems, final OnClickListener onClickListener) {
+	public void setBottomButtons(CharSequence[] bottomButtonItems, final int[] bottomButtonColorItems,
+			final OnClickListener onClickListener) {
 		if (bottomButtonItems == null || bottomButtonItems.length <= 0) {
 			return;
 		}
 		mBottomButtonItems = bottomButtonItems;
-		final boolean hasTitle = ((mCustomTitleView != null) || (mTitle != null && !TextUtils.isEmpty(mTitle)) || (mIcon != null) || (mIconId > 0)
-				|| (mMessage != null && !TextUtils.isEmpty(mMessage)) || mView != null);
+		final boolean hasTitle = ((mCustomTitleView != null) || (mTitle != null && !TextUtils.isEmpty(mTitle))
+				|| (mIcon != null) || (mIconId > 0) || (mMessage != null && !TextUtils.isEmpty(mMessage)) || mView != null);
 		final boolean hasButton = false;
 		if (mBottomButtonsListView == null) {
 			final ListView listView = (ListView) LayoutInflater.from(mContext).inflate(mBottomButtonLayout, null);
 			boolean bRipple = ThemeUtils.isShowRipple(mContext);
 			if (!bRipple) {
-				listView.setSelector(mContext.getResources().getDrawable(R.drawable.dm_common_dialog_button_selector));
+				listView.setSelector(mContext.getResources().getDrawable(R.drawable.dialog_list_selector_holo_light));
 			}
 			listView.setFooterDividersEnabled(false);
 			listView.setOnItemClickListener(new OnItemClickListener() {
 				public void onItemClick(AdapterView parent, View v, int position, long id) {
 					onClickListener.onClick(mDialogInterface, position);
-					mHandler.sendMessageDelayed(mHandler.obtainMessage(ButtonHandler.MSG_DISMISS_DIALOG, mDialogInterface), 80);
+					mHandler.sendMessageDelayed(
+							mHandler.obtainMessage(ButtonHandler.MSG_DISMISS_DIALOG, mDialogInterface), 80);
 					// mDialogInterface.dismiss();
 				}
 			});
 			mBottomButtonsListView = listView;
 		}
-		ListAdapter listAdapter = new ArrayAdapter<CharSequence>(mContext, mBottomButtonItemLayout, R.id.text1, mBottomButtonItems) {
+		ListAdapter listAdapter = new ArrayAdapter<CharSequence>(mContext, mBottomButtonItemLayout, R.id.text1,
+				mBottomButtonItems) {
 			final List<CharSequence> mList = Arrays.asList(mBottomButtonItems);
 
 			@Override
@@ -568,26 +564,6 @@ public class AlertController {
 		}
 	}
 
-	public void setRightBtn(int resId) {
-		if (mRightIvBtn != null) {
-			if (resId > 0) {
-				mRightIvBtn.setImageResource(resId);
-				mRightIvBtn.setVisibility(View.VISIBLE);
-			} else if (resId == 0) {
-				mRightIvBtn.setVisibility(View.GONE);
-			}
-		}
-	}
-
-	public void setRightBtn(Drawable icon) {
-		if ((mRightIvBtn != null) && (icon != null)) {
-			mRightIvBtn.setImageDrawable(icon);
-			mRightIvBtn.setVisibility(View.VISIBLE);
-		} else {
-			mRightIvBtn.setVisibility(View.GONE);
-		}
-	}
-
 	public void setInverseBackgroundForced(boolean forceInverseBackground) {
 		mForceInverseBackground = forceInverseBackground;
 	}
@@ -633,12 +609,12 @@ public class AlertController {
 
 		LinearLayout topPanel = (LinearLayout) mWindow.findViewById(R.id.topPanel);
 		// tws-start bottom dialog::2014-10-3
-		int alertDialogStyle = ResIdentifierUtils.getSysAttrId("alertDialogStyle");
-		if (0 == alertDialogStyle) alertDialogStyle = com.android.internal.R.attr.alertDialogStyle;
+		int alertDialogStyle = com.android.internal.R.attr.alertDialogStyle;
 		if (mIsBottomDialog) {
 			alertDialogStyle = R.attr.bottomAlertDialogStyle;
 		}
-		TypedArray array = mContext.obtainStyledAttributes(null, com.android.internal.R.styleable.AlertDialog, alertDialogStyle, 0);
+		TypedArray array = mContext.obtainStyledAttributes(null, com.android.internal.R.styleable.AlertDialog,
+				alertDialogStyle, 0);
 		// tws-end bottom dialog::2014-10-3
 		boolean hasTitle = setupTitle(topPanel);
 
@@ -674,7 +650,8 @@ public class AlertController {
 							listItem.measure(0, 0);
 							totalHeight += listItem.getMeasuredHeight();
 						}
-						lp.height = totalHeight + (((ListView) mView).getDividerHeight() * (DEFAULT_LISTITEM_COUNT - 1));
+						lp.height = totalHeight
+								+ (((ListView) mView).getDividerHeight() * (DEFAULT_LISTITEM_COUNT - 1));
 						custom.setLayoutParams(lp);
 					}
 				}
@@ -713,9 +690,9 @@ public class AlertController {
 				// tws-start icon divider::2014-7-22
 				final boolean hasTextTitle = !TextUtils.isEmpty(mTitle);
 				if (hasTextTitle) {
-					// divider.setVisibility(View.VISIBLE);
+					divider.setVisibility(View.VISIBLE);
 				} else {
-					// divider.setVisibility(View.GONE);
+					divider.setVisibility(View.GONE);
 				}
 				// tws-end icon divider::2014-7-22
 			}
@@ -739,11 +716,6 @@ public class AlertController {
 		}
 		mBottomButtonsPanel = (LinearLayout) mWindow.findViewById(R.id.dialog_bottom_buttons_panel);
 		boolean hasBottomButtons = setupBottomButtons(mBottomButtonsPanel);
-
-		if (mMessage != null || mView != null || mListView != null || (mTitleView != null && View.GONE != mTitleView.getVisibility())) {
-			View splitView = mWindow.findViewById(R.id.dialog_bottom_split);
-			splitView.setVisibility(View.VISIBLE);
-		}
 		if (!hasBottomButtons || !mBottomButtonsVisible) {
 			mBottomButtonsPanel.setVisibility(View.GONE);
 		} else {
@@ -753,7 +725,8 @@ public class AlertController {
 			mWindow.setCloseOnTouchOutside(true);
 		}
 
-		setBackground(topPanel, contentPanel, customPanel, hasButtons, array, hasTitle, buttonPanel, mBottomButtonsPanel, hasBottomButtons);
+		setBackground(topPanel, contentPanel, customPanel, hasButtons, array, hasTitle, buttonPanel,
+				mBottomButtonsPanel, hasBottomButtons);
 		if (hasButtons) {
 			buttonPanel.setPadding(0, 0, 0, 0);
 		}
@@ -767,7 +740,8 @@ public class AlertController {
 		View titleTemplate = mWindow.findViewById(R.id.title_template);
 		if (mCustomTitleView != null) {
 			// Add the custom title view directly to the topPanel layout
-			LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+			LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
+					LinearLayout.LayoutParams.WRAP_CONTENT);
 
 			topPanel.addView(mCustomTitleView, 0, lp);
 
@@ -777,13 +751,12 @@ public class AlertController {
 
 			mIconView = (ImageView) mWindow.findViewById(R.id.icon);
 			mTitleView = (TextView) mWindow.findViewById(R.id.alertTitle);
-			mRightIvBtn = (ImageView) mWindow.findViewById(R.id.alertTitle_right_iv_btn);
-			mRightIvBtn.setVisibility(View.GONE);
 			mIconView.setVisibility(View.GONE);
 			if (hasTextTitle) {
 				/* Display the title if a title is supplied, else hide it */
 				mTitleView.setText(mTitle);
-				LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+				LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
+						LinearLayout.LayoutParams.WRAP_CONTENT);
 				lp.gravity = Gravity.CENTER;
 				int lineCount = mTitleView.getLineCount();
 				if (lineCount > 1) {
@@ -820,7 +793,8 @@ public class AlertController {
 				// }
 			} else {
 				mTitleView.setVisibility(View.GONE);
-				LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+				LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
+						LinearLayout.LayoutParams.WRAP_CONTENT);
 				lp.gravity = Gravity.CENTER;
 
 				mIconView.setLayoutParams(lp);
@@ -859,7 +833,8 @@ public class AlertController {
 			if (mIsBottomDialog) {
 				mMessageView.setTextAppearance(mContext, R.style.TextAppearance_tws_Second_twsTextSmallLightBodySub);
 			}
-			LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+			LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
+					LinearLayout.LayoutParams.WRAP_CONTENT);
 			lp.gravity = Gravity.CENTER;
 			int lineCount = mMessageView.getLineCount();
 			if (lineCount > 1) {
@@ -913,8 +888,7 @@ public class AlertController {
 			button.setTextColor(mContext.getResources().getColorStateList(R.color.tws_text_blue));
 			break;
 		default:
-			// need change to selector
-			button.setTextColor(mContext.getResources().getColorStateList(R.color.tws_white));
+			button.setTextColor(mContext.getResources().getColorStateList(R.color.tws_dialog_button_text_light));
 			break;
 		}
 	}
@@ -1000,76 +974,108 @@ public class AlertController {
 					onlyBtn = mButtonNeutral;
 				}
 				if (onlyBtn != null) {
+					// onlyBtn.setBackgroundResource(R.drawable.second_btn_dialog_full);
+
 					if (bRipple) {
 						if (android.os.Build.VERSION.SDK_INT > 15) {
-							onlyBtn.setBackground(TwsRippleUtils.getHasContentDrawable(mContext, R.color.tws_operat_view_bg));
+							onlyBtn.setBackground(TwsRippleUtils.getHasContentDrawable(mContext,
+									R.drawable.second_btn_dialog_full));
 						} else {
-							onlyBtn.setBackgroundDrawable(TwsRippleUtils.getHasContentDrawable(mContext, R.color.tws_operat_view_bg));
+							onlyBtn.setBackgroundDrawable(TwsRippleUtils.getHasContentDrawable(mContext,
+									R.drawable.second_btn_dialog_full));
 						}
 					} else {
-						onlyBtn.setBackgroundResource(R.drawable.dm_common_dialog_button_selector);
+						onlyBtn.setBackgroundResource(R.drawable.second_btn_dialog_full);
 					}
 				}
 				break;
 			case 2:
 				if (TextUtils.isEmpty(mButtonPositiveText)) {
+					// mButtonNeutral.setBackgroundResource(R.drawable.second_btn_dialog_right);
+					// mButtonNegative.setBackgroundResource(R.drawable.second_btn_dialog_left);
 					if (bRipple) {
 						if (android.os.Build.VERSION.SDK_INT > 15) {
-							mButtonNeutral.setBackground(TwsRippleUtils.getHasContentDrawable(mContext, R.color.tws_operat_view_bg));
-							mButtonNegative.setBackground(TwsRippleUtils.getHasContentDrawable(mContext, R.color.tws_operat_view_bg));
+							mButtonNeutral.setBackground(TwsRippleUtils.getHasContentDrawable(mContext,
+									R.drawable.second_btn_dialog_full));
+							mButtonNegative.setBackground(TwsRippleUtils.getHasContentDrawable(mContext,
+									R.drawable.second_btn_dialog_full));
 						} else {
-							mButtonNeutral.setBackgroundDrawable(TwsRippleUtils.getHasContentDrawable(mContext, R.color.tws_operat_view_bg));
-							mButtonNegative.setBackgroundDrawable(TwsRippleUtils.getHasContentDrawable(mContext, R.color.tws_operat_view_bg));
+							mButtonNeutral.setBackgroundDrawable(TwsRippleUtils.getHasContentDrawable(mContext,
+									R.drawable.second_btn_dialog_full));
+							mButtonNegative.setBackgroundDrawable(TwsRippleUtils.getHasContentDrawable(mContext,
+									R.drawable.second_btn_dialog_full));
 						}
 					} else {
-						mButtonNeutral.setBackgroundResource(R.drawable.dm_common_dialog_button_selector);
-						mButtonNegative.setBackgroundResource(R.drawable.dm_common_dialog_button_selector);
+						mButtonNeutral.setBackgroundResource(R.drawable.second_btn_dialog_right);
+						mButtonNegative.setBackgroundResource(R.drawable.second_btn_dialog_left);
 					}
 
 				} else if (TextUtils.isEmpty(mButtonNeutralText)) {
+					// mButtonPositive.setBackgroundResource(R.drawable.second_btn_dialog_right);
+					// mButtonNegative.setBackgroundResource(R.drawable.second_btn_dialog_left);
 					if (bRipple) {
 						if (android.os.Build.VERSION.SDK_INT > 15) {
-							mButtonPositive.setBackground(TwsRippleUtils.getHasContentDrawable(mContext, R.color.tws_operat_view_bg));
-							mButtonNegative.setBackground(TwsRippleUtils.getHasContentDrawable(mContext, R.color.tws_operat_view_bg));
+							mButtonPositive.setBackground(TwsRippleUtils.getHasContentDrawable(mContext,
+									R.drawable.second_btn_dialog_right));
+							mButtonNegative.setBackground(TwsRippleUtils.getHasContentDrawable(mContext,
+									R.drawable.second_btn_dialog_left));
 						} else {
-							mButtonPositive.setBackgroundDrawable(TwsRippleUtils.getHasContentDrawable(mContext, R.color.tws_operat_view_bg));
-							mButtonNegative.setBackgroundDrawable(TwsRippleUtils.getHasContentDrawable(mContext, R.color.tws_operat_view_bg));
+							mButtonPositive.setBackgroundDrawable(TwsRippleUtils.getHasContentDrawable(mContext,
+									R.drawable.second_btn_dialog_right));
+							mButtonNegative.setBackgroundDrawable(TwsRippleUtils.getHasContentDrawable(mContext,
+									R.drawable.second_btn_dialog_left));
 						}
 					} else {
-						mButtonPositive.setBackgroundResource(R.drawable.dm_common_dialog_button_selector);
-						mButtonNegative.setBackgroundResource(R.drawable.dm_common_dialog_button_selector);
+						mButtonPositive.setBackgroundResource(R.drawable.second_btn_dialog_right);
+						mButtonNegative.setBackgroundResource(R.drawable.second_btn_dialog_left);
 					}
 
 				} else if (TextUtils.isEmpty(mButtonNegativeText)) {
+					// mButtonPositive.setBackgroundResource(R.drawable.second_btn_dialog_right);
+					// mButtonNeutral.setBackgroundResource(R.drawable.second_btn_dialog_left);
+
 					if (bRipple) {
 						if (android.os.Build.VERSION.SDK_INT > 15) {
-							mButtonPositive.setBackground(TwsRippleUtils.getHasContentDrawable(mContext, R.color.tws_operat_view_bg));
-							mButtonNeutral.setBackground(TwsRippleUtils.getHasContentDrawable(mContext, R.color.tws_operat_view_bg));
+							mButtonPositive.setBackground(TwsRippleUtils.getHasContentDrawable(mContext,
+									R.drawable.second_btn_dialog_right));
+							mButtonNeutral.setBackground(TwsRippleUtils.getHasContentDrawable(mContext,
+									R.drawable.second_btn_dialog_left));
 						} else {
-							mButtonPositive.setBackgroundDrawable(TwsRippleUtils.getHasContentDrawable(mContext, R.color.tws_operat_view_bg));
-							mButtonNeutral.setBackgroundDrawable(TwsRippleUtils.getHasContentDrawable(mContext, R.color.tws_operat_view_bg));
+							mButtonPositive.setBackgroundDrawable(TwsRippleUtils.getHasContentDrawable(mContext,
+									R.drawable.second_btn_dialog_right));
+							mButtonNeutral.setBackgroundDrawable(TwsRippleUtils.getHasContentDrawable(mContext,
+									R.drawable.second_btn_dialog_left));
 						}
 					} else {
-						mButtonPositive.setBackgroundResource(R.drawable.dm_common_dialog_button_selector);
-						mButtonNeutral.setBackgroundResource(R.drawable.dm_common_dialog_button_selector);
+						mButtonPositive.setBackgroundResource(R.drawable.second_btn_dialog_right);
+						mButtonNeutral.setBackgroundResource(R.drawable.second_btn_dialog_left);
 					}
 				}
 				break;
 			case 3:
+				// mButtonPositive.setBackgroundResource(R.drawable.second_btn_dialog_right);
+				// mButtonNeutral.setBackgroundResource(R.drawable.second_btn_dialog_middle);
+				// mButtonNegative.setBackgroundResource(R.drawable.second_btn_dialog_left);
 				if (bRipple) {
 					if (android.os.Build.VERSION.SDK_INT > 15) {
-						mButtonPositive.setBackground(TwsRippleUtils.getHasContentDrawable(mContext, R.color.tws_operat_view_bg));
-						mButtonNeutral.setBackground(TwsRippleUtils.getHasContentDrawable(mContext, R.color.tws_operat_view_bg));
-						mButtonNegative.setBackground(TwsRippleUtils.getHasContentDrawable(mContext, R.color.tws_operat_view_bg));
+						mButtonPositive.setBackground(TwsRippleUtils.getHasContentDrawable(mContext,
+								R.drawable.second_btn_dialog_right));
+						mButtonNeutral.setBackground(TwsRippleUtils.getHasContentDrawable(mContext,
+								R.drawable.second_btn_dialog_middle));
+						mButtonNegative.setBackground(TwsRippleUtils.getHasContentDrawable(mContext,
+								R.drawable.second_btn_dialog_left));
 					} else {
-						mButtonPositive.setBackgroundDrawable(TwsRippleUtils.getHasContentDrawable(mContext, R.color.tws_operat_view_bg));
-						mButtonNeutral.setBackgroundDrawable(TwsRippleUtils.getHasContentDrawable(mContext, R.color.tws_operat_view_bg));
-						mButtonNegative.setBackgroundDrawable(TwsRippleUtils.getHasContentDrawable(mContext, R.color.tws_operat_view_bg));
+						mButtonPositive.setBackgroundDrawable(TwsRippleUtils.getHasContentDrawable(mContext,
+								R.drawable.second_btn_dialog_right));
+						mButtonNeutral.setBackgroundDrawable(TwsRippleUtils.getHasContentDrawable(mContext,
+								R.drawable.second_btn_dialog_middle));
+						mButtonNegative.setBackgroundDrawable(TwsRippleUtils.getHasContentDrawable(mContext,
+								R.drawable.second_btn_dialog_left));
 					}
 				} else {
-					mButtonPositive.setBackgroundResource(R.drawable.dm_common_dialog_button_selector);
-					mButtonNeutral.setBackgroundResource(R.drawable.dm_common_dialog_button_selector);
-					mButtonNegative.setBackgroundResource(R.drawable.dm_common_dialog_button_selector);
+					mButtonPositive.setBackgroundResource(R.drawable.second_btn_dialog_right);
+					mButtonNeutral.setBackgroundResource(R.drawable.second_btn_dialog_middle);
+					mButtonNegative.setBackgroundResource(R.drawable.second_btn_dialog_left);
 				}
 
 				break;
@@ -1101,8 +1107,8 @@ public class AlertController {
 		boolean hasButtons = false;
 		if (mBottomButtonsListView != null) {
 			bottomButtonsPanel.removeAllViews();
-			TwsLog.d("AlertController" + ".setupBottomButtons", "mBottomButtonsListViewHeight:" + mBottomButtonsListViewHeight);
-			bottomButtonsPanel.addView(mBottomButtonsListView, new LinearLayout.LayoutParams(MATCH_PARENT, mBottomButtonsListViewHeight));
+			bottomButtonsPanel.addView(mBottomButtonsListView,
+					new LinearLayout.LayoutParams(MATCH_PARENT, MATCH_PARENT));
 			bottomButtonsPanel.setLayoutParams(new LinearLayout.LayoutParams(MATCH_PARENT, 0, 1.0f));
 			if (mBottomButtonAdapter != null) {
 				mBottomButtonsListView.setAdapter(mBottomButtonAdapter);
@@ -1116,16 +1122,33 @@ public class AlertController {
 		return hasButtons;
 	}
 
-	private void setBackground(LinearLayout topPanel, LinearLayout contentPanel, View customPanel, boolean hasButtons, TypedArray a, boolean hasTitle,
-			View buttonPanel, LinearLayout bottomButtonsPanel, boolean hasBottomButtons) {
+	private void setBackground(LinearLayout topPanel, LinearLayout contentPanel, View customPanel, boolean hasButtons,
+			TypedArray a, boolean hasTitle, View buttonPanel, LinearLayout bottomButtonsPanel, boolean hasBottomButtons) {
 
 		/* Get all the different background required */
 		// tws-start::added for tws theme::20121002
-		int operatViewBgResId = R.color.tws_operat_view_bg;
+		int fullDark = a.getResourceId(com.android.internal.R.styleable.AlertDialog_fullDark,
+				R.drawable.dialog_full_holo_dark);
+		int topDark = a.getResourceId(com.android.internal.R.styleable.AlertDialog_topDark,
+				R.drawable.dialog_top_holo_dark);
+		int centerDark = a.getResourceId(com.android.internal.R.styleable.AlertDialog_centerDark,
+				R.drawable.dialog_middle_holo_dark);
+		int bottomDark = a.getResourceId(com.android.internal.R.styleable.AlertDialog_bottomDark,
+				R.drawable.dialog_bottom_holo_dark);
+		int fullBright = a.getResourceId(com.android.internal.R.styleable.AlertDialog_fullBright,
+				R.drawable.dialog_full_holo_light);
+		int topBright = a.getResourceId(com.android.internal.R.styleable.AlertDialog_topBright,
+				R.drawable.dialog_top_holo_light);
+		int centerBright = a.getResourceId(com.android.internal.R.styleable.AlertDialog_centerBright,
+				R.drawable.dialog_middle_holo_light);
+		int bottomBright = a.getResourceId(com.android.internal.R.styleable.AlertDialog_bottomBright,
+				R.drawable.dialog_bottom_holo_light);
+		int bottomMedium = a.getResourceId(com.android.internal.R.styleable.AlertDialog_bottomMedium,
+				R.drawable.dialog_middle_holo_light);
 
 		if (mIsContextMenu) {
-			// topBright = R.drawable.context_top_holo_light;
-			// topDark = topBright;
+			topBright = R.drawable.context_top_holo_light;
+			topDark = topBright;
 		}
 
 		// tws-end::added for tws theme::20121002
@@ -1182,9 +1205,9 @@ public class AlertController {
 			}
 			if (lastView != null) {
 				if (!setView) {
-					lastView.setBackgroundResource(operatViewBgResId);
+					lastView.setBackgroundResource(lastLight ? topBright : topDark);
 				} else {
-					lastView.setBackgroundResource(operatViewBgResId);
+					lastView.setBackgroundResource(lastLight ? centerBright : centerDark);
 				}
 				setView = true;
 			}
@@ -1198,7 +1221,9 @@ public class AlertController {
 				 * ListViews will use the Bright background but buttons use the
 				 * Medium background.
 				 */
-				lastView.setBackgroundResource(operatViewBgResId);
+				int resId = lastLight ? (hasButtons ? bottomMedium : bottomBright) : bottomDark;
+				resId = mIsContextMenu ? R.drawable.context_middle_holo_light : resId;
+				lastView.setBackgroundResource(resId);
 
 				if (hasButtons) {
 					lastView.setBackgroundDrawable(null);
@@ -1207,7 +1232,7 @@ public class AlertController {
 				// lastLight ? (hasButtons ? bottomMedium : bottomBright) :
 				// bottomDark);
 			} else {
-				lastView.setBackgroundResource(operatViewBgResId);
+				lastView.setBackgroundResource(lastLight ? fullBright : fullDark);
 			}
 		}
 
@@ -1234,7 +1259,7 @@ public class AlertController {
 		if (mIsBottomDialog) {
 			ViewGroup parent = (ViewGroup) mWindow.findViewById(R.id.parentPanel);
 			if (parent != null) {
-				parent.setBackground(mContext.getResources().getDrawable(operatViewBgResId));
+				parent.setBackground(mContext.getResources().getDrawable(R.drawable.bottom_dialog_bg));
 			}
 		}
 	}
@@ -1332,8 +1357,6 @@ public class AlertController {
 
 		public int mListViewHeight = -1;
 
-		public int mBottomButtonsListViewHeight = -1;
-
 		/**
 		 * Interface definition for a callback to be invoked before the ListView
 		 * will be bound to an adapter.
@@ -1373,13 +1396,16 @@ public class AlertController {
 				dialog.setMessage(mMessage);
 			}
 			if (mPositiveButtonText != null) {
-				dialog.setButton(mPositiveColor, DialogInterface.BUTTON_POSITIVE, mPositiveButtonText, mPositiveButtonListener, null);
+				dialog.setButton(mPositiveColor, DialogInterface.BUTTON_POSITIVE, mPositiveButtonText,
+						mPositiveButtonListener, null);
 			}
 			if (mNegativeButtonText != null) {
-				dialog.setButton(mNegativeColor, DialogInterface.BUTTON_NEGATIVE, mNegativeButtonText, mNegativeButtonListener, null);
+				dialog.setButton(mNegativeColor, DialogInterface.BUTTON_NEGATIVE, mNegativeButtonText,
+						mNegativeButtonListener, null);
 			}
 			if (mNeutralButtonText != null) {
-				dialog.setButton(mNeutralColor, DialogInterface.BUTTON_NEUTRAL, mNeutralButtonText, mNeutralButtonListener, null);
+				dialog.setButton(mNeutralColor, DialogInterface.BUTTON_NEUTRAL, mNeutralButtonText,
+						mNeutralButtonListener, null);
 			}
 			if (mForceInverseBackground) {
 				dialog.setInverseBackgroundForced(true);
@@ -1411,8 +1437,8 @@ public class AlertController {
 
 		private void createListView(final AlertController dialog) {
 			// tws-start ListAlertDialog::2014-7-23
-			final boolean hasTitle = ((mCustomTitleView != null) || (mTitle != null && !TextUtils.isEmpty(mTitle)) || (mIcon != null) || (mIconId > 0)
-					|| (mMessage != null && !TextUtils.isEmpty(mMessage)) || mView != null);
+			final boolean hasTitle = ((mCustomTitleView != null) || (mTitle != null && !TextUtils.isEmpty(mTitle))
+					|| (mIcon != null) || (mIconId > 0) || (mMessage != null && !TextUtils.isEmpty(mMessage)) || mView != null);
 			final boolean hasButton = ((mPositiveButtonText != null && !TextUtils.isEmpty(mPositiveButtonText))
 					|| (mNegativeButtonText != null && !TextUtils.isEmpty(mNegativeButtonText)) || (mNeutralButtonText != null && !TextUtils
 					.isEmpty(mNeutralButtonText)));
@@ -1420,13 +1446,14 @@ public class AlertController {
 			final RecycleListView listView = (RecycleListView) mInflater.inflate(dialog.mListLayout, null);
 			boolean bRipple = ThemeUtils.isShowRipple(mContext);
 			if (!bRipple) {
-				listView.setSelector(mContext.getResources().getDrawable(R.drawable.dm_common_dialog_button_selector));
+				listView.setSelector(mContext.getResources().getDrawable(R.drawable.dialog_list_selector_holo_light));
 			}
 			ListAdapter adapter;
 			listView.setFooterDividersEnabled(false);
 			if (mIsMultiChoice) {
 				if (mCursor == null) {
-					adapter = new ArrayAdapter<CharSequence>(mContext, dialog.mMultiChoiceItemLayout, R.id.text1, mItems) {
+					adapter = new ArrayAdapter<CharSequence>(mContext, dialog.mMultiChoiceItemLayout, R.id.text1,
+							mItems) {
 						// tws-start ListAlertDialog::2014-7-23
 						final List<CharSequence> mList = Arrays.asList(mItems);
 
@@ -1482,7 +1509,8 @@ public class AlertController {
 			} else {
 				int layout = mIsSingleChoice ? dialog.mSingleChoiceItemLayout : dialog.mListItemLayout;
 				if (mCursor == null) {
-					adapter = (mAdapter != null) ? mAdapter : new ArrayAdapter<CharSequence>(mContext, layout, R.id.text1, mItems) {
+					adapter = (mAdapter != null) ? mAdapter : new ArrayAdapter<CharSequence>(mContext, layout,
+							R.id.text1, mItems) {
 						// tws-start ListAlertDialog::2014-7-23
 						final List<CharSequence> mList = Arrays.asList(mItems);
 
@@ -1495,7 +1523,8 @@ public class AlertController {
 						// tws-end ListAlertDialog::2014-7-23
 					};
 				} else {
-					adapter = new SimpleCursorAdapter(mContext, layout, mCursor, new String[] { mLabelColumn }, new int[] { R.id.text1 }) {
+					adapter = new SimpleCursorAdapter(mContext, layout, mCursor, new String[] { mLabelColumn },
+							new int[] { R.id.text1 }) {
 						// tws-start ListAlertDialog::2014-7-23
 						@Override
 						public View getView(int position, View convertView, ViewGroup parent) {
@@ -1534,7 +1563,8 @@ public class AlertController {
 						if (mCheckedItems != null) {
 							mCheckedItems[position] = listView.isItemChecked(position);
 						}
-						mOnCheckboxClickListener.onClick(dialog.mDialogInterface, position, listView.isItemChecked(position));
+						mOnCheckboxClickListener.onClick(dialog.mDialogInterface, position,
+								listView.isItemChecked(position));
 					}
 				});
 			}
@@ -1556,19 +1586,20 @@ public class AlertController {
 
 		// tws-start bottom dialog::2014-10-1
 		private void createBottomButtons(final AlertController dialog) {
-			final boolean hasTitle = ((mCustomTitleView != null) || (mTitle != null && !TextUtils.isEmpty(mTitle)) || (mIcon != null) || (mIconId > 0)
-					|| (mMessage != null && !TextUtils.isEmpty(mMessage)) || mView != null);
+			final boolean hasTitle = ((mCustomTitleView != null) || (mTitle != null && !TextUtils.isEmpty(mTitle))
+					|| (mIcon != null) || (mIconId > 0) || (mMessage != null && !TextUtils.isEmpty(mMessage)) || mView != null);
 			final boolean hasButton = false;
 			final ListView listView = (ListView) mInflater.inflate(dialog.mBottomButtonLayout, null);
 			boolean bRipple = ThemeUtils.isShowRipple(mContext);
 			if (!bRipple) {
-				listView.setSelector(mContext.getResources().getDrawable(R.drawable.dm_common_dialog_button_selector));
+				listView.setSelector(mContext.getResources().getDrawable(R.drawable.dialog_list_selector_holo_light));
 			}
 			ListAdapter adapter;
 			listView.setFooterDividersEnabled(false);
 			if (mIsBottomButtonMultiChoice) {
 				if (mBottomButtonCursor == null) {
-					adapter = new ArrayAdapter<CharSequence>(mContext, dialog.mBottomButtonMultiChoiceItemLayout, R.id.text1, mBottomButtonItems) {
+					adapter = new ArrayAdapter<CharSequence>(mContext, dialog.mBottomButtonMultiChoiceItemLayout,
+							R.id.text1, mBottomButtonItems) {
 						// tws-start ListAlertDialog::2014-7-23
 						final List<CharSequence> mList = Arrays.asList(mBottomButtonItems);
 
@@ -1638,10 +1669,11 @@ public class AlertController {
 					};
 				}
 			} else {
-				int layout = mIsBottomButtonSingleChoice ? dialog.mBottomButtonSingleChoiceItemLayout : dialog.mBottomButtonItemLayout;
+				int layout = mIsBottomButtonSingleChoice ? dialog.mBottomButtonSingleChoiceItemLayout
+						: dialog.mBottomButtonItemLayout;
 				if (mBottomButtonCursor == null) {
-					adapter = (mBottomButtonAdapter != null) ? mBottomButtonAdapter : new ArrayAdapter<CharSequence>(mContext, layout, R.id.text1,
-							mBottomButtonItems) {
+					adapter = (mBottomButtonAdapter != null) ? mBottomButtonAdapter : new ArrayAdapter<CharSequence>(
+							mContext, layout, R.id.text1, mBottomButtonItems) {
 						// tws-start ListAlertDialog::2014-7-23
 						final List<CharSequence> mList = Arrays.asList(mBottomButtonItems);
 
@@ -1662,8 +1694,8 @@ public class AlertController {
 						// tws-end ListAlertDialog::2014-7-23
 					};
 				} else {
-					adapter = new SimpleCursorAdapter(mContext, layout, mBottomButtonCursor, new String[] { mBottomButtonLabelColumn },
-							new int[] { R.id.text1 }) {
+					adapter = new SimpleCursorAdapter(mContext, layout, mBottomButtonCursor,
+							new String[] { mBottomButtonLabelColumn }, new int[] { R.id.text1 }) {
 						// tws-start ListAlertDialog::2014-7-23
 						@Override
 						public View getView(int position, View convertView, ViewGroup parent) {
@@ -1697,7 +1729,8 @@ public class AlertController {
 						mBottomButtonOnClickListener.onClick(dialog.mDialogInterface, position);
 						// if (!mIsBottomButtonSingleChoice) {
 						// dialog.mDialogInterface.dismiss();
-						dialog.mHandler.sendMessageDelayed(dialog.mHandler.obtainMessage(ButtonHandler.MSG_DISMISS_DIALOG, dialog.mDialogInterface), 80);
+						dialog.mHandler.sendMessageDelayed(dialog.mHandler.obtainMessage(
+								ButtonHandler.MSG_DISMISS_DIALOG, dialog.mDialogInterface), 80);
 						// }
 					}
 				});
@@ -1707,7 +1740,8 @@ public class AlertController {
 						if (mBottomButtonCheckedItems != null) {
 							mBottomButtonCheckedItems[position] = listView.isItemChecked(position);
 						}
-						mBottomButtonOnCheckboxClickListener.onClick(dialog.mDialogInterface, position, listView.isItemChecked(position));
+						mBottomButtonOnCheckboxClickListener.onClick(dialog.mDialogInterface, position,
+								listView.isItemChecked(position));
 					}
 				});
 			}
@@ -1725,7 +1759,6 @@ public class AlertController {
 			// listView.setSelector(R.color.transparent);
 			setBottomButtonsStartAnimation(listView, adapter.getCount());
 			dialog.mBottomButtonsListView = listView;
-			dialog.mBottomButtonsListViewHeight = mBottomButtonsListViewHeight;
 		}
 		// tws-end bottom dialog::2014-10-1
 	}
@@ -1805,8 +1838,8 @@ public class AlertController {
 	// tws-end ListAlertDialog::2014-7-23
 
 	private static void setBottomButtonsStartAnimation(ViewGroup viewGroup, int count) {
-		Animation animation = new TranslateAnimation(Animation.RELATIVE_TO_SELF, 0.0f, Animation.RELATIVE_TO_SELF, 0.0f, Animation.RELATIVE_TO_SELF, 1.0f,
-				Animation.RELATIVE_TO_SELF, 0.0f);
+		Animation animation = new TranslateAnimation(Animation.RELATIVE_TO_SELF, 0.0f, Animation.RELATIVE_TO_SELF,
+				0.0f, Animation.RELATIVE_TO_SELF, 1.0f, Animation.RELATIVE_TO_SELF, 0.0f);
 		if (count > DEFAULT_ITEM_COUNT) {
 			animation.setDuration(mBottomButtonAnimationShortDur);
 		} else {
@@ -1831,7 +1864,8 @@ public class AlertController {
 	}
 
 	public static void useRippleDrawable(View view, int contentResId) {
-		Drawable drawable = TwsRippleUtils.getCustomDrawable(view.getContext(), R.color.default_ripple_light, contentResId, 0);
+		Drawable drawable = TwsRippleUtils.getCustomDrawable(view.getContext(), R.color.default_ripple_light,
+				contentResId, 0);
 		boolean bRipple = ThemeUtils.isShowRipple(view.getContext());
 		if (bRipple) {
 			if (android.os.Build.VERSION.SDK_INT > 15) {
@@ -1840,9 +1874,5 @@ public class AlertController {
 				view.setBackgroundDrawable(drawable);
 			}
 		}
-	}
-
-	public ImageView getRightBtn() {
-		return mRightIvBtn;
 	}
 }

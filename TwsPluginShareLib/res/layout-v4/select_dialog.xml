@@ -35,5 +35,4 @@
     android:divider="?android:attr/listDividerAlertDialog"
     android:dividerHeight="1px"
     android:scrollbars="vertical"
-    style="@style/Widget.tws.ListView.Second.Dialog"
     android:overScrollMode="ifContentScrolls" />

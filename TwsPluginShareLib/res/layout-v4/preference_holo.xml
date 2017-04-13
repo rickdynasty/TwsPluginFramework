@@ -45,9 +45,9 @@
         <TextView android:id="@id/title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            style="@style/TextAppearance.tws.Second.twsTextMediumLightBody"
-            android:textSize="@dimen/preference_title_text_size"
             android:singleLine="true"
+            style="@style/TextAppearance.tws.Second.twsTextMediumLightBody"
+            android:textColor="@color/tws_text_light_title"
             android:ellipsize="marquee"
             android:fadingEdge="horizontal" />
             
@@ -58,6 +58,7 @@
             android:layout_alignLeft="@id/title"
 			android:paddingTop="@dimen/tws_listview_subtitle_padding_top"
 			style="@style/TextAppearance.tws.Second.twstextMicroLightSummary"
+			android:textColor="@color/tws_text_light_body_sub"
             android:maxLines="4" />
 
     </RelativeLayout>
@@ -81,9 +82,8 @@
             android:layout_gravity="center_vertical"
             android:maxWidth="150dp"
             android:singleLine="true"
-            android:paddingEnd="@dimen/preference_widget_frame_padding_end"
 			style="@style/TextAppearance.tws.Second.twstextSmallLightSummary" 
-			android:textColor="@color/tws_preference_item_caption"/> 
+			android:textColor="@color/tws_text_light_body_sub"/> 
 		<ImageView
 	        android:id="@+id/arrowicon"
 	        android:paddingLeft="4dp"

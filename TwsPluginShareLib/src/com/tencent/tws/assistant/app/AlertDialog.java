@@ -28,14 +28,11 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.ListAdapter;
 
 import com.tencent.tws.assistant.widget.AdapterView;
 import com.tencent.tws.assistant.widget.ListView;
 import com.tencent.tws.sharelib.R;
-
-import android.widget.TextView;
 
 /**
  * A subclass of Dialog that can display one, two or three buttons. If you only want to display a String in
@@ -405,18 +402,6 @@ public class AlertDialog extends TwsDialog implements DialogInterface {
 
     public void setIcon(Drawable icon) {
         mAlert.setIcon(icon);
-    }
-    
-    public void setRightBtn(int resId) {
-        mAlert.setRightBtn(resId);
-    }
-
-    public void setRightBtn(Drawable icon) {
-        mAlert.setRightBtn(icon);
-    }
-    
-    public ImageView getRightBtn(){
-    	return mAlert.getRightBtn();
     }
 
     /**
@@ -1202,19 +1187,10 @@ public class AlertDialog extends TwsDialog implements DialogInterface {
             P.mListViewHeight = height;
             return this;
         }
-        
-        public Builder setButtomButtonHeight(int miniHeight){
-       	 	P.mBottomButtonsListViewHeight = miniHeight;
-       	 	return this;
-       }
         /*tws-end::add for dialog out window touch state::braind::20120327*/
 
     }
     public void setBottomButtonsStartAnimation(boolean enable){
         mAlert.setBottomButtonsStartAnimation(enable);
-    }
-    
-    public ListView getBottomButtons(){
-    	return mAlert.getBottomButtons();
     }
 }

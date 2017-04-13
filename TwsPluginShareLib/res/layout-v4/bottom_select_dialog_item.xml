@@ -29,7 +29,7 @@
     android:layout_height="wrap_content"
     android:minHeight="@dimen/tws_listview_item_height"
     style="?android:attr/textAppearanceMedium"
-    android:textColor="@color/tws_white"
+    android:textColor="@color/tws_bottom_dialog_list_item_light"
     android:gravity="center"
     android:paddingLeft="18dip"
     android:paddingRight="18dip"

@@ -59,7 +59,6 @@ import com.tencent.tws.assistant.internal.app.ActionBarImpl;
 import com.tencent.tws.assistant.internal.widget.ActionBarView;
 import com.tencent.tws.assistant.utils.ResIdentifierUtils;
 import com.tencent.tws.sharelib.R;
-//import com.android.internal.policy.PolicyManager;
 
 /**
  * Base class for Dialogs.

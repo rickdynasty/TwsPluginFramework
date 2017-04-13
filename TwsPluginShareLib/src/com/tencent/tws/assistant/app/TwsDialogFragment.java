@@ -16,6 +16,14 @@
 
 package com.tencent.tws.assistant.app;
 
+import java.io.FileDescriptor;
+import java.io.PrintWriter;
+
+import android.app.Activity;
+import android.app.Dialog;
+import android.app.Fragment;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
@@ -24,19 +32,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
-import com.tencent.tws.assistant.app.TwsDialog;
-import com.tencent.tws.assistant.utils.ReflectUtils;
+
 import com.tencent.tws.sharelib.R;
-
-import android.app.Fragment;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
-import android.app.Activity;
-import java.lang.reflect.Field;
-import android.util.Log;
-
-import java.io.FileDescriptor;
-import java.io.PrintWriter;
+import com.tencent.tws.assistant.utils.ReflectUtils;
 
 /**
  * A fragment that displays a dialog window, floating on top of its

@@ -8,14 +8,14 @@
         android:layout_width="wrap_content"
         android:layout_height="@dimen/share_dimen_1"
         android:layout_alignParentTop="true"
-        android:background="@color/share_color_2"
+        android:background="@color/tws_black"
         android:text="@string/share_string_1" />
 
     <com.tencent.tws.sharelib.ShareLayout
         android:layout_width="fill_parent"
         android:layout_height="150dp"
         android:layout_alignParentBottom="true"
-        android:background="@color/share_color_1" >
+        android:background="@color/tws_black" >
     </com.tencent.tws.sharelib.ShareLayout>
 
 </LinearLayout>

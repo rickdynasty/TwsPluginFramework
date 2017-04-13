@@ -698,8 +698,6 @@ public class ActionMenuPresenter extends BaseMenuPresenter implements ActionProv
 				} else {
 					setBackgroundDrawable(TwsRippleUtils.getDefaultDrawable(mContext));
 				}
-			} else {
-				setBackgroundResource(R.color.dm_common_item_normal);
 			}
 			// tws-end add for ripple::2014-12-21
 		}

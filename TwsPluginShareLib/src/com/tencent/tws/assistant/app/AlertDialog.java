@@ -1193,4 +1193,8 @@ public class AlertDialog extends TwsDialog implements DialogInterface {
     public void setBottomButtonsStartAnimation(boolean enable){
         mAlert.setBottomButtonsStartAnimation(enable);
     }
+    
+    public ListView getBottomButtons(){
+    	return mAlert.getBottomButtons();
+    }
 }

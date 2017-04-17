@@ -688,12 +688,15 @@ public class AlertController {
 
 			if (divider != null) {
 				// tws-start icon divider::2014-7-22
-				final boolean hasTextTitle = !TextUtils.isEmpty(mTitle);
-				if (hasTextTitle) {
-					divider.setVisibility(View.VISIBLE);
-				} else {
-					divider.setVisibility(View.GONE);
-				}
+				//2017-04-17 modify by yongchen for design
+				divider.setVisibility(View.GONE);
+				
+//				final boolean hasTextTitle = !TextUtils.isEmpty(mTitle);
+//				if (hasTextTitle) {
+//					divider.setVisibility(View.VISIBLE);
+//				} else {
+//					divider.setVisibility(View.GONE);
+//				}
 				// tws-end icon divider::2014-7-22
 			}
 

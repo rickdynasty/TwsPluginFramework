@@ -459,10 +459,15 @@ public class NumberPicker extends LinearLayout {
 	private boolean mChangeValueByOneEable = true;
 	private boolean mChangeCurrentByOneFromLongPressEable = false;
 	private int mNormalTextSize;
-	private static final int UNSCALED_DEFAULT_NORMAL_TEXT_SIZE = 16;
+	private static final int UNSCALED_DEFAULT_NORMAL_TEXT_SIZE = 12;
 	private int mNormalTextColor;
 	private float mTextScale;
 	private boolean mSlowScroller = false;
+
+	public static final int ALIGN_CENTER_TYPE = 0;
+	public static final int ALIGN_LEFT_TYPE = 1;
+	public static final int ALIGN_RIGHT_TYPE = 2;
+	private int mAlignType = ALIGN_CENTER_TYPE;
 
 	// tws-end label::2014-8-6
 
@@ -583,7 +588,7 @@ public class NumberPicker extends LinearLayout {
 		mNormalTextSize = attributesArray.getDimensionPixelSize(R.styleable.NumberPicker_normalTextSize,
 				defNormalTextSize);
 		mNormalTextColor = attributesArray.getColor(R.styleable.NumberPicker_normalTextColor,
-				getResources().getColor(R.color.tws_light_summary));
+				getResources().getColor(R.color.tws_black));
 		// tws-end label::2014-8-7
 
 		mSolidColor = attributesArray.getColor(R.styleable.NumberPicker_solidColor, 0);
@@ -716,7 +721,17 @@ public class NumberPicker extends LinearLayout {
 		// create the selector wheel paint
 		Paint paint = new Paint();
 		paint.setAntiAlias(true);
-		paint.setTextAlign(Align.CENTER);
+		switch (mAlignType) {
+		case ALIGN_LEFT_TYPE:
+			paint.setTextAlign(Align.LEFT);
+			break;
+		case ALIGN_RIGHT_TYPE:
+			paint.setTextAlign(Align.CENTER);
+			break;
+		default:
+			paint.setTextAlign(Align.CENTER);
+			break;
+		}
 		// tws-start number picker::2014-8-13
 		// paint.setTextSize(mTextSize);
 		paint.setTextSize(mNormalTextSize);
@@ -747,6 +762,24 @@ public class NumberPicker extends LinearLayout {
 		int colorLable = colorsLable.getColorForState(ENABLED_STATE_SET, Color.WHITE);
 		mLabelPaint.setColor(colorLable);
 		// tws-end label::2014-8-6
+	}
+
+	public void setTextAlignType(int alignType) {
+		if (mAlignType == alignType)
+			return;
+
+		mAlignType = alignType;
+		// switch (mAlignType) {
+		// case ALIGN_LEFT_TYPE:
+		// mSelectorWheelPaint.setTextAlign(Align.LEFT);
+		// break;
+		// case ALIGN_RIGHT_TYPE:
+		// mSelectorWheelPaint.setTextAlign(Align.CENTER);
+		// break;
+		// default:
+		// mSelectorWheelPaint.setTextAlign(Align.CENTER);
+		// break;
+		// }
 	}
 
 	@Override
@@ -929,7 +962,7 @@ public class NumberPicker extends LinearLayout {
 						} else {
 							selectorIndexOffset = -Math.min(-selectorIndexOffset, SELECTOR_WHEEL_ITEM_COUNT / 2);
 						}
-						
+
 						changeValueByOffset(selectorIndexOffset);
 						mPressedStateHelper.buttonTapped(PressedStateHelper.BUTTON_INCREMENT);
 					}
@@ -1548,11 +1581,13 @@ public class NumberPicker extends LinearLayout {
 		final int restoreCount = canvas.save();
 		float currentY = mCurrentScrollOffset - mInitialScrollOffset + mSelectorElementHeight / 2;
 
+		Log.d(TAG, "currentY=" + currentY + " Height=" + getHeight());
 		// draw the selector wheel
 		ColorStateList colors = mInputText.getTextColors();
 		int selectColor = colors.getColorForState(ENABLED_STATE_SET, Color.WHITE);
 
 		ArgbEvaluator argbEvaluator = new ArgbEvaluator();
+		Log.d(TAG, "y=" + y + " currentY=" + currentY);
 
 		int[] selectorIndices = mSelectorIndices;
 		for (int i = 0; i < selectorIndices.length; i++) {
@@ -1572,9 +1607,13 @@ public class NumberPicker extends LinearLayout {
 			int color = (Integer) argbEvaluator.evaluate(clip / (mSelectorElementHeight * 3), selectColor,
 					mNormalTextColor);
 			if (clip <= elementHeight) {
-				currentTextSize = mNormalTextSize * (1 + Math.abs(textScale - ((clip * textScale) / elementHeight)));
+				float scal = (1 + Math.abs(textScale - ((clip * textScale) / elementHeight)));
+				currentTextSize = mNormalTextSize * scal;
+				Log.d(TAG, "draw:" + scrollSelectorValue + " currentTextSize=" + currentTextSize
+						+ " -------------textScale=" + textScale + " clip=" + clip + " elementHeight=" + elementHeight
+						+ " scal=" + scal);
 			} else {
-				currentTextSize = mNormalTextSize;
+				Log.d(TAG, "draw:" + scrollSelectorValue + " currentTextSize=" + currentTextSize);
 			}
 
 			mSelectorWheelPaint.setTextSize(currentTextSize);
@@ -1584,9 +1623,7 @@ public class NumberPicker extends LinearLayout {
 				canvas.drawText(scrollSelectorValue, x, y, mSelectorWheelPaint);
 			} else {
 				mSelectorWheelPaint.setColor(color);
-				if (i != SELECTOR_MIDDLE_ITEM_INDEX || mInputText.getVisibility() != VISIBLE) {
-					canvas.drawText(scrollSelectorValue, x, y, mSelectorWheelPaint);
-				}
+				canvas.drawText(scrollSelectorValue, x, y, mSelectorWheelPaint);
 			}
 			y += mSelectorElementHeight;
 			currentY += mSelectorElementHeight;

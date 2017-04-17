@@ -41,8 +41,8 @@
     <dimen name="tws_SuperBig_TextSize">32sp</dimen>
     <dimen name="tws_Super_TextSize">24sp</dimen>
     <dimen name="tws_Larger_TextSize">20sp</dimen>
-    <dimen name="tws_Large_TextSize">16sp</dimen>
-    <dimen name="tws_Medium_TextSize">14sp</dimen>
+    <dimen name="tws_Large_TextSize">18sp</dimen>
+    <dimen name="tws_Medium_TextSize">16sp</dimen>
     <dimen name="tws_Small_TextSize">14sp</dimen>
     <dimen name="tws_Micro_TextSize">12sp</dimen>
     <dimen name="tws_Mini_TextSize">10sp</dimen>

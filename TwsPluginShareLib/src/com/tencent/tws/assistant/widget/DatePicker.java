@@ -236,6 +236,7 @@ public class DatePicker extends FrameLayout {
 
 		// day
 		mDaySpinner = (NumberPicker) findViewById(R.id.day);
+		mDaySpinner.setTextAlignType(NumberPicker.ALIGN_RIGHT_TYPE);
 		mDaySpinner.setOnLongPressUpdateInterval(100);
 		mDaySpinner.setOnValueChangedListener(onChangeListener);
 		mDaySpinnerInput = (EditText) mDaySpinner.findViewById(R.id.numberpicker_input);
@@ -248,6 +249,7 @@ public class DatePicker extends FrameLayout {
 
 		// year
 		mYearSpinner = (NumberPicker) findViewById(R.id.year);
+		mYearSpinner.setTextAlignType(NumberPicker.ALIGN_LEFT_TYPE);
 		mYearSpinner.setOnLongPressUpdateInterval(100);
 		mYearSpinner.setOnValueChangedListener(onChangeListener);
 		mYearSpinnerInput = (EditText) mYearSpinner.findViewById(R.id.numberpicker_input);

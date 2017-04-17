@@ -10,7 +10,6 @@
         android:id="@+id/pickers"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
         android:gravity="center"
         android:orientation="horizontal" >
 
@@ -19,7 +18,6 @@
             android:id="@+id/lunar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:focusable="true"
             android:focusableInTouchMode="true"
             android:visibility="gone" />
@@ -29,7 +27,6 @@
             android:id="@+id/month"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:focusable="true"
             android:focusableInTouchMode="true" />
 
@@ -38,7 +35,6 @@
             android:id="@+id/day"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:focusable="true"
             android:focusableInTouchMode="true" />
 
@@ -47,7 +43,6 @@
             android:id="@+id/year"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:focusable="true"
             android:focusableInTouchMode="true" />
     </LinearLayout>

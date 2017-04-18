@@ -236,7 +236,7 @@ public class DatePicker extends FrameLayout {
 
 		// day
 		mDaySpinner = (NumberPicker) findViewById(R.id.day);
-		mDaySpinner.setTextAlignType(NumberPicker.ALIGN_RIGHT_TYPE);
+		mDaySpinner.setTextAlignType(NumberPicker.ALIGN_LEFT_TYPE);
 		mDaySpinner.setOnLongPressUpdateInterval(100);
 		mDaySpinner.setOnValueChangedListener(onChangeListener);
 		mDaySpinnerInput = (EditText) mDaySpinner.findViewById(R.id.numberpicker_input);
@@ -249,7 +249,7 @@ public class DatePicker extends FrameLayout {
 
 		// year
 		mYearSpinner = (NumberPicker) findViewById(R.id.year);
-		mYearSpinner.setTextAlignType(NumberPicker.ALIGN_LEFT_TYPE);
+		mYearSpinner.setTextAlignType(NumberPicker.ALIGN_RIGHT_TYPE);
 		mYearSpinner.setOnLongPressUpdateInterval(100);
 		mYearSpinner.setOnValueChangedListener(onChangeListener);
 		mYearSpinnerInput = (EditText) mYearSpinner.findViewById(R.id.numberpicker_input);
@@ -259,6 +259,7 @@ public class DatePicker extends FrameLayout {
 			mDaySpinner.setFormatter(mDayFormatter);
 		} else {
 			mMonthSpinner.setFormatter(mMonthNoUnitFormatter);
+			mDaySpinner.setFormatter(mDayNoUnitFormatter);
 		}
 
 		// set the min date giving priority of the minDate over startYear
@@ -330,7 +331,7 @@ public class DatePicker extends FrameLayout {
 		} else {
 			mYearSpinner.setFormatter(null);
 			mMonthSpinner.setFormatter(mMonthNoUnitFormatter);
-			mDaySpinner.setFormatter(null);
+			mDaySpinner.setFormatter(mDayNoUnitFormatter);
 		}
 
 		mYearSpinner.invalidate();
@@ -780,7 +781,7 @@ public class DatePicker extends FrameLayout {
 				mDaySpinner.setFormatter(mDayFormatter);
 			} else {
 				mMonthSpinner.setFormatter(mMonthNoUnitFormatter);
-				mDaySpinner.setFormatter(null);
+				mDaySpinner.setFormatter(mDayNoUnitFormatter);
 			}
 
 			mDaySpinner.setMinValue(1);
@@ -992,22 +993,44 @@ public class DatePicker extends FrameLayout {
 	Formatter mMonthFormatter = new Formatter() {
 		@Override
 		public String format(int value) {
+			if (value < 9) {
+				return "0" + (value + 1) + mMonthName;
+			}
+			
 			return (value + 1) + mMonthName;
 		}
 	};
 	Formatter mMonthNoUnitFormatter = new Formatter() {
 		@Override
 		public String format(int value) {
+			if (value < 9) {
+				return "0" + (value + 1);
+			}
+			
 			return (value + 1) + "";
 		}
 	};
 	Formatter mDayFormatter = new Formatter() {
 		@Override
 		public String format(int value) {
+			if (value < 10) {
+				return "0" + value + mDayName;
+			}
+
 			return value + mDayName;
 		}
 	};
 
+	Formatter mDayNoUnitFormatter = new Formatter() {
+		@Override
+		public String format(int value) {
+			if (value < 10) {
+				return "0" + value;
+			}
+
+			return value + "";
+		}
+	};
 	Formatter mLunarDayFormatter = new Formatter() {
 		@Override
 		public String format(int value) {

@@ -10,7 +10,6 @@
         android:id="@+id/pickers"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="center"
         android:orientation="horizontal" >
 
         <!-- Lunar -->
@@ -27,6 +26,7 @@
             android:id="@+id/month"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="32dp"
             android:focusable="true"
             android:focusableInTouchMode="true" />
 
@@ -35,6 +35,7 @@
             android:id="@+id/day"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="32dp"
             android:focusable="true"
             android:focusableInTouchMode="true" />
 

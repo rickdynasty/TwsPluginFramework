@@ -105,7 +105,7 @@ public class MyWatchFragmentRevision extends Fragment implements OnClickListener
 		LayoutParams lp = new LayoutParams(LayoutParams.MATCH_PARENT, item_layout_height);
 		item.setPadding(item_paddingLeft, 0, 0, 0);
 		item.setLayoutParams(lp);
-		item.setBackgroundResource(R.drawable.dm_common_single_item_selector);
+		item.setBackgroundResource(R.drawable.list_selector_background);//R.drawable.dm_common_single_item_selector
 		item.setImageViewImageDrawable(PluginManagerHelper.getPluginIcon(info.normalResName));
 
 		final Locale locale = getActivity().getResources().getConfiguration().locale;
@@ -214,7 +214,7 @@ public class MyWatchFragmentRevision extends Fragment implements OnClickListener
 		LayoutParams lp_notify = new LayoutParams(LayoutParams.MATCH_PARENT, item_layout_height);
 		mMessageMgrItem.setPadding(item_paddingLeft, 0, 0, 0);
 		mMessageMgrItem.setLayoutParams(lp_notify);
-		mMessageMgrItem.setBackgroundResource(R.drawable.dm_common_single_item_selector);
+		mMessageMgrItem.setBackgroundResource(R.drawable.list_selector_background);//R.drawable.dm_common_single_item_selector
 		mMessageMgrItem.setImageViewImageDrawable(R.drawable.home_item_my_message_mgr);
 		mMessageMgrItem.setText(res.getString(R.string.message_mgr));
 		mMessageMgrItem.setOnClickListener(this);
@@ -234,7 +234,7 @@ public class MyWatchFragmentRevision extends Fragment implements OnClickListener
 		LayoutParams lp_settings = new LayoutParams(LayoutParams.MATCH_PARENT, item_layout_height);
 		mSettingsItem.setPadding(item_paddingLeft, 0, 0, 0);
 		mSettingsItem.setLayoutParams(lp_settings);
-		mSettingsItem.setBackgroundResource(R.drawable.dm_common_single_item_selector);
+		mSettingsItem.setBackgroundResource(R.drawable.list_selector_background);//R.drawable.dm_common_single_item_selector
 		mSettingsItem.setText(res.getString(R.string.settings));
 		mSettingsItem.setImageViewImageDrawable(R.drawable.home_item_my_settings);
 		mSettingsItem.setOnClickListener(this);

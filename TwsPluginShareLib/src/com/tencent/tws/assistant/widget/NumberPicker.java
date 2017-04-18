@@ -22,7 +22,6 @@ import java.util.List;
 import java.util.Locale;
 
 import libcore.icu.LocaleData;
-import android.animation.ArgbEvaluator;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
@@ -30,7 +29,6 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Paint.Align;
-import android.graphics.Paint.FontMetrics;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -684,6 +682,7 @@ public class NumberPicker extends LinearLayout {
 
 		// input text
 		mInputText = (EditText) findViewById(R.id.numberpicker_input);
+		mInputText.setVisibility(View.INVISIBLE);
 		mInputText.setOnFocusChangeListener(new OnFocusChangeListener() {
 			public void onFocusChange(View v, boolean hasFocus) {
 				if (hasFocus) {
@@ -769,17 +768,17 @@ public class NumberPicker extends LinearLayout {
 			return;
 
 		mAlignType = alignType;
-		// switch (mAlignType) {
-		// case ALIGN_LEFT_TYPE:
-		// mSelectorWheelPaint.setTextAlign(Align.LEFT);
-		// break;
-		// case ALIGN_RIGHT_TYPE:
-		// mSelectorWheelPaint.setTextAlign(Align.CENTER);
-		// break;
-		// default:
-		// mSelectorWheelPaint.setTextAlign(Align.CENTER);
-		// break;
-		// }
+		switch (mAlignType) {
+		case ALIGN_LEFT_TYPE:
+			mSelectorWheelPaint.setTextAlign(Align.LEFT);
+			break;
+		case ALIGN_RIGHT_TYPE:
+			mSelectorWheelPaint.setTextAlign(Align.RIGHT);
+			break;
+		default:
+			mSelectorWheelPaint.setTextAlign(Align.CENTER);
+			break;
+		}
 	}
 
 	@Override
@@ -1300,7 +1299,7 @@ public class NumberPicker extends LinearLayout {
 		InputMethodManager inputMethodManager = InputMethodManager.peekInstance();
 		if (inputMethodManager != null) {
 			if (mHasSelectorWheel) {
-				mInputText.setVisibility(View.VISIBLE);
+				mInputText.setVisibility(View.INVISIBLE);
 			}
 			mInputText.requestFocus();
 			inputMethodManager.showSoftInput(mInputText, 0);
@@ -1557,11 +1556,21 @@ public class NumberPicker extends LinearLayout {
 	@Override
 	protected void onDraw(Canvas canvas) {
 		if (!mHasSelectorWheel) {
+			Log.d(TAG, "call onDraw !mHasSelectorWheel");
 			super.onDraw(canvas);
 			return;
 		}
 
+		Log.d(TAG, "call onDraw");
 		float x = (mRight - mLeft) / 2;
+		switch (mAlignType) {
+		case ALIGN_LEFT_TYPE:
+			x = 0;
+			break;
+		case ALIGN_RIGHT_TYPE:
+			x = mRight - mLeft;
+			break;
+		}
 		float y = mCurrentScrollOffset;
 
 		// draw the virtual buttons pressed state if needed
@@ -1577,60 +1586,36 @@ public class NumberPicker extends LinearLayout {
 				mVirtualButtonPressedDrawable.draw(canvas);
 			}
 		}
-		// tws-start label::2014-8-6
+
 		final int restoreCount = canvas.save();
 		float currentY = mCurrentScrollOffset - mInitialScrollOffset + mSelectorElementHeight / 2;
-
-		Log.d(TAG, "currentY=" + currentY + " Height=" + getHeight());
-		// draw the selector wheel
-		ColorStateList colors = mInputText.getTextColors();
-		int selectColor = colors.getColorForState(ENABLED_STATE_SET, Color.WHITE);
 
 		final int red = Color.red(mNormalTextColor);
 		final int green = Color.green(mNormalTextColor);
 		final int blue = Color.blue(mNormalTextColor);
-		
-		ArgbEvaluator argbEvaluator = new ArgbEvaluator();
-		Log.d(TAG, "y=" + y + " currentY=" + currentY);
 
 		int[] selectorIndices = mSelectorIndices;
 		for (int i = 0; i < selectorIndices.length; i++) {
 			int selectorIndex = selectorIndices[i];
 			String scrollSelectorValue = mSelectorIndexToStringCache.get(selectorIndex);
-			// Do not draw the middle item if input is visible since the input
-			// is shown only if the wheel is static and it covers the middle
-			// item. Otherwise, if the user starts editing the text via the
-			// IME he may see a dimmed version of the old value intermixed
-			// with the new one.
-			// if (i != SELECTOR_MIDDLE_ITEM_INDEX || mInputText.getVisibility()
-			// != VISIBLE) {
 			float currentTextSize = mNormalTextSize;
 			float clip = Math.abs(currentY - getHeight() / 2);
 			float elementHeight = mSelectorElementHeight * 1.5f;
-			float textScale = mTextScale - 1;
-			float scal = 1.0f;
+			float textScale = mTextScale - 1.0f;
+			float scal = 0.0f;
 			if (clip <= elementHeight) {
-				scal = (1 + Math.abs(textScale - ((clip * textScale) / elementHeight)));
-				currentTextSize = mNormalTextSize * scal;
-				Log.d(TAG, "draw:" + scrollSelectorValue + " currentTextSize=" + currentTextSize
-						+ " -------------textScale=" + textScale + " clip=" + clip + " elementHeight=" + elementHeight
-						+ " scal=" + scal);
-			} else {
-				Log.d(TAG, "draw:" + scrollSelectorValue + " currentTextSize=" + currentTextSize);
+				scal = Math.abs(textScale - ((clip * textScale) / elementHeight));
+				currentTextSize = mNormalTextSize * (scal + 1.0f);
 			}
 
 			mSelectorWheelPaint.setTextSize(currentTextSize);
 
-			int alpha = (int) (255*(scal/mTextScale));
-			int color = Color.argb(alpha, red, green, blue);
+			// The lowest transparency is 25
+			int color = Color.argb((int) (255 * (0.25 + 0.75 * (scal / textScale))), red, green, blue);
 			mSelectorWheelPaint.setColor(color);
-			if (i == SELECTOR_MIDDLE_ITEM_INDEX) {
-//				mSelectorWheelPaint.setColor(getResources().getColor(R.color.tws_picker_selected_textcolor));
-				canvas.drawText(scrollSelectorValue, x, y, mSelectorWheelPaint);
-			} else {
-//				mSelectorWheelPaint.setColor(color);
-				canvas.drawText(scrollSelectorValue, x, y, mSelectorWheelPaint);
-			}
+			canvas.drawText(scrollSelectorValue, x, y, mSelectorWheelPaint);
+			Log.d(TAG, "drawText:" + scrollSelectorValue + " x=" + x);
+
 			y += mSelectorElementHeight;
 			currentY += mSelectorElementHeight;
 		}
@@ -1650,10 +1635,6 @@ public class NumberPicker extends LinearLayout {
 			mSelectionDivider.draw(canvas);
 		}
 		if (mLabel != null) {
-			int mTempX = (int) (x + mInputText.getMeasuredWidth());
-			FontMetrics fm = mLabelPaint.getFontMetrics();
-			int mFontHeight = (int) (Math.ceil(fm.descent - fm.ascent));
-			// Log.d(TAG,"mFontHeight = "+mFontHeight);
 			int length = mInputText.getText().length();
 
 			if (mLabelLocation == LABEL_RIGHT) {
@@ -1671,9 +1652,9 @@ public class NumberPicker extends LinearLayout {
 			}
 			y = getHeight() / 2;
 			canvas.drawText(mLabel, x, y, mLabelPaint);
+			Log.d(TAG, "drawText:" + mLabel + " x=" + x);
 		}
 		canvas.restoreToCount(restoreCount);
-		// tws-end label::2014-8-6
 	}
 
 	@Override

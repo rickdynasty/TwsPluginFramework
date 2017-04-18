@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android" >
 
-	<item android:state_focused="true"  android:drawable="@color/tws_stipple" />
-	<item android:state_pressed="true"  android:drawable="@color/tws_stipple" />	
+	<item android:state_focused="true"  android:drawable="@color/tws_black_alpha_mini" />
+	<item android:state_pressed="true"  android:drawable="@color/tws_black_alpha_mini" />	
 	<!-- normal -->
 	<item android:drawable="@color/tws_white"></item>
-	
 </selector>

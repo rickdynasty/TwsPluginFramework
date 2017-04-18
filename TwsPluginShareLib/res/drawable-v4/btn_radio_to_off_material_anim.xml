@@ -12,9 +12,4 @@
     <item android:duration="12" android:drawable="@drawable/btn_radio_to_off_mtrl_008" />
     <item android:duration="12" android:drawable="@drawable/btn_radio_to_off_mtrl_009" />
     <item android:duration="12" android:drawable="@drawable/btn_radio_to_off_mtrl_010" />
-    <item android:duration="12" android:drawable="@drawable/btn_radio_to_off_mtrl_011" />
-    <item android:duration="12" android:drawable="@drawable/btn_radio_to_off_mtrl_012" />
-    <item android:duration="12" android:drawable="@drawable/btn_radio_to_off_mtrl_013" />
-    <item android:duration="12" android:drawable="@drawable/btn_radio_to_off_mtrl_014" />
-    <item android:duration="12" android:drawable="@drawable/btn_radio_to_off_mtrl_015" />
 </animation-list>

@@ -58,7 +58,7 @@ public class RadioButton extends android.widget.RadioButton implements TintableC
     final int[] radioOffDisableState = {-android.R.attr.state_checked, -android.R.attr.state_enabled};
     final int radioOffDisableResId = R.drawable.btn_radio_off_disabled_holo_light;
     final int[] radioOnState = {android.R.attr.state_checked, android.R.attr.state_enabled};
-    final int radioOnResId = R.drawable.btn_radio_to_on_mtrl_015;
+    final int radioOnResId = R.drawable.btn_radio_to_on_mtrl_010;
     final int[] radioOffState = {-android.R.attr.state_checked, android.R.attr.state_enabled};
     final int radioOffResId = R.drawable.btn_radio_to_on_mtrl_000;
     final int radioOnkeyframeId = R.id.on;

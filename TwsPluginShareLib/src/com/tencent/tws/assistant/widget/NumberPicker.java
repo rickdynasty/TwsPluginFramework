@@ -1586,6 +1586,10 @@ public class NumberPicker extends LinearLayout {
 		ColorStateList colors = mInputText.getTextColors();
 		int selectColor = colors.getColorForState(ENABLED_STATE_SET, Color.WHITE);
 
+		final int red = Color.red(mNormalTextColor);
+		final int green = Color.green(mNormalTextColor);
+		final int blue = Color.blue(mNormalTextColor);
+		
 		ArgbEvaluator argbEvaluator = new ArgbEvaluator();
 		Log.d(TAG, "y=" + y + " currentY=" + currentY);
 
@@ -1604,10 +1608,9 @@ public class NumberPicker extends LinearLayout {
 			float clip = Math.abs(currentY - getHeight() / 2);
 			float elementHeight = mSelectorElementHeight * 1.5f;
 			float textScale = mTextScale - 1;
-			int color = (Integer) argbEvaluator.evaluate(clip / (mSelectorElementHeight * 3), selectColor,
-					mNormalTextColor);
+			float scal = 1.0f;
 			if (clip <= elementHeight) {
-				float scal = (1 + Math.abs(textScale - ((clip * textScale) / elementHeight)));
+				scal = (1 + Math.abs(textScale - ((clip * textScale) / elementHeight)));
 				currentTextSize = mNormalTextSize * scal;
 				Log.d(TAG, "draw:" + scrollSelectorValue + " currentTextSize=" + currentTextSize
 						+ " -------------textScale=" + textScale + " clip=" + clip + " elementHeight=" + elementHeight
@@ -1618,11 +1621,14 @@ public class NumberPicker extends LinearLayout {
 
 			mSelectorWheelPaint.setTextSize(currentTextSize);
 
+			int alpha = (int) (255*(scal/mTextScale));
+			int color = Color.argb(alpha, red, green, blue);
+			mSelectorWheelPaint.setColor(color);
 			if (i == SELECTOR_MIDDLE_ITEM_INDEX) {
-				mSelectorWheelPaint.setColor(getResources().getColor(R.color.tws_picker_selected_textcolor));
+//				mSelectorWheelPaint.setColor(getResources().getColor(R.color.tws_picker_selected_textcolor));
 				canvas.drawText(scrollSelectorValue, x, y, mSelectorWheelPaint);
 			} else {
-				mSelectorWheelPaint.setColor(color);
+//				mSelectorWheelPaint.setColor(color);
 				canvas.drawText(scrollSelectorValue, x, y, mSelectorWheelPaint);
 			}
 			y += mSelectorElementHeight;

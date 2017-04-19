@@ -121,7 +121,7 @@ public class PluginApplication extends Application {
 									intent.setClassName(getApplicationContext(), dc.content);
 									startService(intent);
 									break;
-								case DisplayConfig.TYPE_APPLICATION:
+								case DisplayConfig.TYPE_PACKAGENAEM:
 									if (null == PluginLauncher.instance().startPlugin(dc.content)) {
 										TwsLog.e(TAG, "startPlugin:" + dc.content + "失败!!!");
 									}

@@ -22,6 +22,7 @@ import android.app.TwsActivity;
 import android.content.ContentResolver;
 import android.os.Bundle;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -30,7 +31,7 @@ import com.tencent.tws.assistant.app.TimePickerDialog;
 import com.tencent.tws.assistant.app.TwsDialog;
 import com.tencent.tws.assistant.widget.TimePicker;
 
-public class TimePickerView extends TwsActivity {
+public class TimePickerView extends TwsActivity implements OnClickListener {
 
 	// where we display the selected date and time
 	private TextView mTimeDisplay;
@@ -41,6 +42,7 @@ public class TimePickerView extends TwsActivity {
 	private int mMinute;
 
 	private TimePicker mTimePicker;
+	private Button mTo24Btn;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -62,15 +64,12 @@ public class TimePickerView extends TwsActivity {
 				updateDisplay();
 			}
 		});
-		Button pickTime = (Button) findViewById(R.id.pickTime);
-		pickTime.setOnClickListener(new View.OnClickListener() {
-
-			public void onClick(View v) {
-				showTwsDialog(TIME_DIALOG_ID);
-			}
-		});
+		findViewById(R.id.pickTime).setOnClickListener(this);
 		updateDisplay();
 		updateTimePicker(mHour, mMinute);
+
+		mTo24Btn = (Button) findViewById(R.id.to_apply_24_hour);
+		mTo24Btn.setOnClickListener(this);
 	}
 
 	@Override
@@ -127,4 +126,26 @@ public class TimePickerView extends TwsActivity {
 			return "0" + String.valueOf(c);
 	}
 
+	private boolean mIs24Hour = false;
+
+	@Override
+	public void onClick(View view) {
+		switch (view.getId()) {
+		case R.id.pickTime:
+			showTwsDialog(TIME_DIALOG_ID);
+			break;
+		case R.id.to_apply_24_hour:
+			mIs24Hour = !mIs24Hour;
+			mTimePicker.setIs24HourView(mIs24Hour);
+			if (mIs24Hour) {
+				mTo24Btn.setText("12小时制");
+			} else {
+				mTo24Btn.setText("24小时制");
+			}
+			break;
+
+		default:
+			break;
+		}
+	}
 }

@@ -9,15 +9,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="5dip"
-        android:textSize="20sp"
         android:gravity="center"
-        android:text="~" />
+        android:text="~"
+        android:textSize="20sp" />
 
     <com.tencent.tws.assistant.widget.TimePicker
         android:id="@+id/timePicker"
-        android:layout_gravity="center_horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
         android:layout_margin="5dip" />
 
     <Button
@@ -26,5 +26,12 @@
         android:layout_height="wrap_content"
         android:layout_margin="5dip"
         android:text="change the time" />
+
+    <Button
+        android:id="@+id/to_apply_24_hour"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dip"
+        android:text="24小时制" />
 
 </LinearLayout>

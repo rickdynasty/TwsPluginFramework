@@ -27,7 +27,7 @@ public class DisplayConfig implements Serializable {
 	public static final int TYPE_FRAGMENT = 1;
 	public static final int TYPE_ACTIVITY = 2;
 	public static final int TYPE_SERVICE = 3;
-	public static final int TYPE_APPLICATION = 4; // only start plugin
+	public static final int TYPE_PACKAGENAEM = 4; // only start plugin
 	public static final int TYPE_VIEW = 5;
 
 	public static final int ACTIONBAR_RBTN_TYPE_STRING = 1; // 文本资源

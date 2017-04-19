@@ -22,6 +22,7 @@ import java.util.List;
 import java.util.Locale;
 
 import libcore.icu.LocaleData;
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
@@ -763,6 +764,7 @@ public class NumberPicker extends LinearLayout {
 		// tws-end label::2014-8-6
 	}
 
+	@SuppressLint("ResourceAsColor")
 	public void setTextAlignType(int alignType) {
 		if (mAlignType == alignType)
 			return;
@@ -771,9 +773,11 @@ public class NumberPicker extends LinearLayout {
 		switch (mAlignType) {
 		case ALIGN_LEFT_TYPE:
 			mSelectorWheelPaint.setTextAlign(Align.LEFT);
+//			setBackgroundColor(R.color.tws_black_alpha_mini);
 			break;
 		case ALIGN_RIGHT_TYPE:
 			mSelectorWheelPaint.setTextAlign(Align.RIGHT);
+//			setBackgroundColor(R.color.tws_black_alpha_micro);
 			break;
 		default:
 			mSelectorWheelPaint.setTextAlign(Align.CENTER);
@@ -1556,12 +1560,10 @@ public class NumberPicker extends LinearLayout {
 	@Override
 	protected void onDraw(Canvas canvas) {
 		if (!mHasSelectorWheel) {
-			Log.d(TAG, "call onDraw !mHasSelectorWheel");
 			super.onDraw(canvas);
 			return;
 		}
 
-		Log.d(TAG, "call onDraw");
 		float x = (mRight - mLeft) / 2;
 		switch (mAlignType) {
 		case ALIGN_LEFT_TYPE:
@@ -1614,7 +1616,6 @@ public class NumberPicker extends LinearLayout {
 			int color = Color.argb((int) (255 * (0.25 + 0.75 * (scal / textScale))), red, green, blue);
 			mSelectorWheelPaint.setColor(color);
 			canvas.drawText(scrollSelectorValue, x, y, mSelectorWheelPaint);
-			Log.d(TAG, "drawText:" + scrollSelectorValue + " x=" + x);
 
 			y += mSelectorElementHeight;
 			currentY += mSelectorElementHeight;
@@ -1652,7 +1653,6 @@ public class NumberPicker extends LinearLayout {
 			}
 			y = getHeight() / 2;
 			canvas.drawText(mLabel, x, y, mLabelPaint);
-			Log.d(TAG, "drawText:" + mLabel + " x=" + x);
 		}
 		canvas.restoreToCount(restoreCount);
 	}

@@ -103,6 +103,9 @@ public class TimePicker extends FrameLayout {
 	private String mHourName;
 	private String mMinuteName;
 
+	// default is false
+	private boolean mUnitShown = false;
+	
 	/**
 	 * The callback interface used to indicate the time has been adjusted.
 	 */
@@ -145,6 +148,7 @@ public class TimePicker extends FrameLayout {
 
 		// hour
 		mHourSpinner = (NumberPicker) findViewById(R.id.hour);
+		mHourSpinner.setTextAlignType(NumberPicker.ALIGN_RIGHT_TYPE);
 		mHourSpinner.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
 			public void onValueChange(NumberPicker spinner, int oldVal, int newVal) {
 				updateInputState();
@@ -160,43 +164,21 @@ public class TimePicker extends FrameLayout {
 		});
 		mHourSpinnerInput = (EditText) mHourSpinner.findViewById(R.id.numberpicker_input);
 		mHourSpinnerInput.setImeOptions(EditorInfo.IME_ACTION_NEXT);
-		// mHourSpinner.setLabel(context.getString(R.string.calendar_hour));
-		// divider (only for the new widget style)
-		/*
-		 * mDivider = (TextView) findViewById(R.id.divider); if (mDivider !=
-		 * null) { mDivider.setText(R.string.time_picker_separator); }
-		 */
 
 		// minute
 		mMinuteSpinner = (NumberPicker) findViewById(R.id.minute);
+		mMinuteSpinner.setTextAlignType(NumberPicker.ALIGN_LEFT_TYPE);
 		mMinuteSpinner.setMinValue(0);
 		mMinuteSpinner.setMaxValue(59);
 		mMinuteSpinner.setOnLongPressUpdateInterval(100);
-		// mMinuteSpinner.setFormatter(NumberPicker.getTwoDigitFormatter());
-		mMinuteSpinner.setFormatter(mMinuteFormatter);
-		// mMinuteSpinner.setLabel(context.getString(R.string.calendar_mintue));
+		if (mUnitShown) {
+			mMinuteSpinner.setFormatter(mMinuteFormatter);
+		} else {
+			mMinuteSpinner.setFormatter(mNoUnitMinuteFormatter);
+		}
 		mMinuteSpinner.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
 			public void onValueChange(NumberPicker spinner, int oldVal, int newVal) {
 				updateInputState();
-				// tws-start TimePicker::2014-8-13
-				// int minValue = mMinuteSpinner.getMinValue();
-				// int maxValue = mMinuteSpinner.getMaxValue();
-				// if (oldVal == maxValue && newVal == minValue) {
-				// int newHour = mHourSpinner.getValue() + 1;
-				// if (!is24HourView() && newHour == HOURS_IN_HALF_DAY) {
-				// mIsAm = !mIsAm;
-				// updateAmPmControl();
-				// }
-				// mHourSpinner.setValue(newHour);
-				// } else if (oldVal == minValue && newVal == maxValue) {
-				// int newHour = mHourSpinner.getValue() - 1;
-				// if (!is24HourView() && newHour == HOURS_IN_HALF_DAY - 1) {
-				// mIsAm = !mIsAm;
-				// updateAmPmControl();
-				// }
-				// mHourSpinner.setValue(newHour);
-				// }
-				// tws-end TimePicker::2014-8-13
 				onTimeChanged();
 			}
 		});
@@ -205,7 +187,6 @@ public class TimePicker extends FrameLayout {
 
 		// tws-start using custom ampm::2014-8-22
 		/* Get the localized am/pm strings and use them in the spinner */
-		// mAmPmStrings = new DateFormatSymbols().getAmPmStrings();
 		mAmPmStrings = getResources().getStringArray(R.array.tws_calendar_ampm);
 		// tws-end using custom ampm::2014-8-22
 
@@ -264,6 +245,23 @@ public class TimePicker extends FrameLayout {
 
 		// set the content descriptions
 		setContentDescriptions();
+	}
+	
+	public void setUnitShown(boolean unitShown) {
+		if (mUnitShown == unitShown)
+			return;
+
+		mUnitShown = unitShown;
+		if (mUnitShown) {
+			mMinuteSpinner.setFormatter(mMinuteFormatter);
+			mHourSpinner.setFormatter(mHourFormatter);
+		} else {
+			mMinuteSpinner.setFormatter(mNoUnitMinuteFormatter);
+			mHourSpinner.setFormatter(mNoUnitHourFormatter);
+		}
+
+		mMinuteSpinner.invalidate();
+		mHourSpinner.invalidate();
 	}
 
 	private void getHourFormatData() {
@@ -552,9 +550,12 @@ public class TimePicker extends FrameLayout {
 				mHourSpinner.setMaxValue(12);
 			}
 		}
-		// mHourSpinner.setFormatter(mHourWithTwoDigit ?
-		// NumberPicker.getTwoDigitFormatter() : null);
-		mHourSpinner.setFormatter(mHourFormatter);
+		
+		if (mUnitShown) {
+			mHourSpinner.setFormatter(mHourFormatter);
+		} else {
+			mHourSpinner.setFormatter(mNoUnitHourFormatter);
+		}
 	}
 
 	private void updateMinuteControl() {
@@ -644,11 +645,31 @@ public class TimePicker extends FrameLayout {
 			return value + mHourName;
 		}
 	};
+	Formatter mNoUnitHourFormatter = new NumberPicker.Formatter() {
+		@Override
+		public String format(int value) {
+			if (value < 10) {
+				return "0" + value;
+			}
+
+			return value + "";
+		}
+	};
 
 	Formatter mMinuteFormatter = new NumberPicker.Formatter() {
 		@Override
 		public String format(int value) {
 			return value + mMinuteName;
+		}
+	};
+	Formatter mNoUnitMinuteFormatter = new NumberPicker.Formatter() {
+		@Override
+		public String format(int value) {
+			if (value < 10) {
+				return "0" + value;
+			}
+
+			return value + "";
 		}
 	};
 }

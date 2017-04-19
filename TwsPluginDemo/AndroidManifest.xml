@@ -30,7 +30,7 @@
         <!-- 分隔符： # 分割DisplayConfig； @ 分割DisplayConfig的属性； = 属性赋值； / 分割属性值 -->
         <!-- 图标资源icon：统一使用 模块名_[hotseat or watch_fragment or menu]_描述信息.png 配置在AndroidManifest.xml不需要带后缀。 【normal/focus/press/...】 -->
         <!-- 标题title：中文/英文 也可以只配置一个 -->
-        <!-- 显示内容content：如果是fragment 直接配置name,其他的配置类名信息 -->
+        <!-- 显示内容content：如果是fragment 直接配置name,其他的配置类全名信息 -->
         <!-- 内容类型ctype：1 fragment； 2 activity； 3 service； 4 application； 5 view -->
         <!-- 插件启动时机： 1 手动触发 2 随DM启动 3 配对成功后 -->
         <!-- 插件依赖： 1 已安装的app 2 已安装的插件 -->

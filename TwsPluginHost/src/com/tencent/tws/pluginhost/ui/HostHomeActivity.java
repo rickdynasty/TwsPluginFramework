@@ -341,7 +341,7 @@ public class HostHomeActivity extends TwsFragmentActivity implements HomeUIProxy
 						intent.setClassName(HostHomeActivity.this, info.classId);
 						startService(intent);
 						break;
-					case DisplayConfig.TYPE_APPLICATION:
+					case DisplayConfig.TYPE_PACKAGENAEM:
 						if (null == PluginLauncher.instance().startPlugin(info.classId)) {
 							Toast.makeText(HostHomeActivity.this, "startPlugin:" + info.classId + "失败!!!",
 									Toast.LENGTH_LONG).show();

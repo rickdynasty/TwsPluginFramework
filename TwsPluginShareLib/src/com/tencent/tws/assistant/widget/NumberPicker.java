@@ -781,6 +781,7 @@ public class NumberPicker extends LinearLayout {
 			break;
 		default:
 			mSelectorWheelPaint.setTextAlign(Align.CENTER);
+//			setBackgroundColor(R.color.tws_light);
 			break;
 		}
 	}

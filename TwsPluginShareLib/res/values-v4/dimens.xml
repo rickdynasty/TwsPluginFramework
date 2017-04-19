@@ -208,4 +208,8 @@
     <dimen name="tws_actionbar_height">54dp</dimen>
     <dimen name="tws_actionmod_button_height">38dp</dimen>
 
+    <dimen name="date_picker_child_margin_left">40dp</dimen>
+    <dimen name="profile_picker_child_margin_left">64dp</dimen>
+    <dimen name="time_picker_child_margin_left">64dp</dimen>
+    <dimen name="time_picker_nounit_child_margin_left">96dp</dimen>
 </resources>

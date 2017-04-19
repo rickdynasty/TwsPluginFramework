@@ -8,6 +8,7 @@ import android.widget.LinearLayout;
 
 import com.tencent.tws.assistant.widget.NumberPicker.Formatter;
 import com.tencent.tws.assistant.widget.NumberPicker.OnValueChangeListener;
+import com.tencent.tws.sharelib.R;
 
 public class ProfileDataPicker extends LinearLayout implements OnValueChangeListener {
 	protected static final String TAG = "ProfileDataPicker";
@@ -38,8 +39,8 @@ public class ProfileDataPicker extends LinearLayout implements OnValueChangeList
 
 		// 主要的
 		mMajor = new NumberPicker(context);
+		mMajor.setTextAlignType(NumberPicker.ALIGN_RIGHT_TYPE);
 		LayoutParams mMajorLP = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
-		mMajorLP.weight = 1.0f;
 		mMajor.setLayoutParams(mMajorLP);
 		mMajor.setFocusable(true);
 		mMajor.setFocusableInTouchMode(true);
@@ -52,8 +53,10 @@ public class ProfileDataPicker extends LinearLayout implements OnValueChangeList
 
 		// 次要的
 		mMinor = new NumberPicker(context);
+		mMinor.setTextAlignType(NumberPicker.ALIGN_LEFT_TYPE);
 		LayoutParams mMinorLP = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
-		mMinorLP.weight = 1.0f;
+		mMinorLP.leftMargin = getResources().getDimensionPixelSize(R.dimen.profile_picker_child_margin_left);
+		
 		mMinor.setLayoutParams(mMinorLP);
 		mMinor.setFocusable(true);
 		mMinor.setFocusableInTouchMode(true);

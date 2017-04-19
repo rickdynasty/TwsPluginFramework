@@ -19,7 +19,6 @@ package com.tencent.tws.assistant.widget;
 import java.text.DateFormatSymbols;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Locale;
 import java.util.TimeZone;
@@ -31,7 +30,6 @@ import android.content.res.TypedArray;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.text.TextUtils;
-import android.text.format.DateFormat;
 import android.text.format.DateUtils;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -46,7 +44,6 @@ import android.widget.CalendarView;
 import android.widget.CalendarView.OnDateChangeListener;
 import android.widget.EditText;
 import android.widget.FrameLayout;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.tencent.tws.assistant.utils.ChineseCalendar;
@@ -65,13 +62,7 @@ public class DatePicker extends FrameLayout {
 
 	private static final int DEFAULT_END_YEAR = 2036;
 
-	private static final boolean DEFAULT_CALENDAR_VIEW_SHOWN = true;
-
-	private static final boolean DEFAULT_SPINNERS_SHOWN = true;
-
 	private static final boolean DEFAULT_ENABLED_STATE = true;
-
-	private final LinearLayout mSpinners;
 
 	// tws-start lunar calendar::2014-10-9
 	private final NumberPicker mLunarSpinner;
@@ -162,11 +153,6 @@ public class DatePicker extends FrameLayout {
 		setCurrentLocale(Locale.getDefault());
 
 		TypedArray attributesArray = context.obtainStyledAttributes(attrs, R.styleable.DatePicker, defStyle, 0);
-		boolean spinnersShown = attributesArray
-				.getBoolean(R.styleable.DatePicker_spinnersShown, DEFAULT_SPINNERS_SHOWN);
-		boolean calendarViewShown = attributesArray.getBoolean(R.styleable.DatePicker_calendarViewShown,
-				DEFAULT_CALENDAR_VIEW_SHOWN);
-
 		mUnitShown = attributesArray.getBoolean(R.styleable.DatePicker_unitShown, false);
 		mLunarShown = attributesArray.getBoolean(R.styleable.DatePicker_lunarShown, false);
 
@@ -221,10 +207,9 @@ public class DatePicker extends FrameLayout {
 			}
 		};
 
-		mSpinners = (LinearLayout) findViewById(R.id.pickers);
-
 		// tws-start lunar calendar::2014-10-9
 		mLunarSpinner = (NumberPicker) findViewById(R.id.lunar);
+		mLunarSpinner.setTextAlignType(NumberPicker.ALIGN_CENTER_TYPE);
 		mLunarSpinner.setOnLongPressUpdateInterval(100);
 		mLunarSpinner.setOnValueChangedListener(onChangeListener);
 		mLunarSpinner.setMinValue(0);
@@ -288,9 +273,6 @@ public class DatePicker extends FrameLayout {
 		mCurrentDate.setTimeInMillis(System.currentTimeMillis());
 		init(mCurrentDate.get(Calendar.YEAR), mCurrentDate.get(Calendar.MONTH),
 				mCurrentDate.get(Calendar.DAY_OF_MONTH), null);
-
-		// re-order the number spinners to match the current date format
-		reorderSpinners();
 
 		// set content descriptions
 		if (AccessibilityManager.getInstance(mContext).isEnabled()) {
@@ -492,25 +474,6 @@ public class DatePicker extends FrameLayout {
 	}
 
 	/**
-	 * Gets whether the spinners are shown.
-	 * 
-	 * @return True if the spinners are shown.
-	 */
-	public boolean getSpinnersShown() {
-		return mSpinners.isShown();
-	}
-
-	/**
-	 * Sets whether the spinners are shown.
-	 * 
-	 * @param shown
-	 *            True if the spinners are to be shown.
-	 */
-	public void setSpinnersShown(boolean shown) {
-		mSpinners.setVisibility(shown ? VISIBLE : GONE);
-	}
-
-	/**
 	 * Sets the current locale.
 	 * 
 	 * @param locale
@@ -575,37 +538,6 @@ public class DatePicker extends FrameLayout {
 			Calendar newCalendar = Calendar.getInstance(locale);
 			newCalendar.setTimeInMillis(currentTimeMillis);
 			return newCalendar;
-		}
-	}
-
-	/**
-	 * Reorders the spinners according to the date format that is explicitly set
-	 * by the user and if no such is set fall back to the current locale's
-	 * default format.
-	 */
-	@SuppressWarnings("deprecation")
-	private void reorderSpinners() {
-		mSpinners.removeAllViews();
-		mSpinners.addView(mLunarSpinner);
-		char[] order = DateFormat.getDateFormatOrder(getContext());
-		final int spinnerCount = order.length;
-		for (int i = 0; i < spinnerCount; i++) {
-			switch (order[i]) {
-			case DateFormat.DATE:
-				mSpinners.addView(mDaySpinner);
-				setImeOptions(mDaySpinner, spinnerCount, i);
-				break;
-			case DateFormat.MONTH:
-				mSpinners.addView(mMonthSpinner);
-				setImeOptions(mMonthSpinner, spinnerCount, i);
-				break;
-			case DateFormat.YEAR:
-				mSpinners.addView(mYearSpinner);
-				setImeOptions(mYearSpinner, spinnerCount, i);
-				break;
-			default:
-				throw new IllegalArgumentException(Arrays.toString(order));
-			}
 		}
 	}
 
@@ -996,7 +928,7 @@ public class DatePicker extends FrameLayout {
 			if (value < 9) {
 				return "0" + (value + 1) + mMonthName;
 			}
-			
+
 			return (value + 1) + mMonthName;
 		}
 	};
@@ -1006,7 +938,7 @@ public class DatePicker extends FrameLayout {
 			if (value < 9) {
 				return "0" + (value + 1);
 			}
-			
+
 			return (value + 1) + "";
 		}
 	};

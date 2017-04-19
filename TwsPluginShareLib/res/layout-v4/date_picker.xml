@@ -2,51 +2,43 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:layout_gravity="center_horizontal"
     android:gravity="center"
     android:orientation="horizontal" >
 
-    <LinearLayout
-        android:id="@+id/pickers"
+    <!-- Lunar -->
+    <com.tencent.tws.assistant.widget.NumberPicker
+        android:id="@+id/lunar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal" >
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:visibility="gone" />
 
-        <!-- Lunar -->
-        <com.tencent.tws.assistant.widget.NumberPicker
-            android:id="@+id/lunar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:focusable="true"
-            android:focusableInTouchMode="true"
-            android:visibility="gone" />
+    <!-- Year -->
+    <com.tencent.tws.assistant.widget.NumberPicker
+        android:id="@+id/year"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:focusable="true"
+        android:focusableInTouchMode="true" />
 
-        <!-- Month -->
-        <com.tencent.tws.assistant.widget.NumberPicker
-            android:id="@+id/month"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="32dp"
-            android:focusable="true"
-            android:focusableInTouchMode="true" />
+    <!-- Month -->
+    <com.tencent.tws.assistant.widget.NumberPicker
+        android:id="@+id/month"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/date_picker_child_margin_left"
+        android:focusable="true"
+        android:focusableInTouchMode="true" />
 
-        <!-- Day -->
-        <com.tencent.tws.assistant.widget.NumberPicker
-            android:id="@+id/day"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="32dp"
-            android:focusable="true"
-            android:focusableInTouchMode="true" />
-
-        <!-- Year -->
-        <com.tencent.tws.assistant.widget.NumberPicker
-            android:id="@+id/year"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:focusable="true"
-            android:focusableInTouchMode="true" />
-    </LinearLayout>
+    <!-- Day -->
+    <com.tencent.tws.assistant.widget.NumberPicker
+        android:id="@+id/day"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/date_picker_child_margin_left"
+        android:focusable="true"
+        android:focusableInTouchMode="true" />
 
     <!-- calendar view -->
     <CalendarView

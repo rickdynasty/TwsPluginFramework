@@ -138,6 +138,7 @@ public class Hotseat extends LinearLayout implements OnClickListener {
 		button.setLayoutParams(params);
 		button.setOnClickListener(this);
 		button.setLocation(info.location);
+		button.setVisibility(info.establishedDependOn ? View.VISIBLE : View.GONE);
 		button.setTagIndex(mAddChildIndex);
 		++mAddChildIndex;
 
@@ -390,6 +391,28 @@ public class Hotseat extends LinearLayout implements OnClickListener {
 			if (item.getClassId().equals(classId)) {
 				item.setHighlight(needHighlight);
 				return;
+			}
+		}
+	}
+
+	public void unEstablishedDependOnForPlugin(String pid) {
+		if (TextUtils.isEmpty(pid))
+			return;
+
+		for (CellItem item : mHomeBottomButtons) {
+			if (pid.equals(item.getPluginPackageName())) {
+				item.setVisibility(View.GONE);
+			}
+		}
+	}
+
+	public void establishedDependOnForPlugin(String pid) {
+		if (TextUtils.isEmpty(pid))
+			return;
+
+		for (CellItem item : mHomeBottomButtons) {
+			if (pid.equals(item.getPluginPackageName())) {
+				item.setVisibility(View.VISIBLE);
 			}
 		}
 	}

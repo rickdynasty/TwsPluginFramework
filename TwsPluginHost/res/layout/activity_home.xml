@@ -8,7 +8,8 @@
         android:id="@+id/home_bottom_tab"
         android:layout_width="match_parent"
         android:layout_height="@dimen/home_bottom_tab_height"
-        android:layout_alignParentBottom="true" />
+        android:layout_alignParentBottom="true"
+        android:background="@color/tws_bar_background" />
 
     <FrameLayout
         android:id="@+id/home_fragment_container"

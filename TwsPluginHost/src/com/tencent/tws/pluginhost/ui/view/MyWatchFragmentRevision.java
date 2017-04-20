@@ -13,9 +13,9 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.Window;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -105,7 +105,7 @@ public class MyWatchFragmentRevision extends Fragment implements OnClickListener
 		LayoutParams lp = new LayoutParams(LayoutParams.MATCH_PARENT, item_layout_height);
 		item.setPadding(item_paddingLeft, 0, 0, 0);
 		item.setLayoutParams(lp);
-		item.setBackgroundResource(R.drawable.list_selector_background);//R.drawable.dm_common_single_item_selector
+		item.setBackgroundResource(R.drawable.list_selector_background);// R.drawable.dm_common_single_item_selector
 		item.setImageViewImageDrawable(PluginManagerHelper.getPluginIcon(info.normalResName));
 
 		final Locale locale = getActivity().getResources().getConfiguration().locale;
@@ -126,6 +126,7 @@ public class MyWatchFragmentRevision extends Fragment implements OnClickListener
 		item.setActionClass(info.classId, info.componentType);
 		item.setPluginPackageName(info.packageName);
 		item.setLocation(info.location < 0 ? FIX_LOCATION_BEGIN - 1 : info.location);
+		item.setVisibility(info.establishedDependOn ? View.VISIBLE : View.GONE);
 
 		boolean insertRlt = false;
 		int index = 0;
@@ -214,8 +215,8 @@ public class MyWatchFragmentRevision extends Fragment implements OnClickListener
 		LayoutParams lp_notify = new LayoutParams(LayoutParams.MATCH_PARENT, item_layout_height);
 		mMessageMgrItem.setPadding(item_paddingLeft, 0, 0, 0);
 		mMessageMgrItem.setLayoutParams(lp_notify);
-		mMessageMgrItem.setBackgroundResource(R.drawable.list_selector_background);//R.drawable.dm_common_single_item_selector
-		mMessageMgrItem.setImageViewImageDrawable(R.drawable.home_item_my_message_mgr);
+		mMessageMgrItem.setBackgroundResource(R.drawable.list_selector_background);// R.drawable.dm_common_single_item_selector
+		mMessageMgrItem.setImageViewImageDrawable(R.drawable.home_item_notification_normal);
 		mMessageMgrItem.setText(res.getString(R.string.message_mgr));
 		mMessageMgrItem.setOnClickListener(this);
 		mMessageMgrItem.mSpecialFlg = WatchFragmentContentItem.ITEM_MESSAGE;
@@ -234,7 +235,7 @@ public class MyWatchFragmentRevision extends Fragment implements OnClickListener
 		LayoutParams lp_settings = new LayoutParams(LayoutParams.MATCH_PARENT, item_layout_height);
 		mSettingsItem.setPadding(item_paddingLeft, 0, 0, 0);
 		mSettingsItem.setLayoutParams(lp_settings);
-		mSettingsItem.setBackgroundResource(R.drawable.list_selector_background);//R.drawable.dm_common_single_item_selector
+		mSettingsItem.setBackgroundResource(R.drawable.list_selector_background);// R.drawable.dm_common_single_item_selector
 		mSettingsItem.setText(res.getString(R.string.settings));
 		mSettingsItem.setImageViewImageDrawable(R.drawable.home_item_my_settings);
 		mSettingsItem.setOnClickListener(this);
@@ -312,6 +313,28 @@ public class MyWatchFragmentRevision extends Fragment implements OnClickListener
 
 		if (0 < removeItems.size()) {
 			mContentItems.removeAll(removeItems);
+		}
+	}
+
+	public void unEstablishedDependOnForPlugin(String pid) {
+		if (TextUtils.isEmpty(pid))
+			return;
+
+		for (WatchFragmentContentItem item : mContentItems) {
+			if (pid.equals(item.getPluginPackageName())) {
+				item.setVisibility(View.GONE);
+			}
+		}
+	}
+
+	public void establishedDependOnForPlugin(String pid) {
+		if (TextUtils.isEmpty(pid))
+			return;
+
+		for (WatchFragmentContentItem item : mContentItems) {
+			if (pid.equals(item.getPluginPackageName())) {
+				item.setVisibility(View.VISIBLE);
+			}
 		}
 	}
 }

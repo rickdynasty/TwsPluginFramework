@@ -78,6 +78,11 @@ public class HostHomeActivity extends TwsFragmentActivity implements HomeUIProxy
 	private HashMap<String, Integer> mPluginMywatchPos = new HashMap<String, Integer>();
 	private final int POS_WEIGHT = 5; // 位置信息的权重值
 
+	private final int DEPEND_ON_APPLICATION = 1;
+	private final int DEPEND_ON_PLUGIN = 2;
+
+	private HashMap<String, String> mDependOnMap = new HashMap<String, String>();
+
 	private int mNormalTextColor;
 	private int mFocusTextColor;
 
@@ -135,12 +140,39 @@ public class HostHomeActivity extends TwsFragmentActivity implements HomeUIProxy
 		}
 	};
 
+	// 应用安装卸载监听
+	private final BroadcastReceiver mAppUpdateReceiver = new BroadcastReceiver() {
+		@Override
+		public void onReceive(Context context, Intent intent) {
+			if (TextUtils.equals(intent.getAction(), Intent.ACTION_PACKAGE_ADDED)) {
+				String packageName = intent.getData().getSchemeSpecificPart();
+				if (mDependOnMap.containsKey(packageName)) {
+					String pid = mDependOnMap.get(packageName);
+					establishedDependOnForPlugin(pid);
+				}
+			} else if (TextUtils.equals(intent.getAction(), Intent.ACTION_PACKAGE_REMOVED)) {
+				String packageName = intent.getData().getSchemeSpecificPart();
+				if (mDependOnMap.containsKey(packageName)) {
+					String pid = mDependOnMap.get(packageName);
+					unEstablishedDependOnForPlugin(pid);
+				}
+			}
+		}
+	};
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		requestWindowFeature(Window.FEATURE_ACTION_BAR_OVERLAY);
 		super.onCreate(savedInstanceState);
 		// 监听插件更新
 		registerReceiver(mPluginChangedMonitor, new IntentFilter(PluginCallback.ACTION_PLUGIN_CHANGED));
+
+		// 监听应用的安装卸载
+		IntentFilter filter = new IntentFilter();
+		filter.addAction("android.intent.action.PACKAGE_ADDED");
+		filter.addAction("android.intent.action.PACKAGE_REMOVED");
+		filter.addDataScheme("package");
+		registerReceiver(mAppUpdateReceiver, filter);
 
 		setContentView(R.layout.activity_home);
 		mHotseat = (Hotseat) findViewById(R.id.home_bottom_tab);
@@ -307,12 +339,9 @@ public class HostHomeActivity extends TwsFragmentActivity implements HomeUIProxy
 			TwsLog.w(TAG, "当前插件" + pluginDescriptor.getPackageName() + "已经被列入黑名单了");
 			return;
 		}
-		// 依赖检测 - 当前暂时只用于门禁依赖"千丁app"
-		if (!establishedDependOns(pluginDescriptor.getDependOns())) {
-			// 存在依赖条件，并且条件不成立
-			Log.w(TAG, "存在依赖条件，并且条件不成立!");
-			return;
-		}
+
+		boolean establishedDependOn = establishedDependOns(pluginDescriptor.getPackageName(),
+				pluginDescriptor.getDependOns());
 
 		final ArrayList<DisplayConfig> dcs = pluginDescriptor.getDisplayConfigs();
 		if (dcs != null && 0 < dcs.size()) {
@@ -320,6 +349,8 @@ public class HostHomeActivity extends TwsFragmentActivity implements HomeUIProxy
 					+ FileUtil.ICON_FOLDER;
 			for (DisplayConfig dc : dcs) {
 				DisplayInfo info = new DisplayInfo(dc, pluginDescriptor.getPackageName());
+				info.establishedDependOn = establishedDependOn;
+
 				loadPluginIcon(info, pluginDescriptor, dc.pos == DisplayConfig.DISPLAY_AT_HOTSEAT, iconDir);
 
 				switch (dc.pos) {
@@ -378,6 +409,16 @@ public class HostHomeActivity extends TwsFragmentActivity implements HomeUIProxy
 		}
 	}
 
+	private void establishedDependOnForPlugin(String pid) {
+		mHotseat.establishedDependOnForPlugin(pid);
+		mMyWatchFragment.establishedDependOnForPlugin(pid);
+	}
+
+	private void unEstablishedDependOnForPlugin(String pid) {
+		mHotseat.unEstablishedDependOnForPlugin(pid);
+		mMyWatchFragment.unEstablishedDependOnForPlugin(pid);
+	}
+
 	// 这个函数同步FragmentPagerAdapter，建议直接用FragmentPagerAdapter里面的接口
 	private String makeFragmentName(int viewId, long id) {
 		return "android:switcher:" + viewId + ":" + id;
@@ -432,12 +473,8 @@ public class HostHomeActivity extends TwsFragmentActivity implements HomeUIProxy
 				continue;
 			}
 
-			// 依赖检测 - 当前暂时只用于门禁依赖"千丁app"
-			if (!establishedDependOns(pluginDescriptor.getDependOns())) {
-				// 存在依赖条件，并且条件不成立
-				Log.w(TAG, "存在依赖条件，并且条件不成立!");
-				continue;
-			}
+			boolean establishedDependOn = establishedDependOns(pluginDescriptor.getPackageName(),
+					pluginDescriptor.getDependOns());
 
 			final ArrayList<DisplayConfig> dcs = pluginDescriptor.getDisplayConfigs();
 			if (dcs != null && 0 < dcs.size()) {
@@ -446,6 +483,8 @@ public class HostHomeActivity extends TwsFragmentActivity implements HomeUIProxy
 						+ FileUtil.ICON_FOLDER;
 				for (DisplayConfig dc : dcs) {
 					DisplayInfo info = new DisplayInfo(dc, pluginDescriptor.getPackageName());
+					info.establishedDependOn = establishedDependOn;
+
 					loadPluginIcon(info, pluginDescriptor, dc.pos == DisplayConfig.DISPLAY_AT_HOTSEAT, iconDir);
 
 					switch (dc.pos) {
@@ -476,34 +515,24 @@ public class HostHomeActivity extends TwsFragmentActivity implements HomeUIProxy
 		}
 	}
 
-	private boolean establishedDependOns(ArrayList<String> dependOns) {
+	private boolean establishedDependOns(String pid, ArrayList<String> dependOns) {
 		// 依赖检测
 		if (dependOns == null || dependOns.size() <= 0) {
 			return true;
 		}
 
-		for (String dependOn : dependOns) {
-			if (!establishedDependOn(dependOn)) {
-				return false;
-			}
-		}
-
-		return true;
-	}
-
-	private boolean establishedDependOn(String dependOn) {
-		// 依赖检测
-		if (TextUtils.isEmpty(dependOn)) {
+		// 当前这种依赖只处理一个
+		String dependOnDes = dependOns.get(0);
+		if (TextUtils.isEmpty(dependOnDes))
 			return true;
-		}
 
-		final String[] values = dependOn.split(DisplayConfig.SEPARATOR_DEPEND);
-		TwsLog.d(TAG, "establishedDependOn:" + dependOn);
+		final String[] values = dependOnDes.split(DisplayConfig.SEPARATOR_DEPEND);
+		TwsLog.d(TAG, "establishedDependOn:" + dependOnDes);
 		String packageName = null;
-		int type = 1;
+		int type = DEPEND_ON_APPLICATION;
 		if (values.length == 1) {
 			packageName = values[0];
-			type = 1;
+			type = DEPEND_ON_APPLICATION;
 		} else if (values.length == 2) {
 			type = Integer.parseInt(values[0]);
 			packageName = values[1];
@@ -512,12 +541,22 @@ public class HostHomeActivity extends TwsFragmentActivity implements HomeUIProxy
 		}
 
 		switch (type) {
-		case 1:
+		case DEPEND_ON_APPLICATION:
+			if (mDependOnMap.containsKey(packageName)) {
+				String des = "插件：" + pid + "所依赖的：" + packageName + "条件，还有插件：" + mDependOnMap.get(packageName)
+						+ "也依赖这个条件";
+				Toast.makeText(this, des, Toast.LENGTH_LONG).show();
+				TwsLog.d(TAG, des);
+			}
+
+			mDependOnMap.put(packageName, pid);
+			TwsLog.d(TAG, "mDependOnMap put:" + packageName + " " + pid);
+
 			if (!dependOnInstalledApp(packageName)) {
 				return false;
 			}
 			break;
-		case 2:
+		case DEPEND_ON_PLUGIN:
 			break;
 		default:
 			break;
@@ -770,6 +809,8 @@ public class HostHomeActivity extends TwsFragmentActivity implements HomeUIProxy
 		public String statKey = "";
 		public String packageName = "";
 		public int location = 0; // 用于显示的索引位置
+
+		public boolean establishedDependOn = true;
 
 		// ActionBar
 		public String ab_title_zh_CN = null;

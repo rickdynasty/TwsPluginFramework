@@ -63,10 +63,10 @@ public class CellItem extends RelativeLayout {
 		final float home_bottom_tab_img_width = getResources().getDimension(R.dimen.home_bottom_tab_img_width);
 		final float home_bottom_tab_img_height = getResources().getDimension(R.dimen.home_bottom_tab_img_height);
 		LayoutParams ivParams = new LayoutParams((int) home_bottom_tab_img_width, (int) home_bottom_tab_img_height);
-		int top = (int) getResources().getDimension(R.dimen.home_bottom_tab_img_margin_top);
-		ivParams.topMargin = top;
+//		int top = (int) getResources().getDimension(R.dimen.home_bottom_tab_img_margin_top);
+//		ivParams.topMargin = top;
 		// ivParams.setMargins(0, top, 0, 0);
-		ivParams.addRule(RelativeLayout.CENTER_HORIZONTAL);
+		ivParams.addRule(RelativeLayout.CENTER_IN_PARENT);
 		mImageView.setLayoutParams(ivParams);
 		mImageView.setId(id);
 		++id;
@@ -81,6 +81,7 @@ public class CellItem extends RelativeLayout {
 		mTextView.setLayoutParams(tvParams);
 		// mTextView.setTextColor(getResources().getColor(R.color.home_bottom_tab_text_pressed_color));
 		addView(mTextView, 1);
+		mTextView.setVisibility(View.GONE);
 		++id;
 	}
 

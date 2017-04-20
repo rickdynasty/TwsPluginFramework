@@ -22,7 +22,6 @@ import java.util.List;
 import java.util.Locale;
 
 import libcore.icu.LocaleData;
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
@@ -764,7 +763,6 @@ public class NumberPicker extends LinearLayout {
 		// tws-end label::2014-8-6
 	}
 
-	@SuppressLint("ResourceAsColor")
 	public void setTextAlignType(int alignType) {
 		if (mAlignType == alignType)
 			return;

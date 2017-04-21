@@ -116,4 +116,14 @@
     <string name="preference_common_dialogtittle">设置</string>
     <string name="preference_common_summary">This is a summary.</string>
 
+    <string name="action_bar_settings_action_provider_no_handling">Handling in onOptionsItemSelected avoided</string>  
+    <string name="action_bar_split_content">显示ActionBar的split模式，是将ActionMenu分离至页面底部显示，在Mainfest中配置uiOption=splitActionBarWhenNarrow即可</string>  
+    <string name="action_bar_display_options_title">ActionBarDisplayOptions</string>  
+    <string name="action_bar_subtitle_title">Tyroneyu</string>  
+    <string name="action_bar_subtitle_actionmode">已选择2条</string>  
+    <string name="action_bar_subtitle_actionmode_on">全选</string>  
+    <string name="action_bar_subtitle_actionmode_off">全不选</string>  
+    <string name="action_bar_display_title">亮度调节</string>  
+    <string name="action_bar_title">主标题主标</string>  
+    <string name="action_bar_subtitle">副标题副标题</string>  
 </resources>

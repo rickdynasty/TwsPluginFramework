@@ -19,6 +19,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="点击进入测试共享控件" />
+
+        <Button
+            android:id="@+id/test_actionbar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="ActionBar" />
     </LinearLayout>
 
 </ScrollView>

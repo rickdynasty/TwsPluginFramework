@@ -11,6 +11,7 @@ import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -108,7 +109,9 @@ public class MyWatchFragmentRevision extends Fragment implements OnClickListener
 		item.setBackgroundResource(R.drawable.list_selector_background);// R.drawable.dm_common_single_item_selector
 		item.setImageViewImageDrawable(PluginManagerHelper.getPluginIcon(info.normalResName));
 
-		final Locale locale = getActivity().getResources().getConfiguration().locale;
+		final ContextThemeWrapper context = getActivity();
+		final Resources res = context.getResources();
+		final Locale locale = res.getConfiguration().locale;
 		if ("zh".equals(locale.getLanguage())) {
 			if ("HK".equals(locale.getCountry())) {
 				item.setText(info.title_zh_HK);

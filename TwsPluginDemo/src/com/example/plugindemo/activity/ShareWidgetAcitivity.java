@@ -46,6 +46,7 @@ public class ShareWidgetAcitivity extends TwsActivity implements View.OnClickLis
 		findViewById(R.id.picker_dialog_outside).setOnClickListener(this);
 		findViewById(R.id.profile_data_picker_view).setOnClickListener(this);
 		findViewById(R.id.time_picker_view).setOnClickListener(this);
+		findViewById(R.id.preference_activity).setOnClickListener(this);
 
 		getTwsActionBar().setTitle("共享控件");
 
@@ -118,6 +119,11 @@ public class ShareWidgetAcitivity extends TwsActivity implements View.OnClickLis
 		case R.id.time_picker_view:
 			intent = new Intent();
 			intent.setClassName(this, TimePickerView.class.getName());
+			startActivity(intent);
+			break;
+		case R.id.preference_activity:
+			intent = new Intent();
+			intent.setClassName(this, PreferenceActivityDemo.class.getName());
 			startActivity(intent);
 			break;
 		default:

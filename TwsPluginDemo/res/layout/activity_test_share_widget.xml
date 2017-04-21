@@ -77,6 +77,12 @@
             android:layout_height="50dp"
             android:layout_margin="3dp"
             android:text="TimePickerView" />
+        <Button
+            android:id="@+id/preference_activity"
+            android:layout_width="fill_parent"
+            android:layout_height="50dp"
+            android:layout_margin="3dp"
+            android:text="PreferenceActivity" />
     </LinearLayout>
 
 </ScrollView>

@@ -314,14 +314,14 @@ public class PluginCoreBaseActivity extends TwsActivity implements OnClickListen
 	private void testNotification() {
 		// 当前交由宿主执行，使用的资源id得宿主能解析得到
 		NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-		Notification.Builder builder = new Notification.Builder(this);
+		Notification.Builder builder = new Notification.Builder(HostProxy.getApplication());
 
 		Intent intent = new Intent();
 		// 唤起指定Activity
 		intent.setClassName(getPackageName(), LauncherActivity.class.getName());
 		// 还可以支持唤起service、receiver等等。
 		intent.putExtra("param1", "这是来自通知栏的参数");
-		PendingIntent contentIndent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+		PendingIntent contentIndent = PendingIntent.getActivity(HostProxy.getApplication(), 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 		builder.setContentIntent(contentIndent).setSmallIcon(HostProxy.getApplicationIconId())// 设置状态栏里面的图标（小图标）【这里尽可能的用宿主的icon】
 				// .setLargeIcon(BitmapFactory.decodeResource(res,R.drawable.i5))//下拉下拉列表里面的图标（大图标）
 				// .setTicker("this is bitch!")//设置状态栏的显示的信息

@@ -61,3 +61,7 @@ TwsPluginFramework(下面简称TPF框架)能很好的解决大中项目团队的
 		android:sharedUserId="com.tencent.tws.pluginhost"
 
 	Step 2. 配置可见的fragment
+		<!-- 通知插件框架哪些fragment是可以嵌入宿主Activity的，如果fragment只是插件内使用，无需对外暴露则无需配置 -->
+        <exported-fragment
+            android:name="some_id_for_fragment3"
+            android:value="com.example.plugindemo.fragment.PluginSpecTwsFragment" />

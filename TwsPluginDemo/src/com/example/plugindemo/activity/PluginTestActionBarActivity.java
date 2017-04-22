@@ -8,8 +8,10 @@ import android.view.View.OnClickListener;
 
 import com.example.plugindemo.R;
 import com.example.plugindemo.activity.actionbar.ActionBarDisplayOptions;
+import com.example.plugindemo.activity.actionbar.ActionBarGradient;
 import com.example.plugindemo.activity.actionbar.ActionBarNormalButton;
 import com.example.plugindemo.activity.actionbar.ActionMenuSelectedText;
+import com.example.plugindemo.activity.actionbar.ActionModeNormal;
 
 public class PluginTestActionBarActivity extends TwsActivity implements OnClickListener {
 
@@ -21,6 +23,8 @@ public class PluginTestActionBarActivity extends TwsActivity implements OnClickL
 		findViewById(R.id.action_bar_displayoptions).setOnClickListener(this);
 		findViewById(R.id.action_bar_normalbutton).setOnClickListener(this);
 		findViewById(R.id.action_menu_selectedtext).setOnClickListener(this);
+		findViewById(R.id.action_mode).setOnClickListener(this);
+		findViewById(R.id.action_bar_gradient).setOnClickListener(this);
 	}
 
 	@Override
@@ -39,7 +43,14 @@ public class PluginTestActionBarActivity extends TwsActivity implements OnClickL
 			intent = new Intent();
 			intent.setClassName(this, ActionMenuSelectedText.class.getName());
 			break;
-
+		case R.id.action_mode:
+			intent = new Intent();
+			intent.setClassName(this, ActionModeNormal.class.getName());
+			break;
+		case R.id.action_bar_gradient:
+			intent = new Intent();
+			intent.setClassName(this, ActionBarGradient.class.getName());
+			break;
 		default:
 			break;
 		}

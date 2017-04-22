@@ -30,6 +30,18 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="ActionMenuSelectedText" />
+
+        <Button
+            android:id="@+id/action_mode"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="ActionMode" />
+
+        <Button
+            android:id="@+id/action_bar_gradient"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="ActionBarGradient" />
     </LinearLayout>
 
 </ScrollView>

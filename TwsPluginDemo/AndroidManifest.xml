@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
 这里配置sharedUserId的作用，是为了告诉宿主程序，这个插件需要依赖宿主程序的class和资源
-如果不配置这个参数，表示这个插件是一个独立插件，即本身可以独立安装运行
+如果不配置这个参数，表示这个插件是一个独立插件，即本身可以独立安装运行
 -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.plugindemo"
@@ -19,9 +19,11 @@
         android:theme="@android:style/Theme.Holo.Light" >
 
         <!-- uses-library作用是用来通知插件框架此插件依赖哪些其他插件 -->
-        <!--<uses-library
+        <!--
+            <uses-library
             android:name="com.example.pluginbase"
-            android:required="true" />-->
+            android:required="true" />
+        -->
 
 
         <!-- 测试插件Meta-Data -->
@@ -64,7 +66,7 @@
             <exported-service
             android:name="login_service"
             android:label="com.example.pluginbase.ILoginService"
-            android:value="com.example.plugindemo.PluginLoginService" />
+            android:value="com.example.plugindemo.PluginLoginService" />
         -->
         <!-- 如果服务需要支持跨进程调用，例如被宿主进程调用，则需要配置android:label为服务所实现的接口className -->
         <exported-service
@@ -264,8 +266,8 @@
             android:name="com.example.plugindemo.activity.PreferenceActivityDemo"
             android:screenOrientation="portrait" >
         </activity>
-        
-        <!--  -->        
+
+        <!--  -->
         <activity
             android:name="com.example.plugindemo.activity.PluginTestActionBarActivity"
             android:screenOrientation="portrait" >
@@ -280,6 +282,15 @@
         </activity>
         <activity
             android:name="com.example.plugindemo.activity.actionbar.ActionMenuSelectedText"
+            android:screenOrientation="portrait"
+            android:uiOptions="splitActionBarWhenNarrow" >
+        </activity>
+        <activity
+            android:name="com.example.plugindemo.activity.actionbar.ActionModeNormal"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="com.example.plugindemo.activity.actionbar.ActionBarGradient"
             android:screenOrientation="portrait" >
         </activity>
     </application>

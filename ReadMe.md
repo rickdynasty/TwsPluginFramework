@@ -6,7 +6,8 @@ TwsPluginFramework(下面简称TPF框架)能很好的解决大中项目团队的
 **开始使用TwsPluginFramework框架**
 
 - [1. 使用TPF框架](#1)
-- [2. 非独立插件应用配置](#2)
+- [2. 开发插件应用的工程配置](#2)
+- [3. 非独立插件应用配置](#3)
 
 ## 1. 使用TPF框架
 	Step 1. clone工程到本地
@@ -54,7 +55,15 @@ TwsPluginFramework(下面简称TPF框架)能很好的解决大中项目团队的
             	android:name=".plugindebug.PluginTwsFragmentActivity"
             	android:screenOrientation="portrait" /> 
 
-## 2. 非独立插件应用配置
+## 2. 开发插件应用的工程配置
+	step 1.更换aapt
+	当前暂时只编译5.1的aapt【在TwsPluginFramework\sdk\TwsWidgetTools\5.1\aapt.exe or aapt】
+	step 2.在工程目录下添加tws.properties文件
+		文件指定了工程的资源pid 和 packagename，如下：
+		package_id=0x5e	#根据工程要求取值[0x02~0x7e]
+		packagename=com.example.plugindemo	#工程的包名]
+
+## 3. 非独立插件应用配置
 	Step 1. 指定宿主包名
 		插件如果要使用宿主的共享功能(代码/资源)，需要显示的指定宿主包名，这样框架就会在构建插件的ClassLoader和Resources的时候就会将宿主的构建进插件里面。
 

@@ -33,8 +33,11 @@ public class PickerDialogOutside extends TwsActivity implements OnClickListener,
     @Override
     protected void onCreate(Bundle arg0) {
         super.onCreate(arg0);
+		
         mContext = this;
         setContentView(R.layout.act_picker_outside);
+		setTitle("PickerDialogOutside");
+		
         mStartTextView = (TextView) findViewById(R.id.tv_start);
         mEndTextView = (TextView) findViewById(R.id.tv_end);
         mEditText = (EditText) findViewById(R.id.et_thing);

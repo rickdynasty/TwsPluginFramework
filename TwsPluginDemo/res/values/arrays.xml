@@ -26,12 +26,14 @@
         <item>Command three</item>
         <item>Command four</item>
     </string-array>
-    <!-- <string-array name="select_dialog_items2">
+    <!--
+    <string-array name="select_dialog_items2">
         <item>Map</item>
         <item>Satellite</item>
         <item>Traffic</item>
         <item>Street view</item>
-    </string-array> -->
+    </string-array>
+    -->
     <string-array name="select_dialog_items2">
         <item>较弱</item>
         <item>适中</item>
@@ -46,7 +48,6 @@
         <item>Every Saturday</item>
         <item>Every Sunday</item>
     </string-array>
-
     <string-array name="date">
         <item>阿妹</item>
         <item>阿郎</item>
@@ -93,27 +94,29 @@
         <item>~夏先生</item>
     </string-array>
     <!-- use in epandableListView -->
-	 <string-array name="group1"> 
-		 <item>group1</item>
-		 <item>child 1</item> 
-	 </string-array> 
-	 <string-array name="group2"> 
-	     <item>group2</item>
-	     <item>child 1</item> 
-		 <item>child 2</item> 
-	  </string-array> 
-	  <string-array name="group3"> 
-	     <item>group3</item>
-	     <item>child 1</item> 
-		 <item>child 2</item>
-		 <item>child 3</item> 
-	  </string-array>
-	  <array name="groups"> 
-	      <item>@array/group1</item> 
-	      <item>@array/group2</item> 
-	      <item>@array/group3</item>
-	  </array>
-	      <string-array name="sources">
+    <string-array name="group1">
+        <item>group1</item>
+        <item>child 1</item>
+    </string-array>
+    <string-array name="group2">
+        <item>group2</item>
+        <item>child 1</item>
+        <item>child 2</item>
+    </string-array>
+    <string-array name="group3">
+        <item>group3</item>
+        <item>child 1</item>
+        <item>child 2</item>
+        <item>child 3</item>
+    </string-array>
+
+    <array name="groups">
+        <item>@array/group1</item>
+        <item>@array/group2</item>
+        <item>@array/group3</item>
+    </array>
+
+    <string-array name="sources">
         <item>asset file</item>
         <item>drawable resource</item>
         <item>byte array</item>
@@ -125,4 +128,5 @@
         <item>Uri</item>
         <item>InputStream</item>
     </string-array>
+
 </resources>

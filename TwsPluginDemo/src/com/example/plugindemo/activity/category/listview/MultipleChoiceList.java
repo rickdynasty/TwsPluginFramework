@@ -13,6 +13,7 @@ public class MultipleChoiceList extends TwsListActivity {
 	public void onCreate(Bundle savedInstanceState) {
 		requestWindowFeature(Window.FEATURE_ACTION_BAR_OVERLAY);
 		super.onCreate(savedInstanceState);
+		setTitle("MultipleChoiceList");
 
 		setListAdapter(new ArrayAdapter<String>(this, HostProxy.getShareLayoutId("select_dialog_multichoice"), GENRES));
 

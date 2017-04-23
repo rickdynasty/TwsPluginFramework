@@ -7,6 +7,10 @@ import android.view.View;
 
 import com.example.plugindemo.R;
 import com.example.plugindemo.activity.category.tab.TabViewpagerActivity;
+import com.example.plugindemo.activity.category.tab.TwsActionBarTab;
+import com.example.plugindemo.activity.category.tab.TwsActionBarTabCustom;
+import com.example.plugindemo.activity.category.tab.TwsActionBarTabSecond;
+import com.example.plugindemo.activity.category.tab.TwsActionBarTabSecondCustom;
 
 public class TabSamples extends TwsActivity implements View.OnClickListener {
 
@@ -29,17 +33,24 @@ public class TabSamples extends TwsActivity implements View.OnClickListener {
 		Intent intent = null;
 		switch (view.getId()) {
 		case R.id.tab_view_pager:
-			// eg
 			intent = new Intent();
 			intent.setClassName(this, TabViewpagerActivity.class.getName());
 			break;
 		case R.id.tws_actionbar_tab:
+			intent = new Intent();
+			intent.setClassName(this, TwsActionBarTab.class.getName());
 			break;
 		case R.id.tws_actionbar_tab_custom:
+			intent = new Intent();
+			intent.setClassName(this, TwsActionBarTabCustom.class.getName());
 			break;
 		case R.id.tws_actionbar_second:
+			intent = new Intent();
+			intent.setClassName(this, TwsActionBarTabSecond.class.getName());
 			break;
 		case R.id.tws_actionbar_second_custom:
+			intent = new Intent();
+			intent.setClassName(this, TwsActionBarTabSecondCustom.class.getName());
 			break;
 		default:
 			break;

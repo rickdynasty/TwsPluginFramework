@@ -10,7 +10,6 @@ import android.view.View;
 
 import com.example.plugindemo.R;
 import com.example.plugindemo.activity.PreferenceActivityDemo;
-import com.example.plugindemo.activity.category.tab.TabViewpagerActivity;
 import com.tencent.tws.assistant.app.ProgressDialog;
 import com.tencent.tws.assistant.app.TwsDialog;
 import com.tencent.tws.assistant.widget.Toast;

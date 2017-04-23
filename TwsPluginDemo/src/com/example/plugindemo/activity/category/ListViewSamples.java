@@ -7,11 +7,14 @@ import android.view.View;
 
 import com.example.plugindemo.R;
 import com.example.plugindemo.activity.category.listview.CheckListView;
+import com.example.plugindemo.activity.category.listview.CustomExpandableListActivity;
 import com.example.plugindemo.activity.category.listview.ListViewComplex;
 import com.example.plugindemo.activity.category.listview.ListViewTest;
 import com.example.plugindemo.activity.category.listview.MultipleChoiceList;
 import com.example.plugindemo.activity.category.listview.NormalListView;
+import com.example.plugindemo.activity.category.listview.SimpleExpandableListActivity;
 import com.example.plugindemo.activity.category.listview.SimpleListView;
+import com.example.plugindemo.activity.category.listview.sortlistview.SortListviewActivity;
 
 public class ListViewSamples extends TwsActivity implements View.OnClickListener {
 
@@ -19,18 +22,17 @@ public class ListViewSamples extends TwsActivity implements View.OnClickListener
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_listview_samples);
+		getTwsActionBar().setTitle("ListViewSamples");
 
 		findViewById(R.id.listview_simple).setOnClickListener(this);
 		findViewById(R.id.listview_normal).setOnClickListener(this);
-		findViewById(R.id.listview_check).setOnClickListener(this);
 		findViewById(R.id.listview_expandable_custom).setOnClickListener(this);
 		findViewById(R.id.listview_expandable_default).setOnClickListener(this);
 		findViewById(R.id.listview_checklist).setOnClickListener(this);
 		findViewById(R.id.listview_default).setOnClickListener(this);
 		findViewById(R.id.listview_custom).setOnClickListener(this);
 		findViewById(R.id.listview_multi).setOnClickListener(this);
-
-		getTwsActionBar().setTitle("Pickers示例");
+		findViewById(R.id.listview_sort).setOnClickListener(this);
 	}
 
 	@Override
@@ -45,11 +47,13 @@ public class ListViewSamples extends TwsActivity implements View.OnClickListener
 			intent = new Intent();
 			intent.setClassName(this, NormalListView.class.getName());
 			break;
-		case R.id.listview_check:
-			break;
 		case R.id.listview_expandable_custom:
+			intent = new Intent();
+			intent.setClassName(this, CustomExpandableListActivity.class.getName());
 			break;
 		case R.id.listview_expandable_default:
+			intent = new Intent();
+			intent.setClassName(this, SimpleExpandableListActivity.class.getName());
 			break;
 		case R.id.listview_checklist:
 			intent = new Intent();
@@ -66,6 +70,10 @@ public class ListViewSamples extends TwsActivity implements View.OnClickListener
 		case R.id.listview_multi:
 			intent = new Intent();
 			intent.setClassName(this, MultipleChoiceList.class.getName());
+			break;
+		case R.id.listview_sort:
+			intent = new Intent();
+			intent.setClassName(this, SortListviewActivity.class.getName());
 			break;
 		default:
 			break;

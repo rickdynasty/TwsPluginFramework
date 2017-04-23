@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--这里配置sharedUserId的作用，是为了告诉宿主程序，这个插件需要依赖宿主程序的class和资源
-如果不配置这个参数，表示这个插件是一个独立插件，即本身可以独立安装运行-->
+<!-- 这里配置sharedUserId的作用，是为了告诉宿主程序，这个插件需要依赖宿主程序的class和资源
+如果不配置这个参数，表示这个插件是一个独立插件，即本身可以独立安装运行 -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.plugindemo"
     android:sharedUserId="com.tencent.tws.pluginhost"
@@ -17,8 +17,7 @@
         android:theme="@android:style/Theme.Holo.Light" >
 
         <!-- uses-library作用是用来通知插件框架此插件依赖哪些其他插件 -->
-        <!--
-            <uses-library
+        <!-- <uses-library
             android:name="com.example.pluginbase"
             android:required="true" /> -->
 
@@ -58,8 +57,7 @@
             android:value="com.example.plugindemo.fragment.PluginSpecTwsFragment" />
 
         <!-- 通知插件框架本插件向外提供的业务服务接口 android:value为实现,android:label为接口 -->
-        <!--
-            <exported-service
+        <!-- <exported-service
             android:name="login_service"
             android:label="com.example.pluginbase.ILoginService"
             android:value="com.example.plugindemo.PluginLoginService" /> -->
@@ -106,6 +104,23 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
+        <activity
+            android:name="com.example.plugindemo.activity.category.tab.TwsActionBarTab"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="com.example.plugindemo.activity.category.tab.TwsActionBarTabCustom"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="com.example.plugindemo.activity.category.tab.TwsActionBarTabSecond"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="com.example.plugindemo.activity.category.tab.TwsActionBarTabSecondCustom"
+            android:screenOrientation="portrait" >
+        </activity>
+
         <activity
             android:name="com.example.plugindemo.activity.PluginTestActivity"
             android:screenOrientation="landscape" >
@@ -241,7 +256,7 @@
             <intent-filter>
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
-        </activity>        
+        </activity>
         <activity android:name="com.example.plugindemo.activity.category.TwsBaseWidget" >
             <intent-filter>
                 <category android:name="android.intent.category.DEFAULT" />
@@ -324,6 +339,22 @@
         </activity>
         <activity
             android:name="com.example.plugindemo.activity.category.listview.SimpleListView"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="com.example.plugindemo.activity.category.listview.BaseExpandableListActivity"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="com.example.plugindemo.activity.category.listview.CustomExpandableListActivity"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="com.example.plugindemo.activity.category.listview.SimpleExpandableListActivity"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="com.example.plugindemo.activity.category.listview.sortlistview.SortListviewActivity"
             android:screenOrientation="portrait" >
         </activity>
     </application>

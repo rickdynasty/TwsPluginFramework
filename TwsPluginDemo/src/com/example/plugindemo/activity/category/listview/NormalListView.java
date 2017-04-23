@@ -23,7 +23,8 @@ public class NormalListView extends TwsListActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 
 		super.onCreate(savedInstanceState);
-
+		setTitle("NormalListView");
+		
 		getWindow().requestFeature(Window.FEATURE_ACTION_BAR_OVERLAY);
 
 		dataArr = getResources().getStringArray(R.array.date);

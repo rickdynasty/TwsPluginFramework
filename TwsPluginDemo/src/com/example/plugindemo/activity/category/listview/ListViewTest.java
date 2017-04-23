@@ -28,6 +28,8 @@ public class ListViewTest extends TwsActivity implements OnClickListener {
 		super.onCreate(savedInstanceState);
 
 		setContentView(R.layout.pagelistview);
+		setTitle("ListViewTest");
+
 		btAdd = (Button) findViewById(R.id.btAdd);
 		btSub = (Button) findViewById(R.id.btSub);
 		listview = (ListView) findViewById(R.id.listview);

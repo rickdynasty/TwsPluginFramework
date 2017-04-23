@@ -26,7 +26,8 @@ public class SimpleListView extends TwsListActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 
 		super.onCreate(savedInstanceState);
-
+		setTitle("SimpleListView");
+		
 		getWindow().requestFeature(Window.FEATURE_ACTION_BAR_OVERLAY);
 		getListView().setScrollBarFadeDuration(0);
 

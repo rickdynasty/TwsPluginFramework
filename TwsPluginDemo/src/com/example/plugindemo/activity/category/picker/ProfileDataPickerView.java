@@ -36,6 +36,7 @@ public class ProfileDataPickerView extends TwsActivity {
 		super.onCreate(savedInstanceState);
 
 		setContentView(R.layout.activity_profiledatapicker_view);
+		setTitle("ProfileDataPickerView");
 
 		mNumberDisplay = (TextView) findViewById(R.id.numberDisplay);
 

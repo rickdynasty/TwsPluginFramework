@@ -49,6 +49,8 @@ public class TimePickerView extends TwsActivity implements OnClickListener {
 		super.onCreate(savedInstanceState);
 
 		setContentView(R.layout.numberpicker_time_example);
+		setTitle("TimePickerView");
+		
 		final Calendar c = Calendar.getInstance();
 		mHour = c.get(Calendar.HOUR);
 		mMinute = c.get(Calendar.MINUTE);

@@ -29,6 +29,7 @@ public class CheckListView extends TwsListActivity implements OnItemClickListene
 	protected void onCreate(Bundle savedInstanceState) {
 
 		super.onCreate(savedInstanceState);
+		setTitle("CheckListView");
 
 		getWindow().requestFeature(Window.FEATURE_ACTION_BAR_OVERLAY);
 

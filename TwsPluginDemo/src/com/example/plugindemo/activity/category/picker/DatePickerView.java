@@ -55,6 +55,7 @@ public class DatePickerView extends TwsActivity implements OnClickListener {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		setTitle("DatePickerView");
 
 		setContentView(R.layout.numberpicker_date_example);
 

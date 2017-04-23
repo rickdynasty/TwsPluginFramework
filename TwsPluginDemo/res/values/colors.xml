@@ -40,4 +40,11 @@
     <color name="tws_light_body">@color/tws_black_alpha_supperbig</color>
     <color name="tws_second_Hint">@color/tws_black_alpha_micro</color>
     <color name="tws_light_summary">@color/tws_black_percent_40</color>
+    <color name="lightslategray">#778899</color>
+    <!-- 亮蓝灰 -->
+    <color name="lightslategrey">#778899</color>
+    <!-- 亮蓝灰 -->
+    <color name="slategray">#708090</color>
+    <!-- 灰石色 -->
+
 </resources>

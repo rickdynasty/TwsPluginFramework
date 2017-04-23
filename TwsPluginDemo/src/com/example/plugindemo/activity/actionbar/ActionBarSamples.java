@@ -14,6 +14,7 @@ public class ActionBarSamples extends TwsActivity implements OnClickListener {
 	protected void onCreate(Bundle bundle) {
 		super.onCreate(bundle);
 		setContentView(R.layout.activity_test_actionbar);
+		setTitle("ActionBarSamples");
 
 		findViewById(R.id.action_bar_displayoptions).setOnClickListener(this);
 		findViewById(R.id.action_bar_normalbutton).setOnClickListener(this);

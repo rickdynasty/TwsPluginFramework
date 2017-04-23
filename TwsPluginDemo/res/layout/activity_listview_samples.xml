@@ -23,13 +23,6 @@
             android:text="Normal" />
 
         <Button
-            android:id="@+id/listview_check"
-            android:layout_width="fill_parent"
-            android:layout_height="50dp"
-            android:layout_margin="3dp"
-            android:text="Check" />
-
-        <Button
             android:id="@+id/listview_expandable_custom"
             android:layout_width="fill_parent"
             android:layout_height="50dp"
@@ -70,6 +63,12 @@
             android:layout_height="50dp"
             android:layout_margin="3dp"
             android:text="ListView_Multi" />
+        <Button
+            android:id="@+id/listview_sort"
+            android:layout_width="fill_parent"
+            android:layout_height="50dp"
+            android:layout_margin="3dp"
+            android:text="SortListView" />
     </LinearLayout>
 
 </ScrollView>

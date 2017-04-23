@@ -55,6 +55,7 @@ public class DateTimePickerView extends TwsActivity {
 		super.onCreate(savedInstanceState);
 
 		setContentView(R.layout.numberpicker_datetime_example);
+		setTitle("DateTimePickerView");
 
 		final Calendar c = Calendar.getInstance();
 		c.setTimeInMillis(System.currentTimeMillis());

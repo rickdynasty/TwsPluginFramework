@@ -24,6 +24,7 @@ public class ListViewComplex extends TwsListActivity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		setTitle("ListViewCustom");
 
 		dataList = getResources().getStringArray(R.array.date);
 		getListView().setFirstItemHigher(true);

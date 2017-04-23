@@ -1,4 +1,4 @@
-package com.example.plugindemo.activity.widget;
+package com.example.plugindemo.activity.category.tab;
 
 import android.app.TabActivity;
 import android.content.Intent;

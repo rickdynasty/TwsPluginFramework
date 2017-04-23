@@ -24,11 +24,13 @@ import android.widget.RelativeLayout.LayoutParams;
 import android.widget.TextView;
 
 import com.tencent.tws.assistant.support.v4.app.Fragment;
+import com.tencent.tws.pluginhost.HostApplication;
 import com.tencent.tws.pluginhost.R;
 import com.tencent.tws.pluginhost.ui.HostHomeActivity.DisplayInfo;
 import com.tencent.tws.pluginhost.ui.MessageManagerActivity;
 import com.tencent.tws.pluginhost.ui.SettingsActivity;
 import com.tws.plugin.content.DisplayConfig;
+import com.tws.plugin.core.PluginApplication;
 import com.tws.plugin.manager.PluginManagerHelper;
 
 public class MyWatchFragmentRevision extends Fragment implements OnClickListener {
@@ -110,7 +112,7 @@ public class MyWatchFragmentRevision extends Fragment implements OnClickListener
 		item.setImageViewImageDrawable(PluginManagerHelper.getPluginIcon(info.normalResName));
 
 		final ContextThemeWrapper context = getActivity();
-		final Resources res = context.getResources();
+		final Resources res = context == null ? HostApplication.getInstance().getResources() : context.getResources();
 		final Locale locale = res.getConfiguration().locale;
 		if ("zh".equals(locale.getLanguage())) {
 			if ("HK".equals(locale.getCountry())) {

@@ -1,7 +1,6 @@
 package com.example.plugindemo.activity;
 
 import android.os.Bundle;
-import android.view.Window;
 import android.widget.CompoundButton;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;

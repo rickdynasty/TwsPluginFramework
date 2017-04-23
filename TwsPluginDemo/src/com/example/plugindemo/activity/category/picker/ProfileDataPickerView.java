@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.example.plugindemo.activity.widget;
+package com.example.plugindemo.activity.category.picker;
 
 import android.app.TwsActivity;
 import android.os.Bundle;

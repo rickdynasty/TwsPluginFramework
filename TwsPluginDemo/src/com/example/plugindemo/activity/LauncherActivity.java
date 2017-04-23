@@ -18,6 +18,9 @@ import android.view.Menu;
 import android.view.View;
 
 import com.example.plugindemo.R;
+import com.example.plugindemo.activity.actionbar.ActionBarSamples;
+import com.example.plugindemo.activity.category.PluginCoreSamples;
+import com.example.plugindemo.activity.category.ShareWidgetSamples;
 
 public class LauncherActivity extends TwsActivity implements View.OnClickListener {
 
@@ -81,13 +84,13 @@ public class LauncherActivity extends TwsActivity implements View.OnClickListene
 
 	private void testActionBar() {
 		Intent intent = new Intent();
-		intent.setClassName(this, PluginTestActionBarActivity.class.getName());
+		intent.setClassName(this, ActionBarSamples.class.getName());
 		startActivity(intent);
 	}
 
 	private void testBase() {
 		Intent intent = new Intent();
-		intent.setClassName(this, PluginCoreBaseActivity.class.getName());
+		intent.setClassName(this, PluginCoreSamples.class.getName());
 		startActivity(intent);
 	}
 
@@ -101,7 +104,7 @@ public class LauncherActivity extends TwsActivity implements View.OnClickListene
 	private void testShareWidget() {
 		// 利用className打开共享控件的测试activity
 		Intent intent = new Intent();
-		intent.setClassName(this, ShareWidgetAcitivity.class.getName());
+		intent.setClassName(this, ShareWidgetSamples.class.getName());
 		startActivity(intent);
 	}
 

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.example.plugindemo.activity.widget;
+package com.example.plugindemo.activity.category.picker;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;

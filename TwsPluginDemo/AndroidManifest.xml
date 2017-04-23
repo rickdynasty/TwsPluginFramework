@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-这里配置sharedUserId的作用，是为了告诉宿主程序，这个插件需要依赖宿主程序的class和资源
-如果不配置这个参数，表示这个插件是一个独立插件，即本身可以独立安装运行
--->
+<!--这里配置sharedUserId的作用，是为了告诉宿主程序，这个插件需要依赖宿主程序的class和资源
+如果不配置这个参数，表示这个插件是一个独立插件，即本身可以独立安装运行-->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.plugindemo"
     android:sharedUserId="com.tencent.tws.pluginhost"
@@ -22,9 +20,7 @@
         <!--
             <uses-library
             android:name="com.example.pluginbase"
-            android:required="true" />
-        -->
-
+            android:required="true" /> -->
 
         <!-- 测试插件Meta-Data -->
         <meta-data
@@ -66,8 +62,7 @@
             <exported-service
             android:name="login_service"
             android:label="com.example.pluginbase.ILoginService"
-            android:value="com.example.plugindemo.PluginLoginService" />
-        -->
+            android:value="com.example.plugindemo.PluginLoginService" /> -->
         <!-- 如果服务需要支持跨进程调用，例如被宿主进程调用，则需要配置android:label为服务所实现的接口className -->
         <exported-service
             android:name="share_service"
@@ -83,28 +78,28 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.example.plugindemo.activity.widget.SideBarActivity" >
+        <activity android:name="com.example.plugindemo.activity.category.SideBarActivity" >
             <intent-filter>
                 <action android:name="test.ajc" />
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.PluginCoreBaseActivity" >
+        <activity android:name="com.example.plugindemo.activity.category.PluginCoreSamples" >
             <intent-filter>
                 <action android:name="test.anc" />
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.ShareWidgetAcitivity" >
+        <activity android:name="com.example.plugindemo.activity.category.ShareWidgetSamples" >
             <intent-filter>
                 <action android:name="test.amc" />
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity android:name="com.example.plugindemo.tab.TabViewpagerActivity" >
+        <activity android:name="com.example.plugindemo.activity.category.tab.TabViewpagerActivity" >
             <intent-filter>
                 <action android:name="test.ajc" />
 
@@ -183,7 +178,7 @@
             android:name="com.example.plugindemo.activity.PluginSingleTaskActivity"
             android:launchMode="singleTask" >
         </activity>
-        <activity android:name="com.example.plugindemo.activity.widget.PluginTestTabActivity" >
+        <activity android:name="com.example.plugindemo.activity.category.tab.PluginTestTabActivity" >
         </activity>
         <activity
             android:name="com.example.plugindemo.activity.TransparentActivity"
@@ -232,34 +227,48 @@
             android:authorities="com.example.plugindemo.provider"
             android:exported="true" />
 
-        <activity android:name="com.example.plugindemo.activity.widget.AlertDialogSamples" >
+        <activity android:name="com.example.plugindemo.activity.category.AlertDialogSamples" >
             <intent-filter>
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity android:name="com.example.plugindemo.activity.widget.TwsBaseWidget" >
+        <activity android:name="com.example.plugindemo.activity.category.PickersSamples" >
+            <intent-filter>
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity android:name="com.example.plugindemo.activity.category.ListViewSamples" >
+            <intent-filter>
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>        
+        <activity android:name="com.example.plugindemo.activity.category.TwsBaseWidget" >
             <intent-filter>
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
         <activity
-            android:name="com.example.plugindemo.activity.widget.DateTimePickerView"
+            android:name="com.example.plugindemo.activity.category.picker.DateTimePickerView"
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name="com.example.plugindemo.activity.widget.DatePickerView"
+            android:name="com.example.plugindemo.activity.category.picker.DatePickerView"
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name="com.example.plugindemo.activity.widget.ProfileDataPickerView"
+            android:name="com.example.plugindemo.activity.category.picker.ProfileDataPickerView"
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name="com.example.plugindemo.activity.widget.PickerDialogOutside"
+            android:name="com.example.plugindemo.activity.category.picker.TimePickerView"
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name="com.example.plugindemo.activity.widget.TimePickerView"
+            android:name="com.example.plugindemo.activity.category.picker.PickerDialogOutside"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="com.example.plugindemo.activity.category.TabSamples"
             android:screenOrientation="portrait" >
         </activity>
         <activity
@@ -269,7 +278,7 @@
 
         <!--  -->
         <activity
-            android:name="com.example.plugindemo.activity.PluginTestActionBarActivity"
+            android:name="com.example.plugindemo.activity.actionbar.ActionBarSamples"
             android:screenOrientation="portrait" >
         </activity>
         <activity
@@ -291,6 +300,30 @@
         </activity>
         <activity
             android:name="com.example.plugindemo.activity.actionbar.ActionBarGradient"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="com.example.plugindemo.activity.category.listview.CheckListView"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="com.example.plugindemo.activity.category.listview.ListViewComplex"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="com.example.plugindemo.activity.category.listview.ListViewTest"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="com.example.plugindemo.activity.category.listview.MultipleChoiceList"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="com.example.plugindemo.activity.category.listview.NormalListView"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="com.example.plugindemo.activity.category.listview.SimpleListView"
             android:screenOrientation="portrait" >
         </activity>
     </application>

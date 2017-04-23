@@ -14,4 +14,30 @@
     <color name="tws_blue">#ff22b2b6</color>
     <color name="tws_light_title">#cc000000</color>
 
+    <!-- ====================black==================== -->
+    <!-- 80% alpha black -->
+    <color name="tws_black_alpha_supperbig">#CC000000</color>
+    <!-- 70% alpha black -->
+    <color name="tws_black_alpha_supper">#B3000000</color>
+    <!-- 60% alpha black -->
+    <color name="tws_black_alpha_larger">#99000000</color>
+    <!-- 50% alpha black -->
+    <color name="tws_black_alpha_large">#80000000</color>
+    <!-- 30% alpha black -->
+    <color name="tws_black_alpha_medium">#4D000000</color>
+    <!-- 20% alpha black -->
+    <color name="tws_black_alpha_micro">#33000000</color>
+    <!-- 10% alpha black -->
+    <color name="tws_black_alpha_mini">#1A000000</color>
+    <!-- 45% alpha black -->
+    <color name="tws_black_percent_45">#73000000</color>
+    <!-- 40% alpha black -->
+    <color name="tws_black_percent_40">#66000000</color>
+    <!-- 15% alpha black -->
+    <color name="tws_black_percent_15">#26000000</color>
+
+    <!--  -->
+    <color name="tws_light_body">@color/tws_black_alpha_supperbig</color>
+    <color name="tws_second_Hint">@color/tws_black_alpha_micro</color>
+    <color name="tws_light_summary">@color/tws_black_percent_40</color>
 </resources>

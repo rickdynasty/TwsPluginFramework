@@ -1,0 +1,74 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:clipChildren="false"
+    android:clipToPadding="false"
+    android:gravity="center_vertical"
+    android:minHeight="16dp"
+    android:paddingBottom="@dimen/tws_listview_item_padding_side_bottom"
+    android:paddingLeft="@dimen/tws_listview_item_padding_side_left"
+    android:paddingRight="@dimen/tws_listview_item_padding_side_right"
+    android:paddingTop="@dimen/tws_listview_item_padding_side_top" >
+
+    <ImageView
+        android:id="@+id/icon"
+        android:layout_width="@dimen/tws_listview_icon_size"
+        android:layout_height="@dimen/tws_listview_icon_size"
+        android:layout_gravity="center"
+        android:layout_marginRight="@dimen/tws_listview_icon_margin_right_small"
+        android:scaleType="fitCenter"
+        android:visibility="visible" />
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1" >
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ellipsize="marquee"
+            android:fadingEdge="horizontal"
+            android:singleLine="true"
+            android:textColor="@color/tws_light_body"
+            android:textColorHint="@color/tws_second_Hint"
+            android:textSize="@dimen/tws_Large_TextSize" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@id/title"
+            android:layout_below="@id/title"
+            android:gravity="center_vertical"
+            android:paddingTop="@dimen/tws_listview_subtitle_padding_top" >
+
+            <ProgressBar
+                android:id="@+id/progressBar"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="@dimen/tws_listview_subtitle_padding_top"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/summary"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:maxLines="4"
+                android:textColor="@color/tws_light_summary"
+                android:textColorHint="@color/tws_second_Hint"
+                android:textSize="@dimen/tws_Micro_TextSize" />
+        </LinearLayout>
+    </RelativeLayout>
+
+    <com.tencent.tws.assistant.widget.CheckBox
+        android:id="@+id/checkbox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical|right"
+        android:paddingLeft="0dp"
+        android:visibility="visible" />
+
+</LinearLayout>

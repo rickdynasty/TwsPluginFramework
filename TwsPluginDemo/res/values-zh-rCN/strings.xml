@@ -13,8 +13,8 @@
     <string name="open_ft">Open FileTransfer Demo</string>
     <string name="progress_dialog">Progress对话框</string>
     <string name="widget_tabviewpager">TabViewpager控件</string>
-    <string name="widget_toast">Toast提示</string>
-    <string name="widget_sidebar">工具条</string>
+    <string name="widget_toast">Toast</string>
+    <string name="widget_sidebar">SideBar</string>
     <string name="tws_base_widget">Tws基础控件</string>
 
     <!-- api demo -->
@@ -74,6 +74,6 @@
     <string name="preference_list_tittle">ListPreference</string>
     <string name="preference_common_dialogtittle">设置</string>
     <string name="preference_common_summary">This is a summary.</string>
-
     <string name="action_bar_display_options_title">ActionBarDisplayOptions</string>
+
 </resources>

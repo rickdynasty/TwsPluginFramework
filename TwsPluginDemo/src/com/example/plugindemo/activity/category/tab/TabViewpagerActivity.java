@@ -1,4 +1,4 @@
-package com.example.plugindemo.tab;
+package com.example.plugindemo.activity.category.tab;
 
 import android.app.LocalActivityManager;
 import android.os.Bundle;

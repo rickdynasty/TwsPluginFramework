@@ -2,5 +2,39 @@
 
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
-    
+    <dimen name="preference_icon_size">24dip</dimen>
+    <dimen name="child_indicate_marginLeft">16dp</dimen>
+    <!-- list view -->
+    <dimen name="tws_listview_subtitle_padding_top">0dip</dimen>
+    <!-- listview -->
+    <dimen name="tws_listview_icon_margin_left">0dip</dimen>
+    <dimen name="tws_listview_icon_margin_right">14dip</dimen>
+    <!-- preference -->
+    <dimen name="tws_listview_icon_margin_right_small">10dip</dimen>
+    <!-- listview -->
+    <dimen name="tws_listview_item_margin_top">6dip</dimen>
+    <dimen name="tws_listview_item_margin_bottom">6dip</dimen>
+    <dimen name="tws_listview_item_small_height">54dip</dimen>
+    <!-- preference -->
+    <dimen name="tws_listview_item_height">60dip</dimen>
+    <!-- menu -->
+    <dimen name="tws_listview_item_max_height">72dip</dimen>
+    <!-- listview -->
+    <dimen name="tws_listview_item_padding_side_left">20dip</dimen>
+    <dimen name="tws_listview_item_padding_side_right">20dip</dimen>
+    <dimen name="tws_listview_item_padding_side_top">5dip</dimen>
+    <dimen name="tws_listview_item_padding_side_bottom">5dip</dimen>
+    <dimen name="tws_listview_icon_size">44dip</dimen>
+
+    <!--  -->
+    <dimen name="tws_SuperBiger_TextSize">36sp</dimen>
+    <dimen name="tws_SuperBig_TextSize">32sp</dimen>
+    <dimen name="tws_Super_TextSize">24sp</dimen>
+    <dimen name="tws_Larger_TextSize">20sp</dimen>
+    <dimen name="tws_Large_TextSize">18sp</dimen>
+    <dimen name="tws_Medium_TextSize">16sp</dimen>
+    <dimen name="tws_Small_TextSize">14sp</dimen>
+    <dimen name="tws_Micro_TextSize">12sp</dimen>
+    <dimen name="tws_Mini_TextSize">10sp</dimen>
+
 </resources>

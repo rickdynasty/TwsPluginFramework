@@ -1,4 +1,4 @@
-package com.example.plugindemo.activity.widget;
+package com.example.plugindemo.activity.category;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -99,7 +99,7 @@ public class TwsBaseWidget extends TwsActivity {
 		setContentView(R.layout.activity_base_widget);
 
 		getTwsActionBar().setTitle("基础控件");
-		
+
 		btnDialog = (Button) findViewById(R.id.btnDialog);
 		btnToast = (Button) findViewById(R.id.btnToast);
 		mEditText = (EditText) findViewById(R.id.editText1);
@@ -142,7 +142,7 @@ public class TwsBaseWidget extends TwsActivity {
 						}).setNegativeButton(android.R.string.cancel, null).create();
 				Window window = mDialog.getWindow();
 				window.setGravity(Gravity.BOTTOM);
-//				window.setWindowAnimations(com.tencent.tws.sharelib.R.style.Animation_tws_Dialog_Bottom);
+				// window.setWindowAnimations(com.tencent.tws.sharelib.R.style.Animation_tws_Dialog_Bottom);
 				mDialog.show();
 
 			}

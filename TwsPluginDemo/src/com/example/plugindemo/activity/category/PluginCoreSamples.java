@@ -1,4 +1,4 @@
-package com.example.plugindemo.activity;
+package com.example.plugindemo.activity.category;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -23,13 +23,21 @@ import android.view.View.OnClickListener;
 import android.widget.Toast;
 
 import com.example.plugindemo.R;
-import com.example.plugindemo.activity.widget.PluginTestTabActivity;
+import com.example.plugindemo.activity.LauncherActivity;
+import com.example.plugindemo.activity.PluginForDialogActivity;
+import com.example.plugindemo.activity.PluginFragmentTestActivity;
+import com.example.plugindemo.activity.PluginSingleTaskActivity;
+import com.example.plugindemo.activity.PluginTestActivity;
+import com.example.plugindemo.activity.PluginTestOpenPluginActivity;
+import com.example.plugindemo.activity.PluginWebViewActivity;
+import com.example.plugindemo.activity.TransparentActivity;
+import com.example.plugindemo.activity.category.tab.PluginTestTabActivity;
 import com.example.plugindemo.provider.PluginDbTables;
 import com.example.plugindemo.receiver.PluginTestReceiver2;
 import com.example.plugindemo.service.PluginTestService;
 import com.tencent.tws.framework.HostProxy;
 
-public class PluginCoreBaseActivity extends TwsActivity implements OnClickListener {
+public class PluginCoreSamples extends TwsActivity implements OnClickListener {
 	private static final String TAG = "rick_Print:TestPluginCoreBaseActivity";
 
 	@Override

@@ -1,4 +1,4 @@
-package com.example.plugindemo.activity;
+package com.example.plugindemo.activity.actionbar;
 
 import android.app.TwsActivity;
 import android.content.Intent;
@@ -7,13 +7,8 @@ import android.view.View;
 import android.view.View.OnClickListener;
 
 import com.example.plugindemo.R;
-import com.example.plugindemo.activity.actionbar.ActionBarDisplayOptions;
-import com.example.plugindemo.activity.actionbar.ActionBarGradient;
-import com.example.plugindemo.activity.actionbar.ActionBarNormalButton;
-import com.example.plugindemo.activity.actionbar.ActionMenuSelectedText;
-import com.example.plugindemo.activity.actionbar.ActionModeNormal;
 
-public class PluginTestActionBarActivity extends TwsActivity implements OnClickListener {
+public class ActionBarSamples extends TwsActivity implements OnClickListener {
 
 	@Override
 	protected void onCreate(Bundle bundle) {

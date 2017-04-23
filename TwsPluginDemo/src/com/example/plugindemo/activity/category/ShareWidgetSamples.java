@@ -1,4 +1,4 @@
-package com.example.plugindemo.activity;
+package com.example.plugindemo.activity.category;
 
 import android.app.TwsActivity;
 import android.content.DialogInterface;
@@ -9,20 +9,13 @@ import android.os.Message;
 import android.view.View;
 
 import com.example.plugindemo.R;
-import com.example.plugindemo.activity.widget.AlertDialogSamples;
-import com.example.plugindemo.activity.widget.DatePickerView;
-import com.example.plugindemo.activity.widget.DateTimePickerView;
-import com.example.plugindemo.activity.widget.PickerDialogOutside;
-import com.example.plugindemo.activity.widget.ProfileDataPickerView;
-import com.example.plugindemo.activity.widget.SideBarActivity;
-import com.example.plugindemo.activity.widget.TimePickerView;
-import com.example.plugindemo.activity.widget.TwsBaseWidget;
-import com.example.plugindemo.tab.TabViewpagerActivity;
+import com.example.plugindemo.activity.PreferenceActivityDemo;
+import com.example.plugindemo.activity.category.tab.TabViewpagerActivity;
 import com.tencent.tws.assistant.app.ProgressDialog;
 import com.tencent.tws.assistant.app.TwsDialog;
 import com.tencent.tws.assistant.widget.Toast;
 
-public class ShareWidgetAcitivity extends TwsActivity implements View.OnClickListener {
+public class ShareWidgetSamples extends TwsActivity implements View.OnClickListener {
 
 	private ProgressDialog mProgressDialog;
 	private Handler mProgressHandler;
@@ -36,17 +29,14 @@ public class ShareWidgetAcitivity extends TwsActivity implements View.OnClickLis
 		setContentView(R.layout.activity_test_share_widget);
 
 		findViewById(R.id.alert_dialog).setOnClickListener(this);
-		findViewById(R.id.widget_tabviewpager).setOnClickListener(this);
+		findViewById(R.id.widget_tab).setOnClickListener(this);
 		findViewById(R.id.widget_toast).setOnClickListener(this);
 		findViewById(R.id.widget_sidebar).setOnClickListener(this);
 		findViewById(R.id.tws_base_widget).setOnClickListener(this);
 
-		findViewById(R.id.date_picker_view).setOnClickListener(this);
-		findViewById(R.id.date_time_picker_view).setOnClickListener(this);
-		findViewById(R.id.picker_dialog_outside).setOnClickListener(this);
-		findViewById(R.id.profile_data_picker_view).setOnClickListener(this);
-		findViewById(R.id.time_picker_view).setOnClickListener(this);
+		findViewById(R.id.tws_pickers_samples).setOnClickListener(this);
 		findViewById(R.id.preference_activity).setOnClickListener(this);
+		findViewById(R.id.listview_samples).setOnClickListener(this);
 
 		getTwsActionBar().setTitle("共享控件");
 
@@ -75,10 +65,10 @@ public class ShareWidgetAcitivity extends TwsActivity implements View.OnClickLis
 			intent.setClassName(this, AlertDialogSamples.class.getName());
 			startActivity(intent);
 			break;
-		case R.id.widget_tabviewpager:
+		case R.id.widget_tab:
 			// 利用className打开共享控件的测试activity
 			intent = new Intent();
-			intent.setClassName(this, TabViewpagerActivity.class.getName());
+			intent.setClassName(this, TabSamples.class.getName());
 			startActivity(intent);
 			break;
 		case R.id.widget_sidebar:
@@ -96,34 +86,20 @@ public class ShareWidgetAcitivity extends TwsActivity implements View.OnClickLis
 			intent.setClassName(this, TwsBaseWidget.class.getName());
 			startActivity(intent);
 			break;
-		case R.id.date_picker_view:
+		case R.id.tws_pickers_samples:
 			intent = new Intent();
-			intent.setClassName(this, DatePickerView.class.getName());
-			startActivity(intent);
-			break;
-		case R.id.date_time_picker_view:
-			intent = new Intent();
-			intent.setClassName(this, DateTimePickerView.class.getName());
-			startActivity(intent);
-			break;
-		case R.id.picker_dialog_outside:
-			intent = new Intent();
-			intent.setClassName(this, PickerDialogOutside.class.getName());
-			startActivity(intent);
-			break;
-		case R.id.profile_data_picker_view:
-			intent = new Intent();
-			intent.setClassName(this, ProfileDataPickerView.class.getName());
-			startActivity(intent);
-			break;
-		case R.id.time_picker_view:
-			intent = new Intent();
-			intent.setClassName(this, TimePickerView.class.getName());
+			intent.setClassName(this, PickersSamples.class.getName());
 			startActivity(intent);
 			break;
 		case R.id.preference_activity:
 			intent = new Intent();
 			intent.setClassName(this, PreferenceActivityDemo.class.getName());
+			startActivity(intent);
+			break;
+
+		case R.id.listview_samples:
+			intent = new Intent();
+			intent.setClassName(this, ListViewSamples.class.getName());
 			startActivity(intent);
 			break;
 		default:
@@ -135,7 +111,7 @@ public class ShareWidgetAcitivity extends TwsActivity implements View.OnClickLis
 	protected TwsDialog onCreateTwsDialog(int id) {
 		switch (id) {
 		case DIALOG_PROGRESS:
-			mProgressDialog = new ProgressDialog(ShareWidgetAcitivity.this);
+			mProgressDialog = new ProgressDialog(ShareWidgetSamples.this);
 			mProgressDialog.setIconAttribute(android.R.attr.alertDialogIcon);
 			mProgressDialog.setTitle("Header title");
 			mProgressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);

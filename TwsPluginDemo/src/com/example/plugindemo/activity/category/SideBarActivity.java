@@ -1,4 +1,4 @@
-package com.example.plugindemo.activity.widget;
+package com.example.plugindemo.activity.category;
 
 import java.text.Collator;
 

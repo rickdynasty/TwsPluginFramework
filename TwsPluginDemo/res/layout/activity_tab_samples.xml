@@ -1,0 +1,47 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <LinearLayout
+        android:id="@+id/content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
+
+        <Button
+            android:id="@+id/tab_view_pager"
+            android:layout_width="fill_parent"
+            android:layout_height="50dp"
+            android:layout_margin="3dp"
+            android:text="TabViewPager" />
+
+        <Button
+            android:id="@+id/tws_actionbar_tab"
+            android:layout_width="fill_parent"
+            android:layout_height="50dp"
+            android:layout_margin="3dp"
+            android:text="TwsActionBarTab" />
+
+        <Button
+            android:id="@+id/tws_actionbar_tab_custom"
+            android:layout_width="fill_parent"
+            android:layout_height="50dp"
+            android:layout_margin="3dp"
+            android:text="TwsActionBarTabCustom" />
+
+        <Button
+            android:id="@+id/tws_actionbar_second"
+            android:layout_width="fill_parent"
+            android:layout_height="50dp"
+            android:layout_margin="3dp"
+            android:text="TwsActionBarTabSecond" />
+
+        <Button
+            android:id="@+id/tws_actionbar_second_custom"
+            android:layout_width="fill_parent"
+            android:layout_height="50dp"
+            android:layout_margin="3dp"
+            android:text="TwsActionBarTabSecondCustom" />
+    </LinearLayout>
+
+</ScrollView>

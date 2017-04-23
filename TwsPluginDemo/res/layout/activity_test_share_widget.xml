@@ -16,11 +16,11 @@
             android:text="@string/alert_dialog" />
 
         <Button
-            android:id="@+id/widget_tabviewpager"
+            android:id="@+id/widget_tab"
             android:layout_width="fill_parent"
             android:layout_height="50dp"
             android:layout_margin="3dp"
-            android:text="@string/widget_tabviewpager" />
+            android:text="Tab" />
 
         <Button
             android:id="@+id/widget_toast"
@@ -44,45 +44,25 @@
             android:text="@string/tws_base_widget" />
 
         <Button
-            android:id="@+id/date_picker_view"
+            android:id="@+id/tws_pickers_samples"
             android:layout_width="fill_parent"
             android:layout_height="50dp"
             android:layout_margin="3dp"
-            android:text="DatePickerView" />
+            android:text="PickersSamples" />
 
         <Button
-            android:id="@+id/date_time_picker_view"
-            android:layout_width="fill_parent"
-            android:layout_height="50dp"
-            android:layout_margin="3dp"
-            android:text="DateTimePickerView" />
-
-        <Button
-            android:id="@+id/picker_dialog_outside"
-            android:layout_width="fill_parent"
-            android:layout_height="50dp"
-            android:layout_margin="3dp"
-            android:text="PickerDialogOutside" />
-
-        <Button
-            android:id="@+id/profile_data_picker_view"
-            android:layout_width="fill_parent"
-            android:layout_height="50dp"
-            android:layout_margin="3dp"
-            android:text="ProfileDataPickerView" />
-
-        <Button
-            android:id="@+id/time_picker_view"
-            android:layout_width="fill_parent"
-            android:layout_height="50dp"
-            android:layout_margin="3dp"
-            android:text="TimePickerView" />
-        <Button
             android:id="@+id/preference_activity"
             android:layout_width="fill_parent"
             android:layout_height="50dp"
             android:layout_margin="3dp"
             android:text="PreferenceActivity" />
+
+        <Button
+            android:id="@+id/listview_samples"
+            android:layout_width="fill_parent"
+            android:layout_height="50dp"
+            android:layout_margin="3dp"
+            android:text="ListView" />
     </LinearLayout>
 
 </ScrollView>

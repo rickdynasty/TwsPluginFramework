@@ -1,13 +1,9 @@
 /.settings
-/bin/classes
-/bin/res
-/bin/AndroidManifest.xml
-/bin/R.txt
+/bin
 /gen
 /.idea
 /*.iml
 *.class
-*.classpath
 *.ap_
 proguard/
 /out

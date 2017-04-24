@@ -85,7 +85,7 @@ public class TwsActivity extends Activity {
 	private Bitmap mTopScreenBlurBitmap = null;
 	private Bitmap mBottomScreenBlurBitmap = null;
 
-	// 默认是false的，请勿修改
+	// DEFAULT IS false, DO NOT MODIFY.
 	private boolean mCustomSplitWhenNarrow = false;
 
 	private static class ManagedDialog {
@@ -1288,7 +1288,7 @@ public class TwsActivity extends Activity {
 		}
 	}
 
-	// 只有在setContentView之前设置才有效
+	// only before before setContentView valid
 	public void setSplitActionWhenNarrowOptions(boolean isSplitActionWhenNarrow) {
 		mCustomSplitWhenNarrow = isSplitActionWhenNarrow;
 	}

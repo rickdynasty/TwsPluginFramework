@@ -42,7 +42,7 @@ public class ProcessUtil {
 	private static void ensure(Context context) {
 		// 注意：当前宿主和插件是一个进程
 		if (isPluginProcess == null) {
-			String processName = getCurProcessName(context);
+			String processName = getCurProcessName();
 			String pluginProcessName = getPluginProcessName(context);
 
 			isHostProcess = processName.equals(pluginProcessName);
@@ -60,7 +60,7 @@ public class ProcessUtil {
 		return isHostProcess(PluginLoader.getApplication());
 	}
 
-	private static String getCurProcessName(Context context) {
+	private static String getCurProcessName() {
 	       BufferedReader mBufferedReader=null;
 	       final int pid = android.os.Process.myPid();
 	       TwsLog.d(TAG, "getCurProcessName pid=" + pid);

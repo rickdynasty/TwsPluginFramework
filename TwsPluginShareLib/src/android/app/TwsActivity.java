@@ -1290,6 +1290,11 @@ public class TwsActivity extends Activity {
 
 	// only before before setContentView valid
 	public void setSplitActionWhenNarrowOptions(boolean isSplitActionWhenNarrow) {
+		if (mContentParent != null) {
+			Log.e(TAG, "该接口只能在调用setContent/getTwsActionBar/getTwsContentView之前使用才有效~");
+			throw new IllegalAccessError("Only before before init mContentParent valid!");
+		}
+
 		mCustomSplitWhenNarrow = isSplitActionWhenNarrow;
 	}
 }

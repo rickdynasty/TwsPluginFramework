@@ -30,7 +30,6 @@ import com.tencent.tws.pluginhost.ui.HostHomeActivity.DisplayInfo;
 import com.tencent.tws.pluginhost.ui.MessageManagerActivity;
 import com.tencent.tws.pluginhost.ui.SettingsActivity;
 import com.tws.plugin.content.DisplayConfig;
-import com.tws.plugin.core.PluginApplication;
 import com.tws.plugin.manager.PluginManagerHelper;
 
 public class MyWatchFragmentRevision extends Fragment implements OnClickListener {

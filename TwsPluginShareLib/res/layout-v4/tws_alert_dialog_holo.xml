@@ -6,7 +6,7 @@
     android:layout_height="wrap_content"
     android:layout_marginLeft="16dip"
     android:layout_marginRight="16dip"
-    android:background="@drawable/dialog_bg"
+    android:background="@color/tws_dialog_holo_bg"
     android:minWidth="300dp"
     android:orientation="vertical" >
 
@@ -136,11 +136,17 @@
             android:layout_height="wrap_content"
             android:clipChildren="false"
             android:clipToPadding="false"
-            android:paddingBottom="10dip"
-            android:paddingLeft="20dip"
-            android:paddingRight="20dip"
-            android:paddingTop="10dip" />
+            android:paddingBottom="5dip"
+            android:paddingLeft="10dip"
+            android:paddingRight="10dip"
+            android:paddingTop="5dip" />
     </LinearLayout>
+    
+    <View
+        android:id="@id/bottomDividerTop"
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/tws_dialog_button_divider" />
 
     <LinearLayout
         android:id="@id/dialog_bottom_buttons_panel"

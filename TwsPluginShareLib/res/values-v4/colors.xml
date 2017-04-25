@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <color name="transparent">#00000000</color>
     <color name="tws_black">#ff000000</color>
     <color name="tws_white">#ffffffff</color>
@@ -49,7 +50,7 @@
     <color name="tws_white_percent_25">#40ffffff</color>
     <!-- 15% alpha white -->
     <color name="tws_white_percent_15">#26ffffff</color>
-    
+
     <!-- Other common color -->
     <!-- 页面标题栏、工具栏背景色(白) -->
     <color name="tws_bar_background">#FAFAFA</color>
@@ -61,9 +62,10 @@
     <color name="tws_light">#00BB00</color>
     <!-- 标题、列表底部等分割用 -->
     <color name="tws_divider_bg">#CCCCCC</color>
-    
     <color name="tws_dark_gray">#515151</color>
+
     <drawable name="transparent_background">@color/transparent</drawable>
+
     <color name="empty_text_color">#b2b2b2</color>
     <color name="highlighted_text_holo_light">#330074d6</color>
     <color name="tws_second_Hint">@color/tws_black_alpha_micro</color>
@@ -136,6 +138,9 @@
     <color name="tws_menuitem_bottom_dark_selected">#ff22b2b6</color>
     <color name="tws_menuitem_bottom_dark">@color/tws_white_alpha_supperbig</color>
     <color name="tws_dialog_button_light_disabled">@color/tws_black_alpha_micro</color>
+    <color name="tws_dialog_button_divider">#CCCCCC</color>
+    <color name="tws_dialog_holo_bg">@color/tws_white</color>
+    <color name="tws_dialog_dark_bg">@color/tws_black_percent_15</color>
     <color name="tws_dialog_button_light_pressed">@color/tws_black_alpha_supperbig</color>
     <color name="tws_dialog_button_light_selected">@color/tws_black_alpha_supperbig</color>
     <color name="tws_dialog_button_light">@color/tws_black_alpha_supperbig</color>
@@ -154,8 +159,8 @@
     <color name="primary_dark_material_light">#ff757575</color>
     <color name="primary_material_light">#fff5f5f5</color>
     <color name="accent_material_light">#FF22B2B6</color>
-    <color name="actionbar_gradient_background_start_color">#FF3A414E</color>
-    <color name="actionbar_gradient_background_end_color">#FF2F3540</color>
+    <color name="actionbar_gradient_background_start_color">@color/tws_white</color>
+    <color name="actionbar_gradient_background_end_color">@color/tws_white</color>
     <color name="tws_light_title_popup">@color/tws_black_alpha_supperbig</color>
     <color name="tws_light_disabled_popup">@color/tws_black_percent_15</color>
     <color name="tws_light_pressed_popup">@color/tws_black_alpha_supperbig</color>
@@ -219,23 +224,27 @@
 
     <!-- Preference -->
     <color name="tws_preference_item_caption">@color/tws_white_alpha_large</color>
-    
+
     <!-- values -->
-        <color name="abc_search_url_text_normal">#7fa87f</color>
+    <color name="abc_search_url_text_normal">#7fa87f</color>
     <color name="abc_search_url_text_selected">@color/tws_black</color>
     <color name="abc_search_url_text_pressed">@color/tws_black</color>
-    
+
     <!-- 通用item/listview/gridview selector -->
-	<color name="dm_common_list_item_focused">#1E1C26</color>
+    <color name="dm_common_list_item_focused">#1E1C26</color>
     <color name="dm_common_item_normal">#FF24212d</color>
 
     <!-- 通用dialog button selector -->
     <color name="dm_common_dialog_button_normal">#292634</color>
     <color name="dm_common_dialog_button_focused">#1E1C26</color>
-    
-    <!-- DM通用 -->    
-    <color name="home_bg">@color/tws_view_bg</color>
 
+    <!-- DM通用 -->
+    <color name="home_bg">@color/tws_view_bg</color>
     <color name="share_color_1">#89ef01</color>
     <color name="share_color_2">#f8e831</color>
+
+    <!-- 2.0 alertDialog -->
+    <color name="dialog_btn_normal">@color/tws_white</color>
+    <color name="dialog_btn_press">@color/tws_black_alpha_mini</color>
+
 </resources>

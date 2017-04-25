@@ -4,16 +4,16 @@
     <style name="AlertDialog"></style>
 
     <style name="AlertDialog.tws">
-        <item name="android:fullDark">@drawable/dialog_full_holo_light</item>
-        <item name="android:topDark">@drawable/dialog_top_holo_light</item>
-        <item name="android:centerDark">@drawable/dialog_middle_holo_light</item>
-        <item name="android:bottomDark">@drawable/dialog_bottom_holo_light</item>
-        <item name="android:fullBright">@drawable/dialog_full_holo_light</item>
-        <item name="android:topBright">@drawable/dialog_top_holo_light</item>
-        <item name="android:centerBright">@drawable/dialog_middle_holo_light</item>
-        <item name="android:bottomBright">@drawable/dialog_bottom_holo_light</item>
-        <item name="android:bottomMedium">@drawable/dialog_bottom_holo_light</item>
-        <item name="android:centerMedium">@drawable/dialog_middle_holo_light</item>
+        <item name="android:fullDark">@color/tws_dialog_holo_bg</item>
+        <item name="android:topDark">@color/tws_dialog_holo_bg</item>
+        <item name="android:centerDark">@color/tws_dialog_holo_bg</item>
+        <item name="android:bottomDark">@color/tws_dialog_holo_bg</item>
+        <item name="android:fullBright">@color/tws_dialog_holo_bg</item>
+        <item name="android:topBright">@color/tws_dialog_holo_bg</item>
+        <item name="android:centerBright">@color/tws_dialog_holo_bg</item>
+        <item name="android:bottomBright">@color/tws_dialog_holo_bg</item>
+        <item name="android:bottomMedium">@color/tws_dialog_holo_bg</item>
+        <item name="android:centerMedium">@color/tws_dialog_holo_bg</item>
     </style>
 
     <style name="AlertDialog.tws.ButtonBar" parent="@android:style/Holo.ButtonBar">
@@ -28,42 +28,42 @@
     </style>
 
     <style name="AlertDialog.tws.Second">
-        <item name="android:fullDark">@drawable/dialog_full_holo_light</item>
-        <item name="android:topDark">@drawable/dialog_top_holo_light</item>
-        <item name="android:centerDark">@drawable/dialog_middle_holo_light</item>
-        <item name="android:bottomDark">@drawable/dialog_bottom_holo_light</item>
-        <item name="android:fullBright">@drawable/dialog_full_holo_light</item>
-        <item name="android:topBright">@drawable/dialog_top_holo_light</item>
-        <item name="android:centerBright">@drawable/dialog_middle_holo_light</item>
-        <item name="android:bottomBright">@drawable/dialog_bottom_holo_light</item>
-        <item name="android:bottomMedium">@drawable/dialog_bottom_holo_light</item>
-        <item name="android:centerMedium">@drawable/dialog_middle_holo_light</item>
+        <item name="android:fullDark">@color/tws_dialog_holo_bg</item>
+        <item name="android:topDark">@color/tws_dialog_holo_bg</item>
+        <item name="android:centerDark">@color/tws_dialog_holo_bg</item>
+        <item name="android:bottomDark">@color/tws_dialog_holo_bg</item>
+        <item name="android:fullBright">@color/tws_dialog_holo_bg</item>
+        <item name="android:topBright">@color/tws_dialog_holo_bg</item>
+        <item name="android:centerBright">@color/tws_dialog_holo_bg</item>
+        <item name="android:bottomBright">@color/tws_dialog_holo_bg</item>
+        <item name="android:bottomMedium">@color/tws_dialog_holo_bg</item>
+        <item name="android:centerMedium">@color/tws_dialog_holo_bg</item>
     </style>
 
     <style name="AlertDialog.tws.Second.Bottom">
-        <item name="android:fullDark">@drawable/bottom_dialog_full_holo_light</item>
-        <item name="android:topDark">@drawable/bottom_dialog_top_holo_light</item>
-        <item name="android:centerDark">@drawable/bottom_dialog_middle_holo_light</item>
-        <item name="android:bottomDark">@drawable/bottom_dialog_bottom_holo_light</item>
-        <item name="android:fullBright">@drawable/bottom_dialog_full_holo_light</item>
-        <item name="android:topBright">@drawable/bottom_dialog_top_holo_light</item>
-        <item name="android:centerBright">@drawable/bottom_dialog_middle_holo_light</item>
-        <item name="android:bottomBright">@drawable/bottom_dialog_bottom_holo_light</item>
-        <item name="android:bottomMedium">@drawable/bottom_dialog_bottom_holo_light</item>
-        <item name="android:centerMedium">@drawable/bottom_dialog_middle_holo_light</item>
+        <item name="android:fullDark">@color/tws_dialog_holo_bg</item>
+        <item name="android:topDark">@color/tws_dialog_holo_bg</item>
+        <item name="android:centerDark">@color/tws_dialog_holo_bg</item>
+        <item name="android:bottomDark">@color/tws_dialog_holo_bg</item>
+        <item name="android:fullBright">@color/tws_dialog_holo_bg</item>
+        <item name="android:topBright">@color/tws_dialog_holo_bg</item>
+        <item name="android:centerBright">@color/tws_dialog_holo_bg</item>
+        <item name="android:bottomBright">@color/tws_dialog_holo_bg</item>
+        <item name="android:bottomMedium">@color/tws_dialog_holo_bg</item>
+        <item name="android:centerMedium">@color/tws_dialog_holo_bg</item>
     </style>
 
     <style name="AlertDialog.tws.Second.Dark">
-        <item name="android:fullDark">@drawable/dialog_full_holo_dark</item>
-        <item name="android:topDark">@drawable/dialog_top_holo_dark</item>
-        <item name="android:centerDark">@drawable/dialog_middle_holo_dark</item>
-        <item name="android:bottomDark">@drawable/dialog_bottom_holo_dark</item>
-        <item name="android:fullBright">@drawable/dialog_full_holo_dark</item>
-        <item name="android:topBright">@drawable/dialog_top_holo_dark</item>
-        <item name="android:centerBright">@drawable/dialog_middle_holo_dark</item>
-        <item name="android:bottomBright">@drawable/dialog_bottom_holo_dark</item>
-        <item name="android:bottomMedium">@drawable/dialog_bottom_holo_dark</item>
-        <item name="android:centerMedium">@drawable/dialog_middle_holo_dark</item>
+        <item name="android:fullDark">@color/tws_dialog_dark_bg</item>
+        <item name="android:topDark">@color/tws_dialog_dark_bg</item>
+        <item name="android:centerDark">@color/tws_dialog_dark_bg</item>
+        <item name="android:bottomDark">@color/tws_dialog_dark_bg</item>
+        <item name="android:fullBright">@color/tws_dialog_dark_bg</item>
+        <item name="android:topBright">@color/tws_dialog_dark_bg</item>
+        <item name="android:centerBright">@color/tws_dialog_dark_bg</item>
+        <item name="android:bottomBright">@color/tws_dialog_dark_bg</item>
+        <item name="android:bottomMedium">@color/tws_dialog_dark_bg</item>
+        <item name="android:centerMedium">@color/tws_dialog_dark_bg</item>
     </style>
 
     <style name="AlertDialog.tws.Second.Transparent">
@@ -85,16 +85,16 @@
     </style>
 
     <style name="AlertDialog.tws.Second.default">
-        <item name="android:fullDark">@drawable/dialog_full_holo_dark</item>
-        <item name="android:topDark">@drawable/dialog_top_holo_dark</item>
-        <item name="android:centerDark">@drawable/dialog_middle_holo_dark</item>
-        <item name="android:bottomDark">@drawable/dialog_bottom_holo_dark</item>
-        <item name="android:fullBright">@drawable/dialog_full_holo_light</item>
-        <item name="android:topBright">@drawable/dialog_top_holo_light</item>
-        <item name="android:centerBright">@drawable/dialog_middle_holo_light</item>
-        <item name="android:bottomBright">@drawable/dialog_bottom_holo_light</item>
-        <item name="android:bottomMedium">@drawable/dialog_bottom_holo_dark</item>
-        <item name="android:centerMedium">@drawable/dialog_middle_holo_light</item>
+        <item name="android:fullDark">@color/tws_dialog_dark_bg</item>
+        <item name="android:topDark">@color/tws_dialog_dark_bg</item>
+        <item name="android:centerDark">@color/tws_dialog_dark_bg</item>
+        <item name="android:bottomDark">@color/tws_dialog_dark_bg</item>
+        <item name="android:fullBright">@color/tws_dialog_holo_bg</item>
+        <item name="android:topBright">@color/tws_dialog_holo_bg</item>
+        <item name="android:centerBright">@color/tws_dialog_holo_bg</item>
+        <item name="android:bottomBright">@color/tws_dialog_holo_bg</item>
+        <item name="android:bottomMedium">@color/tws_dialog_dark_bg</item>
+        <item name="android:centerMedium">@color/tws_dialog_holo_bg</item>
     </style>
 
     <style name="Animation" parent="@android:style/Animation"></style>
@@ -757,7 +757,7 @@
         <item name="android:windowFrame">@null</item>
         <item name="android:windowTitleStyle">@style/DialogWindowTitle.tws</item>
         <item name="windowTitleStyle">@style/DialogWindowTitle.tws</item>
-        <item name="android:windowBackground">@drawable/dialog_full_holo_light</item>
+        <item name="android:windowBackground">@color/tws_dialog_holo_bg</item>
         <item name="android:windowIsFloating">true</item>
         <item name="android:windowContentOverlay">@null</item>
         <item name="android:windowAnimationStyle">@style/Animation.tws.Dialog</item>
@@ -925,8 +925,8 @@
         <item name="actionOverflowButtonBottomStyle">@style/Widget.tws.ActionButton.Overflow.Bottom.Holo</item>
         <item name="searchViewBackground">@drawable/search_view_dark_background</item>
         <item name="searchViewEditorBackground">@drawable/search_view_editor_dark_background</item>
-        <item name="searchViewSearchIcon">@drawable/ic_search_holo</item>
-        <item name="searchViewCloseIcon">@drawable/second_ic_clear_holo</item>
+        <item name="searchViewSearchIcon">@drawable/ic_search</item>
+        <item name="searchViewCloseIcon">@drawable/second_ic_clear_holo_light</item>
         <item name="searchViewCancel">@color/tws_text_dark_title</item>
         <item name="searchViewTextColor">@color/search_view_text_color_dark</item>
         <item name="searchViewTextColorHint">@color/search_view_text_color_hint_dark</item>
@@ -1041,7 +1041,7 @@
     <style name="Theme.tws.Second.Dialog.Bottom">
         <item name="android:windowMinWidthMajor">@dimen/bottom_dialog_min_width_major</item>
         <item name="android:windowMinWidthMinor">@dimen/bottom_dialog_min_width_minor</item>
-        <item name="android:windowBackground">@drawable/bottom_dialog_full_holo_light</item>
+        <item name="android:windowBackground">@color/tws_dialog_holo_bg</item>
         <item name="android:windowAnimationStyle">@style/Animation.tws.Dialog.Bottom</item>
         <item name="android:alertDialogStyle">@style/AlertDialog.tws.Second.Bottom</item>
         <item name="android:dialogTheme">@style/Theme.tws.Second.Dialog.Bottom</item>
@@ -1623,8 +1623,8 @@
     </style>
 
     <style name="Widget.tws.ListView.Second.Dialog.Dark">
-        <item name="android:background">@color/tws_black</item>
-        <item name="listSelector">@color/tws_black</item>
+        <item name="android:background">@color/tws_dialog_holo_bg</item>
+        <item name="listSelector">@color/tws_dialog_holo_bg</item>
     </style>
 
     <style name="Widget.tws.ListViewMenu" parent="@android:style/Widget.ListView">

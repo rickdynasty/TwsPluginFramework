@@ -330,8 +330,10 @@ public class HostHomeActivity extends TwsFragmentActivity implements HomeUIProxy
 	private void installPlugin(String packageName) {
 		PluginDescriptor pluginDescriptor = PluginManagerHelper.getPluginDescriptorByPluginId(packageName);
 		if (null == pluginDescriptor || TextUtils.isEmpty(pluginDescriptor.getPackageName())) {
-			TwsLog.e(TAG, "My god !!! how can have such a situatio~!");
 			Toast.makeText(getApplicationContext(), "怎会存在没packageName的插件咧？？？", Toast.LENGTH_SHORT).show();
+			Exception here = new Exception();
+			here.fillInStackTrace();
+			TwsLog.e(TAG, "My god !!! how can have such a situatio~!:" + packageName, here);
 			return;
 		}
 

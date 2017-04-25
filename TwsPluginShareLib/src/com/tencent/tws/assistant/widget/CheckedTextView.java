@@ -26,6 +26,7 @@ import android.graphics.drawable.Drawable;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.ViewDebug;
 import android.widget.Checkable;
@@ -438,6 +439,7 @@ public class CheckedTextView extends TextView implements Checkable {
         if (checkMarkDrawable != null) {
             final int verticalGravity = getGravity() & Gravity.VERTICAL_GRAVITY_MASK;
             final int height = checkMarkDrawable.getIntrinsicHeight();
+            final int width = checkMarkDrawable.getIntrinsicWidth();
 
             int y = 0;
 
@@ -451,25 +453,19 @@ public class CheckedTextView extends TextView implements Checkable {
             }
             
             final boolean checkMarkAtStart = isCheckMarkAtStart();
-            final int width = getWidth();
             final int top = y;
             final int bottom = top + height;
             final int left;
             final int right;
             if (checkMarkAtStart) {
                 left = mBasePadding;
-                right = left + mCheckMarkWidth;
+                right = left + width;
             } else {
-                right = width - mBasePadding;
-                left = right - mCheckMarkWidth;
+                right = getWidth() - mBasePadding;
+                left = right - width;
             }
             checkMarkDrawable.setBounds(mScrollX + left, top, mScrollX + right, bottom);
             checkMarkDrawable.draw(canvas);
-
-//            final Drawable background = getBackground();
-//            if (background != null) {
-//                background.setHotspotBounds(mScrollX + left, top, mScrollX + right, bottom);
-//            }
         }
     }
     

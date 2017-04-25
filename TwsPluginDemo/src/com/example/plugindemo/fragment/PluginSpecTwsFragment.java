@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.Window;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -46,12 +47,14 @@ public class PluginSpecTwsFragment extends Fragment implements OnClickListener {
 		View scrollview = pluginInflater.inflate(R.layout.plugin_layout, null);
 
 		mRoot = (ViewGroup) scrollview.findViewById(R.id.content);
-
-		int top = (int) getResources().getDimension(HostProxy.getTwsActionBarHeightID());
-		if (getActivity() instanceof TwsActivity) {
-			top += TwsActivity.getStatusBarHeight();
+		boolean hasOverlayActionbar = getActivity().getWindow().hasFeature(Window.FEATURE_ACTION_BAR_OVERLAY);
+		if (hasOverlayActionbar) {
+			int top = (int) getResources().getDimension(HostProxy.getTwsActionBarHeightID());
+			if (getActivity() instanceof TwsActivity) {
+				top += TwsActivity.getStatusBarHeight();
+			}
+			mRoot.setPadding(0, top, 0, 0);
 		}
-		mRoot.setPadding(0, top, 0, 0);
 
 		initViews();
 

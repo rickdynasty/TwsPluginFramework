@@ -156,6 +156,7 @@ public class AlertController {
 	private ListAdapter mBottomButtonAdapter;
 	private CharSequence[] mBottomButtonItems;
 	private LinearLayout mBottomButtonsPanel;
+	private View mBottomDivider;
 	private boolean mBottomButtonsVisible = true;
 	private int mBottomButtonLayout;
 	private int mBottomButtonItemLayout;
@@ -619,13 +620,17 @@ public class AlertController {
 		boolean hasTitle = setupTitle(topPanel);
 
 		View buttonPanel = mWindow.findViewById(R.id.buttonPanel);
-
+		if (mBottomDivider == null) {
+			mBottomDivider = mWindow.findViewById(R.id.bottomDividerTop);
+		}
+		
 		if (!hasButtons) {
 			buttonPanel.setVisibility(View.GONE);
 			mWindow.setCloseOnTouchOutside(true);
 		} else {
 			buttonPanel.setVisibility(View.VISIBLE);
 			mWindow.setCloseOnTouchOutside(false);
+			mBottomDivider.setVisibility(View.VISIBLE);
 		}
 
 		LinearLayout customPanel = null;
@@ -718,11 +723,15 @@ public class AlertController {
 			}
 		}
 		mBottomButtonsPanel = (LinearLayout) mWindow.findViewById(R.id.dialog_bottom_buttons_panel);
+		if (mBottomDivider == null) {
+			mBottomDivider = mWindow.findViewById(R.id.bottomDividerTop);
+		}
 		boolean hasBottomButtons = setupBottomButtons(mBottomButtonsPanel);
 		if (!hasBottomButtons || !mBottomButtonsVisible) {
 			mBottomButtonsPanel.setVisibility(View.GONE);
 		} else {
 			mBottomButtonsPanel.setVisibility(View.VISIBLE);
+			mBottomDivider.setVisibility(View.VISIBLE);
 		}
 		if (mIsBottomDialog) {
 			mWindow.setCloseOnTouchOutside(true);
@@ -1131,23 +1140,23 @@ public class AlertController {
 		/* Get all the different background required */
 		// tws-start::added for tws theme::20121002
 		int fullDark = a.getResourceId(com.android.internal.R.styleable.AlertDialog_fullDark,
-				R.drawable.dialog_full_holo_dark);
+				R.color.tws_dialog_dark_bg);
 		int topDark = a.getResourceId(com.android.internal.R.styleable.AlertDialog_topDark,
-				R.drawable.dialog_top_holo_dark);
+				R.color.tws_dialog_dark_bg);
 		int centerDark = a.getResourceId(com.android.internal.R.styleable.AlertDialog_centerDark,
-				R.drawable.dialog_middle_holo_dark);
+				R.color.tws_dialog_dark_bg);
 		int bottomDark = a.getResourceId(com.android.internal.R.styleable.AlertDialog_bottomDark,
-				R.drawable.dialog_bottom_holo_dark);
+				R.color.tws_dialog_dark_bg);
 		int fullBright = a.getResourceId(com.android.internal.R.styleable.AlertDialog_fullBright,
-				R.drawable.dialog_full_holo_light);
+				R.color.tws_dialog_holo_bg);
 		int topBright = a.getResourceId(com.android.internal.R.styleable.AlertDialog_topBright,
-				R.drawable.dialog_top_holo_light);
+				R.color.tws_dialog_holo_bg);
 		int centerBright = a.getResourceId(com.android.internal.R.styleable.AlertDialog_centerBright,
-				R.drawable.dialog_middle_holo_light);
+				R.color.tws_dialog_holo_bg);
 		int bottomBright = a.getResourceId(com.android.internal.R.styleable.AlertDialog_bottomBright,
-				R.drawable.dialog_bottom_holo_light);
+				R.color.tws_dialog_holo_bg);
 		int bottomMedium = a.getResourceId(com.android.internal.R.styleable.AlertDialog_bottomMedium,
-				R.drawable.dialog_middle_holo_light);
+				R.color.tws_dialog_holo_bg);
 
 		if (mIsContextMenu) {
 			topBright = R.drawable.context_top_holo_light;
@@ -1262,7 +1271,7 @@ public class AlertController {
 		if (mIsBottomDialog) {
 			ViewGroup parent = (ViewGroup) mWindow.findViewById(R.id.parentPanel);
 			if (parent != null) {
-				parent.setBackground(mContext.getResources().getDrawable(R.drawable.bottom_dialog_bg));
+				parent.setBackgroundColor(mContext.getResources().getColor(R.color.tws_dialog_holo_bg));
 			}
 		}
 	}

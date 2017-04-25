@@ -245,6 +245,7 @@
     <item name="title" type="id"/>
     <item name="titleDivider" type="id"/>
     <item name="titleDividerTop" type="id"/>
+    <item name="bottomDividerTop" type="id"/>
     <item name="titleLayout" type="id"/>
     <item name="titleLinear" type="id"/>
     <item name="titleSpacer" type="id"/>

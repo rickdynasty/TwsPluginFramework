@@ -77,6 +77,7 @@ public class LauncherActivity extends TwsActivity implements View.OnClickListene
 			break;
 		case R.id.test_actionbar:
 			testActionBar();
+			break;
 		default:
 			break;
 		}

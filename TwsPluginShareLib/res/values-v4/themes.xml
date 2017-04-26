@@ -576,7 +576,7 @@
         <item name="twstextMicroDarkSummary">@style/TextAppearance.tws.Second.twstextMicroDarkSummary</item>
         <item name="twstextMicroLightSummary">@style/TextAppearance.tws.Second.twstextMicroLightSummary</item>
         <item name="homebackground">@color/transparent</item>
-        <item name="twsActionbarBackgroud">@drawable/ab_solid_holo_light</item>
+        <item name="twsActionbarBackgroud">@color/tws_bar_background</item>
         <item name="twsActionModMenuFontColor">@color/tws_text_light_title</item>
         <item name="twsTextHintColor">@color/tws_black_alpha_medium</item>
         <item name="actionBarStyle">@style/Widget.tws.ActionBar</item>
@@ -745,7 +745,7 @@
         <item name="twstextMicroLightSummary">@style/TextAppearance.tws.Second.twstextMicroLightSummary</item>
         <item name="homebackground">@color/transparent</item>
         <item name="homebutton">@drawable/ic_ab_back</item>
-        <item name="twsActionbarBackgroud">@drawable/ab_solid_holo_light</item>
+        <item name="twsActionbarBackgroud">@color/tws_bar_background</item>
         <item name="twsActionModMenuFontColor">@color/tws_text_light_title</item>
         <item name="twsTextHintColor">@color/tws_black_alpha_medium</item>
         <item name="android:alertDialogStyle">@style/AlertDialog.tws</item>
@@ -1288,9 +1288,9 @@
 
     <style name="Widget.tws.ActionBar">
         <item name="homeAsUpIndicator">@drawable/ic_ab_back</item>
-        <item name="background">@drawable/ab_solid_holo_light</item>
-        <item name="backgroundStacked">@drawable/ab_solid_holo_light</item>
-        <item name="backgroundSplit">@drawable/cab_background_bottom_holo_light</item>
+        <item name="background">@color/tws_bar_background</item>
+        <item name="backgroundStacked">@color/tws_bar_background</item>
+        <item name="backgroundSplit">@color/tws_bar_background</item>
         <item name="divider">?android:attr/dividerVertical</item>
         <item name="progressBarStyle">@style/Widget.tws.ProgressBar.Horizontal</item>
         <item name="indeterminateProgressStyle">@style/Widget.tws.ProgressBar.Small</item>
@@ -1308,8 +1308,8 @@
         <item name="titleTextStyle">@style/TextAppearance.tws.Second.twsTextLargerLightTitle.ActionBarTitle</item>
         <item name="subtitleTextStyle">@style/TextAppearance.tws.Second.twsTextSmallLightTitle</item>
         <item name="background">@color/tws_bar_background</item>
-        <item name="backgroundStacked">@drawable/ab_solid_holo_light</item>
-        <item name="backgroundSplit">@drawable/ab_solid_holo_light_bottom</item>
+        <item name="backgroundStacked">@color/tws_bar_background</item>
+        <item name="backgroundSplit">@color/tws_bar_background</item>
         <item name="homebutton">@drawable/ic_ab_back</item>
         <item name="homebackground">@color/transparent</item>
         <item name="actionbarleftbtnstyle">@style/TextAppearance.tws.Second.twsTextLargerLightTitleLeftButton</item>
@@ -1429,7 +1429,7 @@
         <item name="titleTextStyle">@style/TextAppearance.tws.Second.twsTextSuperLightTitle.ActionModeTitle</item>
         <item name="subtitleTextStyle">@style/TextAppearance.tws.Second.twsTextSmallLightTitle</item>
         <item name="backgroundActionMode">@drawable/ab_solid_holo_light_noshadow</item>
-        <item name="backgroundSplit">@drawable/ab_solid_holo_light_bottom</item>
+        <item name="backgroundSplit">@color/tws_bar_background</item>
         <item name="backgroundMode">gradient</item>
         <item name="gradientBackgroundStartColor">@color/actionbar_gradient_background_start_color</item>
         <item name="gradientBackgroundEndColor">@color/actionbar_gradient_background_end_color</item>

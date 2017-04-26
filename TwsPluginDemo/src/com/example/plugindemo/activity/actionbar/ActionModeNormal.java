@@ -189,15 +189,15 @@ public class ActionModeNormal extends TwsActivity {
 			// TODO Auto-generated method stub
 			// TODO Auto-generated method stub
 			// mode.getMenuInflater().inflate(R.menu.activity_main, menu);
-			menu.add("title1").setIcon(getResources().getDrawable(R.drawable.ic_menu_copy_normal))
+			menu.add("title1").setIcon(getResources().getDrawable(R.drawable.ic_menu_copy_bottom))
 					.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
-			menu.add("title2").setIcon(getResources().getDrawable(R.drawable.ic_menu_cut_normal))
+			menu.add("title2").setIcon(getResources().getDrawable(R.drawable.ic_menu_cut_bottom))
 					.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
-			menu.add("title3").setIcon(getResources().getDrawable(R.drawable.ic_menu_share_normal))
+			menu.add("title3").setIcon(getResources().getDrawable(R.drawable.ic_menu_share_bottom))
 					.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
-			menu.add("title4").setIcon(getResources().getDrawable(R.drawable.ic_menu_edit_normal))
+			menu.add("title4").setIcon(getResources().getDrawable(R.drawable.ic_menu_edit_bottom))
 					.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
-			menu.add("title5").setIcon(getResources().getDrawable(R.drawable.ic_menu_delete_normal))
+			menu.add("title5").setIcon(getResources().getDrawable(R.drawable.ic_menu_delete_bottom))
 					.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
 			Log.e(TAG, "onCreateActionMode");
 			return true;

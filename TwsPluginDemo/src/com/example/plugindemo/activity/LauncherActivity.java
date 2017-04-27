@@ -61,7 +61,7 @@ public class LauncherActivity extends TwsActivity implements View.OnClickListene
 					| ActionBar.DISPLAY_SHOW_TITLE | ActionBar.DISPLAY_SHOW_CUSTOM);
 		}
 
-		findViewById(R.id.test_base).setOnClickListener(this);
+		findViewById(R.id.test_plugincore).setOnClickListener(this);
 		findViewById(R.id.test_ShareWidget).setOnClickListener(this);
 		findViewById(R.id.test_actionbar).setOnClickListener(this);
 	}
@@ -69,8 +69,8 @@ public class LauncherActivity extends TwsActivity implements View.OnClickListene
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
-		case R.id.test_base:
-			testBase();
+		case R.id.test_plugincore:
+			testPluginCore();
 			break;
 		case R.id.test_ShareWidget:
 			testShareWidget();
@@ -89,7 +89,7 @@ public class LauncherActivity extends TwsActivity implements View.OnClickListene
 		startActivity(intent);
 	}
 
-	private void testBase() {
+	private void testPluginCore() {
 		Intent intent = new Intent();
 		intent.setClassName(this, PluginCoreSamples.class.getName());
 		startActivity(intent);

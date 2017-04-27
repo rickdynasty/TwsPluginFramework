@@ -9,7 +9,7 @@
         android:orientation="vertical" >
 
         <Button
-            android:id="@+id/test_base"
+            android:id="@+id/test_plugincore"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="框架基础能力" />

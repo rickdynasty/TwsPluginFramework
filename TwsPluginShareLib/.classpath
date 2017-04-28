@@ -4,6 +4,7 @@
 	<classpathentry kind="lib" path="framework_libs/framework.jar"/>
 	<classpathentry kind="lib" path="framework_libs/framework2.jar"/>
 	<classpathentry kind="lib" path="linklib/tws_component_log.jar"/>
+	<classpathentry kind="lib" path="linklib/twsplugincore.jar"/>
 	<classpathentry kind="con" path="com.android.ide.eclipse.adt.ANDROID_FRAMEWORK"/>
 	<classpathentry exported="true" kind="con" path="com.android.ide.eclipse.adt.DEPENDENCIES"/>
 	<classpathentry exported="true" kind="con" path="com.android.ide.eclipse.adt.LIBRARIES"/>

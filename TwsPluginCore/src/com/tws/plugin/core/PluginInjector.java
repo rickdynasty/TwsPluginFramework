@@ -38,6 +38,7 @@ import com.tws.plugin.core.android.HackLayoutInflater;
 import com.tws.plugin.core.android.HackLoadedApk;
 import com.tws.plugin.core.android.HackService;
 import com.tws.plugin.core.android.HackWindow;
+import com.tws.plugin.core.android.TwsActivityInterface;
 import com.tws.plugin.core.annotation.PluginContainer;
 import com.tws.plugin.core.compat.CompatForSupportv7_23_2;
 import com.tws.plugin.manager.PluginManagerHelper;
@@ -119,7 +120,7 @@ public class PluginInjector {
 			// 如果是打开插件中的activity,
 			final Intent intent = activity.getIntent();
 			isStubActivity = PluginManagerHelper.isStub(intent.getComponent().getClassName());
-			if(!isStubActivity){
+			if (!isStubActivity) {
 				final String rampActivityName = intent.getStringExtra(PluginIntentResolver.INTENT_EXTRA_BRIDGE_RAMP);
 				isStubActivity = TwsPluginBridgeActivity.class.getName().equals(rampActivityName);
 			}
@@ -171,7 +172,8 @@ public class PluginInjector {
 			PluginActivityInfo pluginActivityInfo = pd.getActivityInfos().get(activity.getClass().getName());
 
 			ActivityInfo activityInfo = hackActivity.getActivityInfo();
-			int pluginAppTheme = getPluginTheme(activityInfo, pluginActivityInfo, pd);
+			final boolean isTwsActivity = (activity instanceof TwsActivityInterface);
+			int pluginAppTheme = getPluginTheme(activityInfo, pluginActivityInfo, pd, isTwsActivity);
 
 			TwsLog.d(TAG, "Theme 0x" + Integer.toHexString(pluginAppTheme) + " activity:"
 					+ activity.getClass().getName());
@@ -223,6 +225,10 @@ public class PluginInjector {
 
 		// 重设mWindowStyle
 		hackWindow.setWindowStyle(null);
+		// 让WindowStyle构建出来
+		window.getWindowStyle();
+		// 注意这里重设回context,是为了解决MEIZU等奇葩机型对系统statusBar的定制
+		hackWindow.setContext(activity);
 
 		// 重设LayoutInflater
 		TwsLog.d(TAG, activity.getWindow().getClass().getName());
@@ -351,8 +357,12 @@ public class PluginInjector {
 	 * @return
 	 */
 	private static int getPluginTheme(ActivityInfo activityInfo, PluginActivityInfo pluginActivityInfo,
-			PluginDescriptor pd) {
-		int pluginAppTheme = PluginLoader.getApplication().getApplicationInfo().theme;
+			PluginDescriptor pd, boolean isTwsActivity) {
+		int pluginAppTheme = pd.getApplicationTheme();
+		if (isTwsActivity || pluginAppTheme == 0) {
+			pluginAppTheme = PluginLoader.getApplication().getApplicationInfo().theme;
+		}
+
 		if (pluginAppTheme == 0 && pd.isStandalone()) {
 			pluginAppTheme = android.R.style.Theme_Holo_Light;
 		}

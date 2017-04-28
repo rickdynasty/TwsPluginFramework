@@ -62,8 +62,9 @@ import com.tencent.tws.assistant.utils.ReflectUtils;
 import com.tencent.tws.assistant.utils.ResIdentifierUtils;
 import com.tencent.tws.assistant.utils.ThemeUtils;
 import com.tencent.tws.sharelib.R;
+import com.tws.plugin.core.android.TwsActivityInterface;
 
-public class TwsActivity extends Activity {
+public class TwsActivity extends Activity implements TwsActivityInterface{
 	private static final String TAG = "TwsActivity";
 	private static int mStatusBarHeight = 0;
 	private static int mTwsStatusBarHeight = 0;
@@ -1289,6 +1290,7 @@ public class TwsActivity extends Activity {
 	}
 
 	// only before before setContentView valid
+	@Override
 	public void setSplitActionWhenNarrowOptions(boolean isSplitActionWhenNarrow) {
 		if (mContentParent != null) {
 			Log.e(TAG, "该接口只能在调用setContent/getTwsActionBar/getTwsContentView之前使用才有效~");

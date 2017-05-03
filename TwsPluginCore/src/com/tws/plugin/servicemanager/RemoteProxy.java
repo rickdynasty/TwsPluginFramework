@@ -1,5 +1,9 @@
 package com.tws.plugin.servicemanager;
 
+import java.lang.reflect.InvocationHandler;
+import java.lang.reflect.Method;
+import java.lang.reflect.Proxy;
+
 import android.annotation.TargetApi;
 import android.os.Build;
 import android.os.Bundle;
@@ -9,10 +13,6 @@ import android.util.Log;
 import com.tws.plugin.servicemanager.compat.BundleCompat;
 import com.tws.plugin.servicemanager.compat.ContentProviderCompat;
 import com.tws.plugin.servicemanager.util.ParamUtil;
-
-import java.lang.reflect.InvocationHandler;
-import java.lang.reflect.Method;
-import java.lang.reflect.Proxy;
 
 /**
  * @author yongchen

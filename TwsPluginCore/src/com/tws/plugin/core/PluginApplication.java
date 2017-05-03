@@ -14,7 +14,6 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Environment;
 import android.text.TextUtils;
-import android.util.Log;
 
 import com.tws.plugin.content.DisplayConfig;
 import com.tws.plugin.content.PluginDescriptor;

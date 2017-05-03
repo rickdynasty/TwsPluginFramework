@@ -3,7 +3,6 @@ package com.tencent.tws.pluginhost.ui;
 import android.app.ActivityManager;
 import android.app.TwsActivity;
 import android.content.Intent;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;

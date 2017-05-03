@@ -12,7 +12,6 @@ import android.os.Build;
 import android.os.Bundle;
 
 import com.tws.plugin.content.PluginDescriptor;
-import com.tws.plugin.core.PluginLoader;
 
 /**
  * @author yongchen

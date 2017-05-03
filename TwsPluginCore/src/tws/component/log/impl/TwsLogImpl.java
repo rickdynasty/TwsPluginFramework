@@ -1,16 +1,5 @@
 package tws.component.log.impl;
 
-import android.content.Context;
-import android.content.IntentFilter;
-import android.os.HandlerThread;
-import android.os.Looper;
-import android.os.Message;
-import android.util.Log;
-import tws.component.log.TwsLog;
-import tws.component.log.TwsLogBaseConfig;
-import tws.component.log.TwsLogReceiver;
-import tws.component.log.upload.TwsLogUploadImpl;
-
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -18,6 +7,17 @@ import java.io.InputStreamReader;
 import java.lang.ref.WeakReference;
 import java.lang.reflect.Field;
 import java.util.Calendar;
+
+import tws.component.log.TwsLog;
+import tws.component.log.TwsLogBaseConfig;
+import tws.component.log.TwsLogReceiver;
+import tws.component.log.upload.TwsLogUploadImpl;
+import android.content.Context;
+import android.content.IntentFilter;
+import android.os.HandlerThread;
+import android.os.Looper;
+import android.os.Message;
+import android.util.Log;
 
 /**
  * Title: TwsLogImpl Package: tws.component.log.impl Author: interzhang Date:

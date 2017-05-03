@@ -1,9 +1,9 @@
 package com.tws.plugin.servicemanager.local;
 
+import java.util.Hashtable;
+
 import android.os.Process;
 import android.util.Log;
-
-import java.util.Hashtable;
 
 /**
  * @author yongchen

@@ -45,7 +45,6 @@ public class DebugPluginActivity extends TwsActivity {
 	boolean isInstalled = false;
 	private HashMap<String, String> mBuildinMap = new HashMap<String, String>();
 	private String mInnerSDCardPath = "";
-
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);

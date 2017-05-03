@@ -1,5 +1,9 @@
 package com.tws.plugin.servicemanager;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.lang.reflect.Proxy;
+
 import android.os.Bundle;
 import android.os.IBinder;
 import android.os.RemoteException;
@@ -8,10 +12,6 @@ import com.tws.plugin.servicemanager.compat.BundleCompat;
 import com.tws.plugin.servicemanager.compat.ContentProviderCompat;
 import com.tws.plugin.servicemanager.local.ServicePool;
 import com.tws.plugin.servicemanager.util.ParamUtil;
-
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.lang.reflect.Proxy;
 
 /**
  * @author yongchen

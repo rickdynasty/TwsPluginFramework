@@ -9,7 +9,6 @@ import java.io.InputStreamReader;
 import java.util.Properties;
 
 import tws.component.log.TwsLog;
-
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;

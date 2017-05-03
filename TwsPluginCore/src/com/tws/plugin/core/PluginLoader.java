@@ -265,7 +265,7 @@ public class PluginLoader {
 
 			newContext.setPluginApplication((Application) ((PluginContextTheme) pluginContext).getApplicationContext());
 
-			newContext.setTheme(sApplication.getApplicationContext().getApplicationInfo().theme);
+			newContext.setTheme(theme);
 		}
 		return newContext;
 	}

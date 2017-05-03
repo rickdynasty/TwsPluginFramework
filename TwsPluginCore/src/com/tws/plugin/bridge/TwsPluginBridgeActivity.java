@@ -2,13 +2,13 @@ package com.tws.plugin.bridge;
 
 import java.util.Set;
 
-import com.tws.plugin.core.PluginIntentResolver;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.widget.TextView;
+
+import com.tws.plugin.core.PluginIntentResolver;
 
 final public class TwsPluginBridgeActivity extends Activity {
 

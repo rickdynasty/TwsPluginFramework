@@ -134,31 +134,24 @@ public class PluginInjector {
 
 		if (isStubActivity || !TextUtils.isEmpty(pluginId)) {
 
-			// 在activityoncreate之前去完成attachBaseContext的事情
-			Context pluginContext = null;
 			PluginDescriptor pd = null;
+			LoadedPlugin plugin = null;
 
 			if (isStubActivity) {
 				// 是打开插件中的activity
 				pd = PluginManagerHelper.getPluginDescriptorByClassName(activity.getClass().getName());
-				LoadedPlugin plugin = PluginLauncher.instance().startPlugin(pd);
-				pluginContext = PluginLoader.getNewPluginComponentContext(plugin.pluginContext,
-						activity.getBaseContext(), 0);
+				plugin = PluginLauncher.instance().startPlugin(pd);
 				// 获取插件Application对象
 				Application pluginApp = plugin.pluginApplication;
 				// 重设mApplication
 				hackActivity.setApplication(pluginApp);
 			} else {
 				// 是打开的用来显示插件组件的宿主activity
-
 				if (!TextUtils.isEmpty(pluginId)) {
 					// 进入这里表示指定了这个宿主Activity "只显示" 某个插件的组件
 					// 因此直接将这个Activity的Context也替换成插件的Context
 					pd = PluginManagerHelper.getPluginDescriptorByPluginId(pluginId);
-					LoadedPlugin plugin = PluginLauncher.instance().getRunningPlugin(pluginId);
-					pluginContext = PluginLoader.getNewPluginComponentContext(plugin.pluginContext,
-							activity.getBaseContext(), 0);
-
+					plugin = PluginLauncher.instance().getRunningPlugin(pluginId);
 				} else {
 					// do nothing
 					// 进入这里表示这个宿主可能要同时显示来自多个不同插件的组件,
@@ -166,7 +159,6 @@ public class PluginInjector {
 					// 剩下的交给PluginViewFactory去处理
 					return;
 				}
-
 			}
 
 			PluginActivityInfo pluginActivityInfo = pd.getActivityInfos().get(activity.getClass().getName());
@@ -177,6 +169,10 @@ public class PluginInjector {
 
 			TwsLog.d(TAG, "Theme 0x" + Integer.toHexString(pluginAppTheme) + " activity:"
 					+ activity.getClass().getName());
+
+			// 在activityoncreate之前去完成attachBaseContext的事情
+			Context pluginContext = PluginLoader.getNewPluginComponentContext(plugin.pluginContext,
+					activity.getBaseContext(), pluginAppTheme);
 
 			resetActivityContext(pluginContext, activity, pluginAppTheme);
 

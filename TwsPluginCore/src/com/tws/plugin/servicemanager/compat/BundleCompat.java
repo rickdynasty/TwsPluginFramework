@@ -1,13 +1,13 @@
 package com.tws.plugin.servicemanager.compat;
 
+import java.util.Map;
+
 import android.os.Build;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.util.ArrayMap;
 
 import com.tws.plugin.servicemanager.util.RefIectUtil;
-
-import java.util.Map;
 
 /**
  * @author yongchen

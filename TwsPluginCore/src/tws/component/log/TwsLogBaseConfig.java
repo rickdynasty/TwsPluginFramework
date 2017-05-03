@@ -1,6 +1,5 @@
 package tws.component.log;
 
-import android.util.SparseArray;
 
 /**
  * 配置Log输出参数的配置基类.

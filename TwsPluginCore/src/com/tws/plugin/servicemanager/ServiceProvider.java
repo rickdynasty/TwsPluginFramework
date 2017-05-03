@@ -1,5 +1,10 @@
 package com.tws.plugin.servicemanager;
 
+import java.lang.reflect.Proxy;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+
 import android.content.ContentProvider;
 import android.content.ContentValues;
 import android.content.Intent;
@@ -14,11 +19,6 @@ import android.util.Log;
 
 import com.tws.plugin.servicemanager.compat.BundleCompat;
 import com.tws.plugin.servicemanager.local.ServicePool;
-
-import java.lang.reflect.Proxy;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * @author yongchen

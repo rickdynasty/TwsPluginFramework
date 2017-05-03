@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Map;
 
 import tws.component.log.TwsLog;
-
 import android.app.Application;
 import android.app.Instrumentation;
 import android.app.Service;

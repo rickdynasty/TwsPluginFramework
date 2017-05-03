@@ -1,19 +1,19 @@
 package tws.component.log.impl;
 
-import android.os.Handler;
-import android.os.HandlerThread;
-import android.os.Looper;
-import android.os.Message;
-import android.text.TextUtils;
-import tws.component.log.TwsLog;
-import tws.component.log.TwsLogBaseConfig;
-
 import java.io.File;
 import java.io.FileWriter;
 import java.io.FilenameFilter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
+
+import tws.component.log.TwsLog;
+import tws.component.log.TwsLogBaseConfig;
+import android.os.Handler;
+import android.os.HandlerThread;
+import android.os.Looper;
+import android.os.Message;
+import android.text.TextUtils;
 
 /**
  * Title: TwsLogHandler

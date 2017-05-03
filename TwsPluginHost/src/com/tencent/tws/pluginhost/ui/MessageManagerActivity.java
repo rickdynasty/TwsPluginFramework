@@ -5,13 +5,11 @@ import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Intent;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 
-import com.tencent.tws.assistant.app.ActionBar;
 import com.tencent.tws.assistant.support.v4.app.TwsFragmentActivity;
 import com.tencent.tws.framework.HostProxy;
 import com.tencent.tws.pluginhost.R;
@@ -21,17 +19,10 @@ public class MessageManagerActivity extends TwsFragmentActivity implements OnCli
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		initActionBar();
+		getTwsActionBar().setTitle(getResources().getString(R.string.activity_message_mgr_title));
+		
 		setContentView(R.layout.activity_message_manager);
 		findViewById(R.id.send_notification).setOnClickListener(this);
-	}
-
-	private void initActionBar() {
-		ActionBar actionBar = getTwsActionBar();
-		int actionBarBgColor = getResources().getColor(R.color.my_action_bar_bg_color);
-		actionBar.setTitle(getResources().getString(R.string.activity_message_mgr_title));
-		actionBar.setBackgroundDrawable(new ColorDrawable(actionBarBgColor));
-		actionBar.setStackedBackgroundDrawable(getResources().getDrawable(R.drawable.ab_solid_light_holo_opacity));
 	}
 
 	@Override

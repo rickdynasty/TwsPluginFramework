@@ -13,6 +13,11 @@ import com.tws.plugin.core.PluginApplication;
 import com.tws.plugin.core.PluginLoader;
 import com.tws.plugin.manager.PluginManagerProvider;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+
 public class ProcessUtil {
 
 	private static final String TAG = "rick_Print:ProcessUtil";
@@ -37,7 +42,7 @@ public class ProcessUtil {
 	private static void ensure(Context context) {
 		// 注意：当前宿主和插件是一个进程
 		if (isPluginProcess == null) {
-			String processName = getCurProcessName(context);
+			String processName = getCurProcessName();
 			String pluginProcessName = getPluginProcessName(context);
 
 			isHostProcess = processName.equals(pluginProcessName);
@@ -55,20 +60,32 @@ public class ProcessUtil {
 		return isHostProcess(PluginLoader.getApplication());
 	}
 
-	private static String getCurProcessName(Context context) {
-		final int pid = android.os.Process.myPid();
-		TwsLog.d(TAG, "getCurProcessName pid=" + pid);
-		ActivityManager activityManager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
-		List<ActivityManager.RunningAppProcessInfo> list = activityManager.getRunningAppProcesses();
-		for (ActivityManager.RunningAppProcessInfo appProcess : list) {
-			if (appProcess.pid == pid) {
-				return appProcess.processName;
-			}
-		}
-		return "";
-	}
+	private static String getCurProcessName() {
+	       BufferedReader mBufferedReader=null;
+	       final int pid = android.os.Process.myPid();
+	       TwsLog.d(TAG, "getCurProcessName pid=" + pid);
+               try {
+                       File file = new File("proc/" + pid + "/" + "cmdline");
+                       mBufferedReader = new BufferedReader(new FileReader(file));
+                       String processName = mBufferedReader.readLine().trim();
+                       mBufferedReader.close();
+                       return processName;
+               } catch (Exception e) {
+                       e.printStackTrace();
 
-	public static String getPluginProcessName(Context context) {
+               } finally {
+                       if (mBufferedReader != null) {
+                               try {
+                                       mBufferedReader.close();
+                               } catch (IOException e) {
+                                       e.printStackTrace();
+                               }
+                       }
+               }
+               return "";
+        }
+	
+        public static String getPluginProcessName(Context context) {
 		try {
 			// 这里取个巧, 直接查询ContentProvider的信息中包含的processName
 			// 因为Contentprovider是被配置在插件进程的.

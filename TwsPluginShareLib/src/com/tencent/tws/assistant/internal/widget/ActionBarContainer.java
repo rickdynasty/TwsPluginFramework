@@ -16,6 +16,7 @@
 
 package com.tencent.tws.assistant.internal.widget;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
@@ -27,6 +28,8 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.FrameLayout;
 
 import com.tencent.tws.assistant.app.ActionBar;
@@ -61,12 +64,29 @@ public class ActionBarContainer extends FrameLayout {
 		super(context, attrs);
 
 		setBackgroundDrawable(null);
+		Resources resources = context.getResources();
+		String themId = Integer.toHexString(context.getThemeResId());
+		Log.d(TAG, "resources is " + resources + " themId=" + themId);
 
 		TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.ActionBar);
+		resources = a.getResources();
+		Log.d(TAG, "a.getResources() is " + resources);
 
 		mBackground = a.getDrawable(R.styleable.ActionBar_background);
 		if (mBackground == null) {
-			mBackground = new ColorDrawable(getResources().getColor(R.color.tws_bar_background));
+			boolean hasOverlayActionbar = false;
+
+			if (context instanceof Activity) {
+				Window window = ((Activity) context).getWindow();
+				hasOverlayActionbar = window.hasFeature(Window.FEATURE_ACTION_BAR_OVERLAY);
+				window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
+			}
+
+			if (hasOverlayActionbar) {
+				mBackground = new ColorDrawable(getResources().getColor(R.color.transparent));
+			} else {
+				mBackground = new ColorDrawable(getResources().getColor(R.color.tws_bar_background));
+			}
 		}
 		mBackgroundResId = a.getResourceId(R.styleable.ActionBar_background, R.color.tws_bar_background);
 

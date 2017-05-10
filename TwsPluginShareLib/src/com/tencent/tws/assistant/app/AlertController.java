@@ -17,11 +17,16 @@
 package com.tencent.tws.assistant.app;
 
 import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
+import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
+import static android.view.WindowManager.LayoutParams.FLAG_LAYOUT_INSET_DECOR;
+import static android.view.WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN;
 
 import java.lang.ref.WeakReference;
+import java.lang.reflect.Field;
 import java.util.Arrays;
 import java.util.List;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
@@ -55,6 +60,7 @@ import android.widget.TextView;
 
 import com.tencent.tws.sharelib.R;
 import com.tencent.tws.assistant.app.AlertDialog.ButtonColor;
+import com.tencent.tws.assistant.utils.ReflectUtils;
 import com.tencent.tws.assistant.utils.ThemeUtils;
 import com.tencent.tws.assistant.utils.TwsRippleUtils;
 import com.tencent.tws.assistant.widget.AdapterView;
@@ -328,6 +334,7 @@ public class AlertController {
 		return false;
 	}
 
+	private boolean mNeedForceInit = false;
 	public void installContent() {
 		/* We use a custom title so never request a window title */
 		mWindow.requestFeature(Window.FEATURE_NO_TITLE);
@@ -344,6 +351,21 @@ public class AlertController {
 			mWindow.setContentView(mAlertDialogLayout);
 		}
 		// tws-end bottom dialog::2014-10-3
+		// add by yongchen
+		if (android.os.Build.VERSION.SDK_INT > 22 && !mWindow.isFloating()) {
+			mNeedForceInit = true;
+			Class<?> clsWindow = ReflectUtils.forClassName("android.view.Window");
+			final int mForcedWindowFlags = (Integer) ReflectUtils.getFieldValue("mForcedWindowFlags", mWindow, clsWindow);
+			int flagsToUpdate = (FLAG_LAYOUT_IN_SCREEN | FLAG_LAYOUT_INSET_DECOR) & (~mForcedWindowFlags);
+			Class<?> clsPhoneWindow = ReflectUtils.forClassName("com.android.internal.policy.PhoneWindow");
+			Field mIsFloatingField = ReflectUtils.getDeclaredField(clsPhoneWindow, "mIsFloating");
+			ReflectUtils.setFieldValue(mWindow, mIsFloatingField, true);
+			mWindow.setLayout(WRAP_CONTENT, WRAP_CONTENT);
+			mWindow.setFlags(0, flagsToUpdate);
+			mWindow.setBackgroundDrawableResource(R.color.transparent);
+		}
+		// end
+		
 		setupView();
 	}
 
@@ -603,12 +625,16 @@ public class AlertController {
 		return mScrollView != null && mScrollView.executeKeyEvent(event);
 	}
 
+	@SuppressLint("ResourceAsColor")
 	private void setupView() {
 		LinearLayout contentPanel = (LinearLayout) mWindow.findViewById(R.id.contentPanel);
 		setupContent(contentPanel);
 		boolean hasButtons = setupButtons();
 
 		LinearLayout topPanel = (LinearLayout) mWindow.findViewById(R.id.topPanel);
+		if(mNeedForceInit){
+			//topPanel.setBackgroundColor(R.color.tws_view_bg);
+		}
 		// tws-start bottom dialog::2014-10-3
 		int alertDialogStyle = com.android.internal.R.attr.alertDialogStyle;
 		if (mIsBottomDialog) {
@@ -712,7 +738,7 @@ public class AlertController {
 						titleSpacer.setVisibility(View.VISIBLE);
 					}
 				}
-			} else {
+			} else if (divider != null && null != divider.getBackground()) {
 				int height = divider.getBackground().getIntrinsicHeight();
 				divider.setMinimumHeight(height);
 			}
@@ -782,27 +808,6 @@ public class AlertController {
 				if (mCustomSettitleTextColor) {
 					mTitleView.setTextColor(mTitleTextColor);
 				}
-				/*
-				 * Do this last so that if the user has supplied any icons we
-				 * use them instead of the default ones. If the user has
-				 * specified 0 then make it disappear.
-				 */
-				/*
-				 * if (mIconId > 0) { mIconView.setImageResource(mIconId); }
-				 * else if (mIcon != null) { mIconView.setImageDrawable(mIcon);
-				 * } else if (mIconId == 0) {
-				 */
-
-				/*
-				 * Apply the padding from the icon to ensure the title is
-				 * aligned correctly.
-				 */
-				// mTitleView.setPadding(mIconView.getPaddingLeft(),
-				// mIconView.getPaddingTop(),
-				// mIconView.getPaddingRight(),
-				// mIconView.getPaddingBottom());
-				// mIconView.setVisibility(View.GONE);
-				// }
 			} else {
 				mTitleView.setVisibility(View.GONE);
 				LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,

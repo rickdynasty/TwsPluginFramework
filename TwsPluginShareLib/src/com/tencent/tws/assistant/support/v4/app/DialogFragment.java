@@ -16,6 +16,8 @@
 
 package com.tencent.tws.assistant.support.v4.app;
 
+import com.tencent.tws.assistant.app.TwsDialog;
+
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
@@ -27,8 +29,6 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 
-import com.tencent.tws.assistant.app.TwsDialog;
-//import android.app.Dialog;
 
 /**
  * Static library support version of the framework's {@link android.app.DialogFragment}.

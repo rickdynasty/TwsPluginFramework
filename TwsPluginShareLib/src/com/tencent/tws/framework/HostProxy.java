@@ -32,6 +32,9 @@ public class HostProxy {
 	}
 
 	public static HomeUIProxy getHomeUIProxy() {
+		if (sHomeUIProxy == null) {
+			throw new IllegalStateException("请先初始化HomeUIProxy~");
+		}
 		return sHomeUIProxy;
 	}
 

@@ -8,6 +8,7 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.content.pm.ProviderInfo;
+import android.text.TextUtils;
 
 import com.tws.plugin.core.PluginApplication;
 import com.tws.plugin.core.PluginLoader;
@@ -40,15 +41,17 @@ public class ProcessUtil {
 	}
 
 	private static void ensure(Context context) {
-		// 注意：当前宿主和插件是一个进程
+		// 注意：当前PACE示例的宿主和插件是一个进程，【使用者可以自己按项目需求进行配置配置调整这里的逻辑】
 		if (isPluginProcess == null) {
 			String processName = getCurProcessName();
 			String pluginProcessName = getPluginProcessName(context);
 
-			isHostProcess = processName.equals(pluginProcessName);
+			isHostProcess = !TextUtils.isEmpty(processName) && processName.equals(pluginProcessName);
 			// 这是一个潜规则，插件的进程除PluginManagerProvider的标配外，其他的都统一规定前缀："HostPackageName:plugin"+"编号";
 			isPluginProcess = isHostProcess
 					|| processName.startsWith(PluginApplication.getInstance().getPackageName() + ":plugin"); // 注意这里不能用PluginLoader的Application
+
+			TwsLog.d(TAG, "cur processName is " + processName + " | pluginProcessName is" + pluginProcessName);
 		}
 	}
 
@@ -61,31 +64,32 @@ public class ProcessUtil {
 	}
 
 	private static String getCurProcessName() {
-	       BufferedReader mBufferedReader=null;
-	       final int pid = android.os.Process.myPid();
-	       TwsLog.d(TAG, "getCurProcessName pid=" + pid);
-               try {
-                       File file = new File("proc/" + pid + "/" + "cmdline");
-                       mBufferedReader = new BufferedReader(new FileReader(file));
-                       String processName = mBufferedReader.readLine().trim();
-                       mBufferedReader.close();
-                       return processName;
-               } catch (Exception e) {
-                       e.printStackTrace();
+		BufferedReader mBufferedReader = null;
 
-               } finally {
-                       if (mBufferedReader != null) {
-                               try {
-                                       mBufferedReader.close();
-                               } catch (IOException e) {
-                                       e.printStackTrace();
-                               }
-                       }
-               }
-               return "";
-        }
-	
-        public static String getPluginProcessName(Context context) {
+		final int pid = android.os.Process.myPid();
+		TwsLog.d(TAG, "android.os.Process.myPid is " + pid);
+
+		try {
+			File file = new File("proc/" + pid + "/" + "cmdline");
+			mBufferedReader = new BufferedReader(new FileReader(file));
+			String processName = mBufferedReader.readLine().trim();
+			mBufferedReader.close();
+			return processName;
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			if (mBufferedReader != null) {
+				try {
+					mBufferedReader.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		return "";
+	}
+
+	public static String getPluginProcessName(Context context) {
 		try {
 			// 这里取个巧, 直接查询ContentProvider的信息中包含的processName
 			// 因为Contentprovider是被配置在插件进程的.

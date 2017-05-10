@@ -6,6 +6,7 @@ import java.util.List;
 import tws.component.log.TwsLog;
 import android.content.Context;
 import android.content.res.AssetManager;
+import android.content.res.PluginResourceWrapper;
 import android.content.res.Resources;
 
 import com.tws.plugin.content.PluginDescriptor;

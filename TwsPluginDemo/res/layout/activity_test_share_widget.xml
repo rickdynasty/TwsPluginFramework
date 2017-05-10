@@ -63,6 +63,13 @@
             android:layout_height="50dp"
             android:layout_margin="3dp"
             android:text="ListView" />
+
+        <Button
+            android:id="@+id/twsbutton_samples"
+            android:layout_width="fill_parent"
+            android:layout_height="50dp"
+            android:layout_margin="3dp"
+            android:text="TwsButton" />
     </LinearLayout>
 
 </ScrollView>

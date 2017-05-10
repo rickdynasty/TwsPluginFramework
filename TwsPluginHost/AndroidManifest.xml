@@ -6,7 +6,8 @@
 
     <uses-sdk
         android:minSdkVersion="8"
-        android:targetSdkVersion="22" />
+        android:targetSdkVersion="22" 
+        android:maxSdkVersion="23"/>
 
     <uses-permission android:name="com.tencent.mm.ext.permission.READ" />
     <uses-permission android:name="com.tencent.mm.ext.permission.WRITE" />

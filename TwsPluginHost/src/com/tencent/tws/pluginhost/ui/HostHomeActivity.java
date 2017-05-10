@@ -945,4 +945,9 @@ public class HostHomeActivity extends TwsFragmentActivity implements HomeUIProxy
 
 		mHotseat.setHighlightCellItem(classId, needHighlight);
 	}
+
+	@Override
+	public Context getHostFitContext() {
+		return this;
+	}
 }

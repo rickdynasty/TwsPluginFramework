@@ -191,16 +191,16 @@
     <color name="tws_brand_percent_70">#B346DC5F</color>
 
     <!-- Default Button -->
-    <color name="tws_button_normal_background">@color/transparent</color>
-    <!-- 0.30 -->
+    <color name="tws_button_normal_background">@color/tws_black</color>
+    <color name="tws_button_pressed_background">#FF7F7F7F</color>
+    <color name="tws_button_focused_background">#FF7F7F7F</color>
+    <color name="tws_button_disabled_background">#FFCCCCCC</color>
+    
     <color name="tws_button_normal_borderColor">@color/tws_white_alpha_medium</color>
     <!-- 0.06 -->
-    <color name="tws_button_pressed_background">#1E1C26</color>
     <!-- 0.15 -->
     <color name="tws_button_pressed_borderColor">@color/tws_black_percent_15</color>
-    <color name="tws_button_focused_background">@color/tws_button_pressed_background</color>
     <color name="tws_button_focused_borderColor">@color/tws_button_pressed_borderColor</color>
-    <color name="tws_button_disabled_background">@color/transparent</color>
     <!-- 0.10 -->
     <color name="tws_button_disabled_borderColor">@color/tws_white_alpha_mini</color>
     <color name="tws_button_textColor">@color/tws_white</color>

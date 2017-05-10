@@ -61,14 +61,9 @@ public class ActionBarContainer extends FrameLayout {
 		super(context, attrs);
 
 		setBackgroundDrawable(null);
-		Log.w(TAG, "context is " + context);
-		Log.w(TAG, "context.Res is " + context.getResources());
 
 		TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.ActionBar);
-		Log.d(TAG, "ActionBarContainer a is " + a);
-		Resources resources = a.getResources();
-		resources.getDrawable(R.drawable.ic_launcher);
-		
+
 		mBackground = a.getDrawable(R.styleable.ActionBar_background);
 		if (mBackground == null) {
 			mBackground = new ColorDrawable(getResources().getColor(R.color.tws_bar_background));

@@ -357,6 +357,10 @@
             android:name="com.example.plugindemo.activity.category.listview.sortlistview.SortListviewActivity"
             android:screenOrientation="portrait" >
         </activity>
+        <activity
+            android:name="com.example.plugindemo.activity.category.TwsButtonSimples"
+            android:screenOrientation="portrait" >
+        </activity>
     </application>
 
 </manifest>

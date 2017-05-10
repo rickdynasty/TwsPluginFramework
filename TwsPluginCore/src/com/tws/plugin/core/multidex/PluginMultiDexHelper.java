@@ -2,26 +2,40 @@ package com.tws.plugin.core.multidex;
 
 import java.util.List;
 
+import android.app.PackageInstallObserver;
 import android.content.ComponentName;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.IntentSender;
 import android.content.pm.ActivityInfo;
 import android.content.pm.ApplicationInfo;
+import android.content.pm.EphemeralApplicationInfo;
 import android.content.pm.FeatureInfo;
+import android.content.pm.IPackageDataObserver;
+import android.content.pm.IPackageDeleteObserver;
+import android.content.pm.IPackageInstallObserver;
+import android.content.pm.IPackageStatsObserver;
 import android.content.pm.InstrumentationInfo;
+import android.content.pm.IntentFilterVerificationInfo;
+import android.content.pm.KeySet;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageInstaller;
+import android.content.pm.PackageItemInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PermissionGroupInfo;
 import android.content.pm.PermissionInfo;
 import android.content.pm.ProviderInfo;
 import android.content.pm.ResolveInfo;
 import android.content.pm.ServiceInfo;
+import android.content.pm.VerifierDeviceIdentity;
 import android.content.res.Resources;
 import android.content.res.XmlResourceParser;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
+import android.os.Handler;
 import android.os.UserHandle;
+import android.os.storage.VolumeInfo;
 
 import com.tws.plugin.core.PluginLoader;
 
@@ -451,6 +465,478 @@ public class PluginMultiDexHelper {
 			// android-N
 			public boolean hasSystemFeature(String arg1, int agr2) {
 				return false;
+			}
+
+			@Override
+			public void addCrossProfileIntentFilter(IntentFilter arg0, int arg1, int arg2, int arg3) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void addOnPermissionsChangeListener(OnPermissionsChangedListener arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void clearApplicationUserData(String arg0, IPackageDataObserver arg1) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void clearCrossProfileIntentFilters(int arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void deleteApplicationCacheFiles(String arg0, IPackageDataObserver arg1) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void deleteApplicationCacheFilesAsUser(String arg0, int arg1, IPackageDataObserver arg2) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void deletePackage(String arg0, IPackageDeleteObserver arg1, int arg2) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void deletePackageAsUser(String arg0, IPackageDeleteObserver arg1, int arg2, int arg3) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void flushPackageRestrictionsAsUser(int arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void freeStorage(String arg0, long arg1, IntentSender arg2) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void freeStorageAndNotify(String arg0, long arg1, IPackageDataObserver arg2) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public List<IntentFilter> getAllIntentFilters(String arg0) {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
+			@Override
+			public boolean getApplicationHiddenSettingAsUser(String arg0, UserHandle arg1) {
+				// TODO Auto-generated method stub
+				return false;
+			}
+
+			@Override
+			public ApplicationInfo getApplicationInfoAsUser(String arg0, int arg1, int arg2)
+					throws NameNotFoundException {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
+			@Override
+			public String getDefaultBrowserPackageNameAsUser(int arg0) {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
+			@Override
+			public Drawable getEphemeralApplicationIcon(String arg0) {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
+			@Override
+			public List<EphemeralApplicationInfo> getEphemeralApplications() {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
+			@Override
+			public byte[] getEphemeralCookie() {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
+			@Override
+			public int getEphemeralCookieMaxSizeBytes() {
+				// TODO Auto-generated method stub
+				return 0;
+			}
+
+			@Override
+			public ComponentName getHomeActivities(List<ResolveInfo> arg0) {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
+			@Override
+			public List<PackageInfo> getInstalledPackagesAsUser(int arg0, int arg1) {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
+			@Override
+			public List<IntentFilterVerificationInfo> getIntentFilterVerifications(String arg0) {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
+			@Override
+			public int getIntentVerificationStatusAsUser(String arg0, int arg1) {
+				// TODO Auto-generated method stub
+				return 0;
+			}
+
+			@Override
+			public KeySet getKeySetByAlias(String arg0, String arg1) {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
+			@Override
+			public Drawable getManagedUserBadgedDrawable(Drawable arg0, Rect arg1, int arg2) {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
+			@Override
+			public int getMoveStatus(int arg0) {
+				// TODO Auto-generated method stub
+				return 0;
+			}
+
+			@Override
+			public List<VolumeInfo> getPackageCandidateVolumes(ApplicationInfo arg0) {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
+			@Override
+			public VolumeInfo getPackageCurrentVolume(ApplicationInfo arg0) {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
+			@Override
+			public PackageInfo getPackageInfoAsUser(String arg0, int arg1, int arg2) throws NameNotFoundException {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
+			@Override
+			public void getPackageSizeInfoAsUser(String arg0, int arg1, IPackageStatsObserver arg2) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public int getPackageUidAsUser(String arg0, int arg1) throws NameNotFoundException {
+				// TODO Auto-generated method stub
+				return 0;
+			}
+
+			@Override
+			public int getPackageUidAsUser(String arg0, int arg1, int arg2) throws NameNotFoundException {
+				// TODO Auto-generated method stub
+				return 0;
+			}
+
+			@Override
+			public String getPermissionControllerPackageName() {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
+			@Override
+			public int getPermissionFlags(String arg0, String arg1, UserHandle arg2) {
+				// TODO Auto-generated method stub
+				return 0;
+			}
+
+			@Override
+			public List<VolumeInfo> getPrimaryStorageCandidateVolumes() {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
+			@Override
+			public VolumeInfo getPrimaryStorageCurrentVolume() {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
+			@Override
+			public Resources getResourcesForApplicationAsUser(String arg0, int arg1) throws NameNotFoundException {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
+			@Override
+			public String getServicesSystemSharedLibraryPackageName() {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
+			@Override
+			public String getSharedSystemSharedLibraryPackageName() {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
+			@Override
+			public KeySet getSigningKeySet(String arg0) {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
+			@Override
+			public int getUidForSharedUser(String arg0) throws NameNotFoundException {
+				// TODO Auto-generated method stub
+				return 0;
+			}
+
+			@Override
+			public Drawable getUserBadgeForDensity(UserHandle arg0, int arg1) {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
+			@Override
+			public Drawable getUserBadgeForDensityNoBackground(UserHandle arg0, int arg1) {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
+			@Override
+			public VerifierDeviceIdentity getVerifierDeviceIdentity() {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
+			@Override
+			public void grantRuntimePermission(String arg0, String arg1, UserHandle arg2) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public int installExistingPackage(String arg0) throws NameNotFoundException {
+				// TODO Auto-generated method stub
+				return 0;
+			}
+
+			@Override
+			public int installExistingPackageAsUser(String arg0, int arg1) throws NameNotFoundException {
+				// TODO Auto-generated method stub
+				return 0;
+			}
+
+			@Override
+			@Deprecated
+			public void installPackage(Uri arg0, IPackageInstallObserver arg1, int arg2, String arg3) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			@Deprecated
+			public void installPackage(Uri arg0, PackageInstallObserver arg1, int arg2, String arg3) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public boolean isEphemeralApplication() {
+				// TODO Auto-generated method stub
+				return false;
+			}
+
+			@Override
+			public boolean isPackageAvailable(String arg0) {
+				// TODO Auto-generated method stub
+				return false;
+			}
+
+			@Override
+			public boolean isPackageSuspendedForUser(String arg0, int arg1) {
+				// TODO Auto-generated method stub
+				return false;
+			}
+
+			@Override
+			public boolean isSignedBy(String arg0, KeySet arg1) {
+				// TODO Auto-generated method stub
+				return false;
+			}
+
+			@Override
+			public boolean isSignedByExactly(String arg0, KeySet arg1) {
+				// TODO Auto-generated method stub
+				return false;
+			}
+
+			@Override
+			public boolean isUpgrade() {
+				// TODO Auto-generated method stub
+				return false;
+			}
+
+			@Override
+			public Drawable loadItemIcon(PackageItemInfo arg0, ApplicationInfo arg1) {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
+			@Override
+			public Drawable loadUnbadgedItemIcon(PackageItemInfo arg0, ApplicationInfo arg1) {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
+			@Override
+			public int movePackage(String arg0, VolumeInfo arg1) {
+				// TODO Auto-generated method stub
+				return 0;
+			}
+
+			@Override
+			public int movePrimaryStorage(VolumeInfo arg0) {
+				// TODO Auto-generated method stub
+				return 0;
+			}
+
+			@Override
+			public List<ResolveInfo> queryBroadcastReceiversAsUser(Intent arg0, int arg1, int arg2) {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
+			@Override
+			public List<ResolveInfo> queryIntentActivitiesAsUser(Intent arg0, int arg1, int arg2) {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
+			@Override
+			public List<ResolveInfo> queryIntentContentProvidersAsUser(Intent arg0, int arg1, int arg2) {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
+			@Override
+			public List<ResolveInfo> queryIntentServicesAsUser(Intent arg0, int arg1, int arg2) {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
+			@Override
+			public void registerMoveCallback(MoveCallback arg0, Handler arg1) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void removeOnPermissionsChangeListener(OnPermissionsChangedListener arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			@Deprecated
+			public void replacePreferredActivity(IntentFilter arg0, int arg1, ComponentName[] arg2, ComponentName arg3) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public ResolveInfo resolveActivityAsUser(Intent arg0, int arg1, int arg2) {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
+			@Override
+			public ProviderInfo resolveContentProviderAsUser(String arg0, int arg1, int arg2) {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
+			@Override
+			public void revokeRuntimePermission(String arg0, String arg1, UserHandle arg2) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public boolean setApplicationHiddenSettingAsUser(String arg0, boolean arg1, UserHandle arg2) {
+				// TODO Auto-generated method stub
+				return false;
+			}
+
+			@Override
+			public boolean setDefaultBrowserPackageNameAsUser(String arg0, int arg1) {
+				// TODO Auto-generated method stub
+				return false;
+			}
+
+			@Override
+			public boolean setEphemeralCookie(byte[] arg0) {
+				// TODO Auto-generated method stub
+				return false;
+			}
+
+			@Override
+			public String[] setPackagesSuspendedAsUser(String[] arg0, boolean arg1, int arg2) {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
+			@Override
+			public boolean shouldShowRequestPermissionRationale(String arg0) {
+				// TODO Auto-generated method stub
+				return false;
+			}
+
+			@Override
+			public void unregisterMoveCallback(MoveCallback arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public boolean updateIntentVerificationStatusAsUser(String arg0, int arg1, int arg2) {
+				// TODO Auto-generated method stub
+				return false;
+			}
+
+			@Override
+			public void updatePermissionFlags(String arg0, String arg1, int arg2, int arg3, UserHandle arg4) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void verifyIntentFilter(int arg0, int arg1, List<String> arg2) {
+				// TODO Auto-generated method stub
+				
 			}
 		};
 	}

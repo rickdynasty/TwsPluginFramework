@@ -323,7 +323,7 @@ public class PluginContextTheme extends PluginBaseContextWrapper {
 		return getSharedPrefsFile(name);
 	}
 
-	private File getSharedPrefsFile(String name) {
+	public File getSharedPrefsFile(String name) {
 		if (!name.startsWith(mPluginDescriptor.getPackageName() + "_")) {
 			name = mPluginDescriptor.getPackageName() + "_" + name;
 		}

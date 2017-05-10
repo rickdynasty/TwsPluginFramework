@@ -36,6 +36,7 @@ public class ShareWidgetSamples extends TwsActivity implements View.OnClickListe
 		findViewById(R.id.tws_pickers_samples).setOnClickListener(this);
 		findViewById(R.id.preference_activity).setOnClickListener(this);
 		findViewById(R.id.listview_samples).setOnClickListener(this);
+		findViewById(R.id.twsbutton_samples).setOnClickListener(this);
 
 		getTwsActionBar().setTitle("共享控件");
 
@@ -99,6 +100,11 @@ public class ShareWidgetSamples extends TwsActivity implements View.OnClickListe
 		case R.id.listview_samples:
 			intent = new Intent();
 			intent.setClassName(this, ListViewSamples.class.getName());
+			startActivity(intent);
+			break;
+		case R.id.twsbutton_samples:
+			intent = new Intent();
+			intent.setClassName(this, TwsButtonSimples.class.getName());
 			startActivity(intent);
 			break;
 		default:

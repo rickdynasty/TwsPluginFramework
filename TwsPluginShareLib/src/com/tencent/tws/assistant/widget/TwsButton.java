@@ -195,12 +195,6 @@ public class TwsButton extends FrameLayout {
 			mTv.setTextColor(color);
 	}
 
-	public void setTextSize() {
-		if (mTv != null) {
-
-		}
-	}
-
 	public void setTextSize(float size) {
 		if (mTv != null) {
 			mTv.setTextSize(size);

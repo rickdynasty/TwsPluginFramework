@@ -1,4 +1,4 @@
-package android.content.res;
+package com.tws.plugin.core;
 
 import java.lang.reflect.Field;
 import java.util.HashSet;
@@ -8,12 +8,13 @@ import android.content.res.AssetManager;
 import android.content.res.ColorStateList;
 import android.content.res.Configuration;
 import android.content.res.Resources;
+import android.content.res.Resources.NotFoundException;
+import android.content.res.Resources.Theme;
 import android.graphics.drawable.Drawable;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
 
 import com.tws.plugin.content.PluginDescriptor;
-import com.tws.plugin.core.PluginLoader;
 import com.tws.plugin.util.ResourceUtil;
 
 /**

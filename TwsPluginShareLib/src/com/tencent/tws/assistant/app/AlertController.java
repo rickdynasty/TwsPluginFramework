@@ -633,7 +633,7 @@ public class AlertController {
 
 		LinearLayout topPanel = (LinearLayout) mWindow.findViewById(R.id.topPanel);
 		if(mNeedForceInit){
-			//topPanel.setBackgroundColor(R.color.tws_view_bg);
+			topPanel.setBackgroundColor(R.color.tws_view_bg);
 		}
 		// tws-start bottom dialog::2014-10-3
 		int alertDialogStyle = com.android.internal.R.attr.alertDialogStyle;

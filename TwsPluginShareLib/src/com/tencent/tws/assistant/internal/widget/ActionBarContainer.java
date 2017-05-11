@@ -64,13 +64,8 @@ public class ActionBarContainer extends FrameLayout {
 		super(context, attrs);
 
 		setBackgroundDrawable(null);
-		Resources resources = context.getResources();
-		String themId = Integer.toHexString(context.getThemeResId());
-		Log.d(TAG, "resources is " + resources + " themId=" + themId);
 
 		TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.ActionBar);
-		resources = a.getResources();
-		Log.d(TAG, "a.getResources() is " + resources);
 
 		mBackground = a.getDrawable(R.styleable.ActionBar_background);
 		if (mBackground == null) {

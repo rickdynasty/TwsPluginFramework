@@ -39,7 +39,10 @@ public class HackActivityThread {
 	private static final String Field_sPackageManager = "sPackageManager";
 
 	private static HackActivityThread hackActivityThread;
+	private static PluginAppTrace mPluginAppTrace = null;
+	private static HackHandler mHackHandler = null;
 
+	private Handler mH;
 	private Object instance;
 
 	private HackActivityThread(Object instance) {
@@ -85,8 +88,14 @@ public class HackActivityThread {
 		HackActivityThread hackActivityThread = get();
 		if (hackActivityThread != null) {
 			Handler handler = hackActivityThread.getHandler();
-			Handler.Callback callback = new PluginAppTrace(handler);
-			new HackHandler(handler).setCallback(callback);
+			if (mPluginAppTrace == null) {
+				mPluginAppTrace = new PluginAppTrace(handler);
+			}
+
+			if (mHackHandler == null) {
+				mHackHandler = new HackHandler(handler);
+			}
+			mHackHandler.setCallback(mPluginAppTrace);
 		}
 	}
 
@@ -173,8 +182,12 @@ public class HackActivityThread {
 	}
 
 	public Handler getHandler() {
-		return (Handler) RefInvoker.invokeMethod(instance, ClassName, Method_getHandler, (Class[]) null,
-				(Object[]) null);
+		if (mH == null) {
+			mH = (Handler) RefInvoker.invokeMethod(instance, ClassName, Method_getHandler, (Class[]) null,
+					(Object[]) null);
+		}
+
+		return mH;
 	}
 
 	public Instrumentation getInstrumentation() {
@@ -209,6 +222,23 @@ public class HackActivityThread {
 
 	public static void setPackageManager(Object packageManager) {
 		RefInvoker.setField(null, ClassName, Field_sPackageManager, packageManager);
+	}
+
+	public void ensureInject() {
+		if (!(RefInvoker.getField(getHandler(), "android.os.Handler", "mCallback") instanceof PluginAppTrace)) {
+			wrapHandler();
+		}
+	}
+
+	public void printInjectObject() {
+		Handler handler = getHandler();
+		TwsLog.d(TAG, "handler is " + handler.getClass().getName());
+		Object callBack = RefInvoker.getField(handler, "android.os.Handler", "mCallback");
+		TwsLog.d(TAG, "handler callBack is " + (callBack == null ? "null" : callBack.getClass().getName()));
+
+		Instrumentation mInstrumentation = getInstrumentation();
+		TwsLog.d(TAG, "mInstrumentation is "
+				+ (mInstrumentation == null ? "null" : mInstrumentation.getClass().getName()));
 	}
 
 }

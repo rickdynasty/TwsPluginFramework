@@ -15,6 +15,7 @@ import com.tws.plugin.content.ComponentInfo;
 import com.tws.plugin.content.PluginActivityInfo;
 import com.tws.plugin.content.PluginDescriptor;
 import com.tws.plugin.content.PluginReceiverIntent;
+import com.tws.plugin.core.android.HackActivityThread;
 import com.tws.plugin.core.android.HackCreateServiceData;
 import com.tws.plugin.core.android.HackReceiverData;
 import com.tws.plugin.manager.PluginManagerHelper;
@@ -50,6 +51,7 @@ public class PluginIntentResolver {
 						.getComponent().getClassName()));
 			}
 		}
+		HackActivityThread.get().ensureInject();
 	}
 
 	public static ArrayList<Intent> resolveReceiver(final Intent intent) {
@@ -80,7 +82,8 @@ public class PluginIntentResolver {
 
 		// fix 插件中对同一个广播同时注册了动态和静态广播的情况
 		result.add(intent);
-
+		HackActivityThread.get().ensureInject();
+		
 		return result;
 	}
 
@@ -124,6 +127,8 @@ public class PluginIntentResolver {
 					}
 				}
 
+				HackActivityThread.get().ensureInject();
+
 				return clazz;
 			}
 		}
@@ -159,6 +164,8 @@ public class PluginIntentResolver {
 			} else {
 				TwsLog.d(TAG, "是宿主service:" + info.name);
 			}
+			
+			HackActivityThread.get().ensureInject();
 		}
 
 		return info.name;

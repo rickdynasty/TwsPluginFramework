@@ -1181,6 +1181,8 @@ public class Fragment implements ComponentCallbacks, OnCreateContextMenuListener
         if (mLoaderManager != null) {
             mLoaderManager.doDestroy();
         }
+        
+    	sClassMap.remove(this.getClass().getName());
     }
 
     /**

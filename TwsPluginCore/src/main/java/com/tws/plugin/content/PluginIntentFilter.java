@@ -1046,33 +1046,34 @@ public class PluginIntentFilter implements Serializable {
      * @see Intent#getCategories
      */
     public final int match(String action, String type, String scheme,
-            Uri data, Set<String> categories) {
-		int rlt = NO_MATCH_RESULT;
-		if (action != null) {
-			if (!matchAction(action)) {
-				return NO_MATCH_ACTION;
-			} else {
-				rlt = 1;
-			}
-		}
+                           Uri data, Set<String> categories) {
+        int rlt = NO_MATCH_RESULT;
+        if (action != null) {
+            if (!matchAction(action)) {
+                return NO_MATCH_ACTION;
+            }
 
-		if (null != type || null != scheme || null != data) {
-			rlt = matchData(type, scheme, data);
-			if (rlt < 0) {
-				return rlt;
-			}
-		}
+            rlt = 1;
+        }
 
-		if (null != categories) {
+        if (null != type || null != scheme || null != data) {
+            int dataMatch = matchData(type, scheme, data);
+            if (dataMatch < 0) {
+                return dataMatch;
+            }
+
+            rlt = dataMatch;
+        }
+
+        if (null != categories) {
             if (!matchCategories(categories)) {
                 return NO_MATCH_CATEGORY;
             }
-            else {
-                rlt = 1;
-            }
+
+            rlt = 1;
         }
 
-		return rlt;
+        return rlt;
     }
 
     public void readFromXml(String tagName, XmlPullParser parser) throws XmlPullParserException,

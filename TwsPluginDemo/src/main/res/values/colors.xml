@@ -1,0 +1,50 @@
+<resources>
+
+    <color name="light_btn_normal_color">#eeeeee</color>
+    <color name="light_btn_press_color">#dadada</color>
+    <color name="light_btn_disable_color">#dddddd</color>
+    <color name="custom_checkbox_normal_color">#ffb2b2b2</color>
+    <color name="custom_checkbox_disabled_color">#ffe5e5e5</color>
+    <color name="custom_checkbox_activated_color">#ff49cbce</color>
+    <color name="custom_checkbox_activate_disabled_color">#ffdbf5f5</color>
+    <color name="green">#008000</color>
+    <color name="red">#ff0000</color>
+    <color name="yellow">#ffff00</color>
+    <color name="tws_light_disabled">#26000000</color>
+    <color name="tws_blue">#ff22b2b6</color>
+    <color name="tws_light_title">#cc000000</color>
+
+    <!-- ====================black==================== -->
+    <!-- 80% alpha black -->
+    <color name="tws_black_alpha_supperbig">#CC000000</color>
+    <!-- 70% alpha black -->
+    <color name="tws_black_alpha_supper">#B3000000</color>
+    <!-- 60% alpha black -->
+    <color name="tws_black_alpha_larger">#99000000</color>
+    <!-- 50% alpha black -->
+    <color name="tws_black_alpha_large">#80000000</color>
+    <!-- 30% alpha black -->
+    <color name="tws_black_alpha_medium">#4D000000</color>
+    <!-- 20% alpha black -->
+    <color name="tws_black_alpha_micro">#33000000</color>
+    <!-- 10% alpha black -->
+    <color name="tws_black_alpha_mini">#1A000000</color>
+    <!-- 45% alpha black -->
+    <color name="tws_black_percent_45">#73000000</color>
+    <!-- 40% alpha black -->
+    <color name="tws_black_percent_40">#66000000</color>
+    <!-- 15% alpha black -->
+    <color name="tws_black_percent_15">#26000000</color>
+
+    <!--  -->
+    <color name="tws_light_body">@color/tws_black_alpha_supperbig</color>
+    <color name="tws_second_Hint">@color/tws_black_alpha_micro</color>
+    <color name="tws_light_summary">@color/tws_black_percent_40</color>
+    <color name="lightslategray">#778899</color>
+    <!-- 亮蓝灰 -->
+    <color name="lightslategrey">#778899</color>
+    <!-- 亮蓝灰 -->
+    <color name="slategray">#708090</color>
+    <!-- 灰石色 -->
+
+</resources>

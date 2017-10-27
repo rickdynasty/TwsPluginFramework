@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical" >
+
+    <LinearLayout 
+        android:layout_width="match_parent"
+        android:layout_height="54dip"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:clipChildren="false"
+        android:clipToPadding="false">
+        <com.tencent.tws.assistant.widget.CheckBox
+            android:id="@+id/resolvercheck"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="false"
+            android:text="@string/resolver_always_text" 
+            android:textColor="@color/tws_resolver_always_textcolor"
+            android:textSize="16dip"
+            android:paddingLeft="6dip"
+            />
+    </LinearLayout>
+    <com.tencent.tws.assistant.support.v4.view.ViewPager
+        android:id="@+id/resolverviewpager"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="3dip"
+        android:overScrollMode="never" />
+
+    <LinearLayout
+        android:id="@+id/resolverpoints"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:gravity="center_horizontal|top"
+        android:orientation="horizontal" />
+
+</LinearLayout>

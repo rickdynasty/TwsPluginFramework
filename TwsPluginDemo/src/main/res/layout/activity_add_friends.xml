@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" >
+
+    <android.widget.TwsSearchView
+        android:id="@+id/filter_edit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dip"
+        android:background="@color/tws_black_percent_15"
+        android:singleLine="true" />
+
+    <FrameLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" >
+
+        <com.tencent.tws.assistant.widget.ListView
+            android:id="@+id/country_lvcountry"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_gravity="center"
+            android:divider="@null" />
+
+        <TextView
+            android:id="@+id/title_layout_no_friends"
+            android:layout_width="fill_parent"
+            android:layout_height="30dp"
+            android:layout_gravity="right|top"
+            android:background="#E0E0E0"
+            android:gravity="center_vertical"
+            android:textColor="#454545"
+            android:visibility="gone" />
+
+        <LinearLayout
+            android:id="@+id/title_layout"
+            android:layout_width="fill_parent"
+            android:layout_height="30dp"
+            android:layout_gravity="right|top"
+            android:background="#ff303030"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/title_layout_catalog"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:background="#E0E0E0"
+                android:paddingBottom="5dip"
+                android:paddingLeft="5dip"
+                android:paddingTop="5dip"
+                android:textColor="#454545"
+                android:textSize="@dimen/tws_Medium_TextSize" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/dialog"
+            android:layout_width="80.0dip"
+            android:layout_height="80.0dip"
+            android:layout_gravity="center"
+            android:background="@color/slategray"
+            android:gravity="center"
+            android:textColor="#ffffffff"
+            android:textSize="30.0dip"
+            android:visibility="invisible" />
+
+        <com.tencent.tws.assistant.widget.SideBar
+            android:id="@+id/sidrbar"
+            android:layout_width="30.0dip"
+            android:layout_height="fill_parent"
+            android:layout_gravity="right|center" />
+    </FrameLayout>
+
+</LinearLayout>

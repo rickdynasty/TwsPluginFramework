@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/Widget.tws.Tab"
+    android:layout_height="?android:attr/actionBarSize"
+    android:orientation="horizontal" >
+
+    <ImageView
+        android:id="@id/icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:visibility="gone" />
+
+    <TextView
+        android:id="@id/title"
+        style="@style/Widget.tws.TabText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:textColor="@color/tab_text_light" />
+
+</LinearLayout>

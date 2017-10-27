@@ -1,0 +1,45 @@
+apply plugin: 'com.android.library'
+
+android {
+    compileSdkVersion rootProject.ext.compileSdkVersion
+    buildToolsVersion rootProject.ext.buildtools
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    aaptOptions {
+        additionalParameters '--package-name',
+                'com.tencent.tws.sharelib',
+                '--forced-package-id',
+                '0x6f'
+    }
+
+
+    lintOptions {
+        abortOnError false
+    }
+
+    gradle.projectsEvaluated {
+        tasks.withType(JavaCompile) {
+            options.compilerArgs.add('-Xbootclasspath/p:TwsPluginShareLib/framework_libs/framework.jar')
+        }
+    }
+    packagingOptions {
+        exclude 'META-INF/DEPENDENCIES'
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/NOTICE.txt'
+    }
+}
+
+dependencies {
+    provided fileTree(include: ['*.jar'], dir: 'linklib')
+    compile fileTree(include: ['*.jar'], dir: 'libs')
+    provided fileTree(include: ['*.jar'], dir: 'framework_libs')
+    compile project(':TwsPluginCore')
+}

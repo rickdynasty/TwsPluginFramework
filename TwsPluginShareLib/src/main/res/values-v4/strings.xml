@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+
+    <string name="back_button_label">Back</string>
+    <string name="skip_button_label">Skip</string>
+    <string name="next_button_label">Next</string>
+    <string name="searchview_description_query">Search query</string>
+    <string name="searchview_description_clear">Clear query</string>
+    <string name="choose_ring_title">"Ringtone"</string>
+    <string name="choose_notification_title">"Notification"</string>
+    <string name="choose_alarm_title">"Alarm"</string>
+    <string name="choose_other_ringtone">"Choose other ringtones"</string>
+    <string name="menu_done">"Save"</string>
+    <string name="menu_doNotSave">"Cancel"</string>
+    <string name="pick_other_ring_title">"Other ringtones"</string>
+    <string name="ring_empty">"No ringtones"</string>
+    <string name="current_ring">"Using"</string>
+    <string name="update_sdcard">Update SD Card data...</string>
+    <string name="clearDefaultHintMsg">"Clear the default setting by“Settings”&gt;“Application”&gt;“Manage”</string>
+    <string name="ringtone_default">"Default ringtone"</string>
+    <string name="ringtone_silent">"Silent"</string>
+    <string name="ok">"OK"</string>
+    <string name="cancel">"Cancel"</string>
+    <string name="yes">"OK"</string>
+    <string name="action_bar_home_description">"Home"</string>
+    <string name="action_bar_up_description">"Up"</string>
+    <string name="number_picker_increment_button">"Increase"</string>
+    <string name="number_picker_decrement_button">"Decrease"</string>
+    <string name="chooseActivity">"Choose"</string>
+    <string name="whichApplication">"Choose the App:"</string>
+    <string name="alwaysUse">"Set as default"</string>
+    <string name="noApplications">"No suitable application"</string>
+    <string name="activity_list_empty">No matching activities found</string>
+    <string name="capital_on">Open</string>
+    <string name="capital_off">Close</string>
+    <string name="select_ring">Choose</string>
+    <string name="loading">"loading..."</string>
+    <string name="togglebutton_pressed">"Pressed"</string>
+    <string name="togglebutton_not_pressed">"Not pressed"</string>
+    <string name="select_input_method">Choose Input Method</string>
+    <string name="hardware">Hardware</string>
+    <string name="use_physical_keyboard">Keyboard</string>
+    <string name="lunar_leap">Leap</string>
+    <string name="picker_dialog_positive_text">"Done"</string>
+    <string name="resolver_setting_text">More</string>
+    <string name="resolver_always_text">Set as default</string>
+    <string name="time_picker_increment_minute_button">"Minute +"</string>
+    <string name="time_picker_decrement_minute_button">"Minute -"</string>
+    <string name="time_picker_increment_hour_button">"Hour +"</string>
+    <string name="time_picker_decrement_hour_button">"Hour -"</string>
+    <string name="time_picker_increment_set_pm_button">"Set pm"</string>
+    <string name="time_picker_decrement_set_am_button">"Set am"</string>
+    <string name="date_picker_increment_month_button">"Month +"</string>
+    <string name="date_picker_decrement_month_button">"Month -"</string>
+    <string name="date_picker_increment_day_button">"Day +"</string>
+    <string name="date_picker_decrement_day_button">"Day -"</string>
+    <string name="date_picker_increment_year_button">"Year +"</string>
+    <string name="date_picker_decrement_year_button">"Year -"</string>
+    <string name="calendar_year">Year</string>
+    <string name="calendar_month">Month</string>
+    <string name="calendar_day">Day</string>
+    <string name="calendar_hour">Hour</string>
+    <string name="calendar_mintue">Minutes</string>
+    <string name="next">Next</string>
+    <string name="begin_sport_travel">Get to sporty</string>
+
+    <!-- values -->
+    <string name="abc_action_mode_done">Done</string>
+    <string name="abc_action_bar_home_description">Navigate home</string>
+    <string name="abc_action_bar_up_description">Navigate up</string>
+    <string name="abc_action_menu_overflow_description">More options</string>
+    <string name="abc_searchview_description_search">Search</string>
+    <string name="abc_searchview_description_query">Search query</string>
+    <string name="abc_searchview_description_clear">Clear query</string>
+    <string name="abc_searchview_description_submit">Submit query</string>
+    <string name="abc_searchview_description_voice">Voice search</string>
+    <string name="abc_activitychooserview_choose_application">Choose an app</string>
+    <string name="abc_activity_chooser_view_see_all">See all</string>
+    <string name="abc_shareactionprovider_share_with_application">Share with %s</string>
+    <string name="abc_shareactionprovider_share_with">Share with</string>
+    <string name="share_string_1">这是宿主程序共享库资源1</string>
+    <string name="share_string_2">这是宿主程序共享库自定义控件</string>
+    <string name="share_app_name">PluginTest</string>
+
+    <!-- datetime_picker -->
+    <string name="datetime_picker_day_format">M-d</string>
+    <string name="datetime_picker_today_str">Today</string>
+    <string name="date_time_set">Set</string>
+
+</resources>

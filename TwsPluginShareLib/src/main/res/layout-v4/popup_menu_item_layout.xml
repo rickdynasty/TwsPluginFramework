@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (C) 2007 The Android Open Source Project
+
+     Licensed under the Apache License, Version 2.0 (the "License");
+     you may not use this file except in compliance with the License.
+     You may obtain a copy of the License at
+  
+          http://www.apache.org/licenses/LICENSE-2.0
+  
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an "AS IS" BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.
+-->
+
+<com.tencent.tws.assistant.internal.view.menu.ListMenuItemView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:minHeight="@dimen/tws_listview_item_height"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="0dip"
+    android:layout_marginRight="0dip">
+    
+    <!-- Icon will be inserted here. -->
+    <!-- The title and summary have some gap between them, and this 'group' should be centered vertically. -->
+        <TextView 
+            android:id="@id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="15dip"
+            android:layout_marginRight="18dip"
+			android:textAppearance="@style/TextAppearance.tws.Second.twsTextLargerLightTitleMenuItem"
+			android:textColor="@color/tws_text_light_title_popup"
+            android:layout_gravity="left|center_vertical"
+            android:singleLine="true"
+            android:duplicateParentState="true"
+            android:ellipsize="marquee"
+            android:fadingEdge="horizontal" />
+
+    <!-- Checkbox, and/or radio button will be inserted here. -->
+    
+</com.tencent.tws.assistant.internal.view.menu.ListMenuItemView>

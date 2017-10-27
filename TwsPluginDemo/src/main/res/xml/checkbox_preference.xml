@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.tencent.tws.assistant.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tws="http://schemas.android.com/apk/res-auto" >
+
+    <com.tencent.tws.assistant.preference.CheckBoxPreference
+        android:key="wifi"
+        android:title="@string/preference_preference_tittle" />
+
+    <com.tencent.tws.assistant.preference.EditTextPreference
+        android:dependency="wifi"
+        android:layout="?android:attr/preferenceLayoutChild"
+        android:title="@string/preference_preference_tittle" />
+
+    <com.tencent.tws.assistant.preference.Preference
+        android:key="Preference"
+        android:summary="@string/preference_common_summary"
+        android:title="@string/preference_preference_tittle" />
+
+    <com.tencent.tws.assistant.preference.CheckBoxPreference
+        android:key="CheckBoxPreference"
+        android:summary="@string/preference_common_summary"
+        android:title="@string/preference_checkbox_tittle" />
+
+    <com.tencent.tws.assistant.preference.EditTextPreference
+        android:defaultValue="@string/preference_edittext_defaultvalue"
+        android:dialogTitle="@string/preference_common_dialogtittle"
+        android:key="EditTextPreference"
+        android:summary="@string/preference_common_summary"
+        android:title="@string/preference_edittext_tittle" />
+
+    <com.tencent.tws.assistant.preference.VolumePreference
+        android:defaultValue="0.5"
+        android:dialogTitle="@string/preference_common_dialogtittle"
+        android:key="VolumePreference"
+        android:persistent="true"
+        android:summary="@string/preference_common_summary"
+        android:title="@string/preference_volume_tittle" />
+
+    <com.tencent.tws.assistant.preference.SeekBarDialogPreference
+        android:dialogTitle="@string/preference_common_dialogtittle"
+        android:key="SeekBarDialogPreference"
+        android:summary="@string/preference_common_summary"
+        android:title="@string/preference_seekbardialog_tittle" />
+    <com.tencent.tws.assistant.preference.SeekBarDialogPreference
+        android:dialogTitle="@string/preference_common_dialogtittle"
+        android:key="SeekBarDialogPreference"
+        android:summary="@string/preference_common_summary"
+        android:title="@string/preference_seekbardialog_tittle" />
+    <!-- tws:preferenceArrow="false" -->
+
+    <com.tencent.tws.assistant.preference.ListPreference
+        android:dialogTitle="@string/preference_common_dialogtittle"
+        android:entries="@array/list_entries"
+        android:entryValues="@array/list_entries_value"
+        android:key="ListPreference"
+        android:summary="@string/preference_common_summary"
+        android:title="@string/preference_list_tittle" />
+
+    <com.tencent.tws.assistant.preference.PreferenceScreen android:title="@string/preference_preferencescreen_title" >
+        <com.tencent.tws.assistant.preference.CheckBoxPreference
+            android:key="CheckBoxPreference"
+            android:summary="@string/preference_common_summary"
+            android:title="@string/preference_checkbox_tittle" />
+        <com.tencent.tws.assistant.preference.CheckBoxPreference
+            android:key="CheckBoxPreference"
+            android:summary="@string/preference_common_summary"
+            android:title="@string/preference_checkbox_tittle" />
+    </com.tencent.tws.assistant.preference.PreferenceScreen>
+
+    <com.tencent.tws.assistant.preference.PreferenceCategory android:title="@string/preference_category_advanced" >
+        <com.tencent.tws.assistant.preference.SwitchPreference
+            android:key="SwitchPreference"
+            android:summaryOff="summaryOff"
+            android:summaryOn="summaryOn"
+            android:switchTextOff=" "
+            android:switchTextOn=" "
+            android:title="SwitchPreference" />
+
+        <com.tencent.tws.assistant.preference.SeekBarPreference
+            android:icon="@drawable/ic_search"
+            android:key="SeekBarPreference"
+            android:max="100"
+            android:progress="60" />
+
+        <com.tencent.tws.assistant.preference.RingtonePreference
+            android:key="RingtonePreference"
+            android:ringtoneType="alarm"
+            android:showSilent="true"
+            android:summary="@string/preference_common_summary"
+            android:title="@string/preference_ringtone_tittle" />
+    </com.tencent.tws.assistant.preference.PreferenceCategory>
+
+</com.tencent.tws.assistant.preference.PreferenceScreen>

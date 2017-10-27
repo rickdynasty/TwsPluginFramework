@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" >
+    <com.tencent.tws.assistant.widget.ListView android:id="@+id/ringList1" 
+        android:layout_width="match_parent"
+    	android:layout_height="match_parent"
+    	android:cacheColorHint="@null"
+    	android:divider="?android:attr/listDividerAlertDialog"
+    	android:scrollbars="vertical"
+    	android:overScrollMode="ifContentScrolls"
+    	>  
+    </com.tencent.tws.assistant.widget.ListView>
+    <com.tencent.tws.assistant.widget.ListView android:id="@+id/ringList2" 
+        android:layout_width="match_parent"
+    	android:layout_height="match_parent"
+    	android:cacheColorHint="@null"
+    	android:divider="?android:attr/listDividerAlertDialog"
+    	android:scrollbars="vertical"
+    	android:overScrollMode="ifContentScrolls"
+    	>  
+    </com.tencent.tws.assistant.widget.ListView>
+    <TextView android:id="@+id/empty_message"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_marginTop="48dip"
+        android:text="@string/ring_empty"
+        android:textColor="@color/empty_text_color"
+        android:textSize="18sp"
+        android:visibility="gone"
+        android:drawablePadding="5dip"/>
+</RelativeLayout>

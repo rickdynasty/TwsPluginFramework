@@ -1,0 +1,30 @@
+apply plugin: 'com.android.library'
+
+android {
+    compileSdkVersion rootProject.ext.compileSdkVersion
+    buildToolsVersion rootProject.ext.buildtools
+
+    defaultConfig {
+        minSdkVersion rootProject.ext.minSdkVersion
+        targetSdkVersion rootProject.ext.targetSdkVersion
+        versionCode rootProject.ext.versionCode
+        versionName rootProject.ext.versionName
+    }
+
+    aaptOptions {
+        additionalParameters '--package-name',
+                'com.tws.plugin.core',
+                '--forced-package-id',
+                '0x6f'
+    }
+
+    lintOptions {
+        abortOnError false
+    }
+}
+
+dependencies {
+    provided fileTree(include: ['*.jar'], dir: 'linklib')
+    compile fileTree(include: ['*.jar'], dir: 'libs')
+    compile project(':TwsServiceManager')
+}

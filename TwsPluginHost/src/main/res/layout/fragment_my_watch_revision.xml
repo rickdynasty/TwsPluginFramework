@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/my_watch_revision_scollview"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:scrollbars="vertical" >
+
+    <LinearLayout
+        android:id="@+id/my_watch_revision_item_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical" >
+
+        <RelativeLayout
+            android:id="@+id/my_watch_revision_watch_info_layout"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/HOST_HOME_FRAGMENT_revision_watch_info_height"
+            android:background="@drawable/my_watch_revision_watch_mask" >
+
+            <TextView
+                android:id="@+id/my_watch_revision_watch_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/HOST_HOME_FRAGMENT_revision_watch_name_margin_left"
+                android:layout_marginTop="@dimen/HOST_HOME_FRAGMENT_revision_watch_name_margin_top"
+                android:textColor="@color/HOST_HOME_FRAGMENT_revision_watch_name"
+                android:textSize="@dimen/HOST_HOME_FRAGMENT_revision_watch_name" />
+
+            <TextView
+                android:id="@+id/my_watch_revision_connect_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/my_watch_revision_watch_name"
+                android:layout_marginLeft="@dimen/HOST_HOME_FRAGMENT_revision_conncet_btn_margin_left"
+                android:layout_marginTop="@dimen/HOST_HOME_FRAGMENT_revision_conncet_btn_margin_top"
+                android:gravity="center"
+                android:textColor="@color/tws_white"
+                android:textSize="@dimen/HOST_HOME_FRAGMENT_revision_connect_text_size" />
+
+            <ImageView
+                android:id="@+id/my_watch_revision_redpoint_img"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/HOST_HOME_FRAGMENT_revision_watch_name_margin_top"
+                android:layout_toEndOf="@id/my_watch_revision_watch_name"
+                android:background="@drawable/red_point" />
+
+            <ImageView
+                android:id="@+id/my_watch_revision_watch_img"
+                android:layout_width="@dimen/HOST_HOME_FRAGMENT_revision_watch_img_width"
+                android:layout_height="@dimen/HOST_HOME_FRAGMENT_revision_watch_img_height"
+                android:layout_alignParentRight="true" />
+
+            <ImageView
+                android:id="@+id/my_watch_revision_watch_arrow_img"
+                android:layout_width="@dimen/HOST_HOME_FRAGMENT_revision_watch_arrow_img_width"
+                android:layout_height="@dimen/HOST_HOME_FRAGMENT_revision_watch_arrow_img_height"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="@dimen/HOST_HOME_FRAGMENT_revision_watch_arrow_img_margin_right"
+                android:layout_marginTop="@dimen/HOST_HOME_FRAGMENT_revision_watch_arrow_img_margin_top"
+                android:src="@drawable/arrow_banner" />
+        </RelativeLayout>
+    </LinearLayout>
+
+</ScrollView>

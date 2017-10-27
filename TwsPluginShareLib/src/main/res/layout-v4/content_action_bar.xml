@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<android.widget.TwsActionBarLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical" >
+
+    <com.tencent.tws.assistant.internal.widget.ActionBarContainer
+        android:id="@+id/tws_action_bar_container"
+        style="?attr/actionBarStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <com.tencent.tws.assistant.internal.widget.ActionBarView
+            android:id="@+id/tws_action_bar"
+            style="?attr/actionBarStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <com.tencent.tws.assistant.internal.widget.ActionBarContextView
+            android:id="@+id/tws_action_context_bar"
+            style="?attr/actionModeStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone" />
+    </com.tencent.tws.assistant.internal.widget.ActionBarContainer>
+
+    <FrameLayout
+        android:id="@android:id/content"
+        android:layout_width="match_parent"
+        android:layout_height="0dip"
+        android:layout_weight="1"
+        android:foreground="?android:attr/windowContentOverlay"
+        android:foregroundGravity="fill_horizontal|top" />
+
+    <com.tencent.tws.assistant.internal.widget.ActionBarContainer
+        android:id="@+id/tws_split_action_bar"
+        style="?attr/actionBarStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:visibility="gone" />
+
+</android.widget.TwsActionBarLinearLayout>

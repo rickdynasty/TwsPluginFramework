@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/tws_view_bg" >
+
+    <com.tencent.tws.pluginhost.ui.view.Hotseat
+        android:id="@+id/home_bottom_tab"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/home_bottom_tab_height"
+        android:layout_alignParentBottom="true"
+        android:background="@color/tws_bar_background" />
+
+    <FrameLayout
+        android:id="@+id/home_fragment_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/home_bottom_tab" />
+
+</RelativeLayout>

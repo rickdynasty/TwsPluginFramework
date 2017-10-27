@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<resources>
+    <bool name="config_show_ripple">false</bool>
+    <bool name="config_actionbar_split_theme">true</bool>
+    <bool name="config_base_widget_tint_drawable">false</bool>
+    <integer name="config_actionbar_background_style">1</integer>
+    <integer name="config_actionbartab_theme">1</integer>
+</resources>

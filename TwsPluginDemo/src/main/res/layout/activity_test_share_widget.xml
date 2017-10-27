@@ -1,0 +1,75 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <LinearLayout
+        android:id="@+id/content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
+
+        <Button
+            android:id="@+id/alert_dialog"
+            android:layout_width="fill_parent"
+            android:layout_height="50dp"
+            android:layout_margin="3dp"
+            android:text="@string/alert_dialog" />
+
+        <Button
+            android:id="@+id/widget_tab"
+            android:layout_width="fill_parent"
+            android:layout_height="50dp"
+            android:layout_margin="3dp"
+            android:text="Tab" />
+
+        <Button
+            android:id="@+id/widget_toast"
+            android:layout_width="fill_parent"
+            android:layout_height="50dp"
+            android:layout_margin="3dp"
+            android:text="@string/widget_toast" />
+
+        <Button
+            android:id="@+id/widget_sidebar"
+            android:layout_width="fill_parent"
+            android:layout_height="50dp"
+            android:layout_margin="3dp"
+            android:text="@string/widget_sidebar" />
+
+        <Button
+            android:id="@+id/tws_base_widget"
+            android:layout_width="fill_parent"
+            android:layout_height="50dp"
+            android:layout_margin="3dp"
+            android:text="@string/tws_base_widget" />
+
+        <Button
+            android:id="@+id/tws_pickers_samples"
+            android:layout_width="fill_parent"
+            android:layout_height="50dp"
+            android:layout_margin="3dp"
+            android:text="PickersSamples" />
+
+        <Button
+            android:id="@+id/preference_activity"
+            android:layout_width="fill_parent"
+            android:layout_height="50dp"
+            android:layout_margin="3dp"
+            android:text="PreferenceActivity" />
+
+        <Button
+            android:id="@+id/listview_samples"
+            android:layout_width="fill_parent"
+            android:layout_height="50dp"
+            android:layout_margin="3dp"
+            android:text="ListView" />
+
+        <Button
+            android:id="@+id/twsbutton_samples"
+            android:layout_width="fill_parent"
+            android:layout_height="50dp"
+            android:layout_margin="3dp"
+            android:text="TwsButton" />
+    </LinearLayout>
+
+</ScrollView>

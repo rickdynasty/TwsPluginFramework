@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <dimen name="tws_action_bar_height">54dip</dimen>
+    <dimen name="tws_action_bar_shadow_height">0dip</dimen>
+    <dimen name="tws_action_bar_tab_second_height">30dip</dimen>
+    <dimen name="preference_icon_minWidth">0dp</dimen>
+    <dimen name="preference_widget_width">48dp</dimen>
+    <dimen name="preference_widget_frame_padding_end">20dp</dimen>
+    <dimen name="preference_title_text_size">16sp</dimen>
+
+    <integer name="preferences_right_pane_weight">6</integer>
+
+    <dimen name="preference_fragment_padding_side">0dp</dimen>
+    <dimen name="preference_screen_header_vertical_padding">0dp</dimen>
+
+    <integer name="preference_fragment_scrollbarStyle">0x02000000</integer>
+
+    <dimen name="preference_fragment_padding_bottom">0dp</dimen>
+    <dimen name="dropdownitem_icon_width">32dip</dimen>
+    <dimen name="dropdownitem_text_padding_left">8dip</dimen>
+    <dimen name="search_view_preferred_width">320dip</dimen>
+
+    <integer name="preferences_left_pane_weight">4</integer>
+    <integer name="preference_screen_header_scrollbarStyle">0x02000000</integer>
+
+    <dimen name="search_view_text_min_width">160dip</dimen>
+    <dimen name="toast_y_offset">64dip</dimen>
+    <dimen name="tws_actionbar_split_height">52dp</dimen>
+
+    <integer name="max_action_buttons">2</integer>
+
+    <dimen name="tws_actionmenu_item_margin">8dp</dimen>
+    <dimen name="preference_item_padding_side_top_no_preferencecategory">20dip</dimen>
+    <dimen name="fastscroll_overlay_size">104dp</dimen>
+    <dimen name="fastscroll_overlay_text_size">52sp</dimen>
+    <dimen name="fastscroll_overlay_padding">16dp</dimen>
+    <dimen name="fastscroll_thumb_width">64dp</dimen>
+    <dimen name="fastscroll_thumb_height">52dp</dimen>
+    <dimen name="tws_SuperBiger_TextSize">36sp</dimen>
+    <dimen name="tws_SuperBig_TextSize">32sp</dimen>
+    <dimen name="tws_Super_TextSize">24sp</dimen>
+    <dimen name="tws_Larger_TextSize">20sp</dimen>
+    <dimen name="tws_Large_TextSize">18sp</dimen>
+    <dimen name="tws_Medium_TextSize">16sp</dimen>
+    <dimen name="tws_Small_TextSize">14sp</dimen>
+    <dimen name="tws_Micro_TextSize">12sp</dimen>
+    <dimen name="tws_Mini_TextSize">10sp</dimen>
+
+    <item name="dialog_min_width_major" type="dimen">65%</item>
+    <item name="dialog_min_width_minor" type="dimen">65%</item>
+    <item name="dialog_min_width_minor_context" type="dimen">100%</item>
+    <item name="bottom_dialog_min_width_major" type="dimen">100%</item>
+    <item name="bottom_dialog_min_width_minor" type="dimen">100%</item>
+
+    <dimen name="tws_switch_width">44dip</dimen>
+    <dimen name="status_bar_height">20dip</dimen>
+    <dimen name="action_bar_back_btn_width">54dip</dimen>
+    <dimen name="action_bar_right_btn_width">64dip</dimen>
+    <dimen name="tws_listview_subtitle_padding_top">0dip</dimen>
+    <!-- listview -->
+    <dimen name="tws_listview_icon_margin_left">0dip</dimen>
+    <dimen name="tws_listview_icon_margin_right">14dip</dimen>
+    <!-- preference -->
+    <dimen name="tws_listview_icon_margin_right_small">10dip</dimen>
+    <!-- listview -->
+    <dimen name="tws_listview_item_margin_top">6dip</dimen>
+    <dimen name="tws_listview_item_margin_bottom">6dip</dimen>
+    <dimen name="tws_listview_item_small_height">60dip</dimen>
+    <!-- preference -->
+    <dimen name="tws_listview_item_height">60dip</dimen>
+    <!-- menu -->
+    <dimen name="tws_listview_item_max_height">72dip</dimen>
+    <!-- listview -->
+    <dimen name="tws_listview_item_padding_side_left">20dip</dimen>
+    <dimen name="tws_listview_item_padding_side_right">20dip</dimen>
+    <dimen name="tws_listview_item_padding_side_top">17dip</dimen>
+    <dimen name="tws_listview_item_padding_side_bottom">17dip</dimen>
+    <dimen name="tws_listview_icon_size">44dip</dimen>
+    <dimen name="ring_action_bar_height">48dip</dimen>
+    <dimen name="child_total_height">56dp</dimen>
+    <dimen name="child_indicate_marginLeft">16dp</dimen>
+    <dimen name="child_title_marginLeft">17dp</dimen>
+    <dimen name="parent_total_height">56dp</dimen>
+    <dimen name="parent_marginLeft">16dp</dimen>
+    <dimen name="parent_divider_height">18dp</dimen>
+    <dimen name="parent_divider_marginLeft">17dp</dimen>
+    <dimen name="parent_subtitle_marginLeft">17dp</dimen>
+    <dimen name="parent_indicate_marginRight">16dp</dimen>
+    <dimen name="tab_bar_height">60dip</dimen>
+    <dimen name="actionbar_title_padding">6dip</dimen>
+    <dimen name="actionbar_btn_height">50dip</dimen>
+    <dimen name="actionbar_edittext_minwidth">56dip</dimen>
+    <dimen name="actionbar_menuitem_minwidth">56dip</dimen>
+    <dimen name="actionbar_overflow_minwidth">44dip</dimen>
+    <dimen name="actionbar_mode_padding">20dip</dimen>
+    <dimen name="actionbar_rightbuuton_width">24dip</dimen>
+    <dimen name="actionbar_rightbuuton_heigt">24dip</dimen>
+    <dimen name="actionbar_home_width">54dip</dimen>
+    <dimen name="actionbar_shadow_padding">0dip</dimen>
+    <dimen name="actionbar_bottom_overflow_padding">17dip</dimen>
+    <dimen name="actionbar_mode_padding_backbtn">10dip</dimen>
+    <dimen name="actionbar_itemPadding">8dip</dimen>
+    <dimen name="actionbar_progressBarPadding">32dip</dimen>
+    <dimen name="preference_icon_size">24dip</dimen>
+    <dimen name="preference_item_empty_padding">12dip</dimen>
+    <dimen name="preference_category_height">30dip</dimen>
+    <dimen name="tws_popup_menu_min_width">154dp</dimen>
+    <dimen name="child_info_marginRight">16dp</dimen>
+    <dimen name="dialog_content_maxheight">400dp</dimen>
+    <dimen name="menu_dropdown_panel_redpoint_padding">10dip</dimen>
+    <dimen name="tws_progressbar_min_height">4dip</dimen>
+    <dimen name="tws_progressbar_max_height">4dip</dimen>
+    <dimen name="tws_seekbar_min_height">2dip</dimen>
+    <dimen name="tws_seekbar_max_height">2dip</dimen>
+    <dimen name="tws_actionbartab_overlay_padding">17dip</dimen>
+    <dimen name="tws_actionbartab_second_overlay_padding">4dip</dimen>
+    <dimen name="tws_actionbartab_overlay_offset">13dip</dimen>
+    <dimen name="sidbar_hubble_w">133dp</dimen>
+    <dimen name="sidbar_hubble_h">133dp</dimen>
+    <dimen name="sidbar_hubble_chassis_w">32dp</dimen>
+    <dimen name="sidbar_hubble_right_w">13dp</dimen>
+    <dimen name="sidbar_hubble_left_w">87dp</dimen>
+    <dimen name="sidbar_hubble_zoom_x">44dp</dimen>
+    <dimen name="hubble_high">90dp</dimen>
+
+    <integer name="hubble_in_per_frame">33</integer>
+    <integer name="hubble_out_per_frame">33</integer>
+
+    <dimen name="sidbar_letter_size">12dp</dimen>
+    <dimen name="sidbar_padding_right">10dp</dimen>
+    <dimen name="sidbar_padding_top">119dp</dimen>
+    <dimen name="sidbar_padding_bottom">80dp</dimen>
+    <dimen name="hubble_text_size">70dp</dimen>
+    <dimen name="hubble_offsetx_in_1">146dp</dimen>
+    <dimen name="hubble_offsetx_in_2">130dp</dimen>
+    <dimen name="hubble_offsetx_in_3">112dp</dimen>
+    <dimen name="hubble_offsetx_in_4">110dp</dimen>
+    <dimen name="hubble_offsetx_in_5">94dp</dimen>
+    <dimen name="hubble_offsetx_in_6">81dp</dimen>
+    <dimen name="hubble_offsetx_in_7">69dp</dimen>
+    <dimen name="hubble_offsetx_in_8">62dp</dimen>
+    <dimen name="hubble_offsetx_in_9">57dp</dimen>
+    <dimen name="hubble_offsetx_in_10">52dp</dimen>
+    <dimen name="hubble_offsetx_out_1">53dp</dimen>
+    <dimen name="hubble_offsetx_out_2">56dp</dimen>
+    <dimen name="hubble_offsetx_out_3">61dp</dimen>
+    <dimen name="hubble_offsetx_out_4">70dp</dimen>
+    <dimen name="hubble_offsetx_out_5">95dp</dimen>
+    <dimen name="hubble_offsetx_out_6">128dp</dimen>
+    <dimen name="hubble_offsetx_out_7">152dp</dimen>
+    <dimen name="hubble_offsetx_out_8">171dp</dimen>
+    <dimen name="preference_default_leftpadding">20dip</dimen>
+    <dimen name="preference_default_rightpadding">0dip</dimen>
+    <dimen name="tws_action_bar_tab_height">67dip</dimen>
+    <dimen name="tws_actionbartab_overlay_padding_tab">20dip</dimen>
+    <dimen name="tws_tab_customview_minwidth">56dip</dimen>
+    <dimen name="tws_resolver_item_radius">47dip</dimen>
+
+    <!-- Default Button -->
+    <dimen name="tws_button_border">1dp</dimen>
+    <dimen name="tws_button_high">36dp</dimen>
+    <dimen name="tws_button_round_radius">@dimen/tws_button_high</dimen>
+    <dimen name="tws_button_content_margin_left">20dp</dimen>
+    <dimen name="tws_button_content_margin_right">20dp</dimen>
+
+    <!-- Recommended Button -->
+    <dimen name="tws_tabhost_h">30dp</dimen>
+    <dimen name="tws_tabspec_space">16dp</dimen>
+
+    <!-- values -->
+    <integer name="abc_max_action_buttons">2</integer>
+
+    <dimen name="abc_action_bar_stacked_tab_max_width">180dp</dimen>
+
+    <!-- Default height of an action bar. -->
+    <dimen name="abc_action_bar_default_height">48dip</dimen>
+    <!-- Vertical padding around action bar icons. -->
+    <dimen name="abc_action_bar_icon_vertical_padding">8dip</dimen>
+    <!-- Text size for action bar titles -->
+    <dimen name="abc_action_bar_title_text_size">18dp</dimen>
+    <!-- Text size for action bar subtitles -->
+    <dimen name="abc_action_bar_subtitle_text_size">14dp</dimen>
+    <!-- Top margin for action bar subtitles -->
+    <dimen name="abc_action_bar_subtitle_top_margin">-3dp</dimen>
+    <!-- Bottom margin for action bar subtitles -->
+    <dimen name="abc_action_bar_subtitle_bottom_margin">5dip</dimen>
+    <!-- Minimum width for an action button in the menu area of an action bar -->
+    <dimen name="abc_action_button_min_width">56dip</dimen>
+    <!-- Maximum height for a stacked tab bar as part of an action bar -->
+    <dimen name="abc_action_bar_stacked_max_height">48dp</dimen>
+    <!-- Size of the indeterminate Progress Bar -->
+    <dimen name="abc_action_bar_progress_bar_size">40dp</dimen>
+    <dimen name="abc_panel_menu_list_width">296dp</dimen>
+
+    <!-- Minimum width of the search view text entry area. -->
+    <dimen name="abc_search_view_text_min_width">160dip</dimen>
+    <!-- Preferred width of the search view. -->
+    <dimen name="abc_search_view_preferred_width">320dip</dimen>
+
+    <!-- Text padding for dropdown items -->
+    <dimen name="abc_dropdownitem_text_padding_left">8dip</dimen>
+    <dimen name="abc_dropdownitem_text_padding_right">8dip</dimen>
+    <!-- Width of the icon in a dropdown list -->
+    <dimen name="abc_dropdownitem_icon_width">32dip</dimen>
+    <dimen name="share_dimen_1">50dp</dimen>
+    <dimen name="share_dimen_2">100dp</dimen>
+    <dimen name="tws_actionbar_height">54dp</dimen>
+    <dimen name="tws_actionmod_button_height">38dp</dimen>
+
+    <dimen name="date_picker_child_margin_left">40dp</dimen>
+    <dimen name="profile_picker_child_margin_left">64dp</dimen>
+    <dimen name="time_picker_child_margin_left">64dp</dimen>
+    <dimen name="time_picker_nounit_child_margin_left">96dp</dimen>
+</resources>

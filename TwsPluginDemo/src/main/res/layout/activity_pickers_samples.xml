@@ -1,0 +1,47 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <LinearLayout
+        android:id="@+id/content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
+
+        <Button
+            android:id="@+id/date_picker_view"
+            android:layout_width="fill_parent"
+            android:layout_height="50dp"
+            android:layout_margin="3dp"
+            android:text="DatePickerView" />
+
+        <Button
+            android:id="@+id/date_time_picker_view"
+            android:layout_width="fill_parent"
+            android:layout_height="50dp"
+            android:layout_margin="3dp"
+            android:text="DateTimePickerView" />
+
+        <Button
+            android:id="@+id/picker_dialog_outside"
+            android:layout_width="fill_parent"
+            android:layout_height="50dp"
+            android:layout_margin="3dp"
+            android:text="PickerDialogOutside" />
+
+        <Button
+            android:id="@+id/profile_data_picker_view"
+            android:layout_width="fill_parent"
+            android:layout_height="50dp"
+            android:layout_margin="3dp"
+            android:text="ProfileDataPickerView" />
+
+        <Button
+            android:id="@+id/time_picker_view"
+            android:layout_width="fill_parent"
+            android:layout_height="50dp"
+            android:layout_margin="3dp"
+            android:text="TimePickerView" />
+    </LinearLayout>
+
+</ScrollView>

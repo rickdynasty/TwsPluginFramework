@@ -77,7 +77,8 @@ public class HostDisplayItem extends DisplayItem {
             sureActionBarDisplayItem();
 
             final String[] titles = displayItem.title.split(DisplayItem.SEPARATOR_VALUE);
-            this.actionBarDisplayItem.title_en = this.actionBarDisplayItem.title_zh_CN = this.actionBarDisplayItem.title_zh_TW = this.actionBarDisplayItem.title_zh_HK = titles[0];
+            this.actionBarDisplayItem.title_en = this.actionBarDisplayItem.title_zh_CN =
+                    this.actionBarDisplayItem.title_zh_TW = this.actionBarDisplayItem.title_zh_HK = titles[0];
             if (1 < titles.length) {
                 this.actionBarDisplayItem.title_en = titles[1];
             }
@@ -183,8 +184,8 @@ public class HostDisplayItem extends DisplayItem {
     }
 
     private void sureActionBarDisplayItem() {
-        if (null != actionBarDisplayItem) {
-            actionBarDisplayItem = new ActionBarDisplayItem();
+        if (null == this.actionBarDisplayItem) {
+            this.actionBarDisplayItem = new ActionBarDisplayItem();
         }
     }
 }

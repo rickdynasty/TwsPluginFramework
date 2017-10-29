@@ -110,7 +110,7 @@ public class Hotseat extends LinearLayout implements OnClickListener {
             return -1;
         }
 
-        if (!isEnabledDisplayInfo(hostDisplayItem)) {
+        if (!isEnabledDisplayItem(hostDisplayItem)) {
             QRomLog.e(TAG, "info is illegal(already exists), This will be ignored!");
             return -1;
         }
@@ -185,7 +185,7 @@ public class Hotseat extends LinearLayout implements OnClickListener {
         return index;
     }
 
-    public boolean isEnabledDisplayInfo(final HostDisplayItem hostDisplayItem) {
+    public boolean isEnabledDisplayItem(final HostDisplayItem hostDisplayItem) {
         if (hostDisplayItem == null || TextUtils.isEmpty(hostDisplayItem.pid) || TextUtils.isEmpty(hostDisplayItem.action_id))
             return false;
 

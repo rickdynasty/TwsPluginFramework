@@ -203,7 +203,7 @@ public class HostHomeActivity extends TwsFragmentActivity implements HomeUIProxy
         initPluginDisplayPosFromConfig(POS_Y_HOME_FRAGEMENT);
 
         //初始化插件的显示信息
-        initPluginsDisplayInfo();
+        initPluginsDisplayItem();
         // 初始化底部Hotseat
         initHotseat();
         HostProxy.setHomeUIProxy(this);
@@ -406,11 +406,11 @@ public class HostHomeActivity extends TwsFragmentActivity implements HomeUIProxy
      * 收集内容： String classId int componentType CharSequence text int
      * bkNormalResId, int bkFocusResId
      */
-    private void initPluginsDisplayInfo() {
+    private void initPluginsDisplayItem() {
         // 底部Hotseat 以及 首页watchFragment的内容是有顺序的
         mHotseatDisplayItems.clear();
         mHomeFragementDisplayItems.clear();
-        // mOtherPosDisplayInfos.clear();
+        // mOtherPosDisplayItems.clear();
 
         ArrayList<DisplayItem> gemelDisplayItems = new ArrayList<DisplayItem>();
 
@@ -480,7 +480,7 @@ public class HostHomeActivity extends TwsFragmentActivity implements HomeUIProxy
                         }
                         break;
                     case POS_Y_HOME_FRAGEMENT: // 显示在host_home_fragement
-                        // mHomeFragementDisplayInfos.add(info);
+                        // mHomeFragementDisplayItems.add(info);
                         if (isInstall) {
                             mMyWatchFragment.addContentItem(hostDisplayItem);
                         } else {

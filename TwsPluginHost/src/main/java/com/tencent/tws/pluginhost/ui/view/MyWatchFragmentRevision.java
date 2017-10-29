@@ -99,7 +99,7 @@ public class MyWatchFragmentRevision extends Fragment implements OnClickListener
             return;
         }
 
-        if (!isEnabledDisplayInfo(hostDisplayItem)) {
+        if (!isEnabledDisplayItem(hostDisplayItem)) {
             QRomLog.e(TAG, "info is illegal(already exists), This will be ignored!");
             return;
         }
@@ -149,7 +149,7 @@ public class MyWatchFragmentRevision extends Fragment implements OnClickListener
         mFragmentContainer.addView(item, index + 1);// +1是fragment顶部有一个固定的linelayout
     }
 
-    public boolean isEnabledDisplayInfo(final HostDisplayItem hostItem) {
+    public boolean isEnabledDisplayItem(final HostDisplayItem hostItem) {
         if (hostItem == null || TextUtils.isEmpty(hostItem.pid) || TextUtils.isEmpty(hostItem.action_id))
             return false;
 

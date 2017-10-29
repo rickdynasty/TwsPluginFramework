@@ -23,6 +23,7 @@ import android.os.Build;
 import android.text.TextUtils;
 import android.util.Base64;
 
+import com.tws.plugin.content.DisplayItem;
 import com.tws.plugin.content.PluginDescriptor;
 import com.tws.plugin.core.PluginCreator;
 import com.tws.plugin.core.PluginLauncher;
@@ -191,7 +192,7 @@ class PluginManagerImpl {
 		Iterator<PluginDescriptor> itr = sInstalledPlugins.values().iterator();
 		while (itr.hasNext()) {
 			PluginDescriptor descriptor = itr.next();
-			if (PluginDescriptor.UNKOWN != descriptor.matcheName(clazzName)) {
+			if (DisplayItem.TYPE_UNKOWN != descriptor.matcheName(clazzName)) {
 				return descriptor;
 			}
 		}

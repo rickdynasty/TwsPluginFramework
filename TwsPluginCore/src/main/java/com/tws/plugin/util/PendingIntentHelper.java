@@ -2,6 +2,7 @@ package com.tws.plugin.util;
 
 import android.content.Intent;
 
+import com.tws.plugin.content.DisplayItem;
 import com.tws.plugin.content.PluginDescriptor;
 import com.tws.plugin.core.PluginIntentResolver;
 
@@ -17,17 +18,17 @@ public class PendingIntentHelper {
 	 */
 	public static Intent resolvePendingIntent(Intent intent, int type) {
 
-		if (type == PluginDescriptor.BROADCAST) {
+		if (type == DisplayItem.TYPE_BROADCAST) {
 
 			Intent newIntent = PluginIntentResolver.resolveReceiver(intent).get(0);
 			return newIntent;
 
-		} else if (type == PluginDescriptor.ACTIVITY) {
+		} else if (type == DisplayItem.TYPE_ACTIVITY) {
 
 			PluginIntentResolver.resolveActivity(intent);
 			return intent;
 
-		} else if (type == PluginDescriptor.SERVICE) {
+		} else if (type == DisplayItem.TYPE_SERVICE) {
 
 			PluginIntentResolver.resolveService(intent);
 			return intent;

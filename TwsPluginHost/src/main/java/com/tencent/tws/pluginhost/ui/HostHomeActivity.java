@@ -1,13 +1,5 @@
 package com.tencent.tws.pluginhost.ui;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Iterator;
-
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -21,7 +13,6 @@ import android.graphics.drawable.Drawable;
 import android.graphics.drawable.StateListDrawable;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
@@ -43,7 +34,8 @@ import com.tencent.tws.pluginhost.ui.view.CellItem.ComponentName;
 import com.tencent.tws.pluginhost.ui.view.Hotseat;
 import com.tencent.tws.pluginhost.ui.view.Hotseat.OnHotseatClickListener;
 import com.tencent.tws.pluginhost.ui.view.MyWatchFragmentRevision;
-import com.tws.plugin.content.DisplayConfig;
+import com.tws.plugin.content.DisplayItem;
+import com.tws.plugin.content.HostDisplayItem;
 import com.tws.plugin.content.LoadedPlugin;
 import com.tws.plugin.content.PluginDescriptor;
 import com.tws.plugin.core.PluginApplication;
@@ -54,9 +46,24 @@ import com.tws.plugin.manager.PluginCallback;
 import com.tws.plugin.manager.PluginManagerHelper;
 import com.tws.plugin.util.FileUtil;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Iterator;
+
 import dalvik.system.DexClassLoader;
 import qrom.component.log.QRomLog;
 
+/***
+ * 宿主中定义的协议规则：
+ * 1、位置信息：Y 指定显示的上下区域位置（当前主页分上面的actionbar、中间的fragment、底部的hotseat）；X 指定前后位置
+ *    POS_Y_HOTSEAT = 0;
+ *    POS_Y_HOME_FRAGEMENT = 1;
+ *    POS_Y_ACTION_BAR = 2;     //x —— -1 左边；0中间的标题(默认)；1 右边；2里面的菜单
+ */
 public class HostHomeActivity extends TwsFragmentActivity implements HomeUIProxy {
     private final String TAG = "rick_Print:HostHomeActivity";
 
@@ -67,11 +74,20 @@ public class HostHomeActivity extends TwsFragmentActivity implements HomeUIProxy
     private MyWatchFragmentRevision mMyWatchFragment = null;// 这个是DM固有的，直接保留引用就不开回调进行后续同步的操作处理
 
     private FrameLayout mFragmentContainer;
-    private ArrayList<DisplayInfo> mHotseatDisplayInfos = new ArrayList<DisplayInfo>();
-    private ArrayList<DisplayInfo> mHomeFragementDisplayInfos = new ArrayList<DisplayInfo>(); // myWatchfaceFragment
+    private ArrayList<HostDisplayItem> mHotseatDisplayItems = new ArrayList<HostDisplayItem>();
+    private ArrayList<HostDisplayItem> mHomeFragementDisplayItems = new ArrayList<HostDisplayItem>(); // homeFragement
 
-    private final int POS_HOTSEAT = DisplayConfig.DISPLAY_AT_HOTSEAT;
-    private final int POS_HOME_FRAGEMENT = DisplayConfig.DISPLAY_AT_HOME_FRAGEMENT;
+    //对于协议来说，根本不关心Y具体是什么位置，这个需要宿主和插件协商定义好
+    private final int POS_Y_HOTSEAT = 0;
+    private final int POS_Y_HOME_FRAGEMENT = 1;
+    private final int POS_Y_ACTION_BAR = 2;
+    //对于协议来说，根本不关心X具体是什么位置，这个需要宿主和插件协商定义好
+    private final int POS_X_ACTION_BAR_L = -1;  //通常是默认返回按钮
+    private final int POS_X_ACTION_BAR_TITLE = 0;
+    private final int POS_X_ACTION_BAR_SUBTITLE = 1;
+    private final int POS_X_ACTION_BAR_R = 2;
+    private final int POS_X_ACTION_BAR_MENU = 3;
+
     private final String POS_HOTSEAT_CONFIG_NAME = "plugin_hotseat_pos.ini";
     private final String POS_MYWATCH_CONFIG_NAME = "plugin_mywatch_pos.ini";
     private HashMap<String, Integer> mPluginHotsetPos = new HashMap<String, Integer>();
@@ -88,8 +104,8 @@ public class HostHomeActivity extends TwsFragmentActivity implements HomeUIProxy
 
     // private HomeBar mHomeBar;
     private ActionBar mActionBar;
-    private int mBar_rBtnActionType = DisplayConfig.TYPE_ACTIVITY; // 当前默认是activity
-    private String mBar_rBtnActionContent = null;
+    private int mBar_r_type = DisplayItem.TYPE_ACTIVITY; // 当前默认是activity
+    private String mBar_r_action_id = null;
 
     // 插件更新监听
     private final BroadcastReceiver mPluginChangedMonitor = new BroadcastReceiver() {
@@ -107,7 +123,7 @@ public class HostHomeActivity extends TwsFragmentActivity implements HomeUIProxy
                 case PluginCallback.TYPE_INSTALL:
                     if (installRlt == InstallResult.SUCCESS) {
                         QRomLog.d(TAG, "插件：" + packageName + "安装成功了~");
-                        installPlugin(packageName);
+                        dillPluginDisplayItemItems(PluginManagerHelper.getPluginDescriptorByPluginId(packageName), true);
                     }
                     break;
                 case PluginCallback.TYPE_REMOVE:
@@ -182,9 +198,11 @@ public class HostHomeActivity extends TwsFragmentActivity implements HomeUIProxy
         mNormalTextColor = getResources().getColor(R.color.home_bottom_tab_text_default_color);
         mFocusTextColor = getResources().getColor(R.color.home_bottom_tab_text_pressed_color);
 
-        initPluginPosFromConfig(POS_HOTSEAT);
-        initPluginPosFromConfig(POS_HOME_FRAGEMENT);
+        //通过配置文件来初始化插件的指定位置信息
+        initPluginDisplayPosFromConfig(POS_Y_HOTSEAT);
+        initPluginDisplayPosFromConfig(POS_Y_HOME_FRAGEMENT);
 
+        //初始化插件的显示信息
         initPluginsDisplayInfo();
         // 初始化底部Hotseat
         initHotseat();
@@ -230,13 +248,13 @@ public class HostHomeActivity extends TwsFragmentActivity implements HomeUIProxy
                 mFocusTextColor, 0);
 
         // 其他的根据插件配置来
-        for (DisplayInfo info : mHotseatDisplayInfos) {
+        for (HostDisplayItem item : mHotseatDisplayItems) {
             // 当前Hotseat上暂时之放置fragment
-            if (info.componentType != DisplayConfig.TYPE_FRAGMENT) {
+            if (item.type != DisplayItem.TYPE_FRAGMENT) {
                 continue;
             }
 
-            mHotseat.addOneBottomButtonForPlugin(info, mNormalTextColor, mFocusTextColor, false);
+            mHotseat.addOneBottomButtonForPlugin(item, mNormalTextColor, mFocusTextColor, false);
         }
     }
 
@@ -251,33 +269,33 @@ public class HostHomeActivity extends TwsFragmentActivity implements HomeUIProxy
 
             @Override
             public void updateActionBar(ActionBarInfo actionBarInfo) {
-                mActionBar.setTitle(actionBarInfo.ab_title);
+                mActionBar.setTitle(actionBarInfo.title);
                 QRomLog.d(TAG, "updateActionBar:" + actionBarInfo.toString());
-                if (TextUtils.isEmpty(actionBarInfo.ab_rbtncontent)) {// 不需要右侧按钮
+                if (TextUtils.isEmpty(actionBarInfo.r_action_id)) {// 不需要右侧按钮
                     mActionBar.getRightButtonView().setImageResource(R.color.transparent);
                     mActionBar.getRightButtonView().setClickable(false);
-                } else if (actionBarInfo.ab_rbtnrestype == DisplayConfig.ACTIONBAR_BTN_TYPE_ICON) {
+                } else if (actionBarInfo.r_res_type == DisplayItem.RES_TYPE_DRAWABLE) {
                     mActionBar.getRightButtonView().setVisibility(View.VISIBLE);
                     mActionBar.getRightButtonView().setClickable(true);
 
-                    final String resName = actionBarInfo.ab_rbtnres_normal + "_" + actionBarInfo.ab_rbtnres_focus;
+                    final String resName = actionBarInfo.r_res_normal + "_" + actionBarInfo.r_res_focus;
                     Drawable drawable = PluginManagerHelper.getPluginIcon(resName);
                     if (drawable != null) {
                         mActionBar.getRightButtonView().setImageDrawable(drawable);
                     } else {
-                        final Drawable normal = PluginManagerHelper.getPluginIcon(actionBarInfo.ab_rbtnres_normal);
-                        if (TextUtils.isEmpty(actionBarInfo.ab_rbtnres_normal) || normal == null) {
+                        final Drawable normal = PluginManagerHelper.getPluginIcon(actionBarInfo.r_res_normal);
+                        if (TextUtils.isEmpty(actionBarInfo.r_res_normal) || normal == null) {
                             mActionBar.getRightButtonView().setImageResource(R.drawable.ic_launcher);
-                        } else if (actionBarInfo.ab_rbtnres_normal.equals(actionBarInfo.ab_rbtnres_focus)) {
+                        } else if (actionBarInfo.r_res_normal.equals(actionBarInfo.r_res_focus)) {
                             mActionBar.getRightButtonView().setImageDrawable(normal);
                         } else {
-                            final Drawable focus = PluginManagerHelper.getPluginIcon(actionBarInfo.ab_rbtnres_normal);
+                            final Drawable focus = PluginManagerHelper.getPluginIcon(actionBarInfo.r_res_normal);
                             if (focus == null) {
                                 mActionBar.getRightButtonView().setImageDrawable(normal);
                             } else {
                                 StateListDrawable stateListDrawable = new StateListDrawable();
                                 stateListDrawable.addState(new int[]{android.R.attr.state_pressed},
-                                        PluginManagerHelper.getPluginIcon(actionBarInfo.ab_rbtnres_focus));
+                                        PluginManagerHelper.getPluginIcon(actionBarInfo.r_res_focus));
                                 stateListDrawable.addState(new int[]{}, normal);
 
                                 PluginManagerHelper.addPluginIcon(resName, stateListDrawable);
@@ -286,10 +304,11 @@ public class HostHomeActivity extends TwsFragmentActivity implements HomeUIProxy
                         }
                     }
 
-                    mBar_rBtnActionContent = actionBarInfo.ab_rbtncontent;
-                    mBar_rBtnActionType = actionBarInfo.ab_rbtnctype;
+                    mBar_r_type = actionBarInfo.r_type;
+                    mBar_r_action_id = actionBarInfo.r_action_id;
                 } else {
-                    // 略
+                    mBar_r_type = DisplayItem.TYPE_UNKOWN;
+                    mBar_r_action_id = null;
                 }
             }
 
@@ -317,81 +336,13 @@ public class HostHomeActivity extends TwsFragmentActivity implements HomeUIProxy
 
     private void handleActionBarRightButtonClick() {
         Intent intent = new Intent();
-        intent.setClassName(this, mBar_rBtnActionContent);
-        switch (mBar_rBtnActionType) {
-            case DisplayConfig.TYPE_ACTIVITY:
+        switch (mBar_r_type) {
+            case DisplayItem.TYPE_ACTIVITY:
+                intent.setClassName(this, mBar_r_action_id);
                 startActivity(intent);
                 break;
             default:
                 break;
-        }
-    }
-
-    private void installPlugin(String packageName) {
-        PluginDescriptor pluginDescriptor = PluginManagerHelper.getPluginDescriptorByPluginId(packageName);
-        if (null == pluginDescriptor || TextUtils.isEmpty(pluginDescriptor.getPackageName())) {
-            Toast.makeText(getApplicationContext(), "怎会存在没packageName的插件咧？？？", Toast.LENGTH_SHORT).show();
-            Exception here = new Exception();
-            here.fillInStackTrace();
-            QRomLog.e(TAG, "My god !!! how can have such a situatio~!:" + packageName, here);
-            return;
-        }
-
-        if (PluginApplication.getInstance().getEliminatePlugins().contains(pluginDescriptor.getPackageName())) {
-            QRomLog.w(TAG, "当前插件" + pluginDescriptor.getPackageName() + "已经被列入黑名单了");
-            return;
-        }
-
-        boolean establishedDependOn = establishedDependOns(pluginDescriptor.getPackageName(),
-                pluginDescriptor.getDependOns());
-
-        final ArrayList<DisplayConfig> dcs = pluginDescriptor.getDisplayConfigs();
-        if (dcs != null && 0 < dcs.size()) {
-            String iconDir = new File(pluginDescriptor.getInstalledPath()).getParent() + File.separator
-                    + FileUtil.ICON_FOLDER;
-            for (DisplayConfig dc : dcs) {
-                DisplayInfo info = new DisplayInfo(dc, pluginDescriptor.getPackageName());
-                info.establishedDependOn = establishedDependOn;
-
-                loadPluginIcon(info, pluginDescriptor, dc.pos == DisplayConfig.DISPLAY_AT_HOTSEAT, iconDir);
-
-                switch (dc.pos) {
-                    case DisplayConfig.DISPLAY_AT_HOTSEAT: // 显示在Hotseat上
-                        // 当前Hotseat上暂时之放置fragment
-                        if (info.componentType != DisplayConfig.TYPE_FRAGMENT) {
-                            break;
-                        }
-                        mHotseat.addOneBottomButtonForPlugin(info, mNormalTextColor, mFocusTextColor, true);
-                        break;
-                    case DisplayConfig.DISPLAY_AT_HOME_FRAGEMENT: // 显示在host_home_fragement
-                        // mHomeFragementDisplayInfos.add(info);
-                        mMyWatchFragment.addContentItem(info);
-                        break;
-                    case DisplayConfig.DISPLAY_AT_OTHER_POS:// 显示在其他位置
-                        switch (info.componentType) {
-                            case DisplayConfig.TYPE_SERVICE:
-                                Intent intent = new Intent();
-                                intent.setClassName(HostHomeActivity.this, info.classId);
-                                startService(intent);
-                                break;
-                            case DisplayConfig.TYPE_PACKAGENAEM:
-                                if (null == PluginLauncher.instance().startPlugin(info.classId)) {
-                                    Toast.makeText(HostHomeActivity.this, "startPlugin:" + info.classId + "失败!!!",
-                                            Toast.LENGTH_LONG).show();
-                                }
-                                break;
-                            default:
-                                break;
-                        }
-                        break;
-                    case DisplayConfig.DISPLAY_AT_MENU: // 这个当前没有，暂不处理
-                    default:
-                        break;
-                }
-            }
-        } else {
-            Toast.makeText(getApplicationContext(), "插件：" + pluginDescriptor.getApplicationName() + "没配置显示协议",
-                    Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -457,62 +408,161 @@ public class HostHomeActivity extends TwsFragmentActivity implements HomeUIProxy
      */
     private void initPluginsDisplayInfo() {
         // 底部Hotseat 以及 首页watchFragment的内容是有顺序的
-        mHotseatDisplayInfos.clear();
-        mHomeFragementDisplayInfos.clear();
+        mHotseatDisplayItems.clear();
+        mHomeFragementDisplayItems.clear();
         // mOtherPosDisplayInfos.clear();
+
+        ArrayList<DisplayItem> gemelDisplayItems = new ArrayList<DisplayItem>();
 
         Collection<PluginDescriptor> plugins = PluginManagerHelper.getPlugins();
         Iterator<PluginDescriptor> itr = plugins.iterator();
         boolean hasGetHotSeatPos = false;
         while (itr.hasNext()) {
-            final PluginDescriptor pluginDescriptor = itr.next();
-            if (TextUtils.isEmpty(pluginDescriptor.getPackageName())) {
-                QRomLog.e(TAG, "My god !!! how can have such a situatio~!");
-                continue;
-            }
-            if (PluginApplication.getInstance().getEliminatePlugins().contains(pluginDescriptor.getPackageName())) {
-                QRomLog.w(TAG, "当前插件" + pluginDescriptor.getPackageName() + "已经被列入黑名单了");
-                continue;
-            }
+            dillPluginDisplayItemItems(itr.next(), false);
+        }
 
-            boolean establishedDependOn = establishedDependOns(pluginDescriptor.getPackageName(),
-                    pluginDescriptor.getDependOns());
+        //当前demo只在Hotseat上面的item才会绑定双生性质的item
+        dillGemelItem(gemelDisplayItems, mHotseatDisplayItems);
+    }
 
-            final ArrayList<DisplayConfig> dcs = pluginDescriptor.getDisplayConfigs();
-            if (dcs != null && 0 < dcs.size()) {
-                hasGetHotSeatPos = false;
-                String iconDir = new File(pluginDescriptor.getInstalledPath()).getParent() + File.separator
-                        + FileUtil.ICON_FOLDER;
-                for (DisplayConfig dc : dcs) {
-                    DisplayInfo info = new DisplayInfo(dc, pluginDescriptor.getPackageName());
-                    info.establishedDependOn = establishedDependOn;
+    private void dillPluginDisplayItemItems(final PluginDescriptor pluginDescriptor, boolean isInstall) {
+        if (null == pluginDescriptor || TextUtils.isEmpty(pluginDescriptor.getPackageName())) {
+            Exception here = new Exception();
+            here.fillInStackTrace();
+            QRomLog.e(TAG, "My god !!! how can have such a situatio~!", here);
+            return;
+        }
 
-                    loadPluginIcon(info, pluginDescriptor, dc.pos == DisplayConfig.DISPLAY_AT_HOTSEAT, iconDir);
+        if (PluginApplication.getInstance().getEliminatePlugins().contains(pluginDescriptor.getPackageName())) {
+            QRomLog.w(TAG, "当前插件" + pluginDescriptor.getPackageName() + "已经被列入黑名单了");
+            return;
+        }
 
-                    switch (dc.pos) {
-                        case DisplayConfig.DISPLAY_AT_HOTSEAT: // 显示在Hotseat上
-                            if (!hasGetHotSeatPos) {
-                                mHotseatDisplayInfos.add(info);
-                                hasGetHotSeatPos = true;
+        boolean establishedDependOn = establishedDependOns(pluginDescriptor.getPackageName(),
+                pluginDescriptor.getDependOns());
+
+        ArrayList<DisplayItem> gemelDisplayItems = new ArrayList<DisplayItem>();
+        final ArrayList<DisplayItem> dis = pluginDescriptor.getDisplayItems();
+        if (dis != null && 0 < dis.size()) {
+            boolean hasGetHotSeatPos = false;   //这个标识符是规定一个插件最多只能放一个图标在Hotseat上，仅仅是这个demo的规定
+            String iconDir = new File(pluginDescriptor.getInstalledPath()).getParent() + File.separator + FileUtil.ICON_FOLDER;
+            for (DisplayItem di : dis) {
+                //延后处理双生性质的Item
+                if (DisplayItem.INVALID_POS < di.gemel_x && DisplayItem.INVALID_POS < di.gemel_y) {
+                    gemelDisplayItems.add(di);
+                    continue;
+                }
+
+                HostDisplayItem hostDisplayItem = new HostDisplayItem(di, pluginDescriptor.getPackageName());
+                hostDisplayItem.establishedDependOn = establishedDependOn;
+
+                loadPluginIcon(hostDisplayItem, pluginDescriptor, di.y == POS_Y_HOTSEAT, iconDir);
+
+                switch (di.y) {
+                    case POS_Y_HOTSEAT: // 显示在Hotseat上
+                        // 当前Hotseat上暂时之放置fragment
+                        if (hostDisplayItem.type != DisplayItem.TYPE_FRAGMENT) {
+                            QRomLog.w(TAG, "发现不是fragment内容类型的Item要放到Hotseat上，Error for 不符合当前的规定...");
+                            break;
+                        }
+
+                        if (!hasGetHotSeatPos) {
+                            hasGetHotSeatPos = true;
+
+                            if (isInstall) {
+                                mHotseat.addOneBottomButtonForPlugin(hostDisplayItem, mNormalTextColor, mFocusTextColor, true);
                             } else {
-                                QRomLog.e(TAG, "哦~——~哦，插件：" + pluginDescriptor.getPackageName()
-                                        + " 竟然有两个在Hotseat的Pos位，需要框架做一点点的扩展兼容哈。");
+                                mHotseatDisplayItems.add(hostDisplayItem);
+                            }
+                        } else {
+                            QRomLog.e(TAG, "哦~——~哦，插件：" + pluginDescriptor.getPackageName()
+                                    + " 竟然有两个在Hotseat的Pos位，需要框架做一点点的扩展兼容哈。");
+                        }
+                        break;
+                    case POS_Y_HOME_FRAGEMENT: // 显示在host_home_fragement
+                        // mHomeFragementDisplayInfos.add(info);
+                        if (isInstall) {
+                            mMyWatchFragment.addContentItem(hostDisplayItem);
+                        } else {
+                            mHomeFragementDisplayItems.add(hostDisplayItem);
+                        }
+                        break;
+                    case POS_Y_ACTION_BAR:// 显示在标题栏
+                        //这种当前Demo暂定是双生属性的Item
+                        break;
+                    default:// 显示在其他位置
+                        if (isInstall) {    //接收到安装广播的 需要处理随宿主启动的内容
+                            switch (hostDisplayItem.type) {
+                                case DisplayItem.TYPE_SERVICE:
+                                    Intent intent = new Intent();
+                                    intent.setClassName(HostHomeActivity.this, hostDisplayItem.action_id);
+                                    startService(intent);
+                                    break;
+                                case DisplayItem.TYPE_APPLICATION:
+                                    if (null == PluginLauncher.instance().startPlugin(hostDisplayItem.action_id)) {
+                                        Toast.makeText(HostHomeActivity.this, "startPlugin:" + hostDisplayItem.action_id + "(action_id) 失败!!!",
+                                                Toast.LENGTH_LONG).show();
+                                    }
+                                    break;
+                                default:
+                                    break;
+                            }
+                        }
+                        break;
+                }
+            }
+
+            //当前demo只在Hotseat上面的item才会绑定双生性质的item
+            dillGemelItem(gemelDisplayItems, mHotseatDisplayItems);
+        } else {
+            Toast.makeText(getApplicationContext(), "插件：" + pluginDescriptor.getApplicationName() + "没配置显示协议",
+                    Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void dillGemelItem(final ArrayList<DisplayItem> gemelDisplayItems, final ArrayList<HostDisplayItem> hostDisplayItems) {
+        boolean compared = false;
+        for (DisplayItem gemelItem : gemelDisplayItems) {
+            compared = false;
+            for (HostDisplayItem hostDisplayItem : hostDisplayItems) {
+                if (gemelItem.gemel_x == hostDisplayItem.x && gemelItem.gemel_y == hostDisplayItem.y) {
+                    compared = true;
+                    if (gemelItem.y != POS_Y_ACTION_BAR) {
+                        QRomLog.e(TAG, "gemelItem：" + gemelItem.toString() + " Error for：不是放在ACTION_BAR上的");
+                        break;
+                    }
+
+                    switch (gemelItem.x) {
+                        case POS_X_ACTION_BAR_L:
+                            break;
+                        case POS_X_ACTION_BAR_TITLE:
+                            hostDisplayItem.applyActionBarTitleItem(gemelItem);
+                            break;
+                        case POS_X_ACTION_BAR_SUBTITLE:
+                            hostDisplayItem.applyActionBarSubtitleItem(gemelItem);
+                            break;
+                        case POS_X_ACTION_BAR_R:
+                            if (!TextUtils.isEmpty(gemelItem.icon)) {
+                                hostDisplayItem.applyActionBarRighButtonItem(gemelItem, DisplayItem.RES_TYPE_DRAWABLE);
+                            } else if (!TextUtils.isEmpty(gemelItem.title)) {
+                                hostDisplayItem.applyActionBarRighButtonItem(gemelItem, DisplayItem.RES_TYPE_STRING);
+                            } else {
+                                QRomLog.e(TAG, "gemelItem：" + gemelItem.toString() + " Error for：不明确的BAR_R资源类型");
                             }
                             break;
-                        case DisplayConfig.DISPLAY_AT_HOME_FRAGEMENT: // 显示在host_home_fragement
-                            mHomeFragementDisplayInfos.add(info);
+                        case POS_X_ACTION_BAR_MENU:
+                            hostDisplayItem.applyActionBarMenuItem(gemelItem);
                             break;
-                        case DisplayConfig.DISPLAY_AT_OTHER_POS:// 显示在其他位置
-                            // mOtherPosDisplayInfos.add(info);
-                            // 这个时机已经调整到application的onCreate了
-                            break;
-                        case DisplayConfig.DISPLAY_AT_MENU: // 这个当前没有，暂不处理
                         default:
+                            QRomLog.e(TAG, "gemelItem：" + gemelItem.toString() + " Error for：不明确的ACTION_BAR位置");
                             break;
                     }
+                    break;
                 }
-            } else {
-                QRomLog.e(TAG, "插件：" + pluginDescriptor.getPackageName() + "没有配置plugin-display协议~");
+            }
+
+            if (!compared) {
+                QRomLog.e(TAG, "gemelItem：" + gemelItem.toString() + " Error for：没有配对上HostDisplayItem");
             }
         }
     }
@@ -528,7 +578,7 @@ public class HostHomeActivity extends TwsFragmentActivity implements HomeUIProxy
         if (TextUtils.isEmpty(dependOnDes))
             return true;
 
-        final String[] values = dependOnDes.split(DisplayConfig.SEPARATOR_DEPEND);
+        final String[] values = dependOnDes.split(DisplayItem.SEPARATOR_VALUE);
         QRomLog.d(TAG, "establishedDependOn:" + dependOnDes);
         String packageName = null;
         int type = DEPEND_ON_APPLICATION;
@@ -584,51 +634,51 @@ public class HostHomeActivity extends TwsFragmentActivity implements HomeUIProxy
         }
     }
 
-    private void loadPluginIcon(final DisplayInfo info, final PluginDescriptor pluginDescriptor, boolean isHotseat,
+    private void loadPluginIcon(final HostDisplayItem hostDisplayItem, final PluginDescriptor pluginDescriptor, boolean isHotseat,
                                 String iconDir) {
-        if (TextUtils.isEmpty(info.normalResName)) {
-            QRomLog.e(TAG, "loadPluginIcon:" + info.normalResName + " failed for Illegal resources name~");
+        if (TextUtils.isEmpty(hostDisplayItem.normalResName)) {
+            QRomLog.e(TAG, "loadPluginIcon:" + hostDisplayItem.normalResName + " failed for Illegal resources name~");
             return;
         }
 
         String iconPath;
         Bitmap normalIcon = null;
-        if (null == PluginManagerHelper.getPluginIcon(info.normalResName)) {
-            iconPath = iconDir + File.separator + info.normalResName + FileUtil.FIX_ICON_NAME;
+        if (null == PluginManagerHelper.getPluginIcon(hostDisplayItem.normalResName)) {
+            iconPath = iconDir + File.separator + hostDisplayItem.normalResName + FileUtil.FIX_ICON_NAME;
             normalIcon = BitmapFactory.decodeFile(iconPath);
             if (normalIcon != null) {
-                PluginManagerHelper.addPluginIcon(info.normalResName, new BitmapDrawable(getResources(), normalIcon));
+                PluginManagerHelper.addPluginIcon(hostDisplayItem.normalResName, new BitmapDrawable(getResources(), normalIcon));
             }
         }
 
-        if (null == PluginManagerHelper.getPluginIcon(info.focusResName)
-                && !info.normalResName.equals(info.focusResName)) {
-            iconPath = iconDir + File.separator + info.focusResName + FileUtil.FIX_ICON_NAME;
+        if (null == PluginManagerHelper.getPluginIcon(hostDisplayItem.focusResName)
+                && !hostDisplayItem.normalResName.equals(hostDisplayItem.focusResName)) {
+            iconPath = iconDir + File.separator + hostDisplayItem.focusResName + FileUtil.FIX_ICON_NAME;
             Bitmap focusIcon = BitmapFactory.decodeFile(iconPath);
             if (focusIcon != null) {
-                PluginManagerHelper.addPluginIcon(info.focusResName, new BitmapDrawable(getResources(), focusIcon));
+                PluginManagerHelper.addPluginIcon(hostDisplayItem.focusResName, new BitmapDrawable(getResources(), focusIcon));
             }
         }
 
-        if (!isHotseat)
+        if (!isHotseat || null == hostDisplayItem.actionBarDisplayItem)
             return;
 
-        if (info.ab_rbtnrestype == DisplayConfig.ACTIONBAR_BTN_TYPE_ICON && !TextUtils.isEmpty(info.ab_rbtnres_normal)
-                && null == PluginManagerHelper.getPluginIcon(info.ab_rbtnres_normal)) {
+        if (hostDisplayItem.actionBarDisplayItem.r_res_type == DisplayItem.RES_TYPE_DRAWABLE && !TextUtils.isEmpty(hostDisplayItem.actionBarDisplayItem.r_res_normal)
+                && null == PluginManagerHelper.getPluginIcon(hostDisplayItem.actionBarDisplayItem.r_res_normal)) {
 
-            iconPath = iconDir + File.separator + info.ab_rbtnres_normal + FileUtil.FIX_ICON_NAME;
+            iconPath = iconDir + File.separator + hostDisplayItem.actionBarDisplayItem.r_res_normal + FileUtil.FIX_ICON_NAME;
             Bitmap abr_normalIcon = BitmapFactory.decodeFile(iconPath);
             if (abr_normalIcon != null) {
-                PluginManagerHelper.addPluginIcon(info.ab_rbtnres_normal, new BitmapDrawable(getResources(),
+                PluginManagerHelper.addPluginIcon(hostDisplayItem.actionBarDisplayItem.r_res_normal, new BitmapDrawable(getResources(),
                         abr_normalIcon));
             }
 
-            if (null == PluginManagerHelper.getPluginIcon(info.ab_rbtnres_focus)
-                    && !info.ab_rbtnres_normal.equals(info.ab_rbtnres_focus)) {
-                iconPath = iconDir + File.separator + info.ab_rbtnres_focus + FileUtil.FIX_ICON_NAME;
+            if (null == PluginManagerHelper.getPluginIcon(hostDisplayItem.actionBarDisplayItem.r_res_focus)
+                    && !hostDisplayItem.actionBarDisplayItem.r_res_normal.equals(hostDisplayItem.actionBarDisplayItem.r_res_focus)) {
+                iconPath = iconDir + File.separator + hostDisplayItem.actionBarDisplayItem.r_res_focus + FileUtil.FIX_ICON_NAME;
                 Bitmap abr_focusIcon = BitmapFactory.decodeFile(iconPath);
                 if (abr_focusIcon != null) {
-                    PluginManagerHelper.addPluginIcon(info.ab_rbtnres_focus, new BitmapDrawable(getResources(),
+                    PluginManagerHelper.addPluginIcon(hostDisplayItem.actionBarDisplayItem.r_res_focus, new BitmapDrawable(getResources(),
                             abr_focusIcon));
                 }
             }
@@ -647,7 +697,7 @@ public class HostHomeActivity extends TwsFragmentActivity implements HomeUIProxy
             Toast.makeText(this, "getFragmentByTagIndex:" + tagIndex + " return null classId", Toast.LENGTH_LONG)
                     .show();
         } else if (classId.equals(Hotseat.HOST_HOME_FRAGMENT)) {
-            fragment = mMyWatchFragment = new MyWatchFragmentRevision(mHomeFragementDisplayInfos);
+            fragment = mMyWatchFragment = new MyWatchFragmentRevision(mHomeFragementDisplayItems);
         } else {
             QRomLog.d(TAG, "getFragmentByPos to get Plugin fragement:" + classId);
             Class<?> clazz = null;
@@ -698,147 +748,15 @@ public class HostHomeActivity extends TwsFragmentActivity implements HomeUIProxy
         return fragment;// new Fragment();
     }
 
-    // 二次解析DisplayConfig
-    public class DisplayInfo {
-        public static final int DEFAULT_DISPLAY_LOCATION = 99;
-
-        public DisplayInfo(final DisplayConfig dc, final String packageName) {
-            this.classId = dc.content;
-            this.componentType = dc.contentType;
-            // 注意协议对二级pos没配置的默认赋值是-1，这种需要随波逐流，也就是谁先安装谁放前面，谁叫没给配置咧
-            final int pos = getPosByPackageName(dc.pos, packageName);
-            if (-1 < pos) {
-                if (dc.secondPos < 0) {
-                    dc.secondPos = 0;
-                }
-
-                if (POS_WEIGHT <= dc.secondPos) {
-                    dc.secondPos = dc.secondPos % POS_WEIGHT;
-                }
-
-                this.location = pos * POS_WEIGHT + dc.secondPos;
-            } else {
-                this.location = DEFAULT_DISPLAY_LOCATION;
-            }
-            QRomLog.d(TAG, "==packageName:" + packageName + " title=" + dc.title + " dc.pos=" + dc.pos + " location is "
-                    + this.location);
-
-            if (!TextUtils.isEmpty(dc.title)) {
-                final String[] titles = dc.title.split(DisplayConfig.SEPARATOR_VALUE);
-                this.title_en = this.title_zh_CN = this.title_zh_TW = this.title_zh_HK = titles[0];
-                if (1 < titles.length) {
-                    this.title_en = titles[1];
-                }
-
-                if (2 < titles.length) {
-                    this.title_zh_TW = this.title_zh_HK = titles[2];
-                }
-
-                if (3 < titles.length) {
-                    this.title_zh_TW = titles[3];
-                }
-            }
-
-            this.statKey = dc.statKey;
-            if (!TextUtils.isEmpty(dc.iconResName)) {
-                final String[] resNames = dc.iconResName.split(DisplayConfig.SEPARATOR_VALUE);
-                this.normalResName = resNames[0];
-                if (1 < resNames.length) {
-                    this.focusResName = resNames[1];
-                }
-            }
-            this.packageName = packageName;
-
-            QRomLog.d(TAG, "DisplayInfo classId=" + this.classId + " location=" + location + " componentType="
-                    + this.componentType + " title_zh=" + this.title_zh_CN + "/" + this.ab_title_zh_HK + "/"
-                    + this.ab_title_zh_TW + " normalResName=" + this.normalResName + " focusResName="
-                    + this.focusResName + " packageName=" + this.packageName);
-
-            if (dc.pos == DisplayConfig.DISPLAY_AT_HOTSEAT) {
-                // actionbar的标题
-                if (!TextUtils.isEmpty(dc.ab_title)) {
-                    final String[] titles = dc.ab_title.split(DisplayConfig.SEPARATOR_VALUE);
-                    this.ab_title_en = this.ab_title_zh_CN = this.ab_title_zh_TW = this.ab_title_zh_HK = titles[0];
-                    if (1 < titles.length) {
-                        this.ab_title_en = titles[1];
-                    }
-
-                    if (2 < titles.length) {
-                        this.ab_title_zh_TW = this.ab_title_zh_HK = titles[2];
-                    }
-
-                    if (3 < titles.length) {
-                        this.ab_title_zh_TW = titles[3];
-                    }
-                } else {
-                    this.ab_title_en = this.ab_title_zh_CN = this.ab_title_zh_TW = this.ab_title_zh_HK = getResources()
-                            .getString(R.string.app_name);
-                }
-
-                if (!TextUtils.isEmpty(dc.ab_rbtncontent)) {
-                    this.ab_rbtncontent = dc.ab_rbtncontent;
-                    this.ab_rbtnctype = dc.ab_rbtnctype;
-
-                    if (!TextUtils.isEmpty(dc.ab_rbtnres)) {
-                        final String[] resNames = dc.ab_rbtnres.split(DisplayConfig.SEPARATOR_VALUE);
-                        this.ab_rbtnres_normal = resNames[0];// 是显示文本还是图标由ab_rbtnrestype来决定
-                        if (1 < resNames.length) {
-                            this.ab_rbtnres_focus = resNames[1];
-                        }
-                    }
-
-                    this.ab_rbtnrestype = dc.ab_rbtnrestype;
-                } else {
-                    // action 行为都没有 就不处理了
-                }
-
-                QRomLog.d(TAG, "DisplayInfo ab_title_zh=" + this.ab_title_zh_CN + "/" + this.ab_title_zh_HK + "/"
-                        + this.ab_title_zh_TW + " ab_title_en=" + ab_title_en + " ab_rbtncontent="
-                        + this.ab_rbtncontent + " ab_rbtnctype=" + this.ab_rbtnctype + " ab_rbtnres_normal="
-                        + this.ab_rbtnres_normal + " ab_rbtnres_focus=" + this.ab_rbtnres_focus + " ab_rbtnrestype="
-                        + this.ab_rbtnrestype);
-            }
-        }
-
-        public String classId = null;
-        public int componentType;
-        public CharSequence title_zh_CN = null;
-        public CharSequence title_zh_TW = null;
-        public CharSequence title_zh_HK = null;
-        public CharSequence title_en = null;
-        public String normalResName = null;
-        public String focusResName = null;
-        public String statKey = "";
-        public String packageName = "";
-        public int location = 0; // 用于显示的索引位置
-
-        public boolean establishedDependOn = true;
-
-        // ActionBar
-        public String ab_title_zh_CN = null;
-        public String ab_title_zh_TW = null;
-        public String ab_title_zh_HK = null;
-        public String ab_title_en = null;
-        // ActionBar右侧按钮上触发点击后的行为内容
-        public String ab_rbtncontent = null;
-        // ActionBar右侧按钮上触发点击后行为的内容类型，同contentType【当前默认是activity，而且也暂时只有activity】
-        public int ab_rbtnctype = 2;// 默认是activity
-        // 显示在ActionBar右侧按钮上的内容类型 1、String文本资源 2、图标资源
-        public int ab_rbtnrestype = 1;
-        // 显示在ActionBar右侧按钮上的内容，根据类型进行配置
-        public String ab_rbtnres_normal = null;
-        public String ab_rbtnres_focus = null;
-    }
-
-    public void initPluginPosFromConfig(int posType) {
+    public void initPluginDisplayPosFromConfig(int posType) {
         String configFile = "";
         HashMap<String, Integer> pluginPos;
         switch (posType) {
-            case POS_HOTSEAT:
+            case POS_Y_HOTSEAT:
                 configFile = POS_HOTSEAT_CONFIG_NAME;
                 pluginPos = mPluginHotsetPos;
                 break;
-            case POS_HOME_FRAGEMENT:
+            case POS_Y_HOME_FRAGEMENT:
                 configFile = POS_MYWATCH_CONFIG_NAME;
                 pluginPos = mPluginMywatchPos;
                 break;
@@ -868,7 +786,7 @@ public class HostHomeActivity extends TwsFragmentActivity implements HomeUIProxy
 
         if (!sucess) {
             switch (posType) {
-                case POS_HOTSEAT:
+                case POS_Y_HOTSEAT:
                     mPluginHotsetPos.clear();
                     String[] defaultPos_Hotset = getResources().getStringArray(R.array.default_hotset_pos);
                     pos = 0;
@@ -881,7 +799,7 @@ public class HostHomeActivity extends TwsFragmentActivity implements HomeUIProxy
                         ++pos;
                     }
                     break;
-                case POS_HOME_FRAGEMENT:
+                case POS_Y_HOME_FRAGEMENT:
                     mPluginMywatchPos.clear();
                     String[] defaultPos_Mywatch = getResources().getStringArray(R.array.default_mywatch_pos);
                     pos = 0;
@@ -900,14 +818,14 @@ public class HostHomeActivity extends TwsFragmentActivity implements HomeUIProxy
         }
     }
 
-    private int getPosByPackageName(int posType, String packageName) {
-        switch (posType) {
-            case POS_HOTSEAT:
+    private int getPosByPackageName(int pos_y, String packageName) {
+        switch (pos_y) {
+            case POS_Y_HOTSEAT:
                 if (mPluginHotsetPos.containsKey(packageName)) {
                     return mPluginHotsetPos.get(packageName);
                 }
                 return -1;
-            case POS_HOME_FRAGEMENT:
+            case POS_Y_HOME_FRAGEMENT:
                 if (mPluginMywatchPos.containsKey(packageName)) {
                     return mPluginMywatchPos.get(packageName);
                 }

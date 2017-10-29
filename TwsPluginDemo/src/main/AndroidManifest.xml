@@ -26,22 +26,22 @@
             android:name="abcdef"
             android:value="654321" />
 
-        <!-- 显示位置pos： 1 Hotseat； 2 MyWatchFragment； 3 ActionBarMenu； 4 其他 -->
         <!-- 分隔符： # 分割DisplayConfig； @ 分割DisplayConfig的属性； = 属性赋值； / 分割属性值 -->
-        <!-- 图标资源icon：统一使用 模块名_[hotseat or watch_fragment or menu]_描述信息.png 配置在AndroidManifest.xml不需要带后缀。 【normal/focus/press/...】 -->
-        <!-- 标题title：中文/英文 也可以只配置一个 -->
-        <!-- 显示内容content：如果是fragment 直接配置name,其他的配置类全名信息 -->
-        <!-- 内容类型ctype：1 fragment； 2 activity； 3 service； 4 application； 5 view -->
+        <!-- pos - 显示位置(由宿主和插件协定统一就行，包括四个属性gemelx、gemely、x、y)： 【Y:0 POS_Y_HOTSEAT； 1 POS_Y_HOME_FRAGEMENT； 2 POS_Y_ACTION_BAR； 4 其他[APPLICATION SERVICE等没不需要放置显示入口]】【X:...】 -->
+        <!-- icon - 图标资源：统一使用 模块名_[hotseat or watch_fragment or menu]_描述信息.png 配置在AndroidManifest.xml不需要带后缀。 【normal/focus/press/...】 -->
+        <!-- title - 标题：中文/英文 也可以只配置一个 -->
+        <!-- actionid - DisplayItem的交互动作行为：如果是fragment 直接配置name,其他的配置类全名信息 -->
+        <!-- type - 交互动作行为@see DisplayItem.java：0 APPLICATION;1 BROADCAST； 2 ACTIVITY； 3 FRAGMENT； 4 SERVICE； 5 PROVIDER；6 VIEW -->
         <!-- 插件启动时机： 1 手动触发 2 随DM启动 3 配对成功后 -->
-        <!-- 插件依赖： 1 已安装的app 2 已安装的插件 -->
-        <!-- ActionBar 配置只在显示位置是Hotseat的前提下可用 -->
-        <!-- ActionBar标题ab-title：actionbar标题 中文/英文 也可以只配置一个 暂不支持subTitle -->
-        <!-- ActionBar右侧按钮显示内容ab-rbtncontent：actionbar右侧按钮点击触发显示内容 -->
-        <!-- ActionBar右侧按钮显示内容类型ab-rbtnctype：  触发显示内容 的类型 1 fragment； 2 activity； 3 service； 4 application； 5 view（当前只支持activity，如果是activity可以不配置） -->
-        <!-- ActionBar右侧按钮内容ab-rbtnres: 显示在按钮上的内容根据类型不同而不一样(类型1 文本；类型2 图标 -->
-        <!-- ActionBar右侧按钮内容ab-rbtnrestype:1、文本按钮(res配置中英文String) 2、ImageButton(res配置图标) -->
-        <plugin-display android:value="pos=1/3@title=示例Fragment/demoFragement/HK繁體碎片/TW繁體碎片@content=some_id_for_fragment3@ctyle=1@icon=demo_hotseat_default/demo_hotseat_pressed@ab-title=实例/Demo@ab-rbtnrestype=2@ab-rbtnres=demo_rbar_nomal/demo_rbar_pressed@ab-rbtnctype=2@ab-rbtncontent=com.example.plugindemo.activity.LauncherActivity" />
-        <plugin-display android:value="pos=2/5@title=示例/demoActivity/繁體示例@content=com.example.plugindemo.activity.LauncherActivity@ctyle=2@icon=demo_watch_fragment_des" />
+        <!-- statistic - 统计上报key：string类型 -->
+        <!-- extras - 附加信息：比如：插件依赖 1 已安装的app 2 已安装的插件 -->
+        <plugin-display android:value="y=0@x=3@title=示例Fragment/demoFragement/HK繁體碎片/TW繁體碎片@type=3@actionid=some_id_for_fragment3@icon=demo_hotseat_default/demo_hotseat_pressed" />
+        <!--actionbar gemel Item 在宿主中定义好了 Y=2是actionbar ，actionbar的X位置定义：POS_X_ACTION_BAR_L = -1;POS_X_ACTION_BAR_TITLE = 0;POS_X_ACTION_BAR_SUBTITLE = 1;POS_X_ACTION_BAR_R = 2;POS_X_ACTION_BAR_MENU = 3;-->
+        <plugin-display android:value="gemely=0@gemelx=3@x=0@y=2@title=实例/Demo/實例" />
+        <plugin-display android:value="gemely=0@gemelx=3@x=2@y=2@type=2@actionid=com.example.plugindemo.activity.LauncherActivity@icon=demo_rbar_nomal/demo_rbar_pressed" />
+
+        <plugin-display android:value="y=1@x=5@type=2@title=示例Activity/demoActivity/繁體Activity@actionid=com.example.plugindemo.activity.LauncherActivity@icon=demo_watch_fragment_des" />
+
 
         <!-- 通知插件框架哪些fragment是可以嵌入宿主Activity的，如果fragment只是插件内使用，无需对外暴露则无需配置 -->
         <exported-fragment

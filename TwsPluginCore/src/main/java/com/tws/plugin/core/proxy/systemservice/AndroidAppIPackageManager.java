@@ -20,6 +20,7 @@ import android.os.Build;
 import android.text.TextUtils;
 
 import com.tws.plugin.content.ComponentInfo;
+import com.tws.plugin.content.DisplayItem;
 import com.tws.plugin.content.PluginActivityInfo;
 import com.tws.plugin.content.PluginDescriptor;
 import com.tws.plugin.content.PluginProviderInfo;
@@ -124,7 +125,7 @@ public class AndroidAppIPackageManager extends MethodProxy {
 			QRomLog.d(TAG, "beforeInvoke method:" + method.getName());
 			final String packageName = PluginLoader.getPackageName((Intent) args[0]);
 			ArrayList<ComponentInfo> componentInfos = PluginIntentResolver.matchPlugin((Intent) args[0],
-					PluginDescriptor.ACTIVITY, packageName);
+					DisplayItem.TYPE_ACTIVITY, packageName);
 			if (componentInfos != null && componentInfos.size() > 0) {
 				PluginDescriptor pluginDescriptor = PluginLoader.getApplication().getPackageName().equals(packageName) ? PluginManagerHelper
 						.getPluginDescriptorByClassName(componentInfos.get(0).name) : PluginManagerHelper
@@ -244,7 +245,7 @@ public class AndroidAppIPackageManager extends MethodProxy {
 			QRomLog.d(TAG, "queryIntentServices beforeInvoke method:" + method.getName());
 			final String packageName = PluginLoader.getPackageName((Intent) args[0]);
 			ArrayList<ComponentInfo> componentInfos = PluginIntentResolver.matchPlugin((Intent) args[0],
-					PluginDescriptor.SERVICE, packageName);
+					DisplayItem.TYPE_SERVICE, packageName);
 			if (componentInfos != null && componentInfos.size() > 0) {
 				PluginDescriptor pluginDescriptor = PluginLoader.getApplication().getPackageName().equals(packageName) ? PluginManagerHelper
 						.getPluginDescriptorByClassName(componentInfos.get(0).name) : PluginManagerHelper
@@ -280,7 +281,7 @@ public class AndroidAppIPackageManager extends MethodProxy {
 			QRomLog.d(TAG, "resolveIntent beforeInvoke method:" + method.getName());
 			final String packageName = PluginLoader.getPackageName((Intent) args[0]);
 			ArrayList<ComponentInfo> componentInfos = PluginIntentResolver.matchPlugin((Intent) args[0],
-					PluginDescriptor.ACTIVITY, packageName);
+					DisplayItem.TYPE_ACTIVITY, packageName);
 			if (componentInfos != null && componentInfos.size() > 0) {
 				PluginDescriptor pluginDescriptor = PluginLoader.getApplication().getPackageName().equals(packageName) ? PluginManagerHelper
 						.getPluginDescriptorByClassName(componentInfos.get(0).name) : PluginManagerHelper
@@ -302,7 +303,7 @@ public class AndroidAppIPackageManager extends MethodProxy {
 			QRomLog.d(TAG, "resolveService beforeInvoke method:" + method.getName());
 			final String packageName = PluginLoader.getPackageName((Intent) args[0]);
 			ArrayList<ComponentInfo> componentInfos = PluginIntentResolver.matchPlugin((Intent) args[0],
-					PluginDescriptor.SERVICE, packageName);
+					DisplayItem.TYPE_SERVICE, packageName);
 			if (componentInfos != null && componentInfos.size() > 0) {
 				PluginDescriptor pluginDescriptor = PluginLoader.getApplication().getPackageName().equals(packageName) ? PluginManagerHelper
 						.getPluginDescriptorByClassName(componentInfos.get(0).name) : PluginManagerHelper
@@ -379,7 +380,7 @@ public class AndroidAppIPackageManager extends MethodProxy {
 		activityInfo.taskAffinity = null;// 需要时再加上
 		// activityInfo.targetActivity =
 
-		if (pluginDescriptor.getType(className) == PluginDescriptor.ACTIVITY) {
+		if (pluginDescriptor.getType(className) == DisplayItem.TYPE_ACTIVITY) {
 			PluginActivityInfo detail = pluginDescriptor.getActivityInfos().get(className);
 			activityInfo.launchMode = Integer.valueOf(detail.getLaunchMode());
 			activityInfo.theme = ResourceUtil.getResourceId(detail.getTheme());

@@ -22,6 +22,7 @@ import android.content.pm.ResolveInfo;
 import android.text.TextUtils;
 import android.util.Base64;
 
+import com.tws.plugin.content.DisplayItem;
 import com.tws.plugin.content.PluginDescriptor;
 import com.tws.plugin.core.PluginLoader;
 import com.tws.plugin.util.ProcessUtil;
@@ -246,7 +247,7 @@ class PluginStubBinding {
 
 		initPool();
 
-		if (isExact(pluginActivityClassName, PluginDescriptor.ACTIVITY)) {
+		if (isExact(pluginActivityClassName, DisplayItem.TYPE_ACTIVITY)) {
 			return pluginActivityClassName;
 		}
 
@@ -330,7 +331,7 @@ class PluginStubBinding {
 
 		initPool();
 
-		if (isExact(stubServiceName, PluginDescriptor.SERVICE)) {
+		if (isExact(stubServiceName, DisplayItem.TYPE_SERVICE)) {
 			return stubServiceName;
 		}
 
@@ -360,7 +361,7 @@ class PluginStubBinding {
 
 		initPool();
 
-		if (isExact(pluginServiceClassName, PluginDescriptor.SERVICE)) {
+		if (isExact(pluginServiceClassName, DisplayItem.TYPE_SERVICE)) {
 			return pluginServiceClassName;
 		}
 
@@ -519,7 +520,7 @@ class PluginStubBinding {
 	public static boolean isStub(String className) {
 		initPool();
 
-		return isExact(className, PluginDescriptor.ACTIVITY) || className.equals(standardActivity)
+		return isExact(className, DisplayItem.TYPE_ACTIVITY) || className.equals(standardActivity)
 				|| singleTaskActivityMapping.containsKey(className) || singleTopActivityMapping.containsKey(className)
 				|| singleInstanceActivityMapping.containsKey(className) || serviceMapping.containsKey(className)
 				|| mpServiceMapping.containsKey(className) || className.equals(receiver);

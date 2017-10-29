@@ -12,6 +12,7 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.IBinder;
 
+import com.tws.plugin.content.DisplayItem;
 import com.tws.plugin.content.PluginDescriptor;
 import com.tws.plugin.core.PluginLoader;
 import com.tws.plugin.core.PluginShadowService;
@@ -110,12 +111,13 @@ public class AndroidAppIActivityManager extends MethodProxy {
                     if (args[i] != null && args[i].getClass().isAssignableFrom(Intent[].class)) {
                         Intent[] intents = (Intent[]) args[i];
                         if (type == INTENT_SENDER_BROADCAST) {
-                            type = PluginDescriptor.BROADCAST;
+                            type = DisplayItem.TYPE_BROADCAST;
                         } else if (type == INTENT_SENDER_ACTIVITY) {
-                            type = PluginDescriptor.ACTIVITY;
+                            type = DisplayItem.TYPE_ACTIVITY;
                         } else if (type == INTENT_SENDER_SERVICE) {
-                            type = PluginDescriptor.SERVICE;
+                            type = DisplayItem.TYPE_SERVICE;
                         }
+
                         for (int j = 0; j < intents.length; j++) {
                             intents[j] = PendingIntentHelper.resolvePendingIntent(intents[j], type);
                         }
@@ -145,8 +147,8 @@ public class AndroidAppIActivityManager extends MethodProxy {
     public static class serviceDoneExecuting extends MethodDelegate {
         public Object beforeInvoke(Object target, Method method, Object[] args) {
             if (ProcessUtil.isPluginProcess()) {
-                if (((Integer)args[1]).equals(HackActivityThread.getSERVICE_DONE_EXECUTING_ANON())) {
-                    for (Object obj: args) {
+                if (((Integer) args[1]).equals(HackActivityThread.getSERVICE_DONE_EXECUTING_ANON())) {
+                    for (Object obj : args) {
                         if (obj instanceof IBinder) {
                             Map<IBinder, Service> services = HackActivityThread.get().getServices();
                             Service service = services.get(obj);

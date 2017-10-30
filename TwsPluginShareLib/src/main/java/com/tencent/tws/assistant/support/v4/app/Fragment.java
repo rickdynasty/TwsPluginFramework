@@ -1104,6 +1104,10 @@ public class Fragment implements ComponentCallbacks, OnCreateContextMenuListener
     public void onResume() {
         mCalled = true;
     }
+
+	public void onFocus(Activity container) {
+
+	}
     
     /**
      * Called to ask the fragment to save its current dynamic state, so it

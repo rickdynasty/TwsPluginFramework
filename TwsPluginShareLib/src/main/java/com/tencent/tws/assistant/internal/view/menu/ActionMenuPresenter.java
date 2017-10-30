@@ -206,6 +206,7 @@ public class ActionMenuPresenter extends BaseMenuPresenter implements ActionProv
 		final ActionMenuView menuView = (ActionMenuView) mMenuView;
 		ActionMenuItemView actionItemView = (ActionMenuItemView) itemView;
 		actionItemView.setItemInvoker(menuView);
+		
 		// tws-start add for split actionBar theme::2015-6-11
 		boolean isActionBarSplitTheme = ThemeUtils.isActionBarSplitTheme(mContext);
 		if (isActionBarSplitTheme && mWidthLimitSet) {

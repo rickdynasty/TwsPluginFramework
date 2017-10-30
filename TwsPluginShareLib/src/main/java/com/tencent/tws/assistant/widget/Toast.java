@@ -16,6 +16,7 @@
 
 package com.tencent.tws.assistant.widget;
 
+import android.annotation.SuppressLint;
 import android.app.INotificationManager;
 import android.app.ITransientNotification;
 import android.content.Context;
@@ -24,6 +25,9 @@ import android.content.res.Resources;
 import android.graphics.PixelFormat;
 import android.os.Build;
 import android.os.Handler;
+import android.os.IBinder;
+import android.os.Message;
+import android.os.Parcel;
 import android.os.RemoteException;
 import android.os.ServiceManager;
 import android.util.Log;
@@ -34,9 +38,11 @@ import android.view.WindowManager;
 import android.view.accessibility.AccessibilityEvent;
 import android.view.accessibility.AccessibilityManager;
 import android.widget.TextView;
+import qrom.component.log.QRomLog;
 
 import com.tencent.tws.sharelib.R;
 
+@SuppressLint("NewApi")
 public class Toast extends android.widget.Toast {
 	static final String TAG = "Toast";
 	static final boolean localLOGV = false;
@@ -224,7 +230,15 @@ public class Toast extends android.widget.Toast {
 		};
 
 		private final WindowManager.LayoutParams mParams = new WindowManager.LayoutParams();
-		final Handler mHandler = new Handler();
+//		final Handler mHandler = new Handler();
+		
+		final Handler mHandler = new Handler() {
+            @Override
+            public void handleMessage(Message msg) {
+               IBinder token = (IBinder) msg.obj;
+                handleShow(token);
+           }
+       };
 
 		int mGravity;
 		int mX, mY;
@@ -260,9 +274,33 @@ public class Toast extends android.widget.Toast {
 		 */
 		@Override
 		public void show() {
-			if (localLOGV)
-				Log.v(TAG, "SHOW: " + this);
+			QRomLog.v(TAG, "SHOW: " + this);
 			mHandler.post(mShow);
+		}
+		
+		//android 7.1 used benylwang add
+		public void show(IBinder windowToken) {
+            mHandler.obtainMessage(0, windowToken).sendToTarget();
+        }
+
+		@Override
+		public boolean onTransact(int code, Parcel data, Parcel reply, int flags) throws RemoteException {
+			QRomLog.d(TAG, Build.VERSION.SDK_INT + " onTransact code = " + code);
+			
+			if (code == 1) {
+				data.enforceInterface("android.app.ITransientNotification");
+				if (Build.VERSION.SDK_INT >= 25) {
+					android.os.IBinder _arg0;
+					_arg0 = data.readStrongBinder();
+					this.show(_arg0);
+				} else {
+					show();
+				}
+				reply.writeNoException();
+				return true;
+			} else {
+				return super.onTransact(code, data, reply, flags);
+			}
 		}
 
 		/**
@@ -321,6 +359,49 @@ public class Toast extends android.widget.Toast {
 				trySendAccessibilityEvent();
 			}
 		}
+		
+		public void handleShow(IBinder windowToken) {
+            if (localLOGV) Log.v(TAG, "HANDLE SHOW: " + this + " mView=" + mView
+                    + " mNextView=" + mNextView);
+            if (mView != mNextView) {
+                // remove the old view if necessary
+                handleHide();
+                mView = mNextView;
+                Context context = mView.getContext().getApplicationContext();
+                String packageName = mView.getContext().getOpPackageName();
+                if (context == null) {
+                    context = mView.getContext();
+                }
+                mWM = (WindowManager)context.getSystemService(Context.WINDOW_SERVICE);
+                // We can resolve the Gravity here by using the Locale for getting
+                // the layout direction
+                final Configuration config = mView.getContext().getResources().getConfiguration();
+                final int gravity = Gravity.getAbsoluteGravity(mGravity, config.getLayoutDirection());
+                mParams.gravity = gravity;
+                if ((gravity & Gravity.HORIZONTAL_GRAVITY_MASK) == Gravity.FILL_HORIZONTAL) {
+                    mParams.horizontalWeight = 1.0f;
+                }
+                if ((gravity & Gravity.VERTICAL_GRAVITY_MASK) == Gravity.FILL_VERTICAL) {
+                    mParams.verticalWeight = 1.0f;
+                }
+                mParams.x = mX;
+                mParams.y = mY;
+                mParams.verticalMargin = mVerticalMargin;
+                mParams.horizontalMargin = mHorizontalMargin;
+                mParams.packageName = packageName;
+//                mParams.hideTimeoutMilliseconds = mDuration ==
+//                    Toast.LENGTH_LONG ? LONG_DURATION_TIMEOUT : SHORT_DURATION_TIMEOUT;
+                mParams.token = windowToken;
+                if (mView.getParent() != null) {
+                    if (localLOGV) Log.v(TAG, "REMOVE! " + mView + " in " + this);
+                    mWM.removeView(mView);
+                }
+                if (localLOGV) Log.v(TAG, "ADD! " + mView + " in " + this);
+                mWM.addView(mView, mParams);
+                trySendAccessibilityEvent();
+            }
+        }
+
 
 		private void trySendAccessibilityEvent() {
 			AccessibilityManager accessibilityManager = AccessibilityManager.getInstance(mView.getContext());

@@ -37,6 +37,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
 import android.util.AttributeSet;
+import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -849,6 +850,9 @@ public class AlertController {
 			mMessageView.setText(mMessage);
 			if (mIsBottomDialog) {
 				mMessageView.setTextAppearance(mContext, R.style.TextAppearance_tws_Second_twsTextSmallLightBodySub);
+				mMessageView.setTextSize(TypedValue.COMPLEX_UNIT_PX,
+						mContext.getResources().getDimensionPixelSize(R.dimen.tws_dialog_message_text_size));
+				mMessageView.setTextColor(mContext.getResources().getColor(R.color.tws_black_alpha_supperbig));
 			}
 			LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
 					LinearLayout.LayoutParams.WRAP_CONTENT);
@@ -918,7 +922,9 @@ public class AlertController {
 		int buttonCount = 0;
 		mButtonPositive = (Button) mWindow.findViewById(R.id.button1);
 		mButtonPositive.setOnClickListener(mButtonHandler);
-
+		mButtonPositive.setTextSize(TypedValue.COMPLEX_UNIT_PX,
+				mContext.getResources().getDimensionPixelSize(R.dimen.tws_dialog_positive_button_size));
+		
 		if (TextUtils.isEmpty(mButtonPositiveText) || mButtonPositive.getVisibility() == View.GONE) {
 			mButtonPositive.setVisibility(View.GONE);
 		} else {
@@ -933,6 +939,8 @@ public class AlertController {
 
 		mButtonNegative = (Button) mWindow.findViewById(R.id.button2);
 		mButtonNegative.setOnClickListener(mButtonHandler);
+		mButtonNegative.setTextSize(TypedValue.COMPLEX_UNIT_PX,
+				mContext.getResources().getDimensionPixelSize(R.dimen.tws_dialog_negative_button_size));
 
 		if (TextUtils.isEmpty(mButtonNegativeText) || mButtonNegative.getVisibility() == View.GONE) {
 			mButtonNegative.setVisibility(View.GONE);
@@ -1323,7 +1331,7 @@ public class AlertController {
 		public View mCustomTitleView;
 		public CharSequence mMessage;
 		public CharSequence mPositiveButtonText;
-		public ButtonColor mPositiveColor = ButtonColor.BTN_NORMAL;
+		public ButtonColor mPositiveColor = ButtonColor.BTN_RED;
 		public DialogInterface.OnClickListener mPositiveButtonListener;
 		public CharSequence mNegativeButtonText;
 		public ButtonColor mNegativeColor = ButtonColor.BTN_NORMAL;
@@ -1784,7 +1792,7 @@ public class AlertController {
 	private static void setButtonColor(Context context, TextView tv, int color) {
 		switch (color) {
 		case AlertDialog.BOTTOM_BUTTON_COLOR_BLACK:
-			tv.setTextColor(context.getResources().getColor(R.color.tws_bottom_dialog_list_item_light));
+			tv.setTextColor(context.getResources().getColor(R.color.tws_black));
 			break;
 		case AlertDialog.BOTTOM_BUTTON_COLOR_BLUE:
 			tv.setTextColor(context.getResources().getColor(R.color.tws_blue));
@@ -1818,7 +1826,9 @@ public class AlertController {
 			if (index == 0) {
 				// view.setBackgroundResource(R.drawable.tws_preference_top_item);
 				view.setMinimumHeight(mListItemHeight + mListSpace);
-				view.setPadding(paddingLeft, paddingTop + mListSpace, paddingRight, paddingBottom);
+//				view.setPadding(paddingLeft, paddingTop + mListSpace, paddingRight, paddingBottom);
+				view.setPadding(paddingLeft, paddingTop, paddingRight, paddingBottom);
+				
 			} else {
 				// view.setBackgroundResource(R.drawable.tws_preference_item);
 				view.setMinimumHeight(mListItemHeight);

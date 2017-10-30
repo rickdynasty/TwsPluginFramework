@@ -724,6 +724,10 @@ public class Preference implements Comparable<Preference> {
                 R.dimen.tws_listview_item_padding_side_right);
 //        int paddingTop = view.getPaddingTop();
 //        int paddingBottom = view.getPaddingBottom();
+
+        if (this instanceof SwitchPreference) {
+        	paddingRight = 0;
+        }
         int paddingTop = 0;
         int paddingBottom = 0;
 

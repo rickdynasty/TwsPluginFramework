@@ -501,8 +501,6 @@ public abstract class CursorTreeAdapter extends BaseExpandableListAdapter implem
             @Override
             public void onChange(boolean selfChange) {
                 if (mAutoRequery && mCursor != null) {
-                    if (false) Log.v("Cursor", "Auto requerying " + mCursor +
-                            " due to update");
                     mDataValid = mCursor.requery();
                 }
             }

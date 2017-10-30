@@ -1096,7 +1096,9 @@ public class TwsTabHost extends FrameLayout implements ViewTreeObserver.OnTouchM
 			transaction.add(R.id.tabviewpager, fragment, tag);
 			// transaction.hide(fragment);
 			transaction.commit();
-			// mFragmentManager.executePendingTransactions();
+			
+			//warning can not remove ;fix taishan1.0 bug:1004520
+			mFragmentManager.executePendingTransactions();
 		}
 
 		public View getContentView() {

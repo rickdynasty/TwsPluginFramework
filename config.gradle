@@ -1,0 +1,30 @@
+import java.text.SimpleDateFormat
+
+ext {
+    SimpleDateFormat format = new SimpleDateFormat("yyMMdd");
+    Date date = new Date();
+    String dateTime = format.format(date);
+
+    String buildNo = "$System.env.BuildNo";
+    // buildNo="683";
+    if (buildNo == ("null")) {
+        versionCode = 999999;
+        if (project.hasProperty("Jenkins_build_num")) {
+            // ORG_GRADLE_PROJECT_Jenkins_build_num定义在build.sh中
+            buildNo = Jenkins_build_num
+            versionCode = Integer.valueOf(buildNo)
+        }
+    } else {
+        versionCode = Integer.valueOf("32" + dateTime);
+    }
+
+    versionName = "1.0." + dateTime + "." + buildNo;
+
+    println "version code : " + versionCode
+    println "version name : " + versionName
+
+    buildtools = "25.0.3"
+    minSdkVersion = 21
+    targetSdkVersion = 25
+    compileSdkVersion = 25
+}

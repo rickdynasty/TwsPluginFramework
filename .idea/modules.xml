@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/GrowthNotes.iml" filepath="$PROJECT_DIR$/GrowthNotes.iml" />
+      <module fileurl="file://$PROJECT_DIR$/TwsPluginCore/TwsPluginCore.iml" filepath="$PROJECT_DIR$/TwsPluginCore/TwsPluginCore.iml" />
+      <module fileurl="file://$PROJECT_DIR$/TwsPluginHost/TwsPluginHost.iml" filepath="$PROJECT_DIR$/TwsPluginHost/TwsPluginHost.iml" />
+      <module fileurl="file://$PROJECT_DIR$/TwsPluginShareLib/TwsPluginShareLib.iml" filepath="$PROJECT_DIR$/TwsPluginShareLib/TwsPluginShareLib.iml" />
+    </modules>
+  </component>
+</project>

@@ -3,18 +3,26 @@
     package="com.rick.tws.pluginhost">
 
     <application
+        android:name="com.rick.tws.pluginhost.HostApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity">
+        <activity android:name=".view.HomeActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <!-- core need-->
+        <provider
+            android:name="com.tws.plugin.manager.PluginManagerProvider"
+            android:authorities="com.tencent.tws.pluginhost.manager"
+            android:exported="false" />
+
     </application>
 
 </manifest>

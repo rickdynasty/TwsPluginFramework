@@ -3,19 +3,24 @@
     package="com.rick.tws.pluginhost">
 
     <application
-        android:name="com.rick.tws.pluginhost.HostApplication"
+        android:name="com.rick.tws.pluginhost.main.HostApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".view.HomeActivity">
+        <activity android:name=".main.ui.HomeActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".main.ui.SettingsActivity" />
+        <activity android:name=".main.ui.MessageManagerActivity" />
+        <activity android:name=".debug.DebugPluginActivity" />
+        <activity android:name=".debug.PluginDetailActivity" />
+        <activity android:name=".debug.PluginFragmentActivity" />
 
         <!-- core need-->
         <provider

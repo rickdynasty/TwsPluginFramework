@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="transparent">#00000000</color>
+    <color name="tws_black">#ff000000</color>
+    <color name="tws_white">#ffffffff</color>
+
+    <!-- ====================black==================== -->
+    <!-- 80% alpha black -->
+    <color name="tws_black_alpha_supperbig">#CC000000</color>
+    <!-- 70% alpha black -->
+    <color name="tws_black_alpha_supper">#B3000000</color>
+    <!-- 60% alpha black -->
+    <color name="tws_black_alpha_larger">#99000000</color>
+    <!-- 50% alpha black -->
+    <color name="tws_black_alpha_large">#80000000</color>
+    <!-- 45% alpha black -->
+    <color name="tws_black_percent_45">#73000000</color>
+    <!-- 40% alpha black -->
+    <color name="tws_black_percent_40">#66000000</color>
+    <!-- 30% alpha black -->
+    <color name="tws_black_alpha_medium">#4D000000</color>
+    <!-- 20% alpha black -->
+    <color name="tws_black_alpha_micro">#33000000</color>
+    <!-- 15% alpha black -->
+    <color name="tws_black_percent_15">#26000000</color>
+    <!-- 10% alpha black -->
+    <color name="tws_black_alpha_mini">#1A000000</color>
+
+    <!-- ====================white</color>==================== -->
+    <!-- 80% alpha white -->
+    <color name="tws_white_alpha_supperbig">#CCffffff</color>
+    <!-- 70% alpha white -->
+    <color name="tws_white_alpha_supper">#B3ffffff</color>
+    <!-- 60% alpha white -->
+    <color name="tws_white_alpha_larger">#99ffffff</color>
+    <!-- 50% alpha white -->
+    <color name="tws_white_alpha_large">#80ffffff</color>
+    <!-- 45% alpha white -->
+    <color name="tws_white_percent_45">#73ffffff</color>
+    <!-- 40% alpha white -->
+    <color name="tws_white_percent_40">#66ffffff</color>
+    <!-- 30% alpha white -->
+    <color name="tws_white_alpha_medium">#4Dffffff</color>
+    <!-- 25% alpha white -->
+    <color name="tws_white_percent_25">#40ffffff</color>
+    <!-- 20% alpha white -->
+    <color name="tws_white_alpha_micro">#33ffffff</color>
+    <!-- 15% alpha white -->
+    <color name="tws_white_percent_15">#26ffffff</color>
+    <!-- 10% alpha white -->
+    <color name="tws_white_alpha_mini">#1A000000</color>
+
+    <!-- Other common color -->
+    <!-- 页面标题栏、工具栏背景色(白) -->
+    <color name="tws_bar_background">#FAFAFA</color>
+    <!-- 列表分割区、分组标题栏背景色(白) -->
+    <color name="tws_stipple">#F0F0F0</color>
+    <!-- 警示色(红色) -->
+    <color name="tws_alert">#FD2F2F</color>
+    <!-- 用于高亮、进度、健康图标等(绿色) -->
+    <color name="tws_light">#00BB00</color>
+    <!-- 标题、列表底部等分割用 -->
+    <color name="tws_divider_bg">#CCCCCC</color>
+    <color name="tws_dark_gray">#515151</color>
+
+</resources>

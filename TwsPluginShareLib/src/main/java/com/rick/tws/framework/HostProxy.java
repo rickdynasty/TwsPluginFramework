@@ -21,4 +21,8 @@ public class HostProxy {
         }
         return sApplication;
     }
+
+    public static int getApplicationIconId() {
+        return android.R.mipmap.sym_def_app_icon;
+    }
 }

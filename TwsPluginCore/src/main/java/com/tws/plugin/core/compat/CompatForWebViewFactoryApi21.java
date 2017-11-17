@@ -11,7 +11,7 @@ import com.tws.plugin.core.android.HackWebViewFactory;
 
 public class CompatForWebViewFactoryApi21 {
 
-	private static final String TAG = "rick_Print:CompatForWebViewFactoryApi21";
+	private static final String TAG = "CompatForWebViewFactoryApi21";
 
 	public static void addWebViewAssets(AssetManager assetsManager) {
 		if (Build.VERSION.SDK_INT >= 21) {

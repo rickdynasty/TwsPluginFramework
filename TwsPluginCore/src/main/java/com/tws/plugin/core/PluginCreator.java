@@ -14,7 +14,7 @@ import com.tws.plugin.util.FileUtil;
 import java.io.File;
 import java.util.List;
 
-import dalvik.system.DexClassLoader;
+import dalvik.system.BaseDexClassLoader;
 import qrom.component.log.QRomLog;
 
 public class PluginCreator {
@@ -31,8 +31,8 @@ public class PluginCreator {
 	 *            插件apk文件路径
 	 * @return
 	 */
-	public static DexClassLoader createPluginClassLoader(String absolutePluginApkPath, boolean isStandalone,
-			String[] dependences, List<String> pluginApkMultDexPath) {
+	public static BaseDexClassLoader createPluginClassLoader(String absolutePluginApkPath, boolean isStandalone,
+															 String[] dependences, List<String> pluginApkMultDexPath) {
 
 		String apkParentDir = new File(absolutePluginApkPath).getParent();
 
@@ -144,7 +144,7 @@ public class PluginCreator {
 	 * @return
 	 */
 	public static Context createPluginContext(PluginDescriptor pluginDescriptor, Context base, Resources pluginRes,
-			DexClassLoader pluginClassLoader) {
+											  BaseDexClassLoader pluginClassLoader) {
 		return new PluginContextTheme(pluginDescriptor, base, pluginRes, pluginClassLoader);
 	}
 
@@ -184,7 +184,7 @@ public class PluginCreator {
         if (pluginContext != null) {
             newContext = (PluginContextTheme)PluginCreator.createPluginContext(((PluginContextTheme) pluginContext).getPluginDescriptor(),
                     base, pluginContext.getResources(),
-                    (DexClassLoader) pluginContext.getClassLoader());
+                    (BaseDexClassLoader) pluginContext.getClassLoader());
 
             newContext.setPluginApplication((Application) ((PluginContextTheme) pluginContext).getApplicationContext());
 

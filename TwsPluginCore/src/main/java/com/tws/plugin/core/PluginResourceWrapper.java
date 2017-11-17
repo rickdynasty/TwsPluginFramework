@@ -23,7 +23,7 @@ import com.tws.plugin.util.ResourceUtil;
  */
 public class PluginResourceWrapper extends Resources {
 
-	private static final String TAG = "rick_Print:PluginResourceWrapper";
+	private static final String TAG = "PluginResourceWrapper";
 
 	private HashSet<Integer> idCaches = new HashSet<Integer>(5);
 

@@ -1,17 +1,5 @@
 package com.tws.plugin.core;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Iterator;
-
-import qrom.component.log.QRomLog;
-
 import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
@@ -39,7 +27,18 @@ import com.tws.plugin.manager.PluginManagerHelper;
 import com.tws.plugin.util.FileUtil;
 import com.tws.plugin.util.ProcessUtil;
 
-import dalvik.system.DexClassLoader;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Iterator;
+
+import dalvik.system.BaseDexClassLoader;
+import qrom.component.log.QRomLog;
 
 public class PluginLoader {
 
@@ -171,7 +170,7 @@ public class PluginLoader {
             // 插件可能尚未初始化，确保使用前已经初始化
             LoadedPlugin plugin = PluginLauncher.instance().startPlugin(pluginDescriptor);
 
-            DexClassLoader pluginClassLoader = plugin.pluginClassLoader;
+            BaseDexClassLoader pluginClassLoader = plugin.pluginClassLoader;
 
             String clazzName = pluginDescriptor.getPluginClassNameById(clazzId);
             if (clazzName != null) {
@@ -204,7 +203,7 @@ public class PluginLoader {
             // 插件可能尚未初始化，确保使用前已经初始化
             LoadedPlugin plugin = PluginLauncher.instance().startPlugin(pluginDescriptor);
 
-            DexClassLoader pluginClassLoader = plugin.pluginClassLoader;
+            BaseDexClassLoader pluginClassLoader = plugin.pluginClassLoader;
 
             try {
                 Class pluginClazz = ((ClassLoader) pluginClassLoader).loadClass(clazzName);

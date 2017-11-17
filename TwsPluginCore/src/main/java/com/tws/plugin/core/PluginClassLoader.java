@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.List;
 
+import dalvik.system.PathClassLoader;
 import qrom.component.log.QRomLog;
 
 import com.tws.plugin.content.LoadedPlugin;
@@ -18,7 +19,7 @@ import dalvik.system.DexClassLoader;
  * @author yongchen
  * 
  */
-public class PluginClassLoader extends DexClassLoader {
+public class PluginClassLoader extends PathClassLoader {
 
 	private static final String TAG = "rick_Print:PluginClassLoader";
 
@@ -29,7 +30,8 @@ public class PluginClassLoader extends DexClassLoader {
 
 	public PluginClassLoader(String dexPath, String optimizedDirectory, String libraryPath, ClassLoader parent,
 			String[] dependencies, List<String> multiDexList) {
-		super(dexPath, optimizedDirectory, libraryPath, parent);
+		super(dexPath, libraryPath, parent);
+		addDexPath(optimizedDirectory);  //overwrite BaseDexClassLoader
 		this.dependencies = dependencies;
 
 		if (multiDexList != null) {
@@ -41,6 +43,9 @@ public class PluginClassLoader extends DexClassLoader {
 			}
 		}
 	}
+
+	//overwrite BaseDexClassLoader
+	public void addDexPath(String dexPath) {}
 
 	@Override
 	public String findLibrary(String name) {

@@ -9,7 +9,7 @@ import com.tws.plugin.manager.PluginManagerHelper;
 
 import java.util.HashMap;
 
-import dalvik.system.DexClassLoader;
+import dalvik.system.PathClassLoader;
 import qrom.component.log.QRomLog;
 
 /**
@@ -18,7 +18,7 @@ import qrom.component.log.QRomLog;
  * @author yongchen
  * 
  */
-public class HostClassLoader extends DexClassLoader {
+public class HostClassLoader extends PathClassLoader {
 
 	private static final String TAG = "rick_Print:HostClassLoader";
 	private static HashMap<String, String> sPluginInHostAMF_ServiceMap = new HashMap<String, String>();
@@ -28,8 +28,12 @@ public class HostClassLoader extends DexClassLoader {
 		sPluginInHostAMF_ServiceMap.put("com.pacewear.tws.wallet.service.PaceApduService", "com.pacewear.tws.phoneside.wallet");
 	}
 
-	public HostClassLoader(String dexPath, String optimizedDirectory, String libraryPath, ClassLoader parent) {
-		super(dexPath, optimizedDirectory, libraryPath, parent);
+	public HostClassLoader(String dexPath, ClassLoader parent) {
+		super(dexPath, parent);
+	}
+
+	public HostClassLoader(String dexPath, String librarySearchPath, ClassLoader parent) {
+		super(dexPath, librarySearchPath, parent);
 	}
 
 	@Override

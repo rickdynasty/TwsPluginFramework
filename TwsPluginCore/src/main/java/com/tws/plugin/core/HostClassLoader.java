@@ -9,7 +9,7 @@ import com.tws.plugin.manager.PluginManagerHelper;
 
 import java.util.HashMap;
 
-import dalvik.system.PathClassLoader;
+import dalvik.system.DexClassLoader;
 import qrom.component.log.QRomLog;
 
 /**
@@ -18,7 +18,7 @@ import qrom.component.log.QRomLog;
  * @author yongchen
  * 
  */
-public class HostClassLoader extends PathClassLoader {
+public class HostClassLoader extends DexClassLoader {
 
 	private static final String TAG = "rick_Print:HostClassLoader";
 	private static HashMap<String, String> sPluginInHostAMF_ServiceMap = new HashMap<String, String>();
@@ -29,12 +29,8 @@ public class HostClassLoader extends PathClassLoader {
 	}
 
 	public HostClassLoader(String dexPath, String optimizedDirectory, String libraryPath, ClassLoader parent) {
-		super(dexPath, libraryPath, parent);
-		addDexPath(optimizedDirectory);
+		super(dexPath, optimizedDirectory, libraryPath, parent);
 	}
-
-	//overwrite BaseDexClassLoader
-	public void addDexPath(String dexPath) {}
 
 	@Override
 	public String findLibrary(String name) {

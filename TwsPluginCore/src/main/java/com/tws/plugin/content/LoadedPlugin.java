@@ -3,8 +3,7 @@ package com.tws.plugin.content;
 import android.app.Application;
 import android.content.Context;
 import android.content.res.Resources;
-
-import dalvik.system.BaseDexClassLoader;
+import dalvik.system.DexClassLoader;
 
 /**
  * @author yongchen
@@ -12,7 +11,7 @@ import dalvik.system.BaseDexClassLoader;
  */
 public class LoadedPlugin {
 
-	public final BaseDexClassLoader pluginClassLoader;
+	public final DexClassLoader pluginClassLoader;
 	public final Context pluginContext;
 	public final Resources pluginResource;
 
@@ -21,7 +20,7 @@ public class LoadedPlugin {
 
 	public Application pluginApplication;
 
-	public LoadedPlugin(String packageName, String pluginSourceDir, Context pluginContext, BaseDexClassLoader pluginClassLoader) {
+	public LoadedPlugin(String packageName, String pluginSourceDir, Context pluginContext, DexClassLoader pluginClassLoader) {
 		this.pluginPackageName = packageName;
 		this.pluginSourceDir = pluginSourceDir;
 		this.pluginContext = pluginContext;

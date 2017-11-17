@@ -288,9 +288,9 @@ public class PluginContextTheme extends PluginBaseContextWrapper {
 		// 4.4以上版本缓存是延迟初始化的，这里增加这句调用是为了确保已经初始化，防止反射为空
 		PreferenceManager.getDefaultSharedPreferences(getBaseContext());
 
-		synchronized (PluginContextTheme.class) {
-			Object cache = HackContextImpl.getSharedPrefs();
-			if (Build.VERSION.SDK_INT >= 19 && cache instanceof ArrayMap) {
+		Object cache = HackContextImpl.getSharedPrefs();
+		if (Build.VERSION.SDK_INT >= 19 && cache instanceof ArrayMap) {
+			synchronized (PluginContextTheme.class) {
 				ArrayMap<String, ArrayMap<String, Object>> sSharedPrefs = (ArrayMap<String, ArrayMap<String, Object>>) cache;
 				final String packageName = getPackageName();
 				ArrayMap<String, Object> packagePrefs = sSharedPrefs.get(packageName);
@@ -304,13 +304,13 @@ public class PluginContextTheme extends PluginBaseContextWrapper {
 					packagePrefs.put(name, CompatForSharedPreferencesImpl.newSharedPreferencesImpl(
 							getSharedPrefsFile(name), mode, getPackageName()));
 				}
-			} else if (cache instanceof HashMap) {
-				HashMap<String, Object> sSharedPrefs = (HashMap<String, Object>) cache;
-				Object sp = sSharedPrefs.get(name);
-				if (sp == null) {
-					sSharedPrefs.put(name, CompatForSharedPreferencesImpl.newSharedPreferencesImpl(
-							getSharedPrefsFile(name), mode, getPackageName()));
-				}
+			}
+		} else if (cache instanceof HashMap) {
+			HashMap<String, Object> sSharedPrefs = (HashMap<String, Object>) cache;
+			Object sp = sSharedPrefs.get(name);
+			if (sp == null) {
+				sSharedPrefs.put(name, CompatForSharedPreferencesImpl.newSharedPreferencesImpl(
+						getSharedPrefsFile(name), mode, getPackageName()));
 			}
 		}
 

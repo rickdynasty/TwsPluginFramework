@@ -1,6 +1,9 @@
 package com.tws.plugin.core.proxy.systemservice;
 
 import java.lang.reflect.Method;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -9,20 +12,25 @@ import qrom.component.log.QRomLog;
 import android.app.ActivityManager;
 import android.app.Service;
 import android.content.Intent;
+import android.content.pm.ProviderInfo;
 import android.os.Build;
 import android.os.IBinder;
 
+import com.tws.plugin.bridge.TwsPluginBridgeProvider;
 import com.tws.plugin.content.DisplayItem;
 import com.tws.plugin.content.PluginDescriptor;
+import com.tws.plugin.content.PluginProviderInfo;
 import com.tws.plugin.core.PluginLoader;
 import com.tws.plugin.core.PluginShadowService;
 import com.tws.plugin.core.android.HackActivityManager;
 import com.tws.plugin.core.android.HackActivityManagerNative;
 import com.tws.plugin.core.android.HackActivityThread;
+import com.tws.plugin.core.android.HackContentProviderHolder;
 import com.tws.plugin.core.android.HackSingleton;
 import com.tws.plugin.core.proxy.MethodDelegate;
 import com.tws.plugin.core.proxy.MethodProxy;
 import com.tws.plugin.core.proxy.ProxyUtil;
+import com.tws.plugin.manager.PluginManagerHelper;
 import com.tws.plugin.util.PendingIntentHelper;
 import com.tws.plugin.util.ProcessUtil;
 import com.tws.plugin.util.ResourceUtil;
@@ -39,6 +47,7 @@ public class AndroidAppIActivityManager extends MethodProxy {
         sMethods.put("getIntentSender", new getIntentSender());
         sMethods.put("overridePendingTransition", new overridePendingTransition());
         sMethods.put("serviceDoneExecuting", new serviceDoneExecuting());
+        sMethods.put("getContentProvider", new getContentProvider());
     }
 
     public static void installProxy() {
@@ -83,7 +92,7 @@ public class AndroidAppIActivityManager extends MethodProxy {
             if (ProcessUtil.isPluginProcess()) {
                 List<ActivityManager.RunningAppProcessInfo> result = (List<ActivityManager.RunningAppProcessInfo>) invokeResult;
                 for (ActivityManager.RunningAppProcessInfo appProcess : result) {
-                    if (appProcess.pid == android.os.Process.myPid()) {
+                    if (appProcess != null && appProcess.pid == android.os.Process.myPid()) {
                         appProcess.processName = PluginLoader.getApplication().getPackageName();
                         break;
                     }
@@ -168,4 +177,52 @@ public class AndroidAppIActivityManager extends MethodProxy {
         }
     }
 
+    public static class getContentProvider extends MethodDelegate {
+
+        //ApplicationThread, auth, userId, stable
+        @Override
+        public Object afterInvoke(Object target, Method method, Object[] args, Object beforeInvoke, Object invokeResult) {
+            //非插件进程
+            if (!ProcessUtil.isPluginProcess()) {
+                if (invokeResult == null) {
+                    String auth = (String)args[1];
+                    Collection<PluginDescriptor> list = PluginManagerHelper.getPlugins();
+                    for(PluginDescriptor pluginDescriptor : list) {
+                        HashMap<String, PluginProviderInfo> map = pluginDescriptor.getProviderInfos();
+                        if (map != null) {
+                            Iterator<PluginProviderInfo> iterator = map.values().iterator();
+                            while(iterator.hasNext()) {
+                                PluginProviderInfo pluginProviderInfo = iterator.next();
+                                //在插件中找到了匹配的contentprovider
+                                if (auth != null && auth.equals(pluginProviderInfo.getAuthority())) {
+                                    //先检查插件是否已经初始化
+                                    boolean isrunning = PluginManagerHelper.isRunning(pluginDescriptor.getPackageName());
+                                    if (!isrunning) {
+                                        isrunning = PluginManagerHelper.wakeup(pluginDescriptor.getPackageName());
+                                    }
+                                    if (!isrunning) {
+                                        return invokeResult;
+                                    }
+
+                                    ProviderInfo providerInfo = new ProviderInfo();
+                                    providerInfo.applicationInfo = PluginLoader.getApplication().getApplicationInfo();
+                                    providerInfo.authority = auth;
+                                    providerInfo.name = TwsPluginBridgeProvider.class.getName();
+                                    providerInfo.packageName = PluginLoader.getApplication().getPackageName();
+                                    Object holder = HackContentProviderHolder.newInstance(providerInfo);
+
+                                    if (holder != null) {
+                                        return holder;
+                                    } else {
+                                        return invokeResult;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            return invokeResult;
+        }
+    }
 }

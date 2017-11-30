@@ -19,15 +19,14 @@ public class CompatForSupportv7_23_2 {
 	 * supportv7的23.2的版本中，AppCompatActivity这个类重写了getResource方法，
 	 * 返回了一个TintResources的对象 这里需要特别处理一下, 否者接下来的setTheme方法会导致crash
 	 * 其他版本，包括更低和更高版本的AppCompatActivity都没有重写这个方法.
-	 * 
-	 * <Pre>
-	 * public Resources getResources() {
-	 * 	if (mResources == null) {
-	 * 		mResources = new TintResources(this, super.getResources());
-	 * 	}
-	 * 	return mResources;
-	 * }
-	 * </Pre>
+     *  <Pre>
+     *       public Resources getResources() {
+     *           if (mResources == null) {
+     *               mResources = new TintResources(this, super.getResources());
+     *           }
+     *           return mResources;
+     *       }
+     *  </Pre>
 	 * 
 	 * @param pluginContext
 	 * @param activity

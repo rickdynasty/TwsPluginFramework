@@ -59,9 +59,9 @@ public class HostClassLoader extends PathClassLoader {
 			if (className.equals(PluginIntentResolver.CLASS_PREFIX_SERVICE + "null")) {
 				QRomLog.e(TAG, "到了这里说明出bug了,这里做个容错处理, 避免出现classnotfound");
 				return TwsPluginBridgeService.class;
-			} else {
-				return PluginShadowService.class;
 			}
+			
+			return PluginShadowService.class;
 
 		} else if (className.startsWith(PluginIntentResolver.CLASS_PREFIX_RECEIVER)) {
 

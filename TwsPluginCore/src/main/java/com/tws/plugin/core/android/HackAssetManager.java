@@ -14,7 +14,7 @@ public class HackAssetManager {
 
 	private static final String Method_addAssetPath = "addAssetPath";
 	private static final String Method_addAssetPaths = "addAssetPaths";
-
+    private static final String Method_ensureStringBlocks = "ensureStringBlocks";
 	private static final String Method_getAssignedPackageIdentifiers = "getAssignedPackageIdentifiers";
 
 	private Object instance;
@@ -23,20 +23,25 @@ public class HackAssetManager {
 		this.instance = instance;
 	}
 
-	public void addAssetPath(String path) {
-		RefInvoker.invokeMethod(instance, ClassName, Method_addAssetPath, new Class[] { String.class },
-				new Object[] { path });
+    public void addAssetPath(String path) {
+        RefInvoker.invokeMethod(instance, ClassName, Method_addAssetPath, new Class[]{String.class}, new Object[]{path});
+    }
+
+    public void addAssetPaths(String[] assetPaths) {
+        RefInvoker.invokeMethod(instance, ClassName, Method_addAssetPaths,
+                new Class[] { String[].class }, new Object[] { assetPaths });
+
 	}
 
-	public void addAssetPaths(String[] assetPaths) {
-		RefInvoker.invokeMethod(instance, ClassName, Method_addAssetPaths, new Class[] { String[].class },
-				new Object[] { assetPaths });
+    //Android L
+    public SparseArray<String> getAssignedPackageIdentifiers() {
+        SparseArray<String> packageIdentifiers = (SparseArray<String>) RefInvoker.invokeMethod(instance,
+                ClassName, Method_getAssignedPackageIdentifiers, null, null);
+        return packageIdentifiers;
+    }
 
-	}
-
-	public SparseArray<String> getAssignedPackageIdentifiers() {
-		SparseArray<String> packageIdentifiers = (SparseArray<String>) RefInvoker.invokeMethod(instance, ClassName,
-				Method_getAssignedPackageIdentifiers, null, null);
-		return packageIdentifiers;
-	}
+    public Object[] ensureStringBlocks() {
+        return (Object[])RefInvoker.invokeMethod(instance,
+                ClassName, Method_ensureStringBlocks, null, null);
+    }
 }

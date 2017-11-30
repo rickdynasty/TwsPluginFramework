@@ -80,6 +80,7 @@ public class ListViewSamples extends TwsActivity implements View.OnClickListener
 		}
 
 		if (intent != null) {
+			intent.setClassName(getApplicationContext(), SortListviewActivity.class.getName());
 			startActivity(intent);
 		}
 	}

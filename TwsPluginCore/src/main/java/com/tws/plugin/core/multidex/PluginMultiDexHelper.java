@@ -32,10 +32,15 @@ public class PluginMultiDexHelper {
 
 		return new PackageManager() {
 
-			@Override
-			public PackageInfo getPackageInfo(String packageName, int flags) throws NameNotFoundException {
-				return null;
-			}
+            @Override
+            public PackageInfo getPackageInfo(String packageName, int flags) throws NameNotFoundException {
+                return null;
+            }
+
+//            //android-O
+//            public PackageInfo getPackageInfo(VersionedPackage versionedPackage, int i) throws NameNotFoundException {
+//                return null;
+//            }
 
 			@Override
 			public String[] currentToCanonicalPackageNames(String[] names) {
@@ -132,12 +137,13 @@ public class PluginMultiDexHelper {
 
 			@Override
 			public int checkPermission(String permName, String pkgName) {
-				return 0;
+				return PERMISSION_DENIED;
 			}
 
-			public boolean isPermissionRevokedByPolicy(String permName, String pkgName) {
-				return false;
-			}
+            @Override
+            public boolean isPermissionRevokedByPolicy(String permName, String pkgName) {
+                return false;
+            }
 
 			@Override
 			public boolean addPermission(PermissionInfo info) {
@@ -156,12 +162,12 @@ public class PluginMultiDexHelper {
 
 			@Override
 			public int checkSignatures(String pkg1, String pkg2) {
-				return 0;
+				return SIGNATURE_MATCH;
 			}
 
 			@Override
 			public int checkSignatures(int uid1, int uid2) {
-				return 0;
+				return SIGNATURE_MATCH;
 			}
 
 			@Override
@@ -179,10 +185,50 @@ public class PluginMultiDexHelper {
 				return null;
 			}
 
-			@Override
-			public String[] getSystemSharedLibraryNames() {
-				return new String[0];
-			}
+            //android-O
+            public boolean isInstantApp() {
+                return false;
+            }
+
+            //android-O
+            public boolean isInstantApp(String s) {
+                return false;
+            }
+
+            //android-O
+            public int getInstantAppCookieMaxBytes() {
+                return 0;
+            }
+
+            //android-O
+            public byte[] getInstantAppCookie() {
+                return new byte[0];
+            }
+
+            //android-O
+            public void clearInstantAppCookie() {
+
+            }
+
+            //android-O
+            public void updateInstantAppCookie(byte[] bytes) {
+
+            }
+
+            @Override
+            public String[] getSystemSharedLibraryNames() {
+                return new String[0];
+            }
+
+            //android-O
+//            public List<SharedLibraryInfo> getSharedLibraries(int i) {
+//                return null;
+//            }
+
+            //android-O
+//            public ChangedPackages getChangedPackages(int i) {
+//                return null;
+//            }
 
 			@Override
 			public FeatureInfo[] getSystemAvailableFeatures() {
@@ -425,7 +471,7 @@ public class PluginMultiDexHelper {
 
 			@Override
 			public int getComponentEnabledSetting(ComponentName componentName) {
-				return 0;
+				return COMPONENT_ENABLED_STATE_DEFAULT;
 			}
 
 			@Override
@@ -435,7 +481,7 @@ public class PluginMultiDexHelper {
 
 			@Override
 			public int getApplicationEnabledSetting(String packageName) {
-				return 0;
+				return COMPONENT_ENABLED_STATE_DEFAULT;
 			}
 
 			@Override
@@ -443,15 +489,25 @@ public class PluginMultiDexHelper {
 				return false;
 			}
 
-			@Override
-			public PackageInstaller getPackageInstaller() {
-				return null;
-			}
+            //android-O
+            public void setApplicationCategoryHint(String s, int i) {
 
-			// android-N
-			public boolean hasSystemFeature(String arg1, int agr2) {
-				return false;
-			}
-		};
-	}
+            }
+
+            @Override
+            public PackageInstaller getPackageInstaller() {
+                return null;
+            }
+
+            //android-O
+            public boolean canRequestPackageInstalls() {
+                return false;
+            }
+
+            //android-N
+            public boolean hasSystemFeature(String arg1, int agr2) {
+                return false;
+            }
+        };
+    }
 }

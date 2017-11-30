@@ -6,7 +6,7 @@ import android.os.Build;
 import com.tws.plugin.util.RefInvoker;
 
 /**
- * Created by cailiming on 2017/11/27.
+ * Created by yongchen
  */
 
 public class HackContentProviderHolder {

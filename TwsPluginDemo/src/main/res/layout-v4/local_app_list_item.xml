@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal"
+    android:paddingLeft="@dimen/activity_horizontal_margin" >
+
+    <ImageView
+        android:id="@+id/file_icon"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        android:layout_margin="8dp"
+        android:contentDescription="@string/app_name"
+        android:scaleType="centerCrop" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="false"
+        android:layout_centerVertical="true"
+        android:layout_gravity="center_vertical"
+        android:layout_toRightOf="@id/file_icon"
+        android:orientation="vertical"
+        android:paddingLeft="4dp" >
+
+        <TextView
+            android:id="@+id/file_name_tv"
+            android:layout_width="160dp"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:paddingTop="5dip"
+            android:singleLine="true"
+            android:textColor="@android:color/black"
+            android:textSize="17sp" />
+
+        <TextView
+            android:id="@+id/file_path_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/file_name_tv"
+            android:paddingBottom="5dip"
+            android:singleLine="true"
+            android:textColor="@android:color/darker_gray"
+            android:textSize="14sp" />
+
+        <ProgressBar
+            android:id="@+id/transfer_progress"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/file_name_tv"
+            android:max="100"
+            android:progress="0"
+            android:visibility="invisible" />
+    </RelativeLayout>
+
+    <Button
+        android:id="@+id/item_bt"
+        android:layout_width="120dp"
+        android:layout_height="30dp"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_gravity="center_vertical|right"
+        android:layout_marginRight="20dp"
+        android:clickable="false"
+        android:focusable="false"
+        android:background="@android:color/background_light"
+        android:text="send"
+        android:textColor="@android:color/white" >
+    </Button>
+
+</RelativeLayout>

@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">TwsPluginDemo</string>
+    <string name="hello_world1">来自插件文字1</string>
+    <string name="hello_world2">来自插件文字2</string>
+    <string name="hello_world3">来自插件文字3</string>
+    <string name="hello_world4">来自插件文字4</string>
+    <string name="test_communication_dma">Click into Communication DMA</string>
+    <string name="test_share_widget">Click into Share Widget</string>
+    <string name="test_basic_ability">Click into Frame Base Ability</string>
+    <string name="test_btn_des">Test Button</string>
+    <string name="open_ft">Open FileTransfer Demo</string>
+    <string name="alert_dialog">AlertDialog</string>
+    <string name="widget_tabviewpager">TabViewpager</string>
+    <string name="widget_toast">Toast</string>
+    <string name="widget_sidebar">SideBar</string>
+    <string name="alert_dialog_bottom_single">底部弹出的单选对话框</string>
+    <string name="alert_dialog_bottom_mult">底部弹出的多选对话框</string>
+    <string name="alert_dialog_bottom_botton">底部带有按钮的对话框</string>
+    <string name="alert_dialog_bottom">底部弹出的对话框</string>
+    <string name="alert_dialog_not_dismiss">不会主动消失的对话框</string>
+    <string name="alert_dialog_two_buttons">OK Cancel dialog with a message</string>
+    <string name="alert_dialog_two_buttons_old_school">OK Cancel dialog with not title</string>
+    <string name="alert_dialog_two_buttons_holo_light">OK Cancel dialog with Holo Light theme</string>
+    <string name="alert_dialog_two_buttons2">OK Cancel dialog with a long message</string>
+    <string name="alert_dialog_two_buttons2ultra">OK Cancel dialog with ultra long message</string>
+    <string name="alert_dialog_select_button">List dialog</string>
+    <string name="alert_dialog_single_choice">Single choice list</string>
+    <string name="alert_dialog_multi_choice">Repeat alarm</string>
+    <string name="alert_dialog_multi_choice_cursor">Send Call to VoiceMail</string>
+    <string name="alert_dialog_progress_button">Progress dialog</string>
+    <string name="alert_dialog_text_entry">Text Entry dialog</string>
+    <string name="alert_dialog_username">Name:</string>
+    <string name="alert_dialog_password">Password:</string>
+    <string name="alert_dialog_two_buttons_title">“API Demos” 要读取您的联系人数据，是否同意访问。</string>
+    <string name="alert_dialog_two_buttons_ok">拒绝</string>
+    <string name="alert_dialog_two_buttons_cancel">允许</string>
+    <string name="alert_dialog_two_buttons_msg">Header title</string>
+    <string name="alert_dialog_two_buttons2_msg">Plloaso mako nuto siwuf cakso dodtos anr koop a
+        cupy uf cak vux noaw yerw phuno. Whag schengos, uf efed, quiel
+        ba mada su otrenzr.\n\nSwipontgwook proudgs hus yag su ba dagarmidad.
+        Plasa maku noga wipont trenzsa schengos ent kaap zux comy.\n\nWipont trenz
+        kipg naar mixent phona. Cak pwico siructiun
+        ruous nust apoply tyu cak Uhex sisulutiun munityuw uw dseg
+    </string>
+    <string name="alert_dialog_two_buttons2ultra_msg">Plloaso mako nuto siwuf cakso dodtos anr koop a
+        cupy uf cak vux noaw yerw phuno. Whag schengos, uf efed, quiel
+        ba mada su otrenzr.\n\nSwipontgwook proudgs hus yag su ba dagarmidad.
+        Plasa maku noga wipont trenzsa schengos ent kaap zux comy.\n\nWipont trenz
+        kipg naar mixent phona. Cak pwico siructiun
+        ruous nust apoply tyu cak Uhex sisulutiun munityuw uw dseg\n\n
+        Plloaso mako nuto siwuf cakso dodtos anr koop a
+        cupy uf cak vux noaw yerw phuno. Whag schengos, uf efed, quiel
+        ba mada su otrenzr.\n\nSwipontgwook proudgs hus yag su ba dagarmidad.
+        Plasa maku noga wipont trenzsa schengos ent kaap zux comy.\n\nWipont trenz
+        kipg naar mixent phona. Cak pwico siructiun
+        ruous nust apoply tyu cak Uhex sisulutiun munityuw uw dseg\n\n
+        Plloaso mako nuto siwuf cakso dodtos anr koop a
+        cupy uf cak vux noaw yerw phuno. Whag schengos, uf efed, quiel
+        ba mada su otrenzr.\n\nSwipontgwook proudgs hus yag su ba dagarmidad.
+        Plasa maku noga wipont trenzsa schengos ent kaap zux comy.\n\nWipont trenz
+        kipg naar mixent phona. Cak pwico siructiun
+        ruous nust apoply tyu cak Uhex sisulutiun munityuw uw dseg\n\n
+        Plloaso mako nuto siwuf cakso dodtos anr koop a
+        cupy uf cak vux noaw yerw phuno. Whag schengos, uf efed, quiel
+        ba mada su otrenzr.\n\nSwipontgwook proudgs hus yag su ba dagarmidad.
+        Plasa maku noga wipont trenzsa schengos ent kaap zux comy.\n\nWipont trenz
+        kipg naar mixent phona. Cak pwico siructiun
+        ruous nust apoply tyu cak Uhex sisulutiun munityuw uw dseg\n\n
+        Plloaso mako nuto siwuf cakso dodtos anr koop a
+        cupy uf cak vux noaw yerw phuno. Whag schengos, uf efed, quiel
+        ba mada su otrenzr.\n\nSwipontgwook proudgs hus yag su ba dagarmidad.
+        Plasa maku noga wipont trenzsa schengos ent kaap zux comy.\n\nWipont trenz
+        kipg naar mixent phona. Cak pwico siructiun
+        ruous nust apoply tyu cak Uhex sisulutiun munityuw uw dseg\n\n
+        Plloaso mako nuto siwuf cakso dodtos anr koop a
+        cupy uf cak vux noaw yerw phuno. Whag schengos, uf efed, quiel
+        ba mada su otrenzr.\n\nSwipontgwook proudgs hus yag su ba dagarmidad.
+        Plasa maku noga wipont trenzsa schengos ent kaap zux comy.\n\nWipont trenz
+        kipg naar mixent phona. Cak pwico siructiun
+        ruous nust apoply tyu cak Uhex sisulutiun munityuw uw dseg\n\n
+    </string>
+    <string name="alert_dialog_ok">确定</string>
+    <string name="alert_dialog_hide">隐藏</string>
+    <string name="alert_dialog_something">Something</string>
+    <string name="alert_dialog_cancel">取消</string>
+    <string name="alert_dialog_progress_text2">145/305 KB</string>
+    <string name="alert_dialog_two_buttons_old_school_msg">您的手机没有开通电话会议功能，需要联系手机运营商开通。</string>
+    <string name="alert_dialog_two_buttons_holo_light_title">提示</string>
+    <string name="alert_dialog_two_buttons_holo_light_msg">设定短信自动发送时间，设定短信自动发送时间，设定短信自动发送时间。</string>
+    <string name="alert_dialog_two_buttons_holo_light_sub_msg">不再提示</string>
+    <string name="alert_dialog_two_buttons_holo_light_ok">设置签名</string>
+    <string name="alert_dialog_two_buttons_holo_light_cancel">取消</string>
+    <string name="select_dialog">Header title</string>
+    <string name="select_dialog_show">List dialog</string>
+    <string name="Button">Button</string>
+    <string name="Dialog">Dialog</string>
+    <string name="Toast">Toast</string>
+    <string name="OptionA">Easy</string>
+    <string name="OptionB">Nor</string>
+    <string name="OptionC">hard</string>
+    <string name="Switch">Switch</string>
+    <string name="SearchView">SearchView</string>
+    <string name="EditText">EditText</string>
+    <string name="TwsEditText">TwsEditText</string>
+    <string name="ProgressBar">ProgressBar</string>
+    <string name="SeekBar">SeekBar</string>
+    <string name="RatingBar">RatingBar</string>
+    <string name="Spinner">Spinner</string>
+    <string name="AutoComplete">AutoComplete</string>
+    <string name="RadioButton">RadioButton</string>
+    <string name="CheckBox">CheckBox</string>
+    <string name="search_view_hint">搜索联系人</string>
+    <string name="popup_menu_search">Search</string>
+    <string name="popup_menu_add">Add</string>
+    <string name="popup_menu_edit">Edit</string>
+    <string name="popup_menu_share">Share</string>
+    <string name="popup_menu_button">PopMenu</string>
+    <string name="preference_common_dialogtittle">设置</string>
+    <string name="preference_common_summary">This is a summary.</string>
+
+    <string name="action_bar_settings_action_provider_no_handling">Handling in onOptionsItemSelected avoided</string>
+    <string name="action_bar_split_content">显示ActionBar的split模式，是将ActionMenu分离至页面底部显示，在Mainfest中配置uiOption=splitActionBarWhenNarrow即可</string>
+    <string name="action_bar_display_options_title">ActionBarDisplayOptions</string>
+    <string name="action_bar_subtitle_title">Tyroneyu</string>
+    <string name="action_bar_subtitle_actionmode">已选择2条</string>
+    <string name="action_bar_subtitle_actionmode_on">全选</string>
+    <string name="action_bar_subtitle_actionmode_off">全不选</string>
+    <string name="action_bar_display_title">亮度调节</string>
+    <string name="action_bar_title">主标题主标</string>
+    <string name="action_bar_subtitle">副标题副标题</string>
+
+    <string name="progress_dialog">Progress对话框</string>
+    <string name="tws_base_widget">Tws基础控件</string>
+
+    <!-- api demo -->
+    <string name="signature">Burgeon</string>
+    <string name="display_options_custom_button">Custom View!</string>
+    <string name="display_options_menu_item">Menu Item</string>
+    <string name="longclick">长按进入复选模式</string>
+    <string name="toggle_split_on">显示SplitActionBar</string>
+    <string name="toggle_split_off">隐藏SplitActionBar</string>
+    <string name="checkme">复选模式</string>
+    <string name="list_action_mode">list Activity</string>
+    <string name="btn_add_tab">btn_add_tab</string>
+    <string name="btn_remove_tab">btn_remove_tab</string>
+    <string name="btn_toggle_tabs">btn_toggle_tabs</string>
+    <string name="btn_remove_all_tabs">btn_remove_all_tabs</string>
+    <string name="ShowDialog">ShowDialog</string>
+    <string name="RadioButton1">RadioButton1</string>
+    <string name="RadioButton2">RadioButton2</string>
+    <string name="twstextview">twstextview</string>
+    <string name="twsedittext">twsedittext</string>
+    <string name="list_check_action_mode">list check Activity</string>
+    <string name="ToggleButton">ToggleButton</string>
+    <string name="CheckedTextView">CheckedTextView</string>
+    <string name="toggle_back_on">显示返回按钮</string>
+    <string name="toggle_back_off">隐藏返回按钮</string>
+    <string name="toggle_title_on">显示标题栏</string>
+    <string name="toggle_title_off">隐藏标题栏</string>
+    <string name="toggle_subtitle_on">显示副标题</string>
+    <string name="toggle_subtitle_off">隐藏副标题</string>
+    <string name="toggle_actionbar_on">显示ActionBar</string>
+    <string name="toggle_actionbar_off">隐藏ActionBar</string>
+    <string name="toggle_custom_on">显示自定义view</string>
+    <string name="toggle_custom_off">隐藏自定义view</string>
+    <string name="toggle_back_enable_on">启用返回按钮事件</string>
+    <string name="toggle_back_enable_off">禁用返回按钮事件</string>
+    <string name="toggle_action_mode">进入全选模式</string>
+    <string name="toggle_edit_btn_on">显示编辑按钮</string>
+    <string name="toggle_edit_btn_off">隐藏编辑按钮</string>
+    <string name="toggle_more_btn_on">显示更多按钮</string>
+    <string name="toggle_more_btn_off">隐藏更多按钮</string>
+    <string name="preference_tittle">preference</string>
+    <string name="preference_category_normal">一般设置</string>
+    <string name="preference_category_advanced">高级设置</string>
+    <string name="preference_preference_tittle">Preference</string>
+    <string name="preference_checkbox_tittle">CheckboxPreference""</string>
+    <string name="preference_edittext_tittle">EditTextPreference“”</string>
+    <string name="preference_edittext_defaultvalue">DefaultValue</string>
+    <string name="preference_volume_tittle">VolumePreference</string>
+    <string name="preference_seekbar_tittle">SeekBarPreference</string>
+    <string name="preference_seekbardialog_tittle">SeekBarDialogPreference</string>
+    <string name="preference_ringtone_tittle">RingtonePreference</string>
+    <string name="preference_preferencescreen_title">" \" 更多设置\" "</string>
+    <string name="preference_list_tittle">ListPreference</string>
+</resources>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <item
+        android:id="@+id/search"
+        android:title="@string/popup_menu_search"/>
+    <item
+        android:id="@+id/add"
+        android:title="@string/popup_menu_add"/>
+    <item
+        android:id="@+id/edit"
+        android:title="@string/popup_menu_edit">
+        <menu>
+            <item
+                android:id="@+id/share"
+                android:title="@string/popup_menu_share"/>
+        </menu>
+    </item>
+
+</menu>

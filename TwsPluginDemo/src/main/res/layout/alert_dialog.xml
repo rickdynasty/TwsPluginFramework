@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/screen"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical" >
+
+        <Button
+            android:id="@+id/two_buttons"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dip"
+            android:text="@string/alert_dialog_two_buttons" />
+
+        <Button
+            android:id="@+id/two_buttons2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dip"
+            android:text="@string/alert_dialog_two_buttons2" />
+
+        <Button
+            android:id="@+id/two_buttons2ultra"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dip"
+            android:text="@string/alert_dialog_two_buttons2ultra" />
+
+        <Button
+            android:id="@+id/select_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dip"
+            android:text="@string/alert_dialog_select_button" />
+
+        <Button
+            android:id="@+id/progress_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dip"
+            android:text="@string/alert_dialog_progress_button" />
+
+        <Button
+            android:id="@+id/radio_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dip"
+            android:text="@string/alert_dialog_single_choice" />
+
+        <Button
+            android:id="@+id/checkbox_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dip"
+            android:text="@string/alert_dialog_multi_choice" />
+
+        <Button
+            android:id="@+id/checkbox_button2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dip"
+            android:text="@string/alert_dialog_multi_choice_cursor" />
+
+        <Button
+            android:id="@+id/text_entry_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dip"
+            android:text="@string/alert_dialog_text_entry" />
+
+        <Button
+            android:id="@+id/two_buttons_old_school"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dip"
+            android:text="@string/alert_dialog_two_buttons_old_school" />
+
+        <Button
+            android:id="@+id/two_buttons_holo_light"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dip"
+            android:text="@string/alert_dialog_two_buttons_holo_light" />
+
+        <Button
+            android:id="@+id/alert_dialog_not_dismiss"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dip"
+            android:text="@string/alert_dialog_not_dismiss" />
+
+        <Button
+            android:id="@+id/alert_dialog_bottom"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dip"
+            android:text="@string/alert_dialog_bottom" />
+
+        <Button
+            android:id="@+id/alert_dialog_bottom_single"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dip"
+            android:text="@string/alert_dialog_bottom_single" />
+
+        <Button
+            android:id="@+id/alert_dialog_bottom_mult"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dip"
+            android:text="@string/alert_dialog_bottom_mult" />
+
+        <Button
+            android:id="@+id/alert_dialog_bottom_botton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dip"
+            android:text="@string/alert_dialog_bottom_botton" />
+    </LinearLayout>
+
+</ScrollView>

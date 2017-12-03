@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:showAsAction="always"
+        android:icon="@drawable/ic_menu_share_normal"
+        android:title="action_bar_add"/>
+    <item
+        android:id="@+id/action_edit"
+        android:icon="@drawable/ic_menu_edit_normal"
+        android:showAsAction="always"
+        android:title="action_bar_edit"/>
+
+</menu>

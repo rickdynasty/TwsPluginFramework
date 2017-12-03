@@ -1,3 +1,187 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">TwsPluginDemo</string>
+    <string name="hello_world1">from plugin literal 1</string>
+    <string name="hello_world2">from plug-in text 2</string>
+    <string name="hello_world3">from plug-in text 3</string>
+    <string name="hello_world4">from plug-in text 4</string>
+    <string name="test_communication_dma">Click into Communication DMA</string>
+    <string name="test_share_widget">Click into Share Widget</string>
+    <string name="test_basic_ability">Click into Frame Base Ability</string>
+    <string name="test_btn_des">Test Button</string>
+    <string name="open_ft">Open FileTransfer Demo</string>
+    <string name="alert_dialog">AlertDialog</string>
+    <string name="widget_tabviewpager">TabViewpager</string>
+    <string name="widget_toast">Toast</string>
+    <string name="widget_sidebar">SideBar</string>
+    <string name="alert_dialog_bottom_single">the bottom of the pop-up radio dialog box</string>
+    <string name="alert_dialog_bottom_mult">multiple pop-up dialog box at the bottom</string>
+    <string name="alert_dialog_bottom_botton">Dialog with buttons at bottom</string>
+    <string name="alert_dialog_bottom">pop-up dialog at the bottom</string>
+    <string name="alert_dialog_not_dismiss">dialog box does not disappear</string>
+    <string name="alert_dialog_two_buttons">OK Cancel dialog with a message</string>
+    <string name="alert_dialog_two_buttons_old_school">OK Cancel dialog with not title</string>
+    <string name="alert_dialog_two_buttons_holo_light">OK Cancel dialog with Holo Light theme</string>
+    <string name="alert_dialog_two_buttons2">OK Cancel dialog with a long message</string>
+    <string name="alert_dialog_two_buttons2ultra">OK Cancel dialog with ultra long message</string>
+    <string name="alert_dialog_select_button">List dialog</string>
+    <string name="alert_dialog_single_choice">Single choice list</string>
+    <string name="alert_dialog_multi_choice">Repeat alarm</string>
+    <string name="alert_dialog_multi_choice_cursor">Send Call to VoiceMail</string>
+    <string name="alert_dialog_progress_button">Progress dialog</string>
+    <string name="alert_dialog_text_entry">Text Entry dialog</string>
+    <string name="alert_dialog_username">Name:</string>
+    <string name="alert_dialog_password">Password:</string>
+    <string name="alert_dialog_two_buttons_title">"API Demos" To read your contact data, agree to visit.</string>
+    <string name="alert_dialog_two_buttons_ok">reject</string>
+    <string name="alert_dialog_two_buttons_cancel">allow</string>
+    <string name="alert_dialog_two_buttons_msg">Header title</string>
+    <string name="alert_dialog_two_buttons2_msg">Plloaso mako nuto siwuf cakso dodtos anr koop a
+        cupy uf cak vux noaw yerw phuno. Whag schengos, uf efed, quiel
+        ba mada su otrenzr.\n\nSwipontgwook proudgs hus yag su ba dagarmidad.
+        Plasa maku noga wipont trenzsa schengos ent kaap zux comy.\n\nWipont trenz
+        kipg naar mixent phona. Cak pwico siructiun
+        ruous nust apoply tyu cak Uhex sisulutiun munityuw uw dseg
+    </string>
+    <string name="alert_dialog_two_buttons2ultra_msg">Plloaso mako nuto siwuf cakso dodtos anr koop a
+        cupy uf cak vux noaw yerw phuno. Whag schengos, uf efed, quiel
+        ba mada su otrenzr.\n\nSwipontgwook proudgs hus yag su ba dagarmidad.
+        Plasa maku noga wipont trenzsa schengos ent kaap zux comy.\n\nWipont trenz
+        kipg naar mixent phona. Cak pwico siructiun
+        ruous nust apoply tyu cak Uhex sisulutiun munityuw uw dseg\n\n
+        Plloaso mako nuto siwuf cakso dodtos anr koop a
+        cupy uf cak vux noaw yerw phuno. Whag schengos, uf efed, quiel
+        ba mada su otrenzr.\n\nSwipontgwook proudgs hus yag su ba dagarmidad.
+        Plasa maku noga wipont trenzsa schengos ent kaap zux comy.\n\nWipont trenz
+        kipg naar mixent phona. Cak pwico siructiun
+        ruous nust apoply tyu cak Uhex sisulutiun munityuw uw dseg\n\n
+        Plloaso mako nuto siwuf cakso dodtos anr koop a
+        cupy uf cak vux noaw yerw phuno. Whag schengos, uf efed, quiel
+        ba mada su otrenzr.\n\nSwipontgwook proudgs hus yag su ba dagarmidad.
+        Plasa maku noga wipont trenzsa schengos ent kaap zux comy.\n\nWipont trenz
+        kipg naar mixent phona. Cak pwico siructiun
+        ruous nust apoply tyu cak Uhex sisulutiun munityuw uw dseg\n\n
+        Plloaso mako nuto siwuf cakso dodtos anr koop a
+        cupy uf cak vux noaw yerw phuno. Whag schengos, uf efed, quiel
+        ba mada su otrenzr.\n\nSwipontgwook proudgs hus yag su ba dagarmidad.
+        Plasa maku noga wipont trenzsa schengos ent kaap zux comy.\n\nWipont trenz
+        kipg naar mixent phona. Cak pwico siructiun
+        ruous nust apoply tyu cak Uhex sisulutiun munityuw uw dseg\n\n
+        Plloaso mako nuto siwuf cakso dodtos anr koop a
+        cupy uf cak vux noaw yerw phuno. Whag schengos, uf efed, quiel
+        ba mada su otrenzr.\n\nSwipontgwook proudgs hus yag su ba dagarmidad.
+        Plasa maku noga wipont trenzsa schengos ent kaap zux comy.\n\nWipont trenz
+        kipg naar mixent phona. Cak pwico siructiun
+        ruous nust apoply tyu cak Uhex sisulutiun munityuw uw dseg\n\n
+        Plloaso mako nuto siwuf cakso dodtos anr koop a
+        cupy uf cak vux noaw yerw phuno. Whag schengos, uf efed, quiel
+        ba mada su otrenzr.\n\nSwipontgwook proudgs hus yag su ba dagarmidad.
+        Plasa maku noga wipont trenzsa schengos ent kaap zux comy.\n\nWipont trenz
+        kipg naar mixent phona. Cak pwico siructiun
+        ruous nust apoply tyu cak Uhex sisulutiun munityuw uw dseg\n\n
+    </string>
+    <string name="alert_dialog_ok">OK</string>
+    <string name="alert_dialog_hide">Hide</string>
+    <string name="alert_dialog_something">Something</string>
+    <string name="alert_dialog_cancel">Cancel</string>
+    <string name="alert_dialog_progress_text2">145/305 KB</string>
+    <string name="alert_dialog_two_buttons_old_school_msg">Your phone is not enabled for teleconferencing. You need to contact your carrier to enable it.</string>
+    <string name="alert_dialog_two_buttons_holo_light_title">Prompt</string>
+    <string name="alert_dialog_two_buttons_holo_light_msg">Set the automatic sending time of SMS, set the automatic sending time of SMS, and set the automatic sending time of SMS.</string>
+    <string name="alert_dialog_two_buttons_holo_light_sub_msg">No longer prompt</string>
+    <string name="alert_dialog_two_buttons_holo_light_ok">Set signature</string>
+    <string name="alert_dialog_two_buttons_holo_light_cancel">Cancel</string>
+    <string name="select_dialog">Header title</string>
+    <string name="select_dialog_show">List dialog</string>
+    <string name="Button">Button</string>
+    <string name="Dialog">Dialog</string>
+    <string name="Toast">Toast</string>
+    <string name="OptionA">Easy</string>
+    <string name="OptionB">Nor</string>
+    <string name="OptionC">hard</string>
+    <string name="Switch">Switch</string>
+    <string name="SearchView">SearchView</string>
+    <string name="EditText">EditText</string>
+    <string name="TwsEditText">TwsEditText</string>
+    <string name="ProgressBar">ProgressBar</string>
+    <string name="SeekBar">SeekBar</string>
+    <string name="RatingBar">RatingBar</string>
+    <string name="Spinner">Spinner</string>
+    <string name="AutoComplete">AutoComplete</string>
+    <string name="RadioButton">RadioButton</string>
+    <string name="CheckBox">CheckBox</string>
+    <string name="search_view_hint">search contacts</string>
+    <string name="popup_menu_search">Search</string>
+    <string name="popup_menu_add">Add</string>
+    <string name="popup_menu_edit">Edit</string>
+    <string name="popup_menu_share">Share</string>
+    <string name="popup_menu_button">PopMenu</string>
+    <string name="preference_common_dialogtittle">Settings</string>
+    <string name="preference_common_summary">This is a summary.</string>
+
+    <string name="action_bar_settings_action_provider_no_handling">Handling in onOptionsItemSelected avoided</string>
+    <string name="action_bar_split_content">Show ActionBar split mode is to separate the ActionMenu to the bottom of the page display, in the configuration of Mainfest uiOption = splitActionBarWhenNarrow can</string>
+    <string name="action_bar_display_options_title">ActionBarDisplayOptions</string>
+    <string name="action_bar_subtitle_title">Tyroneyu</string>
+    <string name="action_bar_subtitle_actionmode">2 selected</string>
+    <string name="action_bar_subtitle_actionmode_on">Select All</string>
+    <string name="action_bar_subtitle_actionmode_off">All unselected</string>
+    <string name="action_bar_display_title">Brightness</string>
+    <string name="action_bar_title">Main title</string>
+    <string name="action_bar_subtitle">Subtitle subtitle</string>
+
+    <string name="progress_dialog">Progress dialog</string>
+    <string name="tws_base_widget">Tws base control</string>
+
+    <!-- api demo -->
+    <string name="signature">Burgeon</string>
+    <string name="display_options_custom_button">Custom View!</string>
+    <string name="display_options_menu_item">Menu Item</string>
+    <string name="longclick">Long press to enter the check mode</string>
+    <string name="toggle_split_on">Show SplitActionBar</string>
+    <string name="toggle_split_off">Hide SplitActionBar</string>
+    <string name="checkme">Check mode</string>
+    <string name="list_action_mode">List Activity</string>
+    <string name="btn_add_tab">Btn_add_tab</string>
+    <string name="btn_remove_tab">Btn_remove_tab</string>
+    <string name="btn_toggle_tabs">Btn_toggle_tabs</string>
+    <string name="btn_remove_all_tabs">btn_remove_all_tabs</string>
+    <string name="ShowDialog">ShowDialog</string>
+    <string name="RadioButton1">RadioButton1</string>
+    <string name="RadioButton2">RadioButton2</string>
+    <string name="twstextview">Twstextview</string>
+    <string name="twsedittext">Twsedittext</string>
+    <string name="list_check_action_mode">List check Activity</string>
+    <string name="ToggleButton">ToggleButton</string>
+    <string name="CheckedTextView">CheckedTextView</string>
+    <string name="toggle_back_on">Show Back button</string>
+    <string name="toggle_back_off">hide return button</string>
+    <string name="toggle_title_on">Show title bar</string>
+    <string name="toggle_title_off">Hide title bar</string>
+    <string name="toggle_subtitle_on">Show Subtitle</string>
+    <string name="toggle_subtitle_off">Hide subtitle</string>
+    <string name="toggle_actionbar_on">Show ActionBar</string>
+    <string name="toggle_actionbar_off">Hide ActionBar</string>
+    <string name="toggle_custom_on">Show custom view</string>
+    <string name="toggle_custom_off">Hide custom view</string>
+    <string name="toggle_back_enable_on">Enable return button event</string>
+    <string name="toggle_back_enable_off">Disable return button event</string>
+    <string name="toggle_action_mode">To go to all mode</string>
+    <string name="toggle_edit_btn_on">Show Edit Button</string>
+    <string name="toggle_edit_btn_off">Hide edit button</string>
+    <string name="toggle_more_btn_on">Show More Buttons</string>
+    <string name="toggle_more_btn_off">Hide more buttons</string>
+    <string name="preference_tittle">preference</string>
+    <string name="preference_category_normal">General Settings</string>
+    <string name="preference_category_advanced">Advanced Settings</string>
+    <string name="preference_preference_tittle">Preference</string>
+    <string name="preference_checkbox_tittle">CheckboxPreference ""</string>
+    <string name="preference_edittext_tittle">EditTextPreference ""</string>
+    <string name="preference_edittext_defaultvalue">DefaultValue</string>
+    <string name="preference_volume_tittle">VolumePreference</string>
+    <string name="preference_seekbar_tittle">SeekBarPreference</string>
+    <string name="preference_seekbardialog_tittle">SeekBarDialogPreference</string>
+    <string name="preference_ringtone_tittle">RingtonePreference</string>
+    <string name="preference_preferencescreen_title">"\" More settings \ ""</string>
+    <string name="preference_list_tittle">ListPreference</string>
 </resources>

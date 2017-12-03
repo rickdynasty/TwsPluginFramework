@@ -1,0 +1,57 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!-- Layout of a header item in PreferenceActivity. -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/listItem"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:duplicateParentState="true"
+    android:gravity="center_vertical"
+    android:minHeight="16dp"
+    android:paddingBottom="@dimen/tws_listview_item_padding_side_bottom"
+    android:paddingLeft="@dimen/tws_listview_item_padding_side_left"
+    android:paddingRight="@dimen/tws_listview_item_padding_side_right"
+    android:paddingTop="@dimen/tws_listview_item_padding_side_top" >
+
+    <ImageView
+        android:id="@+id/icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginLeft="@dimen/tws_listview_icon_margin_left"
+        android:layout_marginRight="@dimen/tws_listview_icon_margin_right"
+        android:duplicateParentState="true"
+        android:visibility="gone" />
+
+    <RelativeLayout
+        android:id="@+id/titleLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="0dip"
+        android:layout_marginRight="0dip"
+        android:layout_weight="1"
+        android:duplicateParentState="true" >
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:duplicateParentState="true"
+            android:ellipsize="marquee"
+            android:fadingEdge="horizontal"
+            android:singleLine="true"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+        <TextView
+            android:id="@+id/summary"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@id/title"
+            android:layout_below="@id/title"
+            android:duplicateParentState="true"
+            android:ellipsize="end"
+            android:paddingTop="@dimen/tws_listview_subtitle_padding_top"
+            android:singleLine="false"
+            android:textAppearance="?android:attr/textAppearanceSmall" />
+    </RelativeLayout>
+
+</LinearLayout>

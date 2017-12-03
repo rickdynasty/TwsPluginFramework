@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/action_copy"
+        android:showAsAction="always"
+        android:checked="true"
+        android:title="Copy"/>
+    <item
+        android:id="@+id/action_cut"
+        android:showAsAction="always"
+        android:title="Cut"/>
+    <item
+        android:id="@+id/action_edit"
+        android:showAsAction="always"
+        android:title="Edit"/>
+    <item
+        android:id="@+id/action_delete"
+        android:showAsAction="always"
+        android:title="Delete"/>
+    <item
+        android:id="@+id/action_delete2"
+        android:title="Delete2"/>
+    <item
+        android:id="@+id/action_delete3"
+        android:title="Delete3"/>
+
+</menu>

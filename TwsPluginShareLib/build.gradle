@@ -4,12 +4,15 @@ android {
     compileSdkVersion rootProject.ext.compileSdkVersion
     buildToolsVersion rootProject.ext.buildtools
 
-    defaultConfig {
-        minSdkVersion rootProject.ext.minSdkVersion
-        targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode rootProject.ext.versionCode
-        versionName rootProject.ext.versionName
+    sourceSets.main {
+        java.srcDirs = ['src/main/java']
+        manifest.srcFile 'src/main/AndroidManifest.xml'
+        res.srcDirs = ['src/main/res']
+        jniLibs.srcDirs = ['libs']
+        assets.srcDirs = ['assets']
+        aidl.srcDirs = ['src/main/java']
     }
+
     buildTypes {
         release {
             minifyEnabled false
@@ -23,6 +26,44 @@ android {
                 '--forced-package-id',
                 '0x6f'
     }
+
+    lintOptions {
+        abortOnError false
+    }
+
+    packagingOptions {
+        exclude 'META-INF/DEPENDENCIES'
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/NOTICE.txt'
+    }
+
+    /*task to build TencentWearServiceSdk start*/
+    def version_date = new Date().format('yyMMdd');
+    def version_code = 'v1.11'
+    def build_sdk_dir = 'build/Sdk'
+    task makeSdk(type: Jar) {
+        delete(build_sdk_dir)
+
+//        archiveName 'twspluginsharelib' + '_' + version_code + '.' + version_date + '.jar'
+        archiveName 'twspluginsharelib' + '.jar'
+
+        from('build/intermediates/classes/release/')
+        from(project.zipTree("libs/qrom_component_log.jar"))
+
+        destinationDir = file(build_sdk_dir)
+
+        // 如果是需要将R文件打包进去的话，需要将下面两行的代码屏蔽掉
+//        exclude('**/R.class')
+//        exclude('**/R\$*.class')
+
+        // 包含本地库的文件
+        include('com/rick/tws/**/*.class')
+        include('qrom/component/**/*.class')
+    }
+
+    makeSdk.dependsOn(build)
 }
 
 dependencies {

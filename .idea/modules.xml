@@ -5,6 +5,7 @@
       <module fileurl="file://$PROJECT_DIR$/GrowthNotes.iml" filepath="$PROJECT_DIR$/GrowthNotes.iml" />
       <module fileurl="file://$PROJECT_DIR$/TwsPluginCore/TwsPluginCore.iml" filepath="$PROJECT_DIR$/TwsPluginCore/TwsPluginCore.iml" />
       <module fileurl="file://$PROJECT_DIR$/TwsPluginDemo/TwsPluginDemo.iml" filepath="$PROJECT_DIR$/TwsPluginDemo/TwsPluginDemo.iml" />
+      <module fileurl="file://$PROJECT_DIR$/TwsPluginDemo/TwsPluginDemo.iml" filepath="$PROJECT_DIR$/TwsPluginDemo/TwsPluginDemo.iml" />
       <module fileurl="file://$PROJECT_DIR$/TwsPluginHost/TwsPluginHost.iml" filepath="$PROJECT_DIR$/TwsPluginHost/TwsPluginHost.iml" />
       <module fileurl="file://$PROJECT_DIR$/TwsPluginShareLib/TwsPluginShareLib.iml" filepath="$PROJECT_DIR$/TwsPluginShareLib/TwsPluginShareLib.iml" />
     </modules>

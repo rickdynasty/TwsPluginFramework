@@ -31,5 +31,4 @@ android {
 dependencies {
     provided fileTree(include: ['*.jar'], dir: 'linklib')
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile project(':TwsPluginShareLib')
 }

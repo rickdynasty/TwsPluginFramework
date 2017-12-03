@@ -4,6 +4,15 @@ android {
     compileSdkVersion rootProject.ext.compileSdkVersion
     buildToolsVersion rootProject.ext.buildtools
 
+    sourceSets.main {
+        java.srcDirs = ['src/main/java']
+        manifest.srcFile 'src/main/AndroidManifest.xml'
+        res.srcDirs = ['src/main/res']
+        jniLibs.srcDirs = ['libs']
+        assets.srcDirs = ['src/main/assets']
+        aidl.srcDirs = ['src/main/aidl']
+    }
+
     buildTypes {
         release {
             minifyEnabled false
@@ -17,7 +26,6 @@ android {
                 '--forced-package-id',
                 '0x6f'
     }
-
 
     lintOptions {
         abortOnError false
@@ -35,6 +43,58 @@ android {
         exclude 'META-INF/LICENSE.txt'
         exclude 'META-INF/NOTICE.txt'
     }
+    /*task to build TwsPluginShareLib start*/
+    def version_date = new Date().format('yyMMdd');
+    def version_code = 'v1.11'
+    def build_sdk_dir = 'build/Sdk'
+    task makeSdk(type: Jar) {
+        delete(build_sdk_dir)
+
+//        archiveName 'twspluginsharelib' + '_' + version_code + '.' + version_date + '.jar'
+        archiveName 'twspluginsharelib' + '.jar'
+
+        from('build/intermediates/classes/release/')
+        //from(project.zipTree("linklib/android-support-v4.jar"))
+        //from(project.zipTree("linklib/android-support-v7.jar"))
+
+        destinationDir = file(build_sdk_dir)
+        exclude('com/tencent/tws/sharelib/BuildConfig.class')
+        exclude('com/tencent/tws/sharelib/BuildConfig\$*.class')
+        // 如果是需要将R文件打包进去的话，需要将下面两行的代码屏蔽掉
+//        exclude('**/R.class')
+//        exclude('**/R\$*.class')
+
+        // 包含本地库的文件
+        include('**/app/*.class')
+        include('**/widget/*.class')
+        include('**/running/aidl/*.class')
+        include('**/assistant/**/*.class')
+        include('**/proxy/*.class')
+        include('**/mmOpenApi/*.class')
+        include('**/sharelib/*.class')
+        include('**/util/*.class')
+        include('**/download/*.class')
+        include('**/download/**/*.class')
+        include('**/log/*.class')
+        include('**/impl/*.class')
+        include('**/upload/*.class')
+        include('**/tws/plugin/aidl/*.*')
+        include('**/mvp/*.class')
+        include('**/devicemodule/**/*.class')
+        include('**/devicemodel/*.class')
+
+        include('android/support/**/*.class')
+        include('com/tencent/**/*.class')
+        include('com/airbnb/lottie/*.class')
+        include('com/pacewear/**/*.class')
+        include('com/tws/**/*.class')
+        include('tws/component/**/*.class')
+
+        //以下为此处第三方库需包含文件（base64Coder,qrom代码）
+        include('biz/source_code/base64Coder/*.class')
+        include('qrom/component/**/*.class')
+    }
+    makeSdk.dependsOn(build)
 }
 
 dependencies {

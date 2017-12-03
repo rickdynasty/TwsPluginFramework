@@ -20,7 +20,7 @@ public class QRomLogConfig extends QRomLogBaseConfig {
 
     @Override
     public String getPackageName() {
-        return "com.tencent.tws.pluginhost";
+        return "com.rick.tws.pluginhost";
     }
 
 //	@Override

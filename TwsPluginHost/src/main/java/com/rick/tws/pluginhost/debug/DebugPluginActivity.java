@@ -57,7 +57,6 @@ public class DebugPluginActivity extends AppCompatActivity {
         setTitle("Host-插件调试界面");
         mNecessaryPlugins.add("TwsPluginLogin.apk");
         mNecessaryPlugins.add("TwsPluginPair.apk");
-        mNecessaryPlugins.add("TwsPluginKronaby.apk");
 
         // SD卡存放路径
         mInnerSDCardPath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/plugins";

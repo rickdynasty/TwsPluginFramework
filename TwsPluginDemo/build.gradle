@@ -1,14 +1,15 @@
-apply plugin: 'com.android.library'
+apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion rootProject.ext.compileSdkVersion
+    compileSdkVersion 26
     buildToolsVersion rootProject.ext.buildtools
 
     defaultConfig {
-        minSdkVersion rootProject.ext.minSdkVersion
-        targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode rootProject.ext.versionCode
-        versionName rootProject.ext.versionName
+        applicationId "com.example.plugindemo"
+        minSdkVersion 19
+        targetSdkVersion 26
+        versionCode 1
+        versionName "1.0"
     }
     buildTypes {
         release {
@@ -19,9 +20,9 @@ android {
 
     aaptOptions {
         additionalParameters '--package-name',
-                'com.rick.tws.sharelib',
+                'com.example.plugindemo',
                 '--forced-package-id',
-                '0x6f'
+                '0x7e'
     }
 }
 

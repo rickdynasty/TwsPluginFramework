@@ -14,9 +14,9 @@ import qrom.component.log.QRomLog;
 
 /**
  * 为了支持Receiver和Service，增加此类。
- * 
+ *
  * @author yongchen
- * 
+ *
  */
 public class HostClassLoader extends PathClassLoader {
 
@@ -32,8 +32,8 @@ public class HostClassLoader extends PathClassLoader {
 		super(dexPath, parent);
 	}
 
-	public HostClassLoader(String dexPath, String librarySearchPath, ClassLoader parent) {
-		super(dexPath, librarySearchPath, parent);
+	public HostClassLoader(String dexPath, String libraryPath, ClassLoader parent) {
+		super(dexPath, libraryPath, parent);
 	}
 
 	@Override
@@ -63,9 +63,9 @@ public class HostClassLoader extends PathClassLoader {
 			if (className.equals(PluginIntentResolver.CLASS_PREFIX_SERVICE + "null")) {
 				QRomLog.e(TAG, "到了这里说明出bug了,这里做个容错处理, 避免出现classnotfound");
 				return TwsPluginBridgeService.class;
-			} else {
-				return PluginShadowService.class;
 			}
+			
+			return PluginShadowService.class;
 
 		} else if (className.startsWith(PluginIntentResolver.CLASS_PREFIX_RECEIVER)) {
 

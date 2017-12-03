@@ -12,6 +12,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.rick.tws.pluginhost.R;
+import com.rick.tws.pluginhost.debug.DebugPluginActivity;
 
 public class SettingsActivity extends AppCompatActivity implements OnClickListener {
 

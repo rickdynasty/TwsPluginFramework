@@ -1,17 +1,21 @@
 package com.tencent.tws.pluginhost.ui;
 
+import android.Manifest;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.StateListDrawable;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -228,6 +232,7 @@ public class HostHomeActivity extends TwsFragmentActivity implements HomeUIProxy
         final int fouceIndex = mHotseat.getPosByClassId(((HostApplication) HostApplication.getInstance())
                 .getFouceTabClassId());
         switchFragment(mHotseat.setFocusIndex(fouceIndex));
+        checkWriteExternalStoragePermission();
     }
 
     private void initHotseat() {
@@ -867,5 +872,22 @@ public class HostHomeActivity extends TwsFragmentActivity implements HomeUIProxy
     @Override
     public Context getHostFitContext() {
         return this;
+    }
+
+    private void checkWriteExternalStoragePermission() {
+        //6.0以上的有这个权限问题
+        if (Build.VERSION_CODES.M <= Build.VERSION.SDK_INT) {
+            int REQUEST_EXTERNAL_STORAGE = 1;
+            String[] PERMISSIONS_STORAGE = {
+                    Manifest.permission.READ_EXTERNAL_STORAGE,
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE
+            };
+            int permission = ActivityCompat.checkSelfPermission(HostHomeActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+
+            if (permission != PackageManager.PERMISSION_GRANTED) {
+                // We don't have permission so prompt the user
+                ActivityCompat.requestPermissions(HostHomeActivity.this, PERMISSIONS_STORAGE, REQUEST_EXTERNAL_STORAGE);
+            }
+        }
     }
 }

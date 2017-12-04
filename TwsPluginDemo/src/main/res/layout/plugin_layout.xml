@@ -37,7 +37,7 @@
             android:layout_height="wrap_content"
             android:text="@string/hello_world4" />
 
-        <com.tencent.tws.sharelib.ShareLayout
+        <com.rick.tws.share.widget.ShareLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:background="@color/light_btn_normal_color" />

@@ -1,11 +1,10 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!-- 这里配置sharedUserId的作用，是为了告诉宿主程序，这个插件需要依赖宿主程序的class和资源
+<?xml version="1.0" encoding="utf-8"?><!-- 这里配置sharedUserId的作用，是为了告诉宿主程序，这个插件需要依赖宿主程序的class和资源
 如果不配置这个参数，表示这个插件是一个独立插件，即本身可以独立安装运行 -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.plugindemo"
     android:sharedUserId="com.rick.tws.pluginhost"
     android:versionCode="2"
-    android:versionName="2.0.1" >
+    android:versionName="2.0.1">
 
     <uses-sdk
         android:minSdkVersion="19"
@@ -14,7 +13,7 @@
     <application
         android:name=".PluginTestApplication"
         android:label="@string/app_name"
-        android:theme="@android:style/Theme.Holo.Light" >
+        android:theme="@android:style/Theme.Holo.Light">
 
         <!-- uses-library作用是用来通知插件框架此插件依赖哪些其他插件 -->
         <!-- <uses-library
@@ -60,12 +59,12 @@
         <!-- 如果服务需要支持跨进程调用，例如被宿主进程调用，则需要配置android:label为服务所实现的接口className -->
         <exported-service
             android:name="share_service"
-            android:label="com.tencent.tws.sharelib.ShareService"
+            android:label="com.rick.tws.share.ShareService"
             android:value="com.example.plugindemo.PluginSharedService" />
 
         <activity
             android:name=".activity.LauncherActivity"
-            android:exported="false" >
+            android:exported="false">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -74,7 +73,7 @@
         </activity>
         <activity
             android:name="com.example.plugindemo.activity.PluginTestActivity"
-            android:screenOrientation="landscape" >
+            android:screenOrientation="landscape">
             <intent-filter>
                 <action android:name="test.abc" />
 
@@ -83,7 +82,7 @@
         </activity>
         <activity
             android:name="com.example.plugindemo.activity.PluginFragmentTestActivity"
-            android:windowSoftInputMode="stateAlwaysVisible" >
+            android:windowSoftInputMode="stateAlwaysVisible">
             <intent-filter>
                 <action android:name="test.def" />
 
@@ -95,7 +94,7 @@
             android:hardwareAccelerated="true"
             android:immersive="true"
             android:launchMode="singleTop"
-            android:uiOptions="splitActionBarWhenNarrow" >
+            android:uiOptions="splitActionBarWhenNarrow">
             <intent-filter>
                 <action android:name="test.xyz1" />
 
@@ -112,28 +111,35 @@
                     android:scheme="testscheme" />
             </intent-filter>
         </activity>
-        <activity android:name="com.example.plugindemo.activity.PluginForOppoAndVivoActivity" >
+        <activity android:name="com.example.plugindemo.activity.PluginForOppoAndVivoActivity">
             <intent-filter>
                 <action android:name="test.ijk" />
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity android:name="com.example.plugindemo.activity.PluginTestOpenPluginActivity" >
+        <activity android:name="com.example.plugindemo.activity.PluginTestOpenPluginActivity">
             <intent-filter>
                 <action android:name="test.zxc" />
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity android:name="com.example.plugindemo.activity.PluginWebViewActivity" >
+        <activity android:name="com.example.plugindemo.activity.PluginCoreSamples">
+            <intent-filter>
+                <action android:name="test.coresamples" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity android:name="com.example.plugindemo.activity.PluginWebViewActivity">
             <intent-filter>
                 <action android:name="test.webXX" />
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity android:name="com.example.plugindemo.activity.PluginForDialogActivity" >
+        <activity android:name="com.example.plugindemo.activity.PluginForDialogActivity">
             <intent-filter>
                 <action android:name="test.dialogXX" />
 
@@ -142,14 +148,12 @@
         </activity>
         <activity
             android:name="com.example.plugindemo.activity.PluginSingleTaskActivity"
-            android:launchMode="singleTask" >
-        </activity>
+            android:launchMode="singleTask" />
         <activity
             android:name="com.example.plugindemo.activity.TransparentActivity"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar" >
-        </activity>
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
 
-        <service android:name="com.example.plugindemo.service.PluginTestService" >
+        <service android:name="com.example.plugindemo.service.PluginTestService">
             <intent-filter>
                 <action android:name="test.lmn" />
 
@@ -158,7 +162,7 @@
         </service>
         <service
             android:name="com.example.plugindemo.service.PluginTestService2"
-            android:process=":plugin" >
+            android:process=":plugin">
             <intent-filter>
                 <action android:name="test.lmn2" />
 
@@ -166,7 +170,7 @@
             </intent-filter>
         </service>
 
-        <receiver android:name="com.example.plugindemo.receiver.PluginTestReceiver" >
+        <receiver android:name="com.example.plugindemo.receiver.PluginTestReceiver">
             <intent-filter>
                 <action android:name="test.rst" />
 
@@ -178,7 +182,7 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </receiver>
-        <receiver android:name="com.example.plugindemo.receiver.PluginTestReceiver2" >
+        <receiver android:name="com.example.plugindemo.receiver.PluginTestReceiver2">
             <intent-filter>
                 <action android:name="test.rst2" />
 

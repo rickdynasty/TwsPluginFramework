@@ -39,7 +39,6 @@ public class PluginCoreSamples extends Activity implements OnClickListener {
         getActionBar().setTitle("框架基础能力");
         findViewById(R.id.onClickPluginNormalFragment).setOnClickListener(this);
         findViewById(R.id.onClickPluginSpecFragment).setOnClickListener(this);
-        findViewById(R.id.onClickPluginSpecTwsFragment).setOnClickListener(this);
         findViewById(R.id.onClickPluginForDialogActivity).setOnClickListener(this);
         findViewById(R.id.onClickPluginForOppoAndVivoActivity).setOnClickListener(this);
         findViewById(R.id.onClickPluginNotInManifestActivity).setOnClickListener(this);
@@ -47,7 +46,6 @@ public class PluginCoreSamples extends Activity implements OnClickListener {
         findViewById(R.id.onClickPluginSingleTaskActivity).setOnClickListener(this);
         findViewById(R.id.onClickPluginTestActivity).setOnClickListener(this);
         findViewById(R.id.onClickPluginTestOpenPluginActivity).setOnClickListener(this);
-        findViewById(R.id.onClickPluginTestTabActivity).setOnClickListener(this);
         findViewById(R.id.onClickPluginWebViewActivity).setOnClickListener(this);
         findViewById(R.id.onClickTransparentActivity).setOnClickListener(this);
         findViewById(R.id.onClickPluginTestReceiver).setOnClickListener(this);
@@ -62,7 +60,7 @@ public class PluginCoreSamples extends Activity implements OnClickListener {
 
     private static void startFragmentInHostActivity(Context context, String targetId) {
         Intent pluginActivity = new Intent();
-        pluginActivity.setClassName(context, "com.tencent.tws.pluginhost.plugindebug.PluginFragmentActivity");
+        pluginActivity.setClassName(context, "com.rick.tws.pluginhost.debug.PluginFragmentActivity");
         pluginActivity.putExtra("PluginDispatcher.fragmentId", targetId);
         pluginActivity.putExtra("PluginDispatcher.fragment.PluginId", "com.example.plugindemo");
         pluginActivity.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -71,7 +69,7 @@ public class PluginCoreSamples extends Activity implements OnClickListener {
 
     private static void startTwsFragmentInHostActivity(Context context, String targetId) {
         Intent pluginActivity = new Intent();
-        pluginActivity.setClassName(context, "com.tencent.tws.pluginhost.plugindebug.PluginTwsFragmentActivity");
+        pluginActivity.setClassName(context, "com.rick.tws.pluginhost.debug.PluginTwsFragmentActivity");
         pluginActivity.putExtra("PluginDispatcher.fragmentId", targetId);
         pluginActivity.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(pluginActivity);
@@ -86,9 +84,6 @@ public class PluginCoreSamples extends Activity implements OnClickListener {
                 break;
             case R.id.onClickPluginSpecFragment:
                 onClickPluginSpecFragment(v);
-                break;
-            case R.id.onClickPluginSpecTwsFragment:
-                onClickPluginSpecTwsFragment(v);
                 break;
             case R.id.onClickPluginForDialogActivity:
                 onClickPluginForDialogActivity(v);
@@ -110,9 +105,6 @@ public class PluginCoreSamples extends Activity implements OnClickListener {
                 break;
             case R.id.onClickPluginTestOpenPluginActivity:
                 onClickPluginTestOpenPluginActivity(v);
-                break;
-            case R.id.onClickPluginTestTabActivity:
-                onClickPluginTestTabActivity(v);
                 break;
             case R.id.onClickPluginWebViewActivity:
                 onClickPluginWebViewActivity(v);
@@ -181,10 +173,6 @@ public class PluginCoreSamples extends Activity implements OnClickListener {
         startFragmentInHostActivity(this, "some_id_for_fragment2");
     }
 
-    private void onClickPluginSpecTwsFragment(View v) {
-        startTwsFragmentInHostActivity(this, "some_id_for_fragment3");
-    }
-
     private void onClickPluginForDialogActivity(View v) {
         // 利用className打开
         Intent intent = new Intent();
@@ -240,14 +228,6 @@ public class PluginCoreSamples extends Activity implements OnClickListener {
         // 利用className打开
         Intent intent = new Intent();
         intent.setClassName(this, PluginTestOpenPluginActivity.class.getName());
-        intent.putExtra("testParam", "testParam");
-        startActivity(intent);
-    }
-
-    private void onClickPluginTestTabActivity(View v) {
-        // 利用className打开
-        Intent intent = new Intent();
-        intent.setClassName(this, PluginTestTabActivity.class.getName());
         intent.putExtra("testParam", "testParam");
         startActivity(intent);
     }

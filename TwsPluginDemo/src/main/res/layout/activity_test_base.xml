@@ -23,13 +23,6 @@
             android:text="打开PluginSpecFragment" />
 
         <Button
-            android:id="@+id/onClickPluginSpecTwsFragment"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="3dp"
-            android:text="打开PluginTwsFragment" />
-
-        <Button
             android:id="@+id/onClickPluginForDialogActivity"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -77,13 +70,6 @@
             android:layout_height="wrap_content"
             android:layout_margin="3dp"
             android:text="打开PluginTestOpenPluginActivity" />
-
-        <Button
-            android:id="@+id/onClickPluginTestTabActivity"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="3dp"
-            android:text="打开PluginTestTabActivity" />
 
         <Button
             android:id="@+id/onClickPluginWebViewActivity"

@@ -39,7 +39,7 @@ android {
         exclude 'META-INF/NOTICE.txt'
     }
 
-    /*task to build TencentWearServiceSdk start*/
+    /*task to build twspluginsharelib start*/
     def version_date = new Date().format('yyMMdd');
     def version_code = 'v1.11'
     def build_sdk_dir = 'build/Sdk'

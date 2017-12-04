@@ -5,6 +5,8 @@ import android.app.Application;
 import android.content.Context;
 import android.util.Log;
 
+import com.rick.tws.framework.HostProxy;
+
 public class PluginTestApplication extends Application {
 
     private static final String TAG = "PluginTestApplication";
@@ -15,8 +17,7 @@ public class PluginTestApplication extends Application {
     public void onCreate() {
         super.onCreate();
 
-        Context ctx = getApplicationContext();
-        Log.d(TAG, "" + ctx);
+        Log.d(TAG, "Host pkg:" + HostProxy.getApplication().getPackageName());
 
         if (isApplicationProcess()) {
             Log.d(TAG, "api欺骗成功，让插件以为自己在主进程运行");

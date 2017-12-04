@@ -23,7 +23,7 @@ public class LocalServiceManager {
 
 	static {
 		try {
-			Class ServiceManager = Class.forName("com.limpoxe.support.servicemanager.ServiceManager");
+			Class ServiceManager = Class.forName("com.tws.plugin.servicemanager.ServiceManager");
 			isSupport = ServiceManager != null;
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();

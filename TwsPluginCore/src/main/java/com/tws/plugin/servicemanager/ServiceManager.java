@@ -17,7 +17,7 @@ import com.tws.plugin.servicemanager.local.ServicePool;
  */
 public class ServiceManager {
 
-    public static final String ACTION_SERVICE_DIE_OR_CLEAR = "com.limpoxe.support.action.SERVICE_DIE_OR_CLEAR";
+    public static final String ACTION_SERVICE_DIE_OR_CLEAR = "com.tws.plugin.servicemanager.action.SERVICE_DIE_OR_CLEAR";
 
     public static Application sApplication;
 

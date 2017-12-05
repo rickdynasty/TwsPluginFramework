@@ -11,7 +11,7 @@ import qrom.component.log.QRomLog;
 
 @SuppressWarnings("unchecked")
 public class RefInvoker {
-	private static final String TAG = "RefInvoker";
+	private static final String TAG = "rick_Print:RefInvoker";
 
 	private static final ClassLoader system = ClassLoader.getSystemClassLoader();
 	private static final ClassLoader bootloader = system.getParent();

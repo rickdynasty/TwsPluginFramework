@@ -255,7 +255,7 @@ public class PluginCoreSamples extends Activity implements OnClickListener {
 
     private void onClickPluginTestReceiver(View v) {
         // 利用Action打开
-        Intent intent = new Intent("test.rst2");// 两个Receive都配置了这个aciton，这里可以同时唤起两个Receiver
+        Intent intent = new Intent("test.rst1");// 两个Receive都配置了这个aciton，这里可以同时唤起两个Receiver
         intent.putExtra("testParam", "testParam");
         sendBroadcast(intent);
     }

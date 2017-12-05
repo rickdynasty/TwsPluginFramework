@@ -22,10 +22,9 @@ public class HackContextThemeWrapper extends HackContextWrapper {
 		super(instance);
 	}
 
-	public final void attachBaseContext(Object paramValues) {
-		RefInvoker.invokeMethod(instance, ClassName, Method_attachBaseContext, new Class[] { Context.class },
-				new Object[] { paramValues });
-	}
+    public final void attachBaseContext(Object paramValues) {
+        RefInvoker.invokeMethod(instance, ClassName, Method_attachBaseContext, new Class[]{Context.class}, new Object[]{paramValues});
+    }
 
 	public final void setResources(Resources resources) {
 		if (Build.VERSION.SDK_INT > 16) {

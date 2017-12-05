@@ -393,7 +393,7 @@ public class PluginInjector {
             HackLoadedApk hackLoadedApk = new HackLoadedApk(mLoadedApk);
             ClassLoader originalLoader = hackLoadedApk.getClassLoader();
             if (!(originalLoader instanceof HostClassLoader)) {
-                HostClassLoader newLoader = new HostClassLoader("", PluginLoader.getApplication().getCacheDir().getAbsolutePath(),originalLoader);
+                HostClassLoader newLoader = new HostClassLoader("", PluginLoader.getApplication().getCacheDir().getAbsolutePath(), originalLoader);
                 hackLoadedApk.setClassLoader(newLoader);
             }
         } else {

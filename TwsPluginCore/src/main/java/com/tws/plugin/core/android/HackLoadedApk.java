@@ -20,6 +20,7 @@ public class HackLoadedApk {
 	private static final String Field_mDataDir = "mDataDir";
 	private static final String Field_mLibDir = "mLibDir";
 	private static final String Field_mClassLoader = "mClassLoader";
+    private static final String Field_mActivityThread = "mActivityThread";
 
 	private Object instance;
 
@@ -55,4 +56,8 @@ public class HackLoadedApk {
 	public void setClassLoader(ClassLoader classLoader) {
 		RefInvoker.setField(instance, ClassName, Field_mClassLoader, classLoader);
 	}
+
+    public Object getActivityThread() {
+        return RefInvoker.getField(instance, ClassName, Field_mActivityThread);
+    }
 }

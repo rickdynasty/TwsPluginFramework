@@ -15,6 +15,9 @@ public class InstallResult {
 	public static final int INSTALL_FAIL = 7;
 	public static final int MIN_API_NOT_SUPPORTED = 8;
 
+	public static final int PLUGIN_NOT_EXIST = 21;
+	public static final int REMOVE_FAIL = 27;
+
 	private int mResult;
 	private String mPackageName;
 	private String mVersion;

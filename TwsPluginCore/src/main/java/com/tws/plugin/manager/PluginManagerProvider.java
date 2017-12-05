@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import qrom.component.log.QRomLog;
+
+import android.annotation.TargetApi;
 import android.content.ContentProvider;
 import android.content.ContentValues;
 import android.database.Cursor;
@@ -11,248 +13,286 @@ import android.net.Uri;
 import android.os.Binder;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.CancellationSignal;
 
+import com.tws.plugin.content.LoadedPlugin;
 import com.tws.plugin.content.PluginDescriptor;
+import com.tws.plugin.core.PluginLauncher;
 import com.tws.plugin.core.PluginLoader;
 
 /**
  * @author yongchen
- * 
+ *         <p>
  *         利用ContentProvider实现同步跨进程调用
- * 
+ *         <p>
  *         ContentProvider的相关操作应该放在installContentProvider之后执行,
  *         而installContentProvider是ActivityThread在调用application的attach之后
  *         ,onCreate之前执行
  */
 public class PluginManagerProvider extends ContentProvider {
 
-	private static final String TAG = "rick_Print:PluginManagerProvider";
+    private static final String TAG = "rick_Print:PluginManagerProvider";
 
-	private static Uri CONTENT_URI;
+    private static Uri CONTENT_URI;
 
-	public static final String ACTION_INSTALL = "install";
-	public static final String INSTALL_RESULT = "install_result";
+    public static final String ACTION_INSTALL = "install";
+    public static final String INSTALL_RESULT = "install_result";
 
-	public static final String ACTION_REMOVE = "remove";
-	public static final String REMOVE_RESULT = "remove_result";
+    public static final String ACTION_REMOVE = "remove";
+    public static final String REMOVE_RESULT = "remove_result";
 
-	public static final String ACTION_REMOVE_ALL = "remove_all";
-	public static final String REMOVE_ALL_RESULT = "remove_all_result";
+    public static final String ACTION_REMOVE_ALL = "remove_all";
+    public static final String REMOVE_ALL_RESULT = "remove_all_result";
 
-	public static final String ACTION_QUERY_BY_ID = "query_by_id";
-	public static final String QUERY_BY_ID_RESULT = "query_by_id_result";
+    public static final String ACTION_QUERY_BY_ID = "query_by_id";
+    public static final String QUERY_BY_ID_RESULT = "query_by_id_result";
 
-	public static final String ACTION_QUERY_BY_CLASS_NAME = "query_by_class_name";
-	public static final String QUERY_BY_CLASS_NAME_RESULT = "query_by_class_name_result";
-
-	public static final String ACTION_QUERY_BY_FRAGMENT_ID = "query_by_fragment_id";
-	public static final String QUERY_BY_FRAGMENT_ID_RESULT = "query_by_fragment_id_result";
-
-	public static final String ACTION_QUERY_ALL = "query_all";
-	public static final String QUERY_ALL_RESULT = "query_all_result";
+    public static final String ACTION_QUERY_BY_CLASS_NAME = "query_by_class_name";
+    public static final String QUERY_BY_CLASS_NAME_RESULT = "query_by_class_name_result";
 
-	public static final String ACTION_BIND_ACTIVITY = "bind_activity";
-	public static final String BIND_ACTIVITY_RESULT = "bind_activity_result";
+    public static final String ACTION_QUERY_BY_FRAGMENT_ID = "query_by_fragment_id";
+    public static final String QUERY_BY_FRAGMENT_ID_RESULT = "query_by_fragment_id_result";
 
-	public static final String ACTION_UNBIND_ACTIVITY = "unbind_activity";
-	public static final String UNBIND_ACTIVITY_RESULT = "unbind_activity_result";
+    public static final String ACTION_QUERY_ALL = "query_all";
+    public static final String QUERY_ALL_RESULT = "query_all_result";
 
-	public static final String ACTION_BIND_SERVICE = "bind_service";
-	public static final String BIND_SERVICE_RESULT = "bind_service_result";
+    public static final String ACTION_BIND_ACTIVITY = "bind_activity";
+    public static final String BIND_ACTIVITY_RESULT = "bind_activity_result";
 
-	public static final String ACTION_GET_BINDED_SERVICE = "get_binded_service";
-	public static final String GET_BINDED_SERVICE_RESULT = "get_binded_service_result";
+    public static final String ACTION_UNBIND_ACTIVITY = "unbind_activity";
+    public static final String UNBIND_ACTIVITY_RESULT = "unbind_activity_result";
+
+    public static final String ACTION_BIND_SERVICE = "bind_service";
+    public static final String BIND_SERVICE_RESULT = "bind_service_result";
+
+    public static final String ACTION_GET_BINDED_SERVICE = "get_binded_service";
+    public static final String GET_BINDED_SERVICE_RESULT = "get_binded_service_result";
 
-	public static final String ACTION_UNBIND_SERVICE = "unbind_service";
-	public static final String UNBIND_SERVICE_RESULT = "unbind_service_result";
+    public static final String ACTION_UNBIND_SERVICE = "unbind_service";
+    public static final String UNBIND_SERVICE_RESULT = "unbind_service_result";
+
+    public static final String ACTION_BIND_RECEIVER = "bind_receiver";
+    public static final String BIND_RECEIVER_RESULT = "bind_receiver_result";
+
+    public static final String ACTION_IS_EXACT = "is_exact";
+    public static final String IS_EXACT_RESULT = "is_exact_result";
+
+    public static final String ACTION_IS_STUB = "is_stub";
+    public static final String IS_STUB_RESULT = "is_stub_result";
+
+    public static final String ACTION_IS_PLUGIN_RUNNING = "is_plugin_running";
+    public static final String IS_PLUGIN_RUNNING_RESULT = "is_plugin_running_result";
+
+    public static final String ACTION_WAKEUP_PLUGIN = "wakeup_plugin";
+    public static final String WAKEUP_PLUGIN_RESULT = "wakeup_plugin_result";
+
+    public static final String ACTION_DUMP_SERVICE_INFO = "dump_service_info";
+    public static final String DUMP_SERVICE_INFO_RESULT = "dump_service_info_result";
+
+    // process
+    public static final String EXTRAS_BUNDLE_PROCESS = "extras_bundle_process";
 
-	public static final String ACTION_BIND_RECEIVER = "bind_receiver";
-	public static final String BIND_RECEIVER_RESULT = "bind_receiver_result";
+    // for debug parameter EXTRAS KEY
+    public static final String EXTRAS_FOR_DEBUG = "extras_for_debug";
 
-	public static final String ACTION_IS_EXACT = "is_exact";
-	public static final String IS_EXACT_RESULT = "is_exact_result";
+    private PluginManagerImpl manager;
+    private PluginCallback changeListener;
 
-	public static final String ACTION_IS_STUB = "is_stub";
-	public static final String IS_STUB_RESULT = "is_stub_result";
+    public static Uri buildUri() {
+        if (CONTENT_URI == null) {
+            CONTENT_URI = Uri.parse("content://" + PluginLoader.getApplication().getPackageName() + ".manager"
+                    + "/call");
+        }
+        return CONTENT_URI;
+    }
 
-	public static final String ACTION_DUMP_SERVICE_INFO = "dump_service_info";
-	public static final String DUMP_SERVICE_INFO_RESULT = "dump_service_info_result";
+    @Override
+    public boolean onCreate() {
+        manager = new PluginManagerImpl();
+        changeListener = new PluginCallbackImpl();
+        manager.loadInstalledPlugins();
+        return false;
+    }
 
-	// process
-	public static final String EXTRAS_BUNDLE_PROCESS = "extras_bundle_process";
+    @Override
+    public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
+        Uri targetUrl = Uri.parse(uri.getQueryParameter("targetUrl"));
+        return getContext().getContentResolver().query(targetUrl, projection, selection, selectionArgs, sortOrder);
+    }
 
-	// for debug parameter EXTRAS KEY
-	public static final String EXTRAS_FOR_DEBUG = "extras_for_debug";
+//    @TargetApi(Build.VERSION_CODES.O)
+//    @Override
+//    public Cursor query(Uri uri, String[] projection, Bundle queryArgs, CancellationSignal cancellationSignal) {
+//        Uri targetUrl = Uri.parse(uri.getQueryParameter("targetUrl"));
+//        return getContext().getContentResolver().query(targetUrl, projection, queryArgs, cancellationSignal);
+//    }
 
-	private PluginManagerImpl manager;
-	private PluginCallback changeListener;
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
+    @Override
+    public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder, CancellationSignal cancellationSignal) {
+        Uri targetUrl = Uri.parse(uri.getQueryParameter("targetUrl"));
+        return getContext().getContentResolver().query(targetUrl, projection, selection, selectionArgs, sortOrder, cancellationSignal);
+    }
 
-	public static Uri buildUri() {
-		if (CONTENT_URI == null) {
-			CONTENT_URI = Uri.parse("content://" + PluginLoader.getApplication().getPackageName() + ".manager"
-					+ "/call");
-		}
-		return CONTENT_URI;
-	}
+    @Override
+    public String getType(Uri uri) {
+        Uri targetUrl = Uri.parse(uri.getQueryParameter("targetUrl"));
+        return getContext().getContentResolver().getType(targetUrl);
+    }
 
-	@Override
-	public boolean onCreate() {
-		manager = new PluginManagerImpl();
-		changeListener = new PluginCallbackImpl();
-		manager.loadInstalledPlugins();
-		return false;
-	}
+    @Override
+    public Uri insert(Uri uri, ContentValues values) {
+        Uri targetUrl = Uri.parse(uri.getQueryParameter("targetUrl"));
+        return getContext().getContentResolver().insert(targetUrl, values);
+    }
 
-	@Override
-	public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
-		// doNothing
-		return null;
-	}
+    @Override
+    public int delete(Uri uri, String selection, String[] selectionArgs) {
+        Uri targetUrl = Uri.parse(uri.getQueryParameter("targetUrl"));
+        return getContext().getContentResolver().delete(targetUrl, selection, selectionArgs);
+    }
 
-	@Override
-	public String getType(Uri uri) {
-		// doNothing
-		return null;
-	}
+    @Override
+    public int update(Uri uri, ContentValues values, String selection, String[] selectionArgs) {
+        Uri targetUrl = Uri.parse(uri.getQueryParameter("targetUrl"));
+        return getContext().getContentResolver().update(targetUrl, values, selection, selectionArgs);
+    }
 
-	@Override
-	public Uri insert(Uri uri, ContentValues values) {
-		// doNothing
-		return null;
-	}
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
+    @Override
+    public Bundle call(String method, String arg, Bundle extras) {
 
-	@Override
-	public int delete(Uri uri, String selection, String[] selectionArgs) {
-		// doNothing
-		return 0;
-	}
+        if (extras != null && extras.getParcelable("target_call") != null) {
+            Uri targetUrl = extras.getParcelable("target_call");
+            return getContext().getContentResolver().call(targetUrl, method, arg, extras);
+        }
 
-	@Override
-	public int update(Uri uri, ContentValues values, String selection, String[] selectionArgs) {
-		// doNothing
-		return 0;
-	}
+        if (Build.VERSION.SDK_INT >= 19) {
+            try {
+                Binder.clearCallingIdentity();
+                QRomLog.d(TAG, "callingPackage = " + getCallingPackage());
+            } catch (SecurityException e) {
+                e.printStackTrace();
+            }
+        }
 
-	@Override
-	public Bundle call(String method, String arg, Bundle extras) {
+        QRomLog.d(TAG, "Thead id=" + Thread.currentThread().getId() + " name=" + Thread.currentThread().getName()
+                + " method=" + method + ", arg=" + arg);
 
-		if (Build.VERSION.SDK_INT >= 19) {
-			try {
-				Binder.clearCallingIdentity();
-				QRomLog.d(TAG, "callingPackage = " + getCallingPackage());
-			} catch (SecurityException e) {
-				e.printStackTrace();
-			}
-		}
+        Bundle bundle = new Bundle();
 
-		QRomLog.d(TAG, "Thead id=" + Thread.currentThread().getId() + " name=" + Thread.currentThread().getName()
-				+ " method=" + method + ", arg=" + arg);
+        if (ACTION_INSTALL.equals(method)) {
 
-		Bundle bundle = new Bundle();
+            InstallResult result = manager.installPlugin(arg,
+                    extras == null ? false : extras.getBoolean(EXTRAS_FOR_DEBUG, false));
+            bundle.putInt(INSTALL_RESULT, result.getResult());
 
-		if (ACTION_INSTALL.equals(method)) {
+            changeListener.onInstall(result.getResult(), result.getPackageName(), result.getVersion(), arg);
 
-			InstallResult result = manager.installPlugin(arg,
-					extras == null ? false : extras.getBoolean(EXTRAS_FOR_DEBUG, false));
-			bundle.putInt(INSTALL_RESULT, result.getResult());
+            return bundle;
 
-			changeListener.onInstall(result.getResult(), result.getPackageName(), result.getVersion(), arg);
+        } else if (ACTION_REMOVE.equals(method)) {
 
-			return bundle;
+            boolean success = manager.remove(arg, false);
+            bundle.putBoolean(REMOVE_RESULT, success);
 
-		} else if (ACTION_REMOVE.equals(method)) {
+            changeListener.onRemove(arg, success);
 
-			boolean success = manager.remove(arg, false);
-			bundle.putBoolean(REMOVE_RESULT, success);
+            return bundle;
 
-			changeListener.onRemove(arg, success);
+        } else if (ACTION_REMOVE_ALL.equals(method)) {
 
-			return bundle;
+            boolean success = manager.removeAll();
+            bundle.putBoolean(REMOVE_ALL_RESULT, success);
 
-		} else if (ACTION_REMOVE_ALL.equals(method)) {
+            changeListener.onRemoveAll(success);
 
-			boolean success = manager.removeAll();
-			bundle.putBoolean(REMOVE_ALL_RESULT, success);
+            return bundle;
 
-			changeListener.onRemoveAll(success);
+        } else if (ACTION_QUERY_BY_ID.equals(method)) {
 
-			return bundle;
+            PluginDescriptor pluginDescriptor = manager.getPluginDescriptorByPluginId(arg);
+            bundle.putSerializable(QUERY_BY_ID_RESULT, pluginDescriptor);
 
-		} else if (ACTION_QUERY_BY_ID.equals(method)) {
+            return bundle;
 
-			PluginDescriptor pluginDescriptor = manager.getPluginDescriptorByPluginId(arg);
-			bundle.putSerializable(QUERY_BY_ID_RESULT, pluginDescriptor);
+        } else if (ACTION_QUERY_BY_CLASS_NAME.equals(method)) {
 
-			return bundle;
+            PluginDescriptor pluginDescriptor = manager.getPluginDescriptorByClassName(arg);
+            bundle.putSerializable(QUERY_BY_CLASS_NAME_RESULT, pluginDescriptor);
 
-		} else if (ACTION_QUERY_BY_CLASS_NAME.equals(method)) {
+            return bundle;
 
-			PluginDescriptor pluginDescriptor = manager.getPluginDescriptorByClassName(arg);
-			bundle.putSerializable(QUERY_BY_CLASS_NAME_RESULT, pluginDescriptor);
+        } else if (ACTION_QUERY_BY_FRAGMENT_ID.equals(method)) {
 
-			return bundle;
+            PluginDescriptor pluginDescriptor = manager.getPluginDescriptorByFragmenetId(arg);
+            bundle.putSerializable(QUERY_BY_FRAGMENT_ID_RESULT, pluginDescriptor);
 
-		} else if (ACTION_QUERY_BY_FRAGMENT_ID.equals(method)) {
+            return bundle;
 
-			PluginDescriptor pluginDescriptor = manager.getPluginDescriptorByFragmenetId(arg);
-			bundle.putSerializable(QUERY_BY_FRAGMENT_ID_RESULT, pluginDescriptor);
+        } else if (ACTION_QUERY_ALL.equals(method)) {
 
-			return bundle;
+            Collection<PluginDescriptor> pluginDescriptorList = manager.getPlugins();
+            ArrayList<PluginDescriptor> result = new ArrayList<PluginDescriptor>(pluginDescriptorList.size());
+            result.addAll(pluginDescriptorList);
+            bundle.putSerializable(QUERY_ALL_RESULT, result);
 
-		} else if (ACTION_QUERY_ALL.equals(method)) {
+            return bundle;
 
-			Collection<PluginDescriptor> pluginDescriptorList = manager.getPlugins();
-			ArrayList<PluginDescriptor> result = new ArrayList<PluginDescriptor>(pluginDescriptorList.size());
-			result.addAll(pluginDescriptorList);
-			bundle.putSerializable(QUERY_ALL_RESULT, result);
+        } else if (ACTION_BIND_ACTIVITY.equals(method)) {
 
-			return bundle;
+            bundle.putString(BIND_ACTIVITY_RESULT, PluginStubBinding.bindStubActivity(arg, extras.getInt("launchMode")));
 
-		} else if (ACTION_BIND_ACTIVITY.equals(method)) {
+            return bundle;
 
-			bundle.putString(BIND_ACTIVITY_RESULT, PluginStubBinding.bindStubActivity(arg, extras.getInt("launchMode")));
+        } else if (ACTION_UNBIND_ACTIVITY.equals(method)) {
 
-			return bundle;
+            PluginStubBinding.unBindLaunchModeStubActivity(arg, extras.getString("className"));
 
-		} else if (ACTION_UNBIND_ACTIVITY.equals(method)) {
+        } else if (ACTION_BIND_SERVICE.equals(method)) {
+            String process = extras != null ? extras.getString(EXTRAS_BUNDLE_PROCESS) : null;
+            bundle.putString(BIND_SERVICE_RESULT, PluginStubBinding.bindStubService(arg, process));
 
-			PluginStubBinding.unBindLaunchModeStubActivity(arg, extras.getString("className"));
+            return bundle;
 
-		} else if (ACTION_BIND_SERVICE.equals(method)) {
-			String process = extras != null ? extras.getString(EXTRAS_BUNDLE_PROCESS) : null;
-			bundle.putString(BIND_SERVICE_RESULT, PluginStubBinding.bindStubService(arg, process));
+        } else if (ACTION_GET_BINDED_SERVICE.equals(method)) {
+            bundle.putString(GET_BINDED_SERVICE_RESULT, PluginStubBinding.getBindedPluginServiceName(arg));
 
-			return bundle;
+            return bundle;
 
-		} else if (ACTION_GET_BINDED_SERVICE.equals(method)) {
-			bundle.putString(GET_BINDED_SERVICE_RESULT, PluginStubBinding.getBindedPluginServiceName(arg));
+        } else if (ACTION_UNBIND_SERVICE.equals(method)) {
 
-			return bundle;
+            PluginStubBinding.unBindStubService(arg);
 
-		} else if (ACTION_UNBIND_SERVICE.equals(method)) {
+        } else if (ACTION_BIND_RECEIVER.equals(method)) {
+            bundle.putString(BIND_RECEIVER_RESULT, PluginStubBinding.bindStubReceiver());
 
-			PluginStubBinding.unBindStubService(arg);
+            return bundle;
 
-		} else if (ACTION_BIND_RECEIVER.equals(method)) {
-			bundle.putString(BIND_RECEIVER_RESULT, PluginStubBinding.bindStubReceiver());
+        } else if (ACTION_IS_EXACT.equals(method)) {
+            bundle.putBoolean(IS_EXACT_RESULT, PluginStubBinding.isExact(arg, extras.getInt("type")));
 
-			return bundle;
+            return bundle;
 
-		} else if (ACTION_IS_EXACT.equals(method)) {
-			bundle.putBoolean(IS_EXACT_RESULT, PluginStubBinding.isExact(arg, extras.getInt("type")));
+        } else if (ACTION_IS_STUB.equals(method)) {
+            bundle.putBoolean(IS_STUB_RESULT, PluginStubBinding.isStub(arg));
 
-			return bundle;
+            return bundle;
 
-		} else if (ACTION_IS_STUB.equals(method)) {
-			bundle.putBoolean(IS_STUB_RESULT, PluginStubBinding.isStub(arg));
+        } else if (ACTION_DUMP_SERVICE_INFO.equals(method)) {
+            bundle.putString(DUMP_SERVICE_INFO_RESULT, PluginStubBinding.dumpServieInfo());
+            return bundle;
+        } else if (ACTION_IS_PLUGIN_RUNNING.equals(method)) {
+            bundle.putBoolean(IS_PLUGIN_RUNNING_RESULT, PluginLauncher.instance().isRunning(arg));
 
-			return bundle;
+            return bundle;
+        } else if (ACTION_WAKEUP_PLUGIN.equals(method)) {
+            LoadedPlugin loadedPlugin = PluginLauncher.instance().startPlugin(arg);
+            bundle.putBoolean(WAKEUP_PLUGIN_RESULT, loadedPlugin != null);
 
-		} else if (ACTION_DUMP_SERVICE_INFO.equals(method)) {
-			bundle.putString(DUMP_SERVICE_INFO_RESULT, PluginStubBinding.dumpServieInfo());
-			return bundle;
-		}
+            return bundle;
+        }
 
-		return null;
-	}
+        return null;
+    }
 }

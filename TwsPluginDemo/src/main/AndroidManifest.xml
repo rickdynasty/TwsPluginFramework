@@ -177,7 +177,7 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
             <intent-filter>
-                <action android:name="test.rst2" />
+                <action android:name="test.rst1" />
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>

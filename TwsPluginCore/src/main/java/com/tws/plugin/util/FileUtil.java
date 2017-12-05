@@ -121,8 +121,7 @@ public class FileUtil {
 						String name = LIB_FOLDER + File.separator + abi + File.separator + so;
 						File sourceFile = new File(sourceDir, name);
 						if (sourceFile.exists()) {
-							isSuccess = copyFile(sourceFile.getAbsolutePath(), dest + File.separator + LIB_FOLDER
-									+ File.separator + so);
+							isSuccess = copyFile(sourceFile.getAbsolutePath(), dest + File.separator + LIB_FOLDER + File.separator + so);
 							// api21 64位系统的目录可能有些不同
 							// copyFile(sourceFile.getAbsolutePath(), dest +
 							// File.separator + name);
@@ -154,8 +153,7 @@ public class FileUtil {
 			if (!isSuccess) {
 				QRomLog.e(TAG, "安装 :" + so + " 失败: NO_MATCHING_ABIS");
 				if (Thread.currentThread() == Looper.getMainLooper().getThread()) {
-					Toast.makeText(PluginLoader.getApplication(), "安装 " + so + " 失败: NO_MATCHING_ABIS",
-							Toast.LENGTH_SHORT).show();
+					Toast.makeText(PluginLoader.getApplication(), "安装 " + so + " 失败: NO_MATCHING_ABIS", Toast.LENGTH_SHORT).show();
 				}
 			}
 		} catch (Exception e) {

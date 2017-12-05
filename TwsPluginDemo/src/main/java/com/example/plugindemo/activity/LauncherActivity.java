@@ -6,9 +6,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.KeyEvent;
-import android.view.Menu;
 import android.view.View;
 
 import com.example.plugindemo.R;
@@ -29,29 +26,22 @@ public class LauncherActivity extends Activity implements View.OnClickListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.plugin_launcher);
 
-        QRomLog.d("xxx1", "activity_welcome ID= " + R.layout.plugin_launcher);
-        Log.e("xxx1", "activity_welcome ID= " + R.layout.plugin_launcher);
-        Log.e("xxx2", getResources().getResourceEntryName(R.layout.plugin_launcher));
-        QRomLog.d("xxx2", getResources().getResourceEntryName(R.layout.plugin_launcher));
-        QRomLog.d(
-                "xxx3",
-                getResources().getString(R.string.app_name) + "  "
-                        + getPackageManager().getApplicationLabel(getApplicationInfo()));
-        QRomLog.d(
-                "xxx3",
-                getResources().getString(R.string.app_name) + "  "
-                        + getPackageManager().getApplicationLabel(getApplicationInfo()));
-        QRomLog.d("xxx4", getPackageName() + ", " + getText(R.string.app_name));
-        QRomLog.d("xxx5", getResources().getString(android.R.string.httpErrorBadUrl));
-        QRomLog.d("xxx6",
-                getResources().getString(getResources().getIdentifier("app_name", "string", "com.example.plugindemo")));
-        QRomLog.d("xxx7", getResources().getString(getResources().getIdentifier("app_name", "string", getPackageName())));
+        QRomLog.d(TAG, "activity_welcome ID= " + R.layout.plugin_launcher);
+        QRomLog.e(TAG, "activity_welcome ID= " + R.layout.plugin_launcher);
+        QRomLog.e(TAG, getResources().getResourceEntryName(R.layout.plugin_launcher));
+        QRomLog.d(TAG, getResources().getResourceEntryName(R.layout.plugin_launcher));
+        QRomLog.d(TAG, getResources().getString(R.string.app_name) + "  " + getPackageManager().getApplicationLabel(getApplicationInfo()));
+        QRomLog.d(TAG, getResources().getString(R.string.app_name) + "  " + getPackageManager().getApplicationLabel(getApplicationInfo()));
+        QRomLog.d(TAG, getPackageName() + ", " + getText(R.string.app_name));
+        QRomLog.d(TAG, getResources().getString(android.R.string.httpErrorBadUrl));
+        QRomLog.d(TAG, getResources().getString(getResources().getIdentifier("app_name", "string", "com.example.plugindemo")));
+        QRomLog.d(TAG, getResources().getString(getResources().getIdentifier("app_name", "string", getPackageName())));
 
         ActionBar actionBar = getActionBar();
         if (actionBar == null) {
-            setTitle("这是插件首屏");
+            setTitle("这是插件Demo首屏");
         } else {
-            actionBar.setTitle("这是插件首屏");
+            actionBar.setTitle("这是插件Demo首屏");
             actionBar.setSubtitle("这是副标题");
             actionBar.setLogo(R.drawable.ic_launcher);
             actionBar.setIcon(R.drawable.ic_launcher);
@@ -87,44 +77,24 @@ public class LauncherActivity extends Activity implements View.OnClickListener {
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        menu.add("cc");
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    @Override
     protected void onResume() {
         super.onResume();
         testDataApi();
     }
 
     private void testDataApi() {
-
         SharedPreferences sp = getSharedPreferences("aaa", 0);
         sp.edit().putString("xyz", "123").commit();
         File f = getDir("bbb", 0);
-        QRomLog.d(TAG,
-                f.getAbsoluteFile() + " exists:" + f.exists() + " canRead:" + f.canRead() + " canWrite:" + f.canWrite());
+        QRomLog.d(TAG, f.getAbsoluteFile() + " exists:" + f.exists() + " canRead:" + f.canRead() + " canWrite:" + f.canWrite());
 
         f = getFilesDir();
-        QRomLog.d(TAG,
-                f.getAbsoluteFile() + " exists:" + f.exists() + " canRead:" + f.canRead() + " canWrite:" + f.canWrite());
-
-        // if (Build.VERSION.SDK_INT >= 21) {
-        // f = getNoBackupFilesDir();
-        // QRomLog.d(TAG, f.getAbsoluteFile() + " exists:" + f.exists() +
-        // " canRead:" + f.canRead() + " canWrite:" + f.canWrite());
-        // }
+        QRomLog.d(TAG, f.getAbsoluteFile() + " exists:" + f.exists() + " canRead:" + f.canRead() + " canWrite:" + f.canWrite());
 
         f = getCacheDir();
-        QRomLog.d(TAG,
-                f.getAbsoluteFile() + " exists:" + f.exists() + " canRead:" + f.canRead() + " canWrite:" + f.canWrite());
+        QRomLog.d(TAG, f.getAbsoluteFile() + " exists:" + f.exists() + " canRead:" + f.canRead() + " canWrite:" + f.canWrite());
 
-        // if (Build.VERSION.SDK_INT >= 21) {
-        // f = getCodeCacheDir();
-        // }
-        QRomLog.d(TAG,
-                f.getAbsoluteFile() + " exists:" + f.exists() + " canRead:" + f.canRead() + " canWrite:" + f.canWrite());
+        QRomLog.d(TAG, f.getAbsoluteFile() + " exists:" + f.exists() + " canRead:" + f.canRead() + " canWrite:" + f.canWrite());
 
         SQLiteDatabase db = openOrCreateDatabase("ccc", 0, null);
         try {
@@ -137,8 +107,7 @@ public class LauncherActivity extends Activity implements View.OnClickListener {
         }
 
         f = getDatabasePath("ccc");
-        QRomLog.d(TAG,
-                f.getAbsoluteFile() + " exists:" + f.exists() + " canRead:" + f.canRead() + " canWrite:" + f.canWrite());
+        QRomLog.d(TAG, f.getAbsoluteFile() + " exists:" + f.exists() + " canRead:" + f.canRead() + " canWrite:" + f.canWrite());
 
         String[] list = databaseList();
 
@@ -154,18 +123,5 @@ public class LauncherActivity extends Activity implements View.OnClickListener {
         }
 
         QRomLog.d(TAG, getFileStreamPath("eee").getAbsolutePath());
-
-    }
-
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        QRomLog.d(TAG, "onKeyDown keyCode=" + keyCode);
-        return super.onKeyDown(keyCode, event);
-    }
-
-    @Override
-    public boolean onKeyUp(int keyCode, KeyEvent event) {
-        QRomLog.d(TAG, "onKeyUp keyCode=" + keyCode);
-        return super.onKeyUp(keyCode, event);
     }
 }

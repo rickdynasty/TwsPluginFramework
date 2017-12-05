@@ -136,6 +136,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="点击测试notification" />
+
+        <Button
+            android:id="@+id/test_jni"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="点击测试JNI" />
     </LinearLayout>
 
 </ScrollView>

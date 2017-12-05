@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Toast;
 
+import com.example.hellojni.HelloJni;
 import com.example.plugindemo.R;
 import com.example.plugindemo.provider.PluginDbTables;
 import com.example.plugindemo.receiver.PluginTestReceiver2;
@@ -56,6 +57,7 @@ public class PluginCoreSamples extends Activity implements OnClickListener {
         findViewById(R.id.db_read).setOnClickListener(this);
         findViewById(R.id.test_read_assert).setOnClickListener(this);
         findViewById(R.id.test_notification).setOnClickListener(this);
+        findViewById(R.id.test_jni).setOnClickListener(this);
     }
 
     private static void startFragmentInHostActivity(Context context, String targetId) {
@@ -159,6 +161,9 @@ public class PluginCoreSamples extends Activity implements OnClickListener {
                 break;
             case R.id.test_notification:
                 testNotification();
+                break;
+            case R.id.test_jni:
+                testJni();
                 break;
             default:
                 break;
@@ -322,6 +327,10 @@ public class PluginCoreSamples extends Activity implements OnClickListener {
 
         final int notifyId = 100;
         notificationManager.notify(notifyId, notification);
+    }
+
+    private void testJni() {
+        Toast.makeText(PluginCoreSamples.this, "测试JNI：3 + 4 = " + HelloJni.calculate(3, 4), Toast.LENGTH_LONG).show();
     }
 
     private static String streamToString(InputStream input) throws IOException {

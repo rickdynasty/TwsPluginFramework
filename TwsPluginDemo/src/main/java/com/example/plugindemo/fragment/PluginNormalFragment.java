@@ -28,7 +28,7 @@ public class PluginNormalFragment extends Fragment implements OnClickListener {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-		getActivity().setTitle("测试插件中的Fragment，使用插件默认主题");
+		getActivity().getActionBar().setTitle("插件的Normal Fragment");
 
 		mInflater = inflater;
 		View scrollview = mInflater.inflate(R.layout.plugin_layout, null);

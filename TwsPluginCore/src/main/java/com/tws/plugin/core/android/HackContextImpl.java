@@ -40,10 +40,9 @@ public class HackContextImpl {
 		RefInvoker.setField(instance, ClassName, Field_mReceiverRestrictedContext, value);
 	}
 
-	public ContextWrapper getReceiverRestrictedContext() {
-		return (ContextWrapper) RefInvoker.invokeMethod(instance, ClassName, Method_getReceiverRestrictedContext, null,
-				null);
-	}
+    public ContextWrapper getReceiverRestrictedContext() {
+        return (ContextWrapper)RefInvoker.invokeMethod(instance, ClassName, Method_getReceiverRestrictedContext, null, null);
+    }
 
 	public ArrayMap<String, File> getSharedPrefsPaths() {
 		return (ArrayMap<String, File>) RefInvoker.getField(instance, ClassName, Field_mSharedPrefsPaths);
@@ -69,19 +68,17 @@ public class HackContextImpl {
 		return (Context) RefInvoker.invokeMethod(instance, ClassName, Method_getOuterContext, null, null);
 	}
 
-	public void setOuterContext(Object paramValues) {
-		RefInvoker.invokeMethod(instance, ClassName, Method_setOuterContext, new Class[] { Context.class },
-				new Object[] { paramValues });
-	}
+    public void setOuterContext(Object paramValues) {
+        RefInvoker.invokeMethod(instance, ClassName, Method_setOuterContext, new Class[]{Context.class}, new Object[]{paramValues});
+    }
 
 	public static boolean instanceOf(Object object) {
 		return object.getClass().getName().equals(ClassName);
 	}
 
-	public static Object getImpl(Object paramValues) {
-		return RefInvoker.invokeMethod(null, ClassName, Method_getImpl, new Class[] { Context.class },
-				new Object[] { paramValues });
-	}
+    public static Object getImpl(Object paramValues) {
+        return RefInvoker.invokeMethod(null, ClassName, Method_getImpl, new Class[]{Context.class}, new Object[]{paramValues});
+    }
 
 	public void setBasePackageName(Object value) {
 		RefInvoker.setField(instance, ClassName, Field_mBasePackageName, value);

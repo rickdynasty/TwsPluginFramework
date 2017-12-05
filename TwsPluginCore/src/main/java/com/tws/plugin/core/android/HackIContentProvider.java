@@ -20,7 +20,6 @@ public class HackIContentProvider {
 	}
 
 	public Object call(String method, String arg, Bundle extras) {
-		return RefInvoker.invokeMethod(instance, ClassName, Methdo_call, new Class[] { String.class, String.class,
-				Bundle.class }, new Object[] { method, arg, extras });
+		return RefInvoker.invokeMethod(instance, ClassName, Methdo_call, new Class[] { String.class, String.class, Bundle.class }, new Object[] { method, arg, extras });
 	}
 }

@@ -28,10 +28,6 @@ public class HostClassLoader extends PathClassLoader {
 		sPluginInHostAMF_ServiceMap.put("com.pacewear.tws.wallet.service.PaceApduService", "com.pacewear.tws.phoneside.wallet");
 	}
 
-	public HostClassLoader(String dexPath, ClassLoader parent) {
-		super(dexPath, parent);
-	}
-
 	public HostClassLoader(String dexPath, String libraryPath, ClassLoader parent) {
 		super(dexPath, libraryPath, parent);
 	}

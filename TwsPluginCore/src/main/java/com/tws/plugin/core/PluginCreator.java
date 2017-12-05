@@ -86,6 +86,9 @@ public class PluginCreator {
 			}
 		} else {
 			QRomLog.e(TAG, "插件文件不存在:" + absolutePluginApkPath);
+            QRomLog.e(TAG, "插件文件可能已损坏，正在卸载此插件...");
+            PluginManagerHelper.remove(pluginDescriptor.getPackageName());
+            QRomLog.e(TAG, "卸载完成");
 		}
 
 		return null;

@@ -93,20 +93,16 @@ public class AndroidAppINotificationManager extends MethodProxy {
 
 		String hostPackageName = PluginLoader.getApplication().getPackageName();
 
-		if (Build.VERSION.SDK_INT >= 23) {
-			// Icon mSmallIcon = (Icon) RefInvoker.getField(notification,
-			// Notification.class, "mSmallIcon");
-			// Icon mLargeIcon = (Icon) RefInvoker.getField(notification,
-			// Notification.class, "mLargeIcon");
-			// if (mSmallIcon != null) {
-			// RefInvoker.setField(mSmallIcon, Icon.class, "mString1",
-			// hostPackageName);
-			// }
-			// if (mLargeIcon != null) {
-			// RefInvoker.setField(mLargeIcon, Icon.class, "mString1",
-			// hostPackageName);
-			// }
-		}
+        if (Build.VERSION.SDK_INT >= 23) {
+//            Icon mSmallIcon = (Icon)RefInvoker.getField(notification, Notification.class, "mSmallIcon");
+//            Icon mLargeIcon = (Icon)RefInvoker.getField(notification, Notification.class, "mLargeIcon");
+//            if (mSmallIcon != null) {
+//                RefInvoker.setField(mSmallIcon, Icon.class, "mString1", hostPackageName);
+//            }
+//            if (mLargeIcon != null) {
+//                RefInvoker.setField(mLargeIcon, Icon.class, "mString1", hostPackageName);
+//            }
+        }
 
 		if (Build.VERSION.SDK_INT >= 21) {
 

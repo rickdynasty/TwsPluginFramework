@@ -114,8 +114,8 @@ public class PluginApplication extends Application {
             final ArrayList<DisplayItem> dis = pluginDescriptor.getDisplayItems();
             if (dis != null) {
                 for (DisplayItem di : dis) {
-                    QRomLog.d(TAG, "DisplayConfig dc.pos =(" + di.x + "," + di.y + ") ,di.type " + di.type);
-                    switch (di.type) {
+                    QRomLog.d(TAG, "DisplayConfig dc.pos =(" + di.x + "," + di.y + ") ,di.type " + di.action_type);
+                    switch (di.action_type) {
                         case DisplayItem.TYPE_APPLICATION:
                             if (null == PluginLauncher.instance().startPlugin(di.action_id)) {
                                 QRomLog.e(TAG, "startPlugin:" + di.action_id + "失败!!!");

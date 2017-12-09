@@ -31,7 +31,7 @@ import java.util.Locale;
 
 import qrom.component.log.QRomLog;
 
-public class MyWatchFragmentRevision extends Fragment implements OnClickListener {
+public class HomeFragment extends Fragment implements OnClickListener {
     private static final String TAG = "rick_Print:MyWatchFragmentRevision";
 
     private static final int FIX_LOCATION_BEGIN = 99;
@@ -48,17 +48,17 @@ public class MyWatchFragmentRevision extends Fragment implements OnClickListener
     private ArrayList<HostDisplayItem> mDisplayItems = new ArrayList<HostDisplayItem>();
 
     // 这个列表在安装和卸载插件的时候都需要维护
-    private ArrayList<WatchFragmentContentItem> mContentItems = new ArrayList<WatchFragmentContentItem>();
+    private ArrayList<HomeFragmentContentItem> mContentItems = new ArrayList<HomeFragmentContentItem>();
 
     // 通知管理 和 设置是DM 固有的两项
-    private WatchFragmentContentItem mMessageMgrItem = null, mSettingsItem = null;
+    private HomeFragmentContentItem mMessageMgrItem = null, mSettingsItem = null;
 
     private TextView mNotificationDescTextView;
 
     private int item_layout_height;
     private int item_paddingLeft;
 
-    public MyWatchFragmentRevision(ArrayList<HostDisplayItem> displayItems) {
+    public HomeFragment(ArrayList<HostDisplayItem> displayItems) {
         super();
         mDisplayItems.addAll(displayItems);
     }
@@ -93,7 +93,7 @@ public class MyWatchFragmentRevision extends Fragment implements OnClickListener
      */
     public void addContentItem(HostDisplayItem hostDisplayItem) {
         // 当前显示在首页My_Watch的内容暂只接收activity
-        if (hostDisplayItem.type != DisplayItem.TYPE_ACTIVITY) {
+        if (hostDisplayItem.action_type != DisplayItem.TYPE_ACTIVITY) {
             return;
         }
 
@@ -102,7 +102,7 @@ public class MyWatchFragmentRevision extends Fragment implements OnClickListener
             return;
         }
 
-        WatchFragmentContentItem item = new WatchFragmentContentItem(mFragmentContainer.getContext(), true);
+        HomeFragmentContentItem item = new HomeFragmentContentItem(mFragmentContainer.getContext(), true);
         LayoutParams lp = new LayoutParams(LayoutParams.MATCH_PARENT, item_layout_height);
         item.setPadding(item_paddingLeft, 0, 0, 0);
         item.setLayoutParams(lp);
@@ -126,7 +126,7 @@ public class MyWatchFragmentRevision extends Fragment implements OnClickListener
 
         item.setOnClickListener(this);
         item.mStatKey = hostDisplayItem.statistic_key;
-        item.setActionClass(hostDisplayItem.action_id, hostDisplayItem.type);
+        item.setActionClass(hostDisplayItem.action_id, hostDisplayItem.action_type);
         item.setPluginPackageName(hostDisplayItem.pid);
         item.setLocation(hostDisplayItem.x < 0 ? FIX_LOCATION_BEGIN - 1 : hostDisplayItem.x);
         item.setVisibility(hostDisplayItem.establishedDependOn ? View.VISIBLE : View.GONE);
@@ -151,7 +151,7 @@ public class MyWatchFragmentRevision extends Fragment implements OnClickListener
         if (hostItem == null || TextUtils.isEmpty(hostItem.pid) || TextUtils.isEmpty(hostItem.action_id))
             return false;
 
-        for (WatchFragmentContentItem item : mContentItems) {
+        for (HomeFragmentContentItem item : mContentItems) {
             if (hostItem.pid.equals(item.getPluginPackageName()) && hostItem.action_id.equals(item.getClassId())) {
                 return false;
             }
@@ -163,7 +163,7 @@ public class MyWatchFragmentRevision extends Fragment implements OnClickListener
     public void printContentItemsInfo() {
         QRomLog.d(TAG, "============== begin printContentItemsInfo ==============");
         for (int index = 0; index < mContentItems.size(); index++) {
-            final WatchFragmentContentItem item = mContentItems.get(index);
+            final HomeFragmentContentItem item = mContentItems.get(index);
             QRomLog.d(
                     TAG,
                     "mContentItems[" + index + "] text is " + item.getTextViewText() + " Location is "
@@ -213,7 +213,7 @@ public class MyWatchFragmentRevision extends Fragment implements OnClickListener
         }
 
         // add 通知管理
-        mMessageMgrItem = new WatchFragmentContentItem(rootView.getContext());
+        mMessageMgrItem = new HomeFragmentContentItem(rootView.getContext());
         mMessageMgrItem.setToNotify();
         LayoutParams lp_notify = new LayoutParams(LayoutParams.MATCH_PARENT, item_layout_height);
         mMessageMgrItem.setPadding(item_paddingLeft, 0, 0, 0);
@@ -222,7 +222,7 @@ public class MyWatchFragmentRevision extends Fragment implements OnClickListener
         mMessageMgrItem.setImageViewImageDrawable(R.mipmap.home_item_notification_normal);
         mMessageMgrItem.setText(res.getString(R.string.message_mgr));
         mMessageMgrItem.setOnClickListener(this);
-        mMessageMgrItem.mSpecialFlg = WatchFragmentContentItem.ITEM_MESSAGE;
+        mMessageMgrItem.mSpecialFlg = HomeFragmentContentItem.ITEM_MESSAGE;
         mMessageMgrItem.setActionClass(MessageManagerActivity.class.getName(), DisplayItem.TYPE_ACTIVITY);
         mMessageMgrItem.setLocation(FIX_LOCATION_BEGIN);
         mFragmentContainer.addView(mMessageMgrItem);
@@ -234,7 +234,7 @@ public class MyWatchFragmentRevision extends Fragment implements OnClickListener
         // 添加分割线 - 粗的
         insertSplit(mFragmentContainer, thickSplitHeight, 0, thickSplitBackground);
         // 最后添加Settings
-        mSettingsItem = new WatchFragmentContentItem(rootView.getContext(), true);
+        mSettingsItem = new HomeFragmentContentItem(rootView.getContext(), true);
         LayoutParams lp_settings = new LayoutParams(LayoutParams.MATCH_PARENT, item_layout_height);
         mSettingsItem.setPadding(item_paddingLeft, 0, 0, 0);
         mSettingsItem.setLayoutParams(lp_settings);
@@ -242,7 +242,7 @@ public class MyWatchFragmentRevision extends Fragment implements OnClickListener
         mSettingsItem.setText(res.getString(R.string.settings));
         mSettingsItem.setImageViewImageDrawable(R.mipmap.home_item_my_settings);
         mSettingsItem.setOnClickListener(this);
-        mSettingsItem.mSpecialFlg = WatchFragmentContentItem.ITEM_SETTINGS;
+        mSettingsItem.mSpecialFlg = HomeFragmentContentItem.ITEM_SETTINGS;
         mSettingsItem.setActionClass(SettingsActivity.class.getName(), DisplayItem.TYPE_ACTIVITY);
         mSettingsItem.setLocation(FIX_LOCATION_BEGIN + 1);
         mFragmentContainer.addView(mSettingsItem);
@@ -259,8 +259,8 @@ public class MyWatchFragmentRevision extends Fragment implements OnClickListener
 
     @Override
     public void onClick(View view) {
-        if (view instanceof WatchFragmentContentItem) {
-            final WatchFragmentContentItem item = (WatchFragmentContentItem) view;
+        if (view instanceof HomeFragmentContentItem) {
+            final HomeFragmentContentItem item = (HomeFragmentContentItem) view;
 
             Intent intent = new Intent();
             if (TextUtils.isEmpty(item.getPluginPackageName())) {
@@ -277,7 +277,7 @@ public class MyWatchFragmentRevision extends Fragment implements OnClickListener
                     break;
             }
 
-            if (item.mSpecialFlg == WatchFragmentContentItem.ITEM_MESSAGE && item.isNotify()
+            if (item.mSpecialFlg == HomeFragmentContentItem.ITEM_MESSAGE && item.isNotify()
                     && mNotiRedpointImg.getVisibility() == View.VISIBLE) {
                 mNotiRedpointImg.setVisibility(View.INVISIBLE);
             }
@@ -303,11 +303,11 @@ public class MyWatchFragmentRevision extends Fragment implements OnClickListener
         if (TextUtils.isEmpty(packageName))
             return;
 
-        ArrayList<WatchFragmentContentItem> removeItems = new ArrayList<WatchFragmentContentItem>();
-        Iterator<WatchFragmentContentItem> iter = mContentItems.iterator();
+        ArrayList<HomeFragmentContentItem> removeItems = new ArrayList<HomeFragmentContentItem>();
+        Iterator<HomeFragmentContentItem> iter = mContentItems.iterator();
         removeItems.clear();
         while (iter.hasNext()) {
-            WatchFragmentContentItem item = iter.next();
+            HomeFragmentContentItem item = iter.next();
             if (packageName.equals(item.getPluginPackageName())) {
                 mFragmentContainer.removeView(item);
                 removeItems.add(item);
@@ -323,7 +323,7 @@ public class MyWatchFragmentRevision extends Fragment implements OnClickListener
         if (TextUtils.isEmpty(pid))
             return;
 
-        for (WatchFragmentContentItem item : mContentItems) {
+        for (HomeFragmentContentItem item : mContentItems) {
             if (pid.equals(item.getPluginPackageName())) {
                 item.setVisibility(View.GONE);
             }
@@ -334,7 +334,7 @@ public class MyWatchFragmentRevision extends Fragment implements OnClickListener
         if (TextUtils.isEmpty(pid))
             return;
 
-        for (WatchFragmentContentItem item : mContentItems) {
+        for (HomeFragmentContentItem item : mContentItems) {
             if (pid.equals(item.getPluginPackageName())) {
                 item.setVisibility(View.VISIBLE);
             }

@@ -32,7 +32,7 @@ public class HostDisplayItem extends DisplayItem {
 
         this.gemel_x = displayItem.gemel_x;
         this.gemel_y = displayItem.gemel_y;
-        this.type = displayItem.type;
+        this.action_type = displayItem.action_type;
         this.title = displayItem.title;
         this.action_id = displayItem.action_id;
         this.icon = displayItem.icon;
@@ -63,7 +63,7 @@ public class HostDisplayItem extends DisplayItem {
             }
         }
 
-        QRomLog.d(TAG, "apply Item - plugin-pid=" + pid + " x=" + x + " y=" + y + " type=" + type + " title=" + title + " action_id=" + action_id +
+        QRomLog.d(TAG, "apply Item - plugin-pid=" + pid + " x=" + x + " y=" + y + " action_type=" + action_type + " title=" + title + " action_id=" + action_id +
                 " icon=" + icon + " statistic_key=" + statistic_key + " extras=" + extras + " gemel_x:" + gemel_x + " gemel_y=" + gemel_y);
     }
 
@@ -135,7 +135,7 @@ public class HostDisplayItem extends DisplayItem {
                 if (!TextUtils.isEmpty(displayItem.title)) {
                     sureActionBarDisplayItem();
 
-                    this.actionBarDisplayItem.r_type = displayItem.type;
+                    this.actionBarDisplayItem.r_action_type = displayItem.action_type;
                     this.actionBarDisplayItem.r_action_id = displayItem.action_id;
 
                     this.actionBarDisplayItem.r_res_type = RES_TYPE_STRING;
@@ -158,7 +158,7 @@ public class HostDisplayItem extends DisplayItem {
             case RES_TYPE_DRAWABLE:
                 sureActionBarDisplayItem();
 
-                this.actionBarDisplayItem.r_type = displayItem.type;
+                this.actionBarDisplayItem.r_action_type = displayItem.action_type;
                 this.actionBarDisplayItem.r_action_id = displayItem.action_id;
 
                 this.actionBarDisplayItem.r_res_type = RES_TYPE_DRAWABLE;

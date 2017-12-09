@@ -50,7 +50,7 @@ public class DisplayItem implements Serializable {
     public int y = INVALID_POS;       //结合x一起决定显示位置
 
     //内容
-    public int type = TYPE_UNKOWN;              //参考Diplay Type
+    public int action_type = TYPE_UNKOWN;        //action行为的表示Type符
     public String action_id = null;             //动作行为id标识符，一般是告诉宿主当前Item点击的跳转去向的类名信息
     public String title = null;                 //显示的文本
     public String icon = null;                  //显示的图标
@@ -61,8 +61,9 @@ public class DisplayItem implements Serializable {
 
     @Override
     public String toString() {
-        return "DisplayItem x=" + x + " y=" + y + " type=" + type + " title=" + title + " action_id=" + action_id +
-                " icon=" + icon + " statistic_key=" + statistic_key + " extras=" + extras + " gemel_x:" + gemel_x + " gemel_y=" + gemel_y;
+        return "DisplayItem x=" + x + " y=" + y + " action_type=" + action_type + " action_id=" + action_id
+                + " title=" + title + " icon=" + icon + " statistic_key=" + statistic_key + " extras=" +
+                extras + " gemel_x:" + gemel_x + " gemel_y=" + gemel_y;
     }
 
     public void printf() {

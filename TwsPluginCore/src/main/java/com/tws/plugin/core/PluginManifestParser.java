@@ -36,7 +36,7 @@ public class PluginManifestParser {
     private static final String DISPLAY_PROTOCOL_KEY_X = "x";
     private static final String DISPLAY_PROTOCOL_KEY_Y = "y";
     //plugin-display content
-    private static final String DISPLAY_PROTOCOL_KEY_TYPE = "type";
+    private static final String DISPLAY_PROTOCOL_KEY_TYPE = "actiontype";
     private static final String DISPLAY_PROTOCOL_KEY_ACTION_ID = "actionid";
     private static final String DISPLAY_PROTOCOL_KEY_TITLE = "title";
     private static final String DISPLAY_PROTOCOL_KEY_ICON = "icon";
@@ -141,7 +141,7 @@ public class PluginManifestParser {
                                             displayItem.gemel_y = Integer.parseInt(values[1]);
                                             break;
                                         case DISPLAY_PROTOCOL_KEY_TYPE:
-                                            displayItem.type = Integer.parseInt(values[1]);
+                                            displayItem.action_type = Integer.parseInt(values[1]);
                                             break;
                                         case DISPLAY_PROTOCOL_KEY_ACTION_ID:
                                             displayItem.action_id = values[1].trim();

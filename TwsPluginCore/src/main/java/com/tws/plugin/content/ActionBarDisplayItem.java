@@ -22,7 +22,7 @@ public class ActionBarDisplayItem {
     public String r_btn_text_en = null;
 
     // ActionBar右侧按钮上触发点击后行为的内容类型，同contentType【当前默认是activity，而且也暂时只有activity】
-    public int r_type = DisplayItem.TYPE_ACTIVITY;// 默认是activity
+    public int r_action_type = DisplayItem.TYPE_ACTIVITY;// 默认是activity
     // ActionBar右侧按钮上触发点击后的行为内容
     public String r_action_id = null;
 

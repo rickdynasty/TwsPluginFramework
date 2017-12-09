@@ -12,7 +12,7 @@ import com.rick.tws.pluginhost.R;
 /**
  * 一般情况是 这个ContentItem的内容是 图标+标题+右指向的箭头，但是notification的例外
  */
-public class WatchFragmentContentItem extends RelativeLayout {
+public class HomeFragmentContentItem extends RelativeLayout {
 	public static final int ITEM_MESSAGE = 1;
 	public static final int ITEM_SETTINGS = 2;
 
@@ -43,23 +43,23 @@ public class WatchFragmentContentItem extends RelativeLayout {
 	// 用于显示的索引位置
 	private int mLocation = 0;
 
-	public WatchFragmentContentItem(Context context) {
+	public HomeFragmentContentItem(Context context) {
 		this(context, false);
 	}
 
-	public WatchFragmentContentItem(Context context, boolean needSplit) {
+	public HomeFragmentContentItem(Context context, boolean needSplit) {
 		this(context, null, needSplit);
 	}
 
-	public WatchFragmentContentItem(Context context, AttributeSet attrs) {
+	public HomeFragmentContentItem(Context context, AttributeSet attrs) {
 		this(context, attrs, false);
 	}
 
-	public WatchFragmentContentItem(Context context, AttributeSet attrs, boolean needSplit) {
+	public HomeFragmentContentItem(Context context, AttributeSet attrs, boolean needSplit) {
 		this(context, attrs, 0, needSplit);
 	}
 
-	public WatchFragmentContentItem(Context context, AttributeSet attrs, int defStyle, boolean needSplit) {
+	public HomeFragmentContentItem(Context context, AttributeSet attrs, int defStyle, boolean needSplit) {
 		super(context, attrs, defStyle);
 		mNeedSplitLine = needSplit;
 		mImage_width = mImage_height = (int) getResources().getDimension(

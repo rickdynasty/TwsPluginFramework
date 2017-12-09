@@ -10,6 +10,8 @@ public class HostProxy {
     private static final String TAG = "rick_Print:HostProxy";
 
     private static Application sApplication = null;
+    private static HomeUIProxy sHomeUIProxy = null;
+
     private static String HOST_PACKAGE_NAME;
 
     public static void setApplication(Application context) {
@@ -23,6 +25,17 @@ public class HostProxy {
             throw new IllegalStateException("框架尚未初始化，请确定在当前进程中的PluginLoader.initLoader方法已执行！");
         }
         return sApplication;
+    }
+
+    public static void setHomeUIProxy(HomeUIProxy uiProxy) {
+        sHomeUIProxy = uiProxy;
+    }
+
+    public static HomeUIProxy getHomeUIProxy() {
+        if (sHomeUIProxy == null) {
+            throw new IllegalStateException("请先初始化HomeUIProxy~");
+        }
+        return sHomeUIProxy;
     }
 
     public static int getApplicationIconId() {

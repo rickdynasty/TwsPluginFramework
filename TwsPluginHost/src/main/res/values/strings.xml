@@ -9,7 +9,7 @@
     <string name="watch_name">Pacewear</string>
 
     <!-- 首页 begin -->
-    <string name="home_my_watch">我的手表</string>
+    <string name="hotseat_home_title">Home</string>
     <string name="use_terms_privacy_statement">Service Agreement</string>
     <string name="debug_plugin_framework">Open Debug Plugin</string>
     <string name="account_logout">Log out</string>

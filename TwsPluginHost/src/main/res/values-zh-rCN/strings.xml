@@ -10,7 +10,7 @@
     <string name="watch_name">Pacewear</string>
 
     <!-- 首页 begin -->
-    <string name="home_my_watch">我的手表</string>
+    <string name="hotseat_home_title">首页</string>
     <string name="use_terms_privacy_statement">软件许可及服务协议</string>
     <string name="debug_plugin_framework">插件调试入口</string>
     <string name="account_logout">退出当前帐号</string>

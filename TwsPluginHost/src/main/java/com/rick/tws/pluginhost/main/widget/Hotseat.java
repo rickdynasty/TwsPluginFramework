@@ -103,7 +103,7 @@ public class Hotseat extends LinearLayout implements OnClickListener {
     public int addOneBottomButtonForPlugin(final HostDisplayItem hostDisplayItem, int textNormalColor, int textFocusColor,
                                            boolean newInstallPlugin) {
         // 当前显示在Hotseat的内容暂只接收fragment
-        if (hostDisplayItem.type != DisplayItem.TYPE_FRAGMENT) {
+        if (hostDisplayItem.action_type != DisplayItem.TYPE_FRAGMENT) {
             return -1;
         }
 
@@ -113,7 +113,7 @@ public class Hotseat extends LinearLayout implements OnClickListener {
         }
 
         CellItem button = new CellItem(getContext());
-        button.setActionClass(hostDisplayItem.action_id, hostDisplayItem.pid, hostDisplayItem.type);
+        button.setActionClass(hostDisplayItem.action_id, hostDisplayItem.pid, hostDisplayItem.action_type);
 
         final Locale locale = getResources().getConfiguration().locale;
         if ("zh".equals(locale.getLanguage())) {
@@ -153,7 +153,7 @@ public class Hotseat extends LinearLayout implements OnClickListener {
                 button.mActionBarInfo.title = hostDisplayItem.actionBarDisplayItem.title_en;
             }
 
-            button.mActionBarInfo.r_type = hostDisplayItem.actionBarDisplayItem.r_type;
+            button.mActionBarInfo.r_type = hostDisplayItem.actionBarDisplayItem.r_action_type;
             button.mActionBarInfo.r_action_id = hostDisplayItem.actionBarDisplayItem.r_action_id;
             button.mActionBarInfo.r_res_type = hostDisplayItem.actionBarDisplayItem.r_res_type;
             button.mActionBarInfo.r_res_normal = hostDisplayItem.actionBarDisplayItem.r_res_normal;

@@ -43,6 +43,7 @@
 	<dimen name="about_watch_assistant_top_divider">30dp</dimen>
 
     <!---->
+    <dimen name="cell_item_padding_top">6dp</dimen>
     <dimen name="item_padding">20dp</dimen>
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>

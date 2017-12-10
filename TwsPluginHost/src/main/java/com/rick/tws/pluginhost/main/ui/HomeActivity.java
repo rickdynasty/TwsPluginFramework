@@ -14,11 +14,9 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
-import android.view.View;
-import android.widget.FrameLayout;
 import android.widget.Toast;
 
 import com.rick.tws.framework.HomeUIProxy;
@@ -26,10 +24,10 @@ import com.rick.tws.framework.HostProxy;
 import com.rick.tws.pluginhost.R;
 import com.rick.tws.pluginhost.main.HostApplication;
 import com.rick.tws.pluginhost.main.content.CellItem;
-import com.rick.tws.pluginhost.main.ui.fragment.HomeFragment;
 import com.rick.tws.pluginhost.main.content.HostDisplayItem;
-import com.rick.tws.pluginhost.main.widget.Hotseat;
+import com.rick.tws.pluginhost.main.ui.fragment.HomeFragment;
 import com.rick.tws.pluginhost.main.ui.fragment.ToastFragment;
+import com.rick.tws.pluginhost.main.widget.Hotseat;
 import com.tws.plugin.content.DisplayItem;
 import com.tws.plugin.content.LoadedPlugin;
 import com.tws.plugin.content.PluginDescriptor;
@@ -50,9 +48,10 @@ import java.util.Iterator;
 import dalvik.system.BaseDexClassLoader;
 import qrom.component.log.QRomLog;
 
-public class HomeActivity extends AppCompatActivity implements HomeUIProxy, View.OnClickListener {
+public class HomeActivity extends AppCompatActivity implements HomeUIProxy {
     protected final String TAG = "HomeActivity";
 
+    protected static final String FRAGMENTS_TAG = "android:support:fragments";
     //插件依赖的类型
     private final int DEPEND_ON_APPLICATION = 1;
     private final int DEPEND_ON_PLUGIN = 2;
@@ -73,14 +72,17 @@ public class HomeActivity extends AppCompatActivity implements HomeUIProxy, View
     // 应用安装卸载监听
     private BroadcastReceiver mAppUpdateReceiver = null;
 
-    private FrameLayout mFragmentContainer;
-    private FragmentPagerAdapter mFragmentPagerAdapter;
+    private HashMap<Integer, Fragment> mFragments = new HashMap<>();
+    //需要记切换前的tagIndex,方便隐藏之前的然后显示新的
+    private int mSaveTagIndex = -1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-        initView();
+
+        mHotseat = (Hotseat) findViewById(R.id.home_bottom_tab);
+        initHomeBottomTabObserver();
 
         mNormalTextColor = getResources().getColor(R.color.home_bottom_tab_text_default_color);
         mFocusTextColor = getResources().getColor(R.color.home_bottom_tab_text_pressed_color);
@@ -96,30 +98,12 @@ public class HomeActivity extends AppCompatActivity implements HomeUIProxy, View
         initHotseat();
         HostProxy.setHomeUIProxy(this);
 
-        mFragmentPagerAdapter = new FragmentPagerAdapter(getSupportFragmentManager()) {
-            @Override
-            public Fragment getItem(int position) {
-                return getFragmentByTagIndex(position);
-            }
-
-            @Override
-            public int getCount() {
-                return mHotseat.childCount();
-            }
-        };
-
         //检查ExternalStorage的权限
         checkWriteExternalStoragePermission();
 
         // 默认聚焦位置
         final int fouceIndex = mHotseat.getPosByClassId(((HostApplication) HostApplication.getInstance()).getFouceTabClassId());
         switchFragment(mHotseat.setFocusIndex(fouceIndex));
-    }
-
-    @Override
-    public void onClick(View view) {
-        switch (view.getId()) {
-        }
     }
 
     private void initPluginChangedMonitor() {
@@ -223,6 +207,10 @@ public class HomeActivity extends AppCompatActivity implements HomeUIProxy, View
     }
 
     private Fragment getFragmentByTagIndex(int tagIndex) {
+        if (mFragments.get(tagIndex) != null) {
+            return mFragments.get(tagIndex);
+        }
+
         final CellItem.ComponentName componentName = mHotseat.getComponentNameByTagIndex(tagIndex);
         final String classId = componentName != null ? componentName.getClassId() : null;
         QRomLog.d(TAG, "getFragmentByTagIndex:" + tagIndex + " classId is " + classId + " will create it(Fragment)");
@@ -281,6 +269,8 @@ public class HomeActivity extends AppCompatActivity implements HomeUIProxy, View
             fragment = new ToastFragment();
             ((ToastFragment) fragment).setToastMsg(msg);
         }
+
+        mFragments.put(tagIndex, fragment);
 
         return fragment;// new Fragment();
     }
@@ -457,13 +447,6 @@ public class HomeActivity extends AppCompatActivity implements HomeUIProxy, View
                 QRomLog.e(TAG, "插件：" + pluginDescriptor.getPackageName() + "没有配置plugin-display协议~");
             }
         }
-    }
-
-    private void initView() {
-        mHotseat = (Hotseat) findViewById(R.id.home_bottom_tab);
-        mFragmentContainer = (FrameLayout) findViewById(R.id.home_fragment_container);
-
-        initHomeBottomTabObserver();
     }
 
     private void initHotseat() {
@@ -750,10 +733,24 @@ public class HomeActivity extends AppCompatActivity implements HomeUIProxy, View
             return;
         }
 
+        if (mSaveTagIndex == tagIndex) {
+            QRomLog.e(TAG, "要切换的就是当前是一个tagIndex，直接return ~");
+            return;
+        }
+
         QRomLog.d(TAG, "switchFragment:" + tagIndex);
-        Fragment fragment = (Fragment) mFragmentPagerAdapter.instantiateItem(mFragmentContainer, tagIndex);
-        mFragmentPagerAdapter.setPrimaryItem(mFragmentContainer, tagIndex, fragment);
-        mFragmentPagerAdapter.finishUpdate(mFragmentContainer);
+        Fragment fragment = getFragmentByTagIndex(tagIndex);
+
+        //注意这里不能缓存FragmentTransaction 需要每次都去get
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        if (null != mFragments.get(mSaveTagIndex)) {
+            ft.hide(mFragments.get(mSaveTagIndex));
+        }
+        if (!fragment.isAdded()) {
+            ft.add(R.id.home_fragment_container, fragment);
+        }
+        ft.show(fragment).commit();
+        mSaveTagIndex = tagIndex;
     }
 
     @Override
@@ -764,5 +761,15 @@ public class HomeActivity extends AppCompatActivity implements HomeUIProxy, View
     @Override
     public void setHighlightCellItem(String classId, boolean needHighlight) {
 
+    }
+
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        // 当前不对mFragments进行状态保存[恢复的时候状态错乱了]，在这里通过mCurrentPage来保存并进行恢复
+        if (outState != null) {
+            outState.remove(FRAGMENTS_TAG);
+        }
     }
 }

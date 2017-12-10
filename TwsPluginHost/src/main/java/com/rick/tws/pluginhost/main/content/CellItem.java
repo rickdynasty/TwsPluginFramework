@@ -3,9 +3,12 @@ package com.rick.tws.pluginhost.main.content;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.Space;
 import android.widget.TextView;
 
 import com.rick.tws.pluginhost.R;
@@ -56,34 +59,32 @@ public class CellItem extends RelativeLayout {
     }
 
     private void init(Context context) {
-        int id = 0x7b0a0000;
-        // setGravity(Gravity.CENTER_HORIZONTAL);
-        // weight 在设置LayoutParams的时候处理
-        // craete ImageView
+        LinearLayout linearLayout = new LinearLayout(context);
+        linearLayout.setOrientation(LinearLayout.VERTICAL);
+        linearLayout.setGravity(Gravity.CENTER_HORIZONTAL);
+        LinearLayout.LayoutParams line_lp = new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+        //line_lp.gravity = Gravity.CENTER_HORIZONTAL;
+        linearLayout.setLayoutParams(line_lp);
+
+        Space space = new Space(context);
+        linearLayout.addView(space, new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT,getResources().getDimensionPixelSize(R.dimen.cell_item_padding_top)));
+
         mImageView = new ImageView(context);
         final float home_bottom_tab_img_width = getResources().getDimension(R.dimen.home_bottom_tab_img_width);
         final float home_bottom_tab_img_height = getResources().getDimension(R.dimen.home_bottom_tab_img_height);
-        LayoutParams ivParams = new LayoutParams((int) home_bottom_tab_img_width, (int) home_bottom_tab_img_height);
-//		int top = (int) getResources().getDimension(R.dimen.home_bottom_tab_img_margin_top);
-//		ivParams.topMargin = top;
-        // ivParams.setMargins(0, top, 0, 0);
-        ivParams.addRule(RelativeLayout.CENTER_IN_PARENT);
-        mImageView.setLayoutParams(ivParams);
-//        mImageView.setId(id);
-        ++id;
-        // tvParams.addRule(RelativeLayout.RIGHT_OF, mImageView.getId());
-        addView(mImageView, 0);
+        LinearLayout.LayoutParams ivParams = new LinearLayout.LayoutParams((int) home_bottom_tab_img_width, (int) home_bottom_tab_img_height);
+        linearLayout.addView(mImageView, ivParams);
 
         // create TextView
         mTextView = new TextView(context);
         LayoutParams tvParams = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
-        tvParams.addRule(RelativeLayout.CENTER_HORIZONTAL);
-        tvParams.addRule(RelativeLayout.BELOW, mImageView.getId());
-        mTextView.setLayoutParams(tvParams);
-        // mTextView.setTextColor(getResources().getColor(R.color.home_bottom_tab_text_pressed_color));
-        addView(mTextView, 1);
-        mTextView.setVisibility(View.GONE);
-        ++id;
+        linearLayout.addView(mTextView, tvParams);
+        //mTextView.setVisibility(View.GONE);
+
+        //将linearLayout添加到CellItem里面
+        LayoutParams lp = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+        lp.addRule(RelativeLayout.CENTER_IN_PARENT);
+        addView(linearLayout, lp);
     }
 
     public void setNormalBackground(Drawable drawable) {

@@ -1,8 +1,9 @@
 package com.rick.tws.pluginhost.debug;
 
-import android.app.Fragment;
-import android.app.FragmentTransaction;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
@@ -21,7 +22,7 @@ import com.tws.plugin.core.annotation.PluginContainer;
  * @author yongchen
  * 
  */
-public class PluginFragmentActivity extends AppCompatActivity implements PluginContainer {
+public class PluginFragmentActivity extends FragmentActivity implements PluginContainer {
 
 	public static final String FRAGMENT_ID_IN_PLUGIN = "PluginDispatcher.fragmentId";
 	private static final String LOG_TAG = PluginFragmentActivity.class.getSimpleName();
@@ -66,7 +67,7 @@ public class PluginFragmentActivity extends AppCompatActivity implements PluginC
             Class clazz = PluginLoader.loadPluginFragmentClassById(classId);
 			if (clazz != null) {
 				Fragment fragment = (Fragment) clazz.newInstance();
-				FragmentTransaction ft = getFragmentManager().beginTransaction();
+				FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
 				ft.replace(R.id.fragment_container, fragment).commit();
 			}
 		} catch (InstantiationException e) {

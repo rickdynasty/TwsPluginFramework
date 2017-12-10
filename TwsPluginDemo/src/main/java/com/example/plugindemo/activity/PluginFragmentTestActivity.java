@@ -1,9 +1,9 @@
 package com.example.plugindemo.activity;
 
-import android.app.Activity;
-import android.app.Fragment;
-import android.app.FragmentTransaction;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -17,7 +17,7 @@ import com.example.plugindemo.fragment.PluginNormalFragment;
  * 
  * @author yongchen
  */
-public class PluginFragmentTestActivity extends Activity {
+public class PluginFragmentTestActivity extends FragmentActivity {
 
 	private static final String LOG_TAG = PluginFragmentTestActivity.class.getSimpleName();
 
@@ -30,7 +30,8 @@ public class PluginFragmentTestActivity extends Activity {
 		root.setId(android.R.id.primary);
 
 		Fragment fragment = new PluginNormalFragment();
-		FragmentTransaction ft = getFragmentManager().beginTransaction();
+
+		FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
 		ft.replace(android.R.id.primary, fragment).commit();
 	}
 

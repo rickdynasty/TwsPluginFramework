@@ -1,9 +1,9 @@
 package com.example.plugindemo.fragment;
 
-import android.app.Fragment;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,6 +29,7 @@ public class PluginSpecFragment extends Fragment implements OnClickListener {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         getActivity().getActionBar().setTitle("插件的 Spec Fragment");
         // 默认是宿主程序Application主题
         try {

@@ -2,6 +2,7 @@ package com.example.plugindemo.fragment;
 
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -30,7 +31,12 @@ public class PluginSpecFragment extends Fragment implements OnClickListener {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        getActivity().getActionBar().setTitle("插件的 Spec Fragment");
+        if (null != getActivity().getActionBar()) {
+            getActivity().getActionBar().setTitle("插件的 Spec Fragment");
+        } else {
+            getActivity().setTitle("插件的 Spec Fragment");
+        }
+
         // 默认是宿主程序Application主题
         try {
             pluginContext = getActivity().createPackageContext("com.example.plugindemo", 0);
@@ -46,6 +52,7 @@ public class PluginSpecFragment extends Fragment implements OnClickListener {
         View scrollview = pluginInflater.inflate(R.layout.plugin_layout, null);
 
         mRoot = (ViewGroup) scrollview.findViewById(R.id.content);
+        mRoot.setBackgroundColor(Color.WHITE);
 
         initViews();
 

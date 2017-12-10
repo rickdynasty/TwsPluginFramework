@@ -8,8 +8,9 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.LinearLayout;
 
+import com.rick.tws.pluginhost.main.content.CellItem;
+import com.rick.tws.pluginhost.main.content.HostDisplayItem;
 import com.tws.plugin.content.DisplayItem;
-import com.tws.plugin.content.HostDisplayItem;
 import com.tws.plugin.manager.PluginManagerHelper;
 
 import java.util.ArrayList;
@@ -47,8 +48,6 @@ public class Hotseat extends LinearLayout implements OnClickListener {
 
     public interface OnHotseatClickListener {
         public void onItemClick(int tagIndex);
-
-        public void onItemClick(int tagIndex, int extras);
 
         public void updateActionBar(final CellItem.ActionBarInfo actionBarInfo);
     }
@@ -370,7 +369,7 @@ public class Hotseat extends LinearLayout implements OnClickListener {
         return 0;
     }
 
-    public void switchToFragment(String classId, int extras) {
+    public void switchToFragment(String classId) {
         for (CellItem item : mHomeBottomButtons) {
             if (item.getClassId().equals(classId)) {
                 setFocus(item);
@@ -378,7 +377,7 @@ public class Hotseat extends LinearLayout implements OnClickListener {
                 if (onListeners != null && mFoucsButton != null) {
                     for (OnHotseatClickListener listener : onListeners) {
                         listener.updateActionBar(mFoucsButton.mActionBarInfo);
-                        listener.onItemClick(mFoucsButton.getTagIndex(), extras);
+                        listener.onItemClick(mFoucsButton.getTagIndex());
                     }
                 }
                 return;

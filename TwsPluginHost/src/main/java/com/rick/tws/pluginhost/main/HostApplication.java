@@ -3,6 +3,7 @@ package com.rick.tws.pluginhost.main;
 import android.content.Context;
 
 import com.rick.tws.framework.HostProxy;
+import com.rick.tws.pluginhost.main.widget.Hotseat;
 import com.tws.plugin.core.PluginApplication;
 import com.tws.plugin.core.PluginLoader;
 import com.tws.plugin.util.ProcessUtil;
@@ -11,6 +12,8 @@ import com.tws.plugin.util.ProcessUtil;
  * Created by Administrator on 2017/11/6 0006.
  */
 public class HostApplication extends PluginApplication {
+
+    private String mFouceTabClassId = Hotseat.HOST_HOME_FRAGMENT;
 
     @Override
     public void onCreate() {
@@ -35,5 +38,9 @@ public class HostApplication extends PluginApplication {
     protected void attachBaseContext(Context base) {
         super.attachBaseContext(base);
         HostProxy.setApplication(this);
+    }
+
+    public String getFouceTabClassId() {
+        return mFouceTabClassId;
     }
 }

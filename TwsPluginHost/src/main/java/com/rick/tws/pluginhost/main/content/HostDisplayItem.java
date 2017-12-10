@@ -1,6 +1,8 @@
-package com.tws.plugin.content;
+package com.rick.tws.pluginhost.main.content;
 
 import android.text.TextUtils;
+
+import com.tws.plugin.content.DisplayItem;
 
 import qrom.component.log.QRomLog;
 
@@ -10,12 +12,20 @@ import qrom.component.log.QRomLog;
 public class HostDisplayItem extends DisplayItem {
     private static final String TAG = "HostDisplayItem";
 
+    public static final int DISPLAY_AT_HOTSEAT = 0;
+    public static final int DISPLAY_AT_HOME_FRAGEMENT = 1;
+    public static final int DISPLAY_AT_MENU = 2;
+    public static final int DISPLAY_AT_OTHER_POS = 3;
+
+    public static final int UNKNOW_POS = -1;
+
+    // 缓存插件的包名PackageName信息：pid
     public String pid = "";
 
+    public CharSequence title_en = null;
     public CharSequence title_zh_CN = null;
     public CharSequence title_zh_TW = null;
     public CharSequence title_zh_HK = null;
-    public CharSequence title_en = null;
 
     public String normalResName = null;
     public String focusResName = null;
@@ -24,8 +34,9 @@ public class HostDisplayItem extends DisplayItem {
 
     public ActionBarDisplayItem actionBarDisplayItem = null;
 
-    public HostDisplayItem(DisplayItem displayItem, final String pid) {
+    public HostDisplayItem(DisplayItem displayItem, final String pid, final boolean establishedDependOn) {
         this.pid = pid;
+        this.establishedDependOn = establishedDependOn;
 
         this.x = displayItem.x;
         this.y = displayItem.y;

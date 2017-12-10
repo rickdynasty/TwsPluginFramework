@@ -1,4 +1,6 @@
-package com.tws.plugin.content;
+package com.rick.tws.pluginhost.main.content;
+
+import com.tws.plugin.content.DisplayItem;
 
 /**
  * Created by Administrator on 2017/10/29 0029.

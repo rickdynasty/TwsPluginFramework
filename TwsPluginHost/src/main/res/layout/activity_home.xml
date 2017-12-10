@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/tws_view_bg" >
+    android:background="@color/tws_view_bg">
 
     <com.rick.tws.pluginhost.main.widget.Hotseat
         android:id="@+id/home_bottom_tab"
@@ -15,13 +15,6 @@
         android:id="@+id/home_fragment_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@id/home_bottom_tab" >
-
-        <Button
-            android:id="@+id/btn_test"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/debug_plugin_framework" />
-    </FrameLayout>
+        android:layout_above="@id/home_bottom_tab"/>
 
 </RelativeLayout>

@@ -42,8 +42,13 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
 
 	private void initActionBar() {
 		ActionBar actionBar = getActionBar();
-		actionBar.setTitle(getResources().getString(R.string.activity_settings_title));
-		actionBar.setStackedBackgroundDrawable(getResources().getDrawable(R.mipmap.ab_solid_light_holo_opacity));
+		if(null != actionBar) {
+			actionBar.setTitle(getResources().getString(R.string.activity_settings_title));
+			actionBar.setStackedBackgroundDrawable(getResources().getDrawable(R.mipmap.ab_solid_light_holo_opacity));
+		}
+		else{
+			setTitle(getResources().getString(R.string.activity_settings_title));
+		}
 	}
 
 	@Override

@@ -1,4 +1,4 @@
-package com.rick.tws.pluginhost.main.widget;
+package com.rick.tws.pluginhost.main.ui.fragment;
 
 import android.content.Intent;
 import android.content.res.Resources;
@@ -17,12 +17,13 @@ import android.widget.RelativeLayout;
 import android.widget.RelativeLayout.LayoutParams;
 import android.widget.TextView;
 
-import com.rick.tws.pluginhost.main.HostApplication;
 import com.rick.tws.pluginhost.R;
+import com.rick.tws.pluginhost.main.HostApplication;
+import com.rick.tws.pluginhost.main.content.HomeFragmentContentItem;
+import com.rick.tws.pluginhost.main.content.HostDisplayItem;
 import com.rick.tws.pluginhost.main.ui.MessageManagerActivity;
 import com.rick.tws.pluginhost.main.ui.SettingsActivity;
 import com.tws.plugin.content.DisplayItem;
-import com.tws.plugin.content.HostDisplayItem;
 import com.tws.plugin.manager.PluginManagerHelper;
 
 import java.util.ArrayList;
@@ -91,13 +92,13 @@ public class HomeFragment extends Fragment implements OnClickListener {
     /**
      * 注意这里的index是指fragment列表PaceWear这一列的后面开始计算
      */
-    public void addContentItem(HostDisplayItem hostDisplayItem) {
+    public void addContentItem(HostDisplayItem di) {
         // 当前显示在首页My_Watch的内容暂只接收activity
-        if (hostDisplayItem.action_type != DisplayItem.TYPE_ACTIVITY) {
+        if (di.action_type != DisplayItem.TYPE_ACTIVITY) {
             return;
         }
 
-        if (!isEnabledDisplayItem(hostDisplayItem)) {
+        if (!isEnabledDisplayItem(di)) {
             QRomLog.e(TAG, "info is illegal(already exists), This will be ignored!");
             return;
         }
@@ -107,29 +108,29 @@ public class HomeFragment extends Fragment implements OnClickListener {
         item.setPadding(item_paddingLeft, 0, 0, 0);
         item.setLayoutParams(lp);
         item.setBackgroundResource(R.drawable.list_selector_background);// R.drawable.dm_common_single_item_selector
-        item.setImageViewImageDrawable(PluginManagerHelper.getPluginIcon(hostDisplayItem.normalResName));
+        item.setImageViewImageDrawable(PluginManagerHelper.getPluginIcon(di.normalResName));
 
         final ContextThemeWrapper context = getActivity();
         final Resources res = context == null ? HostApplication.getInstance().getResources() : context.getResources();
         final Locale locale = res.getConfiguration().locale;
         if ("zh".equals(locale.getLanguage())) {
             if ("HK".equals(locale.getCountry())) {
-                item.setText(hostDisplayItem.title_zh_HK);
+                item.setText(di.title_zh_HK);
             } else if ("TW".equals(locale.getCountry())) {
-                item.setText(hostDisplayItem.title_zh_TW);
+                item.setText(di.title_zh_TW);
             } else {
-                item.setText(hostDisplayItem.title_zh_CN);
+                item.setText(di.title_zh_CN);
             }
         } else {
-            item.setText(hostDisplayItem.title_en);
+            item.setText(di.title_en);
         }
 
         item.setOnClickListener(this);
-        item.mStatKey = hostDisplayItem.statistic_key;
-        item.setActionClass(hostDisplayItem.action_id, hostDisplayItem.action_type);
-        item.setPluginPackageName(hostDisplayItem.pid);
-        item.setLocation(hostDisplayItem.x < 0 ? FIX_LOCATION_BEGIN - 1 : hostDisplayItem.x);
-        item.setVisibility(hostDisplayItem.establishedDependOn ? View.VISIBLE : View.GONE);
+        item.mStatKey = di.statistic_key;
+        item.setActionClass(di.action_id, di.action_type);
+        item.setPluginPackageName(di.pid);
+        item.setLocation(di.x < 0 ? FIX_LOCATION_BEGIN - 1 : di.x);
+        item.setVisibility(di.establishedDependOn ? View.VISIBLE : View.GONE);
 
         boolean insertRlt = false;
         int index = 0;
@@ -147,12 +148,12 @@ public class HomeFragment extends Fragment implements OnClickListener {
         mFragmentContainer.addView(item, index + 1);// +1是fragment顶部有一个固定的linelayout
     }
 
-    public boolean isEnabledDisplayItem(final HostDisplayItem hostItem) {
-        if (hostItem == null || TextUtils.isEmpty(hostItem.pid) || TextUtils.isEmpty(hostItem.action_id))
+    public boolean isEnabledDisplayItem(final HostDisplayItem di) {
+        if (di == null || TextUtils.isEmpty(di.pid) || TextUtils.isEmpty(di.action_id))
             return false;
 
         for (HomeFragmentContentItem item : mContentItems) {
-            if (hostItem.pid.equals(item.getPluginPackageName()) && hostItem.action_id.equals(item.getClassId())) {
+            if (di.pid.equals(item.getPluginPackageName()) && di.action_id.equals(item.getClassId())) {
                 return false;
             }
         }

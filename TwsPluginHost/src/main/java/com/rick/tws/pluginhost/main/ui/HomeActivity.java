@@ -14,21 +14,28 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.Toast;
 
 import com.rick.tws.framework.HomeUIProxy;
 import com.rick.tws.framework.HostProxy;
 import com.rick.tws.pluginhost.R;
-import com.rick.tws.pluginhost.debug.DebugPluginActivity;
-import com.rick.tws.pluginhost.main.widget.DisplayInfo;
-import com.rick.tws.pluginhost.main.widget.HomeFragment;
+import com.rick.tws.pluginhost.main.HostApplication;
+import com.rick.tws.pluginhost.main.content.CellItem;
+import com.rick.tws.pluginhost.main.ui.fragment.HomeFragment;
+import com.rick.tws.pluginhost.main.content.HostDisplayItem;
 import com.rick.tws.pluginhost.main.widget.Hotseat;
+import com.rick.tws.pluginhost.main.ui.fragment.ToastFragment;
 import com.tws.plugin.content.DisplayItem;
+import com.tws.plugin.content.LoadedPlugin;
 import com.tws.plugin.content.PluginDescriptor;
 import com.tws.plugin.core.PluginApplication;
+import com.tws.plugin.core.PluginLauncher;
+import com.tws.plugin.core.PluginLoader;
 import com.tws.plugin.manager.InstallResult;
 import com.tws.plugin.manager.PluginCallback;
 import com.tws.plugin.manager.PluginManagerHelper;
@@ -40,6 +47,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 
+import dalvik.system.BaseDexClassLoader;
 import qrom.component.log.QRomLog;
 
 public class HomeActivity extends AppCompatActivity implements HomeUIProxy, View.OnClickListener {
@@ -51,12 +59,11 @@ public class HomeActivity extends AppCompatActivity implements HomeUIProxy, View
     private HashMap<String, String> mDependOnMap = new HashMap<String, String>();
 
     private HomeFragment mHomeFragment = null;
-    private HashMap<Integer, Fragment> mHotseatIndex_Fragments = new HashMap<>();
 
     protected Hotseat mHotseat;
     private Hotseat.OnHotseatClickListener mHotseatClickCallback;
-    private ArrayList<DisplayInfo> mHotseatDisplayInfos = new ArrayList<DisplayInfo>();
-    private ArrayList<DisplayInfo> mHomeFragementDisplayInfos = new ArrayList<DisplayInfo>(); // myWatchfaceFragment
+    private ArrayList<HostDisplayItem> mHotseatDisplayInfos = new ArrayList<>();
+    private ArrayList<HostDisplayItem> mHomeFragementDisplayInfos = new ArrayList<>(); // myWatchfaceFragment
 
     protected int mNormalTextColor;
     protected int mFocusTextColor;
@@ -66,15 +73,14 @@ public class HomeActivity extends AppCompatActivity implements HomeUIProxy, View
     // 应用安装卸载监听
     private BroadcastReceiver mAppUpdateReceiver = null;
 
+    private FrameLayout mFragmentContainer;
+    private FragmentPagerAdapter mFragmentPagerAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-
-        findViewById(R.id.btn_test).setOnClickListener(this);
-        mHotseatIndex_Fragments.clear();
-
+        initView();
 
         mNormalTextColor = getResources().getColor(R.color.home_bottom_tab_text_default_color);
         mFocusTextColor = getResources().getColor(R.color.home_bottom_tab_text_pressed_color);
@@ -90,17 +96,29 @@ public class HomeActivity extends AppCompatActivity implements HomeUIProxy, View
         initHotseat();
         HostProxy.setHomeUIProxy(this);
 
+        mFragmentPagerAdapter = new FragmentPagerAdapter(getSupportFragmentManager()) {
+            @Override
+            public Fragment getItem(int position) {
+                return getFragmentByTagIndex(position);
+            }
+
+            @Override
+            public int getCount() {
+                return mHotseat.childCount();
+            }
+        };
+
         //检查ExternalStorage的权限
         checkWriteExternalStoragePermission();
+
+        // 默认聚焦位置
+        final int fouceIndex = mHotseat.getPosByClassId(((HostApplication) HostApplication.getInstance()).getFouceTabClassId());
+        switchFragment(mHotseat.setFocusIndex(fouceIndex));
     }
 
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.btn_test:
-                Intent intent = new Intent(this, DebugPluginActivity.class);
-                startActivity(intent);
-                break;
         }
     }
 
@@ -204,6 +222,69 @@ public class HomeActivity extends AppCompatActivity implements HomeUIProxy, View
         }
     }
 
+    private Fragment getFragmentByTagIndex(int tagIndex) {
+        final CellItem.ComponentName componentName = mHotseat.getComponentNameByTagIndex(tagIndex);
+        final String classId = componentName != null ? componentName.getClassId() : null;
+        QRomLog.d(TAG, "getFragmentByTagIndex:" + tagIndex + " classId is " + classId + " will create it(Fragment)");
+
+        Fragment fragment = null;
+        String msg = "";
+        if (TextUtils.isEmpty(classId)) {
+            msg = "invalid classId：" + classId + "，请先check Hotseat TagIndex:" + tagIndex + " 这个无效的标识符来源~~~~";
+            Toast.makeText(this, "getFragmentByTagIndex:" + tagIndex + " return null classId", Toast.LENGTH_LONG)
+                    .show();
+        } else if (classId.equals(Hotseat.HOST_HOME_FRAGMENT)) {
+            fragment = mHomeFragment = new HomeFragment(mHomeFragementDisplayInfos);
+        } else {
+            QRomLog.d(TAG, "getFragmentByPos to get Plugin fragement:" + classId);
+            Class<?> clazz = null;
+            if (!TextUtils.isEmpty(componentName.getPluginPackageName())) {
+                PluginDescriptor pluginDescriptor = PluginManagerHelper.getPluginDescriptorByPluginId(componentName
+                        .getPluginPackageName());
+                if (pluginDescriptor != null) {
+                    // 插件可能尚未初始化，确保使用前已经初始化
+                    LoadedPlugin plugin = PluginLauncher.instance().startPlugin(pluginDescriptor);
+
+                    BaseDexClassLoader pluginClassLoader = plugin.pluginClassLoader;
+
+                    String clazzName = pluginDescriptor.getPluginClassNameById(classId);
+                    if (clazzName != null) {
+                        try {
+                            clazz = ((ClassLoader) pluginClassLoader).loadClass(clazzName);
+                        } catch (ClassNotFoundException e) {
+                            QRomLog.e(TAG, "loadPluginFragmentClassById:" + classId + " ClassNotFound:" + clazzName
+                                    + "Exception", e);
+                            QRomLog.w(TAG, "没有找到：" + clazzName + " 是不是被混淆了~");
+                        }
+                    }
+                } else {
+                    clazz = PluginLoader.loadPluginFragmentClassById(componentName.getClassId());
+                }
+            } else {
+                clazz = PluginLoader.loadPluginFragmentClassById(componentName.getClassId());
+            }
+
+            if (clazz != null) {
+                try {
+                    fragment = (Fragment) clazz.newInstance();
+                } catch (InstantiationException e) {
+                    QRomLog.e(TAG, "InstantiationException", e);
+                } catch (IllegalAccessException e) {
+                    QRomLog.e(TAG, "IllegalAccessException", e);
+                }
+            }
+
+            msg = "Not found classId：" + classId + "，请先check提供这个Fragment的插件是否有安装哈(⊙o⊙)~";
+        }
+
+        if (fragment == null) {
+            fragment = new ToastFragment();
+            ((ToastFragment) fragment).setToastMsg(msg);
+        }
+
+        return fragment;// new Fragment();
+    }
+
     private void installPlugin(String packageName) {
         PluginDescriptor pluginDescriptor = PluginManagerHelper.getPluginDescriptorByPluginId(packageName);
         if (null == pluginDescriptor || TextUtils.isEmpty(pluginDescriptor.getPackageName())) {
@@ -226,7 +307,7 @@ public class HomeActivity extends AppCompatActivity implements HomeUIProxy, View
                     + FileUtil.ICON_FOLDER;
 //            for (DisplayItem di : dis) {
 //                int pos = getPosByPackageName(di.pos, pluginDescriptor.getPackageName());
-//                DisplayInfo info = new DisplayInfo(this, di, pluginDescriptor.getPackageName(), pos);
+//                HostDisplayItem info = new HostDisplayItem(this, di, pluginDescriptor.getPackageName(), pos);
 //                info.establishedDependOn = establishedDependOn;
 //
 //                loadPluginIcon(info, pluginDescriptor, di.pos == DisplayConfig.DISPLAY_AT_HOTSEAT, iconDir);
@@ -335,11 +416,11 @@ public class HomeActivity extends AppCompatActivity implements HomeUIProxy, View
                 for (DisplayItem di : dis) {
                     if (DisplayItem.INVALID_POS == di.gemel_x && DisplayItem.INVALID_POS == di.gemel_y) {
                         //需要对插件模块通过协议配置的显示项进行一次简单的处理，这种处理是结合项目的需求更方便灵活的操作
-                        DisplayInfo info = new DisplayInfo(this, di, pluginDescriptor.getPackageName(), establishedDependOn);
-                        loadPluginIcon(info, pluginDescriptor, di.y == DisplayInfo.DISPLAY_AT_HOTSEAT, iconDir);
+                        HostDisplayItem info = new HostDisplayItem(di, pluginDescriptor.getPackageName(), establishedDependOn);
+                        loadPluginIcon(info, pluginDescriptor, di.y == HostDisplayItem.DISPLAY_AT_HOTSEAT, iconDir);
 
                         switch (di.y) {
-                            case DisplayInfo.DISPLAY_AT_HOTSEAT: // 显示在Hotseat上
+                            case HostDisplayItem.DISPLAY_AT_HOTSEAT: // 显示在Hotseat上
                                 if (!hasGetHotSeatPos) {
                                     mHotseatDisplayInfos.add(info);
                                     hasGetHotSeatPos = true;
@@ -348,14 +429,14 @@ public class HomeActivity extends AppCompatActivity implements HomeUIProxy, View
                                             + " 竟然有两个在Hotseat的Pos位，需要框架做一点点的扩展兼容哈。");
                                 }
                                 break;
-                            case DisplayInfo.DISPLAY_AT_HOME_FRAGEMENT: // 显示在my_watch_fragement
+                            case HostDisplayItem.DISPLAY_AT_HOME_FRAGEMENT: // 显示在my_watch_fragement
                                 mHomeFragementDisplayInfos.add(info);
                                 break;
-                            case DisplayInfo.DISPLAY_AT_OTHER_POS:// 显示在其他位置
+                            case HostDisplayItem.DISPLAY_AT_OTHER_POS:// 显示在其他位置
                                 // mOtherPosDisplayInfos.add(info);
                                 // 这个时机已经调整到application的onCreate了
                                 break;
-                            case DisplayInfo.DISPLAY_AT_MENU: // 这个当前没有，暂不处理
+                            case HostDisplayItem.DISPLAY_AT_MENU: // 这个当前没有，暂不处理
                             default:
                                 break;
                         }
@@ -378,6 +459,13 @@ public class HomeActivity extends AppCompatActivity implements HomeUIProxy, View
         }
     }
 
+    private void initView() {
+        mHotseat = (Hotseat) findViewById(R.id.home_bottom_tab);
+        mFragmentContainer = (FrameLayout) findViewById(R.id.home_fragment_container);
+
+        initHomeBottomTabObserver();
+    }
+
     private void initHotseat() {
         if (mHotseat == null) {
             mHotseat = (Hotseat) findViewById(R.id.home_bottom_tab);
@@ -396,14 +484,99 @@ public class HomeActivity extends AppCompatActivity implements HomeUIProxy, View
 
 
         // 其他的根据插件配置来
-//        for (DisplayInfo info : mHotseatDisplayInfos) {
-//            // 当前Hotseat上暂时之放置fragment
-//            if (info.componentType != DisplayConfig.TYPE_FRAGMENT) {
-//                continue;
-//            }
+        for (HostDisplayItem item : mHotseatDisplayInfos) {
+            // 当前Hotseat上暂时之放置fragment
+            if (item.action_type != HostDisplayItem.TYPE_FRAGMENT) {
+                continue;
+            }
+
+            mHotseat.addOneBottomButtonForPlugin(item, mNormalTextColor, mFocusTextColor, false);
+        }
+    }
+
+    private void initHomeBottomTabObserver() {
+        mHotseatClickCallback = new Hotseat.OnHotseatClickListener() {
+
+            @Override
+            public void onItemClick(int index) {
+                QRomLog.d(TAG, "onItemClick:" + index);
+                switchFragment(index);
+            }
+
+            @Override
+            public void updateActionBar(CellItem.ActionBarInfo actionBarInfo) {
+                // Title
+//                if (actionBarInfo.ab_titlerestype == 1) {
+//                    mActionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+//                    View view = mActionBar.getCustomView();
+//                    ImageView imageView;
+//                    if (view != null && view instanceof ImageView) {
+//                        imageView = (ImageView) view;
+//                    } else {
+//                        imageView = (ImageView) getLayoutInflater().inflate(R.layout.action_bar_home, null);
+//                        mActionBar.setCustomView(imageView);
+//                    }
+//                    QRomLog.d(TAG, "image=" + imageView + " ab_title=" + actionBarInfo.ab_title);
+//                    Drawable drawable = PluginManagerHelper.getPluginIcon(actionBarInfo.ab_title);
+//                    if (drawable == null) {
+//                        int resId = getResources().getIdentifier(actionBarInfo.ab_title, "drawable", getPackageName());
+//                        if (resId > 0) {
+//                            drawable = getResources().getDrawable(resId);
+//                        } else {
+//                            String module = DeviceModelHelper.getInstance().getDeviceModel(GoerHomeActivity.this);
+//                            if (DeviceModelHelper.DEVICE_MODEL_HENGSHAN.equals(module)) {
+//                                drawable = getResources().getDrawable(R.drawable.ic_home_title_hengshan_black);
+//                            }
+//                            else {
+//                                drawable = getResources().getDrawable(R.drawable.ic_home_title_hype_black);
+//                            }
+//                        }
+//                    }
+//                    imageView.setImageDrawable(drawable);
+//                } else {
+//                    mActionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_TITLE);
+//                    mActionBar.setTitle(actionBarInfo.ab_title);
+//                }
+//                QRomLog.d(TAG, "updateActionBar:" + actionBarInfo.toString());
 //
-//            mHotseat.addOneBottomButtonForPlugin(info, mNormalTextColor, mFocusTextColor, false);
-//        }
+//                // 左侧按钮
+//                if (actionBarInfo.ab_lbtnrestype == DisplayConfig.ACTIONBAR_BTN_TYPE_ICON) {
+//                    mActionBar.getActionBarHome().setVisibility(View.VISIBLE);
+//                    mActionBar.getActionBarHome().setClickable(true);
+//
+//                    final String resName = actionBarInfo.ab_lbtnres_normal + "_" + actionBarInfo.ab_lbtnres_focus;
+//                    dillActionBarIcon(actionBarInfo, mActionBar.getActionBarHome(), false);
+//
+//                    mBar_lBtnActionContent = actionBarInfo.ab_rbtncontent;
+//                    mBar_lBtnActionType = actionBarInfo.ab_rbtnctype;
+//                    if (actionBarInfo.ab_lbtnctype != DisplayConfig.TYPE_PLUGIN_CUSTOM_CLICK) {
+//                        mActionBar.getActionBarHome().setOnClickListener(mLeftButtonClick);
+//                    }
+//                } else if (TextUtils.isEmpty(actionBarInfo.ab_lbtncontent)) {// 不需要左侧按钮
+//                    mActionBar.getActionBarHome().setVisibility(View.INVISIBLE);
+//                    mActionBar.getActionBarHome().setClickable(false);
+//                }
+//
+//                // 右侧按钮
+//                if (actionBarInfo.ab_rbtnrestype == DisplayConfig.ACTIONBAR_BTN_TYPE_ICON) {
+//                    mActionBar.getRightButtonView().setVisibility(View.VISIBLE);
+//                    mActionBar.getRightButtonView().setClickable(true);
+//
+//                    dillActionBarIcon(actionBarInfo, mActionBar.getRightButtonView(), true);
+//
+//                    mBar_rBtnActionContent = actionBarInfo.ab_rbtncontent;
+//                    mBar_rBtnActionType = actionBarInfo.ab_rbtnctype;
+//                    if (actionBarInfo.ab_rbtnctype != DisplayConfig.TYPE_PLUGIN_CUSTOM_CLICK) {
+//                        mActionBar.getRightButtonView().setOnClickListener(mRightButtonClick);
+//                    }
+//                } else if (TextUtils.isEmpty(actionBarInfo.ab_rbtncontent)) {// 不需要右侧按钮
+//                    mActionBar.getRightButtonView().setImageResource(R.color.transparent);
+//                    mActionBar.getRightButtonView().setClickable(false);
+//                }
+            }
+        };
+
+        mHotseat.addHotseatClickObserver(mHotseatClickCallback);
     }
 
     private boolean establishedDependOns(String pid, ArrayList<String> dependOns) {
@@ -473,102 +646,114 @@ public class HomeActivity extends AppCompatActivity implements HomeUIProxy, View
         }
     }
 
-    private void loadPluginIcon(final DisplayInfo info, final PluginDescriptor pluginDescriptor, boolean isHotseat, String iconDir) {
-        if (TextUtils.isEmpty(info.normalResName)) {
-            QRomLog.e(TAG, "loadPluginIcon:" + info.normalResName + " failed for Illegal resources name~");
+    private void loadPluginIcon(final HostDisplayItem item, final PluginDescriptor pluginDescriptor, boolean isHotseat, String iconDir) {
+        if (TextUtils.isEmpty(item.normalResName)) {
+            QRomLog.e(TAG, "loadPluginIcon:" + item.normalResName + " failed for Illegal resources name~");
             return;
         }
 
         String iconPath;
         Bitmap normalIcon = null;
-        if (null == PluginManagerHelper.getPluginIcon(info.normalResName)) {
-            iconPath = iconDir + File.separator + info.normalResName + FileUtil.FIX_ICON_NAME;
+        if (null == PluginManagerHelper.getPluginIcon(item.normalResName)) {
+            iconPath = iconDir + File.separator + item.normalResName + FileUtil.FIX_ICON_NAME;
             normalIcon = BitmapFactory.decodeFile(iconPath);
             if (normalIcon != null) {
-                PluginManagerHelper.addPluginIcon(info.normalResName, new BitmapDrawable(getResources(), normalIcon));
+                PluginManagerHelper.addPluginIcon(item.normalResName, new BitmapDrawable(getResources(), normalIcon));
             }
         }
 
-        if (null == PluginManagerHelper.getPluginIcon(info.focusResName)
-                && !info.normalResName.equals(info.focusResName)) {
-            iconPath = iconDir + File.separator + info.focusResName + FileUtil.FIX_ICON_NAME;
+        if (null == PluginManagerHelper.getPluginIcon(item.focusResName)
+                && !item.normalResName.equals(item.focusResName)) {
+            iconPath = iconDir + File.separator + item.focusResName + FileUtil.FIX_ICON_NAME;
             Bitmap focusIcon = BitmapFactory.decodeFile(iconPath);
             if (focusIcon != null) {
-                PluginManagerHelper.addPluginIcon(info.focusResName, new BitmapDrawable(getResources(), focusIcon));
+                PluginManagerHelper.addPluginIcon(item.focusResName, new BitmapDrawable(getResources(), focusIcon));
             }
         }
 
         if (!isHotseat)
             return;
 
-        if (info.ab_titlerestype == 1 && !TextUtils.isEmpty(info.ab_title)
-                && null == PluginManagerHelper.getPluginIcon(info.ab_title)) {
-            iconPath = iconDir + File.separator + info.ab_title + FileUtil.FIX_ICON_NAME;
-            Bitmap icon = BitmapFactory.decodeFile(iconPath);
-            if (icon != null) {
-                PluginManagerHelper.addPluginIcon(info.ab_title, new BitmapDrawable(getResources(), icon));
-            }
-        }
-
-        if (info.ab_rbtnrestype == DisplayItem.RES_TYPE_DRAWABLE && !TextUtils.isEmpty(info.ab_rbtnres_normal)
-                && null == PluginManagerHelper.getPluginIcon(info.ab_rbtnres_normal)) {
-
-            iconPath = iconDir + File.separator + info.ab_rbtnres_normal + FileUtil.FIX_ICON_NAME;
-            Bitmap abr_normalIcon = BitmapFactory.decodeFile(iconPath);
-            if (abr_normalIcon != null) {
-                PluginManagerHelper.addPluginIcon(info.ab_rbtnres_normal, new BitmapDrawable(getResources(),
-                        abr_normalIcon));
-            }
-
-            if (null == PluginManagerHelper.getPluginIcon(info.ab_rbtnres_focus)
-                    && !info.ab_rbtnres_normal.equals(info.ab_rbtnres_focus)) {
-                iconPath = iconDir + File.separator + info.ab_rbtnres_focus + FileUtil.FIX_ICON_NAME;
-                Bitmap abr_focusIcon = BitmapFactory.decodeFile(iconPath);
-                if (abr_focusIcon != null) {
-                    PluginManagerHelper.addPluginIcon(info.ab_rbtnres_focus, new BitmapDrawable(getResources(),
-                            abr_focusIcon));
-                }
-            }
-        }
-
-        if (info.ab_lbtnrestype == DisplayItem.RES_TYPE_DRAWABLE && !TextUtils.isEmpty(info.ab_lbtnres_normal)
-                && null == PluginManagerHelper.getPluginIcon(info.ab_lbtnres_normal)) {
-
-            iconPath = iconDir + File.separator + info.ab_lbtnres_normal + FileUtil.FIX_ICON_NAME;
-            Bitmap abr_normalIcon = BitmapFactory.decodeFile(iconPath);
-            if (abr_normalIcon != null) {
-                PluginManagerHelper.addPluginIcon(info.ab_lbtnres_normal, new BitmapDrawable(getResources(), abr_normalIcon));
-            }
-
-            if (null == PluginManagerHelper.getPluginIcon(info.ab_lbtnres_focus)
-                    && !info.ab_lbtnres_normal.equals(info.ab_lbtnres_focus)) {
-                iconPath = iconDir + File.separator + info.ab_lbtnres_focus + FileUtil.FIX_ICON_NAME;
-                Bitmap abr_focusIcon = BitmapFactory.decodeFile(iconPath);
-                if (abr_focusIcon != null) {
-                    PluginManagerHelper.addPluginIcon(info.ab_lbtnres_focus, new BitmapDrawable(getResources(), abr_focusIcon));
-                }
-            }
-        }
-
-        if (!TextUtils.isEmpty(info.giconres_normal) && PluginManagerHelper.getPluginIcon(info.giconres_normal) == null) {
-            iconPath = iconDir + File.separator + info.giconres_normal + FileUtil.FIX_ICON_NAME;
-            Bitmap giconres_normal = BitmapFactory.decodeFile(iconPath);
-            if (giconres_normal != null) {
-                PluginManagerHelper.addPluginIcon(info.giconres_normal, new BitmapDrawable(getResources(), giconres_normal));
-            }
-        }
-        if (!TextUtils.isEmpty(info.giconres_focus) && PluginManagerHelper.getPluginIcon(info.giconres_focus) == null) {
-            iconPath = iconDir + File.separator + info.giconres_focus + FileUtil.FIX_ICON_NAME;
-            Bitmap giconres_normal = BitmapFactory.decodeFile(iconPath);
-            if (giconres_normal != null) {
-                PluginManagerHelper.addPluginIcon(info.giconres_focus, new BitmapDrawable(getResources(), giconres_normal));
-            }
-        }
+//        if (hostDI.ab_titlerestype == 1 && !TextUtils.isEmpty(hostDI.ab_title)
+//                && null == PluginManagerHelper.getPluginIcon(hostDI.ab_title)) {
+//            iconPath = iconDir + File.separator + info.ab_title + FileUtil.FIX_ICON_NAME;
+//            Bitmap icon = BitmapFactory.decodeFile(iconPath);
+//            if (icon != null) {
+//                PluginManagerHelper.addPluginIcon(hostDI.ab_title, new BitmapDrawable(getResources(), icon));
+//            }
+//        }
+//
+//        if (info.ab_rbtnrestype == DisplayItem.RES_TYPE_DRAWABLE && !TextUtils.isEmpty(info.ab_rbtnres_normal)
+//                && null == PluginManagerHelper.getPluginIcon(info.ab_rbtnres_normal)) {
+//
+//            iconPath = iconDir + File.separator + info.ab_rbtnres_normal + FileUtil.FIX_ICON_NAME;
+//            Bitmap abr_normalIcon = BitmapFactory.decodeFile(iconPath);
+//            if (abr_normalIcon != null) {
+//                PluginManagerHelper.addPluginIcon(info.ab_rbtnres_normal, new BitmapDrawable(getResources(),
+//                        abr_normalIcon));
+//            }
+//
+//            if (null == PluginManagerHelper.getPluginIcon(info.ab_rbtnres_focus)
+//                    && !info.ab_rbtnres_normal.equals(info.ab_rbtnres_focus)) {
+//                iconPath = iconDir + File.separator + info.ab_rbtnres_focus + FileUtil.FIX_ICON_NAME;
+//                Bitmap abr_focusIcon = BitmapFactory.decodeFile(iconPath);
+//                if (abr_focusIcon != null) {
+//                    PluginManagerHelper.addPluginIcon(info.ab_rbtnres_focus, new BitmapDrawable(getResources(),
+//                            abr_focusIcon));
+//                }
+//            }
+//        }
+//
+//        if (info.ab_lbtnrestype == DisplayItem.RES_TYPE_DRAWABLE && !TextUtils.isEmpty(info.ab_lbtnres_normal)
+//                && null == PluginManagerHelper.getPluginIcon(info.ab_lbtnres_normal)) {
+//
+//            iconPath = iconDir + File.separator + info.ab_lbtnres_normal + FileUtil.FIX_ICON_NAME;
+//            Bitmap abr_normalIcon = BitmapFactory.decodeFile(iconPath);
+//            if (abr_normalIcon != null) {
+//                PluginManagerHelper.addPluginIcon(info.ab_lbtnres_normal, new BitmapDrawable(getResources(), abr_normalIcon));
+//            }
+//
+//            if (null == PluginManagerHelper.getPluginIcon(info.ab_lbtnres_focus)
+//                    && !info.ab_lbtnres_normal.equals(info.ab_lbtnres_focus)) {
+//                iconPath = iconDir + File.separator + info.ab_lbtnres_focus + FileUtil.FIX_ICON_NAME;
+//                Bitmap abr_focusIcon = BitmapFactory.decodeFile(iconPath);
+//                if (abr_focusIcon != null) {
+//                    PluginManagerHelper.addPluginIcon(info.ab_lbtnres_focus, new BitmapDrawable(getResources(), abr_focusIcon));
+//                }
+//            }
+//        }
+//
+//        if (!TextUtils.isEmpty(info.giconres_normal) && PluginManagerHelper.getPluginIcon(info.giconres_normal) == null) {
+//            iconPath = iconDir + File.separator + info.giconres_normal + FileUtil.FIX_ICON_NAME;
+//            Bitmap giconres_normal = BitmapFactory.decodeFile(iconPath);
+//            if (giconres_normal != null) {
+//                PluginManagerHelper.addPluginIcon(info.giconres_normal, new BitmapDrawable(getResources(), giconres_normal));
+//            }
+//        }
+//        if (!TextUtils.isEmpty(info.giconres_focus) && PluginManagerHelper.getPluginIcon(info.giconres_focus) == null) {
+//            iconPath = iconDir + File.separator + info.giconres_focus + FileUtil.FIX_ICON_NAME;
+//            Bitmap giconres_normal = BitmapFactory.decodeFile(iconPath);
+//            if (giconres_normal != null) {
+//                PluginManagerHelper.addPluginIcon(info.giconres_focus, new BitmapDrawable(getResources(), giconres_normal));
+//            }
+//        }
     }
 
     // 这个函数同步FragmentPagerAdapter，建议直接用FragmentPagerAdapter里面的接口
     private String makeFragmentName(int viewId, long id) {
         return "android:switcher:" + viewId + ":" + id;
+    }
+
+    private void switchFragment(int tagIndex) {
+        if (tagIndex < 0) {
+            QRomLog.e(TAG, "我的乖乖，怎么会有位置是：" + tagIndex + " 的内容可以切换咧，得check一下是否Hotseat没有内容？");
+            return;
+        }
+
+        QRomLog.d(TAG, "switchFragment:" + tagIndex);
+        Fragment fragment = (Fragment) mFragmentPagerAdapter.instantiateItem(mFragmentContainer, tagIndex);
+        mFragmentPagerAdapter.setPrimaryItem(mFragmentContainer, tagIndex, fragment);
+        mFragmentPagerAdapter.finishUpdate(mFragmentContainer);
     }
 
     @Override

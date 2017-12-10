@@ -51,6 +51,7 @@ android {
 
         from('build/intermediates/classes/release/')
         from(project.zipTree("libs/qrom_component_log.jar"))
+        from(project.zipTree("fromlibs/android-support-v4-26.0.0.jar"))
 
         destinationDir = file(build_sdk_dir)
 
@@ -61,6 +62,7 @@ android {
         // 包含本地库的文件
         include('com/rick/tws/**/*.class')
         include('qrom/component/**/*.class')
+        include('android/support/v4/app/**/*.class')
     }
 
     makeSdk.dependsOn(build)

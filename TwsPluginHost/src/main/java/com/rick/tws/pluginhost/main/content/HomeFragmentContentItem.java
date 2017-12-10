@@ -1,4 +1,4 @@
-package com.rick.tws.pluginhost.main.widget;
+package com.rick.tws.pluginhost.main.content;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;

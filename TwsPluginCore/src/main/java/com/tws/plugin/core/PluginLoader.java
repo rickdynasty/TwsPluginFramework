@@ -1,17 +1,5 @@
 package com.tws.plugin.core;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Iterator;
-
-import qrom.component.log.QRomLog;
-
 import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
@@ -24,7 +12,6 @@ import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.res.AssetManager;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.Handler;
 import android.text.TextUtils;
 
@@ -39,7 +26,15 @@ import com.tws.plugin.manager.PluginManagerHelper;
 import com.tws.plugin.util.FileUtil;
 import com.tws.plugin.util.ProcessUtil;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Iterator;
+
 import dalvik.system.DexClassLoader;
+import qrom.component.log.QRomLog;
 
 public class PluginLoader {
 
@@ -350,30 +345,7 @@ public class PluginLoader {
     private static synchronized void installAssetsPlugins() {
         QRomLog.d(TAG, "installAssetsPlugins()");
         // 加载插件黑名单
-        ArrayList<String> blacklist = null;
-        String configFile = Environment.getExternalStorageDirectory().getPath()
-                + PluginApplication.PLUGIN_BLACKLIST_FILE;
-        try {
-            File file = new File(configFile);
-            if (file.exists()) {
-                BufferedReader br = new BufferedReader(new FileReader(file));
-                String line = "";
-                while ((line = br.readLine()) != null) {
-                    line = line.trim();
-                    if (TextUtils.isEmpty(line) || line.startsWith("#"))
-                        continue;
-
-                    if (blacklist == null) {
-                        blacklist = new ArrayList<String>();
-                    }
-
-                    blacklist.add(line);
-                }
-                br.close();
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        final ArrayList<String> blacklist = PluginApplication.getInstance().getEliminatePlugins();
 
         final AssetManager asset = getApplication().getAssets();
         String[] files = null;
@@ -409,30 +381,7 @@ public class PluginLoader {
         }
 
         // 加载插件黑名单
-        ArrayList<String> blacklist = null;
-        String configFile = Environment.getExternalStorageDirectory().getPath()
-                + PluginApplication.PLUGIN_BLACKLIST_FILE;
-        try {
-            File file = new File(configFile);
-            if (file.exists()) {
-                BufferedReader br = new BufferedReader(new FileReader(file));
-                String line = "";
-                while ((line = br.readLine()) != null) {
-                    line = line.trim();
-                    if (TextUtils.isEmpty(line) || line.startsWith("#"))
-                        continue;
-
-                    if (blacklist == null) {
-                        blacklist = new ArrayList<String>();
-                    }
-
-                    blacklist.add(line);
-                }
-                br.close();
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        final ArrayList<String> blacklist = PluginApplication.getInstance().getEliminatePlugins();
 
         for (String apk : pluginApks) {
             QRomLog.d(TAG, "installPlugins apk = " + apk);

@@ -26,10 +26,10 @@ public class PluginApplication extends Application {
 
     private static final String TAG = "rick_Print:PluginApplication";
     private static PluginApplication instance;
-    private ArrayList<String> mEliminatePlugins = new ArrayList<String>();
 
+    //黑名单插件，这个用于版本升级后对旧版本的插件过滤，一般是后台下发
+    private ArrayList<String> mEliminatePlugins = new ArrayList<String>(3);
     public static String EXCLUDE_PLUGIN_FILE = "/plugins/exclude_plugin.ini";
-    public static String PLUGIN_BLACKLIST_FILE = "/plugins/plugin_blacklist.ini";
 
     private Configuration mSaveConfiguration = null;
 
@@ -153,6 +153,11 @@ public class PluginApplication extends Application {
 
                 if (mEliminatePlugins == null) {
                     mEliminatePlugins = new ArrayList<String>();
+                }
+
+                //插件都是apk包，因此在这里需要带上后缀
+                if (!line.endsWith(".apk")) {
+                    line += ".apk";
                 }
 
                 mEliminatePlugins.add(line);

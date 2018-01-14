@@ -8,6 +8,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+import dalvik.system.BaseDexClassLoader;
 import qrom.component.log.QRomLog;
 import android.annotation.TargetApi;
 import android.app.Activity;
@@ -38,8 +39,6 @@ import com.tws.plugin.manager.PluginActivityMonitor;
 import com.tws.plugin.manager.PluginManagerHelper;
 import com.tws.plugin.util.ProcessUtil;
 
-import dalvik.system.DexClassLoader;
-
 /**
  * <Pre>
  * @author yongchen
@@ -53,7 +52,7 @@ public class PluginLauncher implements Serializable {
 	private static PluginLauncher runtime;
 
 	private ConcurrentHashMap<String, LoadedPlugin> loadedPluginMap = new ConcurrentHashMap<String, LoadedPlugin>();
-	private ConcurrentHashMap<String, DexClassLoader> plulginClassLoaderMap = new ConcurrentHashMap<String, DexClassLoader>();
+	private ConcurrentHashMap<String, BaseDexClassLoader> plulginClassLoaderMap = new ConcurrentHashMap<String, BaseDexClassLoader>();
 
 	private PluginLauncher() {
 		if (!ProcessUtil.isPluginProcess()) {
@@ -107,7 +106,7 @@ public class PluginLauncher implements Serializable {
 			QRomLog.i(TAG, "初始化插件资源 耗时：" + (ct_Res_end - beginTime));
 
 			// plulginClassLoaderMap
-			DexClassLoader pluginClassLoader = plulginClassLoaderMap.get(pluginDescriptor.getInstalledPath());
+			BaseDexClassLoader pluginClassLoader = plulginClassLoaderMap.get(pluginDescriptor.getInstalledPath());
 			if (null == pluginClassLoader) {
 				QRomLog.i(TAG, "createPluginClassLoader for plugin:" + pluginDescriptor.getInstalledPath());
 				pluginClassLoader = PluginCreator.createPluginClassLoader(pluginDescriptor.getInstalledPath(),
@@ -163,7 +162,7 @@ public class PluginLauncher implements Serializable {
 		return plugin;
 	}
 
-	public void initApplication(Context pluginContext, DexClassLoader pluginClassLoader, Resources pluginRes,
+	public void initApplication(Context pluginContext, BaseDexClassLoader pluginClassLoader, Resources pluginRes,
 			PluginDescriptor pluginDescriptor, LoadedPlugin plugin) {
 
 		QRomLog.i(TAG, "开始初始化插件:" + pluginDescriptor.getPackageName() + " " + pluginDescriptor.getApplicationName());
@@ -191,7 +190,7 @@ public class PluginLauncher implements Serializable {
 		QRomLog.i(TAG, "初始化插件" + pluginDescriptor.getPackageName() + "完成");
 	}
 
-	private Application callPluginApplicationOnCreate(Context pluginContext, DexClassLoader classLoader,
+	private Application callPluginApplicationOnCreate(Context pluginContext, BaseDexClassLoader classLoader,
 			PluginDescriptor pluginDescriptor) {
 
 		Application application = null;

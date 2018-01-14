@@ -17,6 +17,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.view.WindowManager;
 import android.widget.Toast;
 
 import com.rick.tws.framework.HomeUIProxy;
@@ -80,6 +81,15 @@ public class HomeActivity extends AppCompatActivity implements HomeUIProxy {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+
+        getActionBar().hide();
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            //透明状态栏
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            //透明导航栏
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
+        }
 
         mHotseat = (Hotseat) findViewById(R.id.home_bottom_tab);
         initHomeBottomTabObserver();

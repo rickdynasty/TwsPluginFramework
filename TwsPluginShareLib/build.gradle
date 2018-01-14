@@ -3,6 +3,9 @@ apply plugin: 'com.android.library'
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
     buildToolsVersion rootProject.ext.buildtools
+    defaultConfig {
+        minSdkVersion rootProject.ext.minSdkVersion
+    }
 
     sourceSets.main {
         java.srcDirs = ['src/main/java']
@@ -71,4 +74,5 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile 'com.android.support:support-v4:22.2.0'
 }

@@ -33,6 +33,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 
+import dalvik.system.BaseDexClassLoader;
 import dalvik.system.DexClassLoader;
 import qrom.component.log.QRomLog;
 
@@ -166,7 +167,7 @@ public class PluginLoader {
             // 插件可能尚未初始化，确保使用前已经初始化
             LoadedPlugin plugin = PluginLauncher.instance().startPlugin(pluginDescriptor);
 
-            DexClassLoader pluginClassLoader = plugin.pluginClassLoader;
+			BaseDexClassLoader pluginClassLoader = plugin.pluginClassLoader;
 
             String clazzName = pluginDescriptor.getPluginClassNameById(clazzId);
             if (clazzName != null) {
@@ -199,7 +200,7 @@ public class PluginLoader {
             // 插件可能尚未初始化，确保使用前已经初始化
             LoadedPlugin plugin = PluginLauncher.instance().startPlugin(pluginDescriptor);
 
-            DexClassLoader pluginClassLoader = plugin.pluginClassLoader;
+			BaseDexClassLoader pluginClassLoader = plugin.pluginClassLoader;
 
             try {
                 Class pluginClazz = ((ClassLoader) pluginClassLoader).loadClass(clazzName);
@@ -219,7 +220,6 @@ public class PluginLoader {
                 + (pluginDescriptor == null ? "pluginDescriptor = null" : "pluginDescriptor not null"));
 
         return null;
-
     }
 
     /**
@@ -259,30 +259,37 @@ public class PluginLoader {
         return false;
     }
 
-    //rick_tan  Ver1.0的接口，保留 - 勿删
+    //Ver1.0的接口,勿删
     public static synchronized void loadPlugins(Context app) {
         if (!isLoaderPlugins) {
             long beginTime = System.currentTimeMillis();
             // step1 判断application的版本号，通过版本号来判断是否要全部更新插件内容
-            int currentVersionCode = 1;
+            int curVersionCode = 1;
+            String curVersionName = "";
             try {
                 final PackageInfo pi = app.getPackageManager().getPackageInfo(app.getPackageName(),
                         PackageManager.GET_CONFIGURATIONS);
-                currentVersionCode = pi.versionCode;
+                curVersionCode = pi.versionCode;
+                curVersionName = pi.versionName;
             } catch (NameNotFoundException e) {
                 QRomLog.w(TAG, "loadPlugins getPackageInfo Exception:", e);
             }
 
-            final int oldVersion = getVersionCode();
-            QRomLog.d(TAG, "call loadPlugins - oldVersion is " + oldVersion + ", newVersion is " + currentVersionCode);
-            if (oldVersion != currentVersionCode) {
+            final int saveVerCode = getVersionCode();
+            final String saveVerName = getVersionName();
+            QRomLog.d(TAG, "call loadPlugins !isLoaderPlugins - curVersionCode：" + curVersionCode + ", oldVersionCode:" + saveVerCode +
+                    " curVersionName：" + curVersionName + " oldVersionName:" + curVersionName);
+            if (saveVerCode != curVersionCode || saveVerName != curVersionName) {
                 QRomLog.d(TAG, "首次/升级安装,先清理...");// rick_Note:这个有个问题需要确定：如果新版本里面不包含之前版本的插件包该怎么处理？？？？
                 // 版本升级 清理掉之前安装的所有插件
                 PluginManagerHelper.removeAll();
-                saveVersionCode(currentVersionCode);
 
                 // step2 加载assets/plugins下面的插件
                 installAssetsPlugins();
+
+                // save Version info
+                saveVersionCode(curVersionCode);
+                saveVersionName(curVersionName);
             }
 
             QRomLog.d(TAG, "loadPlugins 耗时：" + (System.currentTimeMillis() - beginTime) + "ms");

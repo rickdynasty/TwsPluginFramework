@@ -82,7 +82,7 @@ public class HomeActivity extends AppCompatActivity implements HomeUIProxy {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-        getActionBar().hide();
+        getSupportActionBar().hide();
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             //透明状态栏

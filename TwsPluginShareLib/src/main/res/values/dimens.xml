@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <dimen name="toolbarHeight">56dp</dimen>
+    <dimen name="drop_target_top_margin">-32dp</dimen>
+
     <dimen name="share_dimen_1">50dp</dimen>
     <dimen name="share_dimen_2">100dp</dimen>
 </resources>

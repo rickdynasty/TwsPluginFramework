@@ -6,6 +6,8 @@
     <color name="tws_white">#ffffffff</color>
 
     <!-- ====================black==================== -->
+    <!-- 90% alpha black -->
+    <color name="tws_black_alpha_supperbiger">#E6000000</color>
     <!-- 80% alpha black -->
     <color name="tws_black_alpha_supperbig">#CC000000</color>
     <!-- 70% alpha black -->
@@ -28,6 +30,8 @@
     <color name="tws_black_alpha_mini">#1A000000</color>
 
     <!-- ====================white</color>==================== -->
+    <!-- 90% alpha white -->
+    <color name="tws_white_alpha_supperbiger">#E6ffffff</color>
     <!-- 80% alpha white -->
     <color name="tws_white_alpha_supperbig">#CCffffff</color>
     <!-- 70% alpha white -->

@@ -9,6 +9,8 @@ import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.widget.TextView;
 
+import com.rick.tws.sharelib.R;
+
 public class AnimatedToolbar extends Toolbar {
 
     private static final String TAG = AnimatedToolbar.class.getSimpleName();
@@ -46,7 +48,7 @@ public class AnimatedToolbar extends Toolbar {
         mAnimationFinishedOffset = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,
                 ANIMATION_FINISHED_OFFSET_DP, getResources()
                         .getDisplayMetrics());
-        //mBackDrawable = ContextCompat.getDrawable(mContext, R.drawable.ic_back_arrow_white);
+        mBackDrawable = ContextCompat.getDrawable(mContext, R.mipmap.ic_back_arrow_white);
     }
 
     public void refreshToolbar(int scrollOffset) {
@@ -58,7 +60,7 @@ public class AnimatedToolbar extends Toolbar {
 
     public TextView enableActionText(boolean enable) {
         if (enable) {
-            //mToolbarAction = (TextView) findViewById(R.id.toolbar_action);
+            mToolbarAction = (TextView) findViewById(R.id.toolbar_action);
             mToolbarAction.setVisibility(VISIBLE);
         } else if (mToolbarAction != null) {
             mToolbarAction.setVisibility(GONE);
@@ -73,10 +75,10 @@ public class AnimatedToolbar extends Toolbar {
 
     public void setTextAndActionColor(int color) {
         if (mToolbarTitle == null) {
-            //mToolbarTitle = (TextView) findViewById(R.id.toolbar_title);
+            mToolbarTitle = (TextView) findViewById(R.id.toolbar_title);
         }
         if (mToolbarAction == null) {
-            // mToolbarAction = (TextView) findViewById(R.id.toolbar_action);
+            mToolbarAction = (TextView) findViewById(R.id.toolbar_action);
         }
         mToolbarTitle.setTextColor(ContextCompat.getColor(mContext, color));
         mBackDrawable.setColorFilter(ContextCompat.getColor(mContext, color), PorterDuff.Mode.SRC_ATOP);
@@ -84,17 +86,17 @@ public class AnimatedToolbar extends Toolbar {
     }
 
     private void updateBarTransparency(int transparency) {
-//        if (mToolbarTitle == null) {
-//            mToolbarTitle = (TextView) findViewById(R.id.toolbar_title);
-//        }
-//        mToolbarDrawable.setAlpha(transparency);
-//
-//        final int color = transparency == 0 ? R.color.white : R.color.black;
-//        mBackDrawable.setColorFilter(ContextCompat.getColor(mContext, color), PorterDuff.Mode.SRC_ATOP);
-//        mToolbarTitle.setTextColor(ContextCompat.getColor(mContext, color));
-//        if (mToolbarAction != null) {
-//            mToolbarAction.setTextColor(ContextCompat.getColor(mContext, color));
-//        }
+        if (mToolbarTitle == null) {
+            mToolbarTitle = (TextView) findViewById(R.id.toolbar_title);
+        }
+        mToolbarDrawable.setAlpha(transparency);
+
+        final int color = transparency == 0 ? R.color.tws_white : R.color.tws_black;
+        mBackDrawable.setColorFilter(ContextCompat.getColor(mContext, color), PorterDuff.Mode.SRC_ATOP);
+        mToolbarTitle.setTextColor(ContextCompat.getColor(mContext, color));
+        if (mToolbarAction != null) {
+            mToolbarAction.setTextColor(ContextCompat.getColor(mContext, color));
+        }
     }
 
     public Drawable getBackDrawable() {

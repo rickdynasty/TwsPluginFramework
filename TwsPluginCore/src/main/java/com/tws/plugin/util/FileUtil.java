@@ -61,7 +61,7 @@ public class FileUtil {
 	}
 
 	public static boolean copyFile(final InputStream inputStream, String dest) {
-		QRomLog.d(TAG, "copyFile to " + dest);
+		QRomLog.i(TAG, "copyFile to " + dest);
 
 		if (Build.VERSION.SDK_INT >= 23) {// Build.VERSION_CODES.M)
 			if (dest.startsWith(Environment.getExternalStorageDirectory().getAbsolutePath())) {
@@ -110,14 +110,14 @@ public class FileUtil {
 	}
 
 	public static boolean copySo(File sourceDir, String so, String dest) {
-		QRomLog.d(TAG, "copySo - sourceDir=" + sourceDir + " so is " + so + " dest=" + dest);
+		QRomLog.i(TAG, "copySo - sourceDir=" + sourceDir + " so is " + so + " dest=" + dest);
 		try {
 			boolean isSuccess = false;
 			if (Build.VERSION.SDK_INT >= 21) {
 				String[] abis = Build.SUPPORTED_ABIS;
 				if (abis != null) {
 					for (String abi : abis) {
-						QRomLog.d(TAG, "try supported abi:" + abi);
+						QRomLog.i(TAG, "try supported abi:" + abi);
 						String name = LIB_FOLDER + File.separator + abi + File.separator + so;
 						File sourceFile = new File(sourceDir, name);
 						if (sourceFile.exists()) {
@@ -130,7 +130,7 @@ public class FileUtil {
 					}
 				}
 			} else {
-				QRomLog.d(TAG, "supported api:" + Build.CPU_ABI + " " + Build.CPU_ABI2);
+				QRomLog.i(TAG, "supported api:" + Build.CPU_ABI + " " + Build.CPU_ABI2);
 
 				String name = LIB_FOLDER + File.separator + Build.CPU_ABI + File.separator + so;
 				File sourceFile = new File(sourceDir, name);
@@ -252,7 +252,7 @@ public class FileUtil {
 			tempDir.mkdirs();
 		}
 
-		QRomLog.d(TAG, "开始解析获取必要的资源：" + tempDir.getAbsolutePath());
+		QRomLog.i(TAG, "开始解析获取必要的资源：" + tempDir.getAbsolutePath());
 
 		ZipFile zfile = null;
 		boolean isSuccess = false;
@@ -268,7 +268,7 @@ public class FileUtil {
 
 				if (!relativePath.startsWith(PREFIX_LIB_PATH) && !relativePath.startsWith(PREFIX_ICON_PATH)) {
 					if (DEBUG) {
-						QRomLog.d(TAG, "不是lib也不是插件资源目录，跳过:" + relativePath);
+						QRomLog.i(TAG, "不是lib也不是插件资源目录，跳过:" + relativePath);
 					}
 					continue;
 				}
@@ -276,7 +276,7 @@ public class FileUtil {
 				if (ze.isDirectory()) {
 					File folder = new File(tempDir, relativePath);
 					if (DEBUG) {
-						QRomLog.d(TAG, "正在创建目录:" + folder.getAbsolutePath());
+						QRomLog.i(TAG, "正在创建目录:" + folder.getAbsolutePath());
 					}
 					if (!folder.exists()) {
 						folder.mkdirs();
@@ -289,7 +289,7 @@ public class FileUtil {
 					}
 
 					File targetFile = new File(tempDir, relativePath);
-					QRomLog.d(TAG, "正在解压必要的资源文件:" + targetFile.getAbsolutePath());
+					QRomLog.i(TAG, "正在解压必要的资源文件:" + targetFile.getAbsolutePath());
 					if (!targetFile.getParentFile().exists()) {
 						targetFile.getParentFile().mkdirs();
 					}
@@ -338,12 +338,12 @@ public class FileUtil {
 			}
 		}
 
-		QRomLog.d(TAG, "解压必要的资源文件结束 " + isSuccess);
+		QRomLog.i(TAG, "解压必要的资源文件结束 " + isSuccess);
 		return result;
 	}
 
 	public static void readFileFromJar(String jarFilePath, String metaInfo) {
-		QRomLog.d(TAG, "call readFileFromJar(" + jarFilePath + ", " + metaInfo + ")");
+		QRomLog.i(TAG, "call readFileFromJar(" + jarFilePath + ", " + metaInfo + ")");
 		JarFile jarFile = null;
 		try {
 			jarFile = new JarFile(jarFilePath);
@@ -383,7 +383,7 @@ public class FileUtil {
 				}
 			}
 		}
-		QRomLog.d(TAG, "delete:" + file.getAbsolutePath());
+		QRomLog.i(TAG, "delete:" + file.getAbsolutePath());
 		return file.delete();
 	}
 
@@ -424,11 +424,11 @@ public class FileUtil {
      *            目标文件夹位置如：/sdcrad/SBClock 
      */  
     public static void copyFolderFromAssets(Context context, String rootDirFullPath, String targetDirFullPath) {  
-        QRomLog.d(TAG, "copyFolderFromAssets " + "rootDirFullPath-" + rootDirFullPath + " targetDirFullPath-" + targetDirFullPath);  
+        QRomLog.i(TAG, "copyFolderFromAssets " + "rootDirFullPath-" + rootDirFullPath + " targetDirFullPath-" + targetDirFullPath);  
         try {  
             String[] listFiles = context.getAssets().list(rootDirFullPath);// 遍历该目录下的文件和文件夹  
             for (String string : listFiles) {// 看起子目录是文件还是文件夹，这里只好用.做区分了  
-            	QRomLog.d(TAG, "name-" + rootDirFullPath + "/" + string);
+            	QRomLog.i(TAG, "name-" + rootDirFullPath + "/" + string);
                 if (isFileByName(string)) {// 文件  
                     copyFileFromAssets(context, rootDirFullPath + "/" + string, targetDirFullPath + "/" + string);  
                 } else {// 文件夹  
@@ -439,8 +439,8 @@ public class FileUtil {
                 }  
             }  
         } catch (IOException e) {  
-        	QRomLog.d(TAG, "copyFolderFromAssets " + "IOException-" + e.getMessage());  
-        	QRomLog.d(TAG, "copyFolderFromAssets " + "IOException-" + e.getLocalizedMessage());  
+        	QRomLog.i(TAG, "copyFolderFromAssets " + "IOException-" + e.getMessage());  
+        	QRomLog.i(TAG, "copyFolderFromAssets " + "IOException-" + e.getLocalizedMessage());  
             e.printStackTrace();  
         }  
     }  
@@ -463,13 +463,13 @@ public class FileUtil {
      *            目标文件路径如：/sdcard/SBClock/0001cuteowl/cuteowl_dot.png 
      */  
     public static void copyFileFromAssets(Context context, String assetsFilePath, String targetFileFullPath) {  
-    	QRomLog.d(TAG, "copyFileFromAssets assetsFilePath = " + assetsFilePath + " , targetFileFullPath = " + targetFileFullPath);  
+    	QRomLog.i(TAG, "copyFileFromAssets assetsFilePath = " + assetsFilePath + " , targetFileFullPath = " + targetFileFullPath);  
         InputStream assestsFileImputStream;  
         try {  
             assestsFileImputStream = context.getAssets().open(assetsFilePath);  
             copyFile(assestsFileImputStream, targetFileFullPath);  
         } catch (IOException e) {  
-        	QRomLog.d(TAG, "copyFileFromAssets " + "IOException-" + e.getMessage());  
+        	QRomLog.i(TAG, "copyFileFromAssets " + "IOException-" + e.getMessage());  
             e.printStackTrace();  
         }  
     }  

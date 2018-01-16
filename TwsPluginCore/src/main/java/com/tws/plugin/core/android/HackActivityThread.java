@@ -244,12 +244,12 @@ public class HackActivityThread {
 
 	public void printInjectObject() {
 		Handler handler = getHandler();
-		QRomLog.d(TAG, "handler is " + handler.getClass().getName());
+		QRomLog.i(TAG, "handler is " + handler.getClass().getName());
 		Object callBack = RefInvoker.getField(handler, "android.os.Handler", "mCallback");
-		QRomLog.d(TAG, "handler callBack is " + (callBack == null ? "null" : callBack.getClass().getName()));
+		QRomLog.i(TAG, "handler callBack is " + (callBack == null ? "null" : callBack.getClass().getName()));
 
 		Instrumentation mInstrumentation = getInstrumentation();
-		QRomLog.d(TAG, "mInstrumentation is "
+		QRomLog.i(TAG, "mInstrumentation is "
 				+ (mInstrumentation == null ? "null" : mInstrumentation.getClass().getName()));
 	}
 

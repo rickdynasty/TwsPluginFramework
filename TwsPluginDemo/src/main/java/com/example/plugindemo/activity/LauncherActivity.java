@@ -26,16 +26,16 @@ public class LauncherActivity extends Activity implements View.OnClickListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.plugin_launcher);
 
-        QRomLog.d(TAG, "activity_welcome ID= " + R.layout.plugin_launcher);
+        QRomLog.i(TAG, "activity_welcome ID= " + R.layout.plugin_launcher);
         QRomLog.e(TAG, "activity_welcome ID= " + R.layout.plugin_launcher);
         QRomLog.e(TAG, getResources().getResourceEntryName(R.layout.plugin_launcher));
-        QRomLog.d(TAG, getResources().getResourceEntryName(R.layout.plugin_launcher));
-        QRomLog.d(TAG, getResources().getString(R.string.app_name) + "  " + getPackageManager().getApplicationLabel(getApplicationInfo()));
-        QRomLog.d(TAG, getResources().getString(R.string.app_name) + "  " + getPackageManager().getApplicationLabel(getApplicationInfo()));
-        QRomLog.d(TAG, getPackageName() + ", " + getText(R.string.app_name));
-        QRomLog.d(TAG, getResources().getString(android.R.string.httpErrorBadUrl));
-        QRomLog.d(TAG, getResources().getString(getResources().getIdentifier("app_name", "string", "com.example.plugindemo")));
-        QRomLog.d(TAG, getResources().getString(getResources().getIdentifier("app_name", "string", getPackageName())));
+        QRomLog.i(TAG, getResources().getResourceEntryName(R.layout.plugin_launcher));
+        QRomLog.i(TAG, getResources().getString(R.string.app_name) + "  " + getPackageManager().getApplicationLabel(getApplicationInfo()));
+        QRomLog.i(TAG, getResources().getString(R.string.app_name) + "  " + getPackageManager().getApplicationLabel(getApplicationInfo()));
+        QRomLog.i(TAG, getPackageName() + ", " + getText(R.string.app_name));
+        QRomLog.i(TAG, getResources().getString(android.R.string.httpErrorBadUrl));
+        QRomLog.i(TAG, getResources().getString(getResources().getIdentifier("app_name", "string", "com.example.plugindemo")));
+        QRomLog.i(TAG, getResources().getString(getResources().getIdentifier("app_name", "string", getPackageName())));
 
         ActionBar actionBar = getActionBar();
         if (actionBar == null) {
@@ -86,15 +86,15 @@ public class LauncherActivity extends Activity implements View.OnClickListener {
         SharedPreferences sp = getSharedPreferences("aaa", 0);
         sp.edit().putString("xyz", "123").commit();
         File f = getDir("bbb", 0);
-        QRomLog.d(TAG, f.getAbsoluteFile() + " exists:" + f.exists() + " canRead:" + f.canRead() + " canWrite:" + f.canWrite());
+        QRomLog.i(TAG, f.getAbsoluteFile() + " exists:" + f.exists() + " canRead:" + f.canRead() + " canWrite:" + f.canWrite());
 
         f = getFilesDir();
-        QRomLog.d(TAG, f.getAbsoluteFile() + " exists:" + f.exists() + " canRead:" + f.canRead() + " canWrite:" + f.canWrite());
+        QRomLog.i(TAG, f.getAbsoluteFile() + " exists:" + f.exists() + " canRead:" + f.canRead() + " canWrite:" + f.canWrite());
 
         f = getCacheDir();
-        QRomLog.d(TAG, f.getAbsoluteFile() + " exists:" + f.exists() + " canRead:" + f.canRead() + " canWrite:" + f.canWrite());
+        QRomLog.i(TAG, f.getAbsoluteFile() + " exists:" + f.exists() + " canRead:" + f.canRead() + " canWrite:" + f.canWrite());
 
-        QRomLog.d(TAG, f.getAbsoluteFile() + " exists:" + f.exists() + " canRead:" + f.canRead() + " canWrite:" + f.canWrite());
+        QRomLog.i(TAG, f.getAbsoluteFile() + " exists:" + f.exists() + " canRead:" + f.canRead() + " canWrite:" + f.canWrite());
 
         SQLiteDatabase db = openOrCreateDatabase("ccc", 0, null);
         try {
@@ -107,7 +107,7 @@ public class LauncherActivity extends Activity implements View.OnClickListener {
         }
 
         f = getDatabasePath("ccc");
-        QRomLog.d(TAG, f.getAbsoluteFile() + " exists:" + f.exists() + " canRead:" + f.canRead() + " canWrite:" + f.canWrite());
+        QRomLog.i(TAG, f.getAbsoluteFile() + " exists:" + f.exists() + " canRead:" + f.canRead() + " canWrite:" + f.canWrite());
 
         String[] list = databaseList();
 
@@ -122,6 +122,6 @@ public class LauncherActivity extends Activity implements View.OnClickListener {
             e.printStackTrace();
         }
 
-        QRomLog.d(TAG, getFileStreamPath("eee").getAbsolutePath());
+        QRomLog.i(TAG, getFileStreamPath("eee").getAbsolutePath());
     }
 }

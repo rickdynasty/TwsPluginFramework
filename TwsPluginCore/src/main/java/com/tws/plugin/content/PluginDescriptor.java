@@ -356,9 +356,9 @@ public class PluginDescriptor implements Serializable {
         String clazzName = getFragments().get(clazzId);
 
         if (clazzName == null) {
-            QRomLog.d(TAG, "clazzName not found for classId:" + clazzId);
+            QRomLog.i(TAG, "clazzName not found for classId:" + clazzId);
         } else {
-            QRomLog.d(TAG, "clazzName found:" + clazzName);
+            QRomLog.i(TAG, "clazzName found:" + clazzName);
         }
 
         return clazzName;

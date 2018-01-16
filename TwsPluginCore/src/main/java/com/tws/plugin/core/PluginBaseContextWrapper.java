@@ -49,7 +49,7 @@ public class PluginBaseContextWrapper extends ContextWrapper {
 
 	@Override
 	public void sendBroadcast(Intent intent) {
-		QRomLog.d(TAG, " call sendBroadcast :" + intent.toString());
+		QRomLog.i(TAG, " call sendBroadcast :" + intent.toString());
 		ArrayList<Intent> list = PluginIntentResolver.resolveReceiver(intent);
 		for (Intent item : list) {
 			super.sendBroadcast(item);
@@ -58,7 +58,7 @@ public class PluginBaseContextWrapper extends ContextWrapper {
 
 	@Override
 	public void sendBroadcast(Intent intent, String receiverPermission) {
-		QRomLog.d(TAG, intent.toString());
+		QRomLog.i(TAG, intent.toString());
 		ArrayList<Intent> list = PluginIntentResolver.resolveReceiver(intent);
 		for (Intent item : list) {
 			super.sendBroadcast(item, receiverPermission);
@@ -67,7 +67,7 @@ public class PluginBaseContextWrapper extends ContextWrapper {
 
 	@Override
 	public void sendOrderedBroadcast(Intent intent, String receiverPermission) {
-		QRomLog.d(TAG, intent.toString());
+		QRomLog.i(TAG, intent.toString());
 		ArrayList<Intent> list = PluginIntentResolver.resolveReceiver(intent);
 		for (Intent item : list) {
 			super.sendOrderedBroadcast(item, receiverPermission);
@@ -77,7 +77,7 @@ public class PluginBaseContextWrapper extends ContextWrapper {
 	@Override
 	public void sendOrderedBroadcast(Intent intent, String receiverPermission, BroadcastReceiver resultReceiver,
 			Handler scheduler, int initialCode, String initialData, Bundle initialExtras) {
-		QRomLog.d(TAG, intent.toString());
+		QRomLog.i(TAG, intent.toString());
 		ArrayList<Intent> list = PluginIntentResolver.resolveReceiver(intent);
 		for (Intent item : list) {
 			super.sendOrderedBroadcast(item, receiverPermission, resultReceiver, scheduler, initialCode, initialData,
@@ -88,7 +88,7 @@ public class PluginBaseContextWrapper extends ContextWrapper {
 	@TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
 	@Override
 	public void sendBroadcastAsUser(Intent intent, UserHandle user) {
-		QRomLog.d(TAG, intent.toString());
+		QRomLog.i(TAG, intent.toString());
 		ArrayList<Intent> list = PluginIntentResolver.resolveReceiver(intent);
 		for (Intent item : list) {
 			super.sendBroadcastAsUser(item, user);
@@ -98,7 +98,7 @@ public class PluginBaseContextWrapper extends ContextWrapper {
 	@TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
 	@Override
 	public void sendBroadcastAsUser(Intent intent, UserHandle user, String receiverPermission) {
-		QRomLog.d(TAG, intent.toString());
+		QRomLog.i(TAG, intent.toString());
 		ArrayList<Intent> list = PluginIntentResolver.resolveReceiver(intent);
 		for (Intent item : list) {
 			super.sendBroadcastAsUser(item, user, receiverPermission);
@@ -110,7 +110,7 @@ public class PluginBaseContextWrapper extends ContextWrapper {
 	public void sendOrderedBroadcastAsUser(Intent intent, UserHandle user, String receiverPermission,
 			BroadcastReceiver resultReceiver, Handler scheduler, int initialCode, String initialData,
 			Bundle initialExtras) {
-		QRomLog.d(TAG, intent.toString());
+		QRomLog.i(TAG, intent.toString());
 		ArrayList<Intent> list = PluginIntentResolver.resolveReceiver(intent);
 		for (Intent item : list) {
 			super.sendOrderedBroadcastAsUser(item, user, receiverPermission, resultReceiver, scheduler, initialCode,
@@ -120,7 +120,7 @@ public class PluginBaseContextWrapper extends ContextWrapper {
 
 	@Override
 	public void sendStickyBroadcast(Intent intent) {
-		QRomLog.d(TAG, intent.toString());
+		QRomLog.i(TAG, intent.toString());
 		ArrayList<Intent> list = PluginIntentResolver.resolveReceiver(intent);
 		for (Intent item : list) {
 			super.sendStickyBroadcast(item);
@@ -130,7 +130,7 @@ public class PluginBaseContextWrapper extends ContextWrapper {
 	@Override
 	public void sendStickyOrderedBroadcast(Intent intent, BroadcastReceiver resultReceiver, Handler scheduler,
 			int initialCode, String initialData, Bundle initialExtras) {
-		QRomLog.d(TAG, intent.toString());
+		QRomLog.i(TAG, intent.toString());
 		ArrayList<Intent> list = PluginIntentResolver.resolveReceiver(intent);
 		for (Intent item : list) {
 			super.sendStickyOrderedBroadcast(item, resultReceiver, scheduler, initialCode, initialData, initialExtras);
@@ -140,7 +140,7 @@ public class PluginBaseContextWrapper extends ContextWrapper {
 
 	@Override
 	public void removeStickyBroadcast(Intent intent) {
-		QRomLog.d(TAG, intent.toString());
+		QRomLog.i(TAG, intent.toString());
 		ArrayList<Intent> list = PluginIntentResolver.resolveReceiver(intent);
 		for (Intent item : list) {
 			super.removeStickyBroadcast(item);
@@ -150,7 +150,7 @@ public class PluginBaseContextWrapper extends ContextWrapper {
 	@TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
 	@Override
 	public void sendStickyBroadcastAsUser(Intent intent, UserHandle user) {
-		QRomLog.d(TAG, intent.toString());
+		QRomLog.i(TAG, intent.toString());
 		ArrayList<Intent> list = PluginIntentResolver.resolveReceiver(intent);
 		for (Intent item : list) {
 			super.sendStickyBroadcastAsUser(item, user);
@@ -161,7 +161,7 @@ public class PluginBaseContextWrapper extends ContextWrapper {
 	@Override
 	public void sendStickyOrderedBroadcastAsUser(Intent intent, UserHandle user, BroadcastReceiver resultReceiver,
 			Handler scheduler, int initialCode, String initialData, Bundle initialExtras) {
-		QRomLog.d(TAG, intent.toString());
+		QRomLog.i(TAG, intent.toString());
 		ArrayList<Intent> list = PluginIntentResolver.resolveReceiver(intent);
 		for (Intent item : list) {
 			super.sendStickyOrderedBroadcastAsUser(item, user, resultReceiver, scheduler, initialCode, initialData,
@@ -171,28 +171,28 @@ public class PluginBaseContextWrapper extends ContextWrapper {
 
 	@Override
 	public ComponentName startService(Intent service) {
-		QRomLog.d(TAG, "call startService " + service.toString());
+		QRomLog.i(TAG, "call startService " + service.toString());
 		PluginIntentResolver.resolveService(service);
 		return super.startService(service);
 	}
 
 	@Override
 	public boolean stopService(Intent name) {
-		QRomLog.d(TAG, "call stopService " + name.toString());
+		QRomLog.i(TAG, "call stopService " + name.toString());
 		PluginIntentResolver.resolveService(name);
 		return super.stopService(name);
 	}
 
 	@Override
 	public boolean bindService(Intent service, ServiceConnection conn, int flags) {
-		QRomLog.d(TAG, "call bindService " + service.toString());
+		QRomLog.i(TAG, "call bindService " + service.toString());
 		PluginIntentResolver.resolveService(service);
 		return super.bindService(service, conn, flags);
 	}
 
 	@Override
 	public Context createPackageContext(String packageName, int flags) throws PackageManager.NameNotFoundException {
-		QRomLog.d(TAG, "call createPackageContext packageName is " + packageName + " flags is " + flags);
+		QRomLog.i(TAG, "call createPackageContext packageName is " + packageName + " flags is " + flags);
 		// 这个方法有2个作用
 		// 1、context返回插件宿主packageName时,安装插件中的contentprovider时会用到它，
 		// 被android.app.ActiviThread这个类调用。
@@ -217,11 +217,11 @@ public class PluginBaseContextWrapper extends ContextWrapper {
 					mHostPreferencesFile = new File(privateDir, "shared_prefs");
 				}
 				String preferencesDir = mHostPreferencesFile.getAbsolutePath();
-				QRomLog.d(TAG, "preferencesDir is " + preferencesDir);
+				QRomLog.i(TAG, "preferencesDir is " + preferencesDir);
 				if (mSharedPrefsPaths != null) {
 					File file = mSharedPrefsPaths.get(name);
 					if (file != null) {
-						QRomLog.d(TAG, "file path is " + file.getAbsolutePath() + " parent is " + file.getParent());
+						QRomLog.i(TAG, "file path is " + file.getAbsolutePath() + " parent is " + file.getParent());
 					}
 					if (file != null && !file.getParent().equals(preferencesDir)) {
 						mSharedPrefsPaths.remove(name);// 置空之后再get会触发重建，则getDataDir有机会生效

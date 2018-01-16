@@ -36,18 +36,18 @@ public class AndroidAppINotificationManager extends MethodProxy {
 	}
 
 	public static void installProxy() {
-		QRomLog.d(TAG, "安装NotificationManagerProxy");
+		QRomLog.i(TAG, "安装NotificationManagerProxy");
 		Object androidAppINotificationStubProxy = HackNotificationManager.getService();
 		Object androidAppINotificationStubProxyProxy = ProxyUtil.createProxy(androidAppINotificationStubProxy,
 				new AndroidAppINotificationManager());
 		HackNotificationManager.setService(androidAppINotificationStubProxyProxy);
-		QRomLog.d(TAG, "安装完成");
+		QRomLog.i(TAG, "安装完成");
 	}
 
 	public static class enqueueNotification extends MethodDelegate {
 		@Override
 		public Object beforeInvoke(Object target, Method method, Object[] args) {
-			QRomLog.d(TAG, "beforeInvoke：" + method.getName());
+			QRomLog.i(TAG, "beforeInvoke：" + method.getName());
 			args[0] = PluginLoader.getApplication().getPackageName();
 			for (Object obj : args) {
 				if (obj instanceof Notification) {
@@ -62,7 +62,7 @@ public class AndroidAppINotificationManager extends MethodProxy {
 	public static class enqueueNotificationWithTag extends MethodDelegate {
 		@Override
 		public Object beforeInvoke(Object target, Method method, Object[] args) {
-			QRomLog.d(TAG, "beforeInvoke:" + method.getName());
+			QRomLog.i(TAG, "beforeInvoke:" + method.getName());
 			args[0] = PluginLoader.getApplication().getPackageName();
 			for (Object obj : args) {
 				if (obj instanceof Notification) {
@@ -77,7 +77,7 @@ public class AndroidAppINotificationManager extends MethodProxy {
 	public static class enqueueNotificationWithTagPriority extends MethodDelegate {
 		@Override
 		public Object beforeInvoke(Object target, Method method, Object[] args) {
-			QRomLog.d(TAG, "beforeInvoke:" + method.getName());
+			QRomLog.i(TAG, "beforeInvoke:" + method.getName());
 			args[0] = PluginLoader.getApplication().getPackageName();
 			for (Object obj : args) {
 				if (obj instanceof Notification) {
@@ -225,11 +225,11 @@ public class AndroidAppINotificationManager extends MethodProxy {
 	}
 
 	private static String prepareNotificationResourcePath(String pluginInstalledPath, String worldReadablePath) {
-		QRomLog.d(TAG, "正在为通知栏准备插件资源。。。这里现在暂时是同步复制，注意大文件卡顿！！");
+		QRomLog.i(TAG, "正在为通知栏准备插件资源。。。这里现在暂时是同步复制，注意大文件卡顿！！");
 		File worldReadableFile = new File(worldReadablePath);
 
 		if (FileUtil.copyFile(pluginInstalledPath, worldReadableFile.getAbsolutePath())) {
-			QRomLog.d(TAG, "通知栏插件资源准备完成，请确保此路径SystemUi有读权限:" + worldReadableFile.getAbsolutePath());
+			QRomLog.i(TAG, "通知栏插件资源准备完成，请确保此路径SystemUi有读权限:" + worldReadableFile.getAbsolutePath());
 			return worldReadableFile.getAbsolutePath();
 		} else {
 			QRomLog.e(TAG, "不应该到这里来，直接返回这个路径SystemUi没有权限读取");

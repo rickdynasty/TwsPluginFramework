@@ -36,7 +36,7 @@ public class PluginAppTrace implements Handler.Callback {
 
     @Override
     public boolean handleMessage(Message msg) {
-        QRomLog.d(TAG, ">>> handling: " + CodeConst.codeToString(msg.what));
+        QRomLog.i(TAG, ">>> handling: " + CodeConst.codeToString(msg.what));
 
         Result result = beforeHandle(msg);
 
@@ -44,7 +44,7 @@ public class PluginAppTrace implements Handler.Callback {
 
             mHandler.handleMessage(msg);
 
-            QRomLog.d(TAG, ">>> done: " + CodeConst.codeToString(msg.what));
+            QRomLog.i(TAG, ">>> done: " + CodeConst.codeToString(msg.what));
 
         } finally {
 
@@ -133,7 +133,7 @@ public class PluginAppTrace implements Handler.Callback {
                     Service service = services.get(msg.obj);
                     if (service != null) {
                         String pluginServiceClassName = service.getClass().getName();
-                        QRomLog.d(TAG, "beforeStopService unBindStubService:" + pluginServiceClassName);
+                        QRomLog.i(TAG, "beforeStopService unBindStubService:" + pluginServiceClassName);
                         PluginManagerHelper.unBindStubService(pluginServiceClassName);
                     }
                 }

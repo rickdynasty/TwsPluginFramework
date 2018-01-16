@@ -21,7 +21,7 @@ public class PluginTestService extends Service {
 	@Override
 	public void onCreate() {
 		super.onCreate();
-		QRomLog.d(TAG, "PluginTestService onCreate" + getApplication() + " " + getApplicationContext() + " "
+		QRomLog.i(TAG, "PluginTestService onCreate" + getApplication() + " " + getApplicationContext() + " "
 				+ getResources().getText(R.string.hello_world3));
 		Toast.makeText(this, "PluginTestService 01 onCreate " + getResources().getText(R.string.hello_world3),
 				Toast.LENGTH_SHORT).show();
@@ -30,10 +30,10 @@ public class PluginTestService extends Service {
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId) {
 		if (intent != null) {
-			QRomLog.d(TAG, ((ParamVO) intent.getSerializableExtra("paramvo")) + ", action:" + intent.getAction());
+			QRomLog.i(TAG, ((ParamVO) intent.getSerializableExtra("paramvo")) + ", action:" + intent.getAction());
 		}
 
-		QRomLog.d("PluginTestService",
+		QRomLog.i("PluginTestService",
 				"PluginTestService onStartCommand " + " " + getResources().getText(R.string.hello_world3));
 
 		Toast.makeText(this, "PluginTestService 02 " + getResources().getText(R.string.hello_world3),
@@ -45,7 +45,7 @@ public class PluginTestService extends Service {
 	@Override
 	public void onDestroy() {
 		super.onDestroy();
-		QRomLog.d(TAG, "PluginTestService onDestroy");
+		QRomLog.i(TAG, "PluginTestService onDestroy");
 		Toast.makeText(this, "停止PluginTestService", Toast.LENGTH_SHORT).show();
 	}
 
@@ -54,7 +54,7 @@ public class PluginTestService extends Service {
 		return new IMyAidlInterface.Stub() {
 			@Override
 			public void basicTypes(int anInt, long aLong, boolean aBoolean, float aFloat, double aDouble, String aString) {
-				QRomLog.d(TAG, "aString is " + aString + " anInt:" + anInt + " aLong:" + aLong);
+				QRomLog.i(TAG, "aString is " + aString + " anInt:" + anInt + " aLong:" + aLong);
 			}
 		};
 	}

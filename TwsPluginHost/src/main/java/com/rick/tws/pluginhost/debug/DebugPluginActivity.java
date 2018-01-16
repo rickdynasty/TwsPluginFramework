@@ -212,7 +212,7 @@ public class DebugPluginActivity extends AppCompatActivity {
             button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    QRomLog.d(TAG, "onClick:" + view);
+                    QRomLog.i(TAG, "onClick:" + view);
                     if (view instanceof StatusButton) {
                         final StatusButton buttonEx = (StatusButton) view;
                         if (buttonEx.getStatus() == StatusButton.INSTALLED_PLUGIN) {
@@ -258,7 +258,7 @@ public class DebugPluginActivity extends AppCompatActivity {
             layoutParam.gravity = Gravity.LEFT;
             root.addView(button, layoutParam);
 
-            QRomLog.d(TAG, "插件id：" + pluginDescriptor.getPackageName());
+            QRomLog.i(TAG, "插件id：" + pluginDescriptor.getPackageName());
             String pluginLabel = ResourceUtil.getLabel(pluginDescriptor);
             mBuildinMap.put(pluginLabel, pluginDescriptor.getPackageName());
             button.setText("打开插件：" + pluginLabel + ", V" + pluginDescriptor.getVersion());
@@ -330,7 +330,7 @@ public class DebugPluginActivity extends AppCompatActivity {
                     + (actionType == PluginCallback.TYPE_REMOVE_ALL ? "" : (" 插件:" + packageName)) + " "
                     + getErrMsg(code);
             Toast.makeText(DebugPluginActivity.this, des, Toast.LENGTH_SHORT).show();
-            QRomLog.d(TAG, "");
+            QRomLog.i(TAG, "");
 
             showInstalledAll();
             showBuildinPluginList();
@@ -402,13 +402,13 @@ public class DebugPluginActivity extends AppCompatActivity {
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        QRomLog.d(TAG, "onKeyDown keyCode=" + keyCode);
+        QRomLog.i(TAG, "onKeyDown keyCode=" + keyCode);
         return super.onKeyDown(keyCode, event);
     }
 
     @Override
     public boolean onKeyUp(int keyCode, KeyEvent event) {
-        QRomLog.d(TAG, "onKeyUp keyCode=" + keyCode);
+        QRomLog.i(TAG, "onKeyUp keyCode=" + keyCode);
         return super.onKeyUp(keyCode, event);
     }
 }

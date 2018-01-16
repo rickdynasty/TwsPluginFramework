@@ -55,7 +55,7 @@ public class PluginInjector {
      * StartService和SendBroadcast方法
      */
     static void injectBaseContext(Context context) {
-        QRomLog.d(TAG, "替换宿主程序Application对象的mBase");
+        QRomLog.i(TAG, "替换宿主程序Application对象的mBase");
         HackContextWrapper wrapper = new HackContextWrapper(context);
         wrapper.setBase(new PluginBaseContextWrapper(wrapper.getBase()));
     }
@@ -65,12 +65,12 @@ public class PluginInjector {
      */
     static void injectInstrumentation() {
         // 给Instrumentation添加一层代理，用来实现隐藏api的调用
-        QRomLog.d(TAG, "替换宿主程序Intstrumentation");
+        QRomLog.i(TAG, "替换宿主程序Intstrumentation");
         HackActivityThread.wrapInstrumentation();
     }
 
     static void injectHandlerCallback() {
-        QRomLog.d(TAG, "向宿主程序消息循环插入回调器");
+        QRomLog.i(TAG, "向宿主程序消息循环插入回调器");
         HackActivityThread.wrapHandler();
     }
 
@@ -90,7 +90,7 @@ public class PluginInjector {
         }
 
         if (providers.size() > 0) {
-            QRomLog.d(TAG,
+            QRomLog.i(TAG,
                     "为插件:" + pluginContext.getPackageName() + " 安装ContentProvider size=" + pluginProviderInfos.size());
             // pluginContext.getPackageName().equals(applicationInfo.packageName)
             // == true
@@ -113,7 +113,7 @@ public class PluginInjector {
     }
 
     static void injectActivityContext(final Activity activity) {
-        QRomLog.d(TAG, "injectActivityContext");
+        QRomLog.i(TAG, "injectActivityContext");
         String pluginId = null;
         boolean isStubActivity = false;
 
@@ -176,7 +176,7 @@ public class PluginInjector {
             final boolean isTwsActivity = (activity instanceof TwsActivityInterface);
             int pluginAppTheme = getPluginTheme(activityInfo, pluginActivityInfo, pd, isTwsActivity);
 
-            QRomLog.d(TAG, "Theme 0x" + Integer.toHexString(pluginAppTheme) + " activity:"
+            QRomLog.i(TAG, "Theme 0x" + Integer.toHexString(pluginAppTheme) + " activity:"
                     + activity.getClass().getName());
 
             resetActivityContext(pluginContext, activity, pluginAppTheme);
@@ -232,7 +232,7 @@ public class PluginInjector {
         hackWindow.setContext(activity);
 
         // 重设LayoutInflater
-        QRomLog.d(TAG, activity.getWindow().getClass().getName());
+        QRomLog.i(TAG, activity.getWindow().getClass().getName());
         // 注意：这里getWindow().getClass().getName() 不一定是android.view.Window
         // 如miui下返回MIUI window
         hackWindow.setLayoutInflater(window.getClass().getName(), LayoutInflater.from(activity));
@@ -277,11 +277,11 @@ public class PluginInjector {
             }
 
             final String claName = activity.getClass().getName();
-            QRomLog.d(TAG, claName + " immersive is " + pluginActivityInfo.getImmersive());
-            QRomLog.d(TAG, claName + " screenOrientation is " + pluginActivityInfo.getScreenOrientation());
-            QRomLog.d(TAG, claName + " launchMode is " + pluginActivityInfo.getLaunchMode());
-            QRomLog.d(TAG, claName + " windowSoftInputMode is " + pluginActivityInfo.getWindowSoftInputMode());
-            QRomLog.d(TAG, claName + " uiOptions is " + pluginActivityInfo.getUiOptions());
+            QRomLog.i(TAG, claName + " immersive is " + pluginActivityInfo.getImmersive());
+            QRomLog.i(TAG, claName + " screenOrientation is " + pluginActivityInfo.getScreenOrientation());
+            QRomLog.i(TAG, claName + " launchMode is " + pluginActivityInfo.getLaunchMode());
+            QRomLog.i(TAG, claName + " windowSoftInputMode is " + pluginActivityInfo.getWindowSoftInputMode());
+            QRomLog.i(TAG, claName + " uiOptions is " + pluginActivityInfo.getUiOptions());
         }
 
         // 如果是独立插件，由于没有合并资源，这里还需要替换掉 mActivityInfo，

@@ -1121,7 +1121,7 @@ public class PluginIntentFilter implements Serializable {
                     addDataPath(path, PluginPatternMatcher.PATTERN_SIMPLE_GLOB);
                 } 
             } else {
-            	QRomLog.d(TAG, "Not a IntentFilter tag : "+ tagName);
+            	QRomLog.i(TAG, "Not a IntentFilter tag : "+ tagName);
             }
     }
 

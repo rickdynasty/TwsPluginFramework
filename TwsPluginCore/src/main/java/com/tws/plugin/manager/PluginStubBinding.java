@@ -312,18 +312,18 @@ class PluginStubBinding {
 
 	public static synchronized void unBindLaunchModeStubActivity(String stubActivityName, String pluginActivityName) {
 
-		QRomLog.d(TAG, "call unBindLaunchModeStubActivity:" + stubActivityName + " pluginActivityName is "
+		QRomLog.i(TAG, "call unBindLaunchModeStubActivity:" + stubActivityName + " pluginActivityName is "
 				+ pluginActivityName);
 
 		if (pluginActivityName.equals(singleTaskActivityMapping.get(stubActivityName))) {
-			QRomLog.d(TAG, "equals singleTaskActivityMapping");
+			QRomLog.i(TAG, "equals singleTaskActivityMapping");
 			singleTaskActivityMapping.put(stubActivityName, null);
 
 		} else if (pluginActivityName.equals(singleInstanceActivityMapping.get(stubActivityName))) {
-			QRomLog.d(TAG, "equals singleInstanceActivityMapping");
+			QRomLog.i(TAG, "equals singleInstanceActivityMapping");
 			singleInstanceActivityMapping.put(stubActivityName, null);
 		} else {
-			QRomLog.d(TAG, "对于standard和singleTop的launchmode，不做处理。");
+			QRomLog.i(TAG, "对于standard和singleTop的launchmode，不做处理。");
 		}
 	}
 
@@ -380,14 +380,14 @@ class PluginStubBinding {
 				}
 			} else if (pluginServiceClassName.equals(entry.getValue())) {
 				// 已经绑定过，直接返回
-				QRomLog.d(TAG, "已经绑定过:" + entry.getKey() + " pluginServiceClassName is " + pluginServiceClassName);
+				QRomLog.i(TAG, "已经绑定过:" + entry.getKey() + " pluginServiceClassName is " + pluginServiceClassName);
 				return entry.getKey();
 			}
 		}
 
 		// 没有绑定到StubService，而且还有空余的StubService，进行绑定
 		if (idleStubServiceName != null) {
-			QRomLog.d(TAG, "添加绑定:" + idleStubServiceName + " pluginServiceClassName is " + pluginServiceClassName);
+			QRomLog.i(TAG, "添加绑定:" + idleStubServiceName + " pluginServiceClassName is " + pluginServiceClassName);
 			if (isMp) {
 				mpServiceMapping.put(idleStubServiceName, pluginServiceClassName);
 				// 对serviceMapping持久化是因为如果service处于运行状态时app发生了crash，系统会自动恢复之前的service，此时插件映射信息查不到的话会再次crash
@@ -410,7 +410,7 @@ class PluginStubBinding {
 			Map.Entry<String, String> entry = itr.next();
 			if (pluginServiceName.equals(entry.getValue())) {
 				// 如果存在绑定关系，解绑
-				QRomLog.d(TAG, "回收绑定 Key:" + entry.getKey() + " Value:" + entry.getValue());
+				QRomLog.i(TAG, "回收绑定 Key:" + entry.getKey() + " Value:" + entry.getValue());
 				serviceMapping.put(entry.getKey(), null);
 				save(serviceMapping, false);
 				break;
@@ -422,7 +422,7 @@ class PluginStubBinding {
 			Map.Entry<String, String> entry = mpItr.next();
 			if (pluginServiceName.equals(entry.getValue())) {
 				// 如果存在绑定关系，解绑
-				QRomLog.d(TAG, "回收绑定 Key:" + entry.getKey() + " Value:" + entry.getValue());
+				QRomLog.i(TAG, "回收绑定 Key:" + entry.getKey() + " Value:" + entry.getValue());
 				mpServiceMapping.put(entry.getKey(), null);
 				save(mpServiceMapping, false);
 				break;

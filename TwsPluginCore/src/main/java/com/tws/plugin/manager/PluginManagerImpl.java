@@ -146,14 +146,14 @@ class PluginManagerImpl {
 					deleteSuccess = file.delete();
 				}
 
-				QRomLog.d(TAG, "delete:" + file.getAbsolutePath());
+				QRomLog.i(TAG, "delete:" + file.getAbsolutePath());
 			} else {
 				deleteSuccess = FileUtil.deleteAll(file);
 			}
-			QRomLog.d(TAG, "delete old result:" + result + " deleteSuccess=" + deleteSuccess + " old.getInstalledPath="
+			QRomLog.i(TAG, "delete old result:" + result + " deleteSuccess=" + deleteSuccess + " old.getInstalledPath="
 					+ old.getInstalledPath() + " old.getPackageName=" + old.getPackageName());
 		} else {
-			QRomLog.d(TAG, "插件未安装：" + pluginId);
+			QRomLog.i(TAG, "插件未安装：" + pluginId);
 		}
 
 		return result;
@@ -216,7 +216,7 @@ class PluginManagerImpl {
 	 * @return
 	 */
 	synchronized InstallResult installPlugin(String srcPluginFile, boolean forDebug) {
-		QRomLog.d(TAG, "开始安装插件:" + srcPluginFile);
+		QRomLog.i(TAG, "开始安装插件:" + srcPluginFile);
 		if (TextUtils.isEmpty(srcPluginFile) || !new File(srcPluginFile).exists()) {
 			return new InstallResult(InstallResult.SRC_FILE_NOT_FOUND);
 		}
@@ -364,7 +364,7 @@ class PluginManagerImpl {
 						pluginDescriptor.getVersion());
 			} else {
 				// 通过创建classloader来触发dexopt，但不加载
-				QRomLog.d(TAG, "正在进行DEXOPT..." + pluginDescriptor.getInstalledPath());
+				QRomLog.i(TAG, "正在进行DEXOPT..." + pluginDescriptor.getInstalledPath());
 				// ActivityThread.getPackageManager().performDexOptIfNeeded()
 				FileUtil.deleteAll(new File(apkParent, "dalvik-cache"));
 				ClassLoader cl = PluginCreator.createPluginClassLoader(pluginDescriptor.getInstalledPath(),
@@ -374,11 +374,11 @@ class PluginManagerImpl {
 				} catch (ClassNotFoundException e) {
 					e.printStackTrace();
 				}
-				QRomLog.d(TAG, "DEXOPT完毕");
+				QRomLog.i(TAG, "DEXOPT完毕");
 
 				LocalServiceManager.registerService(pluginDescriptor);
 
-				QRomLog.d(TAG, "安装插件成功:" + destApkPath);
+				QRomLog.i(TAG, "安装插件成功:" + destApkPath);
 
 				// 打印一下目录结构
 				if (isDebugable) {

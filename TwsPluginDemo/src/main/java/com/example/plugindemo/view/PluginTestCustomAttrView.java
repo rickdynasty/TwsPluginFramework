@@ -36,7 +36,7 @@ public class PluginTestCustomAttrView extends LinearLayout {
 		attrText = a.getString(R.styleable.PluginTestCustomAttrView_custarr_text);
 		attrColor = a.getColor(R.styleable.PluginTestCustomAttrView_custarr_text_color, 0);
 		attrSize = a.getDimension(R.styleable.PluginTestCustomAttrView_custarr_text_color_size, 0);
-		QRomLog.d(TAG, "attrText=" + attrText + " attrColor=" + attrColor + " attrSize=" + attrSize);
+		QRomLog.i(TAG, "attrText=" + attrText + " attrColor=" + attrColor + " attrSize=" + attrSize);
 
 		a.recycle();
 	}

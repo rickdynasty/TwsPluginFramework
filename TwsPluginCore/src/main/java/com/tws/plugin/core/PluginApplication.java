@@ -56,14 +56,14 @@ public class PluginApplication extends Application {
 
         // 如果initPluginFramework都在进程启动时就执行，自然很轻松满足上述条件。
         if (ProcessUtil.isPluginProcess(this)) {
-            QRomLog.d(TAG, "插件进程 PluginLoader.initPluginFramework");
+            QRomLog.i(TAG, "插件进程 PluginLoader.initPluginFramework");
             // 插件进程，必须在这里执行initPluginFramework
             PluginLoader.initPluginFramework(this);
             // init ServiceManager
             LocalServiceManager.init();
         } else if (ProcessUtil.isHostProcess(this)) {
             // 宿主进程，可以在这里执行，也可以选择在宿主的其他地方在需要时再启动插件框架
-            QRomLog.d(TAG, "宿主进程 PluginLoader.initPluginFramework");
+            QRomLog.i(TAG, "宿主进程 PluginLoader.initPluginFramework");
             PluginLoader.initPluginFramework(this);
             // init ServiceManager
             LocalServiceManager.init();
@@ -96,7 +96,7 @@ public class PluginApplication extends Application {
 //		new Thread(new Runnable() {
 //			@Override
 //			public void run() {
-        QRomLog.d(TAG, "startNeedPowerbootPlugin run");
+        QRomLog.i(TAG, "startNeedPowerbootPlugin run");
         Collection<PluginDescriptor> plugins = PluginManagerHelper.getPlugins();
         Iterator<PluginDescriptor> itr = plugins.iterator();
         while (itr.hasNext()) {
@@ -114,7 +114,7 @@ public class PluginApplication extends Application {
             final ArrayList<DisplayItem> dis = pluginDescriptor.getDisplayItems();
             if (dis != null) {
                 for (DisplayItem di : dis) {
-                    QRomLog.d(TAG, "DisplayConfig dc.pos =(" + di.x + "," + di.y + ") ,di.type " + di.action_type);
+                    QRomLog.i(TAG, "DisplayConfig dc.pos =(" + di.x + "," + di.y + ") ,di.type " + di.action_type);
                     switch (di.action_type) {
                         case DisplayItem.TYPE_APPLICATION:
                             if (null == PluginLauncher.instance().startPlugin(di.action_id)) {
@@ -170,7 +170,7 @@ public class PluginApplication extends Application {
         if (mEliminatePlugins != null) {
             QRomLog.w(TAG + "getExceList()", "U config Eliminate the following plug-ins:");
             for (String pStr : mEliminatePlugins) {
-                QRomLog.d(TAG, " " + pStr);
+                QRomLog.i(TAG, " " + pStr);
             }
         }
     }
@@ -180,7 +180,7 @@ public class PluginApplication extends Application {
         super.onConfigurationChanged(newConfig);
         if (mSaveConfiguration.diff(newConfig) != 0 && ProcessUtil.isPluginProcess(this)) {
             mSaveConfiguration.updateFrom(newConfig);
-            QRomLog.d(TAG, "更新所有插件的Config配置");
+            QRomLog.i(TAG, "更新所有插件的Config配置");
             PluginLauncher.instance().onConfigurationChanged(newConfig);
         }
     }

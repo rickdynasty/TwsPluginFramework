@@ -49,7 +49,7 @@ public class PluginShadowService extends Service {
 	private void callServiceOnCreate() {
 		String realName = mClassName;
 		realName = mClassName.replace(PluginIntentResolver.CLASS_PREFIX_SERVICE, "");
-		QRomLog.d(TAG, "className:" + mClassName + " target:" + realName);
+		QRomLog.i(TAG, "className:" + mClassName + " target:" + realName);
 		Class<?> clazz = PluginLoader.loadPluginClassByName(realName);
 		if (null == clazz) {
 			Exception herException = new Exception();

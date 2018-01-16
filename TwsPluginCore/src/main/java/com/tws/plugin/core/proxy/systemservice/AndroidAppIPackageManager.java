@@ -59,21 +59,21 @@ public class AndroidAppIPackageManager extends MethodProxy {
 	}
 
 	public static void installProxy(PackageManager manager) {
-		QRomLog.d(TAG, "安装PackageManagerProxy");
+		QRomLog.i(TAG, "安装PackageManagerProxy");
 		Object androidAppIPackageManagerStubProxy = HackActivityThread.getPackageManager();
 		Object androidAppIPackageManagerStubProxyProxy = ProxyUtil.createProxy(androidAppIPackageManagerStubProxy,
 				new AndroidAppIPackageManager());
 		HackActivityThread.setPackageManager(androidAppIPackageManagerStubProxyProxy);
 		HackApplicationPackageManager hackApplicationPackageManager = new HackApplicationPackageManager(manager);
 		hackApplicationPackageManager.setPM(androidAppIPackageManagerStubProxyProxy);
-		QRomLog.d(TAG, "安装完成");
+		QRomLog.i(TAG, "安装完成");
 	}
 
 	public static class getPackageInfo extends MethodDelegate {
 		@Override
 		public Object beforeInvoke(Object target, Method method, Object[] args) {
 			String packageName = (String) args[0];
-			QRomLog.d(TAG, "beforeInvoke method:" + method.getName() + " packageName:" + packageName);
+			QRomLog.i(TAG, "beforeInvoke method:" + method.getName() + " packageName:" + packageName);
 			if (!packageName.equals(PluginLoader.getApplication().getPackageName())) {
 				PluginDescriptor pluginDescriptor = PluginManagerHelper.getPluginDescriptorByPluginId(packageName);
 				if (pluginDescriptor != null) {
@@ -94,7 +94,7 @@ public class AndroidAppIPackageManager extends MethodProxy {
 
 		@Override
 		public Object afterInvoke(Object target, Method method, Object[] args, Object beforeResult, Object invokeResult) {
-			QRomLog.d(TAG, "afterInvoke method:" + method.getName());
+			QRomLog.i(TAG, "afterInvoke method:" + method.getName());
 
 			if (Build.VERSION.SDK_INT >= 18) {// android4.3
 				Collection<PluginDescriptor> plugins = PluginManagerHelper.getPlugins();
@@ -122,7 +122,7 @@ public class AndroidAppIPackageManager extends MethodProxy {
 	public static class queryIntentActivities extends MethodDelegate {
 		@Override
 		public Object beforeInvoke(Object target, Method method, Object[] args) {
-			QRomLog.d(TAG, "beforeInvoke method:" + method.getName());
+			QRomLog.i(TAG, "beforeInvoke method:" + method.getName());
 			final String packageName = PluginLoader.getPackageName((Intent) args[0]);
 			ArrayList<ComponentInfo> componentInfos = PluginIntentResolver.matchPlugin((Intent) args[0],
 					DisplayItem.TYPE_ACTIVITY, packageName);
@@ -158,7 +158,7 @@ public class AndroidAppIPackageManager extends MethodProxy {
 		@Override
 		public Object beforeInvoke(Object target, Method method, Object[] args) {
 			String packageName = (String) args[0];
-			QRomLog.d(TAG, "beforeInvoke method:" + method.getName() + " packageName:" + packageName);
+			QRomLog.i(TAG, "beforeInvoke method:" + method.getName() + " packageName:" + packageName);
 			if (!packageName.equals(PluginLoader.getApplication().getPackageName())) {
 				PluginDescriptor pluginDescriptor = PluginManagerHelper.getPluginDescriptorByPluginId(packageName);
 				if (pluginDescriptor != null) {
@@ -174,7 +174,7 @@ public class AndroidAppIPackageManager extends MethodProxy {
 	public static class getActivityInfo extends MethodDelegate {
 		@Override
 		public Object beforeInvoke(Object target, Method method, Object[] args) {
-			QRomLog.d(TAG, "getActivityInfo beforeInvoke method:" + method.getName());
+			QRomLog.i(TAG, "getActivityInfo beforeInvoke method:" + method.getName());
 			String className = ((ComponentName) args[0]).getClassName();
 			PluginDescriptor pluginDescriptor = PluginManagerHelper.getPluginDescriptorByClassName(className);
 			if (pluginDescriptor != null) {
@@ -188,7 +188,7 @@ public class AndroidAppIPackageManager extends MethodProxy {
 	public static class getReceiverInfo extends MethodDelegate {
 		@Override
 		public Object beforeInvoke(Object target, Method method, Object[] args) {
-			QRomLog.d(TAG, "getReceiverInfo beforeInvoke method:" + method.getName());
+			QRomLog.i(TAG, "getReceiverInfo beforeInvoke method:" + method.getName());
 			String className = ((ComponentName) args[0]).getClassName();
 			PluginDescriptor pluginDescriptor = PluginManagerHelper.getPluginDescriptorByClassName(className);
 			if (pluginDescriptor != null) {
@@ -203,7 +203,7 @@ public class AndroidAppIPackageManager extends MethodProxy {
 	public static class getServiceInfo extends MethodDelegate {
 		@Override
 		public Object beforeInvoke(Object target, Method method, Object[] args) {
-			QRomLog.d(TAG, "getServiceInfo beforeInvoke method:" + method.getName());
+			QRomLog.i(TAG, "getServiceInfo beforeInvoke method:" + method.getName());
 			String className = ((ComponentName) args[0]).getClassName();
 			PluginDescriptor pluginDescriptor = PluginManagerHelper.getPluginDescriptorByClassName(className);
 			if (pluginDescriptor != null) {
@@ -217,7 +217,7 @@ public class AndroidAppIPackageManager extends MethodProxy {
 	public static class getProviderInfo extends MethodDelegate {
 		@Override
 		public Object beforeInvoke(Object target, Method method, Object[] args) {
-			QRomLog.d(TAG, "getProviderInfo beforeInvoke method:" + method.getName());
+			QRomLog.i(TAG, "getProviderInfo beforeInvoke method:" + method.getName());
 			String className = ((ComponentName) args[0]).getClassName();
 			if (!className.equals(PluginManagerProvider.class.getName())) {
 				PluginDescriptor pluginDescriptor = PluginManagerHelper.getPluginDescriptorByClassName(className);
@@ -242,7 +242,7 @@ public class AndroidAppIPackageManager extends MethodProxy {
 	public static class queryIntentServices extends MethodDelegate {
 		@Override
 		public Object beforeInvoke(Object target, Method method, Object[] args) {
-			QRomLog.d(TAG, "queryIntentServices beforeInvoke method:" + method.getName());
+			QRomLog.i(TAG, "queryIntentServices beforeInvoke method:" + method.getName());
 			final String packageName = PluginLoader.getPackageName((Intent) args[0]);
 			ArrayList<ComponentInfo> componentInfos = PluginIntentResolver.matchPlugin((Intent) args[0],
 					DisplayItem.TYPE_SERVICE, packageName);
@@ -278,7 +278,7 @@ public class AndroidAppIPackageManager extends MethodProxy {
 	public static class resolveIntent extends MethodDelegate {
 		@Override
 		public Object beforeInvoke(Object target, Method method, Object[] args) {
-			QRomLog.d(TAG, "resolveIntent beforeInvoke method:" + method.getName());
+			QRomLog.i(TAG, "resolveIntent beforeInvoke method:" + method.getName());
 			final String packageName = PluginLoader.getPackageName((Intent) args[0]);
 			ArrayList<ComponentInfo> componentInfos = PluginIntentResolver.matchPlugin((Intent) args[0],
 					DisplayItem.TYPE_ACTIVITY, packageName);
@@ -300,7 +300,7 @@ public class AndroidAppIPackageManager extends MethodProxy {
 	public static class resolveService extends MethodDelegate {
 		@Override
 		public Object beforeInvoke(Object target, Method method, Object[] args) {
-			QRomLog.d(TAG, "resolveService beforeInvoke method:" + method.getName());
+			QRomLog.i(TAG, "resolveService beforeInvoke method:" + method.getName());
 			final String packageName = PluginLoader.getPackageName((Intent) args[0]);
 			ArrayList<ComponentInfo> componentInfos = PluginIntentResolver.matchPlugin((Intent) args[0],
 					DisplayItem.TYPE_SERVICE, packageName);
@@ -326,14 +326,14 @@ public class AndroidAppIPackageManager extends MethodProxy {
 			if (arg0 instanceof ComponentName) {
 				ComponentName mComponentName = ((ComponentName) args[0]);
 
-				QRomLog.d(TAG, "getComponentEnabledSetting beforeInvoke method:" + method.getName() + " PackageName:"
+				QRomLog.i(TAG, "getComponentEnabledSetting beforeInvoke method:" + method.getName() + " PackageName:"
 						+ mComponentName.getPackageName() + " ClassName:" + mComponentName.getClassName());
 
 				if ("com.htc.android.htcsetupwizard".equalsIgnoreCase(mComponentName.getPackageName())) {
 					return PackageManager.COMPONENT_ENABLED_STATE_DISABLED;
 				}
 			} else {
-				QRomLog.d(TAG, "getComponentEnabledSetting beforeInvoke method:" + method.getName() + " arg0 is " + arg0);
+				QRomLog.i(TAG, "getComponentEnabledSetting beforeInvoke method:" + method.getName() + " arg0 is " + arg0);
 			}
 
 			return super.beforeInvoke(target, method, args);

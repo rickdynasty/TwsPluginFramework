@@ -143,7 +143,7 @@ public class PluginInstrumentionWrapper extends Instrumentation {
 
                 String action = intent.getAction();
 
-                QRomLog.d(TAG, "newActivity action=" + action + " className=" + className);
+                QRomLog.i(TAG, "newActivity action=" + action + " className=" + className);
                 if (action != null && action.contains(PluginIntentResolver.CLASS_SEPARATOR)) {
                     String[] targetClassName = action.split(PluginIntentResolver.CLASS_SEPARATOR);
                     String pluginClassName = targetClassName[0];

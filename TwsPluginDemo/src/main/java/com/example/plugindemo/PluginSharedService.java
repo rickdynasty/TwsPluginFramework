@@ -14,7 +14,7 @@ public class PluginSharedService implements ShareService {
 
     @Override
     public SharePOJO doSomething(String condition) {
-        QRomLog.d(TAG, condition);
+        QRomLog.i(TAG, condition);
         return new SharePOJO(condition + " : 插件追加的文字");
     }
 }

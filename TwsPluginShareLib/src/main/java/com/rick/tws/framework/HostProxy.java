@@ -17,7 +17,7 @@ public class HostProxy {
     public static void setApplication(Application context) {
         sApplication = context;
         HOST_PACKAGE_NAME = sApplication.getPackageName();
-        QRomLog.d(TAG, "setApplication HOST_PACKAGE_NAME is " + HOST_PACKAGE_NAME);
+        QRomLog.i(TAG, "setApplication HOST_PACKAGE_NAME is " + HOST_PACKAGE_NAME);
     }
 
     public static Application getApplication() {
@@ -44,13 +44,13 @@ public class HostProxy {
 
     public static int getShareStringId(String resName) {
         int id = sApplication.getResources().getIdentifier(resName, "string", HOST_PACKAGE_NAME);
-        QRomLog.d(TAG, "getShareStringId resName=" + resName + " id=0x" + Integer.toHexString(id));
+        QRomLog.i(TAG, "getShareStringId resName=" + resName + " id=0x" + Integer.toHexString(id));
         return id;
     }
 
     public static int getShareLayoutId(String resName) {
         int id = sApplication.getResources().getIdentifier(resName, "layout", HOST_PACKAGE_NAME);
-        QRomLog.d(TAG, "getShareLayoutId resName=" + resName + " id=0x" + Integer.toHexString(id));
+        QRomLog.i(TAG, "getShareLayoutId resName=" + resName + " id=0x" + Integer.toHexString(id));
         return id;
     }
 
@@ -66,7 +66,7 @@ public class HostProxy {
      * @param pluginActivity
      */
     public static void switchWebViewContext(Context pluginActivity) {
-        QRomLog.d(TAG, "尝试切换WebView Context, 不同的WebView内核, 实现方式可能不同, 本方法基于Chrome的WebView实现");
+        QRomLog.i(TAG, "尝试切换WebView Context, 不同的WebView内核, 实现方式可能不同, 本方法基于Chrome的WebView实现");
         try {
             /**
              * webviewProvider获取过程： new WebView()

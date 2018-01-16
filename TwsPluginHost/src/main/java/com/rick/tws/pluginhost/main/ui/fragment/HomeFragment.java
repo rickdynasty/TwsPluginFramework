@@ -35,7 +35,7 @@ import qrom.component.log.QRomLog;
 
 @SuppressLint("ValidFragment")
 public class HomeFragment extends Fragment implements OnClickListener {
-    private static final String TAG = "rick_Print:MyWatchFragmentRevision";
+    private static final String TAG = "rick_Print:HomeFragment";
 
     private static final int FIX_LOCATION_BEGIN = 99;
 
@@ -68,6 +68,7 @@ public class HomeFragment extends Fragment implements OnClickListener {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        QRomLog.i(TAG, "=========onCreateView=========");
 
         View rootView = inflater.inflate(R.layout.fragment_my_watch_revision, container, false);
 
@@ -83,12 +84,13 @@ public class HomeFragment extends Fragment implements OnClickListener {
     @Override
     public void onResume() {
         super.onResume();
-        QRomLog.d(TAG, "=========onResume=========");
+        QRomLog.i(TAG, "=========onResume=========");
     }
 
     @Override
     public void onStart() {
         super.onStart();
+        QRomLog.i(TAG, "=========onStart=========");
     }
 
     /**
@@ -164,15 +166,15 @@ public class HomeFragment extends Fragment implements OnClickListener {
     }
 
     public void printContentItemsInfo() {
-        QRomLog.d(TAG, "============== begin printContentItemsInfo ==============");
+        QRomLog.i(TAG, "============== begin printContentItemsInfo ==============");
         for (int index = 0; index < mContentItems.size(); index++) {
             final HomeFragmentContentItem item = mContentItems.get(index);
-            QRomLog.d(
+            QRomLog.i(
                     TAG,
                     "mContentItems[" + index + "] text is " + item.getTextViewText() + " Location is "
                             + item.getLocation());
         }
-        QRomLog.d(TAG, "============== end printContentItemsInfo ==============");
+        QRomLog.i(TAG, "============== end printContentItemsInfo ==============");
     }
 
     private void initView(View rootView) {
@@ -298,8 +300,7 @@ public class HomeFragment extends Fragment implements OnClickListener {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-
-        QRomLog.d(TAG, "=========onDestroyView=========");
+        QRomLog.i(TAG, "=========onDestroyView=========");
     }
 
     public void removePlugin(String packageName) {
@@ -342,5 +343,29 @@ public class HomeFragment extends Fragment implements OnClickListener {
                 item.setVisibility(View.VISIBLE);
             }
         }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        QRomLog.i(TAG, "=========onPause=========");
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        QRomLog.i(TAG, "=========onStop=========");
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        QRomLog.i(TAG, "=========onDestroy=========");
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        QRomLog.i(TAG, "=========onDetach=========");
     }
 }

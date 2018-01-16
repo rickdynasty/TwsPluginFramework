@@ -95,7 +95,7 @@ public class PluginIntentResolver {
         Intent intent = hackReceiverData.getIntent();
         if (intent.getComponent().getClassName().equals(PluginManagerHelper.bindStubReceiver())) {
             String action = intent.getAction();
-            QRomLog.d(TAG, "action:" + action);
+            QRomLog.i(TAG, "action:" + action);
             if (action != null) {
                 String[] targetClassName = action.split(CLASS_SEPARATOR);
                 final String packageName = targetClassName.length > 2 ? targetClassName[2] : "";
@@ -153,7 +153,7 @@ public class PluginIntentResolver {
             // TODO 或许可以通过这个方式来处理service
             // info.applicationInfo = XXX
 
-            QRomLog.d(TAG, "hackServiceName=" + info.name + " packageName=" + info.packageName + " processName="
+            QRomLog.i(TAG, "hackServiceName=" + info.name + " packageName=" + info.packageName + " processName="
                     + info.processName + " targetClassName=" + targetClassName + " applicationInfo.packageName="
                     + info.applicationInfo.packageName);
 
@@ -166,7 +166,7 @@ public class PluginIntentResolver {
 
                 info.name = CLASS_PREFIX_SERVICE + "null";
             } else {
-                QRomLog.d(TAG, "是宿主service:" + info.name);
+                QRomLog.i(TAG, "是宿主service:" + info.name);
             }
 
             HackActivityThread.get().ensureInject();

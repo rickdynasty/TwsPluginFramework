@@ -96,7 +96,7 @@ public class PluginManagerHelper {
                 localCache.put(pluginId, pluginDescriptor);
             }
         } else {
-            QRomLog.d(TAG, "取本端缓存:" + pluginDescriptor.getInstalledPath());
+            QRomLog.i(TAG, "取本端缓存:" + pluginDescriptor.getInstalledPath());
         }
 
         return pluginDescriptor;
@@ -167,7 +167,7 @@ public class PluginManagerHelper {
         clearLocalCache();
         Bundle bundle = call(PluginManagerProvider.buildUri(), PluginManagerProvider.ACTION_REMOVE, pluginId, null);
         boolean success = bundle == null ? false : bundle.getBoolean(PluginManagerProvider.REMOVE_RESULT);
-        QRomLog.d(TAG, "卸载：" + pluginId + (success ? "成功" : "失败"));
+        QRomLog.i(TAG, "卸载：" + pluginId + (success ? "成功" : "失败"));
     }
 
     /**

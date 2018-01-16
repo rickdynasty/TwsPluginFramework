@@ -32,15 +32,15 @@ public class PluginViewFactory implements PluginFactoryInterface {
 	}
 
 	public void installViewFactory() {
-		QRomLog.d(TAG, "安装PluginViewFactory");
+		QRomLog.i(TAG, "安装PluginViewFactory");
 		LayoutInflater layoutInflater = mContext.getLayoutInflater();
 		if (layoutInflater.getFactory() == null) {
 			PluginFactoryCompat.setFactory(layoutInflater, this);
 		} else {
-			QRomLog.d(TAG, "The Activity's LayoutInflater already has a Factory installed"
+			QRomLog.i(TAG, "The Activity's LayoutInflater already has a Factory installed"
 					+ " so we can not install plugin's");
 		}
-		QRomLog.d(TAG, "安装PluginViewFactory完成");
+		QRomLog.i(TAG, "安装PluginViewFactory完成");
 	}
 
 	@Override

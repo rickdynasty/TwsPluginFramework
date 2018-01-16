@@ -66,13 +66,13 @@ public class PluginLoader {
      */
     public static synchronized void initPluginFramework(Application app) {
         if (!isLoaderInited) {
-            QRomLog.d(TAG, "begin init PluginFramework...");
+            QRomLog.i(TAG, "begin init PluginFramework...");
             long startTime = System.currentTimeMillis();
 
             isLoaderInited = true;
             sApplication = app;
             sHostPackageName = app.getPackageName();
-            QRomLog.d(TAG, "begin init PluginFramework... HostPackageName is " + sHostPackageName);
+            QRomLog.i(TAG, "begin init PluginFramework... HostPackageName is " + sHostPackageName);
 
             // 这里的isPluginProcess方法需要在安装AndroidAppIActivityManager之前执行一次。
             // 原因见AndroidAppIActivityManager的getRunningAppProcesses()方法
@@ -142,7 +142,7 @@ public class PluginLoader {
                     });
                 }
             }
-            QRomLog.d(TAG, "Complete Init PluginFramework Take:" + (System.currentTimeMillis() - startTime) + "ms");
+            QRomLog.i(TAG, "Complete Init PluginFramework Take:" + (System.currentTimeMillis() - startTime) + "ms");
         }
     }
 
@@ -173,7 +173,7 @@ public class PluginLoader {
             if (clazzName != null) {
                 try {
                     Class pluginClazz = ((ClassLoader) pluginClassLoader).loadClass(clazzName);
-                    QRomLog.d(TAG, "loadPluginClass for clazzId:" + clazzId + " clazzName=" + clazzName + " success");
+                    QRomLog.i(TAG, "loadPluginClass for clazzId:" + clazzId + " clazzName=" + clazzName + " success");
                     return pluginClazz;
                 } catch (ClassNotFoundException e) {
                     QRomLog.e(TAG, "loadPluginFragmentClassById:" + clazzId + " ClassNotFound:" + clazzName
@@ -204,7 +204,7 @@ public class PluginLoader {
 
             try {
                 Class pluginClazz = ((ClassLoader) pluginClassLoader).loadClass(clazzName);
-                QRomLog.d(TAG, "loadPluginClass Success for clazzName is " + clazzName);
+                QRomLog.i(TAG, "loadPluginClass Success for clazzName is " + clazzName);
                 return pluginClazz;
             } catch (ClassNotFoundException e) {
                 QRomLog.e(TAG, "ClassNotFound " + clazzName, e);
@@ -250,7 +250,7 @@ public class PluginLoader {
     public static boolean isInstalled(String pluginId, String pluginVersion) {
         PluginDescriptor pluginDescriptor = PluginManagerHelper.getPluginDescriptorByPluginId(pluginId);
         if (pluginDescriptor != null) {
-            QRomLog.d(
+            QRomLog.i(
                     TAG,
                     "call isInstalled pluginId=" + pluginId + " pluginDescriptor.getVersion="
                             + pluginDescriptor.getVersion() + " pluginVersion=" + pluginVersion);
@@ -277,10 +277,10 @@ public class PluginLoader {
 
             final int saveVerCode = getVersionCode();
             final String saveVerName = getVersionName();
-            QRomLog.d(TAG, "call loadPlugins !isLoaderPlugins - curVersionCode：" + curVersionCode + ", oldVersionCode:" + saveVerCode +
+            QRomLog.i(TAG, "call loadPlugins !isLoaderPlugins - curVersionCode：" + curVersionCode + ", oldVersionCode:" + saveVerCode +
                     " curVersionName：" + curVersionName + " oldVersionName:" + curVersionName);
             if (saveVerCode != curVersionCode || saveVerName != curVersionName) {
-                QRomLog.d(TAG, "首次/升级安装,先清理...");// rick_Note:这个有个问题需要确定：如果新版本里面不包含之前版本的插件包该怎么处理？？？？
+                QRomLog.i(TAG, "首次/升级安装,先清理...");// rick_Note:这个有个问题需要确定：如果新版本里面不包含之前版本的插件包该怎么处理？？？？
                 // 版本升级 清理掉之前安装的所有插件
                 PluginManagerHelper.removeAll();
 
@@ -292,7 +292,7 @@ public class PluginLoader {
                 saveVersionName(curVersionName);
             }
 
-            QRomLog.d(TAG, "loadPlugins 耗时：" + (System.currentTimeMillis() - beginTime) + "ms");
+            QRomLog.i(TAG, "loadPlugins 耗时：" + (System.currentTimeMillis() - beginTime) + "ms");
 
             isLoaderPlugins = true;
         } else {
@@ -320,10 +320,10 @@ public class PluginLoader {
 
         final int saveVerCode = getVersionCode();
         final String saveVerName = getVersionName();
-        QRomLog.d(TAG, "loadPlugins curVersionCode is " + curVersionCode + " saveVerCode=" + saveVerCode
+        QRomLog.i(TAG, "loadPlugins curVersionCode is " + curVersionCode + " saveVerCode=" + saveVerCode
                 + " curVersionName is " + curVersionName + " saveVerName=" + saveVerName);
         if (saveVerCode != curVersionCode || !saveVerName.equals(curVersionName) || force) {
-            QRomLog.d(TAG, "首次/升级安装,先清理...");// rick_Note:这个有个问题需要确定：如果新版本里面不包含之前版本的插件包该怎么处理？？？？
+            QRomLog.i(TAG, "首次/升级安装,先清理...");// rick_Note:这个有个问题需要确定：如果新版本里面不包含之前版本的插件包该怎么处理？？？？
             if (pluginApksInfo != null && 0 < pluginApksInfo.size()) {
                 // 不在install列表里面的插件一律remove掉
                 Collection<PluginDescriptor> plugins = PluginManagerHelper.getPlugins();
@@ -344,13 +344,13 @@ public class PluginLoader {
             saveVersionName(curVersionName);
         }
 
-        QRomLog.d(TAG, "loadPlugins 耗时：" + (System.currentTimeMillis() - beginTime) + "ms");
+        QRomLog.i(TAG, "loadPlugins 耗时：" + (System.currentTimeMillis() - beginTime) + "ms");
     }
 
     //rick_tan  Ver1.0的接口，保留 - 勿删
     // 安装内置插件
     private static synchronized void installAssetsPlugins() {
-        QRomLog.d(TAG, "installAssetsPlugins()");
+        QRomLog.i(TAG, "installAssetsPlugins()");
         // 加载插件黑名单
         final ArrayList<String> blacklist = PluginApplication.getInstance().getEliminatePlugins();
 
@@ -370,7 +370,7 @@ public class PluginLoader {
                 }
 
                 if (blacklist != null && blacklist.contains(apk)) {
-                    QRomLog.d(TAG, "插件：" + apk + "在黑名单中，continue~");
+                    QRomLog.i(TAG, "插件：" + apk + "在黑名单中，continue~");
                     continue;
                 }
 
@@ -381,7 +381,7 @@ public class PluginLoader {
 
     // 安装内置插件
     private static synchronized void installPlugins(Collection<String> pluginApks) {
-        QRomLog.d(TAG, "installAssetsPlugins()");
+        QRomLog.i(TAG, "installAssetsPlugins()");
 
         if (pluginApks == null) {
             return;
@@ -391,13 +391,13 @@ public class PluginLoader {
         final ArrayList<String> blacklist = PluginApplication.getInstance().getEliminatePlugins();
 
         for (String apk : pluginApks) {
-            QRomLog.d(TAG, "installPlugins apk = " + apk);
+            QRomLog.i(TAG, "installPlugins apk = " + apk);
             if (!apk.endsWith(".apk")) {
                 continue;
             }
 
             if (blacklist != null && blacklist.contains(apk)) {
-                QRomLog.d(TAG, "插件：" + apk + "在黑名单中，continue~");
+                QRomLog.i(TAG, "插件：" + apk + "在黑名单中，continue~");
                 continue;
             }
 
@@ -418,12 +418,12 @@ public class PluginLoader {
     }
 
     private static synchronized void saveVersionCode(int verCode) {
-        QRomLog.d(TAG, "saveVersionCode:" + verCode);
+        QRomLog.i(TAG, "saveVersionCode:" + verCode);
         getSharedPreference().edit().putInt(VERSION_CODE_KEY, verCode).commit();
     }
 
     private static synchronized void saveVersionName(String verName) {
-        QRomLog.d(TAG, "saveVersionName:" + verName);
+        QRomLog.i(TAG, "saveVersionName:" + verName);
         getSharedPreference().edit().putString(VERSION_NAME_KEY, verName).commit();
     }
 

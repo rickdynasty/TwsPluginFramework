@@ -171,7 +171,7 @@ public class ResourceUtil {
 		final int pidAndEid = resid >> 16;
 		final int packageId = pidAndEid >> 8;
 		boolean isMainResId = (packageId == 0x7f && pidAndEid < 0x7f10);
-		QRomLog.d(TAG, "call isMainResId:0x" + Integer.toHexString(resid) + " rlt is " + isMainResId);
+		QRomLog.i(TAG, "call isMainResId:0x" + Integer.toHexString(resid) + " rlt is " + isMainResId);
 		// 这里之所以这样判断是因为 宿主的public.xml中限制了宿主的资源id范围
 		// 如果public.xml配置在插件中, 这里需要将这个判断反过来
 		return isMainResId;
@@ -182,7 +182,7 @@ public class ResourceUtil {
 		try {
 			rClazz = cl.loadClass(packageName + ".R");
 		} catch (ClassNotFoundException e) {
-			QRomLog.d(TAG, "No resource references to update in package " + packageName);
+			QRomLog.i(TAG, "No resource references to update in package " + packageName);
 			return;
 		}
 

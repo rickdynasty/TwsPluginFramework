@@ -48,13 +48,13 @@ public class PluginClassLoader extends DexClassLoader {
 		final String thisLoader = getClass().getName() + '@' + Integer.toHexString(hashCode());
 		final String soPath = super.findLibrary(name);
 
-		QRomLog.d(TAG, "findLibrary orignal so path : " + soPath + ", current classloader : " + thisLoader);
+		QRomLog.i(TAG, "findLibrary orignal so path : " + soPath + ", current classloader : " + thisLoader);
 
 		if (soPath != null) {
 			final String soLoader = soClassloaderMapper.get(soPath);
 			if (soLoader == null || soLoader.equals(thisLoader)) {
 				soClassloaderMapper.put(soPath, thisLoader);
-				QRomLog.d(TAG, "findLibrary acturely so path : " + soPath + ", current classloader : " + thisLoader);
+				QRomLog.i(TAG, "findLibrary acturely so path : " + soPath + ", current classloader : " + thisLoader);
 				return soPath;
 			} else {
 				// classloader发生了变化, 创建so副本并返回副本路径, 限制最多10个副本
@@ -64,7 +64,7 @@ public class PluginClassLoader extends DexClassLoader {
 					String soLoaderOfCopyN = soClassloaderMapper.get(soPathOfCopyN);
 
 					if (thisLoader.equals(soLoaderOfCopyN)) {
-						QRomLog.d(TAG, "findLibrary acturely so path : " + soPathOfCopyN + ", current classloader : "
+						QRomLog.i(TAG, "findLibrary acturely so path : " + soPathOfCopyN + ", current classloader : "
 								+ thisLoader);
 						return soPathOfCopyN;
 					} else if (soLoaderOfCopyN == null) {
@@ -72,7 +72,7 @@ public class PluginClassLoader extends DexClassLoader {
 							boolean isSuccess = FileUtil.copyFile(soPath, soPathOfCopyN);
 							if (isSuccess) {
 								soClassloaderMapper.put(soPathOfCopyN, thisLoader);
-								QRomLog.d(TAG, "findLibrary acturely so path : " + soPathOfCopyN
+								QRomLog.i(TAG, "findLibrary acturely so path : " + soPathOfCopyN
 										+ ", current classloader : " + thisLoader);
 								return soPathOfCopyN;
 							} else {
@@ -80,13 +80,13 @@ public class PluginClassLoader extends DexClassLoader {
 							}
 						} else {
 							soClassloaderMapper.put(soPathOfCopyN, thisLoader);
-							QRomLog.d(TAG, "findLibrary acturely so path : " + soPathOfCopyN
+							QRomLog.i(TAG, "findLibrary acturely so path : " + soPathOfCopyN
 									+ ", current classloader : " + thisLoader);
 							return soPathOfCopyN;
 						}
 					}
 				}
-				QRomLog.d(TAG, "findLibrary 最多创建5个副本...");
+				QRomLog.i(TAG, "findLibrary 最多创建5个副本...");
 			}
 		}
 		return null;

@@ -59,7 +59,7 @@ public class Hotseat extends LinearLayout implements OnClickListener {
         }
 
         if (onListeners.contains(onClickListener)) {
-            QRomLog.d(TAG, "mHomeBottomTabCallbacksObserver, mHomeBottomTabCallbacksObserver had it, ignore");
+            QRomLog.i(TAG, "mHomeBottomTabCallbacksObserver, mHomeBottomTabCallbacksObserver had it, ignore");
             return;
         }
 
@@ -175,7 +175,7 @@ public class Hotseat extends LinearLayout implements OnClickListener {
             mHomeBottomButtons.add(button);
         }
 
-        QRomLog.d(TAG, "addOneBottomButton:" + button.getText() + " add index " + index);
+        QRomLog.i(TAG, "addOneBottomButton:" + button.getText() + " add index " + index);
         addView(button, index);
 
         return index;
@@ -255,7 +255,7 @@ public class Hotseat extends LinearLayout implements OnClickListener {
                 }
             }
         } else {
-            QRomLog.d(TAG, "onClick view=" + view);
+            QRomLog.i(TAG, "onClick view=" + view);
         }
     }
 
@@ -268,11 +268,11 @@ public class Hotseat extends LinearLayout implements OnClickListener {
     }
 
     private void setFocus(final CellItem button) {
-        QRomLog.d(TAG, "call setFocus HomeBottomButton");
+        QRomLog.i(TAG, "call setFocus HomeBottomButton");
         if (null == button) {
             Exception here = new Exception("call setFouce on null object");
             here.fillInStackTrace();
-            QRomLog.d(TAG, "call setFouce on null object", here);
+            QRomLog.i(TAG, "call setFouce on null object", here);
             return;
         }
 
@@ -289,7 +289,7 @@ public class Hotseat extends LinearLayout implements OnClickListener {
 
         if (!matched) {
             mFoucsButton = null;
-            QRomLog.d(TAG, "setFouce:HomeBottomButton - classId is " + button.getClassId()
+            QRomLog.i(TAG, "setFouce:HomeBottomButton - classId is " + button.getClassId()
                     + " no matching to the right!!!");
             printHomeBottomButtonsInfo();
         }
@@ -331,12 +331,12 @@ public class Hotseat extends LinearLayout implements OnClickListener {
     }
 
     private void printHomeBottomButtonsInfo() {
-        QRomLog.d(TAG, "===========================printHomeBottomButtonsInfo begin===========================");
+        QRomLog.i(TAG, "===========================printHomeBottomButtonsInfo begin===========================");
         int index = 0;
         for (CellItem button : mHomeBottomButtons) {
-            QRomLog.d(TAG, "[" + index + "] classId:" + button.getClassId() + " type is " + button.getComponentType());
+            QRomLog.i(TAG, "[" + index + "] classId:" + button.getClassId() + " type is " + button.getComponentType());
         }
-        QRomLog.d(TAG, "===========================printHomeBottomButtonsInfo end===========================");
+        QRomLog.i(TAG, "===========================printHomeBottomButtonsInfo end===========================");
     }
 
     public CellItem.ComponentName getComponentNameByTagIndex(int tagIndex) {

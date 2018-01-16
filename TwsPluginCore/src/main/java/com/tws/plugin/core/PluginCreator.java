@@ -134,7 +134,7 @@ public class PluginCreator {
 				}
 			}
 			assetPaths[assetPaths.length - 1] = app;
-			QRomLog.d(TAG, "create Plugin Resource from assetPaths[1]: " + app);
+			QRomLog.i(TAG, "create Plugin Resource from assetPaths[1]: " + app);
 		}
 
 		return assetPaths;

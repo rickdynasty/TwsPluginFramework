@@ -59,7 +59,7 @@ public class ProcessUtil {
 
 	public static String getCurProcessName(Context context) {
 		final int pid = android.os.Process.myPid();
-		QRomLog.d(TAG, "getCurProcessName pid=" + pid);
+		QRomLog.i(TAG, "getCurProcessName pid=" + pid);
 		ActivityManager activityManager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
 		List<ActivityManager.RunningAppProcessInfo> list = activityManager.getRunningAppProcesses();
 		for (ActivityManager.RunningAppProcessInfo appProcess : list) {

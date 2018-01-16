@@ -67,6 +67,6 @@ public class DisplayItem implements Serializable {
     }
 
     public void printf() {
-        QRomLog.d(TAG, toString());
+        QRomLog.i(TAG, toString());
     }
 }

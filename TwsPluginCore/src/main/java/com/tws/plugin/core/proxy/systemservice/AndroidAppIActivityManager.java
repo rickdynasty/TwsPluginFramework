@@ -51,7 +51,7 @@ public class AndroidAppIActivityManager extends MethodProxy {
     }
 
     public static void installProxy() {
-        QRomLog.d(TAG, "安装ActivityManagerProxy");
+        QRomLog.i(TAG, "安装ActivityManagerProxy");
         Object androidAppActivityManagerProxy = HackActivityManagerNative.getDefault();
         Object androidAppIActivityManagerStubProxyProxy = ProxyUtil.createProxy(androidAppActivityManagerProxy,
                 new AndroidAppIActivityManager());
@@ -72,7 +72,7 @@ public class AndroidAppIActivityManager extends MethodProxy {
                 QRomLog.e(TAG, "Android O singleton == null");
             }
         }
-        QRomLog.d(TAG, "安装完成");
+        QRomLog.i(TAG, "安装完成");
     }
 
     // public List<RunningAppProcessInfo> getRunningAppProcesses()

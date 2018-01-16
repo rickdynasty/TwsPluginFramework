@@ -102,7 +102,7 @@ public class PluginManifestParser {
                             desciptor.setStandalone(sharedUserId == null
                                     || !PluginLoader.getApplication().getPackageName().equals(sharedUserId));
 
-                            QRomLog.d(TAG, "packageName=" + packageName + " versionCode=" + versionCode + " versionName="
+                            QRomLog.i(TAG, "packageName=" + packageName + " versionCode=" + versionCode + " versionName="
                                     + versionName + " sharedUserId=" + sharedUserId);
                         } else if ("plugin-display".equals(tag)) {
                             // 解析插件的配置显示形态
@@ -198,7 +198,7 @@ public class PluginManifestParser {
                                 // }
                                 // metaData.put(name, value);
 
-                                QRomLog.d(TAG, "meta-data name=" + name + " value=" + value);
+                                QRomLog.i(TAG, "meta-data name=" + name + " value=" + value);
                             }
                         } else if ("exported-fragment".equals(tag)) {
 
@@ -213,7 +213,7 @@ public class PluginManifestParser {
                                     desciptor.setfragments(fragments);
                                 }
                                 fragments.put(name, value);
-                                QRomLog.d(TAG, "fragments.put name:" + name + " value:" + value);
+                                QRomLog.i(TAG, "fragments.put name:" + name + " value:" + value);
 
                             }
 
@@ -234,7 +234,7 @@ public class PluginManifestParser {
                                     desciptor.setFunctions(functions);
                                 }
                                 functions.put(name, value);
-                                QRomLog.d(TAG, "functions.put name:" + name + " value:" + value);
+                                QRomLog.i(TAG, "functions.put name:" + name + " value:" + value);
 
                             }
 
@@ -260,7 +260,7 @@ public class PluginManifestParser {
 
                             // 这里不解析主题，后面会通过packageManager查询
 
-                            QRomLog.d(TAG,
+                            QRomLog.i(TAG,
                                     "applicationName=" + applicationName + " Description=" + desciptor.getDescription());
 
                         } else if ("activity".equals(tag)) {

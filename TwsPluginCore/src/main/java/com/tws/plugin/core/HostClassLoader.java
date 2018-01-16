@@ -34,7 +34,7 @@ public class HostClassLoader extends PathClassLoader {
 
 	@Override
 	public String findLibrary(String name) {
-		QRomLog.d(TAG, "findLibrary:" + name);
+		QRomLog.i(TAG, "findLibrary:" + name);
 		return super.findLibrary(name);
 	}
 
@@ -42,11 +42,11 @@ public class HostClassLoader extends PathClassLoader {
 	protected Class<?> loadClass(String className, boolean resolve) throws ClassNotFoundException {
 
 		// Just for Receiver and Service
-		QRomLog.d(TAG, "loadClass className:" + className + " resolve=" + resolve);
+		QRomLog.i(TAG, "loadClass className:" + className + " resolve=" + resolve);
 
 		if (className.startsWith(PluginIntentResolver.CLASS_PREFIX_SERVICE)) {
 
-			QRomLog.d(TAG,
+			QRomLog.i(TAG,
 					"className is " + className + " PluginShadowService is " + PluginShadowService.class.getName());
 
 			// 这里返回PluginShadowService是因为service的构造函数以及onCreate函数
@@ -69,7 +69,7 @@ public class HostClassLoader extends PathClassLoader {
 
 			Class<?> clazz = PluginLoader.loadPluginClassByName(realName);
 			if (clazz != null) {
-				QRomLog.d(TAG, "className is " + className + " target is " + realName
+				QRomLog.i(TAG, "className is " + className + " target is " + realName
 						+ (clazz == null ? " null" : " found"));
 				return clazz;
 			} else {
@@ -83,7 +83,7 @@ public class HostClassLoader extends PathClassLoader {
 				if (pluginDescriptor != null) {
 					Class<?> clazz = PluginLoader.loadPluginClassByName(pluginDescriptor, className);
 					if (clazz != null) {
-						QRomLog.d(TAG, "className is " + className + " target is in plugin:" + className
+						QRomLog.i(TAG, "className is " + className + " target is in plugin:" + className
 								+ (clazz == null ? " null" : " found"));
 						return clazz;
 					}

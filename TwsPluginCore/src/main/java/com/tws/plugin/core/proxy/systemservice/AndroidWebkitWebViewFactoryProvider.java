@@ -26,7 +26,7 @@ public class AndroidWebkitWebViewFactoryProvider extends MethodProxy {
 
 	public static void installProxy() {
 		if (Build.VERSION.SDK_INT >= 19) {
-			QRomLog.d(TAG, "安装WebViewFactoryProviderProxy");
+			QRomLog.i(TAG, "安装WebViewFactoryProviderProxy");
 			// 在4.4及以上，这里的WebViewFactoryProvider的实际类型是
 			// com.android.webview.chromium.WebViewChromiumFactoryProvider
 			// implements WebViewFactoryProvider
@@ -38,7 +38,7 @@ public class AndroidWebkitWebViewFactoryProvider extends MethodProxy {
 			} else {
 				// 如果取不到值，原因可能是不同版本差异
 			}
-			QRomLog.d(TAG, "安装完成");
+			QRomLog.i(TAG, "安装完成");
 		}
 	}
 

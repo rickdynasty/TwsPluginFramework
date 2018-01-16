@@ -476,7 +476,7 @@ public class PluginContextTheme extends PluginBaseContextWrapper {
 	public File getPluginRootDir() {
 		if (dataDir == null) {
 			File pluginFile = new File(mPluginDescriptor.getInstalledPath());
-			QRomLog.d(TAG, "getDataDir pluginFile is " + pluginFile.getAbsolutePath());
+			QRomLog.i(TAG, "getDataDir pluginFile is " + pluginFile.getAbsolutePath());
 			dataDir = new File(pluginFile.getParentFile().getParentFile(), "data");
 			if (!dataDir.exists()) {
 				dataDir.mkdirs();

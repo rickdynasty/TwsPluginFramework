@@ -67,12 +67,12 @@ public class PackageVerifyer {
 					return null;
 				}
 				if (DEBUG) {
-					QRomLog.d(TAG, "File " + sourcePath + ": entry=" + jarEntry + " certs="
+					QRomLog.i(TAG, "File " + sourcePath + ": entry=" + jarEntry + " certs="
 							+ (certs != null ? certs.length : 0));
 					if (certs != null) {
 						final int N = certs.length;
 						for (int i = 0; i < N; i++) {
-							QRomLog.d(
+							QRomLog.i(
 									TAG,
 									"  Public key: " + certs[i].getPublicKey().getEncoded() + " "
 											+ certs[i].getPublicKey());
@@ -90,7 +90,7 @@ public class PackageVerifyer {
 						continue;
 					Certificate[] localCerts = loadCertificates(jarFile, je, readBuffer);
 					if (DEBUG) {
-						QRomLog.d(TAG, "File " + sourcePath + " entry " + je.getName() + ": certs=" + certs + " ("
+						QRomLog.i(TAG, "File " + sourcePath + " entry " + je.getName() + ": certs=" + certs + " ("
 								+ (certs != null ? certs.length : 0) + ")");
 					}
 					if (localCerts == null) {

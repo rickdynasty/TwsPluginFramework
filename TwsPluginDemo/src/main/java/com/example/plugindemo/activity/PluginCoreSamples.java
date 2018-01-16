@@ -145,7 +145,7 @@ public class PluginCoreSamples extends Activity implements OnClickListener {
                         if (index != -1) {
                             isSuccess = true;
                             String pluginName = cursor.getString(index);
-                            QRomLog.d(TAG, pluginName);
+                            QRomLog.i(TAG, pluginName);
                             Toast.makeText(this, "ContentResolver " + pluginName + " count=" + cursor.getCount(),
                                     Toast.LENGTH_SHORT).show();
                         }

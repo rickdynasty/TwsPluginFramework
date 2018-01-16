@@ -74,7 +74,7 @@ public class HostDisplayItem extends DisplayItem {
             }
         }
 
-        QRomLog.d(TAG, "apply Item - plugin-pid=" + pid + " x=" + x + " y=" + y + " action_type=" + action_type + " title=" + title + " action_id=" + action_id +
+        QRomLog.i(TAG, "apply Item - plugin-pid=" + pid + " x=" + x + " y=" + y + " action_type=" + action_type + " title=" + title + " action_id=" + action_id +
                 " icon=" + icon + " statistic_key=" + statistic_key + " extras=" + extras + " gemel_x:" + gemel_x + " gemel_y=" + gemel_y);
     }
 

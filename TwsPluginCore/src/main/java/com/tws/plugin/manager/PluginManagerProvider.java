@@ -170,13 +170,13 @@ public class PluginManagerProvider extends ContentProvider {
         if (Build.VERSION.SDK_INT >= 19) {
             try {
                 Binder.clearCallingIdentity();
-                QRomLog.d(TAG, "callingPackage = " + getCallingPackage());
+                QRomLog.i(TAG, "callingPackage = " + getCallingPackage());
             } catch (SecurityException e) {
                 e.printStackTrace();
             }
         }
 
-        QRomLog.d(TAG, "Thead id=" + Thread.currentThread().getId() + " name=" + Thread.currentThread().getName()
+        QRomLog.i(TAG, "Thead id=" + Thread.currentThread().getId() + " name=" + Thread.currentThread().getName()
                 + " method=" + method + ", arg=" + arg);
 
         Bundle bundle = new Bundle();

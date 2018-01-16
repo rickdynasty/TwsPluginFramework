@@ -50,7 +50,7 @@ import dalvik.system.BaseDexClassLoader;
 import qrom.component.log.QRomLog;
 
 public class HomeActivity extends AppCompatActivity implements HomeUIProxy {
-    protected final String TAG = "HomeActivity";
+    protected final String TAG = "rick_Print:HomeActivity";
 
     protected static final String FRAGMENTS_TAG = "android:support:fragments";
     //插件依赖的类型
@@ -116,6 +116,12 @@ public class HomeActivity extends AppCompatActivity implements HomeUIProxy {
         switchFragment(mHotseat.setFocusIndex(fouceIndex), false);
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        QRomLog.i(TAG, "=========onResume=========");
+    }
+
     private void initPluginChangedMonitor() {
         if (null == mPluginChangedMonitor) {
             mPluginChangedMonitor = new BroadcastReceiver() {
@@ -132,22 +138,22 @@ public class HomeActivity extends AppCompatActivity implements HomeUIProxy {
                     switch (actionType) {
                         case PluginCallback.TYPE_INSTALL:
                             if (installRlt == InstallResult.SUCCESS) {
-                                QRomLog.d(TAG, "插件：" + packageName + "安装成功了~");
+                                QRomLog.i(TAG, "插件：" + packageName + "安装成功了~");
                                 installPlugin(packageName);
                             }
                             break;
                         case PluginCallback.TYPE_REMOVE:
                             // success ? 0 : 7
                             if (installRlt == 0) {// 卸载成功
-                                QRomLog.d(TAG, "插件：" + packageName + "被卸载了哈~");
+                                QRomLog.i(TAG, "插件：" + packageName + "被卸载了哈~");
                                 if (mHotseat == null) {
-                                    QRomLog.d(TAG, "貌似mHotseat还没初始化哦"); // 这种情况应该基本不会出现
+                                    QRomLog.i(TAG, "貌似mHotseat还没初始化哦"); // 这种情况应该基本不会出现
                                 } else {
                                     removePlugin(packageName);
                                 }
 
                                 if (mHomeFragment == null) {
-                                    QRomLog.d(TAG, "貌似MyWatchFragment还没构建出来"); // 这种情况有可能出现哦
+                                    QRomLog.i(TAG, "貌似MyWatchFragment还没构建出来"); // 这种情况有可能出现哦
                                 } else {
                                     mHomeFragment.removePlugin(packageName);
                                 }
@@ -156,7 +162,7 @@ public class HomeActivity extends AppCompatActivity implements HomeUIProxy {
                         case PluginCallback.TYPE_REMOVE_ALL:
                             // success ? 0 : 7
                             if (installRlt == 0) {// 卸载成功
-                                QRomLog.d(TAG, "~~~~(>_<)~~~~所有插件都被卸载了咯！");
+                                QRomLog.i(TAG, "~~~~(>_<)~~~~所有插件都被卸载了咯！");
                                 // ~暂不处理，因为DM起来首页显示出来后，应该是不存在这个情况
                             }
                             break;
@@ -222,7 +228,7 @@ public class HomeActivity extends AppCompatActivity implements HomeUIProxy {
 
     //index是不固定的，唯一固定的是classID,因此需要将tab的index转成对应的classID
     private Fragment getFragment(CellItem.ComponentName componentName) {
-        QRomLog.d(TAG, "getFragment:" + componentName);
+        QRomLog.i(TAG, "getFragment:" + componentName);
         final String classId = componentName.getClassId();
         if (TextUtils.isEmpty(classId)) {
             return null;
@@ -237,7 +243,7 @@ public class HomeActivity extends AppCompatActivity implements HomeUIProxy {
         if (classId.equals(Hotseat.HOST_HOME_FRAGMENT)) {
             fragment = mHomeFragment = new HomeFragment(mHomeFragementDisplayInfos);
         } else {
-            QRomLog.d(TAG, "getFragmentByPos to get Plugin fragement:" + classId);
+            QRomLog.i(TAG, "getFragmentByPos to get Plugin fragement:" + classId);
             Class<?> clazz = null;
             if (!TextUtils.isEmpty(componentName.getPluginPackageName())) {
                 PluginDescriptor pluginDescriptor = PluginManagerHelper.getPluginDescriptorByPluginId(componentName
@@ -356,14 +362,14 @@ public class HomeActivity extends AppCompatActivity implements HomeUIProxy {
     }
 
     private void removePlugin(String packageName) {
-        QRomLog.d(TAG, "removePlugin:" + packageName);
+        QRomLog.i(TAG, "removePlugin:" + packageName);
         int removeTagIndex = mHotseat.removePlugin(packageName);
 //        FragmentManager fragmentManager = getSupportFragmentManager();
 //        FragmentTransaction transaction = fragmentManager.beginTransaction();
 //        String name = makeFragmentName(mFragmentContainer.getId(), mFragmentPagerAdapter.getItemId(removeTagIndex));
 //        Fragment fragment = fragmentManager.findFragmentByTag(name);
 //        if (fragment != null) {
-//            QRomLog.d(TAG, "removePlugin removeTagIndex=" + removeTagIndex);
+//            QRomLog.i(TAG, "removePlugin removeTagIndex=" + removeTagIndex);
 //            transaction.remove(fragment);
 //            // transaction.commit();
 //
@@ -495,7 +501,7 @@ public class HomeActivity extends AppCompatActivity implements HomeUIProxy {
 
             @Override
             public void onItemClick(int index) {
-                QRomLog.d(TAG, "onItemClick:" + index);
+                QRomLog.i(TAG, "onItemClick:" + index);
                 switchFragment(index);
             }
 
@@ -512,7 +518,7 @@ public class HomeActivity extends AppCompatActivity implements HomeUIProxy {
 //                        imageView = (ImageView) getLayoutInflater().inflate(R.layout.action_bar_home, null);
 //                        mActionBar.setCustomView(imageView);
 //                    }
-//                    QRomLog.d(TAG, "image=" + imageView + " ab_title=" + actionBarInfo.ab_title);
+//                    QRomLog.i(TAG, "image=" + imageView + " ab_title=" + actionBarInfo.ab_title);
 //                    Drawable drawable = PluginManagerHelper.getPluginIcon(actionBarInfo.ab_title);
 //                    if (drawable == null) {
 //                        int resId = getResources().getIdentifier(actionBarInfo.ab_title, "drawable", getPackageName());
@@ -533,7 +539,7 @@ public class HomeActivity extends AppCompatActivity implements HomeUIProxy {
 //                    mActionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_TITLE);
 //                    mActionBar.setTitle(actionBarInfo.ab_title);
 //                }
-//                QRomLog.d(TAG, "updateActionBar:" + actionBarInfo.toString());
+//                QRomLog.i(TAG, "updateActionBar:" + actionBarInfo.toString());
 //
 //                // 左侧按钮
 //                if (actionBarInfo.ab_lbtnrestype == DisplayConfig.ACTIONBAR_BTN_TYPE_ICON) {
@@ -587,7 +593,7 @@ public class HomeActivity extends AppCompatActivity implements HomeUIProxy {
             return true;
 
         final String[] values = dependOnDes.split(DisplayItem.SEPARATOR_VALUE);
-        QRomLog.d(TAG, "establishedDependOn:" + dependOnDes);
+        QRomLog.i(TAG, "establishedDependOn:" + dependOnDes);
         String packageName = null;
         int type = DEPEND_ON_APPLICATION;
         if (values.length == 1) {
@@ -606,11 +612,11 @@ public class HomeActivity extends AppCompatActivity implements HomeUIProxy {
                     String des = "插件：" + pid + "所依赖的：" + packageName + "条件，还有插件：" + mDependOnMap.get(packageName)
                             + "也依赖这个条件";
                     Toast.makeText(this, des, Toast.LENGTH_LONG).show();
-                    QRomLog.d(TAG, des);
+                    QRomLog.i(TAG, des);
                 }
 
                 mDependOnMap.put(packageName, pid);
-                QRomLog.d(TAG, "mDependOnMap put:" + packageName + " " + pid);
+                QRomLog.i(TAG, "mDependOnMap put:" + packageName + " " + pid);
 
                 if (!dependOnInstalledApp(packageName)) {
                     return false;
@@ -741,6 +747,7 @@ public class HomeActivity extends AppCompatActivity implements HomeUIProxy {
     }
 
     private void switchFragment(int tagIndex) {
+        QRomLog.i(TAG, "switchFragment:" + tagIndex);
         switchFragment(tagIndex, true);
     }
 
@@ -757,9 +764,9 @@ public class HomeActivity extends AppCompatActivity implements HomeUIProxy {
             return;
         }
 
-        QRomLog.d(TAG, "switchFragment:" + tagIndex);
+        QRomLog.i(TAG, "switchFragment:" + tagIndex);
         Fragment fragment = getFragment(componentName);
-        if(null == fragment){
+        if (null == fragment) {
             Toast.makeText(this, "switchFragment:" + tagIndex + " getFragment return null classId", Toast.LENGTH_LONG).show();
             return;
         }

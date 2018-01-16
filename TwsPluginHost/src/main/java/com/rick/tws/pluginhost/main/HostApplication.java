@@ -51,7 +51,7 @@ public class HostApplication extends PluginApplication {
 //        Iterator<PluginDescriptor> itr = plugins.iterator();
 //        while (itr.hasNext()) {
 //            final PluginDescriptor pluginDescriptor = itr.next();
-//            QRomLog.d(TAG, "plugin packageName=" + pluginDescriptor.getPackageName());
+//            QRomLog.i(TAG, "plugin packageName=" + pluginDescriptor.getPackageName());
 //            String packageName = pluginDescriptor.getPackageName();
 //            if (packageName.equals(loginPackageName)) {
 //                PluginLauncher.instance().startPlugin(pluginDescriptor);
@@ -64,7 +64,7 @@ public class HostApplication extends PluginApplication {
 //        if (!hasLoginPlugin) {
 //            boolean isInstallPluginDirLogin = PluginLoader.copyAndInstall("plugins" + File.separator
 //                    + loginPluginFileName);
-//            QRomLog.d(TAG, "isInstallPluginDirLogin = " + isInstallPluginDirLogin);
+//            QRomLog.i(TAG, "isInstallPluginDirLogin = " + isInstallPluginDirLogin);
 //            PluginLauncher.instance().startPlugin(loginPackageName);
 //        }
     }

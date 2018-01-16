@@ -44,7 +44,7 @@ public class PluginViewCreator implements LayoutInflater.Factory {
 			String pluginId = attrs.getAttributeValue(null, "context");
 			String viewClassName = attrs.getAttributeValue(null, "class");
 
-			QRomLog.d(TAG, "创建插件view pluginId=" + pluginId + " viewClassName is " + viewClassName);
+			QRomLog.i(TAG, "创建插件view pluginId=" + pluginId + " viewClassName is " + viewClassName);
 
 			try {
 				View view = createView(context, pluginId, viewClassName, attrs);

@@ -67,5 +67,5 @@
     <!-- 标题、列表底部等分割用 -->
     <color name="tws_divider_bg">#CCCCCC</color>
     <color name="tws_dark_gray">#515151</color>
-
+    <color name="tws_window_background">@color/tws_white</color>
 </resources>

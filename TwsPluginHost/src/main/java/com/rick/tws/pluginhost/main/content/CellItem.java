@@ -67,7 +67,7 @@ public class CellItem extends RelativeLayout {
         linearLayout.setLayoutParams(line_lp);
 
         Space space = new Space(context);
-        linearLayout.addView(space, new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT,getResources().getDimensionPixelSize(R.dimen.cell_item_padding_top)));
+        linearLayout.addView(space, new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, getResources().getDimensionPixelSize(R.dimen.cell_item_padding_top)));
 
         mImageView = new ImageView(context);
         final float home_bottom_tab_img_width = getResources().getDimension(R.dimen.home_bottom_tab_img_width);
@@ -235,6 +235,11 @@ public class CellItem extends RelativeLayout {
 
         public String getPluginPackageName() {
             return mPluginPackageName;
+        }
+
+        @Override
+        public String toString() {
+            return "mClassId = " + mClassId + " mPluginPackageName = " + mPluginPackageName;
         }
     }
 

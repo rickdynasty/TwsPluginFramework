@@ -1,5 +1,6 @@
 package com.rick.tws.pluginhost.main.ui.fragment;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
@@ -32,6 +33,7 @@ import java.util.Locale;
 
 import qrom.component.log.QRomLog;
 
+@SuppressLint("ValidFragment")
 public class HomeFragment extends Fragment implements OnClickListener {
     private static final String TAG = "rick_Print:MyWatchFragmentRevision";
 

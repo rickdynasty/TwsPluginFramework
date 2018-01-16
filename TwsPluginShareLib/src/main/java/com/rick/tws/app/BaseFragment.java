@@ -176,9 +176,4 @@ public class BaseFragment extends Fragment {
         }
         return 0;
     }
-
-    protected int getWatchYOffset(int watchParentHeight) {
-        return Math.round(watchParentHeight * 0.5f - (watchParentHeight - getActionBarHeight() -
-                getResources().getDimension(R.dimen.drop_target_top_margin)) * 0.5f);
-    }
 }

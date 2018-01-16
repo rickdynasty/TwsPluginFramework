@@ -73,9 +73,9 @@ public class HomeActivity extends AppCompatActivity implements HomeUIProxy {
     // 应用安装卸载监听
     private BroadcastReceiver mAppUpdateReceiver = null;
 
-    private HashMap<Integer, Fragment> mFragments = new HashMap<>();
+    private HashMap<String, Fragment> mFragments = new HashMap<>();
     //需要记切换前的tagIndex,方便隐藏之前的然后显示新的
-    private int mSaveTagIndex = -1;
+    private String mSaveClassId = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -113,7 +113,7 @@ public class HomeActivity extends AppCompatActivity implements HomeUIProxy {
 
         // 默认聚焦位置
         final int fouceIndex = mHotseat.getPosByClassId(((HostApplication) HostApplication.getInstance()).getFouceTabClassId());
-        switchFragment(mHotseat.setFocusIndex(fouceIndex));
+        switchFragment(mHotseat.setFocusIndex(fouceIndex), false);
     }
 
     private void initPluginChangedMonitor() {
@@ -216,22 +216,25 @@ public class HomeActivity extends AppCompatActivity implements HomeUIProxy {
         }
     }
 
-    private Fragment getFragmentByTagIndex(int tagIndex) {
-        if (mFragments.get(tagIndex) != null) {
-            return mFragments.get(tagIndex);
+    private CellItem.ComponentName getComponentNameByTabIndex(int tagIndex) {
+        return mHotseat.getComponentNameByTagIndex(tagIndex);
+    }
+
+    //index是不固定的，唯一固定的是classID,因此需要将tab的index转成对应的classID
+    private Fragment getFragment(CellItem.ComponentName componentName) {
+        QRomLog.d(TAG, "getFragment:" + componentName);
+        final String classId = componentName.getClassId();
+        if (TextUtils.isEmpty(classId)) {
+            return null;
         }
 
-        final CellItem.ComponentName componentName = mHotseat.getComponentNameByTagIndex(tagIndex);
-        final String classId = componentName != null ? componentName.getClassId() : null;
-        QRomLog.d(TAG, "getFragmentByTagIndex:" + tagIndex + " classId is " + classId + " will create it(Fragment)");
+        if (mFragments.get(componentName.getClassId()) != null) {
+            return mFragments.get(componentName.getClassId());
+        }
 
         Fragment fragment = null;
         String msg = "";
-        if (TextUtils.isEmpty(classId)) {
-            msg = "invalid classId：" + classId + "，请先check Hotseat TagIndex:" + tagIndex + " 这个无效的标识符来源~~~~";
-            Toast.makeText(this, "getFragmentByTagIndex:" + tagIndex + " return null classId", Toast.LENGTH_LONG)
-                    .show();
-        } else if (classId.equals(Hotseat.HOST_HOME_FRAGMENT)) {
+        if (classId.equals(Hotseat.HOST_HOME_FRAGMENT)) {
             fragment = mHomeFragment = new HomeFragment(mHomeFragementDisplayInfos);
         } else {
             QRomLog.d(TAG, "getFragmentByPos to get Plugin fragement:" + classId);
@@ -280,7 +283,7 @@ public class HomeActivity extends AppCompatActivity implements HomeUIProxy {
             ((ToastFragment) fragment).setToastMsg(msg);
         }
 
-        mFragments.put(tagIndex, fragment);
+        mFragments.put(classId, fragment);
 
         return fragment;// new Fragment();
     }
@@ -738,29 +741,42 @@ public class HomeActivity extends AppCompatActivity implements HomeUIProxy {
     }
 
     private void switchFragment(int tagIndex) {
+        switchFragment(tagIndex, true);
+    }
+
+    private void switchFragment(int tagIndex, boolean anim) {
         if (tagIndex < 0) {
             QRomLog.e(TAG, "我的乖乖，怎么会有位置是：" + tagIndex + " 的内容可以切换咧，得check一下是否Hotseat没有内容？");
             return;
         }
 
-        if (mSaveTagIndex == tagIndex) {
-            QRomLog.e(TAG, "要切换的就是当前是一个tagIndex，直接return ~");
+        final CellItem.ComponentName componentName = getComponentNameByTabIndex(tagIndex);
+        final String classId = componentName.getClassId();
+        if (mSaveClassId.endsWith(classId)) {
+            QRomLog.e(TAG, "同一个fragment不需要切换，直接return ~");
             return;
         }
 
         QRomLog.d(TAG, "switchFragment:" + tagIndex);
-        Fragment fragment = getFragmentByTagIndex(tagIndex);
+        Fragment fragment = getFragment(componentName);
+        if(null == fragment){
+            Toast.makeText(this, "switchFragment:" + tagIndex + " getFragment return null classId", Toast.LENGTH_LONG).show();
+            return;
+        }
 
         //注意这里不能缓存FragmentTransaction 需要每次都去get
-        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        if (null != mFragments.get(mSaveTagIndex)) {
-            ft.hide(mFragments.get(mSaveTagIndex));
+        FragmentTransaction ft = anim ? getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left, R.anim.enter_from_left, R.anim.exit_to_right) :
+                getSupportFragmentManager().beginTransaction();
+        if (null != mFragments.get(mSaveClassId)) {
+            ft.hide(mFragments.get(mSaveClassId));
         }
+
         if (!fragment.isAdded()) {
             ft.add(R.id.home_fragment_container, fragment);
         }
+
         ft.show(fragment).commit();
-        mSaveTagIndex = tagIndex;
+        mSaveClassId = classId;
     }
 
     @Override

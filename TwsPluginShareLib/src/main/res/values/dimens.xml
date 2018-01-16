@@ -4,4 +4,7 @@
 
     <dimen name="share_dimen_1">50dp</dimen>
     <dimen name="share_dimen_2">100dp</dimen>
+
+    <!-- 仅仅是内置一个 高度-->
+    <dimen name="status_bar_height">20dip</dimen>
 </resources>

@@ -4,6 +4,8 @@ import android.app.Application;
 import android.content.Context;
 import android.webkit.WebView;
 
+import com.rick.tws.sharelib.R;
+
 import qrom.component.log.QRomLog;
 
 public class HostProxy {
@@ -43,15 +45,29 @@ public class HostProxy {
     }
 
     public static int getShareStringId(String resName) {
-        int id = sApplication.getResources().getIdentifier(resName, "string", HOST_PACKAGE_NAME);
+        int id = getApplication().getResources().getIdentifier(resName, "string", HOST_PACKAGE_NAME);
         QRomLog.i(TAG, "getShareStringId resName=" + resName + " id=0x" + Integer.toHexString(id));
         return id;
     }
 
     public static int getShareLayoutId(String resName) {
-        int id = sApplication.getResources().getIdentifier(resName, "layout", HOST_PACKAGE_NAME);
+        int id = getApplication().getResources().getIdentifier(resName, "layout", HOST_PACKAGE_NAME);
         QRomLog.i(TAG, "getShareLayoutId resName=" + resName + " id=0x" + Integer.toHexString(id));
         return id;
+    }
+
+    public static int getStatusBarHeight() {
+        int result = 0;
+        int resourceId = getApplication().getResources().getIdentifier("status_bar_height", "dimen", "android");
+        if (resourceId > 0) {
+            result = getApplication().getResources().getDimensionPixelSize(resourceId);
+        }
+
+        if (result < 2) {
+            result = (int) getApplication().getResources().getDimension(R.dimen.status_bar_height);
+        }
+
+        return result;
     }
 
     /**

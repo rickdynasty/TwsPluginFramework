@@ -18,6 +18,7 @@ import android.widget.RelativeLayout;
 import android.widget.RelativeLayout.LayoutParams;
 import android.widget.TextView;
 
+import com.rick.tws.framework.HostProxy;
 import com.rick.tws.pluginhost.R;
 import com.rick.tws.pluginhost.main.HostApplication;
 import com.rick.tws.pluginhost.main.content.HomeFragmentContentItem;
@@ -180,6 +181,9 @@ public class HomeFragment extends Fragment implements OnClickListener {
     private void initView(View rootView) {
         mFragmentContainer = (LinearLayout) rootView.findViewById(R.id.my_watch_revision_item_layout);
         mWatchInfoLayout = (RelativeLayout) rootView.findViewById(R.id.my_watch_revision_watch_info_layout);
+
+        final int statusBarH = HostProxy.getStatusBarHeight();
+        mWatchInfoLayout.setPadding(0,statusBarH,0,0);
 //        boolean hasOverlayActionbar = getActivity().getWindow().hasFeature(Window.FEATURE_ACTION_BAR_OVERLAY);
 //        if (hasOverlayActionbar) {
 //            int top = (int) getResources().getDimension(R.dimen.tws_action_bar_height);

@@ -2,13 +2,273 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.tws.plugin.core"
     android:versionCode="1"
-    android:versionName="1.0" >
-    
+    android:versionName="1.0">
+
     <application>
         <provider
-            android:exported="true"
+            android:name="com.tws.plugin.servicemanager.ServiceProvider"
             android:authorities="${applicationId}.svcmgr"
-            android:name="com.tws.plugin.servicemanager.ServiceProvider"/>
+            android:exported="true" />
+
+
+        <!-- core need-->
+        <provider
+            android:name="com.tws.plugin.manager.PluginManagerProvider"
+            android:authorities="com.rick.tws.pluginhost.manager"
+            android:exported="false" />
+
+        <!-- 对Receiver的类全名没有要求，可随意指定，框架中是通过action来查询。注册1个即可 -->
+        <receiver
+            android:name="${applicationId}.stub.PluginStubReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.rick.tws.pluginhost.STUB_DEFAULT" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </receiver>
+
+        <!-- 所有的插件中共有多少个Service, 这里就至少需要注册多少个对应的虚拟Service(也可以大于，实际上这里的数量只需>=可能同
+			时处于运行状态的service数量，一般预注册十来个应该绰绰有余了)，
+			这里的虚拟Service并不需要真实存在，
+			只是占个位置，运行实动态绑定到实际的插件Service
+			对service的类全名没有要求，可随意指定，框架中是通过action来查询。 -->
+        <service android:name="${applicationId}.stub.PluginStubService1">
+            <intent-filter>
+                <action android:name="com.rick.tws.pluginhost.STUB_DEFAULT" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </service>
+        <service android:name="${applicationId}.stub.PluginStubService2">
+            <intent-filter>
+                <action android:name="com.rick.tws.pluginhost.STUB_DEFAULT" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </service>
+        <service android:name="${applicationId}.stub.PluginStubService3">
+            <intent-filter>
+                <action android:name="com.rick.tws.pluginhost.STUB_DEFAULT" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </service>
+        <service android:name="${applicationId}.stub.PluginStubService4">
+            <intent-filter>
+                <action android:name="com.rick.tws.pluginhost.STUB_DEFAULT" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </service>
+        <service android:name="${applicationId}.stub.PluginStubService5">
+            <intent-filter>
+                <action android:name="com.rick.tws.pluginhost.STUB_DEFAULT" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </service>
+        <service android:name="${applicationId}.stub.PluginStubService6">
+            <intent-filter>
+                <action android:name="com.rick.tws.pluginhost.STUB_DEFAULT" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </service>
+        <service android:name="${applicationId}.stub.PluginStubService7">
+            <intent-filter>
+                <action android:name="com.rick.tws.pluginhost.STUB_DEFAULT" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </service>
+        <service android:name="${applicationId}.stub.PluginStubService8">
+            <intent-filter>
+                <action android:name="com.rick.tws.pluginhost.STUB_DEFAULT" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </service>
+        <service
+            android:name="${applicationId}.stub.PluginStubMPService0"
+            android:process=":plugin0">
+            <intent-filter>
+                <action android:name="com.rick.tws.pluginhost.MP_STUB_DEFAULT" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </service>
+        <service
+            android:name="${applicationId}.stub.PluginStubMPService1"
+            android:process=":plugin1">
+            <intent-filter>
+                <action android:name="com.rick.tws.pluginhost.MP_STUB_DEFAULT" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </service>
+        <service
+            android:name="${applicationId}.stub.PluginStubMPService2"
+            android:process=":plugin2">
+            <intent-filter>
+                <action android:name="com.rick.tws.pluginhost.MP_STUB_DEFAULT" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </service>
+        <service
+            android:name="${applicationId}.stub.PluginStubMPService3"
+            android:process=":plugin3">
+            <intent-filter>
+                <action android:name="com.rick.tws.pluginhost.MP_STUB_DEFAULT" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </service>
+        <service
+            android:name="${applicationId}.stub.PluginStubMPService4"
+            android:process=":plugin4">
+            <intent-filter>
+                <action android:name="com.rick.tws.pluginhost.MP_STUB_DEFAULT" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </service>
+
+        <activity
+            android:name="com.tws.plugin.bridge.TwsPluginBridgeActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.rick.tws.pluginhost.STUB_BRIDGE" />
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="com.tws.plugin.bridge.category.SAMPLE_RAMP" />
+
+                <data android:scheme="qwallet1800001531" />
+                <data android:scheme="tsmclient" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="${applicationId}.stub.PluginStubActivity0"
+            android:exported="true"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="com.rick.tws.pluginhost.STUB_DEFAULT" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="${applicationId}.stub.PluginStubActivity1"
+            android:exported="true"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="com.rick.tws.pluginhost.STUB_DEFAULT" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="${applicationId}.stub.PluginStubActivity2"
+            android:exported="true"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="com.rick.tws.pluginhost.STUB_DEFAULT" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="${applicationId}.stub.PluginStubActivity3"
+            android:exported="true"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="com.rick.tws.pluginhost.STUB_DEFAULT" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="${applicationId}.stub.PluginStubActivity4"
+            android:exported="true"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="com.rick.tws.pluginhost.STUB_DEFAULT" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="${applicationId}.stub.PluginStubActivity5"
+            android:exported="true"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="com.rick.tws.pluginhost.STUB_DEFAULT" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="${applicationId}.stub.PluginStubActivity6"
+            android:exported="true"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="com.rick.tws.pluginhost.STUB_DEFAULT" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="${applicationId}.stub.PluginStubActivity7"
+            android:exported="true"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="com.rick.tws.pluginhost.STUB_DEFAULT" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="${applicationId}.stub.PluginStubActivity8"
+            android:exported="true"
+            android:launchMode="singleInstance"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="com.rick.tws.pluginhost.STUB_DEFAULT" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="${applicationId}.stub.PluginStubActivity9"
+            android:exported="true"
+            android:launchMode="singleInstance"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="com.rick.tws.pluginhost.STUB_DEFAULT" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="${applicationId}.stub.PluginStubActivity10"
+            android:exported="true"
+            android:launchMode="singleInstance"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="com.rick.tws.pluginhost.STUB_DEFAULT" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>

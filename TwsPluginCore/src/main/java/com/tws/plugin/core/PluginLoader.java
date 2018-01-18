@@ -295,10 +295,6 @@ public class PluginLoader {
             QRomLog.i(TAG, "loadPlugins 耗时：" + (System.currentTimeMillis() - beginTime) + "ms");
 
             isLoaderPlugins = true;
-        } else {
-            Exception here = new Exception();
-            here.fillInStackTrace();
-            QRomLog.w(TAG, "===仅用于查看调用栈[非异常]===has loadPlugins", here);
         }
     }
 

@@ -1,5 +1,26 @@
 package com.tws.plugin.manager;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.Signature;
+import android.os.Build;
+import android.text.TextUtils;
+import android.util.Base64;
+
+import com.tws.plugin.content.DisplayItem;
+import com.tws.plugin.content.PluginDescriptor;
+import com.tws.plugin.core.PluginCreator;
+import com.tws.plugin.core.PluginLauncher;
+import com.tws.plugin.core.PluginLoader;
+import com.tws.plugin.core.PluginManifestParser;
+import com.tws.plugin.core.localservice.LocalServiceManager;
+import com.tws.plugin.util.FileUtil;
+import com.tws.plugin.util.PackageVerifyer;
+import com.tws.plugin.util.ProcessUtil;
+
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -14,456 +35,429 @@ import java.util.Map;
 import java.util.Set;
 
 import qrom.component.log.QRomLog;
-import android.content.Context;
-import android.content.SharedPreferences;
-import android.content.pm.ApplicationInfo;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
-import android.os.Build;
-import android.text.TextUtils;
-import android.util.Base64;
-
-import com.tws.plugin.content.DisplayItem;
-import com.tws.plugin.content.PluginDescriptor;
-import com.tws.plugin.core.PluginCreator;
-import com.tws.plugin.core.PluginLauncher;
-import com.tws.plugin.core.PluginLoader;
-import com.tws.plugin.core.PluginManifestParser;
-import com.tws.plugin.core.localservice.LocalServiceManager;
-import com.tws.plugin.util.FileUtil;
-import com.tws.plugin.util.ProcessUtil;
 
 class PluginManagerImpl {
 
-	private static final String TAG = "rick_Print:PluginManagerImpl";
+    private static final String TAG = "rick_Print:PluginManagerImpl";
 
-	private static final boolean NEED_VERIFY_CERT = true;
+    private static final boolean NEED_VERIFY_CERT = true;
 
-	private static final String PLUGIN_SHAREED_PREFERENCE_NAME = "plugins.shared.preferences";
+    private static final String PLUGIN_SHAREED_PREFERENCE_NAME = "plugins.shared.preferences";
 
-	private static final String INSTALLED_KEY = "plugins.list";
-	private static final String PENDING_KEY = "plugins.pending";
+    private static final String INSTALLED_KEY = "plugins.list";
+    private static final String PENDING_KEY = "plugins.pending";
 
-	private static final String PLUGIN_DIR = "plugin_dir";
-	private final Hashtable<String, PluginDescriptor> sInstalledPlugins = new Hashtable<String, PluginDescriptor>();
-	private final Hashtable<String, PluginDescriptor> sPendingPlugins = new Hashtable<String, PluginDescriptor>();
+    private static final String PLUGIN_DIR = "plugin_dir";
+    private final Hashtable<String, PluginDescriptor> sInstalledPlugins = new Hashtable<String, PluginDescriptor>();
+    private final Hashtable<String, PluginDescriptor> sPendingPlugins = new Hashtable<String, PluginDescriptor>();
 
-	PluginManagerImpl() {
-		if (!ProcessUtil.isPluginProcess()) {
-			throw new IllegalAccessError("本类仅在插件进程使用");
-		}
-	}
+    PluginManagerImpl() {
+        if (!ProcessUtil.isPluginProcess()) {
+            throw new IllegalAccessError("本类仅在插件进程使用");
+        }
+    }
 
-	/**
-	 * 插件的安装目录, 插件apk将来会被放在这个目录下面
-	 */
-	private String genInstallPath(String pluginId, String pluginVersoin) {
-		if (pluginId.indexOf(File.separatorChar) >= 0 || pluginVersoin.indexOf(File.separatorChar) >= 0) {
-			throw new IllegalArgumentException("path contains a path separator");
-		}
+    /**
+     * 插件的安装目录, 插件apk将来会被放在这个目录下面
+     */
+    private String genInstallPath(String pluginId, String pluginVersoin) {
+        if (pluginId.indexOf(File.separatorChar) >= 0 || pluginVersoin.indexOf(File.separatorChar) >= 0) {
+            throw new IllegalArgumentException("path contains a path separator");
+        }
 
-		return getPluginRootDir() + "/" + pluginId + "/" + pluginVersoin + "/base-1.apk";
-	}
+        return getPluginRootDir() + "/" + pluginId + "/" + pluginVersoin + "/base-1.apk";
+    }
 
-	private String getPluginRootDir() {
-		return PluginLoader.getApplication().getDir(PLUGIN_DIR, Context.MODE_PRIVATE).getAbsolutePath();
-	}
+    private String getPluginRootDir() {
+        return PluginLoader.getApplication().getDir(PLUGIN_DIR, Context.MODE_PRIVATE).getAbsolutePath();
+    }
 
-	@SuppressWarnings("unchecked")
-	synchronized void loadInstalledPlugins() {
-		if (sInstalledPlugins.size() == 0) {
-			Hashtable<String, PluginDescriptor> installedPlugin = readPlugins(INSTALLED_KEY);
-			if (installedPlugin != null) {
-				sInstalledPlugins.putAll(installedPlugin);
-			}
+    @SuppressWarnings("unchecked")
+    synchronized void loadInstalledPlugins() {
+        if (sInstalledPlugins.size() == 0) {
+            Hashtable<String, PluginDescriptor> installedPlugin = readPlugins(INSTALLED_KEY);
+            if (installedPlugin != null) {
+                sInstalledPlugins.putAll(installedPlugin);
+            }
 
-			// 把pending合并到install
-			Hashtable<String, PluginDescriptor> pendingPlugin = readPlugins(PENDING_KEY);
-			if (pendingPlugin != null) {
-				Iterator<Map.Entry<String, PluginDescriptor>> itr = pendingPlugin.entrySet().iterator();
-				while (itr.hasNext()) {
-					Map.Entry<String, PluginDescriptor> entry = itr.next();
-					// 删除旧版
-					remove(entry.getKey(), false);
-				}
+            // 把pending合并到install
+            Hashtable<String, PluginDescriptor> pendingPlugin = readPlugins(PENDING_KEY);
+            if (pendingPlugin != null) {
+                Iterator<Map.Entry<String, PluginDescriptor>> itr = pendingPlugin.entrySet().iterator();
+                while (itr.hasNext()) {
+                    Map.Entry<String, PluginDescriptor> entry = itr.next();
+                    // 删除旧版
+                    remove(entry.getKey(), false);
+                }
 
-				// 保存新版
-				sInstalledPlugins.putAll(pendingPlugin);
-				savePlugins(INSTALLED_KEY, sInstalledPlugins);
+                // 保存新版
+                sInstalledPlugins.putAll(pendingPlugin);
+                savePlugins(INSTALLED_KEY, sInstalledPlugins);
 
-				// 清除pending
-				getSharedPreference().edit().remove(PENDING_KEY).commit();
-			}
+                // 清除pending
+                getSharedPreference().edit().remove(PENDING_KEY).commit();
+            }
 
-		}
-	}
+        }
+    }
 
-	private boolean addOrReplace(PluginDescriptor pluginDescriptor) {
-		sInstalledPlugins.put(pluginDescriptor.getPackageName(), pluginDescriptor);
-		return savePlugins(INSTALLED_KEY, sInstalledPlugins);
-	}
+    private boolean addOrReplace(PluginDescriptor pluginDescriptor) {
+        sInstalledPlugins.put(pluginDescriptor.getPackageName(), pluginDescriptor);
+        return savePlugins(INSTALLED_KEY, sInstalledPlugins);
+    }
 
-	private boolean pending(PluginDescriptor pluginDescriptor) {
-		sPendingPlugins.put(pluginDescriptor.getPackageName(), pluginDescriptor);
-		return savePlugins(PENDING_KEY, sPendingPlugins);
-	}
+    private boolean pending(PluginDescriptor pluginDescriptor) {
+        sPendingPlugins.put(pluginDescriptor.getPackageName(), pluginDescriptor);
+        return savePlugins(PENDING_KEY, sPendingPlugins);
+    }
 
-	synchronized boolean removeAll() {
-		PluginManagerHelper.clearLocalCache();
-		sInstalledPlugins.clear();
-		boolean isSuccess = savePlugins(INSTALLED_KEY, sInstalledPlugins);
+    synchronized boolean removeAll() {
+        PluginManagerHelper.clearLocalCache();
+        sInstalledPlugins.clear();
+        boolean isSuccess = savePlugins(INSTALLED_KEY, sInstalledPlugins);
 
-		FileUtil.deleteAll(new File(getPluginRootDir()));
+        FileUtil.deleteAll(new File(getPluginRootDir()));
 
-		return isSuccess;
-	}
+        return isSuccess;
+    }
 
-	synchronized boolean remove(String pluginId, boolean forInstall) {
-		PluginManagerHelper.clearLocalCache();
+    synchronized boolean remove(String pluginId, boolean forInstall) {
+        PluginManagerHelper.clearLocalCache();
 
-		PluginDescriptor old = sInstalledPlugins.remove(pluginId);
-		boolean result = false;
-		if (old != null) {
-			PluginLauncher.instance().stopPlugin(pluginId, old);
-			result = savePlugins(INSTALLED_KEY, sInstalledPlugins);
-			boolean deleteSuccess = false;
-			File file = new File(old.getInstalledPath()).getParentFile().getParentFile();
-			if (forInstall) {
-				boolean hasDataFile = false;
-				if (file.isDirectory()) {
-					for (File childFile : file.listFiles()) {
-						if ("data".equals(childFile.getName())) {
-							hasDataFile = true;
-							continue;
-						}
+        PluginDescriptor old = sInstalledPlugins.remove(pluginId);
+        boolean result = false;
+        if (old != null) {
+            PluginLauncher.instance().stopPlugin(pluginId, old);
+            result = savePlugins(INSTALLED_KEY, sInstalledPlugins);
+            boolean deleteSuccess = false;
+            File file = new File(old.getInstalledPath()).getParentFile().getParentFile();
+            if (forInstall) {
+                boolean hasDataFile = false;
+                if (file.isDirectory()) {
+                    for (File childFile : file.listFiles()) {
+                        if ("data".equals(childFile.getName())) {
+                            hasDataFile = true;
+                            continue;
+                        }
 
-						FileUtil.deleteAll(childFile);
-					}
-				}
-				if (hasDataFile) {
-					deleteSuccess = true;
-				} else {
-					deleteSuccess = file.delete();
-				}
+                        FileUtil.deleteAll(childFile);
+                    }
+                }
+                if (hasDataFile) {
+                    deleteSuccess = true;
+                } else {
+                    deleteSuccess = file.delete();
+                }
 
-				QRomLog.i(TAG, "delete:" + file.getAbsolutePath());
-			} else {
-				deleteSuccess = FileUtil.deleteAll(file);
-			}
-			QRomLog.i(TAG, "delete old result:" + result + " deleteSuccess=" + deleteSuccess + " old.getInstalledPath="
-					+ old.getInstalledPath() + " old.getPackageName=" + old.getPackageName());
-		} else {
-			QRomLog.i(TAG, "插件未安装：" + pluginId);
-		}
+                QRomLog.i(TAG, "delete:" + file.getAbsolutePath());
+            } else {
+                deleteSuccess = FileUtil.deleteAll(file);
+            }
+            QRomLog.i(TAG, "delete old result:" + result + " deleteSuccess=" + deleteSuccess + " old.getInstalledPath="
+                    + old.getInstalledPath() + " old.getPackageName=" + old.getPackageName());
+        } else {
+            QRomLog.i(TAG, "插件未安装：" + pluginId);
+        }
 
-		return result;
-	}
+        return result;
+    }
 
-	Collection<PluginDescriptor> getPlugins() {
-		return sInstalledPlugins.values();
-	}
+    Collection<PluginDescriptor> getPlugins() {
+        return sInstalledPlugins.values();
+    }
 
-	/**
-	 * for Fragment
-	 * 
-	 * @param clazzId
-	 * @return
-	 */
-	PluginDescriptor getPluginDescriptorByFragmenetId(String clazzId) {
-		Iterator<PluginDescriptor> itr = sInstalledPlugins.values().iterator();
-		while (itr.hasNext()) {
-			PluginDescriptor descriptor = itr.next();
-			if (descriptor.containsFragment(clazzId)) {
-				return descriptor;
-			}
-		}
-		return null;
-	}
+    /**
+     * for Fragment
+     *
+     * @param clazzId
+     * @return
+     */
+    PluginDescriptor getPluginDescriptorByFragmenetId(String clazzId) {
+        Iterator<PluginDescriptor> itr = sInstalledPlugins.values().iterator();
+        while (itr.hasNext()) {
+            PluginDescriptor descriptor = itr.next();
+            if (descriptor.containsFragment(clazzId)) {
+                return descriptor;
+            }
+        }
+        return null;
+    }
 
-	PluginDescriptor getPluginDescriptorByPluginId(String pluginId) {
-		PluginDescriptor pluginDescriptor = sInstalledPlugins.get(pluginId);
-		if (pluginDescriptor != null && pluginDescriptor.isEnabled()) {
-			return pluginDescriptor;
-		}
-		return null;
-	}
+    PluginDescriptor getPluginDescriptorByPluginId(String pluginId) {
+        PluginDescriptor pluginDescriptor = sInstalledPlugins.get(pluginId);
+        if (pluginDescriptor != null && pluginDescriptor.isEnabled()) {
+            return pluginDescriptor;
+        }
+        return null;
+    }
 
-	PluginDescriptor getPluginDescriptorByClassName(String clazzName) {
-		Iterator<PluginDescriptor> itr = sInstalledPlugins.values().iterator();
-		while (itr.hasNext()) {
-			PluginDescriptor descriptor = itr.next();
-			if (DisplayItem.TYPE_UNKOWN != descriptor.matcheName(clazzName)) {
-				return descriptor;
-			}
-		}
-		return null;
-	}
+    PluginDescriptor getPluginDescriptorByClassName(String clazzName) {
+        Iterator<PluginDescriptor> itr = sInstalledPlugins.values().iterator();
+        while (itr.hasNext()) {
+            PluginDescriptor descriptor = itr.next();
+            if (DisplayItem.TYPE_UNKOWN != descriptor.matcheName(clazzName)) {
+                return descriptor;
+            }
+        }
+        return null;
+    }
 
-	/**
-	 * 安装一个插件
-	 * 
-	 * @param srcPluginFile
-	 * @return
-	 */
-	synchronized InstallResult installPlugin(String srcPluginFile) {
-		return installPlugin(srcPluginFile, false);
-	}
+    /**
+     * 安装一个插件
+     *
+     * @param srcPluginFile
+     * @return
+     */
+    synchronized InstallResult installPlugin(String srcPluginFile) {
+        return installPlugin(srcPluginFile, false);
+    }
 
-	/**
-	 * 安装一个插件
-	 * 
-	 * @param srcPluginFile
-	 * @return
-	 */
-	synchronized InstallResult installPlugin(String srcPluginFile, boolean forDebug) {
-		QRomLog.i(TAG, "开始安装插件:" + srcPluginFile);
-		if (TextUtils.isEmpty(srcPluginFile) || !new File(srcPluginFile).exists()) {
-			return new InstallResult(InstallResult.SRC_FILE_NOT_FOUND);
-		}
+    /**
+     * 安装一个插件
+     *
+     * @param srcPluginFile
+     * @return
+     */
+    synchronized InstallResult installPlugin(String srcPluginFile, boolean forDebug) {
+        QRomLog.i(TAG, "开始安装插件:" + srcPluginFile);
+        if (TextUtils.isEmpty(srcPluginFile) || !new File(srcPluginFile).exists()) {
+            return new InstallResult(InstallResult.SRC_FILE_NOT_FOUND);
+        }
 
-		// 第0步，先将apk复制到宿主程序私有目录，防止在安装过程中文件被篡改
-		if (!srcPluginFile.startsWith(PluginLoader.getApplication().getCacheDir().getAbsolutePath())) {
-			String tempFilePath = PluginLoader.getApplication().getCacheDir().getAbsolutePath() + File.separator
-					+ System.currentTimeMillis() + ".apk";
-			if (FileUtil.copyFile(srcPluginFile, tempFilePath)) {
-				srcPluginFile = tempFilePath;
-			} else {
-				QRomLog.e(TAG, "复制插件文件失败 srcPluginFile=" + srcPluginFile + " tempFilePath=" + tempFilePath);
-				return new InstallResult(InstallResult.COPY_FILE_FAIL);
-			}
-		}
+        // 第1步，先将apk复制到宿主程序私有目录，防止在安装过程中文件被篡改
+        if (!srcPluginFile.startsWith(PluginLoader.getApplication().getCacheDir().getAbsolutePath())) {
+            String tempFilePath = PluginLoader.getApplication().getCacheDir().getAbsolutePath() + File.separator
+                    + System.currentTimeMillis() + ".apk";
+            if (FileUtil.copyFile(srcPluginFile, tempFilePath)) {
+                srcPluginFile = tempFilePath;
+            } else {
+                QRomLog.e(TAG, "复制插件文件失败 srcPluginFile=" + srcPluginFile + " tempFilePath=" + tempFilePath);
+                return new InstallResult(InstallResult.COPY_FILE_FAIL);
+            }
+        }
 
-		// 第1步，验证插件APK签名，如果被篡改过，将获取不到证书
-		// sApplication.getPackageManager().getPackageArchiveInfo(srcPluginFile,
-		// PackageManager.GET_SIGNATURES);
-		// Signature[] pluginSignatures =
-		// PackageVerifyer.collectCertificates(srcPluginFile, false);
-		boolean isDebugable = (0 != (PluginLoader.getApplication().getApplicationInfo().flags & ApplicationInfo.FLAG_DEBUGGABLE));
-		// if (pluginSignatures == null) {
-		// QRomLog.e(TAG, "插件签名验证失败:" + srcPluginFile);
-		// new File(srcPluginFile).delete();
-		// return new InstallResult(InstallResult.SIGNATURES_INVALIDATE);
-		// } else if (NEED_VERIFY_CERT && !isDebugable) {
-		// // 可选步骤，验证插件APK证书是否和宿主程序证书相同。
-		// // 证书中存放的是公钥和算法信息，而公钥和私钥是1对1的
-		// // 公钥相同意味着是同一个作者发布的程序
-		// Signature[] mainSignatures = null;
-		// try {
-		// PackageInfo pkgInfo =
-		// PluginLoader.getApplication().getPackageManager()
-		// .getPackageInfo(PluginLoader.getApplication().getPackageName(),
-		// PackageManager.GET_SIGNATURES);
-		// mainSignatures = pkgInfo.signatures;
-		// } catch (PackageManager.NameNotFoundException e) {
-		// e.printStackTrace();
-		// }
-		// if (!PackageVerifyer.isSignaturesSame(mainSignatures,
-		// pluginSignatures)) {
-		// QRomLog.e(TAG, "插件证书和宿主证书不一致:" + srcPluginFile);
-		// new File(srcPluginFile).delete();
-		// return new InstallResult(InstallResult.VERIFY_SIGNATURES_FAIL);
-		// }
-		// }
+        // 第2步，验证插件APK签名【如果被篡改过，将获取不到证书】
+        Signature[] pluginSignatures = PackageVerifyer.collectCertificates(srcPluginFile, false);
+        boolean isDebugable = (0 != (PluginLoader.getApplication().getApplicationInfo().flags & ApplicationInfo.FLAG_DEBUGGABLE));
+        if (pluginSignatures == null) {
+            QRomLog.e(TAG, "插件签名验证失败:" + srcPluginFile);
+            new File(srcPluginFile).delete();
+            return new InstallResult(InstallResult.SIGNATURES_INVALIDATE);
+        }
 
-		// 第2步，解析Manifest，获得插件详情
-		PluginDescriptor pluginDescriptor = PluginManifestParser.parseManifest(srcPluginFile);
-		if (pluginDescriptor == null || TextUtils.isEmpty(pluginDescriptor.getPackageName())) {
-			QRomLog.e(TAG, "解析插件Manifest文件失败:" + srcPluginFile);
-			new File(srcPluginFile).delete();
-			return new InstallResult(InstallResult.PARSE_MANIFEST_FAIL);
-		}
+        // 可选步骤，验证插件APK证书是否和宿主程序证书相同。
+        // 证书中存放的是公钥和算法信息，而公钥和私钥是1对1的
+        // 公钥相同意味着是同一个作者发布的程序
+        if (NEED_VERIFY_CERT && !isDebugable) {
+            Signature[] mainSignatures = null;
+            try {
+                PackageInfo pkgInfo = PluginLoader.getApplication().getPackageManager().getPackageInfo(PluginLoader.getApplication().getPackageName(), PackageManager.GET_SIGNATURES);
+                mainSignatures = pkgInfo.signatures;
+            } catch (PackageManager.NameNotFoundException e) {
+                e.printStackTrace();
+            }
 
-		// 判断插件适用系统版本
-		if (pluginDescriptor.getMinSdkVersion() != null
-				&& Build.VERSION.SDK_INT < Integer.valueOf(pluginDescriptor.getMinSdkVersion())) {
-			QRomLog.e(TAG,
-					"当前系统版本过低, 不支持此插件 系统v:" + Build.VERSION.SDK_INT + " 插件v:" + pluginDescriptor.getMinSdkVersion());
-			new File(srcPluginFile).delete();
-			return new InstallResult(InstallResult.MIN_API_NOT_SUPPORTED, pluginDescriptor.getPackageName(),
-					pluginDescriptor.getVersion());
-		}
+            if (!PackageVerifyer.isSignaturesSame(mainSignatures, pluginSignatures)) {
+                QRomLog.e(TAG, "插件证书和宿主证书不一致:" + srcPluginFile);
+                new File(srcPluginFile).delete();
+                return new InstallResult(InstallResult.VERIFY_SIGNATURES_FAIL);
+            }
+        }
 
-		PackageInfo packageInfo = PluginLoader.getApplication().getPackageManager()
-				.getPackageArchiveInfo(srcPluginFile, PackageManager.GET_GIDS);
-		if (packageInfo != null) {
-			pluginDescriptor.setApplicationTheme(packageInfo.applicationInfo.theme);
-			pluginDescriptor.setApplicationIcon(packageInfo.applicationInfo.icon);
-			pluginDescriptor.setApplicationLogo(packageInfo.applicationInfo.logo);
-		}
+        // 第3步，解析Manifest，获得插件详情
+        final PluginDescriptor pluginDescriptor = PluginManifestParser.parseManifest(srcPluginFile);
+        if (pluginDescriptor == null || TextUtils.isEmpty(pluginDescriptor.getPackageName())) {
+            QRomLog.e(TAG, "解析插件Manifest文件失败:" + srcPluginFile);
+            new File(srcPluginFile).delete();
+            return new InstallResult(InstallResult.PARSE_MANIFEST_FAIL);
+        }
 
-		// 第3步，检查插件是否已经存在,若存在删除旧的
-		PluginDescriptor oldPluginDescriptor = getPluginDescriptorByPluginId(pluginDescriptor.getPackageName());
-		if (oldPluginDescriptor != null) {
-			QRomLog.w(TAG, "已安装过，安装路径为:" + oldPluginDescriptor.getInstalledPath() + " oldPluginVer:"
-					+ oldPluginDescriptor.getVersion() + " pluginVer:" + pluginDescriptor.getVersion());
+        // 判断插件适用系统版本
+        if (pluginDescriptor.getMinSdkVersion() != null && Build.VERSION.SDK_INT < Integer.valueOf(pluginDescriptor.getMinSdkVersion())) {
+            QRomLog.e(TAG, "当前系统版本过低, 不支持此插件 系统v:" + Build.VERSION.SDK_INT + " 插件v:" + pluginDescriptor.getMinSdkVersion());
 
-			// 需要判断旧插件的和新插件的版本
-			// 如果版本号低于旧版本 或者 相同&&版本Name信息也一样，就不予处理
-			final int curVerCode = pluginDescriptor.getVersionCode();
-			final int oldVerCode = oldPluginDescriptor.getVersionCode();
-			if (curVerCode < oldVerCode
-					|| (curVerCode == oldVerCode && !forDebug && pluginDescriptor.getVersionName().equals(
-							oldPluginDescriptor.getVersionName()))) {
-				QRomLog.w(TAG, "旧版插件已经加载， 且新插件版本不高于旧插件版本，拒绝安装");
-				new File(srcPluginFile).delete();
-				return new InstallResult(InstallResult.FAIL_BECAUSE_HAS_LOADED, pluginDescriptor.getPackageName(),
-						pluginDescriptor.getVersion());
-			}
+            new File(srcPluginFile).delete();
+            return new InstallResult(InstallResult.MIN_API_NOT_SUPPORTED, pluginDescriptor.getPackageName(), pluginDescriptor.getVersion());
+        }
 
-			QRomLog.w(TAG, "将删除旧版插件，来安装新的插件");
-			// remove旧插件
-			remove(oldPluginDescriptor.getPackageName(), true);
-		}
+        PackageInfo packageInfo = PluginLoader.getApplication().getPackageManager().getPackageArchiveInfo(srcPluginFile, PackageManager.GET_GIDS);
+        if (packageInfo != null) {
+            pluginDescriptor.setApplicationTheme(packageInfo.applicationInfo.theme);
+            pluginDescriptor.setApplicationIcon(packageInfo.applicationInfo.icon);
+            pluginDescriptor.setApplicationLogo(packageInfo.applicationInfo.logo);
+        }
 
-		// 第4步骤，复制插件到插件目录
-		String destApkPath = genInstallPath(pluginDescriptor.getPackageName(), pluginDescriptor.getVersion());
-		boolean isCopySuccess = FileUtil.copyFile(srcPluginFile, destApkPath);
+        // 第4步，检查插件是否已经存在,若存在删除旧的
+        PluginDescriptor oldPluginDescriptor = getPluginDescriptorByPluginId(pluginDescriptor.getPackageName());
+        if (oldPluginDescriptor != null) {
+            QRomLog.w(TAG, "已安装过，安装路径为:" + oldPluginDescriptor.getInstalledPath() + " oldPluginVer:"
+                    + oldPluginDescriptor.getVersion() + " pluginVer:" + pluginDescriptor.getVersion());
 
-		if (!isCopySuccess) {
+            // 需要判断旧插件的和新插件的版本
+            // 如果版本号低于旧版本 或者 相同&&版本Name信息也一样，就不予处理
+            final int curVerCode = pluginDescriptor.getVersionCode();
+            final int oldVerCode = oldPluginDescriptor.getVersionCode();
+            if (curVerCode < oldVerCode || (curVerCode == oldVerCode && !forDebug && pluginDescriptor.getVersionName().equals(oldPluginDescriptor.getVersionName()))) {
+                QRomLog.w(TAG, "旧版插件已经加载， 且新插件版本不高于旧插件版本，拒绝安装");
+                new File(srcPluginFile).delete();
+                return new InstallResult(InstallResult.FAIL_BECAUSE_HAS_LOADED, pluginDescriptor.getPackageName(),
+                        pluginDescriptor.getVersion());
+            }
 
-			QRomLog.e(TAG, "复制插件到安装目录失败 srcPluginFile is " + srcPluginFile);
-			// 删掉临时文件
-			new File(srcPluginFile).delete();
-			return new InstallResult(InstallResult.COPY_FILE_FAIL, pluginDescriptor.getPackageName(),
-					pluginDescriptor.getVersion());
-		} else {
+            QRomLog.w(TAG, "将删除旧版插件，来安装新的插件");
+            // remove旧插件
+            remove(oldPluginDescriptor.getPackageName(), true);
+        }
 
-			// 第5步，先解压so、图标等必要资源到临时目录，再从临时目录复制到插件目录。
-			// 在构造插件Dexclassloader的时候，会使用这个so目录作为参数
-			// 插件在配置协议里面配置的图标会在DM首页上使用到
-			File apkParent = new File(destApkPath).getParentFile();
-			File tempSoDir = new File(apkParent, "temp");
-			Set<String> necessaryResList = FileUtil.unZipNecessaryRes(srcPluginFile, tempSoDir);
-			if (necessaryResList != null) {
-				for (String necessaryResName : necessaryResList) {
-					if (necessaryResName.toLowerCase().endsWith(FileUtil.FIX_LIB_NAME)) {
-						FileUtil.copySo(tempSoDir, necessaryResName, apkParent.getAbsolutePath());
-					} else if (necessaryResName.endsWith(FileUtil.FIX_ICON_NAME)) {
-						FileUtil.copyIcon(tempSoDir, necessaryResName, apkParent.getAbsolutePath());
-					}
-				}
-				// 删掉临时文件
-				FileUtil.deleteAll(tempSoDir);
-			}
+        // 第5步骤，复制插件到插件目录
+        String destApkPath = genInstallPath(pluginDescriptor.getPackageName(), pluginDescriptor.getVersion());
+        boolean isCopySuccess = FileUtil.copyFile(srcPluginFile, destApkPath);
 
-			// 第6步 添加到已安装插件列表
-			pluginDescriptor.setInstalledPath(destApkPath);
-			boolean isInstallSuccess = false;
+        if (!isCopySuccess) {
 
-			isInstallSuccess = addOrReplace(pluginDescriptor);
+            QRomLog.e(TAG, "复制插件到安装目录失败 srcPluginFile is " + srcPluginFile);
+            // 删掉临时文件
+            new File(srcPluginFile).delete();
+            return new InstallResult(InstallResult.COPY_FILE_FAIL, pluginDescriptor.getPackageName(),
+                    pluginDescriptor.getVersion());
+        } else {
 
-			// 删掉临时文件
-			new File(srcPluginFile).delete();
+            // 第6步，先解压so、图标等必要资源到临时目录，再从临时目录复制到插件目录。
+            // 在构造插件Dexclassloader的时候，会使用这个so目录作为参数
+            // 插件在配置协议里面配置的图标会在DM首页上使用到
+            File apkParent = new File(destApkPath).getParentFile();
+            File tempSoDir = new File(apkParent, "temp");
+            Set<String> necessaryResList = FileUtil.unZipNecessaryRes(srcPluginFile, tempSoDir);
+            if (necessaryResList != null) {
+                for (String necessaryResName : necessaryResList) {
+                    if (necessaryResName.toLowerCase().endsWith(FileUtil.FIX_LIB_NAME)) {
+                        FileUtil.copySo(tempSoDir, necessaryResName, apkParent.getAbsolutePath());
+                    } else if (necessaryResName.endsWith(FileUtil.FIX_ICON_NAME)) {
+                        FileUtil.copyIcon(tempSoDir, necessaryResName, apkParent.getAbsolutePath());
+                    }
+                }
+                // 删掉临时文件
+                FileUtil.deleteAll(tempSoDir);
+            }
 
-			if (!isInstallSuccess) {
-				QRomLog.e(TAG, "安装插件失败:" + srcPluginFile);
+            // 第7步 添加到已安装插件列表
+            pluginDescriptor.setInstalledPath(destApkPath);
+            boolean isInstallSuccess = false;
 
-				new File(destApkPath).delete();
+            isInstallSuccess = addOrReplace(pluginDescriptor);
 
-				return new InstallResult(InstallResult.INSTALL_FAIL, pluginDescriptor.getPackageName(),
-						pluginDescriptor.getVersion());
-			} else {
-				// 通过创建classloader来触发dexopt，但不加载
-				QRomLog.i(TAG, "正在进行DEXOPT..." + pluginDescriptor.getInstalledPath());
-				// ActivityThread.getPackageManager().performDexOptIfNeeded()
-				FileUtil.deleteAll(new File(apkParent, "dalvik-cache"));
-				ClassLoader cl = PluginCreator.createPluginClassLoader(pluginDescriptor.getInstalledPath(),
-						pluginDescriptor.isStandalone(), null, null);
-				try {
-					cl.loadClass(Object.class.getName());
-				} catch (ClassNotFoundException e) {
-					e.printStackTrace();
-				}
-				QRomLog.i(TAG, "DEXOPT完毕");
+            // 删掉临时文件
+            new File(srcPluginFile).delete();
 
-				LocalServiceManager.registerService(pluginDescriptor);
+            if (!isInstallSuccess) {
+                QRomLog.e(TAG, "安装插件失败:" + srcPluginFile);
 
-				QRomLog.i(TAG, "安装插件成功:" + destApkPath);
+                new File(destApkPath).delete();
 
-				// 打印一下目录结构
-				if (isDebugable) {
-					FileUtil.printAll(new File(PluginLoader.getApplication().getApplicationInfo().dataDir));
-				}
+                return new InstallResult(InstallResult.INSTALL_FAIL, pluginDescriptor.getPackageName(),
+                        pluginDescriptor.getVersion());
+            } else {
+                // 通过创建classloader来触发dexopt，但不加载
+                QRomLog.i(TAG, "正在进行DEXOPT..." + pluginDescriptor.getInstalledPath());
+                // ActivityThread.getPackageManager().performDexOptIfNeeded()
+                FileUtil.deleteAll(new File(apkParent, "dalvik-cache"));
+                ClassLoader cl = PluginCreator.createPluginClassLoader(pluginDescriptor.getInstalledPath(),
+                        pluginDescriptor.isStandalone(), null, null);
+                try {
+                    cl.loadClass(Object.class.getName());
+                } catch (ClassNotFoundException e) {
+                    e.printStackTrace();
+                }
 
-				return new InstallResult(InstallResult.SUCCESS, pluginDescriptor.getPackageName(),
-						pluginDescriptor.getVersion());
-			}
-		}
-	}
+                QRomLog.i(TAG, "DEXOPT完毕");
 
-	private static SharedPreferences getSharedPreference() {
-		SharedPreferences sp = PluginLoader.getApplication().getSharedPreferences(PLUGIN_SHAREED_PREFERENCE_NAME,
-				Build.VERSION.SDK_INT < 11 ? Context.MODE_PRIVATE : Context.MODE_PRIVATE | 0x0004);
-		return sp;
-	}
+                LocalServiceManager.registerService(pluginDescriptor);
 
-	private synchronized boolean savePlugins(String key, Hashtable<String, PluginDescriptor> plugins) {
+                QRomLog.i(TAG, "安装插件成功:" + destApkPath);
 
-		ObjectOutputStream objectOutputStream = null;
-		ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-		try {
-			objectOutputStream = new ObjectOutputStream(byteArrayOutputStream);
-			objectOutputStream.writeObject(plugins);
-			objectOutputStream.flush();
+                // 打印一下目录结构
+                if (isDebugable) {
+                    FileUtil.printAll(new File(PluginLoader.getApplication().getApplicationInfo().dataDir));
+                }
 
-			byte[] data = byteArrayOutputStream.toByteArray();
-			String list = Base64.encodeToString(data, Base64.DEFAULT);
+                return new InstallResult(InstallResult.SUCCESS, pluginDescriptor.getPackageName(), pluginDescriptor.getVersion());
+            }
+        }
+    }
 
-			getSharedPreference().edit().putString(key, list).commit();
-			return true;
-		} catch (Exception e) {
-			e.printStackTrace();
-		} finally {
-			if (objectOutputStream != null) {
-				try {
-					objectOutputStream.close();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
-			if (byteArrayOutputStream != null) {
-				try {
-					byteArrayOutputStream.close();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
-		}
-		return false;
-	}
+    private static SharedPreferences getSharedPreference() {
+        SharedPreferences sp = PluginLoader.getApplication().getSharedPreferences(PLUGIN_SHAREED_PREFERENCE_NAME,
+                Build.VERSION.SDK_INT < 11 ? Context.MODE_PRIVATE : Context.MODE_PRIVATE | 0x0004);
+        return sp;
+    }
 
-	@SuppressWarnings("unchecked")
-	private synchronized Hashtable<String, PluginDescriptor> readPlugins(String key) {
-		String list = getSharedPreference().getString(key, "");
-		Serializable object = null;
-		if (!TextUtils.isEmpty(list)) {
-			ByteArrayInputStream byteArrayInputStream = null;
-			ObjectInputStream objectInputStream = null;
-			try {
-				byteArrayInputStream = new ByteArrayInputStream(Base64.decode(list, Base64.DEFAULT));
-				objectInputStream = new ObjectInputStream(byteArrayInputStream);
-				object = (Serializable) objectInputStream.readObject();
-			} catch (Exception e) {
-				e.printStackTrace();
-			} finally {
-				if (objectInputStream != null) {
-					try {
-						objectInputStream.close();
-					} catch (IOException e) {
-						e.printStackTrace();
-					}
-				}
-				if (byteArrayInputStream != null) {
-					try {
-						byteArrayInputStream.close();
-					} catch (IOException e) {
-						e.printStackTrace();
-					}
-				}
-			}
-		}
+    private synchronized boolean savePlugins(String key, Hashtable<String, PluginDescriptor> plugins) {
 
-		return (Hashtable<String, PluginDescriptor>) object;
-	}
+        ObjectOutputStream objectOutputStream = null;
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        try {
+            objectOutputStream = new ObjectOutputStream(byteArrayOutputStream);
+            objectOutputStream.writeObject(plugins);
+            objectOutputStream.flush();
+
+            byte[] data = byteArrayOutputStream.toByteArray();
+            String list = Base64.encodeToString(data, Base64.DEFAULT);
+
+            getSharedPreference().edit().putString(key, list).commit();
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (objectOutputStream != null) {
+                try {
+                    objectOutputStream.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (byteArrayOutputStream != null) {
+                try {
+                    byteArrayOutputStream.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return false;
+    }
+
+    @SuppressWarnings("unchecked")
+    private synchronized Hashtable<String, PluginDescriptor> readPlugins(String key) {
+        String list = getSharedPreference().getString(key, "");
+        Serializable object = null;
+        if (!TextUtils.isEmpty(list)) {
+            ByteArrayInputStream byteArrayInputStream = null;
+            ObjectInputStream objectInputStream = null;
+            try {
+                byteArrayInputStream = new ByteArrayInputStream(Base64.decode(list, Base64.DEFAULT));
+                objectInputStream = new ObjectInputStream(byteArrayInputStream);
+                object = (Serializable) objectInputStream.readObject();
+            } catch (Exception e) {
+                e.printStackTrace();
+            } finally {
+                if (objectInputStream != null) {
+                    try {
+                        objectInputStream.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+                if (byteArrayInputStream != null) {
+                    try {
+                        byteArrayInputStream.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }
+
+        return (Hashtable<String, PluginDescriptor>) object;
+    }
 
 }

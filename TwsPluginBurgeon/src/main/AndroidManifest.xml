@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.plugin.burgeon"
+    android:sharedUserId="com.rick.tws.pluginhost"
+    android:versionCode="1"
+    android:versionName="1.0.2">
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+
+        <!-- 分隔符： # 分割DisplayConfig； @ 分割DisplayConfig的属性； = 属性赋值； / 分割属性值 -->
+        <!-- pos - 显示位置(由宿主和插件协定统一就行，包括四个属性gemelx、gemely、x、y)： 【Y:0 POS_Y_HOTSEAT； 1 POS_Y_HOME_FRAGEMENT； 2 POS_Y_ACTION_BAR； 4 其他[APPLICATION SERVICE等没不需要放置显示入口]】【X:...】 -->
+        <!-- icon - 图标资源：统一使用 模块名_[hotseat or watch_fragment or menu]_描述信息.png 配置在AndroidManifest.xml不需要带后缀。 【normal/focus/press/...】 -->
+        <!-- title - 标题：中文/英文 也可以只配置一个 -->
+        <!-- actionid - DisplayItem的交互动作行为：如果是fragment 直接配置name,其他的配置类全名信息 -->
+        <!-- actiontype - 交互动作行为@see DisplayItem.java：0 APPLICATION;1 BROADCAST； 2 ACTIVITY； 3 FRAGMENT； 4 SERVICE； 5 PROVIDER；6 VIEW -->
+        <!-- 插件启动时机： 1 手动触发 2 随DM启动 3 配对成功后 -->
+        <!-- statistic - 统计上报key：string类型 -->
+        <!-- extras - 附加信息：比如：插件依赖 1 已安装的app 2 已安装的插件 -->
+        <!-- y x 位置坐标信息，在TPF框架demo里面，y用于显示item的第一维度pos，x用于第二维度，怎么用就得插件及宿主约定规则 -->
+        <plugin-display android:value="y=1@x=2@actiontype=2@actionid=com.example.plugin.burgeon.MainActivity@title=Burgeon主界面/BurgeonMainActivity/Burgeon主界面@icon=burgeon_home_fragment_icon" />
+
+        <activity android:name=".MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+    </application>
+
+</manifest>

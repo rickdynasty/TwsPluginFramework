@@ -39,7 +39,7 @@
         <plugin-display android:value="gemely=0@gemelx=3@x=0@y=2@title=实例/Demo/實例" />
         <plugin-display android:value="gemely=0@gemelx=3@x=2@y=2@actiontype=2@actionid=com.example.plugindemo.activity.LauncherActivity@icon=demo_rbar_nomal/demo_rbar_pressed" />
 
-        <plugin-display android:value="y=1@x=5@actiontype=2@actionid=com.example.plugindemo.activity.LauncherActivity@title=示例Activity/demoActivity/繁體Activity@icon=demo_watch_fragment_des" />
+        <plugin-display android:value="y=1@x=5@actiontype=2@actionid=com.example.plugindemo.activity.LauncherActivity@title=示例Activity/demoActivity/繁體Activity@icon=demo_home_fragment_icon" />
 
 
         <!-- 通知插件框架哪些fragment是可以嵌入宿主Activity的，如果fragment只是插件内使用，无需对外暴露则无需配置 -->

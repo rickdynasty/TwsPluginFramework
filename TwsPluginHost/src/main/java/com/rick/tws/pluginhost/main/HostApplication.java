@@ -30,14 +30,14 @@ public class HostApplication extends PluginApplication {
         super.onCreate();
 
         if (ProcessUtil.isPluginProcess(this)) {
+            //加载插件：如果是新安装或者升级，需要安装
+            PluginLoader.loadPlugins(this);
+
             // 提前启动宿主Host的依赖插件[比如：手表助手DM的启动依赖登录插件]
             startAppDependentPlugin();
 
             // 随DM启动的插件 时机调整到application的onCreate里面
             startNeedPowerbootPlugin();
-
-            //加载插件
-            PluginLoader.loadPlugins(this);
         }
     }
 

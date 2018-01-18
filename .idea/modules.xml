@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/GrowthNotes.iml" filepath="$PROJECT_DIR$/GrowthNotes.iml" />
+      <module fileurl="file://$PROJECT_DIR$/TwsPluginBurgeon/TwsPluginBurgeon.iml" filepath="$PROJECT_DIR$/TwsPluginBurgeon/TwsPluginBurgeon.iml" />
       <module fileurl="file://$PROJECT_DIR$/TwsPluginCore/TwsPluginCore.iml" filepath="$PROJECT_DIR$/TwsPluginCore/TwsPluginCore.iml" />
       <module fileurl="file://$PROJECT_DIR$/TwsPluginDemo/TwsPluginDemo.iml" filepath="$PROJECT_DIR$/TwsPluginDemo/TwsPluginDemo.iml" />
       <module fileurl="file://$PROJECT_DIR$/TwsPluginHost/TwsPluginHost.iml" filepath="$PROJECT_DIR$/TwsPluginHost/TwsPluginHost.iml" />

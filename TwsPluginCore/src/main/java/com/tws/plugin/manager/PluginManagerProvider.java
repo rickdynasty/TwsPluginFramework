@@ -183,8 +183,7 @@ public class PluginManagerProvider extends ContentProvider {
 
         if (ACTION_INSTALL.equals(method)) {
 
-            InstallResult result = manager.installPlugin(arg,
-                    extras == null ? false : extras.getBoolean(EXTRAS_FOR_DEBUG, false));
+            InstallResult result = manager.installPlugin(arg, extras == null ? false : extras.getBoolean(EXTRAS_FOR_DEBUG, false));
             bundle.putInt(INSTALL_RESULT, result.getResult());
 
             changeListener.onInstall(result.getResult(), result.getPackageName(), result.getVersion(), arg);

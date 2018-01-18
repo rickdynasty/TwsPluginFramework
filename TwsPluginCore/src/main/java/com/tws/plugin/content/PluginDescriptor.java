@@ -1,5 +1,14 @@
 package com.tws.plugin.content;
 
+import android.app.Application;
+import android.content.Intent;
+import android.os.Bundle;
+import android.text.TextUtils;
+
+import com.tws.plugin.bridge.TwsPluginBridgeActivity;
+import com.tws.plugin.core.PluginLoader;
+import com.tws.plugin.util.ResourceUtil;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -8,14 +17,6 @@ import java.util.List;
 import java.util.Map;
 
 import qrom.component.log.QRomLog;
-
-import android.app.Application;
-import android.content.Intent;
-import android.os.Bundle;
-import android.text.TextUtils;
-
-import com.tws.plugin.bridge.TwsPluginBridgeActivity;
-import com.tws.plugin.util.ResourceUtil;
 
 /**
  * <Pre>
@@ -52,6 +53,9 @@ public class PluginDescriptor implements Serializable {
     private int applicationLogo;
 
     private int applicationTheme;
+
+    // 插件进程配置info
+    private String applicaionProcess = null;
 
     /**
      * 定义在插件Manifest中的meta-data标签
@@ -204,6 +208,14 @@ public class PluginDescriptor implements Serializable {
 
     public void setApplicationTheme(int theme) {
         this.applicationTheme = theme;
+    }
+
+    public String getApplicationProcess() {
+        return applicaionProcess;
+    }
+
+    public void setApplicationProcess(String process) {
+        this.applicaionProcess = process;
     }
 
     public Bundle getMetaData() {

@@ -11,6 +11,7 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
+        android:process=":pmaster"
         android:theme="@style/AppTheme">
 
         <!-- 分隔符： # 分割DisplayConfig； @ 分割DisplayConfig的属性； = 属性赋值； / 分割属性值 -->

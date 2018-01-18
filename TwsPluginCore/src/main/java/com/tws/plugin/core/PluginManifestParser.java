@@ -256,12 +256,14 @@ public class PluginManifestParser {
                             applicationName = getName(applicationName, packageName);
                             desciptor.setApplicationName(applicationName);
 
+                            String appProcess = parser.getAttributeValue(namespaceAndroid, "process");// string
+                            desciptor.setApplicationProcess(appProcess);
+
                             desciptor.setDescription(parser.getAttributeValue(namespaceAndroid, "label"));
 
                             // 这里不解析主题，后面会通过packageManager查询
 
-                            QRomLog.i(TAG,
-                                    "applicationName=" + applicationName + " Description=" + desciptor.getDescription());
+                            QRomLog.i(TAG, "applicationName=" + applicationName + " appProcess=" + appProcess + " Description=" + desciptor.getDescription());
 
                         } else if ("activity".equals(tag)) {
 

@@ -293,11 +293,6 @@ public class HomeActivity extends AppCompatActivity implements HomeUIProxy {
             return;
         }
 
-        if (PluginApplication.getInstance().getEliminatePlugins().contains(pluginDescriptor.getPackageName())) {
-            QRomLog.w(TAG, "当前插件" + pluginDescriptor.getPackageName() + "已经被列入黑名单了");
-            return;
-        }
-
         boolean establishedDependOn = establishedDependOns(pluginDescriptor.getPackageName(),
                 pluginDescriptor.getDependOns());
 
@@ -396,12 +391,6 @@ public class HomeActivity extends AppCompatActivity implements HomeUIProxy {
             // 没有PackageName的插件得过滤掉
             if (TextUtils.isEmpty(pluginDescriptor.getPackageName())) {
                 QRomLog.e(TAG, "My god !!! how can have such a situatio~!");
-                continue;
-            }
-
-            // 过滤掉黑名单插件
-            if (PluginApplication.getInstance().getEliminatePlugins().contains(pluginDescriptor.getPackageName())) {
-                QRomLog.w(TAG, "当前插件" + pluginDescriptor.getPackageName() + "已经被列入黑名单了");
                 continue;
             }
 

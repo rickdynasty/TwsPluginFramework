@@ -1,21 +1,20 @@
 package com.tws.plugin.manager;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-
-import qrom.component.log.QRomLog;
-
 import android.content.ContentResolver;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Looper;
 import android.text.TextUtils;
-import android.widget.Toast;
 
 import com.tws.plugin.content.PluginDescriptor;
 import com.tws.plugin.core.PluginLoader;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+
+import qrom.component.log.QRomLog;
 
 /**
  * @author yongchen
@@ -24,26 +23,26 @@ public class PluginManagerHelper {
     private static final String TAG = "rick_Print:PluginManagerHelper";
 
     // 加个客户端进程的缓存，减少跨进程调用
-    private static final HashMap<String, PluginDescriptor> localCache = new HashMap<String, PluginDescriptor>();
-    private static final HashMap<String, Drawable> resCache = new HashMap<String, Drawable>();
+    private static final HashMap<String, PluginDescriptor> pluginDescriptorCache = new HashMap<String, PluginDescriptor>();
+    private static final HashMap<String, Drawable> pluginIconCache = new HashMap<String, Drawable>();
 
     public static void addPluginIcon(String resName, Drawable drawable) {
         if (TextUtils.isEmpty(resName))
             return;
 
-        resCache.put(resName, drawable);
+        pluginIconCache.put(resName, drawable);
     }
 
     public static Drawable getPluginIcon(String resName) {
         if (TextUtils.isEmpty(resName))
             return null;
 
-        return resCache.get(resName);
+        return pluginIconCache.get(resName);
     }
 
     public static PluginDescriptor getPluginDescriptorByClassName(String clazzName) {
 
-        PluginDescriptor pluginDescriptor = localCache.get(clazzName);
+        PluginDescriptor pluginDescriptor = pluginDescriptorCache.get(clazzName);
 
         if (pluginDescriptor == null) {
             Bundle bundle = call(PluginManagerProvider.buildUri(), PluginManagerProvider.ACTION_QUERY_BY_CLASS_NAME,
@@ -51,7 +50,7 @@ public class PluginManagerHelper {
             if (bundle != null) {
                 pluginDescriptor = (PluginDescriptor) bundle
                         .getSerializable(PluginManagerProvider.QUERY_BY_CLASS_NAME_RESULT);
-                localCache.put(clazzName, pluginDescriptor);
+                pluginDescriptorCache.put(clazzName, pluginDescriptor);
             }
         }
 
@@ -86,14 +85,14 @@ public class PluginManagerHelper {
             return null;
         }
 
-        PluginDescriptor pluginDescriptor = localCache.get(pluginId);
+        PluginDescriptor pluginDescriptor = pluginDescriptorCache.get(pluginId);
 
         if (pluginDescriptor == null) {
             Bundle bundle = call(PluginManagerProvider.buildUri(), PluginManagerProvider.ACTION_QUERY_BY_ID, pluginId,
                     null);
             if (bundle != null) {
                 pluginDescriptor = (PluginDescriptor) bundle.getSerializable(PluginManagerProvider.QUERY_BY_ID_RESULT);
-                localCache.put(pluginId, pluginDescriptor);
+                pluginDescriptorCache.put(pluginId, pluginDescriptor);
             }
         } else {
             QRomLog.i(TAG, "取本端缓存:" + pluginDescriptor.getInstalledPath());
@@ -179,7 +178,7 @@ public class PluginManagerHelper {
     }
 
     public static void clearLocalCache() {
-        localCache.clear();
+        pluginDescriptorCache.clear();
     }
 
     public static PluginDescriptor getPluginDescriptorByFragmentId(String clazzId) {

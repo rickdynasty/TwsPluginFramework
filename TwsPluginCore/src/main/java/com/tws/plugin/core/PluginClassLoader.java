@@ -13,10 +13,7 @@ import com.tws.plugin.util.FileUtil;
 import dalvik.system.DexClassLoader;
 
 /**
- * 插件间依赖以及so管理
- * 
  * @author yongchen
- * 
  */
 public class PluginClassLoader extends DexClassLoader {
 

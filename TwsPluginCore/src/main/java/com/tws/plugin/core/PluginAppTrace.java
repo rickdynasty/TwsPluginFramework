@@ -21,7 +21,7 @@ import java.util.Map;
 import qrom.component.log.QRomLog;
 
 /**
- * 用于拦截Activity Service Receiver的生命周期函数 同时可以跟踪一些其他消息
+ * 用于拦截Activity Service Receiver的生命周期函数 同时可以跟踪一些消息
  *
  * @author yongchen
  */

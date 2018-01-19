@@ -347,9 +347,6 @@ public class PluginLoader {
     // 安装内置插件
     private static synchronized void installAssetsPlugins() {
         QRomLog.i(TAG, "installAssetsPlugins()");
-        // 加载插件黑名单
-        final ArrayList<String> blacklist = PluginApplication.getInstance().getEliminatePlugins();
-
         final AssetManager asset = getApplication().getAssets();
         String[] files = null;
         try {
@@ -362,11 +359,6 @@ public class PluginLoader {
             for (String apk : files) {
                 if (!apk.endsWith(".apk")) {
                     QRomLog.e(TAG, "主意 - fill：" + apk + "不是apk，将放弃走插件安装流程...");
-                    continue;
-                }
-
-                if (blacklist != null && blacklist.contains(apk)) {
-                    QRomLog.i(TAG, "插件：" + apk + "在黑名单中，continue~");
                     continue;
                 }
 
@@ -383,17 +375,9 @@ public class PluginLoader {
             return;
         }
 
-        // 加载插件黑名单
-        final ArrayList<String> blacklist = PluginApplication.getInstance().getEliminatePlugins();
-
         for (String apk : pluginApks) {
             QRomLog.i(TAG, "installPlugins apk = " + apk);
             if (!apk.endsWith(".apk")) {
-                continue;
-            }
-
-            if (blacklist != null && blacklist.contains(apk)) {
-                QRomLog.i(TAG, "插件：" + apk + "在黑名单中，continue~");
                 continue;
             }
 

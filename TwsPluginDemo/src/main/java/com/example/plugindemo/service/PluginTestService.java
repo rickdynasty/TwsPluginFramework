@@ -36,7 +36,7 @@ public class PluginTestService extends Service {
 		QRomLog.i("PluginTestService",
 				"PluginTestService onStartCommand " + " " + getResources().getText(R.string.hello_world3));
 
-		Toast.makeText(this, "PluginTestService 02 " + getResources().getText(R.string.hello_world3),
+		Toast.makeText(this, "PluginTestService 01 " + getResources().getText(R.string.hello_world3),
 				Toast.LENGTH_SHORT).show();
 
 		return super.onStartCommand(intent, flags, startId);

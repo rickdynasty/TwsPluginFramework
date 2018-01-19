@@ -335,7 +335,7 @@ public class PluginManifestParser {
 
                             if (process != null) {
                                 if (TextUtils.isEmpty(pluginProcessName)) {
-                                    pluginProcessName = ProcessUtil.getPluginProcessName(PluginLoader.getApplication());
+                                    pluginProcessName = ProcessUtil.getPluginMasterProcessName(PluginLoader.getApplication());
                                     if (TextUtils.isEmpty(pluginProcessName)) {
                                         pluginProcessName = ProcessUtil.getHostProcessName(); // rick_Note潜规则：当前插件和宿主是一个进程
                                     }

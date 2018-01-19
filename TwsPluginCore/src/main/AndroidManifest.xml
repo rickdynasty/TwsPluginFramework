@@ -15,12 +15,14 @@
         <provider
             android:name="com.tws.plugin.manager.PluginManagerProvider"
             android:authorities="com.rick.tws.pluginhost.manager"
-            android:exported="false" />
+            android:exported="false"
+            android:process=":pmaster" />
 
         <!-- 对Receiver的类全名没有要求，可随意指定，框架中是通过action来查询。注册1个即可 -->
         <receiver
             android:name="${applicationId}.stub.PluginStubReceiver"
-            android:exported="true">
+            android:exported="true"
+            android:process=":pmaster">
             <intent-filter>
                 <action android:name="com.rick.tws.pluginhost.STUB_DEFAULT" />
 
@@ -33,14 +35,18 @@
 			这里的虚拟Service并不需要真实存在，
 			只是占个位置，运行实动态绑定到实际的插件Service
 			对service的类全名没有要求，可随意指定，框架中是通过action来查询。 -->
-        <service android:name="${applicationId}.stub.PluginStubService1">
+        <service
+            android:name="${applicationId}.stub.PluginStubService1"
+            android:process=":pmaster">
             <intent-filter>
                 <action android:name="com.rick.tws.pluginhost.STUB_DEFAULT" />
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </service>
-        <service android:name="${applicationId}.stub.PluginStubService2">
+        <service
+            android:name="${applicationId}.stub.PluginStubService2"
+            android:process=":pmaster">
             <intent-filter>
                 <action android:name="com.rick.tws.pluginhost.STUB_DEFAULT" />
 

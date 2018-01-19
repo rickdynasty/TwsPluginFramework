@@ -29,7 +29,8 @@ public class HostApplication extends PluginApplication {
     public void onCreate() {
         super.onCreate();
 
-        if (ProcessUtil.isPluginProcess(this)) {
+        //注意这里的一个规则：当前Host实例，需要get到安装的插件信息，这样就借助Provider[PluginManagerProvider]具备多进程通讯的能力直接抛在宿主进程了
+        if (ProcessUtil.isHostProcess(this)) {
             //加载插件：如果是新安装或者升级，需要安装
             PluginLoader.loadPlugins(this);
 

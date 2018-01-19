@@ -22,12 +22,9 @@ import com.tws.plugin.core.PluginLoader;
 
 /**
  * @author yongchen
- *         <p>
  *         利用ContentProvider实现同步跨进程调用
- *         <p>
  *         ContentProvider的相关操作应该放在installContentProvider之后执行,
- *         而installContentProvider是ActivityThread在调用application的attach之后
- *         ,onCreate之前执行
+ *         而installContentProvider是ActivityThread在调用application的attach之后,onCreate之前执行
  */
 public class PluginManagerProvider extends ContentProvider {
 
@@ -100,8 +97,7 @@ public class PluginManagerProvider extends ContentProvider {
 
     public static Uri buildUri() {
         if (CONTENT_URI == null) {
-            CONTENT_URI = Uri.parse("content://" + PluginLoader.getApplication().getPackageName() + ".manager"
-                    + "/call");
+            CONTENT_URI = Uri.parse("content://" + PluginLoader.getApplication().getPackageName() + ".manager" + "/call");
         }
         return CONTENT_URI;
     }
@@ -180,7 +176,6 @@ public class PluginManagerProvider extends ContentProvider {
                 + " method=" + method + ", arg=" + arg);
 
         Bundle bundle = new Bundle();
-
         if (ACTION_INSTALL.equals(method)) {
 
             InstallResult result = manager.installPlugin(arg, extras == null ? false : extras.getBoolean(EXTRAS_FOR_DEBUG, false));

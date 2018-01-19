@@ -3,6 +3,7 @@ package com.tws.plugin.util;
 import java.util.List;
 
 import qrom.component.log.QRomLog;
+
 import android.app.ActivityManager;
 import android.content.ComponentName;
 import android.content.Context;
@@ -15,72 +16,83 @@ import com.tws.plugin.manager.PluginManagerProvider;
 
 public class ProcessUtil {
 
-	private static final String TAG = "rick_Print:ProcessUtil";
-	// 这是一个潜规则，插件的进程除PluginManagerProvider的标配外，其他的都统一规定前缀：
-	private static final String PLUGIN_MULTI_PROCESS_SUFFIX = ":plugin";
-	private static Boolean isPluginProcess = null;
-	private static Boolean isHostProcess = null;
+    private static final String TAG = "rick_Print:ProcessUtil";
+    // 这是一个潜规则，插件的进程除PluginManagerProvider的标配外，其他的都统一规定前缀：
+    private static final String PLUGIN_MULTI_PROCESS_SUFFIX = ":plugin";
 
-	public static String getHostProcessName() {
-		return PluginLoader.getHostPackageName();
-	}
+    private static final String PLUGIN_MASTER_PROCESS_SUFFIX = ":pmaster";
+    private static final String PLUGIN_MINOR_PROCESS_SUFFIX = ":pminor";
 
-	public static boolean isPluginProcess(Context context) {
-		ensure(context);
-		return isPluginProcess;
-	}
+    private static Boolean isPluginProcess = null;
+    private static Boolean isHostProcess = null;
 
-	public static boolean isHostProcess(Context context) {
-		ensure(context);
-		return isHostProcess;
-	}
+    public static String getHostProcessName() {
+        return PluginLoader.getHostPackageName();
+    }
 
-	private static void ensure(Context context) {
-		// 注意：当前宿主和插件是一个进程
-		if (isPluginProcess == null) {
-			String processName = getCurProcessName(context);
-			String pluginProcessName = getPluginProcessName(context);
+    public static boolean isPluginProcess(Context context) {
+        ensure(context);
+        return isPluginProcess;
+    }
 
-			isHostProcess = processName.equals(pluginProcessName);
-			// 这是一个潜规则，插件的进程除PluginManagerProvider的标配外，其他的都统一规定前缀："HostPackageName:plugin"+"编号";
-			isPluginProcess = isHostProcess
-					|| processName.startsWith(PluginApplication.getInstance().getPackageName()
-							+ PLUGIN_MULTI_PROCESS_SUFFIX); // 注意这里不能用PluginLoader的Application
-		}
-	}
+    public static boolean isHostProcess(Context context) {
+        ensure(context);
+        return isHostProcess;
+    }
 
-	public static boolean isPluginProcess() {
-		return isPluginProcess(PluginLoader.getApplication());
-	}
+    private static void ensure(Context context) {
+        // 注意：当前宿主和插件是一个进程
+        if (isPluginProcess == null) {
+            String processName = getCurProcessName(context);
+            final String hostProcessName = PluginApplication.getInstance().getPackageName();  //rick_Note：注意这里使用了系统默认的方式指定进程，如果自己指定了主进程的名称需要做处理
+            final String pluginMasterProcessName = getPluginMasterProcessName(context);
+            final String pluginMinorProcessName = getPluginMinorProcessName(context);
 
-	public static boolean isHostProcess() {
-		return isHostProcess(PluginLoader.getApplication());
-	}
 
-	public static String getCurProcessName(Context context) {
-		final int pid = android.os.Process.myPid();
-		QRomLog.i(TAG, "getCurProcessName pid=" + pid);
-		ActivityManager activityManager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
-		List<ActivityManager.RunningAppProcessInfo> list = activityManager.getRunningAppProcesses();
-		for (ActivityManager.RunningAppProcessInfo appProcess : list) {
-			if (appProcess.pid == pid) {
-				return appProcess.processName;
-			}
-		}
-		return "";
-	}
+            isHostProcess = hostProcessName.equals(processName);
+            // 这是一个潜规则，插件的进程除PluginManagerProvider的标配外，其他的都统一规定前缀："HostPackageName:plugin"+"编号";
+            //rick_Note:这里是否要 ‘||’ isHostProcess，是有争议的，原则上是 存在运行在宿主中的插件才需要，不过这里做成多进程管理，宿主有需要知道哪些插件安装了，这样就需要这个操作
+            isPluginProcess = isHostProcess || pluginMasterProcessName.equals(processName) || pluginMinorProcessName.equals(processName)
+                    || processName.startsWith(PluginApplication.getInstance().getPackageName() + PLUGIN_MULTI_PROCESS_SUFFIX); // 注意这里不能用PluginLoader的Application
+        }
+    }
 
-	public static String getPluginProcessName(Context context) {
-		try {
-			// 这里取个巧, 直接查询ContentProvider的信息中包含的processName
-			// 因为Contentprovider是被配置在插件进程的.
-			// 但是这个api只支持9及以上,
-			ProviderInfo pinfo = context.getPackageManager().getProviderInfo(
-					new ComponentName(context, PluginManagerProvider.class), 0);
-			return pinfo.processName;
-		} catch (PackageManager.NameNotFoundException e) {
-			e.printStackTrace();
-		}
-		return "";
-	}
+    public static boolean isPluginProcess() {
+        return isPluginProcess(PluginLoader.getApplication());
+    }
+
+    public static boolean isHostProcess() {
+        return isHostProcess(PluginLoader.getApplication());
+    }
+
+    public static String getCurProcessName(Context context) {
+        final int pid = android.os.Process.myPid();
+        QRomLog.i(TAG, "getCurProcessName pid=" + pid);
+        ActivityManager activityManager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+        List<ActivityManager.RunningAppProcessInfo> list = activityManager.getRunningAppProcesses();
+        for (ActivityManager.RunningAppProcessInfo appProcess : list) {
+            if (appProcess.pid == pid) {
+                return appProcess.processName;
+            }
+        }
+        return "";
+    }
+
+    public static String getPluginMasterProcessName(Context context) {
+        try {
+            // 这里取个巧, 直接查询ContentProvider的信息中包含的processName,因为Contentprovider是被配置在插件进程的.但是这个api只支持9及以上,
+            ProviderInfo pinfo = context.getPackageManager().getProviderInfo(
+                    new ComponentName(context, PluginManagerProvider.class), 0);
+            return pinfo.processName;
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        //:pmaster
+        return PluginApplication.getInstance().getPackageName() + PLUGIN_MASTER_PROCESS_SUFFIX;
+    }
+
+    private static String getPluginMinorProcessName(Context context) {
+        return PluginApplication.getInstance().getPackageName() + PLUGIN_MINOR_PROCESS_SUFFIX;
+    }
 }

@@ -119,18 +119,6 @@ public class PluginManagerProviderClient {
         return null;
     }
 
-    public static boolean isExact(String name, int type) {
-        Bundle arg = new Bundle();
-        arg.putInt(PluginCallback.EXTRA_TYPE, type);
-        Bundle bundle = CompatForContentProvider.call(PluginManagerProvider.buildUri(),
-                PluginManagerProvider.ACTION_IS_EXACT,
-                name, arg);
-        if (bundle != null) {
-            return bundle.getBoolean(PluginManagerProvider.IS_EXACT_RESULT);
-        }
-        return false;
-    }
-
     public static void unBindLaunchModeStubActivity(String activityName, String className) {
         Bundle arg = new Bundle();
         arg.putString(PluginManagerHelper.CONSTANT_KEY_CLASS_NAME, className);

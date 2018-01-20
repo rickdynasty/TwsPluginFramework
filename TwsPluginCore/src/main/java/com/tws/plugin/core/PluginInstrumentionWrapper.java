@@ -176,17 +176,6 @@ public class PluginInstrumentionWrapper extends Instrumentation {
                     } else {
                         throw new ClassNotFoundException("pluginClassName : " + pluginClassName, new Throwable());
                     }
-                } else if (PluginManagerHelper.isExact(className, DisplayItem.TYPE_ACTIVITY)) {
-
-                    // 这个逻辑是为了支持外部app唤起配置了stub_exact的插件Activity
-                    PluginDescriptor pluginDescriptor = PluginManagerHelper.getPluginDescriptorByClassName(className);
-
-                    Class<?> cls = PluginLoader.loadPluginClassByName(pluginDescriptor, className);
-                    if (cls != null) {
-                        cl = cls.getClassLoader();
-                    } else {
-                        throw new ClassNotFoundException("className : " + className, new Throwable());
-                    }
                 } else {
                     // 进入这个分支可能是因为activity重启了，比如横竖屏切换，由于上面的分支已经把Action还原到原始到Action了
                     // 这里只能通过之前添加的标记符来查找className
@@ -241,8 +230,7 @@ public class PluginInstrumentionWrapper extends Instrumentation {
                     + orginalClassName + ", orignalIntent : " + orignalIntent + ", currentCl : " + cl.toString()
                     + ", currentClassName : " + className + ", currentIntent : " + intent.toString() + ", process : "
                     + ProcessUtil.isPluginProcess() + ", isStubActivity : "
-                    + PluginManagerHelper.isStub(orginalClassName) + ", isExact : "
-                    + PluginManagerHelper.isExact(orginalClassName, DisplayItem.TYPE_ACTIVITY), e);
+                    + PluginManagerHelper.isStub(orginalClassName), e);
         }
     }
 

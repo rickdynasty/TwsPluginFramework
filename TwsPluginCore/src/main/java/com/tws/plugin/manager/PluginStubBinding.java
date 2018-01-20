@@ -55,20 +55,14 @@ class PluginStubBinding {
     //这个属性用于有些插件依赖第三方库，而第三方库运行了一些service指定单独进程 - 并且在运行结束后会主动回收
     private static HashMap<String, String> mpServiceMapping = new HashMap<String, String>();
 
-    private static Set<String> mExcatStubSet;
-
     private static boolean isPoolInited = false;
 
     private static String buildHostAction() {
-        return PluginLoader.getApplication().getPackageName() + ".STUB_DEFAULT";
+        return "com.rick.tws.pluginhost.STUB_DEFAULT";
     }
 
     private static String buildMpDefaultAction() {
-        return PluginLoader.getApplication().getPackageName() + ".MP_STUB_DEFAULT";
-    }
-
-    private static String buildExactAction() {
-        return PluginLoader.getApplication().getPackageName() + ".STUB_EXACT";
+        return "com.rick.tws.pluginhost.MP_STUB_DEFAULT";
     }
 
     private static void initPool() {
@@ -85,8 +79,6 @@ class PluginStubBinding {
         loadStubService();
 
         loadMpStubService();
-
-        loadStubExactly();
 
         loadStubReceiver();
 
@@ -190,39 +182,6 @@ class PluginStubBinding {
         }
     }
 
-    private static void loadStubExactly() {
-        Intent exactStub = new Intent();
-        exactStub.setAction(buildExactAction());
-        exactStub.setPackage(PluginLoader.getApplication().getPackageName());
-
-        // 精确匹配的activity
-        List<ResolveInfo> resolveInfos = PluginLoader.getApplication().getPackageManager()
-                .queryIntentActivities(exactStub, PackageManager.MATCH_DEFAULT_ONLY);
-
-        if (resolveInfos != null && resolveInfos.size() > 0) {
-            if (mExcatStubSet == null) {
-                mExcatStubSet = new HashSet<String>();
-            }
-            for (ResolveInfo info : resolveInfos) {
-                mExcatStubSet.add(info.activityInfo.name);
-            }
-        }
-
-        // 精确匹配的service
-        resolveInfos = PluginLoader.getApplication().getPackageManager()
-                .queryIntentServices(exactStub, PackageManager.MATCH_DEFAULT_ONLY);
-
-        if (resolveInfos != null && resolveInfos.size() > 0) {
-            if (mExcatStubSet == null) {
-                mExcatStubSet = new HashSet<String>();
-            }
-            for (ResolveInfo info : resolveInfos) {
-                mExcatStubSet.add(info.serviceInfo.name);
-            }
-        }
-
-    }
-
     private static void loadStubReceiver() {
         Intent exactStub = new Intent();
         exactStub.setAction(buildHostAction());
@@ -245,10 +204,6 @@ class PluginStubBinding {
     public static synchronized String bindStubActivity(String pluginActivityClassName, int launchMode) {
 
         initPool();
-
-        if (isExact(pluginActivityClassName, DisplayItem.TYPE_ACTIVITY)) {
-            return pluginActivityClassName;
-        }
 
         HashMap<String, String> bindingMapping = null;
 
@@ -299,16 +254,6 @@ class PluginStubBinding {
         return standardActivity;
     }
 
-    public static boolean isExact(String name, int type) {
-        initPool();
-
-        if (mExcatStubSet != null && mExcatStubSet.size() > 0) {
-            return mExcatStubSet.contains(name);
-        }
-
-        return false;
-    }
-
     public static synchronized void unBindLaunchModeStubActivity(String stubActivityName, String pluginActivityName) {
 
         QRomLog.i(TAG, "call unBindLaunchModeStubActivity:" + stubActivityName + " pluginActivityName is "
@@ -329,10 +274,6 @@ class PluginStubBinding {
     public static synchronized String getBindedPluginServiceName(String stubServiceName) {
 
         initPool();
-
-        if (isExact(stubServiceName, DisplayItem.TYPE_SERVICE)) {
-            return stubServiceName;
-        }
 
         Iterator<Map.Entry<String, String>> itr = serviceMapping.entrySet().iterator();
         while (itr.hasNext()) {
@@ -359,10 +300,6 @@ class PluginStubBinding {
     public static synchronized String bindStubService(String pluginServiceClassName, String process) {
 
         initPool();
-
-        if (isExact(pluginServiceClassName, DisplayItem.TYPE_SERVICE)) {
-            return pluginServiceClassName;
-        }
 
         final boolean isMp = !TextUtils.isEmpty(process);
         Iterator<Map.Entry<String, String>> itr = isMp ? mpServiceMapping.entrySet().iterator() : serviceMapping
@@ -521,9 +458,8 @@ class PluginStubBinding {
     public static boolean isStub(String className) {
         initPool();
 
-        return isExact(className, DisplayItem.TYPE_ACTIVITY) || className.equals(standardActivity)
-                || singleTaskActivityMapping.containsKey(className) || singleTopActivityMapping.containsKey(className)
-                || singleInstanceActivityMapping.containsKey(className) || serviceMapping.containsKey(className)
-                || mpServiceMapping.containsKey(className) || className.equals(receiver);
+        return className.equals(standardActivity) || singleTaskActivityMapping.containsKey(className)
+                || singleTopActivityMapping.containsKey(className) || singleInstanceActivityMapping.containsKey(className)
+                || serviceMapping.containsKey(className) || mpServiceMapping.containsKey(className) || className.equals(receiver);
     }
 }

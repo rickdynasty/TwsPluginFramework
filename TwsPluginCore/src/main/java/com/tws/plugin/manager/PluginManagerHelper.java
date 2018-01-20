@@ -203,17 +203,6 @@ public class PluginManagerHelper {
         return null;
     }
 
-    public static boolean isExact(String name, int type) {
-        QRomLog.i(TAG, "call isExact(" + name + ", " + type + ")");
-        Bundle arg = new Bundle();
-        arg.putInt(PluginCallback.EXTRA_TYPE, type);
-        Bundle bundle = call(PluginManagerProvider.buildUri(), PluginManagerProvider.ACTION_IS_EXACT, name, arg);
-        if (bundle != null) {
-            return bundle.getBoolean(PluginManagerProvider.IS_EXACT_RESULT);
-        }
-        return false;
-    }
-
     public static void unBindLaunchModeStubActivity(String activityName, String className) {
         QRomLog.i(TAG, "call unBindLaunchModeStubActivity(" + activityName + ", " + className + ")");
         Bundle arg = new Bundle();

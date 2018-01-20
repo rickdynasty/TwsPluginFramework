@@ -263,11 +263,6 @@ public class PluginManagerProvider extends ContentProvider {
 
             return bundle;
 
-        } else if (ACTION_IS_EXACT.equals(method)) {
-            bundle.putBoolean(IS_EXACT_RESULT, PluginStubBinding.isExact(arg, extras.getInt(PluginCallback.EXTRA_TYPE)));
-
-            return bundle;
-
         } else if (ACTION_IS_STUB.equals(method)) {
             bundle.putBoolean(IS_STUB_RESULT, PluginStubBinding.isStub(arg));
 

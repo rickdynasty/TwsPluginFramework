@@ -57,12 +57,13 @@ class PluginStubBinding {
 
     private static boolean isPoolInited = false;
 
+    // ACTION是固定的，在AndroidManifest.xml里面申明就确定好了
     private static String buildHostAction() {
         return "com.rick.tws.pluginhost.STUB_DEFAULT";
     }
 
     private static String buildMpDefaultAction() {
-        return "com.rick.tws.pluginhost.MP_STUB_DEFAULT";
+        return "com.rick.tws.plugin.MP_STUB_DEFAULT";
     }
 
     private static void initPool() {

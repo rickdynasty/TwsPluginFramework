@@ -4,6 +4,7 @@ import com.tws.plugin.util.RefInvoker;
 
 /**
  * Created by yongchen on 17/5/18.
+ * for 8.0 — gDefault这个变量在8.0被移到了ActivityManager类里面了
  */
 
 public class HackActivityManager {

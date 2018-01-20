@@ -185,7 +185,7 @@ public class PluginLauncher implements Serializable {
 			e.printStackTrace();
 		}
 
-		CompatForWebViewFactoryApi21.addWebViewAssets(plugin.pluginApplication.getAssets());
+		//CompatForWebViewFactoryApi21.addWebViewAssets(plugin.pluginApplication.getAssets());
 
 		QRomLog.i(TAG, "初始化插件" + pluginDescriptor.getPackageName() + "完成");
 	}

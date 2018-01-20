@@ -417,6 +417,7 @@ class PluginStubBinding {
 			}
 		}
 
+		//如果在mpServiceMapping中get到了绑定的servive,需要做解绑操作
 		Iterator<Map.Entry<String, String>> mpItr = mpServiceMapping.entrySet().iterator();
 		while (mpItr.hasNext()) {
 			Map.Entry<String, String> entry = mpItr.next();

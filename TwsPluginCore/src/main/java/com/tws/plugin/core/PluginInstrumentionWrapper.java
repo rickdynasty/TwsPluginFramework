@@ -62,14 +62,18 @@ public class PluginInstrumentionWrapper extends Instrumentation {
         // 此方法在application的attach之后被ActivityThread调用
         super.callApplicationOnCreate(app);
 
-        if (ProcessUtil.isPluginProcess()) {
-            Iterator<PluginDescriptor> itr = PluginManagerHelper.getPlugins().iterator();
-            while (itr.hasNext()) {
-                PluginDescriptor plugin = itr.next();
-                LocalServiceManager.registerService(plugin);
-            }
-        }
-    }
+		//ContentProvider的相关操作应该放在installContentProvider之后执行,
+		//而installContentProvider是ActivityThread在调用application的attach之后,onCreate之前执行
+		// 因此下面的初始化操作的最佳时机是在application的oncreate之前执行
+		LocalServiceManager.init();
+		if (ProcessUtil.isPluginProcess()) {
+			Iterator<PluginDescriptor> itr = PluginManagerHelper.getPlugins().iterator();
+			while (itr.hasNext()) {
+				PluginDescriptor plugin = itr.next();
+				LocalServiceManager.registerService(plugin);
+			}
+		}
+	}
 
     @Override
     public boolean onException(Object obj, Throwable e) {

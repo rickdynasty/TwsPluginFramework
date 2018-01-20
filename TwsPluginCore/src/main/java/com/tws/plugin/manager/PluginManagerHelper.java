@@ -150,14 +150,6 @@ public class PluginManagerHelper {
         return result;
     }
 
-    public static boolean isRunning(String pluginId) {
-        return PluginManagerProviderClient.isRunning(pluginId);
-    }
-
-    public static boolean wakeup(String pluginid) {
-        return PluginManagerProviderClient.wakeup(pluginid);
-    }
-
     public static synchronized void remove(String pluginId) {
         clearLocalCache();
         Bundle bundle = call(PluginManagerProvider.buildUri(), PluginManagerProvider.ACTION_REMOVE, pluginId, null);
@@ -257,10 +249,12 @@ public class PluginManagerHelper {
         return null;
     }
 
+    // 暂时不支持11以下的版本，也没必要支持
     public static Bundle call(Uri uri, String method, String arg, Bundle extras) {
         ContentResolver resolver = PluginLoader.getApplication().getContentResolver();
 
         try {
+            // 11 < Build.VERSION.SDK_INT
             return resolver.call(uri, method, arg, extras);
         } catch (Exception e) {
             QRomLog.e(TAG, "call uri fail - uri=" + uri + " method=" + method + " arg=" + arg + " extras=" + extras, e);

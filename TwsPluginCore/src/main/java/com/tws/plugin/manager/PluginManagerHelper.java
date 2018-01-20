@@ -72,8 +72,9 @@ public class PluginManagerHelper {
     }
 
     public static PluginDescriptor getPluginDescriptorByPluginId(String pluginId) {
-        if (TextUtils.isEmpty(pluginId))
+        if (TextUtils.isEmpty(pluginId) || PluginLoader.getApplication().getPackageName().equals(pluginId)) {
             return null;
+        }
 
         if (pluginId.startsWith("com.android.")) {
             // 可能是BinderProxyDelegate、AndroidAppIPackageManager、PluginBaseContextWrapper.createPackageContext、
@@ -239,6 +240,7 @@ public class PluginManagerHelper {
         call(PluginManagerProvider.buildUri(), PluginManagerProvider.ACTION_UNBIND_SERVICE, pluginServiceName, null);
     }
 
+    //这个的效率不行，后续需要按type进行拆分或者做缓存标识
     public static boolean isStub(String className) {
         Bundle bundle = call(PluginManagerProvider.buildUri(), PluginManagerProvider.ACTION_IS_STUB, className, null);
         if (bundle != null) {

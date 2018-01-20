@@ -112,6 +112,9 @@ public class PluginInjector {
         }
     }
 
+    /**
+     * 启动activity在new Activity对象后，需要对创建出来的activity做上下文处理
+     */
     static void injectActivityContext(final Activity activity) {
         QRomLog.i(TAG, "injectActivityContext");
         String pluginId = null;
@@ -120,12 +123,7 @@ public class PluginInjector {
         if (ProcessUtil.isPluginProcess()) {
             // 如果是打开插件中的activity,
             final Intent intent = activity.getIntent();
-            isStubActivity = PluginManagerHelper.isStub(intent.getComponent().getClassName());
-            if (!isStubActivity) {
-                final String rampActivityName = intent.getStringExtra(PluginIntentResolver.INTENT_EXTRA_BRIDGE_RAMP);
-                isStubActivity = TwsPluginBridgeActivity.class.getName().equals(rampActivityName);
-            }
-
+            isStubActivity = intent.getBooleanExtra(PluginIntentResolver.INTENT_EXTRA_TWS_PLUGIN_STUB, false);
             if (activity instanceof PluginContainer) {
                 pluginId = ((PluginContainer) activity).getPluginId();
             }
@@ -151,15 +149,12 @@ public class PluginInjector {
                 hackActivity.setApplication(pluginApp);
             } else {
                 // 是打开的用来显示插件组件的宿主activity
-
                 if (!TextUtils.isEmpty(pluginId)) {
                     // 进入这里表示指定了这个宿主Activity "只显示" 某个插件的组件
                     // 因此直接将这个Activity的Context也替换成插件的Context
                     pd = PluginManagerHelper.getPluginDescriptorByPluginId(pluginId);
                     LoadedPlugin plugin = PluginLauncher.instance().getRunningPlugin(pluginId);
-                    pluginContext = PluginCreator.createNewPluginComponentContext(plugin.pluginContext,
-                            activity.getBaseContext(), 0);
-
+                    pluginContext = PluginCreator.createNewPluginComponentContext(plugin.pluginContext, activity.getBaseContext(), 0);
                 } else {
                     // do nothing
                     // 进入这里表示这个宿主可能要同时显示来自多个不同插件的组件,

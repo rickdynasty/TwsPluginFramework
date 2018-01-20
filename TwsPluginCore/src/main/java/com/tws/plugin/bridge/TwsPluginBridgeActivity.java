@@ -28,10 +28,6 @@ final public class TwsPluginBridgeActivity extends Activity {
 
 		String description = "【该界面是一个跳转界面，用来作为启动插件内部组件的跳板】\n请先确认对应的插件已经安装~\nintent info:";
 
-		String pluginClassName = intent.getStringExtra(PluginIntentResolver.INTENT_EXTRA_BRIDGE_TO_PLUGIN);
-		if (!TextUtils.isEmpty(pluginClassName)) {
-			description += "\npluginClassName is " + pluginClassName;
-		}
 		String action = intent.getAction();
 		if (!TextUtils.isEmpty(action)) {
 			description += "\naction is " + action;

@@ -1,18 +1,11 @@
 package com.tws.plugin.core;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.Set;
-
-import qrom.component.log.QRomLog;
-
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.Application;
 import android.app.Fragment;
 import android.app.Instrumentation;
 import android.app.Service;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.ContextWrapper;
 import android.content.Intent;
@@ -34,6 +27,12 @@ import com.tws.plugin.core.viewfactory.PluginViewFactory;
 import com.tws.plugin.manager.PluginActivityMonitor;
 import com.tws.plugin.manager.PluginManagerHelper;
 import com.tws.plugin.util.ProcessUtil;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.Set;
+
+import qrom.component.log.QRomLog;
 
 /**
  * 插件Activity免注册的主要实现原理。 如有必要，可以增加被代理的方法数量。
@@ -62,14 +61,14 @@ public class PluginInstrumentionWrapper extends Instrumentation {
         // 此方法在application的attach之后被ActivityThread调用
         super.callApplicationOnCreate(app);
 
-		if (ProcessUtil.isPluginProcess()) {
-			Iterator<PluginDescriptor> itr = PluginManagerHelper.getPlugins().iterator();
-			while (itr.hasNext()) {
-				PluginDescriptor plugin = itr.next();
-				LocalServiceManager.registerService(plugin);
-			}
-		}
-	}
+        if (ProcessUtil.isPluginProcess()) {
+            Iterator<PluginDescriptor> itr = PluginManagerHelper.getPlugins().iterator();
+            while (itr.hasNext()) {
+                PluginDescriptor plugin = itr.next();
+                LocalServiceManager.registerService(plugin);
+            }
+        }
+    }
 
     @Override
     public boolean onException(Object obj, Throwable e) {
@@ -102,29 +101,35 @@ public class PluginInstrumentionWrapper extends Instrumentation {
         String orginalClassName = className;
         String orignalIntent = intent.toString();
 
+        //先判断一下是否是第三方应用 试图启动 插件activity组件?
         if (ProcessUtil.isHostProcess() && TwsPluginBridgeActivity.class.getName().equals(className)) {
             // 第三方应用启动了TwsPluginBridgeActivity
             String packageName = PluginLoader.getPackageName(intent);
-            ArrayList<ComponentInfo> componentInfos = PluginIntentResolver.matchPlugin(intent,
-                    DisplayItem.TYPE_ACTIVITY, packageName);
+            ArrayList<ComponentInfo> componentInfos = PluginIntentResolver.matchPlugin(intent, DisplayItem.TYPE_ACTIVITY, packageName);
             String pluginClassName = null;
             if (componentInfos != null && componentInfos.size() > 0) {
-                pluginClassName = componentInfos.get(0).name;
-            }
-
-            if (null == pluginClassName) {
-                pluginClassName = intent.getStringExtra(PluginIntentResolver.INTENT_EXTRA_BRIDGE_TO_PLUGIN);
+                final ComponentInfo targetComponent = componentInfos.get(0);
+                pluginClassName = targetComponent.name;
+                packageName = targetComponent.packageName; //上面获取到的包名可能是宿主的，因此这里在赋值纠正一下
+                //这里标识为isStub，后面还需要根据这个值做上下文处理
+                intent.putExtra(PluginIntentResolver.INTENT_EXTRA_TWS_PLUGIN_STUB, true);
+            } else {
+                packageName = null;
             }
 
             if (pluginClassName != null) {
-                PluginDescriptor pluginDescriptor = PluginManagerHelper.getPluginDescriptorByClassName(pluginClassName);
+                PluginDescriptor pluginDescriptor = null;
+                if (!TextUtils.isEmpty(packageName)) {
+                    pluginDescriptor = PluginManagerHelper.getPluginDescriptorByPluginId(packageName);
+                }
+
+                if (null == pluginDescriptor) {
+                    pluginDescriptor = PluginManagerHelper.getPluginDescriptorByClassName(pluginClassName);
+                }
 
                 if (pluginDescriptor != null) {
-                    packageName = pluginDescriptor.getPackageName();
                     Class<?> cls = PluginLoader.loadPluginClassByName(pluginDescriptor, pluginClassName);
                     if (cls != null) {
-                        intent.putExtra(PluginIntentResolver.INTENT_EXTRA_BRIDGE_RAMP, className);
-
                         className = pluginClassName;
                         cl = cls.getClassLoader();
 
@@ -139,16 +144,17 @@ public class PluginInstrumentionWrapper extends Instrumentation {
             }
         } else if (ProcessUtil.isPluginProcess()) {
             // 将PluginStubActivity替换成插件中的activity
-            if (PluginManagerHelper.isStub(className)) {
-
+            // 之前在resolveActivity::resolveActivity解析intent的时候 如果被认定为是插件的activity组件，除调整Action外，
+            // 还另外打上了INTENT_EXTRA_TWS_PLUGIN_STUB为true的表示，就是为了方便这里的判断
+            final boolean isStub = intent.getBooleanExtra(PluginIntentResolver.INTENT_EXTRA_TWS_PLUGIN_STUB, false);
+            if (isStub) {
                 String action = intent.getAction();
-
                 QRomLog.i(TAG, "newActivity action=" + action + " className=" + className);
                 if (action != null && action.contains(PluginIntentResolver.CLASS_SEPARATOR)) {
                     String[] targetClassName = action.split(PluginIntentResolver.CLASS_SEPARATOR);
                     String pluginClassName = targetClassName[0];
 
-                    final String pid = targetClassName.length > 2 ? targetClassName[2] : "";
+                    final String pid = 2 < targetClassName.length ? targetClassName[2] : "";
                     PluginDescriptor pluginDescriptor = null;
                     if (!TextUtils.isEmpty(pid)) {
                         pluginDescriptor = PluginManagerHelper.getPluginDescriptorByPluginId(pid);
@@ -189,8 +195,7 @@ public class PluginInstrumentionWrapper extends Instrumentation {
                             if (cate.startsWith(RELAUNCH_FLAG)) {
                                 className = cate.replace(RELAUNCH_FLAG, "");
 
-                                PluginDescriptor pluginDescriptor = PluginManagerHelper
-                                        .getPluginDescriptorByClassName(className);
+                                PluginDescriptor pluginDescriptor = PluginManagerHelper.getPluginDescriptorByClassName(className);
 
                                 Class<?> cls = PluginLoader.loadPluginClassByName(pluginDescriptor, className);
                                 cl = cls.getClassLoader();
@@ -199,9 +204,9 @@ public class PluginInstrumentionWrapper extends Instrumentation {
                             }
                         }
                     }
+
                     if (!found) {
-                        throw new ClassNotFoundException(
-                                "className : " + className + ", intent : " + intent.toString(), new Throwable());
+                        throw new ClassNotFoundException("className : " + className + ", intent : " + intent.toString(), new Throwable());
                     }
                 }
             } else {
@@ -211,6 +216,7 @@ public class PluginInstrumentionWrapper extends Instrumentation {
                 // 判断上述两种情况可以通过ClassLoader的类型来判断, 判断出来以后补一个resolveActivity方法
                 if (cl instanceof PluginClassLoader) {
                     PluginIntentResolver.resolveActivity(intent);
+                    // rick_Note:Write Code here^
                 } else {
                     // Do Nothing
                 }
@@ -229,11 +235,17 @@ public class PluginInstrumentionWrapper extends Instrumentation {
             throw new ClassNotFoundException("  orignalCl : " + orignalCl.toString() + ", orginalClassName : "
                     + orginalClassName + ", orignalIntent : " + orignalIntent + ", currentCl : " + cl.toString()
                     + ", currentClassName : " + className + ", currentIntent : " + intent.toString() + ", process : "
-                    + ProcessUtil.isPluginProcess() + ", isStubActivity : "
-                    + PluginManagerHelper.isStub(orginalClassName), e);
+                    + ProcessUtil.isPluginProcess() + ", isStubActivity : " + PluginManagerHelper.isStub(orginalClassName), e);
         }
     }
 
+    /**
+     * Perform calling of an activity's {@link Activity#onCreate}
+     * method.  The default implementation simply calls through to that method.
+     *
+     * @param activity The activity being created.
+     * @param icicle   The previously frozen state (or null) to pass through to onCreate().
+     */
     @Override
     public void callActivityOnCreate(Activity activity, Bundle icicle) {
 
@@ -244,10 +256,12 @@ public class PluginInstrumentionWrapper extends Instrumentation {
         Intent intent = activity.getIntent();
 
         if (intent != null) {
+            // 对齐原生Activity创建的流程
             intent.setExtrasClassLoader(activity.getClassLoader());
         }
 
         if (icicle != null) {
+            // 对齐原生Activity创建的流程
             icicle.setClassLoader(activity.getClassLoader());
         }
 

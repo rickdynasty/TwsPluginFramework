@@ -5,13 +5,16 @@ import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 
+/**
+ * 当前暂时用于HostClassLoader在load Receiver class的时候做异常容错处理
+ */
 public class TwsPluginBridgeReceiver extends BroadcastReceiver {
 
-	private static final String TAG = "TwsPluginBridgeReceiver";
+    private static final String TAG = "TwsPluginBridgeReceiver";
 
-	@Override
-	public void onReceive(Context context, Intent initIntent) {
-		Log.e(TAG, "绑定桥接BroadcastReceiver失败了哦！！！");
-	}
+    @Override
+    public void onReceive(Context context, Intent initIntent) {
+        Log.e(TAG, "绑定桥接BroadcastReceiver失败了哦！！！");
+    }
 
 }

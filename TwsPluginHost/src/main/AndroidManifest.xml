@@ -73,6 +73,23 @@
 
         <activity android:name=".debug.PluginFragmentActivity" />
 
+
+        <!--这个是Activity跳板组件，运行在宿主进程中，方便启用跳板的功能-->
+        <!-- 跳板的规则[action、category、...]由宿主和插件协商确定 -->
+        <activity
+            android:name="com.tws.plugin.bridge.TwsPluginBridgeActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.rick.tws.pluginhost.STUB_BRIDGE" />
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="com.tws.plugin.bridge.category.SAMPLE_RAMP" />
+
+                <data android:scheme="qwallet1800001531" />
+                <data android:scheme="tsmclient" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>

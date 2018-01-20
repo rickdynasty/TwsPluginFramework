@@ -235,13 +235,13 @@ public class PluginManagerProvider extends ContentProvider {
 
         } else if (ACTION_BIND_ACTIVITY.equals(method)) {
 
-            bundle.putString(BIND_ACTIVITY_RESULT, PluginStubBinding.bindStubActivity(arg, extras.getInt("launchMode")));
+            bundle.putString(BIND_ACTIVITY_RESULT, PluginStubBinding.bindStubActivity(arg, extras.getInt(PluginManagerHelper.CONSTANT_KEY_LAUNCH_MODE)));
 
             return bundle;
 
         } else if (ACTION_UNBIND_ACTIVITY.equals(method)) {
 
-            PluginStubBinding.unBindLaunchModeStubActivity(arg, extras.getString("className"));
+            PluginStubBinding.unBindLaunchModeStubActivity(arg, extras.getString(PluginManagerHelper.CONSTANT_KEY_CLASS_NAME));
 
         } else if (ACTION_BIND_SERVICE.equals(method)) {
             String process = extras != null ? extras.getString(EXTRAS_BUNDLE_PROCESS) : null;
@@ -264,7 +264,7 @@ public class PluginManagerProvider extends ContentProvider {
             return bundle;
 
         } else if (ACTION_IS_EXACT.equals(method)) {
-            bundle.putBoolean(IS_EXACT_RESULT, PluginStubBinding.isExact(arg, extras.getInt("type")));
+            bundle.putBoolean(IS_EXACT_RESULT, PluginStubBinding.isExact(arg, extras.getInt(PluginCallback.EXTRA_TYPE)));
 
             return bundle;
 

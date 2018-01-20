@@ -50,8 +50,8 @@ public class PluginShadowService extends Service {
 		String realName = mClassName;
 		realName = mClassName.replace(PluginIntentResolver.CLASS_PREFIX_SERVICE, "");
 		QRomLog.i(TAG, "className:" + mClassName + " target:" + realName);
-		Class<?> clazz = PluginLoader.loadPluginClassByName(realName);
-		if (null == clazz) {
+		Class<?> cls = PluginLoader.loadPluginClassByName(realName);
+		if (null == cls) {
 			Exception herException = new Exception();
 			herException.fillInStackTrace();
 			QRomLog.e(TAG, "callServiceOnCreate PluginLoader.loadPluginClassByName:" + realName + " return null",
@@ -60,7 +60,7 @@ public class PluginShadowService extends Service {
 		}
 		
 		try {
-			realService = (Service) clazz.newInstance();
+			realService = (Service) cls.newInstance();
 		} catch (Exception e) {
 			throw new RuntimeException("Unable to instantiate service " + mClassName + ": " + e.toString(), e);
 		}

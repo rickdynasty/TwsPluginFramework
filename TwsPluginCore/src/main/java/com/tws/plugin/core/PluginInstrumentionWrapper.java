@@ -121,12 +121,12 @@ public class PluginInstrumentionWrapper extends Instrumentation {
 
                 if (pluginDescriptor != null) {
                     packageName = pluginDescriptor.getPackageName();
-                    Class<?> clazz = PluginLoader.loadPluginClassByName(pluginDescriptor, pluginClassName);
-                    if (clazz != null) {
+                    Class<?> cls = PluginLoader.loadPluginClassByName(pluginDescriptor, pluginClassName);
+                    if (cls != null) {
                         intent.putExtra(PluginIntentResolver.INTENT_EXTRA_BRIDGE_RAMP, className);
 
                         className = pluginClassName;
-                        cl = clazz.getClassLoader();
+                        cl = cls.getClassLoader();
 
                         intent.setExtrasClassLoader(cl);
                         intent.setAction(null);
@@ -158,10 +158,10 @@ public class PluginInstrumentionWrapper extends Instrumentation {
                         pluginDescriptor = PluginManagerHelper.getPluginDescriptorByClassName(pluginClassName);
                     }
 
-                    Class<?> clazz = PluginLoader.loadPluginClassByName(pluginDescriptor, pluginClassName);
-                    if (clazz != null) {
+                    Class<?> cls = PluginLoader.loadPluginClassByName(pluginDescriptor, pluginClassName);
+                    if (cls != null) {
                         className = pluginClassName;
-                        cl = clazz.getClassLoader();
+                        cl = cls.getClassLoader();
 
                         intent.setExtrasClassLoader(cl);
                         if (targetClassName.length > 1) {
@@ -181,9 +181,9 @@ public class PluginInstrumentionWrapper extends Instrumentation {
                     // 这个逻辑是为了支持外部app唤起配置了stub_exact的插件Activity
                     PluginDescriptor pluginDescriptor = PluginManagerHelper.getPluginDescriptorByClassName(className);
 
-                    Class<?> clazz = PluginLoader.loadPluginClassByName(pluginDescriptor, className);
-                    if (clazz != null) {
-                        cl = clazz.getClassLoader();
+                    Class<?> cls = PluginLoader.loadPluginClassByName(pluginDescriptor, className);
+                    if (cls != null) {
+                        cl = cls.getClassLoader();
                     } else {
                         throw new ClassNotFoundException("className : " + className, new Throwable());
                     }
@@ -203,8 +203,8 @@ public class PluginInstrumentionWrapper extends Instrumentation {
                                 PluginDescriptor pluginDescriptor = PluginManagerHelper
                                         .getPluginDescriptorByClassName(className);
 
-                                Class<?> clazz = PluginLoader.loadPluginClassByName(pluginDescriptor, className);
-                                cl = clazz.getClassLoader();
+                                Class<?> cls = PluginLoader.loadPluginClassByName(pluginDescriptor, className);
+                                cl = cls.getClassLoader();
                                 found = true;
                                 break;
                             }

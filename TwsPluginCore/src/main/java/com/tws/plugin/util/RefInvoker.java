@@ -17,24 +17,24 @@ public class RefInvoker {
 	private static final ClassLoader bootloader = system.getParent();
 	private static final ClassLoader application = RefInvoker.class.getClassLoader();
 
-	private static HashMap<String, Class> clazzCache = new HashMap<String, Class>();
+	private static HashMap<String, Class> clsCache = new HashMap<String, Class>();
 
-	public static Class forName(String clazzName) throws ClassNotFoundException {
-		Class clazz = clazzCache.get(clazzName);
-		if (clazz == null) {
-			clazz = Class.forName(clazzName);
-			ClassLoader cl = clazz.getClassLoader();
+	public static Class forName(String clsName) throws ClassNotFoundException {
+		Class cls = clsCache.get(clsName);
+		if (cls == null) {
+			cls = Class.forName(clsName);
+			ClassLoader cl = cls.getClassLoader();
 			if (cl == system || cl == application || cl == bootloader) {
-				clazzCache.put(clazzName, clazz);
+				clsCache.put(clsName, cls);
 			}
 		}
-		return clazz;
+		return cls;
 	}
 
 	public static Object newInstance(String className, Class[] paramTypes, Object[] paramValues) {
 		try {
-			Class clazz = forName(className);
-			Constructor constructor = clazz.getConstructor(paramTypes);
+			Class cls = forName(className);
+			Constructor constructor = cls.getConstructor(paramTypes);
 			if (!constructor.isAccessible()) {
 				constructor.setAccessible(true);
 			}
@@ -57,18 +57,18 @@ public class RefInvoker {
 			Object[] paramValues) {
 
 		try {
-			Class clazz = forName(className);
-			return invokeMethod(target, clazz, methodName, paramTypes, paramValues);
+			Class cls = forName(className);
+			return invokeMethod(target, cls, methodName, paramTypes, paramValues);
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		}
 		return null;
 	}
 
-	public static Object invokeMethod(Object target, Class clazz, String methodName, Class[] paramTypes,
+	public static Object invokeMethod(Object target, Class cls, String methodName, Class[] paramTypes,
 			Object[] paramValues) {
 		try {
-			Method method = clazz.getDeclaredMethod(methodName, paramTypes);
+			Method method = cls.getDeclaredMethod(methodName, paramTypes);
 			if (!method.isAccessible()) {
 				method.setAccessible(true);
 			}
@@ -90,8 +90,8 @@ public class RefInvoker {
 	@SuppressWarnings("rawtypes")
 	public static Object getField(Object target, String className, String fieldName) {
 		try {
-			Class clazz = forName(className);
-			return getField(target, clazz, fieldName);
+			Class cls = forName(className);
+			return getField(target, cls, fieldName);
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		}
@@ -99,9 +99,9 @@ public class RefInvoker {
 	}
 
 	@SuppressWarnings("rawtypes")
-	public static Object getField(Object target, Class clazz, String fieldName) {
+	public static Object getField(Object target, Class cls, String fieldName) {
 		try {
-			Field field = clazz.getDeclaredField(fieldName);
+			Field field = cls.getDeclaredField(fieldName);
 			if (!field.isAccessible()) {
 				field.setAccessible(true);
 			}
@@ -111,7 +111,7 @@ public class RefInvoker {
 		} catch (NoSuchFieldException e) {
 			// try supper for Miui, Miui has a class named MiuiPhoneWindow
 			try {
-				Field field = clazz.getSuperclass().getDeclaredField(fieldName);
+				Field field = cls.getSuperclass().getDeclaredField(fieldName);
 				field.setAccessible(true);
 				return field.get(target);
 			} catch (Exception superE) {
@@ -130,16 +130,16 @@ public class RefInvoker {
 	@SuppressWarnings("rawtypes")
 	public static void setField(Object target, String className, String fieldName, Object fieldValue) {
 		try {
-			Class clazz = forName(className);
-			setField(target, clazz, fieldName, fieldValue);
+			Class cls = forName(className);
+			setField(target, cls, fieldName, fieldValue);
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		}
 	}
 
-	public static void setField(Object target, Class clazz, String fieldName, Object fieldValue) {
+	public static void setField(Object target, Class cls, String fieldName, Object fieldValue) {
 		try {
-			Field field = clazz.getDeclaredField(fieldName);
+			Field field = cls.getDeclaredField(fieldName);
 			if (!field.isAccessible()) {
 				field.setAccessible(true);
 			}
@@ -149,7 +149,7 @@ public class RefInvoker {
 		} catch (NoSuchFieldException e) {
 			// try supper for Miui, Miui has a class named MiuiPhoneWindow
 			try {
-				Field field = clazz.getSuperclass().getDeclaredField(fieldName);
+				Field field = cls.getSuperclass().getDeclaredField(fieldName);
 				if (!field.isAccessible()) {
 					field.setAccessible(true);
 				}
@@ -165,9 +165,9 @@ public class RefInvoker {
 		}
 	}
 
-	public static Method findMethod(Object object, String methodName, Class[] clazzes) {
+	public static Method findMethod(Object object, String methodName, Class[] clses) {
 		try {
-			return object.getClass().getDeclaredMethod(methodName, clazzes);
+			return object.getClass().getDeclaredMethod(methodName, clses);
 		} catch (NoSuchMethodException e) {
 			e.printStackTrace();
 		}

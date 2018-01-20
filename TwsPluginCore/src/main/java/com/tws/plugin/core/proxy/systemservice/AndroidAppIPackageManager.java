@@ -380,7 +380,7 @@ public class AndroidAppIPackageManager extends MethodProxy {
 		activityInfo.taskAffinity = null;// 需要时再加上
 		// activityInfo.targetActivity =
 
-		if (pluginDescriptor.getType(className) == DisplayItem.TYPE_ACTIVITY) {
+		if (pluginDescriptor.getClsNameType(className) == DisplayItem.TYPE_ACTIVITY) {
 			PluginActivityInfo detail = pluginDescriptor.getActivityInfos().get(className);
 			activityInfo.launchMode = Integer.valueOf(detail.getLaunchMode());
 			activityInfo.theme = ResourceUtil.getResourceId(detail.getTheme());

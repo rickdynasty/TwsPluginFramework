@@ -92,15 +92,15 @@ public class PluginAppTrace implements Handler.Callback {
     private static Result beforeReceiver(Message msg) {
         if (ProcessUtil.isPluginProcess()) {//判断进程是为了提高效率, 因为插件组件都是在插件进程中运行的.
 
-            // rick_Note:clazz is "Context newBase"???
-            Class clazz = PluginIntentResolver.resolveReceiverForClassLoader(msg.obj);
+            // rick_Note:cls is "Context newBase"???
+            Class cls = PluginIntentResolver.resolveReceiverForClassLoader(msg.obj);
             //找到class说明是插件中定义的receiver
-            if (clazz != null) {
+            if (cls != null) {
 
                 PluginInjector.hackHostClassLoaderIfNeeded();
 
                 Context baseContext = PluginLoader.getApplication().getBaseContext();
-                Context newBase = PluginLoader.getDefaultPluginContext(clazz);
+                Context newBase = PluginLoader.getDefaultPluginContext(cls);
 
                 PluginInjector.replaceReceiverContext(baseContext, newBase);
 

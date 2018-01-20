@@ -63,7 +63,7 @@ public class HackActivityThread {
 		return hackActivityThread;
 	}
 
-	public static Class clazz() {
+	public static Class cls() {
 		try {
 			return RefInvoker.forName(ClassName);
 		} catch (ClassNotFoundException e) {

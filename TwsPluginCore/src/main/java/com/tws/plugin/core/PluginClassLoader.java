@@ -98,30 +98,30 @@ public class PluginClassLoader extends DexClassLoader {
 
 	@Override
 	protected Class<?> findClass(String className) throws ClassNotFoundException {
-		Class<?> clazz = null;
+		Class<?> cls = null;
 		ClassNotFoundException suppressed = null;
 		try {
-			clazz = super.findClass(className);
+			cls = super.findClass(className);
 		} catch (ClassNotFoundException e) {
 			suppressed = e;
 		}
 
 		// 这里判断android.view 是为了解决webview的问题
-		if (clazz == null && !className.startsWith("android.view")) {
+		if (cls == null && !className.startsWith("android.view")) {
 
 			if (multiDexClassLoaderList != null) {
 				for (DexClassLoader dexLoader : multiDexClassLoaderList) {
 					try {
-						clazz = dexLoader.loadClass(className);
+						cls = dexLoader.loadClass(className);
 					} catch (ClassNotFoundException e) {
 					}
-					if (clazz != null) {
+					if (cls != null) {
 						break;
 					}
 				}
 			}
 
-			if (clazz == null && dependencies != null) {
+			if (cls == null && dependencies != null) {
 				for (String dependencePluginId : dependencies) {
 
 					// 被依赖的插件可能尚未初始化，确保使用前已经初始化
@@ -129,10 +129,10 @@ public class PluginClassLoader extends DexClassLoader {
 
 					if (plugin != null) {
 						try {
-							clazz = plugin.pluginClassLoader.loadClass(className);
+							cls = plugin.pluginClassLoader.loadClass(className);
 						} catch (ClassNotFoundException e) {
 						}
-						if (clazz != null) {
+						if (cls != null) {
 							break;
 						}
 					} else {
@@ -142,10 +142,10 @@ public class PluginClassLoader extends DexClassLoader {
 			}
 		}
 
-		if (clazz == null && suppressed != null) {
+		if (cls == null && suppressed != null) {
 			throw suppressed;
 		}
 
-		return clazz;
+		return cls;
 	}
 }

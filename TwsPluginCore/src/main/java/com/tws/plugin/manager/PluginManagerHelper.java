@@ -22,7 +22,11 @@ import qrom.component.log.QRomLog;
 public class PluginManagerHelper {
     private static final String TAG = "rick_Print:PluginManagerHelper";
 
-    // 加个客户端进程的缓存，减少跨进程调用
+    public static String CONSTANT_KEY_LAUNCH_MODE = "launchMode";
+    public static String CONSTANT_KEY_PROCESS_INDEX = "process_id";
+    public static String CONSTANT_KEY_CLASS_NAME = "className";
+
+    // 加个客户端进程的缓存<className, PluginDescriptor>，减少跨进程调用
     private static final HashMap<String, PluginDescriptor> pluginDescriptorCache = new HashMap<String, PluginDescriptor>();
     private static final HashMap<String, Drawable> pluginIconCache = new HashMap<String, Drawable>();
 
@@ -40,17 +44,15 @@ public class PluginManagerHelper {
         return pluginIconCache.get(resName);
     }
 
-    public static PluginDescriptor getPluginDescriptorByClassName(String clazzName) {
+    public static PluginDescriptor getPluginDescriptorByClassName(String clsName) {
 
-        PluginDescriptor pluginDescriptor = pluginDescriptorCache.get(clazzName);
+        PluginDescriptor pluginDescriptor = pluginDescriptorCache.get(clsName);
 
         if (pluginDescriptor == null) {
-            Bundle bundle = call(PluginManagerProvider.buildUri(), PluginManagerProvider.ACTION_QUERY_BY_CLASS_NAME,
-                    clazzName, null);
+            Bundle bundle = call(PluginManagerProvider.buildUri(), PluginManagerProvider.ACTION_QUERY_BY_CLASS_NAME, clsName, null);
             if (bundle != null) {
-                pluginDescriptor = (PluginDescriptor) bundle
-                        .getSerializable(PluginManagerProvider.QUERY_BY_CLASS_NAME_RESULT);
-                pluginDescriptorCache.put(clazzName, pluginDescriptor);
+                pluginDescriptor = (PluginDescriptor) bundle.getSerializable(PluginManagerProvider.QUERY_BY_CLASS_NAME_RESULT);
+                pluginDescriptorCache.put(clsName, pluginDescriptor);
             }
         }
 
@@ -65,11 +67,8 @@ public class PluginManagerHelper {
         if (bundle != null) {
             list = (Collection<PluginDescriptor>) bundle.getSerializable(PluginManagerProvider.QUERY_ALL_RESULT);
         }
-        // 防止NPE
-        if (list == null) {
-            list = new ArrayList<PluginDescriptor>();
-        }
-        return list;
+
+        return list == null ? new ArrayList<PluginDescriptor>() : list;
     }
 
     public static PluginDescriptor getPluginDescriptorByPluginId(String pluginId) {
@@ -77,25 +76,21 @@ public class PluginManagerHelper {
             return null;
 
         if (pluginId.startsWith("com.android.")) {
-            // 之所以有这判断, 是因为可能BinderProxyDelegate
-            // 或者AndroidAppIPackageManager
-            // 或者PluginBaseContextWrapper.createPackageContext
-            // 中拦截了由系统发起的查询操作, 被拦截之后转到了这里
-            // 所有在这做个快速判断.
+            // 可能是BinderProxyDelegate、AndroidAppIPackageManager、PluginBaseContextWrapper.createPackageContext、
+            // 中拦截了由系统发起的查询操作, 被拦截之后转到了这里，所有在这做个快速判断.
             return null;
         }
 
         PluginDescriptor pluginDescriptor = pluginDescriptorCache.get(pluginId);
 
         if (pluginDescriptor == null) {
-            Bundle bundle = call(PluginManagerProvider.buildUri(), PluginManagerProvider.ACTION_QUERY_BY_ID, pluginId,
-                    null);
+            Bundle bundle = call(PluginManagerProvider.buildUri(), PluginManagerProvider.ACTION_QUERY_BY_ID, pluginId, null);
             if (bundle != null) {
                 pluginDescriptor = (PluginDescriptor) bundle.getSerializable(PluginManagerProvider.QUERY_BY_ID_RESULT);
                 pluginDescriptorCache.put(pluginId, pluginDescriptor);
             }
         } else {
-            QRomLog.i(TAG, "取本端缓存:" + pluginDescriptor.getInstalledPath());
+            QRomLog.i(TAG, "get from pluginDescriptorCache pluginPath:" + pluginDescriptor.getInstalledPath());
         }
 
         return pluginDescriptor;
@@ -145,10 +140,10 @@ public class PluginManagerHelper {
         }
 
         if (!TextUtils.isEmpty(rltDes)) {
-            QRomLog.e(TAG, "installPlugin:" + srcFile + " rlt is " + rltDes);
-            if (Thread.currentThread() == Looper.getMainLooper().getThread()) {
-                //Toast.makeText(PluginLoader.getApplication(), rltDes, Toast.LENGTH_SHORT).show();
-            }
+            // QRomLog.e(TAG, "installPlugin:" + srcFile + " rlt is " + rltDes);
+            //if (Thread.currentThread() == Looper.getMainLooper().getThread()) {
+            //Toast.makeText(PluginLoader.getApplication(), rltDes, Toast.LENGTH_SHORT).show();
+            //}
         }
 
         return result;
@@ -181,10 +176,9 @@ public class PluginManagerHelper {
         pluginDescriptorCache.clear();
     }
 
-    public static PluginDescriptor getPluginDescriptorByFragmentId(String clazzId) {
+    public static PluginDescriptor getPluginDescriptorByFragmentId(String clsId) {
 
-        Bundle bundle = call(PluginManagerProvider.buildUri(), PluginManagerProvider.ACTION_QUERY_BY_FRAGMENT_ID,
-                clazzId, null);
+        Bundle bundle = call(PluginManagerProvider.buildUri(), PluginManagerProvider.ACTION_QUERY_BY_FRAGMENT_ID, clsId, null);
         if (bundle != null) {
             return (PluginDescriptor) bundle.getSerializable(PluginManagerProvider.QUERY_BY_FRAGMENT_ID_RESULT);
         }
@@ -201,9 +195,8 @@ public class PluginManagerHelper {
 
     public static String bindStubActivity(String pluginActivityClassName, int launchMode) {
         Bundle arg = new Bundle();
-        arg.putInt("launchMode", launchMode);
-        Bundle bundle = call(PluginManagerProvider.buildUri(), PluginManagerProvider.ACTION_BIND_ACTIVITY,
-                pluginActivityClassName, arg);
+        arg.putInt(CONSTANT_KEY_LAUNCH_MODE, launchMode);
+        Bundle bundle = call(PluginManagerProvider.buildUri(), PluginManagerProvider.ACTION_BIND_ACTIVITY, pluginActivityClassName, arg);
         if (bundle != null) {
             return bundle.getString(PluginManagerProvider.BIND_ACTIVITY_RESULT);
         }
@@ -211,8 +204,9 @@ public class PluginManagerHelper {
     }
 
     public static boolean isExact(String name, int type) {
+        QRomLog.i(TAG, "call isExact(" + name + ", " + type + ")");
         Bundle arg = new Bundle();
-        arg.putInt("type", type);
+        arg.putInt(PluginCallback.EXTRA_TYPE, type);
         Bundle bundle = call(PluginManagerProvider.buildUri(), PluginManagerProvider.ACTION_IS_EXACT, name, arg);
         if (bundle != null) {
             return bundle.getBoolean(PluginManagerProvider.IS_EXACT_RESULT);
@@ -221,14 +215,15 @@ public class PluginManagerHelper {
     }
 
     public static void unBindLaunchModeStubActivity(String activityName, String className) {
+        QRomLog.i(TAG, "call unBindLaunchModeStubActivity(" + activityName + ", " + className + ")");
         Bundle arg = new Bundle();
-        arg.putString("className", className);
+        arg.putString(CONSTANT_KEY_CLASS_NAME, className);
         call(PluginManagerProvider.buildUri(), PluginManagerProvider.ACTION_UNBIND_ACTIVITY, activityName, arg);
     }
 
     public static String getBindedPluginServiceName(String stubServiceName) {
-        Bundle bundle = call(PluginManagerProvider.buildUri(), PluginManagerProvider.ACTION_GET_BINDED_SERVICE,
-                stubServiceName, null);
+        QRomLog.i(TAG, "call getBindedPluginServiceName(" + stubServiceName + ")");
+        Bundle bundle = call(PluginManagerProvider.buildUri(), PluginManagerProvider.ACTION_GET_BINDED_SERVICE, stubServiceName, null);
         if (bundle != null) {
             return bundle.getString(PluginManagerProvider.GET_BINDED_SERVICE_RESULT);
         }
@@ -236,6 +231,7 @@ public class PluginManagerHelper {
     }
 
     public static String bindStubService(String pluginServiceClassName, String process) {
+        QRomLog.i(TAG, "call bindStubService(" + pluginServiceClassName + ", " + process + ")");
         Bundle extras = null;
         if (!TextUtils.isEmpty(process)) {
             extras = new Bundle();
@@ -250,6 +246,7 @@ public class PluginManagerHelper {
     }
 
     public static void unBindStubService(String pluginServiceName) {
+        QRomLog.i(TAG, "call unBindStubService(" + pluginServiceName + ")");
         call(PluginManagerProvider.buildUri(), PluginManagerProvider.ACTION_UNBIND_SERVICE, pluginServiceName, null);
     }
 
@@ -262,8 +259,7 @@ public class PluginManagerHelper {
     }
 
     public static String dumpServiceInfo() {
-        Bundle bundle = call(PluginManagerProvider.buildUri(), PluginManagerProvider.ACTION_DUMP_SERVICE_INFO, null,
-                null);
+        Bundle bundle = call(PluginManagerProvider.buildUri(), PluginManagerProvider.ACTION_DUMP_SERVICE_INFO, null, null);
         if (bundle != null) {
             return bundle.getString(PluginManagerProvider.DUMP_SERVICE_INFO_RESULT);
         }
@@ -278,6 +274,7 @@ public class PluginManagerHelper {
         } catch (Exception e) {
             QRomLog.e(TAG, "call uri fail - uri=" + uri + " method=" + method + " arg=" + arg + " extras=" + extras, e);
         }
+
         return null;
     }
 }

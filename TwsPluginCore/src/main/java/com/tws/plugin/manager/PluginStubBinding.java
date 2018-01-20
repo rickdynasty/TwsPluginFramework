@@ -57,7 +57,7 @@ class PluginStubBinding {
 
 	private static boolean isPoolInited = false;
 
-	private static String buildDefaultAction() {
+	private static String buildHostAction() {
 		return PluginLoader.getApplication().getPackageName() + ".STUB_DEFAULT";
 	}
 
@@ -94,7 +94,7 @@ class PluginStubBinding {
 
 	private static void loadStubActivity() {
 		Intent launchModeIntent = new Intent();
-		launchModeIntent.setAction(buildDefaultAction());
+		launchModeIntent.setAction(buildHostAction());
 		launchModeIntent.setPackage(PluginLoader.getApplication().getPackageName());
 
 		List<ResolveInfo> list = PluginLoader.getApplication().getPackageManager()
@@ -127,7 +127,7 @@ class PluginStubBinding {
 
 	private static synchronized void loadStubService() {
 		Intent launchModeIntent = new Intent();
-		launchModeIntent.setAction(buildDefaultAction());
+		launchModeIntent.setAction(buildHostAction());
 		launchModeIntent.setPackage(PluginLoader.getApplication().getPackageName());
 
 		List<ResolveInfo> list = PluginLoader.getApplication().getPackageManager()
@@ -226,7 +226,7 @@ class PluginStubBinding {
 
 	private static void loadStubReceiver() {
 		Intent exactStub = new Intent();
-		exactStub.setAction(buildDefaultAction());
+		exactStub.setAction(buildHostAction());
 		exactStub.setPackage(PluginLoader.getApplication().getPackageName());
 
 		List<ResolveInfo> resolveInfos = PluginLoader.getApplication().getPackageManager()

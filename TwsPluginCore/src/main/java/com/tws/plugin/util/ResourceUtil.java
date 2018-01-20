@@ -178,9 +178,9 @@ public class ResourceUtil {
 	}
 
 	public static void rewriteRValues(ClassLoader cl, String packageName, int id) {
-		final Class<?> rClazz;
+		final Class<?> cls;
 		try {
-			rClazz = cl.loadClass(packageName + ".R");
+			cls = cl.loadClass(packageName + ".R");
 		} catch (ClassNotFoundException e) {
 			QRomLog.i(TAG, "No resource references to update in package " + packageName);
 			return;
@@ -188,7 +188,7 @@ public class ResourceUtil {
 
 		final Method callback;
 		try {
-			callback = rClazz.getMethod("onResourcesLoaded", int.class);
+			callback = cls.getMethod("onResourcesLoaded", int.class);
 		} catch (NoSuchMethodException e) {
 			// No rewriting to be done.
 			return;

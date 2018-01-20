@@ -215,7 +215,13 @@ public class PluginDescriptor implements Serializable {
     }
 
     public void setApplicationProcess(String process) {
-        this.applicaionProcess = process;
+        if (TextUtils.isEmpty(process) || process.equals(PluginLoader.getApplication().getPackageName())) {
+            this.applicaionProcess = null;
+        } else if (process.endsWith(":pminor")) {
+            this.applicaionProcess = process;
+        } else {
+            this.applicaionProcess = process;
+        }
     }
 
     public Bundle getMetaData() {
@@ -361,90 +367,72 @@ public class PluginDescriptor implements Serializable {
     /**
      * 需要根据id查询的只有fragment
      *
-     * @param clazzId
+     * @param clsId
      * @return
      */
-    public String getPluginClassNameById(String clazzId) {
-        String clazzName = getFragments().get(clazzId);
+    public String getPluginClassNameById(String clsId) {
+        String clsName = getFragments().get(clsId);
 
-        if (clazzName == null) {
-            QRomLog.i(TAG, "clazzName not found for classId:" + clazzId);
+        if (clsName == null) {
+            QRomLog.i(TAG, "className not found for classId:" + clsId);
         } else {
-            QRomLog.i(TAG, "clazzName found:" + clazzName);
+            QRomLog.i(TAG, "clsName found:" + clsName);
         }
 
-        return clazzName;
+        return clsName;
     }
 
     /**
      * 需要根据Id查询的只有fragment
      *
-     * @param clazzId
+     * @param clsId
      * @return
      */
-    public boolean containsFragment(String clazzId) {
-        if (getFragments().containsKey(clazzId) && isEnabled()) {
+    public boolean containsFragment(String clsId) {
+        if (getFragments().containsKey(clsId) && isEnabled()) {
             return true;
         }
         return false;
     }
 
     /**
-     * 根据className查询
+     * 获取className的type类型,比如：activity、fragment、service等
      *
-     * @param clazzName
-     * @return
+     * @return int type value
      */
-    public int matcheName(String clazzName) {
-        if (getFragments().containsValue(clazzName) && isEnabled()) {
+    public int getClsNameType(String className) {
+        if (!isEnabled()) {
+            return DisplayItem.TYPE_UNKOWN;
+        }
+
+        if (getFragments().containsValue(className)) {
             return DisplayItem.TYPE_FRAGMENT;
-        } else if (getActivitys().containsKey(clazzName) && isEnabled()) {
+        } else if (getActivitys().containsKey(className)) {
             return DisplayItem.TYPE_ACTIVITY;
-        } else if (getReceivers().containsKey(clazzName) && isEnabled()) {
+        } else if (getReceivers().containsKey(className)) {
             return DisplayItem.TYPE_BROADCAST;
-        } else if (getServices().containsKey(clazzName) && isEnabled()) {
+        } else if (getServices().containsKey(className)) {
             return DisplayItem.TYPE_SERVICE;
-        } else if (getProviderInfos().containsKey(clazzName) && isEnabled()) {
+        } else if (getProviderInfos().containsKey(className)) {
             return DisplayItem.TYPE_PROVIDER;
-        } else if (getApplicationName().equals(clazzName) && !clazzName.equals(Application.class.getName())
-                && isEnabled()) {
+        } else if (getApplicationName().equals(className) && !className.equals(Application.class.getName())) {
             return DisplayItem.TYPE_APPLICATION;
+        } else {
+            return DisplayItem.TYPE_UNKOWN;
         }
-
-        return DisplayItem.TYPE_UNKOWN;
-    }
-
-    /**
-     * 获取class的类型： activity
-     *
-     * @return
-     */
-    public int getType(String clazzName) {
-        if (getFragments().containsValue(clazzName) && isEnabled()) {
-            return DisplayItem.TYPE_FRAGMENT;
-        } else if (getActivitys().containsKey(clazzName) && isEnabled()) {
-            return DisplayItem.TYPE_ACTIVITY;
-        } else if (getReceivers().containsKey(clazzName) && isEnabled()) {
-            return DisplayItem.TYPE_BROADCAST;
-        } else if (getServices().containsKey(clazzName) && isEnabled()) {
-            return DisplayItem.TYPE_SERVICE;
-        } else if (getProviderInfos().containsKey(clazzName) && isEnabled()) {
-            return DisplayItem.TYPE_PROVIDER;
-        }
-        return DisplayItem.TYPE_UNKOWN;
     }
 
     public List<ComponentInfo> matchPlugin(Intent intent, int type) {
         List<ComponentInfo> result = null;
-        String clazzName = null;
+        String clsName = null;
         // 如果是通过组件进行匹配的, 这里忽略了packageName
-        if (intent.getComponent() != null && type == matcheName(intent.getComponent().getClassName())
+        if (intent.getComponent() != null && type == getClsNameType(intent.getComponent().getClassName())
                 && !TwsPluginBridgeActivity.class.getName().equals(intent.getComponent().getClassName())) {
-            clazzName = intent.getComponent().getClassName();
+            clsName = intent.getComponent().getClassName();
             result = new ArrayList<ComponentInfo>(1);
             //当前暂时就service支持配置多进程
-            String process = (type == DisplayItem.TYPE_SERVICE ? serviceProcessInfos.get(clazzName) : null);
-            result.add(new ComponentInfo(clazzName, type, getPackageName(), process));
+            String process = (type == DisplayItem.TYPE_SERVICE ? serviceProcessInfos.get(clsName) : null);
+            result.add(new ComponentInfo(clsName, type, getPackageName(), process));
             return result;// 暂时不考虑不同的插件中配置了相同名称的组件的问题,先到先得
         }
 

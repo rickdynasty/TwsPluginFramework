@@ -9,6 +9,7 @@ import com.tws.plugin.content.PluginActivityInfo;
 import com.tws.plugin.content.PluginDescriptor;
 import com.tws.plugin.content.PluginIntentFilter;
 import com.tws.plugin.content.PluginProviderInfo;
+import com.tws.plugin.manager.PluginManagerHelper;
 import com.tws.plugin.util.ManifestReader;
 import com.tws.plugin.util.ProcessUtil;
 
@@ -76,10 +77,8 @@ public class PluginManifestParser {
                             packageName = parser.getAttributeValue(null, "package");
                             String versionCode = parser.getAttributeValue(namespaceAndroid, "versionCode");
                             String versionName = parser.getAttributeValue(namespaceAndroid, "versionName");
-                            String platformBuildVersionCode = parser.getAttributeValue(namespaceAndroid,
-                                    "platformBuildVersionCode");
-                            String platformBuildVersionName = parser.getAttributeValue(namespaceAndroid,
-                                    "platformBuildVersionName");
+                            String platformBuildVersionCode = parser.getAttributeValue(namespaceAndroid, "platformBuildVersionCode");
+                            String platformBuildVersionName = parser.getAttributeValue(namespaceAndroid, "platformBuildVersionName");
 
                             // 用这个字段来标记apk是独立apk，还是需要依赖主程序的class和resource
                             // 当这个值等于宿主程序packageName时，则认为这个插件是需要依赖宿主的class和resource的
@@ -102,8 +101,7 @@ public class PluginManifestParser {
                             desciptor.setStandalone(sharedUserId == null
                                     || !PluginLoader.getApplication().getPackageName().equals(sharedUserId));
 
-                            QRomLog.i(TAG, "packageName=" + packageName + " versionCode=" + versionCode + " versionName="
-                                    + versionName + " sharedUserId=" + sharedUserId);
+                            QRomLog.i(TAG, "packageName=" + packageName + " versionCode=" + versionCode + " versionName=" + versionName + " sharedUserId=" + sharedUserId);
                         } else if ("plugin-display".equals(tag)) {
                             // 解析插件的配置显示形态
                             String value = parser.getAttributeValue(namespaceAndroid, "value");
@@ -270,7 +268,7 @@ public class PluginManifestParser {
                             String windowSoftInputMode = parser.getAttributeValue(namespaceAndroid, "windowSoftInputMode");// strin
                             String hardwareAccelerated = parser.getAttributeValue(namespaceAndroid, "hardwareAccelerated");// int
                             // string
-                            String launchMode = parser.getAttributeValue(namespaceAndroid, "launchMode");// string
+                            String launchMode = parser.getAttributeValue(namespaceAndroid, PluginManagerHelper.CONSTANT_KEY_LAUNCH_MODE);// string
                             String screenOrientation = parser.getAttributeValue(namespaceAndroid, "screenOrientation");// string
                             String theme = parser.getAttributeValue(namespaceAndroid, "theme");// int
                             String immersive = parser.getAttributeValue(namespaceAndroid, "immersive");// int

@@ -1,9 +1,5 @@
 package com.tws.plugin.util;
 
-import java.util.List;
-
-import qrom.component.log.QRomLog;
-
 import android.app.ActivityManager;
 import android.content.ComponentName;
 import android.content.Context;
@@ -14,13 +10,20 @@ import com.tws.plugin.core.PluginApplication;
 import com.tws.plugin.core.PluginLoader;
 import com.tws.plugin.manager.PluginManagerProvider;
 
-public class ProcessUtil {
+import qrom.component.log.QRomLog;
 
+public class ProcessUtil {
     private static final String TAG = "rick_Print:ProcessUtil";
+
+    //插件运行所在的进程
+    public static int PLUGIN_PROCESS_INDEX_HOST = 0;
+    public static int PLUGIN_PROCESS_INDEX_MASTER = 1;
+    public static int PLUGIN_PROCESS_INDEX_MINOR = 2;
+
     // 这是一个潜规则，插件的进程除PluginManagerProvider的标配外，其他的都统一规定前缀：
     private static final String PLUGIN_MULTI_PROCESS_SUFFIX = ":plugin";
 
-    private static final String PLUGIN_MASTER_PROCESS_SUFFIX = ":pmaster";
+    private static final String PLUGIN_MASTER_PROCESS_SUFFIX = ":pmaster";  //PluginManagerProvider 就配置在插件master进程里面
     private static final String PLUGIN_MINOR_PROCESS_SUFFIX = ":pminor";
 
     private static Boolean isPluginProcess = null;
@@ -43,11 +46,11 @@ public class ProcessUtil {
     private static void ensure(Context context) {
         // 注意：当前宿主和插件是一个进程
         if (isPluginProcess == null) {
-            String processName = getCurProcessName(context);
             final String hostProcessName = PluginApplication.getInstance().getPackageName();  //rick_Note：注意这里使用了系统默认的方式指定进程，如果自己指定了主进程的名称需要做处理
             final String pluginMasterProcessName = getPluginMasterProcessName(context);
             final String pluginMinorProcessName = getPluginMinorProcessName(context);
 
+            String processName = getCurProcessName(context);
 
             isHostProcess = hostProcessName.equals(processName);
             // 这是一个潜规则，插件的进程除PluginManagerProvider的标配外，其他的都统一规定前缀："HostPackageName:plugin"+"编号";
@@ -69,20 +72,19 @@ public class ProcessUtil {
         final int pid = android.os.Process.myPid();
         QRomLog.i(TAG, "getCurProcessName pid=" + pid);
         ActivityManager activityManager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
-        List<ActivityManager.RunningAppProcessInfo> list = activityManager.getRunningAppProcesses();
-        for (ActivityManager.RunningAppProcessInfo appProcess : list) {
+        for (ActivityManager.RunningAppProcessInfo appProcess : activityManager.getRunningAppProcesses()) {
             if (appProcess.pid == pid) {
                 return appProcess.processName;
             }
         }
+
         return "";
     }
 
     public static String getPluginMasterProcessName(Context context) {
         try {
-            // 这里取个巧, 直接查询ContentProvider的信息中包含的processName,因为Contentprovider是被配置在插件进程的.但是这个api只支持9及以上,
-            ProviderInfo pinfo = context.getPackageManager().getProviderInfo(
-                    new ComponentName(context, PluginManagerProvider.class), 0);
+            // 这里取个巧, 直接查询ContentProvider的信息中包含的processName,因为Contentprovider是被配置为插件pmaster进程.但是这个api只支持9及以上,
+            ProviderInfo pinfo = context.getPackageManager().getProviderInfo(new ComponentName(context, PluginManagerProvider.class), 0);
             return pinfo.processName;
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();

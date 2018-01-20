@@ -7,10 +7,9 @@ import java.lang.reflect.Method;
 @SuppressWarnings("unchecked")
 public class RefIectUtil {
 
-	public static Object invokeMethod(Object target, Class clazz, String methodName, Class[] paramTypes,
-									  Object[] paramValues) {
+	public static Object invokeMethod(Object target, Class cls, String methodName, Class[] paramTypes, Object[] paramValues) {
 		try {
-			Method method = clazz.getDeclaredMethod(methodName, paramTypes);
+			Method method = cls.getDeclaredMethod(methodName, paramTypes);
 			if (!method.isAccessible()) {
 				method.setAccessible(true);
 			}
@@ -30,9 +29,9 @@ public class RefIectUtil {
 	}
 
 	@SuppressWarnings("rawtypes")
-	public static Object getFieldObject(Object target, Class clazz, String fieldName) {
+	public static Object getFieldObject(Object target, Class cls, String fieldName) {
 		try {
-			Field field = clazz.getDeclaredField(fieldName);
+			Field field = cls.getDeclaredField(fieldName);
 			if (!field.isAccessible()) {
 				field.setAccessible(true);
 			}

@@ -169,14 +169,14 @@ class PluginManagerImpl {
     /**
      * for Fragment
      *
-     * @param clazzId
+     * @param clsId
      * @return
      */
-    PluginDescriptor getPluginDescriptorByFragmenetId(String clazzId) {
+    PluginDescriptor getPluginDescriptorByFragmenetId(String clsId) {
         Iterator<PluginDescriptor> itr = sInstalledPlugins.values().iterator();
         while (itr.hasNext()) {
             PluginDescriptor descriptor = itr.next();
-            if (descriptor.containsFragment(clazzId)) {
+            if (descriptor.containsFragment(clsId)) {
                 return descriptor;
             }
         }
@@ -191,11 +191,11 @@ class PluginManagerImpl {
         return null;
     }
 
-    PluginDescriptor getPluginDescriptorByClassName(String clazzName) {
+    PluginDescriptor getPluginDescriptorByClassName(String className) {
         Iterator<PluginDescriptor> itr = sInstalledPlugins.values().iterator();
         while (itr.hasNext()) {
             PluginDescriptor descriptor = itr.next();
-            if (DisplayItem.TYPE_UNKOWN != descriptor.matcheName(clazzName)) {
+            if (DisplayItem.TYPE_UNKOWN != descriptor.getClsNameType(className)) {
                 return descriptor;
             }
         }

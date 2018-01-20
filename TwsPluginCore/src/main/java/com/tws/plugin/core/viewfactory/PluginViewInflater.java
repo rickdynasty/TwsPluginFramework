@@ -100,10 +100,10 @@ public class PluginViewInflater {
         try {
             if (constructor == null) {
                 // Class not found in the cache, see if it's real, and try to add it
-                Class<? extends View> clazz = getClassLoader(mContext, name, prefix).loadClass(
+                Class<? extends View> cls = getClassLoader(mContext, name, prefix).loadClass(
                         prefix != null ? (prefix + name) : name).asSubclass(View.class);
 
-                constructor = clazz.getConstructor(sConstructorSignature);
+                constructor = cls.getConstructor(sConstructorSignature);
                 sConstructorMap.put(name, constructor);
             }
             constructor.setAccessible(true);

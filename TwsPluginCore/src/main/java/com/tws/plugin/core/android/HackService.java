@@ -35,7 +35,7 @@ public class HackService extends HackContextWrapper {
 
         RefInvoker.invokeMethod(instance, ClassName, Method_attach,
                 new Class[]{Context.class,
-                        HackActivityThread.clazz(), String.class, IBinder.class,
+                        HackActivityThread.cls(), String.class, IBinder.class,
                         Application.class, Object.class},
                 new Object[]{mBaseContext, mThread, mClassName, mToken,
                         mApplication, mActivityManager});

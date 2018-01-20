@@ -64,9 +64,9 @@ public class PluginFragmentActivity extends FragmentActivity implements PluginCo
 			}
 			Log.d(LOG_TAG, "loadPluginFragment, classId is " + classId);
 			@SuppressWarnings("rawtypes")
-            Class clazz = PluginLoader.loadPluginFragmentClassById(classId);
-			if (clazz != null) {
-				Fragment fragment = (Fragment) clazz.newInstance();
+            Class cls = PluginLoader.loadPluginFragmentClassById(classId);
+			if (cls != null) {
+				Fragment fragment = (Fragment) cls.newInstance();
 				FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
 				ft.replace(R.id.fragment_container, fragment).commit();
 			}

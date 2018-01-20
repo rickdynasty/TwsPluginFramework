@@ -99,20 +99,20 @@ public class PluginIntentResolver {
             if (action != null) {
                 String[] targetClassName = action.split(CLASS_SEPARATOR);
                 final String packageName = targetClassName.length > 2 ? targetClassName[2] : "";
-                Class<?> clazz = null;
+                Class<?> cls = null;
                 if (!packageName.isEmpty()) {
                     PluginDescriptor pluginDescriptor = PluginManagerHelper.getPluginDescriptorByPluginId(packageName);
                     if (pluginDescriptor != null) {
-                        clazz = PluginLoader.loadPluginClassByName(pluginDescriptor, targetClassName[0]);
+                        cls = PluginLoader.loadPluginClassByName(pluginDescriptor, targetClassName[0]);
                     }
                 }
 
-                if (clazz == null) {
-                    clazz = PluginLoader.loadPluginClassByName(targetClassName[0]);
+                if (cls == null) {
+                    cls = PluginLoader.loadPluginClassByName(targetClassName[0]);
                 }
 
-                if (clazz != null) {
-                    intent.setExtrasClassLoader(clazz.getClassLoader());
+                if (cls != null) {
+                    intent.setExtrasClassLoader(cls.getClassLoader());
                     // 由于之前intent被修改过 这里再吧Intent还原到原始的intent
                     if (targetClassName.length > 1) {
                         intent.setAction(targetClassName[1]);
@@ -132,7 +132,7 @@ public class PluginIntentResolver {
 
                 HackActivityThread.get().ensureInject();
 
-                return clazz;
+                return cls;
             }
         }
         return null;
@@ -192,8 +192,7 @@ public class PluginIntentResolver {
 
             PluginActivityInfo pluginActivityInfo = pd.getActivityInfos().get(className);
 
-            String stubActivityName = PluginManagerHelper.bindStubActivity(className,
-                    Integer.parseInt(pluginActivityInfo.getLaunchMode()));
+            String stubActivityName = PluginManagerHelper.bindStubActivity(className, Integer.parseInt(pluginActivityInfo.getLaunchMode()));
 
             intent.setComponent(new ComponentName(applicationPackageName, stubActivityName));
             // PluginInstrumentationWrapper检测到这个标记后会进行替换
@@ -215,6 +214,11 @@ public class PluginIntentResolver {
     /* package */
     static void resolveActivity(Intent[] intent) {
         // 不常用。需要时再实现此方法，
+
+        //打印调用栈信息，方便跟进
+        Exception here = new Exception();
+        here.fillInStackTrace();
+        QRomLog.w(TAG, "call resolveActivity(Intent[] intent) stack:", here);
     }
 
     public static ArrayList<ComponentInfo> matchPlugin(Intent intent, int type, final String packageName) {

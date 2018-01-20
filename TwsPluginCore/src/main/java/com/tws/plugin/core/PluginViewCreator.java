@@ -82,10 +82,9 @@ public class PluginViewCreator implements LayoutInflater.Factory {
 					baseContext = ((PluginContextTheme) baseContext).getBaseContext();
 				}
 				Context pluginViewContext = PluginCreator.createNewPluginComponentContext(plugin.pluginContext, baseContext, pluginDescriptor.getApplicationTheme());
-				Class<? extends View> clazz = pluginViewContext.getClassLoader()
-						.loadClass(viewClassName).asSubclass(View.class);
+				Class<? extends View> cls = pluginViewContext.getClassLoader().loadClass(viewClassName).asSubclass(View.class);
 
-				Constructor<? extends View> constructor = clazz.getConstructor(new Class[] {
+				Constructor<? extends View> constructor = cls.getConstructor(new Class[] {
 						Context.class, AttributeSet.class});
 				constructor.setAccessible(true);
 				return constructor.newInstance(new Object[] { pluginViewContext, atts });

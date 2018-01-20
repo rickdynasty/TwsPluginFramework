@@ -45,19 +45,19 @@ public class PluginManagerProviderClient {
         return null;
     }
 
-    public static PluginDescriptor queryByClass(String clazzName) {
+    public static PluginDescriptor queryByClass(String clsName) {
         Bundle bundle = CompatForContentProvider.call(PluginManagerProvider.buildUri(),
-                PluginManagerProvider.ACTION_QUERY_BY_CLASS_NAME, clazzName, null);
+                PluginManagerProvider.ACTION_QUERY_BY_CLASS_NAME, clsName, null);
         if (bundle != null) {
             return (PluginDescriptor) bundle.getSerializable(PluginManagerProvider.QUERY_BY_CLASS_NAME_RESULT);
         }
         return null;
     }
 
-    public static PluginDescriptor queryByFragment(String clazzId) {
+    public static PluginDescriptor queryByFragment(String clsId) {
 
         Bundle bundle = CompatForContentProvider.call(PluginManagerProvider.buildUri(),
-                PluginManagerProvider.ACTION_QUERY_BY_FRAGMENT_ID, clazzId, null);
+                PluginManagerProvider.ACTION_QUERY_BY_FRAGMENT_ID, clsId, null);
         if (bundle != null) {
             return (PluginDescriptor) bundle.getSerializable(PluginManagerProvider.QUERY_BY_FRAGMENT_ID_RESULT);
         }
@@ -104,7 +104,7 @@ public class PluginManagerProviderClient {
 
     public static String bindStubActivity(String pluginActivityClassName, int launchMode, String packageName, String themeId, String orientation) {
         Bundle arg = new Bundle();
-        arg.putInt("launchMode", launchMode);
+        arg.putInt(PluginManagerHelper.CONSTANT_KEY_LAUNCH_MODE, launchMode);
         arg.putString("packageName", packageName);
         arg.putString("themeId", themeId);
         if (orientation != null) {
@@ -121,7 +121,7 @@ public class PluginManagerProviderClient {
 
     public static boolean isExact(String name, int type) {
         Bundle arg = new Bundle();
-        arg.putInt("type", type);
+        arg.putInt(PluginCallback.EXTRA_TYPE, type);
         Bundle bundle = CompatForContentProvider.call(PluginManagerProvider.buildUri(),
                 PluginManagerProvider.ACTION_IS_EXACT,
                 name, arg);
@@ -133,10 +133,8 @@ public class PluginManagerProviderClient {
 
     public static void unBindLaunchModeStubActivity(String activityName, String className) {
         Bundle arg = new Bundle();
-        arg.putString("className", className);
-        CompatForContentProvider.call(PluginManagerProvider.buildUri(),
-                PluginManagerProvider.ACTION_UNBIND_ACTIVITY,
-                activityName, arg);
+        arg.putString(PluginManagerHelper.CONSTANT_KEY_CLASS_NAME, className);
+        CompatForContentProvider.call(PluginManagerProvider.buildUri(), PluginManagerProvider.ACTION_UNBIND_ACTIVITY, activityName, arg);
     }
 
     public static String getBindedPluginServiceName(String stubServiceName) {

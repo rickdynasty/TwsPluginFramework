@@ -66,10 +66,10 @@ public class HostClassLoader extends PathClassLoader {
 
             String realName = className.replace(PluginIntentResolver.CLASS_PREFIX_RECEIVER, "");
 
-            Class<?> clazz = PluginLoader.loadPluginClassByName(realName);
-            if (clazz != null) {
-                QRomLog.i(TAG, "className is " + className + " target is " + realName + (clazz == null ? " null" : " found"));
-                return clazz;
+            Class<?> cls = PluginLoader.loadPluginClassByName(realName);
+            if (cls != null) {
+                QRomLog.i(TAG, "className is " + className + " target is " + realName + (cls == null ? " null" : " found"));
+                return cls;
             } else {
                 QRomLog.e(TAG, "到了这里说明出bug了,这里做个容错处理, 避免出现classnotfound");
                 return TwsPluginBridgeReceiver.class;
@@ -79,10 +79,10 @@ public class HostClassLoader extends PathClassLoader {
             if (!TextUtils.isEmpty(pluginId)) {
                 PluginDescriptor pluginDescriptor = PluginManagerHelper.getPluginDescriptorByPluginId(pluginId);
                 if (pluginDescriptor != null) {
-                    Class<?> clazz = PluginLoader.loadPluginClassByName(pluginDescriptor, className);
-                    if (clazz != null) {
-                        QRomLog.i(TAG, "className is " + className + " target is in plugin:" + className + (clazz == null ? " null" : " found"));
-                        return clazz;
+                    Class<?> cls = PluginLoader.loadPluginClassByName(pluginDescriptor, className);
+                    if (cls != null) {
+                        QRomLog.i(TAG, "className is " + className + " target is in plugin:" + className + (cls == null ? " null" : " found"));
+                        return cls;
                     }
                 }
 

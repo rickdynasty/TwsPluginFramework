@@ -106,9 +106,14 @@ public class PluginLoader {
 
             if (isPluginProcess) {
                 if (Build.VERSION.SDK_INT >= 14) {
+                    //Application中的registerActivityLifecycleCallbacks方法，可以在回调中把整个应用打开的Activity保存在集合中、销毁的Activity重集合中删除。
                     sApplication.registerActivityLifecycleCallbacks(new Application.ActivityLifecycleCallbacks() {
                         @Override
                         public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
+                            //if (null == mActivitys) {
+                            //    return;
+                            //}
+                            //mActivitys.add(activity);
                         }
 
                         @Override
@@ -133,10 +138,16 @@ public class PluginLoader {
 
                         @Override
                         public void onActivityDestroyed(Activity activity) {
+                            if (null == activity/* && mActivitys.isEmpty()*/) {
+                                return;
+                            }
+                            //if (mActivitys.contains(activity)) {
+                            //    mActivitys.remove(activity);
+                            //}
+
                             Intent intent = activity.getIntent();
                             if (intent != null && intent.getComponent() != null) {
-                                PluginManagerHelper.unBindLaunchModeStubActivity(intent.getComponent().getClassName(),
-                                        activity.getClass().getName());
+                                PluginManagerHelper.unBindLaunchModeStubActivity(intent.getComponent().getClassName(), activity.getClass().getName());
                             }
                         }
                     });
@@ -157,57 +168,57 @@ public class PluginLoader {
     /**
      * 根据插件中的classId加载一个插件中的class
      *
-     * @param clazzId
+     * @param clsId
      * @return
      */
     @SuppressWarnings("rawtypes")
-    public static Class loadPluginFragmentClassById(String clazzId) {
-        PluginDescriptor pluginDescriptor = PluginManagerHelper.getPluginDescriptorByFragmentId(clazzId);
+    public static Class loadPluginFragmentClassById(String clsId) {
+        PluginDescriptor pluginDescriptor = PluginManagerHelper.getPluginDescriptorByFragmentId(clsId);
         if (pluginDescriptor != null) {
             // 插件可能尚未初始化，确保使用前已经初始化
             LoadedPlugin plugin = PluginLauncher.instance().startPlugin(pluginDescriptor);
 
-			BaseDexClassLoader pluginClassLoader = plugin.pluginClassLoader;
+            BaseDexClassLoader pluginClassLoader = plugin.pluginClassLoader;
 
-            String clazzName = pluginDescriptor.getPluginClassNameById(clazzId);
-            if (clazzName != null) {
+            String clsName = pluginDescriptor.getPluginClassNameById(clsId);
+            if (clsName != null) {
                 try {
-                    Class pluginClazz = ((ClassLoader) pluginClassLoader).loadClass(clazzName);
-                    QRomLog.i(TAG, "loadPluginClass for clazzId:" + clazzId + " clazzName=" + clazzName + " success");
-                    return pluginClazz;
+                    Class pluginCls = ((ClassLoader) pluginClassLoader).loadClass(clsName);
+                    QRomLog.i(TAG, "loadPluginClass for clsId:" + clsId + " clsName=" + clsName + " success");
+                    return pluginCls;
                 } catch (ClassNotFoundException e) {
-                    QRomLog.e(TAG, "loadPluginFragmentClassById:" + clazzId + " ClassNotFound:" + clazzName
+                    QRomLog.e(TAG, "loadPluginFragmentClassById:" + clsId + " ClassNotFound:" + clsName
                             + "Exception", e);
-                    QRomLog.w(TAG, "没有找到：" + clazzName + " 是不是被混淆了~");
+                    QRomLog.w(TAG, "没有找到：" + clsName + " 是不是被混淆了~");
                 }
             }
         }
 
-        QRomLog.e(TAG, "loadPluginClass for clazzId:" + clazzId + " fail");
+        QRomLog.e(TAG, "loadPluginClass for clsId:" + clsId + " fail");
 
         return null;
 
     }
 
     @SuppressWarnings("rawtypes")
-    public static Class loadPluginClassByName(String clazzName) {
-        PluginDescriptor pluginDescriptor = PluginManagerHelper.getPluginDescriptorByClassName(clazzName);
-        return loadPluginClassByName(pluginDescriptor, clazzName);
+    public static Class loadPluginClassByName(String clsName) {
+        PluginDescriptor pluginDescriptor = PluginManagerHelper.getPluginDescriptorByClassName(clsName);
+        return loadPluginClassByName(pluginDescriptor, clsName);
     }
 
-    public static Class loadPluginClassByName(PluginDescriptor pluginDescriptor, String clazzName) {
+    public static Class loadPluginClassByName(PluginDescriptor pluginDescriptor, String clsName) {
         if (pluginDescriptor != null) {
             // 插件可能尚未初始化，确保使用前已经初始化
             LoadedPlugin plugin = PluginLauncher.instance().startPlugin(pluginDescriptor);
 
-			BaseDexClassLoader pluginClassLoader = plugin.pluginClassLoader;
+            BaseDexClassLoader pluginClassLoader = plugin.pluginClassLoader;
 
             try {
-                Class pluginClazz = ((ClassLoader) pluginClassLoader).loadClass(clazzName);
-                QRomLog.i(TAG, "loadPluginClass Success for clazzName is " + clazzName);
-                return pluginClazz;
+                Class pluginCls = ((ClassLoader) pluginClassLoader).loadClass(clsName);
+                QRomLog.i(TAG, "loadPluginClass Success for clsName is " + clsName);
+                return pluginCls;
             } catch (ClassNotFoundException e) {
-                QRomLog.e(TAG, "ClassNotFound " + clazzName, e);
+                QRomLog.e(TAG, "ClassNotFound " + clsName, e);
             } catch (java.lang.IllegalAccessError illegalAccessError) {
                 illegalAccessError.printStackTrace();
                 throw new IllegalAccessError("出现这个异常最大的可能是插件dex和" + "宿主dex包含了相同的class导致冲突, "
@@ -216,7 +227,7 @@ public class PluginLoader {
 
         }
 
-        QRomLog.e(TAG, "loadPluginClass Fail for clazzName:" + clazzName
+        QRomLog.e(TAG, "loadPluginClass Fail for clsName:" + clsName
                 + (pluginDescriptor == null ? "pluginDescriptor = null" : "pluginDescriptor not null"));
 
         return null;
@@ -225,23 +236,23 @@ public class PluginLoader {
     /**
      * 获取当前class所在插件的Context 每个插件只有1个DefaultContext, 是当前插件中所有class公用的Context
      *
-     * @param clazz
+     * @param cls
      * @return
      */
-    public static Context getDefaultPluginContext(@SuppressWarnings("rawtypes") Class clazz) {
+    public static Context getDefaultPluginContext(@SuppressWarnings("rawtypes") Class cls) {
 
         Context pluginContext = null;
-        PluginDescriptor pluginDescriptor = PluginManagerHelper.getPluginDescriptorByClassName(clazz.getName());
+        PluginDescriptor pluginDescriptor = PluginManagerHelper.getPluginDescriptorByClassName(cls.getName());
 
         if (pluginDescriptor != null) {
             pluginContext = PluginLauncher.instance().getRunningPlugin(pluginDescriptor.getPackageName()).pluginContext;
             ;
         } else {
-            QRomLog.e(TAG, "PluginDescriptor Not Found for " + clazz.getName());
+            QRomLog.e(TAG, "PluginDescriptor Not Found for " + cls.getName());
         }
 
         if (pluginContext == null) {
-            QRomLog.e(TAG, "Context Not Found for " + clazz.getName());
+            QRomLog.e(TAG, "Context Not Found for " + cls.getName());
         }
 
         return pluginContext;

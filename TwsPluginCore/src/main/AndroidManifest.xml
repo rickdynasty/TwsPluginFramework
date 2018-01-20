@@ -17,7 +17,7 @@
             android:exported="false"
             android:process=":pmaster" />
 
-        <!--这个是Activity跳板组件-->
+        <!--这个是Activity跳板组件，运行在宿主进程中，方便启用跳板的功能-->
         <activity
             android:name="com.tws.plugin.bridge.TwsPluginBridgeActivity"
             android:exported="true">
@@ -33,11 +33,10 @@
             </intent-filter>
         </activity>
 
-        <!-- 对Receiver的类全名没有要求，可随意指定，框架中是通过action来查询。注册1个即可 -->
+        <!-- 对Receiver的类全名没有要求，可随意指定，框架中是通过action来查询。注册1个即可(广播自身是ipc通讯的,运行在宿主进程) -->
         <receiver
             android:name="${applicationId}.stub.PluginStubReceiver"
-            android:exported="true"
-            android:process=":pmaster">
+            android:exported="true">
             <intent-filter>
                 <action android:name="com.rick.tws.pluginhost.STUB_DEFAULT" />
 
@@ -45,7 +44,7 @@
             </intent-filter>
         </receiver>
 
-        <!-- 多进程Service坑位申明 -->
+        <!-- 多进程Service坑位申明 2~3就足够了-->
         <service
             android:name="${applicationId}.stub.PluginStubMPService1"
             android:process=":plugin1">
@@ -73,233 +72,625 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </service>
-        <service
-            android:name="${applicationId}.stub.PluginStubMPService4"
-            android:process=":plugin4">
-            <intent-filter>
-                <action android:name="com.rick.tws.pluginhost.MP_STUB_DEFAULT" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </service>
 
         <!-- 所有的插件中共有多少个Service, 这里就至少需要注册多少个对应的虚拟Service(也可以大于，实际上这里的数量只需>=可能同
 			时处于运行状态的service数量，一般预注册十来个应该绰绰有余了)，
 			这里的虚拟Service并不需要真实存在，
 			只是占个位置，运行实动态绑定到实际的插件Service
 			对service的类全名没有要求，可随意指定，框架中是通过action来查询。 -->
-        <service
-            android:name="${applicationId}.stub.PluginStubService1"
-            android:process=":pmaster">
+        <!-- /////////////////////////////////////// part 1:宿主进程的坑位申明 begin /////////////////////////////////////// -->
+        <!-- service 组件申明 -->
+        <service android:name="${applicationId}.stub.PluginHostService1">
             <intent-filter>
                 <action android:name="com.rick.tws.pluginhost.STUB_DEFAULT" />
-
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </service>
-        <service
-            android:name="${applicationId}.stub.PluginStubService2"
-            android:process=":pmaster">
+        <service android:name="${applicationId}.stub.PluginHostService2">
             <intent-filter>
                 <action android:name="com.rick.tws.pluginhost.STUB_DEFAULT" />
-
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </service>
-        <service
-            android:name="${applicationId}.stub.PluginStubService3"
-            android:process=":pmaster">
+        <service android:name="${applicationId}.stub.PluginHostService3">
             <intent-filter>
                 <action android:name="com.rick.tws.pluginhost.STUB_DEFAULT" />
-
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </service>
-        <service
-            android:name="${applicationId}.stub.PluginStubService4"
-            android:process=":pmaster">
+        <service android:name="${applicationId}.stub.PluginHostService4">
             <intent-filter>
                 <action android:name="com.rick.tws.pluginhost.STUB_DEFAULT" />
-
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </service>
-        <service android:name="${applicationId}.stub.PluginStubService5">
+        <service android:name="${applicationId}.stub.PluginHostService5">
             <intent-filter>
                 <action android:name="com.rick.tws.pluginhost.STUB_DEFAULT" />
-
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </service>
-        <service
-            android:name="${applicationId}.stub.PluginStubService6"
-            android:process=":pmaster">
+        <service android:name="${applicationId}.stub.PluginHostService6">
             <intent-filter>
                 <action android:name="com.rick.tws.pluginhost.STUB_DEFAULT" />
-
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </service>
-        <service
-            android:name="${applicationId}.stub.PluginStubService7"
-            android:process=":pmaster">
+        <service android:name="${applicationId}.stub.PluginHostService7">
             <intent-filter>
                 <action android:name="com.rick.tws.pluginhost.STUB_DEFAULT" />
-
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </service>
-        <service
-            android:name="${applicationId}.stub.PluginStubService8"
-            android:process=":pmaster">
+        <service android:name="${applicationId}.stub.PluginHostService8">
             <intent-filter>
                 <action android:name="com.rick.tws.pluginhost.STUB_DEFAULT" />
-
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </service>
-        <service
-            android:name="${applicationId}.stub.PluginStubService9"
-            android:process=":pmaster">
+        <service android:name="${applicationId}.stub.PluginHostService9">
             <intent-filter>
                 <action android:name="com.rick.tws.pluginhost.STUB_DEFAULT" />
-
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </service>
 
-        <!-- Activity 组件申明 -->
+        <!-- activity 组件申明 -->
+        <!-- standard 申明一个就可以 -->
         <activity
-            android:name="${applicationId}.stub.PluginStubActivity0"
+            android:name="${applicationId}.stub.PluginHostActivity0"
             android:exported="true"
-            android:process=":pmaster"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="com.rick.tws.pluginhost.STUB_DEFAULT" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
 
+        <!-- singleTop -->
+        <activity
+            android:name="${applicationId}.stub.PluginHostSTopActivity1"
+            android:exported="true"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="com.rick.tws.pluginhost.STUB_DEFAULT" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
         <activity
-            android:name="${applicationId}.stub.PluginStubActivity1"
+            android:name="${applicationId}.stub.PluginHostSTopActivity2"
             android:exported="true"
-            android:launchMode="singleTask"
-            android:process=":pmaster"
+            android:launchMode="singleTop"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="com.rick.tws.pluginhost.STUB_DEFAULT" />
-
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
         <activity
-            android:name="${applicationId}.stub.PluginStubActivity2"
+            android:name="${applicationId}.stub.PluginHostSTopActivity3"
             android:exported="true"
-            android:launchMode="singleTask"
-            android:process=":pmaster"
+            android:launchMode="singleTop"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="com.rick.tws.pluginhost.STUB_DEFAULT" />
-
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
         <activity
-            android:name="${applicationId}.stub.PluginStubActivity3"
+            android:name="${applicationId}.stub.PluginHostSTopActivity4"
+            android:exported="true"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="com.rick.tws.pluginhost.STUB_DEFAULT" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+        <!-- singleTask -->
+        <activity
+            android:name="${applicationId}.stub.PluginHostSTaskActivity1"
             android:exported="true"
             android:launchMode="singleTask"
-            android:process=":pmaster"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="com.rick.tws.pluginhost.STUB_DEFAULT" />
-
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
         <activity
-            android:name="${applicationId}.stub.PluginStubActivity4"
+            android:name="${applicationId}.stub.PluginHostSTaskActivity2"
             android:exported="true"
             android:launchMode="singleTask"
-            android:process=":pmaster"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="com.rick.tws.pluginhost.STUB_DEFAULT" />
-
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
         <activity
-            android:name="${applicationId}.stub.PluginStubActivity5"
+            android:name="${applicationId}.stub.PluginHostSTaskActivity3"
+            android:exported="true"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="com.rick.tws.pluginhost.STUB_DEFAULT" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="${applicationId}.stub.PluginHostSTaskActivity4"
+            android:exported="true"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="com.rick.tws.pluginhost.STUB_DEFAULT" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+        <!-- singleInstance -->
+        <activity
+            android:name="${applicationId}.stub.PluginHostSIActivity1"
+            android:exported="true"
+            android:launchMode="singleInstance"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="com.rick.tws.pluginhost.STUB_DEFAULT" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="${applicationId}.stub.PluginHostSIActivity2"
+            android:exported="true"
+            android:launchMode="singleInstance"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="com.rick.tws.pluginhost.STUB_DEFAULT" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="${applicationId}.stub.PluginHostSIActivity3"
+            android:exported="true"
+            android:launchMode="singleInstance"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="com.rick.tws.pluginhost.STUB_DEFAULT" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="${applicationId}.stub.PluginHostSIActivity4"
+            android:exported="true"
+            android:launchMode="singleInstance"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="com.rick.tws.pluginhost.STUB_DEFAULT" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="${applicationId}.stub.PluginHostSIActivity5"
+            android:exported="true"
+            android:launchMode="singleInstance"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="com.rick.tws.pluginhost.STUB_DEFAULT" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <!-- /////////////////////////////////////// part 1:宿主进程的坑位申明 end /////////////////////////////////////// -->
+
+        <!-- /////////////////////////////////////// part 2:pmaster进程的坑位申明 begin /////////////////////////////////////// -->
+        <!-- service 组件申明 -->
+        <service
+            android:name="${applicationId}.stub.PluginMasterService1"
+            android:process=":pmaster">
+            <intent-filter>
+                <action android:name="com.rick.tws.pluginmaster.STUB_DEFAULT" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </service>
+        <service
+            android:name="${applicationId}.stub.PluginMasterService2"
+            android:process=":pmaster">
+            <intent-filter>
+                <action android:name="com.rick.tws.pluginmaster.STUB_DEFAULT" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </service>
+        <service
+            android:name="${applicationId}.stub.PluginMasterService3"
+            android:process=":pmaster">
+            <intent-filter>
+                <action android:name="com.rick.tws.pluginmaster.STUB_DEFAULT" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </service>
+        <service
+            android:name="${applicationId}.stub.PluginMasterService4"
+            android:process=":pmaster">
+            <intent-filter>
+                <action android:name="com.rick.tws.pluginmaster.STUB_DEFAULT" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </service>
+        <service
+            android:name="${applicationId}.stub.PluginMasterService5"
+            android:process=":pmaster">
+            <intent-filter>
+                <action android:name="com.rick.tws.pluginmaster.STUB_DEFAULT" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </service>
+        <service
+            android:name="${applicationId}.stub.PluginMasterService6"
+            android:process=":pmaster">
+            <intent-filter>
+                <action android:name="com.rick.tws.pluginmaster.STUB_DEFAULT" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </service>
+        <service
+            android:name="${applicationId}.stub.PluginMasterService7"
+            android:process=":pmaster">
+            <intent-filter>
+                <action android:name="com.rick.tws.pluginmaster.STUB_DEFAULT" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </service>
+        <service
+            android:name="${applicationId}.stub.PluginMasterService8"
+            android:process=":pmaster">
+            <intent-filter>
+                <action android:name="com.rick.tws.pluginmaster.STUB_DEFAULT" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </service>
+        <service
+            android:name="${applicationId}.stub.PluginMasterService9"
+            android:process=":pmaster">
+            <intent-filter>
+                <action android:name="com.rick.tws.pluginmaster.STUB_DEFAULT" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </service>
+
+        <!-- activity 组件申明 -->
+        <!-- standard 申明一个就可以 -->
+        <activity
+            android:name="${applicationId}.stub.PluginMasterActivity0"
+            android:exported="true"
+            android:process=":pmaster"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="com.rick.tws.pluginmaster.STUB_DEFAULT" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+        <!-- singleTop -->
+        <activity
+            android:name="${applicationId}.stub.PluginMasterSTopActivity1"
             android:exported="true"
             android:launchMode="singleTop"
             android:process=":pmaster"
             android:screenOrientation="portrait">
             <intent-filter>
-                <action android:name="com.rick.tws.pluginhost.STUB_DEFAULT" />
-
+                <action android:name="com.rick.tws.pluginmaster.STUB_DEFAULT" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
         <activity
-            android:name="${applicationId}.stub.PluginStubActivity6"
+            android:name="${applicationId}.stub.PluginMasterSTopActivity2"
             android:exported="true"
             android:launchMode="singleTop"
             android:process=":pmaster"
             android:screenOrientation="portrait">
             <intent-filter>
-                <action android:name="com.rick.tws.pluginhost.STUB_DEFAULT" />
-
+                <action android:name="com.rick.tws.pluginmaster.STUB_DEFAULT" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
         <activity
-            android:name="${applicationId}.stub.PluginStubActivity7"
+            android:name="${applicationId}.stub.PluginMasterSTopActivity3"
             android:exported="true"
             android:launchMode="singleTop"
             android:process=":pmaster"
             android:screenOrientation="portrait">
             <intent-filter>
-                <action android:name="com.rick.tws.pluginhost.STUB_DEFAULT" />
-
+                <action android:name="com.rick.tws.pluginmaster.STUB_DEFAULT" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
         <activity
-            android:name="${applicationId}.stub.PluginStubActivity8"
+            android:name="${applicationId}.stub.PluginMasterSTopActivity4"
+            android:exported="true"
+            android:launchMode="singleTop"
+            android:process=":pmaster"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="com.rick.tws.pluginmaster.STUB_DEFAULT" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+        <!-- singleTask -->
+        <activity
+            android:name="${applicationId}.stub.PluginMasterSTaskActivity1"
+            android:exported="true"
+            android:launchMode="singleTask"
+            android:process=":pmaster"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="com.rick.tws.pluginmaster.STUB_DEFAULT" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="${applicationId}.stub.PluginMasterSTaskActivity2"
+            android:exported="true"
+            android:launchMode="singleTask"
+            android:process=":pmaster"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="com.rick.tws.pluginmaster.STUB_DEFAULT" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="${applicationId}.stub.PluginMasterSTaskActivity3"
+            android:exported="true"
+            android:launchMode="singleTask"
+            android:process=":pmaster"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="com.rick.tws.pluginmaster.STUB_DEFAULT" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="${applicationId}.stub.PluginMasterSTaskActivity4"
+            android:exported="true"
+            android:launchMode="singleTask"
+            android:process=":pmaster"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="com.rick.tws.pluginmaster.STUB_DEFAULT" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+        <!-- singleInstance -->
+        <activity
+            android:name="${applicationId}.stub.PluginMasterSIActivity1"
             android:exported="true"
             android:launchMode="singleInstance"
             android:process=":pmaster"
             android:screenOrientation="portrait">
             <intent-filter>
-                <action android:name="com.rick.tws.pluginhost.STUB_DEFAULT" />
-
+                <action android:name="com.rick.tws.pluginmaster.STUB_DEFAULT" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
         <activity
-            android:name="${applicationId}.stub.PluginStubActivity9"
+            android:name="${applicationId}.stub.PluginMasterSIActivity2"
             android:exported="true"
             android:launchMode="singleInstance"
             android:process=":pmaster"
             android:screenOrientation="portrait">
             <intent-filter>
-                <action android:name="com.rick.tws.pluginhost.STUB_DEFAULT" />
-
+                <action android:name="com.rick.tws.pluginmaster.STUB_DEFAULT" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
         <activity
-            android:name="${applicationId}.stub.PluginStubActivity10"
+            android:name="${applicationId}.stub.PluginMasterSIActivity3"
             android:exported="true"
             android:launchMode="singleInstance"
             android:process=":pmaster"
             android:screenOrientation="portrait">
             <intent-filter>
-                <action android:name="com.rick.tws.pluginhost.STUB_DEFAULT" />
-
+                <action android:name="com.rick.tws.pluginmaster.STUB_DEFAULT" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
+        <activity
+            android:name="${applicationId}.stub.PluginMasterSIActivity4"
+            android:exported="true"
+            android:launchMode="singleInstance"
+            android:process=":pmaster"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="com.rick.tws.pluginmaster.STUB_DEFAULT" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="${applicationId}.stub.PluginMasterSIActivity5"
+            android:exported="true"
+            android:launchMode="singleInstance"
+            android:process=":pmaster"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="com.rick.tws.pluginmaster.STUB_DEFAULT" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <!-- /////////////////////////////////////// part 2:pmaster进程的坑位申明 end /////////////////////////////////////// -->
+
+        <!-- /////////////////////////////////////// part 3:pminor进程的坑位申明 begin /////////////////////////////////////// -->
+        <!-- service 组件申明 -->
+        <service
+            android:name="${applicationId}.stub.PluginMinorService1"
+            android:process=":pminor">
+            <intent-filter>
+                <action android:name="com.rick.tws.pluginminor.STUB_DEFAULT" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </service>
+        <service
+            android:name="${applicationId}.stub.PluginMinorService2"
+            android:process=":pminor">
+            <intent-filter>
+                <action android:name="com.rick.tws.pluginminor.STUB_DEFAULT" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </service>
+        <service
+            android:name="${applicationId}.stub.PluginMinorService3"
+            android:process=":pminor">
+            <intent-filter>
+                <action android:name="com.rick.tws.pluginminor.STUB_DEFAULT" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </service>
+        <service
+            android:name="${applicationId}.stub.PluginMinorService4"
+            android:process=":pminor">
+            <intent-filter>
+                <action android:name="com.rick.tws.pluginminor.STUB_DEFAULT" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </service>
+        <service
+            android:name="${applicationId}.stub.PluginMinorService5"
+            android:process=":pminor">
+            <intent-filter>
+                <action android:name="com.rick.tws.pluginminor.STUB_DEFAULT" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </service>
+        <service
+            android:name="${applicationId}.stub.PluginMinorService6"
+            android:process=":pminor">
+            <intent-filter>
+                <action android:name="com.rick.tws.pluginminor.STUB_DEFAULT" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </service>
+
+        <!-- activity 组件申明 -->
+        <!-- standard 申明一个就可以 -->
+        <activity
+            android:name="${applicationId}.stub.PluginMinorActivity0"
+            android:exported="true"
+            android:process=":pminor"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="com.rick.tws.pluginminor.STUB_DEFAULT" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+        <!-- singleTop -->
+        <activity
+            android:name="${applicationId}.stub.PluginMinorSTopActivity1"
+            android:exported="true"
+            android:launchMode="singleTop"
+            android:process=":pminor"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="com.rick.tws.pluginminor.STUB_DEFAULT" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="${applicationId}.stub.PluginMinorSTopActivity2"
+            android:exported="true"
+            android:launchMode="singleTop"
+            android:process=":pminor"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="com.rick.tws.pluginminor.STUB_DEFAULT" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="${applicationId}.stub.PluginMinorSTopActivity3"
+            android:exported="true"
+            android:launchMode="singleTop"
+            android:process=":pminor"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="com.rick.tws.pluginminor.STUB_DEFAULT" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+        <!-- singleTask -->
+        <activity
+            android:name="${applicationId}.stub.PluginMinorSTaskActivity1"
+            android:exported="true"
+            android:launchMode="singleTask"
+            android:process=":pminor"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="com.rick.tws.pluginminor.STUB_DEFAULT" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="${applicationId}.stub.PluginMinorSTaskActivity2"
+            android:exported="true"
+            android:launchMode="singleTask"
+            android:process=":pminor"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="com.rick.tws.pluginminor.STUB_DEFAULT" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="${applicationId}.stub.PluginMinorSTaskActivity3"
+            android:exported="true"
+            android:launchMode="singleTask"
+            android:process=":pminor"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="com.rick.tws.pluginminor.STUB_DEFAULT" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+        <!-- singleInstance -->
+        <activity
+            android:name="${applicationId}.stub.PluginMinorSIActivity1"
+            android:exported="true"
+            android:launchMode="singleInstance"
+            android:process=":pminor"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="com.rick.tws.pluginminor.STUB_DEFAULT" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="${applicationId}.stub.PluginMinorSIActivity2"
+            android:exported="true"
+            android:launchMode="singleInstance"
+            android:process=":pminor"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="com.rick.tws.pluginminor.STUB_DEFAULT" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="${applicationId}.stub.PluginMinorSIActivity3"
+            android:exported="true"
+            android:launchMode="singleInstance"
+            android:process=":pminor"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="com.rick.tws.pluginminor.STUB_DEFAULT" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <!-- /////////////////////////////////////// part 3:pminor进程的坑位申明 end /////////////////////////////////////// -->
     </application>
 
 </manifest>

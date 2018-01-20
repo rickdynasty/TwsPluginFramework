@@ -14,8 +14,8 @@ public class ProxyUtil {
 	}
 
 	public static Object createProxy(Object target, MethodDelegate delegate) {
-		Class<?> clazz = target.getClass();
-		List<Class<?>> interfaces = getAllInterfaces(clazz);
+		Class<?> cls = target.getClass();
+		List<Class<?>> interfaces = getAllInterfaces(cls);
 		Class[] ifs = interfaces != null && interfaces.size() > 0 ? interfaces.toArray(new Class[interfaces.size()])
 				: new Class[0];
 		return Proxy.newProxyInstance(target.getClass().getClassLoader(), ifs, new MethodHandler(target, delegate));

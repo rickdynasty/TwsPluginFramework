@@ -235,7 +235,7 @@ public class HomeActivity extends AppCompatActivity implements HomeUIProxy {
             fragment = mHomeFragment = new HomeFragment(mHomeFragementDisplayInfos);
         } else {
             QRomLog.i(TAG, "getFragmentByPos to get Plugin fragement:" + classId);
-            Class<?> clazz = null;
+            Class<?> cls = null;
             if (!TextUtils.isEmpty(componentName.getPluginPackageName())) {
                 PluginDescriptor pluginDescriptor = PluginManagerHelper.getPluginDescriptorByPluginId(componentName
                         .getPluginPackageName());
@@ -245,26 +245,25 @@ public class HomeActivity extends AppCompatActivity implements HomeUIProxy {
 
                     BaseDexClassLoader pluginClassLoader = plugin.pluginClassLoader;
 
-                    String clazzName = pluginDescriptor.getPluginClassNameById(classId);
-                    if (clazzName != null) {
+                    String clsName = pluginDescriptor.getPluginClassNameById(classId);
+                    if (clsName != null) {
                         try {
-                            clazz = ((ClassLoader) pluginClassLoader).loadClass(clazzName);
+                            cls = ((ClassLoader) pluginClassLoader).loadClass(clsName);
                         } catch (ClassNotFoundException e) {
-                            QRomLog.e(TAG, "loadPluginFragmentClassById:" + classId + " ClassNotFound:" + clazzName
-                                    + "Exception", e);
-                            QRomLog.w(TAG, "没有找到：" + clazzName + " 是不是被混淆了~");
+                            QRomLog.e(TAG, "loadPluginFragmentClassById:" + classId + " ClassNotFound:" + clsName + "Exception", e);
+                            QRomLog.w(TAG, "没有找到：" + clsName + " 是不是被混淆了~");
                         }
                     }
                 } else {
-                    clazz = PluginLoader.loadPluginFragmentClassById(componentName.getClassId());
+                    cls = PluginLoader.loadPluginFragmentClassById(componentName.getClassId());
                 }
             } else {
-                clazz = PluginLoader.loadPluginFragmentClassById(componentName.getClassId());
+                cls = PluginLoader.loadPluginFragmentClassById(componentName.getClassId());
             }
 
-            if (clazz != null) {
+            if (cls != null) {
                 try {
-                    fragment = (Fragment) clazz.newInstance();
+                    fragment = (Fragment) cls.newInstance();
                 } catch (InstantiationException e) {
                     QRomLog.e(TAG, "InstantiationException", e);
                 } catch (IllegalAccessException e) {

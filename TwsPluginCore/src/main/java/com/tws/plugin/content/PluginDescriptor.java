@@ -415,6 +415,10 @@ public class PluginDescriptor implements Serializable {
      * @return boolean is contains
      */
     public boolean containsComponent(String className, int type) {
+        if (!isEnabled()) {
+            return false;
+        }
+        
         switch (type) {
             case DisplayItem.TYPE_FRAGMENT:
                 return getFragments().containsValue(className);

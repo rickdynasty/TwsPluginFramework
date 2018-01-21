@@ -19,7 +19,7 @@ public class ServicePool {
     }
 
     public static synchronized void registerClass(final String name, final ClassProvider provider) {
-        Log.d(TAG, "registerClass service " + name);
+        Log.i(TAG, "registerClass service " + name);
         if (!SYSTEM_SERVICE_MAP.containsKey(name)) {
             ServiceFetcher fetcher = new ServiceFetcher() {
                 @Override
@@ -28,7 +28,7 @@ public class ServicePool {
                     Object object = provider.getServiceInstance();
                     mGroupId = String.valueOf(Process.myPid());
 
-                    Log.d(TAG, "create service instance @ pid " + Process.myPid());
+                    Log.i(TAG, "create service instance @ pid " + Process.myPid());
                     return object;
                 }
             };
@@ -38,7 +38,7 @@ public class ServicePool {
     }
 
     public static synchronized void registerInstance(final String name, final Object service) {
-        Log.d(TAG, "registerInstance service " + name + " @ " + service);
+        Log.i(TAG, "registerInstance service " + name + " @ " + service);
 
         Class[] faces = service.getClass().getInterfaces();
         if (faces == null || faces.length == 0) {
@@ -52,7 +52,7 @@ public class ServicePool {
                     Object object = service;
                     mGroupId = String.valueOf(Process.myPid());
 
-                    Log.d(TAG, "create service instance @ pid " + Process.myPid());
+                    Log.i(TAG, "create service instance @ pid " + Process.myPid());
 
                     return object;
                 }
@@ -69,7 +69,7 @@ public class ServicePool {
     }
 
     public static void unRegister(String name){
-        Log.d(TAG, "unRegister service " + name);
+        Log.i(TAG, "unRegister service " + name);
         SYSTEM_SERVICE_MAP.remove(name);
     }
 

@@ -5,6 +5,7 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.content.pm.ProviderInfo;
+import android.text.TextUtils;
 
 import com.tws.plugin.core.PluginApplication;
 import com.tws.plugin.core.PluginLoader;
@@ -16,9 +17,10 @@ public class ProcessUtil {
     private static final String TAG = "rick_Print:ProcessUtil";
 
     //插件运行所在的进程
-    public static int PLUGIN_PROCESS_INDEX_HOST = 0;
-    public static int PLUGIN_PROCESS_INDEX_MASTER = 1;
-    public static int PLUGIN_PROCESS_INDEX_MINOR = 2;
+    public static final int PLUGIN_PROCESS_INDEX_HOST = 0;
+    public static final int PLUGIN_PROCESS_INDEX_MASTER = 1;
+    public static final int PLUGIN_PROCESS_INDEX_MINOR = 2;
+    public static final int PLUGIN_PROCESS_INDEX_CUSTOMIZE = 3; //部分插件或者插件的第三方库需要单独配置组件进程
 
     // 这是一个潜规则，插件的进程除PluginManagerProvider的标配外，其他的都统一规定前缀：
     private static final String PLUGIN_MULTI_PROCESS_SUFFIX = ":plugin";

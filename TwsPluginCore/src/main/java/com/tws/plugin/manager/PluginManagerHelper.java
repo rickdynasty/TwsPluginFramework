@@ -23,6 +23,7 @@ public class PluginManagerHelper {
     private static final String TAG = "rick_Print:PluginManagerHelper";
 
     public static String CONSTANT_KEY_LAUNCH_MODE = "launchMode";
+    public static String CONSTANT_KEY_PROCESS = "process";
     public static String CONSTANT_KEY_PROCESS_INDEX = "process_id";
     public static String CONSTANT_KEY_CLASS_NAME = "className";
 

@@ -156,7 +156,7 @@ public class PluginLauncher implements Serializable {
 			long ct_end = System.currentTimeMillis();
 			QRomLog.i(TAG, "startPlugin  耗时：" + (ct_end - beginTime));
 		} else {
-			// LogUtil.d("IS RUNNING", packageName);
+			// LogUtil.i("IS RUNNING", packageName);
 		}
 
 		return plugin;

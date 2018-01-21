@@ -105,7 +105,7 @@ public class PluginInstrumentionWrapper extends Instrumentation {
         if (ProcessUtil.isHostProcess() && TwsPluginBridgeActivity.class.getName().equals(className)) {
             // 第三方应用启动了TwsPluginBridgeActivity
             String packageName = PluginLoader.getPackageName(intent);
-            ArrayList<ComponentInfo> componentInfos = PluginIntentResolver.matchPlugin(intent, DisplayItem.TYPE_ACTIVITY, packageName);
+            ArrayList<ComponentInfo> componentInfos = PluginIntentResolver.matchPluginComponents(intent, DisplayItem.TYPE_ACTIVITY, packageName);
             String pluginClassName = null;
             if (componentInfos != null && componentInfos.size() > 0) {
                 final ComponentInfo targetComponent = componentInfos.get(0);

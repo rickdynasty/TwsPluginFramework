@@ -62,6 +62,7 @@ class PluginStubBinding {
     private static String buildHostAction() {
         return "com.rick.tws.pluginhost.STUB_DEFAULT";
     }
+
     private static String buildMasterAction() {
         return "com.rick.tws.pluginmaster.STUB_DEFAULT";
     }

@@ -11,8 +11,8 @@ import android.os.Bundle;
 @SuppressLint("ParcelCreator")
 public class PluginReceiverIntent extends Intent {
 
-	public PluginReceiverIntent(Intent o) {
-		super(o);
+	public PluginReceiverIntent(Intent intent) {
+		super(intent);
 	}
 
 	@Override

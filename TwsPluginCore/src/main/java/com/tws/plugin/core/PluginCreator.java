@@ -109,11 +109,11 @@ public class PluginCreator {
 		// assetPaths[0] = plugin;
 		// assetPaths[1] = app;
 		// }
-		// LogUtil.d("create Plugin Resource from: ", assetPaths[0],
+		// LogUtil.i("create Plugin Resource from: ", assetPaths[0],
 		// assetPaths[1]);
 		// } else {
 		// assetPaths[0] = plugin;
-		// LogUtil.d("create Plugin Resource from: ", assetPaths[0]);
+		// LogUtil.i("create Plugin Resource from: ", assetPaths[0]);
 		// }
 
 		// 不可更改顺序否则不能兼容4.x，如华为P7-Android4.4.2

@@ -422,7 +422,7 @@ public class PluginDescriptor implements Serializable {
         }
     }
 
-    public List<ComponentInfo> matchPlugin(Intent intent, int type) {
+    public List<ComponentInfo> matchPluginComponents(Intent intent, int type) {
         List<ComponentInfo> result = null;
         String clsName = null;
         // 如果是通过组件进行匹配的, 这里忽略了packageName

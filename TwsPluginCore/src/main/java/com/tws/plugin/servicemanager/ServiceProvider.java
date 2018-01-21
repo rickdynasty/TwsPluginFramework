@@ -63,10 +63,10 @@ public class ServiceProvider extends ContentProvider {
 	public Bundle call(String method, String arg, Bundle extras) {
 
 		if (Build.VERSION.SDK_INT >= 19) {
-			Log.d("call", "callingPackage = " + getCallingPackage());
+			Log.i("call", "callingPackage = " + getCallingPackage());
 		}
 
-		Log.d("call", "Thead : id = " + Thread.currentThread().getId() + ", name = " + Thread.currentThread().getName() + ", method = " + method + ", arg = "
+		Log.i("call", "Thead : id = " + Thread.currentThread().getId() + ", name = " + Thread.currentThread().getName() + ", method = " + method + ", arg = "
 				+ arg);
 
 		if (method.equals(REPORT_BINDER)) {

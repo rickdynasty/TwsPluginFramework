@@ -34,7 +34,7 @@ public class PluginIntentResolver {
     public static final String INTENT_EXTRA_TWS_PLUGIN_STUB = "tws_plugin_stub";
 
     public static void resolveService(Intent intent) {
-        ArrayList<ComponentInfo> componentInfos = matchPlugin(intent, DisplayItem.TYPE_SERVICE, PluginLoader.getPackageName(intent));
+        ArrayList<ComponentInfo> componentInfos = matchPluginComponents(intent, DisplayItem.TYPE_SERVICE, PluginLoader.getPackageName(intent));
         if (componentInfos != null && componentInfos.size() > 0) {
             final ComponentInfo targetComponent = componentInfos.get(0);
             String stubServiceName = PluginManagerHelper.bindStubService(targetComponent.name, targetComponent.processName);
@@ -56,7 +56,7 @@ public class PluginIntentResolver {
         // 不需要在这里记录目标className，className将在Intent中传递
         ArrayList<Intent> result = new ArrayList<Intent>();
         final String packageName = PluginLoader.getPackageName(intent);
-        ArrayList<ComponentInfo> componentInfos = matchPlugin(intent, DisplayItem.TYPE_BROADCAST, packageName);
+        ArrayList<ComponentInfo> componentInfos = matchPluginComponents(intent, DisplayItem.TYPE_BROADCAST, packageName);
         if (componentInfos != null && componentInfos.size() > 0) {
             for (ComponentInfo info : componentInfos) {
                 Intent newIntent = new Intent(intent);
@@ -173,7 +173,7 @@ public class PluginIntentResolver {
 
         String packageName = PluginLoader.getPackageName(intent);
         // 如果在插件中发现Intent的匹配项，记下匹配的插件Activity的ClassName
-        ArrayList<ComponentInfo> componentInfos = matchPlugin(intent, DisplayItem.TYPE_ACTIVITY, packageName);
+        ArrayList<ComponentInfo> componentInfos = matchPluginComponents(intent, DisplayItem.TYPE_ACTIVITY, packageName);
         if (componentInfos != null && componentInfos.size() > 0) {
             final ComponentInfo tartgetComponent = componentInfos.get(0);
             String className = tartgetComponent.name;
@@ -208,13 +208,13 @@ public class PluginIntentResolver {
         QRomLog.w(TAG, "call resolveActivity(Intent[] intent) stack:", here);
     }
 
-    public static ArrayList<ComponentInfo> matchPlugin(Intent intent, int type, final String packageName) {
+    public static ArrayList<ComponentInfo> matchPluginComponents(Intent intent, int type, final String packageName) {
         ArrayList<ComponentInfo> result = null;
 
         if (packageName != null && !packageName.equals(PluginLoader.getApplication().getPackageName())) {
             PluginDescriptor dp = PluginManagerHelper.getPluginDescriptorByPluginId(packageName);
             if (dp != null) {
-                List<ComponentInfo> list = dp.matchPlugin(intent, type);
+                List<ComponentInfo> list = dp.matchPluginComponents(intent, type);
                 if (list != null && list.size() > 0) {
                     if (result == null) {
                         result = new ArrayList<ComponentInfo>();
@@ -225,7 +225,7 @@ public class PluginIntentResolver {
         } else { // 我了个去，这得遍历所有插件才能得到结果啊~，姿势得规范一下，不然这效率就被拉下来了
             Iterator<PluginDescriptor> itr = PluginManagerHelper.getPlugins().iterator();
             while (itr.hasNext()) {
-                List<ComponentInfo> list = itr.next().matchPlugin(intent, type);
+                List<ComponentInfo> list = itr.next().matchPluginComponents(intent, type);
                 if (list != null && list.size() > 0) {
                     if (result == null) {
                         result = new ArrayList<ComponentInfo>();

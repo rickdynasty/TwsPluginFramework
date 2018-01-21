@@ -187,9 +187,10 @@ public class PluginManagerHelper {
         return null;
     }
 
-    public static String bindStubActivity(String pluginActivityClassName, int launchMode) {
+    public static String bindStubActivity(String pluginActivityClassName, int launchMode, int processIndex) {
         Bundle arg = new Bundle();
         arg.putInt(CONSTANT_KEY_LAUNCH_MODE, launchMode);
+        arg.putInt(CONSTANT_KEY_PROCESS_INDEX, processIndex);
         Bundle bundle = call(PluginManagerProvider.buildUri(), PluginManagerProvider.ACTION_BIND_ACTIVITY, pluginActivityClassName, arg);
         if (bundle != null) {
             return bundle.getString(PluginManagerProvider.BIND_ACTIVITY_RESULT);
@@ -213,15 +214,13 @@ public class PluginManagerHelper {
         return null;
     }
 
-    public static String bindStubService(String pluginServiceClassName, String process) {
-        QRomLog.i(TAG, "call bindStubService(" + pluginServiceClassName + ", " + process + ")");
-        Bundle extras = null;
-        if (!TextUtils.isEmpty(process)) {
-            extras = new Bundle();
-            extras.putString(PluginManagerProvider.EXTRAS_BUNDLE_PROCESS, process);
-        }
-        Bundle bundle = call(PluginManagerProvider.buildUri(), PluginManagerProvider.ACTION_BIND_SERVICE,
-                pluginServiceClassName, extras);
+    public static String bindStubService(String pluginServiceClassName, int processIndex) {
+        QRomLog.i(TAG, "call bindStubService(" + pluginServiceClassName + ", " + processIndex + ")");
+
+        Bundle extras = new Bundle();
+        extras.putInt(CONSTANT_KEY_PROCESS_INDEX, processIndex);
+        Bundle bundle = call(PluginManagerProvider.buildUri(), PluginManagerProvider.ACTION_BIND_SERVICE, pluginServiceClassName, extras);
+
         if (bundle != null) {
             return bundle.getString(PluginManagerProvider.BIND_SERVICE_RESULT);
         }

@@ -37,7 +37,7 @@ public class PluginIntentResolver {
         ArrayList<ComponentInfo> componentInfos = matchPluginComponents(intent, DisplayItem.TYPE_SERVICE, PluginLoader.getPackageName(intent));
         if (componentInfos != null && componentInfos.size() > 0) {
             final ComponentInfo targetComponent = componentInfos.get(0);
-            String stubServiceName = PluginManagerHelper.bindStubService(targetComponent.name, targetComponent.processName);
+            String stubServiceName = PluginManagerHelper.bindStubService(targetComponent.name, targetComponent.processIndex);
             if (stubServiceName != null) {
                 intent.setComponent(new ComponentName(PluginLoader.getApplication().getPackageName(), stubServiceName));
                 intent.setAction(targetComponent.name + CLASS_SEPARATOR + (intent.getAction() == null ? "" : intent.getAction()) + CLASS_SEPARATOR + targetComponent.packageName);
@@ -183,7 +183,7 @@ public class PluginIntentResolver {
 
             PluginActivityInfo pluginActivityInfo = pd.getActivityInfos().get(className);
 
-            String stubActivityName = PluginManagerHelper.bindStubActivity(className, Integer.parseInt(pluginActivityInfo.getLaunchMode()));
+            String stubActivityName = PluginManagerHelper.bindStubActivity(className, Integer.parseInt(pluginActivityInfo.getLaunchMode()), pluginActivityInfo.getProcessIndex());
 
             final String applicationPackageName = PluginLoader.getApplication().getPackageName();
             //在这里进行偷梁换柱，准备瞒天过海

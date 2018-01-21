@@ -21,6 +21,7 @@ import com.tws.plugin.content.LoadedPlugin;
 import com.tws.plugin.content.PluginActivityInfo;
 import com.tws.plugin.content.PluginDescriptor;
 import com.tws.plugin.content.PluginProviderInfo;
+import com.tws.plugin.content.PluginServiceInfo;
 import com.tws.plugin.core.android.HackActivity;
 import com.tws.plugin.core.android.HackActivityThread;
 import com.tws.plugin.core.android.HackApplication;
@@ -327,8 +328,9 @@ public class PluginInjector {
         hackService.setBase(PluginCreator.createNewPluginComponentContext(plugin.pluginContext, service.getBaseContext(),
                 pd.getApplicationTheme()));
         hackService.setApplication(plugin.pluginApplication);
-        hackService.setClassName(PluginManagerHelper.bindStubService(service.getClass().getName(), pd
-                .getServiceProcessInfos().get(service.getClass().getName())));
+
+        final PluginServiceInfo serviceInfo = pd.getServiceInfos().get(service.getClass().getName());
+        hackService.setClassName(PluginManagerHelper.bindStubService(service.getClass().getName(), serviceInfo.getProcessIndex()));
     }
 
     /* package */

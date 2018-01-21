@@ -9,6 +9,7 @@ import com.tws.plugin.content.PluginActivityInfo;
 import com.tws.plugin.content.PluginDescriptor;
 import com.tws.plugin.content.PluginIntentFilter;
 import com.tws.plugin.content.PluginProviderInfo;
+import com.tws.plugin.content.PluginServiceInfo;
 import com.tws.plugin.manager.PluginManagerHelper;
 import com.tws.plugin.util.ManifestReader;
 import com.tws.plugin.util.ProcessUtil;
@@ -60,7 +61,7 @@ public class PluginManifestParser {
             String packageName = null;
 
             ArrayList<String> dependencies = null;
-            String pluginProcessName = null;
+            String appProcess = null;   //插件配置的application进程，在解析"application"标签获得，如果没有默认视为宿主进程
 
             PluginDescriptor desciptor = new PluginDescriptor();
             do {
@@ -254,8 +255,8 @@ public class PluginManifestParser {
                             applicationName = getName(applicationName, packageName);
                             desciptor.setApplicationName(applicationName);
 
-                            String appProcess = parser.getAttributeValue(namespaceAndroid, "process");// string
-                            desciptor.setApplicationProcess(appProcess);
+                            appProcess = parser.getAttributeValue(namespaceAndroid, PluginManagerHelper.CONSTANT_KEY_PROCESS);// string
+                            desciptor.setProcessIndexByProcessName(appProcess);
 
                             desciptor.setDescription(parser.getAttributeValue(namespaceAndroid, "label"));
 
@@ -276,7 +277,9 @@ public class PluginManifestParser {
                             String uiOptions = parser.getAttributeValue(namespaceAndroid, "uiOptions");// int
                             // string
                             String configChanges = parser.getAttributeValue(namespaceAndroid, "configChanges");// int
-                            // string
+
+                            // string 暂时不考虑Activity组件另外配置进程的情况【随application走】
+                            //String process = parser.getAttributeValue(namespaceAndroid, PluginManagerHelper.CONSTANT_KEY_PROCESS);// string
 
                             HashMap<String, ArrayList<PluginIntentFilter>> map = desciptor.getActivitys();
                             if (map == null) {
@@ -307,6 +310,7 @@ public class PluginManifestParser {
                             pluginActivityInfo.setTheme(theme);
                             pluginActivityInfo.setWindowSoftInputMode(windowSoftInputMode);
                             pluginActivityInfo.setUiOptions(uiOptions);
+                            pluginActivityInfo.setProcessIndex(desciptor.getProcessIndex());
                             if (configChanges != null) {
                                 pluginActivityInfo.setConfigChanges(Integer.parseInt(configChanges.replace("0x", ""), 16));
                             }
@@ -322,7 +326,7 @@ public class PluginManifestParser {
 
                         } else if ("service".equals(tag)) {
 
-                            String process = parser.getAttributeValue(namespaceAndroid, "process");
+                            String process = parser.getAttributeValue(namespaceAndroid, PluginManagerHelper.CONSTANT_KEY_PROCESS);
 
                             HashMap<String, ArrayList<PluginIntentFilter>> map = desciptor.getServices();
                             if (map == null) {
@@ -330,25 +334,28 @@ public class PluginManifestParser {
                                 desciptor.setServices(map);
                             }
                             String name = addIntentFilter(map, packageName, namespaceAndroid, parser, "service");
-
-                            if (process != null) {
-                                if (TextUtils.isEmpty(pluginProcessName)) {
-                                    pluginProcessName = ProcessUtil.getPluginMasterProcessName(PluginLoader.getApplication());
-                                    if (TextUtils.isEmpty(pluginProcessName)) {
-                                        pluginProcessName = ProcessUtil.getHostProcessName(); // rick_Note潜规则：当前插件和宿主是一个进程
-                                    }
-                                }
-
-                                // 只要配置的不是插件进程就需要配置process属性
-                                if (!process.equals(pluginProcessName)) {
-                                    HashMap<String, String> processInfos = desciptor.getServiceProcessInfos();
-                                    if (processInfos == null) {
-                                        processInfos = new HashMap<String, String>();
-                                        desciptor.setServiceProcessInfos(processInfos);
-                                    }
-                                    processInfos.put(name, process);
-                                }
+                            HashMap<String, PluginServiceInfo> processInfos = desciptor.getServiceInfos();
+                            if (processInfos == null) {
+                                processInfos = new HashMap<String, PluginServiceInfo>();
+                                desciptor.setServiceInfos(processInfos);
                             }
+
+                            PluginServiceInfo serviceInfo = new PluginServiceInfo();
+                            int processIndex = desciptor.getProcessIndex();
+                            // 记录每一个插件的进程信息
+                            // 只要配置的不是插件进程和宿主就需要记录配置的process属性
+                            //如果没有配置进程或者和application一样，就跟application走
+                            if (TextUtils.isEmpty(process) || process.equals(appProcess) || process.equals(ProcessUtil.getHostProcessName())) {
+                                process = ProcessUtil.getProcessNameByIndex(desciptor.getProcessIndex());
+                            } else { //注意这里插件指定了service为独立进程
+                                processIndex = ProcessUtil.PLUGIN_PROCESS_INDEX_CUSTOMIZE;
+                            }
+                            
+                            serviceInfo.setServiceName(name);
+                            serviceInfo.setProcessName(process);
+                            serviceInfo.setProcessIndex(processIndex);
+
+                            processInfos.put(name, serviceInfo);
                         } else if ("provider".equals(tag)) {
 
                             String name = parser.getAttributeValue(namespaceAndroid, "name");
@@ -408,13 +415,14 @@ public class PluginManifestParser {
     private static String addIntentFilter(HashMap<String, ArrayList<PluginIntentFilter>> map, String packageName,
                                           String namespace, XmlPullParser parser, String endTagName) throws XmlPullParserException, IOException {
         int eventType = parser.getEventType();
-        String activityName = parser.getAttributeValue(namespace, "name");
-        activityName = getName(activityName, packageName);
+        //先获得申明的组件名称
+        String componentName = parser.getAttributeValue(namespace, "name");
+        componentName = getName(componentName, packageName);
 
-        ArrayList<PluginIntentFilter> filters = map.get(activityName);
+        ArrayList<PluginIntentFilter> filters = map.get(componentName);
         if (filters == null) {
             filters = new ArrayList<PluginIntentFilter>();
-            map.put(activityName, filters);
+            map.put(componentName, filters);
         }
 
         PluginIntentFilter intentFilter = new PluginIntentFilter();
@@ -433,7 +441,7 @@ public class PluginManifestParser {
             eventType = parser.next();
         } while (!endTagName.equals(parser.getName()));// 再次到达，表示一个标签结束了
 
-        return activityName;
+        return componentName;
     }
 
     private static String getName(String nameOrig, String pkgName) {

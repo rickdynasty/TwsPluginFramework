@@ -30,9 +30,43 @@ public class ProcessUtil {
 
     private static Boolean isPluginProcess = null;
     private static Boolean isHostProcess = null;
+    private static String hostProcessName = null;
+    private static String masterProcessName = null;
+    //private static String minorProcessName = null;
 
     public static String getHostProcessName() {
-        return PluginLoader.getHostPackageName();
+        if (TextUtils.isEmpty(hostProcessName)) {
+            hostProcessName = PluginApplication.getInstance().getPackageName();
+        }
+
+        return hostProcessName;
+    }
+
+    //插件master进程
+    public static String getPluginMasterProcessName() {
+        if (TextUtils.isEmpty(masterProcessName)) {
+            return getHostProcessName() + PLUGIN_MASTER_PROCESS_SUFFIX;
+        } else {
+            return masterProcessName;
+        }
+    }
+
+    //插件minor进程
+    public static String getPluginMinorProcessName() {
+        return getHostProcessName() + PLUGIN_MINOR_PROCESS_SUFFIX;
+    }
+
+    public static String getProcessNameByIndex(int processIndex) {
+        switch (processIndex) {
+            case PLUGIN_PROCESS_INDEX_HOST:
+                return getHostProcessName();
+            case PLUGIN_PROCESS_INDEX_MASTER:
+                return getPluginMasterProcessName();
+            case PLUGIN_PROCESS_INDEX_MINOR:
+                return getPluginMinorProcessName();
+            default: //自定义进程 有组件自己申明指定
+                return null;
+        }
     }
 
     public static boolean isPluginProcess(Context context) {
@@ -50,7 +84,7 @@ public class ProcessUtil {
         if (isPluginProcess == null) {
             final String hostProcessName = PluginApplication.getInstance().getPackageName();  //rick_Note：注意这里使用了系统默认的方式指定进程，如果自己指定了主进程的名称需要做处理
             final String pluginMasterProcessName = getPluginMasterProcessName(context);
-            final String pluginMinorProcessName = getPluginMinorProcessName(context);
+            final String pluginMinorProcessName = getPluginMinorProcessName();
 
             String processName = getCurProcessName(context);
 
@@ -87,16 +121,13 @@ public class ProcessUtil {
         try {
             // 这里取个巧, 直接查询ContentProvider的信息中包含的processName,因为Contentprovider是被配置为插件pmaster进程.但是这个api只支持9及以上,
             ProviderInfo pinfo = context.getPackageManager().getProviderInfo(new ComponentName(context, PluginManagerProvider.class), 0);
-            return pinfo.processName;
+            masterProcessName = pinfo.processName;
+            return masterProcessName;
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
         }
 
         //:pmaster
         return PluginApplication.getInstance().getPackageName() + PLUGIN_MASTER_PROCESS_SUFFIX;
-    }
-
-    private static String getPluginMinorProcessName(Context context) {
-        return PluginApplication.getInstance().getPackageName() + PLUGIN_MINOR_PROCESS_SUFFIX;
     }
 }

@@ -1,10 +1,5 @@
 package com.tws.plugin.manager;
 
-import java.util.ArrayList;
-import java.util.Collection;
-
-import qrom.component.log.QRomLog;
-
 import android.annotation.TargetApi;
 import android.content.ContentProvider;
 import android.content.ContentValues;
@@ -19,6 +14,12 @@ import com.tws.plugin.content.LoadedPlugin;
 import com.tws.plugin.content.PluginDescriptor;
 import com.tws.plugin.core.PluginLauncher;
 import com.tws.plugin.core.PluginLoader;
+import com.tws.plugin.util.ProcessUtil;
+
+import java.util.ArrayList;
+import java.util.Collection;
+
+import qrom.component.log.QRomLog;
 
 /**
  * @author yongchen
@@ -85,9 +86,6 @@ public class PluginManagerProvider extends ContentProvider {
 
     public static final String ACTION_DUMP_SERVICE_INFO = "dump_service_info";
     public static final String DUMP_SERVICE_INFO_RESULT = "dump_service_info_result";
-
-    // process
-    public static final String EXTRAS_BUNDLE_PROCESS = "extras_bundle_process";
 
     // for debug parameter EXTRAS KEY
     public static final String EXTRAS_FOR_DEBUG = "extras_for_debug";
@@ -234,8 +232,9 @@ public class PluginManagerProvider extends ContentProvider {
             return bundle;
 
         } else if (ACTION_BIND_ACTIVITY.equals(method)) {
-
-            bundle.putString(BIND_ACTIVITY_RESULT, PluginStubBinding.bindStubActivity(arg, extras.getInt(PluginManagerHelper.CONSTANT_KEY_LAUNCH_MODE)));
+            int launchMode = extras.getInt(PluginManagerHelper.CONSTANT_KEY_LAUNCH_MODE);
+            int processIndex = extras.getInt(PluginManagerHelper.CONSTANT_KEY_PROCESS_INDEX, ProcessUtil.PLUGIN_PROCESS_INDEX_HOST);
+            bundle.putString(BIND_ACTIVITY_RESULT, PluginStubBinding.bindStubActivity(arg, launchMode, processIndex));
 
             return bundle;
 
@@ -244,7 +243,7 @@ public class PluginManagerProvider extends ContentProvider {
             PluginStubBinding.unBindLaunchModeStubActivity(arg, extras.getString(PluginManagerHelper.CONSTANT_KEY_CLASS_NAME));
 
         } else if (ACTION_BIND_SERVICE.equals(method)) {
-            String process = extras != null ? extras.getString(EXTRAS_BUNDLE_PROCESS) : null;
+            int process = extras.getInt(PluginManagerHelper.CONSTANT_KEY_LAUNCH_MODE, ProcessUtil.PLUGIN_PROCESS_INDEX_HOST);
             bundle.putString(BIND_SERVICE_RESULT, PluginStubBinding.bindStubService(arg, process));
 
             return bundle;

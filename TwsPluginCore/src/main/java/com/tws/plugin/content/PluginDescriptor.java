@@ -7,6 +7,7 @@ import android.text.TextUtils;
 
 import com.tws.plugin.bridge.TwsPluginBridgeActivity;
 import com.tws.plugin.core.PluginLoader;
+import com.tws.plugin.util.ProcessUtil;
 import com.tws.plugin.util.ResourceUtil;
 
 import java.io.Serializable;
@@ -54,8 +55,8 @@ public class PluginDescriptor implements Serializable {
 
     private int applicationTheme;
 
-    // 插件进程配置info
-    private String applicaionProcess = null;
+    // 插件进程info配置
+    private int processIndex = ProcessUtil.PLUGIN_PROCESS_INDEX_HOST;
 
     /**
      * 定义在插件Manifest中的meta-data标签
@@ -89,7 +90,7 @@ public class PluginDescriptor implements Serializable {
      */
     private HashMap<String, ArrayList<PluginIntentFilter>> services = new HashMap<String, ArrayList<PluginIntentFilter>>();
 
-    private HashMap<String, String> serviceProcessInfos = new HashMap<String, String>();
+    private HashMap<String, PluginServiceInfo> serviceInfos = new HashMap<String, PluginServiceInfo>();
 
     /**
      * key: receiver class name value: intentfilter list
@@ -210,17 +211,30 @@ public class PluginDescriptor implements Serializable {
         this.applicationTheme = theme;
     }
 
-    public String getApplicationProcess() {
-        return applicaionProcess;
+    public int getProcessIndex() {
+        return processIndex;
     }
 
-    public void setApplicationProcess(String process) {
-        if (TextUtils.isEmpty(process) || process.equals(PluginLoader.getApplication().getPackageName())) {
-            this.applicaionProcess = null;
-        } else if (process.endsWith(":pminor")) {
-            this.applicaionProcess = process;
+    public String getProcessName() {
+        switch (processIndex) {
+            case ProcessUtil.PLUGIN_PROCESS_INDEX_MASTER:
+                return ProcessUtil.getPluginMasterProcessName();
+            case ProcessUtil.PLUGIN_PROCESS_INDEX_MINOR:
+                return ProcessUtil.getPluginMinorProcessName();
+            default:
+                return ProcessUtil.getHostProcessName();
+        }
+    }
+
+    public void setProcessIndexByProcessName(String process) {
+        QRomLog.i(TAG, "setProcessIndexByProcessName:" + process);
+        //1、没有配置 2、配置了宿主的包名 3、配置了插件的包名 这三种情况会被视为跑在宿主进程中
+        if (TextUtils.isEmpty(process) || process.equals(PluginLoader.getApplication().getPackageName()) || process.equals(packageName)) {
+            this.processIndex = ProcessUtil.PLUGIN_PROCESS_INDEX_HOST;
+        } else if (process.endsWith(":pminor")) { //除非特别指定了进程为pminor，否则不应该指定为：次要的插件进程
+            this.processIndex = ProcessUtil.PLUGIN_PROCESS_INDEX_MINOR;
         } else {
-            this.applicaionProcess = process;
+            this.processIndex = ProcessUtil.PLUGIN_PROCESS_INDEX_MASTER;
         }
     }
 
@@ -276,12 +290,12 @@ public class PluginDescriptor implements Serializable {
         this.activityInfos = activityInfos;
     }
 
-    public HashMap<String, String> getServiceProcessInfos() {
-        return serviceProcessInfos;
+    public HashMap<String, PluginServiceInfo> getServiceInfos() {
+        return serviceInfos;
     }
 
-    public void setServiceProcessInfos(HashMap<String, String> serviceProcessInfos) {
-        this.serviceProcessInfos = serviceProcessInfos;
+    public void setServiceInfos(HashMap<String, PluginServiceInfo> serviceInfos) {
+        this.serviceInfos = serviceInfos;
     }
 
     public HashMap<String, ArrayList<PluginIntentFilter>> getServices() {
@@ -396,7 +410,29 @@ public class PluginDescriptor implements Serializable {
     }
 
     /**
-     * 获取className的type类型,比如：activity、fragment、service等
+     * 这里当前只处理组大组件及fragment
+     *
+     * @return boolean is contains
+     */
+    public boolean containsComponent(String className, int type) {
+        switch (type) {
+            case DisplayItem.TYPE_FRAGMENT:
+                return getFragments().containsValue(className);
+            case DisplayItem.TYPE_ACTIVITY:
+                return getActivitys().containsKey(className);
+            case DisplayItem.TYPE_SERVICE:
+                return getServices().containsKey(className);
+            case DisplayItem.TYPE_PROVIDER:
+                return getProviderInfos().containsKey(className);
+            case DisplayItem.TYPE_BROADCAST:
+                return getReceivers().containsKey(className);
+            default:
+                return false;
+        }
+    }
+
+    /**
+     * 获取className的type类型,比如：activity、fragment、service等，没办法：不知道类型，只能遍历来get结果
      *
      * @return int type value
      */
@@ -424,16 +460,29 @@ public class PluginDescriptor implements Serializable {
 
     public List<ComponentInfo> matchPluginComponents(Intent intent, int type) {
         List<ComponentInfo> result = null;
-        String clsName = null;
         // 如果是通过组件进行匹配的, 这里忽略了packageName
-        if (intent.getComponent() != null && type == getClsNameType(intent.getComponent().getClassName())
-                && !TwsPluginBridgeActivity.class.getName().equals(intent.getComponent().getClassName())) {
-            clsName = intent.getComponent().getClassName();
-            result = new ArrayList<ComponentInfo>(1);
-            //当前暂时就service支持配置多进程
-            String process = (type == DisplayItem.TYPE_SERVICE ? serviceProcessInfos.get(clsName) : null);
-            result.add(new ComponentInfo(clsName, type, getPackageName(), process));
-            return result;// 暂时不考虑不同的插件中配置了相同名称的组件的问题,先到先得
+        if (intent.getComponent() != null) {
+            final String clsName = intent.getComponent().getClassName();
+            if (containsComponent(clsName, type) && !TwsPluginBridgeActivity.class.getName().equals(clsName)) {
+                result = new ArrayList<ComponentInfo>(1);
+
+                int pIndex = getProcessIndex();
+                String pName = getProcessName();
+                switch (type) {
+                    //目前就service存在可能和application不在一个进程
+                    case DisplayItem.TYPE_SERVICE:
+                        final PluginServiceInfo serviceInfo = serviceInfos.get(clsName);
+                        if (null != serviceInfo) {
+                            pName = serviceInfo.getProcessName();
+                            pIndex = serviceInfo.getProcessIndex();
+                        }
+                        break;
+                    default:
+                        break;
+                }
+                result.add(new ComponentInfo(clsName, type, getPackageName(), pName, pIndex));
+                return result;// 暂时不考虑不同的插件中配置了相同名称的组件的问题,先到先得
+            }
         }
 
         // 如果是通过IntentFilter进行匹配的
@@ -496,9 +545,21 @@ public class PluginDescriptor implements Serializable {
                             targetComponentInfos = new ArrayList<ComponentInfo>();
                         }
 
-                        //当前暂时就service支持配置多进程
-                        String process = (type == DisplayItem.TYPE_SERVICE ? serviceProcessInfos.get(item.getKey()) : null);
-                        targetComponentInfos.add(new ComponentInfo(item.getKey(), type, getPackageName(), process));
+                        int pIndex = getProcessIndex();
+                        String pName = getProcessName();
+                        switch (type) {
+                            //目前就service存在可能和application不在一个进程
+                            case DisplayItem.TYPE_SERVICE:
+                                final PluginServiceInfo serviceInfo = serviceInfos.get(item.getKey());
+                                if (null != serviceInfo) {
+                                    pName = serviceInfo.getProcessName();
+                                    pIndex = serviceInfo.getProcessIndex();
+                                }
+                                break;
+                            default:
+                                break;
+                        }
+                        targetComponentInfos.add(new ComponentInfo(item.getKey(), type, getPackageName(), pName, pIndex));
                         break;
                     }
                 }

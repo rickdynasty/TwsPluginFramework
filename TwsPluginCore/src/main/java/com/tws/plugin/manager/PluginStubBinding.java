@@ -207,7 +207,7 @@ class PluginStubBinding {
         return receiver;
     }
 
-    public static synchronized String bindStubActivity(String pluginActivityClassName, int launchMode) {
+    public static synchronized String bindStubActivity(String pluginActivityClassName, int launchMode, int processIndex) {
 
         initPool();
 
@@ -303,13 +303,12 @@ class PluginStubBinding {
         return null;
     }
 
-    public static synchronized String bindStubService(String pluginServiceClassName, String process) {
+    public static synchronized String bindStubService(String pluginServiceClassName, int processIndex) {
 
         initPool();
 
-        final boolean isMp = !TextUtils.isEmpty(process);
-        Iterator<Map.Entry<String, String>> itr = isMp ? mpServiceMapping.entrySet().iterator() : serviceMapping
-                .entrySet().iterator();
+        final boolean isMp = (processIndex == ProcessUtil.PLUGIN_PROCESS_INDEX_CUSTOMIZE);
+        Iterator<Map.Entry<String, String>> itr = isMp ? mpServiceMapping.entrySet().iterator() : serviceMapping.entrySet().iterator();
 
         String idleStubServiceName = null;
 

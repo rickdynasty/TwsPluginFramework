@@ -62,7 +62,7 @@ public class PluginFragmentActivity extends FragmentActivity implements PluginCo
 				Toast.makeText(this, "缺少参数:PluginDispatcher.fragmentId", Toast.LENGTH_SHORT).show();
 				return;
 			}
-			Log.d(LOG_TAG, "loadPluginFragment, classId is " + classId);
+			Log.i(LOG_TAG, "loadPluginFragment, classId is " + classId);
 			@SuppressWarnings("rawtypes")
             Class cls = PluginLoader.loadPluginFragmentClassById(classId);
 			if (cls != null) {

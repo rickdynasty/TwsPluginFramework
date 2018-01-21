@@ -17,10 +17,10 @@ public class PluginTestApplication extends Application {
     public void onCreate() {
         super.onCreate();
 
-        Log.d(TAG, "Host pkg:" + HostProxy.getApplication().getPackageName());
+        Log.i(TAG, "Host pkg:" + HostProxy.getApplication().getPackageName());
 
         if (isApplicationProcess()) {
-            Log.d(TAG, "api欺骗成功，让插件以为自己在主进程运行");
+            Log.i(TAG, "api欺骗成功，让插件以为自己在主进程运行");
         }
         sContext = this;
     }

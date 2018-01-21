@@ -97,7 +97,7 @@ public class BaseFragment extends Fragment {
         if (mToolbar != null) {
             mToolbar.refreshToolbar(scrollOffset);
         } else {
-            Log.d(TAG, "refreshToolbar: no toolbar available.");
+            Log.i(TAG, "refreshToolbar: no toolbar available.");
         }
     }
 
@@ -105,7 +105,7 @@ public class BaseFragment extends Fragment {
         if (mToolbar != null) {
             mToolbar.setTextAndActionColor(color);
         } else {
-            Log.d(TAG, "setToolbarTextAndActionColor: no toolbar available.");
+            Log.i(TAG, "setToolbarTextAndActionColor: no toolbar available.");
         }
     }
 
@@ -142,14 +142,14 @@ public class BaseFragment extends Fragment {
             supportActionBar.setDisplayShowTitleEnabled(false);
             //supportActionBar.setDisplayHomeAsUpEnabled(RemoteConfigController.getInstance(KronabyApplication.getContext()).getAppToolBarBackButtonEnable());
         } else {
-            Log.d(TAG, "setupToolbar: no support toolbar available");
+            Log.i(TAG, "setupToolbar: no support toolbar available");
         }
 
         final TextView toolbarTitle = (TextView) view.findViewById(R.id.toolbar_title);
         if (toolbarTitle != null) {
             toolbarTitle.setText(getFeaturePathName());
         } else {
-            Log.d(TAG, "setupToolbar: no toolbar title available");
+            Log.i(TAG, "setupToolbar: no toolbar title available");
         }
     }
 

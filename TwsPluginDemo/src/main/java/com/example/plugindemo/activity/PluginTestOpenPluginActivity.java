@@ -41,14 +41,14 @@ public class PluginTestOpenPluginActivity extends Activity implements OnClickLis
 	class NestReceiver extends BroadcastReceiver {
 		@Override
 		public void onReceive(Context context, Intent intent) {
-			Log.d("NestReceiver", intent.getStringExtra("str1") + ((ParamVO) intent.getSerializableExtra("paramvo")) + ", action:" + intent.getAction());
+			Log.i("NestReceiver", intent.getStringExtra("str1") + ((ParamVO) intent.getSerializableExtra("paramvo")) + ", action:" + intent.getAction());
 		}
 	}
 
 	class NestReceiver2 extends BroadcastReceiver {
 		@Override
 		public void onReceive(Context context, Intent intent) {
-			Log.d("NestReceiver2", ((ParamVO) intent.getSerializableExtra("paramvo")) + ", action:" + intent.getAction());
+			Log.i("NestReceiver2", ((ParamVO) intent.getSerializableExtra("paramvo")) + ", action:" + intent.getAction());
 		}
 	}
 

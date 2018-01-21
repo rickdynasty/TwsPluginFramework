@@ -92,7 +92,7 @@ class PluginStubBinding {
 
     private static void loadStubActivity() {
         Intent launchModeIntent = new Intent();
-        launchModeIntent.setAction(buildMasterAction());
+        launchModeIntent.setAction(buildHostAction());
         launchModeIntent.setPackage(PluginLoader.getApplication().getPackageName());
 
         List<ResolveInfo> list = PluginLoader.getApplication().getPackageManager()
@@ -123,7 +123,7 @@ class PluginStubBinding {
 
     private static synchronized void loadStubService() {
         Intent launchModeIntent = new Intent();
-        launchModeIntent.setAction(buildMasterAction());
+        launchModeIntent.setAction(buildHostAction());
         launchModeIntent.setPackage(PluginLoader.getApplication().getPackageName());
 
         List<ResolveInfo> list = PluginLoader.getApplication().getPackageManager()

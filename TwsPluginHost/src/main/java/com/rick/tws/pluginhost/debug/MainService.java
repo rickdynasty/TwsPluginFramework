@@ -15,7 +15,7 @@ public class MainService extends Service {
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId) {
 
-		Log.d("MainService", "打开插件PluginTestService");
+		Log.i("MainService", "打开插件PluginTestService");
 		Intent serviceIntent = new Intent("test.lmn");
 		serviceIntent.setPackage("com.example.plugindemo");
 		startService(serviceIntent);

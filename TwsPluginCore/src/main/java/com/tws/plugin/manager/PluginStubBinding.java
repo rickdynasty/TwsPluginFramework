@@ -58,8 +58,12 @@ class PluginStubBinding {
     private static boolean isPoolInited = false;
 
     // ACTION是固定的，在AndroidManifest.xml里面申明就确定好了
+    //receiver 一直是跑在Host进程里面的
     private static String buildHostAction() {
         return "com.rick.tws.pluginhost.STUB_DEFAULT";
+    }
+    private static String buildMasterAction() {
+        return "com.rick.tws.pluginmaster.STUB_DEFAULT";
     }
 
     private static String buildMpDefaultAction() {
@@ -88,7 +92,7 @@ class PluginStubBinding {
 
     private static void loadStubActivity() {
         Intent launchModeIntent = new Intent();
-        launchModeIntent.setAction(buildHostAction());
+        launchModeIntent.setAction(buildMasterAction());
         launchModeIntent.setPackage(PluginLoader.getApplication().getPackageName());
 
         List<ResolveInfo> list = PluginLoader.getApplication().getPackageManager()
@@ -119,7 +123,7 @@ class PluginStubBinding {
 
     private static synchronized void loadStubService() {
         Intent launchModeIntent = new Intent();
-        launchModeIntent.setAction(buildHostAction());
+        launchModeIntent.setAction(buildMasterAction());
         launchModeIntent.setPackage(PluginLoader.getApplication().getPackageName());
 
         List<ResolveInfo> list = PluginLoader.getApplication().getPackageManager()

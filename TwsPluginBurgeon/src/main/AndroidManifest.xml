@@ -6,12 +6,13 @@
     android:versionName="1.0.2">
 
     <application
+        android:name="com.example.plugin.burgeon.BurgeonApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:process=":pmaster"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:process=":pmaster"
         android:theme="@style/AppTheme">
 
         <!-- 分隔符： # 分割DisplayConfig； @ 分割DisplayConfig的属性； = 属性赋值； / 分割属性值 -->

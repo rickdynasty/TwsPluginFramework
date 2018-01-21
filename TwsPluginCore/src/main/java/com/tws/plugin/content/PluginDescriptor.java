@@ -486,7 +486,7 @@ public class PluginDescriptor implements Serializable {
         }
 
         // 如果是通过IntentFilter进行匹配的
-        ArrayList<ComponentInfo> list = findClassNameByIntent(intent, type);
+        ArrayList<ComponentInfo> list = scanToMatchComponents(intent, type);
         if (list != null && list.size() > 0) {
             switch (type) {
                 case DisplayItem.TYPE_ACTIVITY:
@@ -509,7 +509,7 @@ public class PluginDescriptor implements Serializable {
         return null;
     }
 
-    private ArrayList<ComponentInfo> findClassNameByIntent(Intent intent, final int type) {
+    private ArrayList<ComponentInfo> scanToMatchComponents(Intent intent, final int type) {
         final HashMap<String, ArrayList<PluginIntentFilter>> intentFilter;
         switch (type) {
             case DisplayItem.TYPE_ACTIVITY:

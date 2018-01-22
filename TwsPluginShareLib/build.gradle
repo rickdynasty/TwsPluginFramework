@@ -55,7 +55,7 @@ android {
 
         from('build/intermediates/classes/release/')
         //from(project.zipTree("linklib/android-support-v4.jar"))
-        //from(project.zipTree("linklib/android-support-v7.jar"))
+        from(project.zipTree("linklib/TwsActivityInterface.jar"))
 
         destinationDir = file(build_sdk_dir)
         exclude('com/tencent/tws/sharelib/BuildConfig.class')

@@ -40,36 +40,36 @@ class PluginStubBinding {
     private static String KEY_MP_SERVICE_MAP_PREFERENCES_NAME = "plugins.mp.serviceMapping";
     private static String KEY_MP_SERVICE_MAP_MAP_PREFERENCES_NAME = "plugins.mp.serviceMapping.map";
 
-    /**
-     * key:stub Activity Name value:plugin Activity Name
-     */
-    private static HashMap<String, String> singleTaskActivityMapping = new HashMap<String, String>();
-    private static HashMap<String, String> singleTopActivityMapping = new HashMap<String, String>();
-    private static HashMap<String, String> singleInstanceActivityMapping = new HashMap<String, String>();
-    private static String standardActivity = null;
-    private static String receiver = null;
-    /**
-     * key:stub Service Name value:plugin Service Name
-     */
-    private static HashMap<String, String> serviceMapping = new HashMap<String, String>();
-    //这个属性用于有些插件依赖第三方库，而第三方库运行了一些service指定单独进程 - 并且在运行结束后会主动回收
-    private static HashMap<String, String> mpServiceMapping = new HashMap<String, String>();
-
-    private static boolean isPoolInited = false;
-
     // ACTION是固定的，在AndroidManifest.xml里面申明就确定好了
     //receiver 一直是跑在Host进程里面的
     private static String buildHostAction() {
         return "com.rick.tws.pluginhost.STUB_DEFAULT";
     }
-
     private static String buildMasterAction() {
         return "com.rick.tws.pluginmaster.STUB_DEFAULT";
     }
-
     private static String buildMpDefaultAction() {
         return "com.rick.tws.plugin.MP_STUB_DEFAULT";
     }
+
+    // host process
+    /**
+     * key:stub Activity Name value:plugin Activity Name
+     */
+    private static HashMap<String, String> hostSTaskActivityMapping = new HashMap<String, String>();
+    private static HashMap<String, String> hostSTopActivityMapping = new HashMap<String, String>();
+    private static HashMap<String, String> hostSIActivityMapping = new HashMap<String, String>();
+    private static String hostStandardActivity = null;
+    /**
+     * key:stub Service Name value:plugin Service Name
+     */
+    private static HashMap<String, String> serviceMapping = new HashMap<String, String>();
+
+    private static String receiver = null;
+    //这个属性用于有些插件依赖第三方库，而第三方库运行了一些service指定单独进程 - 并且在运行结束后会主动回收
+    private static HashMap<String, String> mpServiceMapping = new HashMap<String, String>();
+
+    private static boolean isPoolInited = false;
 
     private static void initPool() {
         if (!ProcessUtil.isPluginProcess()) {
@@ -103,19 +103,19 @@ class PluginStubBinding {
             for (ResolveInfo resolveInfo : list) {
                 if (resolveInfo.activityInfo.launchMode == ActivityInfo.LAUNCH_SINGLE_TASK) {
 
-                    singleTaskActivityMapping.put(resolveInfo.activityInfo.name, null);
+                    hostSTaskActivityMapping.put(resolveInfo.activityInfo.name, null);
 
                 } else if (resolveInfo.activityInfo.launchMode == ActivityInfo.LAUNCH_SINGLE_TOP) {
 
-                    singleTopActivityMapping.put(resolveInfo.activityInfo.name, null);
+                    hostSTopActivityMapping.put(resolveInfo.activityInfo.name, null);
 
                 } else if (resolveInfo.activityInfo.launchMode == ActivityInfo.LAUNCH_SINGLE_INSTANCE) {
 
-                    singleInstanceActivityMapping.put(resolveInfo.activityInfo.name, null);
+                    hostSIActivityMapping.put(resolveInfo.activityInfo.name, null);
 
                 } else if (resolveInfo.activityInfo.launchMode == ActivityInfo.LAUNCH_MULTIPLE) {
 
-                    standardActivity = resolveInfo.activityInfo.name;
+                    hostStandardActivity = resolveInfo.activityInfo.name;
 
                 }
             }
@@ -215,19 +215,19 @@ class PluginStubBinding {
 
         if (launchMode == ActivityInfo.LAUNCH_MULTIPLE) {
 
-            return standardActivity;
+            return hostStandardActivity;
 
         } else if (launchMode == ActivityInfo.LAUNCH_SINGLE_TASK) {
 
-            bindingMapping = singleTaskActivityMapping;
+            bindingMapping = hostSTaskActivityMapping;
 
         } else if (launchMode == ActivityInfo.LAUNCH_SINGLE_TOP) {
 
-            bindingMapping = singleTopActivityMapping;
+            bindingMapping = hostSTopActivityMapping;
 
         } else if (launchMode == ActivityInfo.LAUNCH_SINGLE_INSTANCE) {
 
-            bindingMapping = singleInstanceActivityMapping;
+            bindingMapping = hostSIActivityMapping;
 
         }
 
@@ -257,7 +257,7 @@ class PluginStubBinding {
 
         }
 
-        return standardActivity;
+        return hostStandardActivity;
     }
 
     public static synchronized void unBindLaunchModeStubActivity(String stubActivityName, String pluginActivityName) {
@@ -265,13 +265,13 @@ class PluginStubBinding {
         QRomLog.i(TAG, "call unBindLaunchModeStubActivity:" + stubActivityName + " pluginActivityName is "
                 + pluginActivityName);
 
-        if (pluginActivityName.equals(singleTaskActivityMapping.get(stubActivityName))) {
+        if (pluginActivityName.equals(hostSTaskActivityMapping.get(stubActivityName))) {
             QRomLog.i(TAG, "equals singleTaskActivityMapping");
-            singleTaskActivityMapping.put(stubActivityName, null);
+            hostSTaskActivityMapping.put(stubActivityName, null);
 
-        } else if (pluginActivityName.equals(singleInstanceActivityMapping.get(stubActivityName))) {
+        } else if (pluginActivityName.equals(hostSIActivityMapping.get(stubActivityName))) {
             QRomLog.i(TAG, "equals singleInstanceActivityMapping");
-            singleInstanceActivityMapping.put(stubActivityName, null);
+            hostSIActivityMapping.put(stubActivityName, null);
         } else {
             QRomLog.i(TAG, "对于standard和singleTop的launchmode，不做处理。");
         }
@@ -463,8 +463,8 @@ class PluginStubBinding {
     public static boolean isStub(String className) {
         initPool();
 
-        return className.equals(standardActivity) || singleTaskActivityMapping.containsKey(className)
-                || singleTopActivityMapping.containsKey(className) || singleInstanceActivityMapping.containsKey(className)
+        return className.equals(hostStandardActivity) || hostSTaskActivityMapping.containsKey(className)
+                || hostSTopActivityMapping.containsKey(className) || hostSIActivityMapping.containsKey(className)
                 || serviceMapping.containsKey(className) || mpServiceMapping.containsKey(className) || className.equals(receiver);
     }
 }

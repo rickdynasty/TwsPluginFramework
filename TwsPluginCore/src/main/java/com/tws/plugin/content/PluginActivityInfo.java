@@ -20,7 +20,6 @@ public class PluginActivityInfo implements Serializable {
 	private String theme;// int
 	private String immersive;// int string
 	private String uiOptions;
-	private int processIndex = -1;
 	private int configChanges;
 
 	public int getConfigChanges() {
@@ -93,13 +92,5 @@ public class PluginActivityInfo implements Serializable {
 
 	public void setTheme(String theme) {
 		this.theme = theme;
-	}
-
-	public int getProcessIndex() {
-		return processIndex;
-	}
-
-	public void setProcessIndex(int processIndex){
-		this.processIndex = processIndex;
 	}
 }

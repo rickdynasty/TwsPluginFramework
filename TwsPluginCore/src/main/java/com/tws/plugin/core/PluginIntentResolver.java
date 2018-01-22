@@ -183,7 +183,7 @@ public class PluginIntentResolver {
 
             PluginActivityInfo pluginActivityInfo = pd.getActivityInfos().get(className);
 
-            String stubActivityName = PluginManagerHelper.bindStubActivity(className, Integer.parseInt(pluginActivityInfo.getLaunchMode()), pluginActivityInfo.getProcessIndex());
+            String stubActivityName = PluginManagerHelper.bindStubActivity(className, Integer.parseInt(pluginActivityInfo.getLaunchMode()), pd.getProcessIndex());
 
             final String applicationPackageName = PluginLoader.getApplication().getPackageName();
             //在这里进行偷梁换柱，准备瞒天过海

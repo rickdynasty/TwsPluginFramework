@@ -3,6 +3,9 @@ apply plugin: 'com.android.library'
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
     buildToolsVersion rootProject.ext.buildtools
+    defaultConfig {
+        minSdkVersion rootProject.ext.minSdkVersion
+    }
 
     sourceSets.main {
         java.srcDirs = ['src/main/java']

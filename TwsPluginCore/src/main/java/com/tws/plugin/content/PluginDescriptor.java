@@ -56,6 +56,7 @@ public class PluginDescriptor implements Serializable {
     private int applicationTheme;
 
     // 插件进程info配置
+    // rick_Note:注意这里可能需要另外添加一个逻辑：如果插件配置了要显示在宿主里面的exported-fragment，那么插件的进程就只能是host进程，否则这会显示不出来
     private int processIndex = ProcessUtil.PLUGIN_PROCESS_INDEX_HOST;
 
     /**
@@ -418,7 +419,7 @@ public class PluginDescriptor implements Serializable {
         if (!isEnabled()) {
             return false;
         }
-        
+
         switch (type) {
             case DisplayItem.TYPE_FRAGMENT:
                 return getFragments().containsValue(className);

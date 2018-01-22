@@ -1,20 +1,5 @@
 package com.tws.plugin.manager;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.Serializable;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
-import qrom.component.log.QRomLog;
-
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
@@ -24,9 +9,21 @@ import android.text.TextUtils;
 import android.util.Base64;
 
 import com.tws.plugin.content.DisplayItem;
-import com.tws.plugin.content.PluginDescriptor;
 import com.tws.plugin.core.PluginLoader;
 import com.tws.plugin.util.ProcessUtil;
+
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+
+import qrom.component.log.QRomLog;
 
 /**
  * 插件组件动态绑定到宿主的虚拟stub组件
@@ -59,22 +56,64 @@ class PluginStubBinding {
         return "com.rick.tws.pluginminor.STUB_DEFAULT";
     }
 
-    // host process
+    //预设Activity stub的坑位数量
+    private static final int STUB_ACTIVITY_INITIAL_CAPACITY = 5;
+    //预设Activity stub的坑位数量
+    private static final int STUB_SERVICE_INITIAL_CAPACITY = 9;
+    //预设Activity stub的坑位数量
+    private static final int STUB_MP_SERVICE_ACTIVITY_INITIAL_CAPACITY = 5;
+    // <stub组件，插件组件>通过这种映射来维护绑定关系
+    //运行在宿主进程的stub组件
+    //////////////////////////////////////////// 01 host process begin ////////////////////////////////////////////
     /**
      * key:stub Activity Name value:plugin Activity Name
      */
-    private static HashMap<String, String> hostSTaskActivityMapping = new HashMap<String, String>();
-    private static HashMap<String, String> hostSTopActivityMapping = new HashMap<String, String>();
-    private static HashMap<String, String> hostSIActivityMapping = new HashMap<String, String>();
-    private static String hostStandardActivity = null;
+    private static HashMap<String, String> hProcessSTaskActivitys = new HashMap<String, String>(STUB_ACTIVITY_INITIAL_CAPACITY);
+    private static HashMap<String, String> hProcessSTopActivitys = new HashMap<String, String>(STUB_ACTIVITY_INITIAL_CAPACITY);
+    private static HashMap<String, String> hProcessSIActivitys = new HashMap<String, String>(STUB_ACTIVITY_INITIAL_CAPACITY);
+    private static String hProcessStandardActivity = null;
     /**
      * key:stub Service Name value:plugin Service Name
      */
-    private static HashMap<String, String> serviceMapping = new HashMap<String, String>();
+    private static HashMap<String, String> hostServiceMapping = new HashMap<String, String>(STUB_SERVICE_INITIAL_CAPACITY);
+    //////////////////////////////////////////// 01 host process end ////////////////////////////////////////////
+
+    //运行在pmaster进程的stub组件
+    //////////////////////////////////////////// 02 pmaster process begin ////////////////////////////////////////////
+    /**
+     * key:stub Activity Name value:plugin Activity Name
+     */
+    private static HashMap<String, String> pMasterSTaskActivitys = new HashMap<String, String>(STUB_ACTIVITY_INITIAL_CAPACITY);
+    private static HashMap<String, String> pMasterSTopActivitys = new HashMap<String, String>(STUB_ACTIVITY_INITIAL_CAPACITY);
+    private static HashMap<String, String> pMasterSIActivitys = new HashMap<String, String>(STUB_ACTIVITY_INITIAL_CAPACITY);
+    private static String pMasterStandardActivity = null;
+    /**
+     * key:stub Service Name value:plugin Service Name
+     */
+    private static HashMap<String, String> pMasterServiceMapping = new HashMap<String, String>(STUB_SERVICE_INITIAL_CAPACITY);
+    //////////////////////////////////////////// 02 pmaster process begin ////////////////////////////////////////////
+
+    //运行在pminor进程的stub组件
+    //////////////////////////////////////////// 03 pminor process begin ////////////////////////////////////////////
+    /**
+     * key:stub Activity Name value:plugin Activity Name
+     */
+    private static HashMap<String, String> pMinorSTaskActivitys = new HashMap<String, String>(STUB_ACTIVITY_INITIAL_CAPACITY);
+    private static HashMap<String, String> pMinorSTopActivitys = new HashMap<String, String>(STUB_ACTIVITY_INITIAL_CAPACITY);
+    private static HashMap<String, String> pMinorSIActivitys = new HashMap<String, String>(STUB_ACTIVITY_INITIAL_CAPACITY);
+    private static String pMinorStandardActivity = null;
+    /**
+     * key:stub Service Name value:plugin Service Name
+     */
+    private static HashMap<String, String> pMinorServiceMapping = new HashMap<String, String>(STUB_SERVICE_INITIAL_CAPACITY);
+    //////////////////////////////////////////// 03 pminor process begin ////////////////////////////////////////////
+
+    //Activity stub绑定关系cache
+    private static HashMap<String, BindStubInfo> bindedActivityStubCache = new HashMap<String, BindStubInfo>();
 
     private static String receiver = null;
     //这个属性用于有些插件依赖第三方库，而第三方库运行了一些service指定单独进程 - 并且在运行结束后会主动回收
-    private static HashMap<String, String> mpServiceMapping = new HashMap<String, String>();
+    private static HashMap<String, String> mpServiceMapping = new HashMap<String, String>(STUB_MP_SERVICE_ACTIVITY_INITIAL_CAPACITY);
 
     private static boolean isPoolInited = false;
 
@@ -88,6 +127,8 @@ class PluginStubBinding {
         }
 
         loadHostProcessStubActivity();
+        loadPluginMasterProcessStubActivity();
+        loadPluginMinorProcessStubActivity();
 
         loadHostProcessStubService();
 
@@ -108,13 +149,57 @@ class PluginStubBinding {
         if (list != null && list.size() > 0) {
             for (ResolveInfo resolveInfo : list) {
                 if (resolveInfo.activityInfo.launchMode == ActivityInfo.LAUNCH_SINGLE_TASK) {
-                    hostSTaskActivityMapping.put(resolveInfo.activityInfo.name, null);
+                    hProcessSTaskActivitys.put(resolveInfo.activityInfo.name, null);
                 } else if (resolveInfo.activityInfo.launchMode == ActivityInfo.LAUNCH_SINGLE_TOP) {
-                    hostSTopActivityMapping.put(resolveInfo.activityInfo.name, null);
+                    hProcessSTopActivitys.put(resolveInfo.activityInfo.name, null);
                 } else if (resolveInfo.activityInfo.launchMode == ActivityInfo.LAUNCH_SINGLE_INSTANCE) {
-                    hostSIActivityMapping.put(resolveInfo.activityInfo.name, null);
+                    hProcessSIActivitys.put(resolveInfo.activityInfo.name, null);
                 } else if (resolveInfo.activityInfo.launchMode == ActivityInfo.LAUNCH_MULTIPLE) {
-                    hostStandardActivity = resolveInfo.activityInfo.name;
+                    hProcessStandardActivity = resolveInfo.activityInfo.name;
+                }
+            }
+        }
+    }
+
+    private static void loadPluginMasterProcessStubActivity() {
+        Intent launchModeIntent = new Intent();
+        launchModeIntent.setAction(buildMasterAction());
+        launchModeIntent.setPackage(PluginLoader.getApplication().getPackageName());
+
+        List<ResolveInfo> list = PluginLoader.getApplication().getPackageManager().queryIntentActivities(launchModeIntent, PackageManager.MATCH_DEFAULT_ONLY);
+
+        if (list != null && list.size() > 0) {
+            for (ResolveInfo resolveInfo : list) {
+                if (resolveInfo.activityInfo.launchMode == ActivityInfo.LAUNCH_SINGLE_TASK) {
+                    pMasterSTaskActivitys.put(resolveInfo.activityInfo.name, null);
+                } else if (resolveInfo.activityInfo.launchMode == ActivityInfo.LAUNCH_SINGLE_TOP) {
+                    pMasterSTopActivitys.put(resolveInfo.activityInfo.name, null);
+                } else if (resolveInfo.activityInfo.launchMode == ActivityInfo.LAUNCH_SINGLE_INSTANCE) {
+                    pMasterSIActivitys.put(resolveInfo.activityInfo.name, null);
+                } else if (resolveInfo.activityInfo.launchMode == ActivityInfo.LAUNCH_MULTIPLE) {
+                    pMasterStandardActivity = resolveInfo.activityInfo.name;
+                }
+            }
+        }
+    }
+
+    private static void loadPluginMinorProcessStubActivity() {
+        Intent launchModeIntent = new Intent();
+        launchModeIntent.setAction(buildMinorAction());
+        launchModeIntent.setPackage(PluginLoader.getApplication().getPackageName());
+
+        List<ResolveInfo> list = PluginLoader.getApplication().getPackageManager().queryIntentActivities(launchModeIntent, PackageManager.MATCH_DEFAULT_ONLY);
+
+        if (list != null && list.size() > 0) {
+            for (ResolveInfo resolveInfo : list) {
+                if (resolveInfo.activityInfo.launchMode == ActivityInfo.LAUNCH_SINGLE_TASK) {
+                    pMinorSTaskActivitys.put(resolveInfo.activityInfo.name, null);
+                } else if (resolveInfo.activityInfo.launchMode == ActivityInfo.LAUNCH_SINGLE_TOP) {
+                    pMinorSTopActivitys.put(resolveInfo.activityInfo.name, null);
+                } else if (resolveInfo.activityInfo.launchMode == ActivityInfo.LAUNCH_SINGLE_INSTANCE) {
+                    pMinorSIActivitys.put(resolveInfo.activityInfo.name, null);
+                } else if (resolveInfo.activityInfo.launchMode == ActivityInfo.LAUNCH_MULTIPLE) {
+                    pMinorStandardActivity = resolveInfo.activityInfo.name;
                 }
             }
         }
@@ -129,7 +214,7 @@ class PluginStubBinding {
 
         if (list != null && list.size() > 0) {
             for (ResolveInfo resolveInfo : list) {
-                serviceMapping.put(resolveInfo.serviceInfo.name, null);
+                hostServiceMapping.put(resolveInfo.serviceInfo.name, null);
             }
 
             HashMap<String, String> mapping = restore(false);
@@ -138,8 +223,8 @@ class PluginStubBinding {
                 String key;
                 while (iter.hasNext()) {
                     key = iter.next();
-                    if (serviceMapping.containsKey(key)) {
-                        serviceMapping.put(key, mapping.get(key));
+                    if (hostServiceMapping.containsKey(key)) {
+                        hostServiceMapping.put(key, mapping.get(key));
                     } else {
                         // 我去这个还真的在当前版本被删除了
                     }
@@ -148,7 +233,7 @@ class PluginStubBinding {
             }
 
             // 只有service需要固化
-            save(serviceMapping, false);
+            save(hostServiceMapping, false);
         }
     }
 
@@ -201,66 +286,208 @@ class PluginStubBinding {
         return receiver;
     }
 
-    public static synchronized String bindStubActivity(String pluginActivityClassName, int launchMode, int processIndex) {
+    public static synchronized String bindStubActivity(String pluginActivityClassName, int launchMode, int pIndex) {
 
         initPool();
 
-        HashMap<String, String> bindingMapping = null;
-
-        if (launchMode == ActivityInfo.LAUNCH_MULTIPLE) {
-            return hostStandardActivity;
-        } else if (launchMode == ActivityInfo.LAUNCH_SINGLE_TASK) {
-            bindingMapping = hostSTaskActivityMapping;
-        } else if (launchMode == ActivityInfo.LAUNCH_SINGLE_TOP) {
-            bindingMapping = hostSTopActivityMapping;
-        } else if (launchMode == ActivityInfo.LAUNCH_SINGLE_INSTANCE) {
-            bindingMapping = hostSIActivityMapping;
+        HashMap<String, String> stubActivitys = null;
+        String tandardActivity = "";
+        switch (pIndex) {
+            case ProcessUtil.PLUGIN_PROCESS_INDEX_HOST: {   //host进程stbu
+                switch (launchMode) {
+                    case ActivityInfo.LAUNCH_SINGLE_TASK:
+                        stubActivitys = hProcessSTaskActivitys;
+                        break;
+                    case ActivityInfo.LAUNCH_SINGLE_TOP:
+                        stubActivitys = hProcessSTopActivitys;
+                        break;
+                    case ActivityInfo.LAUNCH_SINGLE_INSTANCE:
+                        stubActivitys = hProcessSIActivitys;
+                        break;
+                    default:                                //ActivityInfo.LAUNCH_MULTIPLE
+                        return hProcessStandardActivity;
+                }
+                tandardActivity = hProcessStandardActivity;
+            }
+            break;
+            case ProcessUtil.PLUGIN_PROCESS_INDEX_MASTER: { //pMaster进程stbu
+                switch (launchMode) {
+                    case ActivityInfo.LAUNCH_SINGLE_TASK:
+                        stubActivitys = pMasterSTaskActivitys;
+                        break;
+                    case ActivityInfo.LAUNCH_SINGLE_TOP:
+                        stubActivitys = pMasterSTopActivitys;
+                        break;
+                    case ActivityInfo.LAUNCH_SINGLE_INSTANCE:
+                        stubActivitys = pMasterSIActivitys;
+                        break;
+                    default:                                //ActivityInfo.LAUNCH_MULTIPLE
+                        return pMasterStandardActivity;
+                }
+                tandardActivity = pMasterStandardActivity;
+            }
+            break;
+            case ProcessUtil.PLUGIN_PROCESS_INDEX_MINOR: {  //pMinor进程stbu
+                switch (launchMode) {
+                    case ActivityInfo.LAUNCH_SINGLE_TASK:
+                        stubActivitys = pMinorSTaskActivitys;
+                        break;
+                    case ActivityInfo.LAUNCH_SINGLE_TOP:
+                        stubActivitys = pMinorSTopActivitys;
+                        break;
+                    case ActivityInfo.LAUNCH_SINGLE_INSTANCE:
+                        stubActivitys = pMinorSIActivitys;
+                        break;
+                    default:                                //ActivityInfo.LAUNCH_MULTIPLE
+                        return pMinorStandardActivity;
+                }
+                tandardActivity = pMinorStandardActivity;
+            }
+            break;
+            default:
+                throw new IllegalAccessError("插件Activity组件当前只允许运行在[宿主(0)、插件master(1)、插件minor(2)]三个进程范围内，pIndex:" + pIndex + " 并不在这个范围内");
         }
 
-        if (bindingMapping != null) {
-            Iterator<Map.Entry<String, String>> itr = bindingMapping.entrySet().iterator();
-            String idleStubActivityName = null;
+        if (stubActivitys != null) {
+            Iterator<Map.Entry<String, String>> itr = stubActivitys.entrySet().iterator();
+            String stubName = null;
 
+            String pluginActivityName = "";
             while (itr.hasNext()) {
                 Map.Entry<String, String> entry = itr.next();
-                if (entry.getValue() == null) {
-                    if (idleStubActivityName == null) {
-                        idleStubActivityName = entry.getKey();
-                        // 这里找到空闲的stubactivity以后，还需继续遍历，用来检查是否pluginActivityClassName已经绑定过了
+                pluginActivityName = entry.getValue();
+                if (null == pluginActivityName) {   //如果当前stub组件没有绑定插件的组件
+                    if (null == stubName) {         //[如果还没确定目标stub]将stub组件名取出并赋值给目标stbuName
+                        stubName = entry.getKey();  //这里找到空闲的stubactivity以后，还需继续遍历，用来检查是否pluginActivityClassName已经绑定过了
                     }
-                } else if (pluginActivityClassName.equals(entry.getValue())) {
-                    // 已绑定过，直接返回
+                } else if (pluginActivityClassName.equals(pluginActivityName)) { //如果当前stub组件有绑定插件组件，被绑定的插件组件刚好和当前要处理的插件组件一致，直接返回
+                    BindStubInfo bindStubInfo = bindedActivityStubCache.get(pluginActivityClassName);
+                    stubName = entry.getKey();
+                    if (null == bindStubInfo) {
+                        bindStubInfo = new BindStubInfo(stubName, pIndex, launchMode);
+                        bindedActivityStubCache.put(pluginActivityClassName, bindStubInfo);
+                        QRomLog.e(TAG, "call bindStubActivity(" + pluginActivityClassName + ", " + launchMode + ", " + pIndex + ") 发现组件已经绑定了，绑定的stubInfo 却是null");
+                    } else if (!stubName.equals(bindStubInfo.stubName) || pIndex != bindStubInfo.pIndex) {
+                        //之前绑定的和之前的结果不一样
+                        QRomLog.e(TAG, "call bindStubActivity(" + pluginActivityClassName + ", " + launchMode + ", " + pIndex + ") 发现组件已经绑定了，绑定的stubInfo is " + bindStubInfo);
+                    }
+
+                    // 已绑定过，直接返回【上面的判断是为了校准之前的赋值】
                     return entry.getKey();
                 }
             }
 
             // 没有绑定到StubActivity，而且还有空余的stubActivity，进行绑定
-            if (idleStubActivityName != null) {
-                bindingMapping.put(idleStubActivityName, pluginActivityClassName);
-                return idleStubActivityName;
+            if (null != stubName) {
+                stubActivitys.put(stubName, pluginActivityClassName);
+
+                //这里记录一下 插件组件的绑定关系，方便后面解绑操作
+                bindedActivityStubCache.put(pluginActivityClassName, new BindStubInfo(stubName, pIndex, launchMode));
+
+                return stubName;
+            } else {
+                Exception here = new Exception();
+                here.fillInStackTrace();
+                QRomLog.e(TAG, "预什么进程pIndex:" + pIndex + " launchMode:" + launchMode
+                        + " 的Activity坑位出现了不够用的情况~~~【将用标准的activity坑位代替】", here);
             }
 
         }
 
-        return hostStandardActivity;
+        return tandardActivity;
     }
+
 
     public static synchronized void unBindLaunchModeStubActivity(String stubActivityName, String pluginActivityName) {
         QRomLog.i(TAG, "call unBindLaunchModeStubActivity:" + stubActivityName + " pluginActivityName is " + pluginActivityName);
-        if (pluginActivityName.equals(hostSTaskActivityMapping.get(stubActivityName))) {
-            QRomLog.i(TAG, "equals singleTaskActivityMapping");
-            hostSTaskActivityMapping.put(stubActivityName, null);
-        } else if (pluginActivityName.equals(hostSIActivityMapping.get(stubActivityName))) {
-            QRomLog.i(TAG, "equals singleInstanceActivityMapping");
-            hostSIActivityMapping.put(stubActivityName, null);
+        final BindStubInfo bindStubInfo = bindedActivityStubCache.get(pluginActivityName);
+        if (null != bindStubInfo) {
+            //对于standard和singleTop的launchmode，不做处理。
+            if ((bindStubInfo.launchMode == ActivityInfo.LAUNCH_MULTIPLE || bindStubInfo.launchMode == ActivityInfo.LAUNCH_SINGLE_TOP)) {
+                return;
+            }
+
+            QRomLog.i(TAG, "get bindStubInfo from cache is " + bindStubInfo);
+            HashMap<String, String> stubActivitys = null;
+            switch (bindStubInfo.pIndex) {
+                case ProcessUtil.PLUGIN_PROCESS_INDEX_HOST: {   //host进程stbu
+                    switch (bindStubInfo.launchMode) {
+                        case ActivityInfo.LAUNCH_SINGLE_TASK:
+                            stubActivitys = hProcessSTaskActivitys;
+                            break;
+                        case ActivityInfo.LAUNCH_SINGLE_INSTANCE:
+                            stubActivitys = hProcessSIActivitys;
+                            break;
+                        default:
+                            break;
+                    }
+                }
+                break;
+                case ProcessUtil.PLUGIN_PROCESS_INDEX_MASTER: { //pMaster进程stbu
+                    switch (bindStubInfo.launchMode) {
+                        case ActivityInfo.LAUNCH_SINGLE_TASK:
+                            stubActivitys = pMasterSTaskActivitys;
+                            break;
+                        case ActivityInfo.LAUNCH_SINGLE_INSTANCE:
+                            stubActivitys = pMasterSIActivitys;
+                            break;
+                        default:
+                            break;
+                    }
+                }
+                break;
+                case ProcessUtil.PLUGIN_PROCESS_INDEX_MINOR: {  //pMinor进程stbu
+                    switch (bindStubInfo.launchMode) {
+                        case ActivityInfo.LAUNCH_SINGLE_TASK:
+                            stubActivitys = pMinorSTaskActivitys;
+                            break;
+                        case ActivityInfo.LAUNCH_SINGLE_INSTANCE:
+                            stubActivitys = pMinorSIActivitys;
+                            break;
+                        default:
+                            break;
+                    }
+                }
+                break;
+                default:
+                    break;
+            }
+
+            if (null != stubActivitys) {
+                QRomLog.i(TAG, "找到绑定关系，解绑成功！");
+                stubActivitys.put(stubActivityName, null);
+                return;
+            }
+        }
+
+        QRomLog.i(TAG, "缓存失效，下面就只能通过遍历来处理解绑~");
+        if (pluginActivityName.equals(hProcessSTaskActivitys.get(stubActivityName))) {
+            QRomLog.i(TAG, "equals hProcessSTaskActivitys");
+            hProcessSTaskActivitys.put(stubActivityName, null);
+        } else if (pluginActivityName.equals(hProcessSIActivitys.get(stubActivityName))) {
+            QRomLog.i(TAG, "equals hProcessSIActivitys");
+            hProcessSIActivitys.put(stubActivityName, null);
+        } else if (pluginActivityName.equals(pMasterSTaskActivitys.get(stubActivityName))) {
+            QRomLog.i(TAG, "equals pMasterSTaskActivitys");
+            pMasterSTaskActivitys.put(stubActivityName, null);
+        } else if (pluginActivityName.equals(pMasterSIActivitys.get(stubActivityName))) {
+            QRomLog.i(TAG, "equals pMasterSIActivitys");
+            pMasterSIActivitys.put(stubActivityName, null);
+        } else if (pluginActivityName.equals(pMinorSTaskActivitys.get(stubActivityName))) {
+            QRomLog.i(TAG, "equals pMinorSTaskActivitys");
+            pMinorSTaskActivitys.put(stubActivityName, null);
+        } else if (pluginActivityName.equals(pMinorSIActivitys.get(stubActivityName))) {
+            QRomLog.i(TAG, "equals pMinorSIActivitys");
+            pMinorSIActivitys.put(stubActivityName, null);
         } else {
             QRomLog.i(TAG, "对于standard和singleTop的launchmode，不做处理。");
         }
+
     }
 
     public static synchronized String getBindedPluginServiceName(String stubServiceName) {
         initPool();
-        Iterator<Map.Entry<String, String>> itr = serviceMapping.entrySet().iterator();
+        Iterator<Map.Entry<String, String>> itr = hostServiceMapping.entrySet().iterator();
         while (itr.hasNext()) {
             Map.Entry<String, String> entry = itr.next();
             if (entry.getKey().equals(stubServiceName)) {
@@ -283,7 +510,7 @@ class PluginStubBinding {
     public static synchronized String bindStubService(String pluginServiceClassName, int processIndex) {
         initPool();
         final boolean isMp = (processIndex == ProcessUtil.PLUGIN_PROCESS_INDEX_CUSTOMIZE);
-        Iterator<Map.Entry<String, String>> itr = isMp ? mpServiceMapping.entrySet().iterator() : serviceMapping.entrySet().iterator();
+        Iterator<Map.Entry<String, String>> itr = isMp ? mpServiceMapping.entrySet().iterator() : hostServiceMapping.entrySet().iterator();
 
         String idleStubServiceName = null;
         while (itr.hasNext()) {
@@ -308,9 +535,9 @@ class PluginStubBinding {
                 // 对serviceMapping持久化是因为如果service处于运行状态时app发生了crash，系统会自动恢复之前的service，此时插件映射信息查不到的话会再次crash
                 save(mpServiceMapping, true);
             } else {
-                serviceMapping.put(idleStubServiceName, pluginServiceClassName);
+                hostServiceMapping.put(idleStubServiceName, pluginServiceClassName);
                 // 对serviceMapping持久化是因为如果service处于运行状态时app发生了crash，系统会自动恢复之前的service，此时插件映射信息查不到的话会再次crash
-                save(serviceMapping, false);
+                save(hostServiceMapping, false);
             }
             return idleStubServiceName;
         }
@@ -320,14 +547,14 @@ class PluginStubBinding {
     }
 
     public static synchronized void unBindStubService(String pluginServiceName) {
-        Iterator<Map.Entry<String, String>> itr = serviceMapping.entrySet().iterator();
+        Iterator<Map.Entry<String, String>> itr = hostServiceMapping.entrySet().iterator();
         while (itr.hasNext()) {
             Map.Entry<String, String> entry = itr.next();
             if (pluginServiceName.equals(entry.getValue())) {
                 // 如果存在绑定关系，解绑
                 QRomLog.i(TAG, "回收绑定 Key:" + entry.getKey() + " Value:" + entry.getValue());
-                serviceMapping.put(entry.getKey(), null);
-                save(serviceMapping, false);
+                hostServiceMapping.put(entry.getKey(), null);
+                save(hostServiceMapping, false);
                 break;
             }
         }
@@ -347,7 +574,7 @@ class PluginStubBinding {
     }
 
     public static String dumpServieInfo() {
-        return serviceMapping.toString();
+        return hostServiceMapping.toString();
     }
 
     private static boolean save(HashMap<String, String> mapping, boolean isMp) {
@@ -437,8 +664,21 @@ class PluginStubBinding {
     public static boolean isStub(String className, int type) {
         initPool();
 
-        return className.equals(hostStandardActivity) || hostSTaskActivityMapping.containsKey(className)
-                || hostSTopActivityMapping.containsKey(className) || hostSIActivityMapping.containsKey(className)
-                || serviceMapping.containsKey(className) || mpServiceMapping.containsKey(className) || className.equals(receiver);
+        switch (type) {
+            case DisplayItem.TYPE_BROADCAST: {
+                return className.equals(receiver);
+            }
+            case DisplayItem.TYPE_ACTIVITY: {
+                return className.equals(hProcessStandardActivity) || hProcessSTaskActivitys.containsKey(className) || hProcessSTopActivitys.containsKey(className) || hProcessSIActivitys.containsKey(className) ||
+                        className.equals(pMasterStandardActivity) || pMasterSTaskActivitys.containsKey(className) || pMasterSTopActivitys.containsKey(className) || pMasterSIActivitys.containsKey(className) ||
+                        className.equals(pMinorStandardActivity) || pMinorSTaskActivitys.containsKey(className) || pMinorSTopActivitys.containsKey(className) || pMinorSIActivitys.containsKey(className);
+            }
+            case DisplayItem.TYPE_SERVICE: {
+                return hostServiceMapping.containsKey(className) || pMasterServiceMapping.containsKey(className)
+                        || pMinorServiceMapping.containsKey(className) || mpServiceMapping.containsKey(className);
+            }
+            default:
+                throw new IllegalAccessError("isStub接口当前只用于判断广播、activity、service三种哦~");
+        }
     }
 }

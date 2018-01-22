@@ -150,7 +150,7 @@ public class PluginIntentResolver {
 
             if (targetClassName != null) {
                 info.name = CLASS_PREFIX_SERVICE + targetClassName;
-            } else if (PluginManagerHelper.isStub(info.name)) {
+            } else if (PluginManagerHelper.isStub(info.name, DisplayItem.TYPE_SERVICE)) {
                 String dumpString = PluginManagerHelper.dumpServiceInfo();
                 QRomLog.e(TAG, "hackServiceName 没有找到映射关系, 可能映射表出了异常 info.name=" + info.name + " dumpString="
                         + dumpString);

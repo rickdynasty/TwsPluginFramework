@@ -10,6 +10,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.CancellationSignal;
 
+import com.tws.plugin.content.DisplayItem;
 import com.tws.plugin.content.LoadedPlugin;
 import com.tws.plugin.content.PluginDescriptor;
 import com.tws.plugin.core.PluginLauncher;
@@ -263,7 +264,8 @@ public class PluginManagerProvider extends ContentProvider {
             return bundle;
 
         } else if (ACTION_IS_STUB.equals(method)) {
-            bundle.putBoolean(IS_STUB_RESULT, PluginStubBinding.isStub(arg));
+            int type = extras.getInt(PluginManagerHelper.CONSTANT_KEY_COMPONENT_TYPE, DisplayItem.TYPE_UNKOWN);
+            bundle.putBoolean(IS_STUB_RESULT, PluginStubBinding.isStub(arg, type));
 
             return bundle;
 

@@ -27,6 +27,8 @@ public class DisplayItem implements Serializable {
      * public static final int INTENT_SENDER_ACTIVITY = 2;
      * public static final int INTENT_SENDER_ACTIVITY_RESULT = 3;
      * public static final int INTENT_SENDER_SERVICE = 4;
+     *
+     * 用于对组件的类型标识
      */
     public static final int TYPE_UNKOWN = -1;
     public static final int TYPE_APPLICATION = 0;

@@ -33,7 +33,7 @@
             </intent-filter>
         </receiver>
 
-        <!-- 特别要求需要多进程的Service坑位申明 2~3就足够了-->
+        <!-- 特别要求需要多进程的Service坑位申明 -->
         <service
             android:name="${applicationId}.stub.PluginMPService1"
             android:process=":plugin1">
@@ -55,6 +55,24 @@
         <service
             android:name="${applicationId}.stub.PluginMPService3"
             android:process=":plugin3">
+            <intent-filter>
+                <action android:name="com.rick.tws.plugin.MP_STUB_DEFAULT" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </service>
+        <service
+            android:name="${applicationId}.stub.PluginMPService4"
+            android:process=":plugin4">
+            <intent-filter>
+                <action android:name="com.rick.tws.plugin.MP_STUB_DEFAULT" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </service>
+        <service
+            android:name="${applicationId}.stub.PluginMPService5"
+            android:process=":plugin5">
             <intent-filter>
                 <action android:name="com.rick.tws.plugin.MP_STUB_DEFAULT" />
 

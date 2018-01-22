@@ -40,16 +40,23 @@ class PluginStubBinding {
     private static String KEY_MP_SERVICE_MAP_PREFERENCES_NAME = "plugins.mp.serviceMapping";
     private static String KEY_MP_SERVICE_MAP_MAP_PREFERENCES_NAME = "plugins.mp.serviceMapping.map";
 
+    //专门为单独进程服务申明的
+    private static String buildMpDefaultAction() {
+        return "com.rick.tws.plugin.MP_STUB_DEFAULT";
+    }
+
     // ACTION是固定的，在AndroidManifest.xml里面申明就确定好了
     //receiver 一直是跑在Host进程里面的
     private static String buildHostAction() {
         return "com.rick.tws.pluginhost.STUB_DEFAULT";
     }
+
     private static String buildMasterAction() {
         return "com.rick.tws.pluginmaster.STUB_DEFAULT";
     }
-    private static String buildMpDefaultAction() {
-        return "com.rick.tws.plugin.MP_STUB_DEFAULT";
+
+    private static String buildMinorAction() {
+        return "com.rick.tws.pluginminor.STUB_DEFAULT";
     }
 
     // host process
@@ -80,9 +87,9 @@ class PluginStubBinding {
             return;
         }
 
-        loadStubActivity();
+        loadHostProcessStubActivity();
 
-        loadStubService();
+        loadHostProcessStubService();
 
         loadMpStubService();
 
@@ -91,44 +98,34 @@ class PluginStubBinding {
         isPoolInited = true;
     }
 
-    private static void loadStubActivity() {
+    private static void loadHostProcessStubActivity() {
         Intent launchModeIntent = new Intent();
         launchModeIntent.setAction(buildHostAction());
         launchModeIntent.setPackage(PluginLoader.getApplication().getPackageName());
 
-        List<ResolveInfo> list = PluginLoader.getApplication().getPackageManager()
-                .queryIntentActivities(launchModeIntent, PackageManager.MATCH_DEFAULT_ONLY);
+        List<ResolveInfo> list = PluginLoader.getApplication().getPackageManager().queryIntentActivities(launchModeIntent, PackageManager.MATCH_DEFAULT_ONLY);
 
         if (list != null && list.size() > 0) {
             for (ResolveInfo resolveInfo : list) {
                 if (resolveInfo.activityInfo.launchMode == ActivityInfo.LAUNCH_SINGLE_TASK) {
-
                     hostSTaskActivityMapping.put(resolveInfo.activityInfo.name, null);
-
                 } else if (resolveInfo.activityInfo.launchMode == ActivityInfo.LAUNCH_SINGLE_TOP) {
-
                     hostSTopActivityMapping.put(resolveInfo.activityInfo.name, null);
-
                 } else if (resolveInfo.activityInfo.launchMode == ActivityInfo.LAUNCH_SINGLE_INSTANCE) {
-
                     hostSIActivityMapping.put(resolveInfo.activityInfo.name, null);
-
                 } else if (resolveInfo.activityInfo.launchMode == ActivityInfo.LAUNCH_MULTIPLE) {
-
                     hostStandardActivity = resolveInfo.activityInfo.name;
-
                 }
             }
         }
     }
 
-    private static synchronized void loadStubService() {
+    private static synchronized void loadHostProcessStubService() {
         Intent launchModeIntent = new Intent();
         launchModeIntent.setAction(buildHostAction());
         launchModeIntent.setPackage(PluginLoader.getApplication().getPackageName());
 
-        List<ResolveInfo> list = PluginLoader.getApplication().getPackageManager()
-                .queryIntentServices(launchModeIntent, PackageManager.MATCH_DEFAULT_ONLY);
+        List<ResolveInfo> list = PluginLoader.getApplication().getPackageManager().queryIntentServices(launchModeIntent, PackageManager.MATCH_DEFAULT_ONLY);
 
         if (list != null && list.size() > 0) {
             for (ResolveInfo resolveInfo : list) {
@@ -160,8 +157,7 @@ class PluginStubBinding {
         launchModeIntent.setAction(buildMpDefaultAction());
         launchModeIntent.setPackage(PluginLoader.getApplication().getPackageName());
 
-        List<ResolveInfo> list = PluginLoader.getApplication().getPackageManager()
-                .queryIntentServices(launchModeIntent, PackageManager.MATCH_DEFAULT_ONLY);
+        List<ResolveInfo> list = PluginLoader.getApplication().getPackageManager().queryIntentServices(launchModeIntent, PackageManager.MATCH_DEFAULT_ONLY);
 
         if (list != null && list.size() > 0) {
             for (ResolveInfo resolveInfo : list) {
@@ -193,13 +189,11 @@ class PluginStubBinding {
         exactStub.setAction(buildHostAction());
         exactStub.setPackage(PluginLoader.getApplication().getPackageName());
 
-        List<ResolveInfo> resolveInfos = PluginLoader.getApplication().getPackageManager()
-                .queryBroadcastReceivers(exactStub, PackageManager.MATCH_DEFAULT_ONLY);
+        List<ResolveInfo> resolveInfos = PluginLoader.getApplication().getPackageManager().queryBroadcastReceivers(exactStub, PackageManager.MATCH_DEFAULT_ONLY);
 
         if (resolveInfos != null && resolveInfos.size() > 0) {
             receiver = resolveInfos.get(0).activityInfo.name;
         }
-
     }
 
     public static String bindStubReceiver() {
@@ -214,25 +208,16 @@ class PluginStubBinding {
         HashMap<String, String> bindingMapping = null;
 
         if (launchMode == ActivityInfo.LAUNCH_MULTIPLE) {
-
             return hostStandardActivity;
-
         } else if (launchMode == ActivityInfo.LAUNCH_SINGLE_TASK) {
-
             bindingMapping = hostSTaskActivityMapping;
-
         } else if (launchMode == ActivityInfo.LAUNCH_SINGLE_TOP) {
-
             bindingMapping = hostSTopActivityMapping;
-
         } else if (launchMode == ActivityInfo.LAUNCH_SINGLE_INSTANCE) {
-
             bindingMapping = hostSIActivityMapping;
-
         }
 
         if (bindingMapping != null) {
-
             Iterator<Map.Entry<String, String>> itr = bindingMapping.entrySet().iterator();
             String idleStubActivityName = null;
 
@@ -261,14 +246,10 @@ class PluginStubBinding {
     }
 
     public static synchronized void unBindLaunchModeStubActivity(String stubActivityName, String pluginActivityName) {
-
-        QRomLog.i(TAG, "call unBindLaunchModeStubActivity:" + stubActivityName + " pluginActivityName is "
-                + pluginActivityName);
-
+        QRomLog.i(TAG, "call unBindLaunchModeStubActivity:" + stubActivityName + " pluginActivityName is " + pluginActivityName);
         if (pluginActivityName.equals(hostSTaskActivityMapping.get(stubActivityName))) {
             QRomLog.i(TAG, "equals singleTaskActivityMapping");
             hostSTaskActivityMapping.put(stubActivityName, null);
-
         } else if (pluginActivityName.equals(hostSIActivityMapping.get(stubActivityName))) {
             QRomLog.i(TAG, "equals singleInstanceActivityMapping");
             hostSIActivityMapping.put(stubActivityName, null);
@@ -278,13 +259,10 @@ class PluginStubBinding {
     }
 
     public static synchronized String getBindedPluginServiceName(String stubServiceName) {
-
         initPool();
-
         Iterator<Map.Entry<String, String>> itr = serviceMapping.entrySet().iterator();
         while (itr.hasNext()) {
             Map.Entry<String, String> entry = itr.next();
-
             if (entry.getKey().equals(stubServiceName)) {
                 return entry.getValue();
             }
@@ -294,7 +272,6 @@ class PluginStubBinding {
         Iterator<Map.Entry<String, String>> mpItr = mpServiceMapping.entrySet().iterator();
         while (mpItr.hasNext()) {
             Map.Entry<String, String> entry = mpItr.next();
-
             if (entry.getKey().equals(stubServiceName)) {
                 return entry.getValue();
             }
@@ -304,14 +281,11 @@ class PluginStubBinding {
     }
 
     public static synchronized String bindStubService(String pluginServiceClassName, int processIndex) {
-
         initPool();
-
         final boolean isMp = (processIndex == ProcessUtil.PLUGIN_PROCESS_INDEX_CUSTOMIZE);
         Iterator<Map.Entry<String, String>> itr = isMp ? mpServiceMapping.entrySet().iterator() : serviceMapping.entrySet().iterator();
 
         String idleStubServiceName = null;
-
         while (itr.hasNext()) {
             Map.Entry<String, String> entry = itr.next();
             if (entry.getValue() == null) {
@@ -460,7 +434,7 @@ class PluginStubBinding {
         return null;
     }
 
-    public static boolean isStub(String className) {
+    public static boolean isStub(String className, int type) {
         initPool();
 
         return className.equals(hostStandardActivity) || hostSTaskActivityMapping.containsKey(className)

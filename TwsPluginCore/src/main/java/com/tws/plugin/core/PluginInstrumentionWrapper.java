@@ -235,7 +235,7 @@ public class PluginInstrumentionWrapper extends Instrumentation {
             throw new ClassNotFoundException("  orignalCl : " + orignalCl.toString() + ", orginalClassName : "
                     + orginalClassName + ", orignalIntent : " + orignalIntent + ", currentCl : " + cl.toString()
                     + ", currentClassName : " + className + ", currentIntent : " + intent.toString() + ", process : "
-                    + ProcessUtil.isPluginProcess() + ", isStubActivity : " + PluginManagerHelper.isStub(orginalClassName), e);
+                    + ProcessUtil.isPluginProcess() + ", isStubActivity : " + PluginManagerHelper.isStub(orginalClassName, DisplayItem.TYPE_ACTIVITY), e);
         }
     }
 

@@ -26,6 +26,7 @@ public class PluginManagerHelper {
     public static String CONSTANT_KEY_PROCESS = "process";
     public static String CONSTANT_KEY_PROCESS_INDEX = "process_id";
     public static String CONSTANT_KEY_CLASS_NAME = "className";
+    public static String CONSTANT_KEY_COMPONENT_TYPE = "component_type";
 
     // 加个客户端进程的缓存<className, PluginDescriptor>，减少跨进程调用
     private static final HashMap<String, PluginDescriptor> pluginDescriptorCache = new HashMap<String, PluginDescriptor>();
@@ -232,9 +233,11 @@ public class PluginManagerHelper {
         call(PluginManagerProvider.buildUri(), PluginManagerProvider.ACTION_UNBIND_SERVICE, pluginServiceName, null);
     }
 
-    //这个的效率不行，后续需要按type进行拆分或者做缓存标识
-    public static boolean isStub(String className) {
-        Bundle bundle = call(PluginManagerProvider.buildUri(), PluginManagerProvider.ACTION_IS_STUB, className, null);
+    //指定type是为了更快速的定位范围
+    public static boolean isStub(String className, int type) {
+        Bundle extras = new Bundle();
+        extras.putInt(CONSTANT_KEY_COMPONENT_TYPE, type);
+        Bundle bundle = call(PluginManagerProvider.buildUri(), PluginManagerProvider.ACTION_IS_STUB, className, extras);
         if (bundle != null) {
             return bundle.getBoolean(PluginManagerProvider.IS_STUB_RESULT);
         }

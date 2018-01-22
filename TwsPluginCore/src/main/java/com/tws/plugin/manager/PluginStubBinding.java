@@ -32,8 +32,15 @@ class PluginStubBinding {
 
     private static final String TAG = "rick_Print:PluginStubBinding";
 
-    private static String KEY_SERVICE_MAP_PREFERENCES_NAME = "plugins.serviceMapping";
-    private static String KEY_SERVICE_MAP_MAP_PREFERENCES_NAME = "plugins.serviceMapping.map";
+    private static String PREFERENCES_NAME_HOST_PROCESS_SERVICES = "sp_host_process_serviceMapping";
+    private static String KEY_HOST_PROCESS_SERVICES_MAP = "host.process.serviceMapping";
+
+    private static String PREFERENCES_NAME_PMASTER_PROCESS_SERVICES = "sp_pmaster_process_serviceMapping";
+    private static String KEY_PMASTER_PROCESS_SERVICES_MAP = "pmaster.process.serviceMapping";
+
+    private static String PREFERENCES_NAME_PMINOR_PROCESS_SERVICES = "sp_pminor_process_serviceMapping";
+    private static String KEY_PMINOR_PROCESS_SERVICES_MAP = "pminor.process.serviceMapping";
+
     private static String KEY_MP_SERVICE_MAP_PREFERENCES_NAME = "plugins.mp.serviceMapping";
     private static String KEY_MP_SERVICE_MAP_MAP_PREFERENCES_NAME = "plugins.mp.serviceMapping.map";
 
@@ -75,7 +82,7 @@ class PluginStubBinding {
     /**
      * key:stub Service Name value:plugin Service Name
      */
-    private static HashMap<String, String> hostServiceMapping = new HashMap<String, String>(STUB_SERVICE_INITIAL_CAPACITY);
+    private static HashMap<String, String> hProcessServices = new HashMap<String, String>(STUB_SERVICE_INITIAL_CAPACITY);
     //////////////////////////////////////////// 01 host process end ////////////////////////////////////////////
 
     //运行在pmaster进程的stub组件
@@ -90,7 +97,7 @@ class PluginStubBinding {
     /**
      * key:stub Service Name value:plugin Service Name
      */
-    private static HashMap<String, String> pMasterServiceMapping = new HashMap<String, String>(STUB_SERVICE_INITIAL_CAPACITY);
+    private static HashMap<String, String> pMasterServices = new HashMap<String, String>(STUB_SERVICE_INITIAL_CAPACITY);
     //////////////////////////////////////////// 02 pmaster process begin ////////////////////////////////////////////
 
     //运行在pminor进程的stub组件
@@ -105,7 +112,7 @@ class PluginStubBinding {
     /**
      * key:stub Service Name value:plugin Service Name
      */
-    private static HashMap<String, String> pMinorServiceMapping = new HashMap<String, String>(STUB_SERVICE_INITIAL_CAPACITY);
+    private static HashMap<String, String> pMinorServices = new HashMap<String, String>(STUB_SERVICE_INITIAL_CAPACITY);
     //////////////////////////////////////////// 03 pminor process begin ////////////////////////////////////////////
 
     //Activity stub绑定关系cache
@@ -131,6 +138,8 @@ class PluginStubBinding {
         loadPluginMinorProcessStubActivity();
 
         loadHostProcessStubService();
+        loadPluginMasterProcessStubService();
+        loadPluginMinorProcessStubService();
 
         loadMpStubService();
 
@@ -214,17 +223,17 @@ class PluginStubBinding {
 
         if (list != null && list.size() > 0) {
             for (ResolveInfo resolveInfo : list) {
-                hostServiceMapping.put(resolveInfo.serviceInfo.name, null);
+                hProcessServices.put(resolveInfo.serviceInfo.name, null);
             }
 
-            HashMap<String, String> mapping = restore(false);
+            HashMap<String, String> mapping = restore(ProcessUtil.PLUGIN_PROCESS_INDEX_HOST);
             if (mapping != null) {
                 Iterator<String> iter = mapping.keySet().iterator();
                 String key;
                 while (iter.hasNext()) {
                     key = iter.next();
-                    if (hostServiceMapping.containsKey(key)) {
-                        hostServiceMapping.put(key, mapping.get(key));
+                    if (hProcessServices.containsKey(key)) {
+                        hProcessServices.put(key, mapping.get(key));
                     } else {
                         // 我去这个还真的在当前版本被删除了
                     }
@@ -233,7 +242,71 @@ class PluginStubBinding {
             }
 
             // 只有service需要固化
-            save(hostServiceMapping, false);
+            save(hProcessServices, ProcessUtil.PLUGIN_PROCESS_INDEX_HOST);
+        }
+    }
+
+    private static synchronized void loadPluginMasterProcessStubService() {
+        Intent launchModeIntent = new Intent();
+        launchModeIntent.setAction(buildMasterAction());
+        launchModeIntent.setPackage(PluginLoader.getApplication().getPackageName());
+
+        List<ResolveInfo> list = PluginLoader.getApplication().getPackageManager().queryIntentServices(launchModeIntent, PackageManager.MATCH_DEFAULT_ONLY);
+
+        if (list != null && list.size() > 0) {
+            for (ResolveInfo resolveInfo : list) {
+                pMasterServices.put(resolveInfo.serviceInfo.name, null);
+            }
+
+            HashMap<String, String> mapping = restore(ProcessUtil.PLUGIN_PROCESS_INDEX_MASTER);
+            if (mapping != null) {
+                Iterator<String> iter = mapping.keySet().iterator();
+                String key;
+                while (iter.hasNext()) {
+                    key = iter.next();
+                    if (pMasterServices.containsKey(key)) {
+                        pMasterServices.put(key, mapping.get(key));
+                    } else {
+                        // 我去这个还真的在当前版本被删除了
+                    }
+                }
+                // serviceMapping.putAll(mapping);
+            }
+
+            // 只有service需要固化
+            save(pMasterServices, ProcessUtil.PLUGIN_PROCESS_INDEX_MASTER);
+        }
+    }
+
+    private static synchronized void loadPluginMinorProcessStubService() {
+        Intent launchModeIntent = new Intent();
+        launchModeIntent.setAction(buildMinorAction());
+        launchModeIntent.setPackage(PluginLoader.getApplication().getPackageName());
+
+        List<ResolveInfo> list = PluginLoader.getApplication().getPackageManager().queryIntentServices(launchModeIntent, PackageManager.MATCH_DEFAULT_ONLY);
+
+        if (list != null && list.size() > 0) {
+            for (ResolveInfo resolveInfo : list) {
+                pMinorServices.put(resolveInfo.serviceInfo.name, null);
+            }
+
+            HashMap<String, String> mapping = restore(ProcessUtil.PLUGIN_PROCESS_INDEX_MINOR);
+            if (mapping != null) {
+                Iterator<String> iter = mapping.keySet().iterator();
+                String key;
+                while (iter.hasNext()) {
+                    key = iter.next();
+                    if (pMinorServices.containsKey(key)) {
+                        pMinorServices.put(key, mapping.get(key));
+                    } else {
+                        // 我去这个还真的在当前版本被删除了
+                    }
+                }
+                // serviceMapping.putAll(mapping);
+            }
+
+            // 只有service需要固化
+            save(pMinorServices, ProcessUtil.PLUGIN_PROCESS_INDEX_MINOR);
         }
     }
 
@@ -249,7 +322,7 @@ class PluginStubBinding {
                 mpServiceMapping.put(resolveInfo.serviceInfo.name, null);
             }
 
-            HashMap<String, String> mapping = restore(true);
+            HashMap<String, String> mapping = restore(ProcessUtil.PLUGIN_PROCESS_INDEX_CUSTOMIZE);
             if (mapping != null) {
                 Iterator<String> iter = mapping.keySet().iterator();
                 String key;
@@ -265,7 +338,7 @@ class PluginStubBinding {
             }
 
             // 只有service需要固化
-            save(mpServiceMapping, true);
+            save(mpServiceMapping, ProcessUtil.PLUGIN_PROCESS_INDEX_CUSTOMIZE);
         }
     }
 
@@ -487,9 +560,28 @@ class PluginStubBinding {
 
     public static synchronized String getBindedPluginServiceName(String stubServiceName) {
         initPool();
-        Iterator<Map.Entry<String, String>> itr = hostServiceMapping.entrySet().iterator();
+
+        Iterator<Map.Entry<String, String>> itr = hProcessServices.entrySet().iterator();
         while (itr.hasNext()) {
             Map.Entry<String, String> entry = itr.next();
+            if (entry.getKey().equals(stubServiceName)) {
+                return entry.getValue();
+            }
+        }
+
+        //pMaster
+        Iterator<Map.Entry<String, String>> itrMaster = pMasterServices.entrySet().iterator();
+        while (itrMaster.hasNext()) {
+            Map.Entry<String, String> entry = itrMaster.next();
+            if (entry.getKey().equals(stubServiceName)) {
+                return entry.getValue();
+            }
+        }
+
+        //pMinor
+        Iterator<Map.Entry<String, String>> itrMinor = pMinorServices.entrySet().iterator();
+        while (itrMinor.hasNext()) {
+            Map.Entry<String, String> entry = itrMinor.next();
             if (entry.getKey().equals(stubServiceName)) {
                 return entry.getValue();
             }
@@ -507,17 +599,33 @@ class PluginStubBinding {
         return null;
     }
 
-    public static synchronized String bindStubService(String pluginServiceClassName, int processIndex) {
+    public static synchronized String bindStubService(String pluginServiceClassName, int pIndex) {
         initPool();
-        final boolean isMp = (processIndex == ProcessUtil.PLUGIN_PROCESS_INDEX_CUSTOMIZE);
-        Iterator<Map.Entry<String, String>> itr = isMp ? mpServiceMapping.entrySet().iterator() : hostServiceMapping.entrySet().iterator();
+        HashMap<String, String> stubServices = null;
+        switch (pIndex) {
+            case ProcessUtil.PLUGIN_PROCESS_INDEX_HOST:
+                stubServices = hProcessServices;
+                break;
+            case ProcessUtil.PLUGIN_PROCESS_INDEX_MASTER:
+                stubServices = pMasterServices;
+                break;
+            case ProcessUtil.PLUGIN_PROCESS_INDEX_MINOR:
+                stubServices = pMinorServices;
+                break;
+            case ProcessUtil.PLUGIN_PROCESS_INDEX_CUSTOMIZE:
+                stubServices = mpServiceMapping;
+                break;
+            default:
+                throw new IllegalAccessError("插件Service组件当前只允许运行在[宿主(0)、插件master(1)、插件minor(2)、自定义(3)]四中情况范围内，pIndex:" + pIndex + " 并不在这个范围内");
+        }
+        Iterator<Map.Entry<String, String>> itr = stubServices.entrySet().iterator();
 
-        String idleStubServiceName = null;
+        String stubName = null;
         while (itr.hasNext()) {
             Map.Entry<String, String> entry = itr.next();
             if (entry.getValue() == null) {
-                if (idleStubServiceName == null) {
-                    idleStubServiceName = entry.getKey();
+                if (stubName == null) {
+                    stubName = entry.getKey();
                     // 这里找到空闲的idleStubServiceName以后，还需继续遍历，用来检查是否pluginServiceClassName已经绑定过了
                 }
             } else if (pluginServiceClassName.equals(entry.getValue())) {
@@ -528,18 +636,13 @@ class PluginStubBinding {
         }
 
         // 没有绑定到StubService，而且还有空余的StubService，进行绑定
-        if (idleStubServiceName != null) {
-            QRomLog.i(TAG, "添加绑定:" + idleStubServiceName + " pluginServiceClassName is " + pluginServiceClassName);
-            if (isMp) {
-                mpServiceMapping.put(idleStubServiceName, pluginServiceClassName);
-                // 对serviceMapping持久化是因为如果service处于运行状态时app发生了crash，系统会自动恢复之前的service，此时插件映射信息查不到的话会再次crash
-                save(mpServiceMapping, true);
-            } else {
-                hostServiceMapping.put(idleStubServiceName, pluginServiceClassName);
-                // 对serviceMapping持久化是因为如果service处于运行状态时app发生了crash，系统会自动恢复之前的service，此时插件映射信息查不到的话会再次crash
-                save(hostServiceMapping, false);
-            }
-            return idleStubServiceName;
+        if (stubName != null) {
+            QRomLog.i(TAG, "添加绑定:" + stubName + " pluginServiceClassName is " + pluginServiceClassName);
+            stubServices.put(stubName, pluginServiceClassName);
+            // 对serviceMapping持久化是因为如果service处于运行状态时app发生了crash，系统会自动恢复之前的service，此时插件映射信息查不到的话会再次crash
+            save(stubServices, pIndex);
+
+            return stubName;
         }
 
         // 绑定失败
@@ -547,14 +650,38 @@ class PluginStubBinding {
     }
 
     public static synchronized void unBindStubService(String pluginServiceName) {
-        Iterator<Map.Entry<String, String>> itr = hostServiceMapping.entrySet().iterator();
+        Iterator<Map.Entry<String, String>> itr = hProcessServices.entrySet().iterator();
         while (itr.hasNext()) {
             Map.Entry<String, String> entry = itr.next();
             if (pluginServiceName.equals(entry.getValue())) {
                 // 如果存在绑定关系，解绑
                 QRomLog.i(TAG, "回收绑定 Key:" + entry.getKey() + " Value:" + entry.getValue());
-                hostServiceMapping.put(entry.getKey(), null);
-                save(hostServiceMapping, false);
+                hProcessServices.put(entry.getKey(), null);
+                save(hProcessServices, ProcessUtil.PLUGIN_PROCESS_INDEX_HOST);
+                break;
+            }
+        }
+
+        Iterator<Map.Entry<String, String>> itrMaster = pMasterServices.entrySet().iterator();
+        while (itrMaster.hasNext()) {
+            Map.Entry<String, String> entry = itrMaster.next();
+            if (pluginServiceName.equals(entry.getValue())) {
+                // 如果存在绑定关系，解绑
+                QRomLog.i(TAG, "回收绑定 Key:" + entry.getKey() + " Value:" + entry.getValue());
+                pMasterServices.put(entry.getKey(), null);
+                save(pMasterServices, ProcessUtil.PLUGIN_PROCESS_INDEX_MASTER);
+                break;
+            }
+        }
+
+        Iterator<Map.Entry<String, String>> itrMinor = pMinorServices.entrySet().iterator();
+        while (itrMinor.hasNext()) {
+            Map.Entry<String, String> entry = itrMinor.next();
+            if (pluginServiceName.equals(entry.getValue())) {
+                // 如果存在绑定关系，解绑
+                QRomLog.i(TAG, "回收绑定 Key:" + entry.getKey() + " Value:" + entry.getValue());
+                pMinorServices.put(entry.getKey(), null);
+                save(pMinorServices, ProcessUtil.PLUGIN_PROCESS_INDEX_MINOR);
                 break;
             }
         }
@@ -567,17 +694,17 @@ class PluginStubBinding {
                 // 如果存在绑定关系，解绑
                 QRomLog.i(TAG, "回收绑定 Key:" + entry.getKey() + " Value:" + entry.getValue());
                 mpServiceMapping.put(entry.getKey(), null);
-                save(mpServiceMapping, false);
+                save(mpServiceMapping, ProcessUtil.PLUGIN_PROCESS_INDEX_CUSTOMIZE);
                 break;
             }
         }
     }
 
     public static String dumpServieInfo() {
-        return hostServiceMapping.toString();
+        return hProcessServices.toString() + "" + pMasterServices.toString() + "" + pMinorServices.toString() + "" + mpServiceMapping.toString();
     }
 
-    private static boolean save(HashMap<String, String> mapping, boolean isMp) {
+    private static boolean save(HashMap<String, String> mapping, int pIndex) {
 
         ObjectOutputStream objectOutputStream = null;
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
@@ -589,14 +716,29 @@ class PluginStubBinding {
             byte[] data = byteArrayOutputStream.toByteArray();
             String list = Base64.encodeToString(data, Base64.DEFAULT);
 
-            if (isMp) {
-                PluginLoader.getApplication()
-                        .getSharedPreferences(KEY_MP_SERVICE_MAP_PREFERENCES_NAME, Context.MODE_PRIVATE).edit()
-                        .putString(KEY_MP_SERVICE_MAP_MAP_PREFERENCES_NAME, list).apply();
-            } else {
-                PluginLoader.getApplication()
-                        .getSharedPreferences(KEY_SERVICE_MAP_PREFERENCES_NAME, Context.MODE_PRIVATE).edit()
-                        .putString(KEY_SERVICE_MAP_MAP_PREFERENCES_NAME, list).apply();
+            switch (pIndex) {
+                case ProcessUtil.PLUGIN_PROCESS_INDEX_HOST:
+                    PluginLoader.getApplication()
+                            .getSharedPreferences(PREFERENCES_NAME_HOST_PROCESS_SERVICES, Context.MODE_PRIVATE).edit()
+                            .putString(KEY_HOST_PROCESS_SERVICES_MAP, list).apply();
+                    break;
+                case ProcessUtil.PLUGIN_PROCESS_INDEX_MASTER:
+                    PluginLoader.getApplication()
+                            .getSharedPreferences(PREFERENCES_NAME_PMASTER_PROCESS_SERVICES, Context.MODE_PRIVATE).edit()
+                            .putString(KEY_PMASTER_PROCESS_SERVICES_MAP, list).apply();
+                    break;
+                case ProcessUtil.PLUGIN_PROCESS_INDEX_MINOR:
+                    PluginLoader.getApplication()
+                            .getSharedPreferences(PREFERENCES_NAME_PMINOR_PROCESS_SERVICES, Context.MODE_PRIVATE).edit()
+                            .putString(KEY_PMINOR_PROCESS_SERVICES_MAP, list).apply();
+                    break;
+                case ProcessUtil.PLUGIN_PROCESS_INDEX_CUSTOMIZE:
+                    PluginLoader.getApplication()
+                            .getSharedPreferences(KEY_MP_SERVICE_MAP_PREFERENCES_NAME, Context.MODE_PRIVATE).edit()
+                            .putString(KEY_MP_SERVICE_MAP_MAP_PREFERENCES_NAME, list).apply();
+                    break;
+                default:
+                    throw new IllegalAccessError("call save - 插件Service组件当前只允许运行在[宿主(0)、插件master(1)、插件minor(2)、自定义(3)]四中情况范围内，pIndex:" + pIndex + " 并不在这个范围内");
             }
 
             return true;
@@ -622,12 +764,33 @@ class PluginStubBinding {
         return false;
     }
 
-    private static HashMap<String, String> restore(boolean isMp) {
-        String list = isMp ? PluginLoader.getApplication()
-                .getSharedPreferences(KEY_MP_SERVICE_MAP_PREFERENCES_NAME, Context.MODE_PRIVATE)
-                .getString(KEY_MP_SERVICE_MAP_MAP_PREFERENCES_NAME, "") : PluginLoader.getApplication()
-                .getSharedPreferences(KEY_SERVICE_MAP_PREFERENCES_NAME, Context.MODE_PRIVATE)
-                .getString(KEY_SERVICE_MAP_MAP_PREFERENCES_NAME, "");
+    private static HashMap<String, String> restore(int pIndex) {
+        String list = null;
+        switch (pIndex) {
+            case ProcessUtil.PLUGIN_PROCESS_INDEX_HOST:
+                list = PluginLoader.getApplication()
+                        .getSharedPreferences(PREFERENCES_NAME_HOST_PROCESS_SERVICES, Context.MODE_PRIVATE)
+                        .getString(KEY_HOST_PROCESS_SERVICES_MAP, "");
+                break;
+            case ProcessUtil.PLUGIN_PROCESS_INDEX_MASTER:
+                list = PluginLoader.getApplication()
+                        .getSharedPreferences(PREFERENCES_NAME_PMASTER_PROCESS_SERVICES, Context.MODE_PRIVATE)
+                        .getString(KEY_PMASTER_PROCESS_SERVICES_MAP, "");
+                break;
+            case ProcessUtil.PLUGIN_PROCESS_INDEX_MINOR:
+                list = PluginLoader.getApplication()
+                        .getSharedPreferences(PREFERENCES_NAME_PMINOR_PROCESS_SERVICES, Context.MODE_PRIVATE)
+                        .getString(KEY_PMINOR_PROCESS_SERVICES_MAP, "");
+                break;
+            case ProcessUtil.PLUGIN_PROCESS_INDEX_CUSTOMIZE:
+                list = PluginLoader.getApplication()
+                        .getSharedPreferences(KEY_MP_SERVICE_MAP_PREFERENCES_NAME, Context.MODE_PRIVATE)
+                        .getString(KEY_MP_SERVICE_MAP_MAP_PREFERENCES_NAME, "");
+                break;
+            default:
+                throw new IllegalAccessError("call save - 插件Service组件当前只允许运行在[宿主(0)、插件master(1)、插件minor(2)、自定义(3)]四中情况范围内，pIndex:" + pIndex + " 并不在这个范围内");
+        }
+
         Serializable object = null;
         if (!TextUtils.isEmpty(list)) {
             ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(Base64.decode(list, Base64.DEFAULT));
@@ -674,8 +837,8 @@ class PluginStubBinding {
                         className.equals(pMinorStandardActivity) || pMinorSTaskActivitys.containsKey(className) || pMinorSTopActivitys.containsKey(className) || pMinorSIActivitys.containsKey(className);
             }
             case DisplayItem.TYPE_SERVICE: {
-                return hostServiceMapping.containsKey(className) || pMasterServiceMapping.containsKey(className)
-                        || pMinorServiceMapping.containsKey(className) || mpServiceMapping.containsKey(className);
+                return hProcessServices.containsKey(className) || pMasterServices.containsKey(className)
+                        || pMinorServices.containsKey(className) || mpServiceMapping.containsKey(className);
             }
             default:
                 throw new IllegalAccessError("isStub接口当前只用于判断广播、activity、service三种哦~");

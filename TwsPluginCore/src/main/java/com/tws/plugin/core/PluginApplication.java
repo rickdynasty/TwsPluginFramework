@@ -44,12 +44,12 @@ public class PluginApplication extends Application {
         // 2、在插件进程和宿主进程的initPluginFramework方法都执行完毕之前，不可和插件交互
         // 3、在插件进程和宿主进程的initPluginFramework方法都执行完毕之前启动的组件，即使在initPluginFramework都执行完毕之后，也不可和插件交互
         // 如果initPluginFramework都在进程启动时就执行，自然很轻松满足上述条件。
-        if (ProcessUtil.isPluginProcess(this)) {
+        if (ProcessUtil.isHostProcess(this)) {
+            QRomLog.i(TAG, "宿主进程 PluginLoader.initPluginFramework");
+            initPluginFramework(this);
+        } else if (ProcessUtil.isPluginProcess(this)) {
             QRomLog.i(TAG, "插件进程 PluginLoader.initPluginFramework");
             // 插件进程，必须在这里执行initPluginFramework
-            initPluginFramework(this);
-        } else if (ProcessUtil.isHostProcess(this)) {
-            QRomLog.i(TAG, "宿主进程 PluginLoader.initPluginFramework");
             initPluginFramework(this);
         }
     }

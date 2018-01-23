@@ -29,7 +29,8 @@ public class HostApplication extends PluginApplication {
     public void onCreate() {
         super.onCreate();
 
-        //插件的管理统一运行在Host主进程里面，方便统一调度管理（包括插件在宿主中的显示内容处理）
+        //宿主进程只有一个，插件进程却又好几个，放宿主进程也可以保证插件的加载只有一次
+        //插件的具体安装操作确是在Provider进程，不过provider本身能夸进程，不影响宿主获取插件info
         if (ProcessUtil.isHostProcess(this)) {
             //加载插件：如果是新安装或者升级，需要安装
             PluginLoader.loadPlugins(this);

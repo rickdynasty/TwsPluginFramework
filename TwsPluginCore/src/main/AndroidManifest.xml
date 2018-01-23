@@ -12,14 +12,15 @@
 
         <receiver
             android:name="com.tws.plugin.bridge.TwsPluginBridgeReceiver"
-            android:exported="true"/>
-        <service android:name="com.tws.plugin.bridge.TwsPluginBridgeService"/>
+            android:exported="true" />
+        <service android:name="com.tws.plugin.bridge.TwsPluginBridgeService" />
 
         <!-- core need-->
         <provider
             android:name="com.tws.plugin.manager.PluginManagerProvider"
             android:authorities="com.rick.tws.pluginhost.manager"
-            android:exported="false" />
+            android:exported="false"
+            android:process=":pmaster" />
 
         <!-- 对Receiver的类全名没有要求，可随意指定，框架中是通过action来查询。注册1个即可(广播自身是ipc通讯的,运行在宿主进程) -->
         <receiver

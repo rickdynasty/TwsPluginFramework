@@ -216,17 +216,6 @@ public class PluginDescriptor implements Serializable {
         return processIndex;
     }
 
-    public String getProcessName() {
-        switch (processIndex) {
-            case ProcessUtil.PLUGIN_PROCESS_INDEX_MASTER:
-                return ProcessUtil.getPluginMasterProcessName();
-            case ProcessUtil.PLUGIN_PROCESS_INDEX_MINOR:
-                return ProcessUtil.getPluginMinorProcessName();
-            default:
-                return ProcessUtil.getHostProcessName();
-        }
-    }
-
     public void setProcessIndexByProcessName(String process) {
         QRomLog.i(TAG, "setProcessIndexByProcessName:" + process);
         //1、没有配置 2、配置了宿主的包名 3、配置了插件的包名 这三种情况会被视为跑在宿主进程中
@@ -472,7 +461,7 @@ public class PluginDescriptor implements Serializable {
                 result = new ArrayList<ComponentInfo>(1);
 
                 int pIndex = getProcessIndex();
-                String pName = getProcessName();
+                String pName = ProcessUtil.getProcessNameByIndex(processIndex);
                 switch (type) {
                     //目前就service存在可能和application不在一个进程
                     case DisplayItem.TYPE_SERVICE:
@@ -551,7 +540,7 @@ public class PluginDescriptor implements Serializable {
                         }
 
                         int pIndex = getProcessIndex();
-                        String pName = getProcessName();
+                        String pName = ProcessUtil.getProcessNameByIndex(processIndex);
                         switch (type) {
                             //目前就service存在可能和application不在一个进程
                             case DisplayItem.TYPE_SERVICE:

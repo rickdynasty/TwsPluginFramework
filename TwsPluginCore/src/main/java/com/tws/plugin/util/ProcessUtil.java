@@ -36,21 +36,26 @@ public class ProcessUtil {
 
     public static void initProcessName(Context context) {
         if (TextUtils.isEmpty(hostProcessName)) {
+
+            //宿主进程名
+            if (TextUtils.isEmpty(hostProcessName)) {
+                hostProcessName = PluginApplication.getInstance().getPackageName();
+            }
+
             try {
-                // 先查询ContentProvider的信息中包含的processName,因为Contentprovider是运行在宿主进程.但是这个api只支持9及以上,
+                // 先查询ContentProvider的信息中包含的processName,因为Contentprovider是运行在pmaster进程.
                 ProviderInfo pinfo = context.getPackageManager().getProviderInfo(new ComponentName(context, PluginManagerProvider.class), 0);
-                hostProcessName = pinfo.processName;
+                masterProcessName = pinfo.processName;
             } catch (PackageManager.NameNotFoundException e) {
                 e.printStackTrace();
             }
 
             //上面如果获取异常，才使用包名作为宿主进程名【这样可以排除宿主指定了进程名的问题】
-            if (TextUtils.isEmpty(hostProcessName)) {
-                hostProcessName = PluginApplication.getInstance().getPackageName();
+            if (TextUtils.isEmpty(masterProcessName)) {
+                //注意这里需要和AndroidManifest.xml保持一致
+                masterProcessName = hostProcessName + PLUGIN_MASTER_PROCESS_SUFFIX;
             }
 
-            //注意这里需要和AndroidManifest.xml保持一致
-            masterProcessName = hostProcessName + PLUGIN_MASTER_PROCESS_SUFFIX;
             minorProcessName = hostProcessName + PLUGIN_MINOR_PROCESS_SUFFIX;
         }
     }

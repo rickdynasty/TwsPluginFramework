@@ -14,10 +14,10 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
-import android.view.WindowManager;
 import android.widget.Toast;
 
 import com.rick.tws.framework.HomeUIProxy;
@@ -32,7 +32,6 @@ import com.rick.tws.pluginhost.main.widget.Hotseat;
 import com.tws.plugin.content.DisplayItem;
 import com.tws.plugin.content.LoadedPlugin;
 import com.tws.plugin.content.PluginDescriptor;
-import com.tws.plugin.core.PluginApplication;
 import com.tws.plugin.core.PluginLauncher;
 import com.tws.plugin.core.PluginLoader;
 import com.tws.plugin.manager.InstallResult;
@@ -73,7 +72,8 @@ public class HomeActivity extends AppCompatActivity implements HomeUIProxy {
     // 应用安装卸载监听
     private BroadcastReceiver mAppUpdateReceiver = null;
 
-    private HashMap<String, Fragment> mFragments = new HashMap<>();
+    //首页tab fragment缓存
+    private HashMap<String, Fragment> mHotseatFragmentsCache = new HashMap<>(3);
     //需要记切换前的tagIndex,方便隐藏之前的然后显示新的
     private String mSaveClassId = "";
 
@@ -83,7 +83,7 @@ public class HomeActivity extends AppCompatActivity implements HomeUIProxy {
         setContentView(R.layout.activity_home);
 
         mHotseat = (Hotseat) findViewById(R.id.home_bottom_tab);
-        initHomeBottomTabObserver();
+        initHotseatClickListener();
 
         mNormalTextColor = getResources().getColor(R.color.home_bottom_tab_text_default_color);
         mFocusTextColor = getResources().getColor(R.color.home_bottom_tab_text_pressed_color);
@@ -105,12 +105,6 @@ public class HomeActivity extends AppCompatActivity implements HomeUIProxy {
         // 默认聚焦位置
         final int fouceIndex = mHotseat.getPosByClassId(((HostApplication) HostApplication.getInstance()).getFouceTabClassId());
         switchFragment(mHotseat.setFocusIndex(fouceIndex), false);
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        QRomLog.i(TAG, "=========onResume=========");
     }
 
     private void initPluginChangedMonitor() {
@@ -137,16 +131,16 @@ public class HomeActivity extends AppCompatActivity implements HomeUIProxy {
                             // success ? 0 : 7
                             if (installRlt == 0) {// 卸载成功
                                 QRomLog.i(TAG, "插件：" + packageName + "被卸载了哈~");
-                                if (mHotseat == null) {
-                                    QRomLog.i(TAG, "貌似mHotseat还没初始化哦"); // 这种情况应该基本不会出现
-                                } else {
+                                if (null != mHotseat) {
                                     removePlugin(packageName);
+                                } else {
+                                    QRomLog.i(TAG, "貌似mHotseat还没初始化哦"); // 这种情况应该基本不会出现
                                 }
 
-                                if (mHomeFragment == null) {
-                                    QRomLog.i(TAG, "貌似MyWatchFragment还没构建出来"); // 这种情况有可能出现哦
-                                } else {
+                                if (null != mHomeFragment) {
                                     mHomeFragment.removePlugin(packageName);
+                                } else {
+                                    QRomLog.i(TAG, "貌似MyWatchFragment还没构建出来"); // 这种情况有可能出现哦
                                 }
                             }
                             break;
@@ -154,7 +148,7 @@ public class HomeActivity extends AppCompatActivity implements HomeUIProxy {
                             // success ? 0 : 7
                             if (installRlt == 0) {// 卸载成功
                                 QRomLog.i(TAG, "~~~~(>_<)~~~~所有插件都被卸载了咯！");
-                                // ~暂不处理，因为DM起来首页显示出来后，应该是不存在这个情况
+                                // ~有需要在处理
                             }
                             break;
                         default:
@@ -225,8 +219,8 @@ public class HomeActivity extends AppCompatActivity implements HomeUIProxy {
             return null;
         }
 
-        if (mFragments.get(componentName.getClassId()) != null) {
-            return mFragments.get(componentName.getClassId());
+        if (mHotseatFragmentsCache.get(componentName.getClassId()) != null) {
+            return mHotseatFragmentsCache.get(componentName.getClassId());
         }
 
         Fragment fragment = null;
@@ -279,7 +273,7 @@ public class HomeActivity extends AppCompatActivity implements HomeUIProxy {
             ((ToastFragment) fragment).setToastMsg(msg);
         }
 
-        mFragments.put(classId, fragment);
+        mHotseatFragmentsCache.put(classId, fragment);
 
         return fragment;// new Fragment();
     }
@@ -292,54 +286,58 @@ public class HomeActivity extends AppCompatActivity implements HomeUIProxy {
             return;
         }
 
-        boolean establishedDependOn = establishedDependOns(pluginDescriptor.getPackageName(),
-                pluginDescriptor.getDependOns());
+        boolean establishedDependOn = establishedDependOns(pluginDescriptor.getPackageName(), pluginDescriptor.getDependOns());
 
         final ArrayList<DisplayItem> dis = pluginDescriptor.getDisplayItems();
         if (dis != null && 0 < dis.size()) {
-            String iconDir = new File(pluginDescriptor.getInstalledPath()).getParent() + File.separator
-                    + FileUtil.ICON_FOLDER;
-//            for (DisplayItem di : dis) {
-//                int pos = getPosByPackageName(di.pos, pluginDescriptor.getPackageName());
-//                HostDisplayItem info = new HostDisplayItem(this, di, pluginDescriptor.getPackageName(), pos);
-//                info.establishedDependOn = establishedDependOn;
-//
-//                loadPluginIcon(info, pluginDescriptor, di.pos == DisplayConfig.DISPLAY_AT_HOTSEAT, iconDir);
-//
-//                switch (di.pos) {
-//                    case DisplayConfig.DISPLAY_AT_HOTSEAT: // 显示在Hotseat上
-//                        // 当前Hotseat上暂时之放置fragment
-//                        if (info.componentType != DisplayConfig.TYPE_FRAGMENT) {
-//                            break;
-//                        }
-//                        mHotseat.addOneBottomButtonForPlugin(info, mNormalTextColor, mFocusTextColor, true);
-//                        break;
-//                    case DisplayConfig.DISPLAY_AT_HOME_FRAGEMENT: // 显示在my_watch_fragement
-//                        // mHomeFragementDisplayInfos.add(info);
-//                        mHomeFragment.addItemAndUpdateView(info);
-//                        break;
-//                    case DisplayConfig.DISPLAY_AT_OTHER_POS:// 显示在其他位置
-//                        switch (info.componentType) {
-//                            case DisplayItem.TYPE_SERVICE:
-//                                Intent intent = new Intent();
-//                                intent.setClassName(HomeActivity.this, info.classId);
-//                                startService(intent);
-//                                break;
-//                            case DisplayItem.TYPE_APPLICATION:
-//                                if (null == PluginLauncher.instance().startPlugin(info.classId)) {
-//                                    Toast.makeText(HomeActivity.this, "startPlugin:" + info.classId + "失败!!!",
-//                                            Toast.LENGTH_LONG).show();
-//                                }
-//                                break;
-//                            default:
-//                                break;
-//                        }
-//                        break;
-//                    case DisplayItem.DISPLAY_AT_MENU: // 这个当前没有，暂不处理
-//                    default:
-//                        break;
-//                }
-//            }
+            String iconDir = new File(pluginDescriptor.getInstalledPath()).getParent() + File.separator + FileUtil.ICON_FOLDER;
+            for (DisplayItem di : dis) {
+                ArrayList<DisplayItem> gemelItems = null;
+                if (DisplayItem.INVALID_POS == di.gemel_x && DisplayItem.INVALID_POS == di.gemel_y) {
+                    //需要对插件模块通过协议配置的显示项进行一次简单的处理，这种处理是结合项目的需求更方便灵活的操作
+                    HostDisplayItem info = new HostDisplayItem(di, pluginDescriptor.getPackageName(), establishedDependOn);
+                    loadPluginIcon(info, pluginDescriptor, di.y == HostDisplayItem.DISPLAY_AT_HOTSEAT, iconDir);
+
+                    switch (di.y) {
+                        case HostDisplayItem.DISPLAY_AT_HOTSEAT: // 显示在Hotseat上
+                        {
+                            if (info.action_type != HostDisplayItem.TYPE_FRAGMENT) break;
+                            mHotseat.addOneBottomButtonForPlugin(info, mNormalTextColor, mFocusTextColor, true);
+                        }
+                        break;
+                        case HostDisplayItem.DISPLAY_AT_HOME_FRAGEMENT: // 显示在my_watch_fragement
+                            mHomeFragment.addContentItem(info);
+                            break;
+                        case HostDisplayItem.DISPLAY_AT_OTHER_POS:// 显示在其他位置
+                        {
+                            switch (info.action_type) {
+                                case HostDisplayItem.TYPE_SERVICE:
+                                    Intent intent = new Intent();
+                                    intent.setClassName(HomeActivity.this, info.pid);
+                                    startService(intent);
+                                    break;
+                                case HostDisplayItem.TYPE_APPLICATION:
+                                    if (null == PluginLauncher.instance().startPlugin(info.pid)) {
+                                        Toast.makeText(HomeActivity.this, "startPlugin:" + info.pid + "失败!!!", Toast.LENGTH_LONG).show();
+                                    }
+                                    break;
+                                default:
+                                    break;
+                            }
+                        }
+                        break;
+                        case HostDisplayItem.DISPLAY_AT_MENU: // 这个当前没有，暂不处理
+                        default:
+                            break;
+                    }
+                } else {
+                    //gemel Item项不需要独立构建一个DisplayInfo
+                    if (null == gemelItems) {
+                        gemelItems = new ArrayList<>();
+                    }
+                    gemelItems.add(di);
+                }
+            }
         } else {
             Toast.makeText(getApplicationContext(), "插件：" + pluginDescriptor.getApplicationName() + "没配置显示协议",
                     Toast.LENGTH_SHORT).show();
@@ -349,17 +347,20 @@ public class HomeActivity extends AppCompatActivity implements HomeUIProxy {
     private void removePlugin(String packageName) {
         QRomLog.i(TAG, "removePlugin:" + packageName);
         int removeTagIndex = mHotseat.removePlugin(packageName);
-//        FragmentManager fragmentManager = getSupportFragmentManager();
-//        FragmentTransaction transaction = fragmentManager.beginTransaction();
-//        String name = makeFragmentName(mFragmentContainer.getId(), mFragmentPagerAdapter.getItemId(removeTagIndex));
-//        Fragment fragment = fragmentManager.findFragmentByTag(name);
-//        if (fragment != null) {
-//            QRomLog.i(TAG, "removePlugin removeTagIndex=" + removeTagIndex);
-//            transaction.remove(fragment);
-//            // transaction.commit();
-//
-//            // rick_Note:这里被删除的fragment需要做清理操作哈~
-//        }
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        Fragment fragment = mHotseatFragmentsCache.get(packageName);
+        if (packageName.equals(mSaveClassId)) {
+            //如果删除的就是当前的显示fragment，直接回home就行
+            switchFragment(mHotseat.setFocusIndex(0), false);
+        }
+        if (fragment != null) {
+            QRomLog.i(TAG, "removePlugin removeTagIndex=" + removeTagIndex);
+            transaction.remove(fragment);
+            // transaction.commit();
+
+            // rick_Note:这里被删除的fragment需要做清理操作哈~
+        }
     }
 
     private void establishedDependOnForPlugin(String pid) {
@@ -475,7 +476,7 @@ public class HomeActivity extends AppCompatActivity implements HomeUIProxy {
         }
     }
 
-    private void initHomeBottomTabObserver() {
+    private void initHotseatClickListener() {
         mHotseatClickCallback = new Hotseat.OnHotseatClickListener() {
 
             @Override
@@ -730,7 +731,7 @@ public class HomeActivity extends AppCompatActivity implements HomeUIProxy {
 
     private void switchFragment(int tagIndex) {
         QRomLog.i(TAG, "switchFragment:" + tagIndex);
-        switchFragment(tagIndex, true);
+        switchFragment(tagIndex, false);
     }
 
     private void switchFragment(int tagIndex, boolean anim) {
@@ -756,8 +757,8 @@ public class HomeActivity extends AppCompatActivity implements HomeUIProxy {
         //注意这里不能缓存FragmentTransaction 需要每次都去get
         FragmentTransaction ft = anim ? getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left, R.anim.enter_from_left, R.anim.exit_to_right) :
                 getSupportFragmentManager().beginTransaction();
-        if (null != mFragments.get(mSaveClassId)) {
-            ft.hide(mFragments.get(mSaveClassId));
+        if (null != mHotseatFragmentsCache.get(mSaveClassId)) {
+            ft.hide(mHotseatFragmentsCache.get(mSaveClassId));
         }
 
         if (!fragment.isAdded()) {
@@ -777,7 +778,6 @@ public class HomeActivity extends AppCompatActivity implements HomeUIProxy {
     public void setHighlightCellItem(String classId, boolean needHighlight) {
 
     }
-
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {

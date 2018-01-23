@@ -5,18 +5,34 @@ package com.tws.plugin.manager;
  */
 
 public class BindStubInfo {
-    public BindStubInfo(String stubName, int pIndex, int launchMode) {
+    public BindStubInfo() {
+    }
+
+    public BindStubInfo(String stubName, int pIndex) {
+        this.stubName = stubName;
+        this.pIndex = pIndex;
+    }
+
+    public String stubName = "";
+    public int pIndex = -1;
+
+    @Override
+    public String toString() {
+        return "stubName is " + stubName + " pIndex is " + pIndex;
+    }
+}
+
+class ActivityStubInfo extends BindStubInfo {
+    public int launchMode;
+
+    public ActivityStubInfo(String stubName, int pIndex, int launchMode) {
         this.stubName = stubName;
         this.pIndex = pIndex;
         this.launchMode = launchMode;
     }
 
-    public String stubName = "";
-    public int pIndex = -1;
-    public int launchMode;
-
     @Override
     public String toString() {
-        return "stubName is " + stubName + " pIndex is " + pIndex;
+        return "stubName is " + stubName + " pIndex is " + pIndex + " launchMode is " + launchMode;
     }
 }

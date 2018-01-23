@@ -116,7 +116,8 @@ class PluginStubBinding {
     //////////////////////////////////////////// 03 pminor process begin ////////////////////////////////////////////
 
     //Activity stub绑定关系cache
-    private static HashMap<String, BindStubInfo> bindedActivityStubCache = new HashMap<String, BindStubInfo>();
+    private static HashMap<String, ActivityStubInfo> bindedActivityStubCache = new HashMap<String, ActivityStubInfo>(16);
+    private static HashMap<String, BindStubInfo> bindedServiceStubCache = new HashMap<String, BindStubInfo>(16);
 
     private static String receiver = null;
     //这个属性用于有些插件依赖第三方库，而第三方库运行了一些service指定单独进程 - 并且在运行结束后会主动回收
@@ -155,7 +156,7 @@ class PluginStubBinding {
 
         List<ResolveInfo> list = PluginLoader.getApplication().getPackageManager().queryIntentActivities(launchModeIntent, PackageManager.MATCH_DEFAULT_ONLY);
 
-        if (list != null && list.size() > 0) {
+        if (null != list && 0 < list.size()) {
             for (ResolveInfo resolveInfo : list) {
                 if (resolveInfo.activityInfo.launchMode == ActivityInfo.LAUNCH_SINGLE_TASK) {
                     hProcessSTaskActivitys.put(resolveInfo.activityInfo.name, null);
@@ -177,7 +178,7 @@ class PluginStubBinding {
 
         List<ResolveInfo> list = PluginLoader.getApplication().getPackageManager().queryIntentActivities(launchModeIntent, PackageManager.MATCH_DEFAULT_ONLY);
 
-        if (list != null && list.size() > 0) {
+        if (null != list && 0 < list.size()) {
             for (ResolveInfo resolveInfo : list) {
                 if (resolveInfo.activityInfo.launchMode == ActivityInfo.LAUNCH_SINGLE_TASK) {
                     pMasterSTaskActivitys.put(resolveInfo.activityInfo.name, null);
@@ -199,7 +200,7 @@ class PluginStubBinding {
 
         List<ResolveInfo> list = PluginLoader.getApplication().getPackageManager().queryIntentActivities(launchModeIntent, PackageManager.MATCH_DEFAULT_ONLY);
 
-        if (list != null && list.size() > 0) {
+        if (null != list && 0 < list.size()) {
             for (ResolveInfo resolveInfo : list) {
                 if (resolveInfo.activityInfo.launchMode == ActivityInfo.LAUNCH_SINGLE_TASK) {
                     pMinorSTaskActivitys.put(resolveInfo.activityInfo.name, null);
@@ -221,28 +222,34 @@ class PluginStubBinding {
 
         List<ResolveInfo> list = PluginLoader.getApplication().getPackageManager().queryIntentServices(launchModeIntent, PackageManager.MATCH_DEFAULT_ONLY);
 
-        if (list != null && list.size() > 0) {
+        if (null != list && 0 < list.size()) {
             for (ResolveInfo resolveInfo : list) {
                 hProcessServices.put(resolveInfo.serviceInfo.name, null);
             }
 
             HashMap<String, String> mapping = restore(ProcessUtil.PLUGIN_PROCESS_INDEX_HOST);
-            if (mapping != null) {
+            boolean modifyStore = false;
+            if (null != mapping) {
                 Iterator<String> iter = mapping.keySet().iterator();
-                String key;
+                String stubName, pluginServiceClassName;
                 while (iter.hasNext()) {
-                    key = iter.next();
-                    if (hProcessServices.containsKey(key)) {
-                        hProcessServices.put(key, mapping.get(key));
+                    stubName = iter.next();
+                    if (hProcessServices.containsKey(stubName)) {
+                        pluginServiceClassName = mapping.get(stubName);
+                        hProcessServices.put(stubName, pluginServiceClassName);
+
+                        //这里记录一下 插件组件的绑定关系，方便后面查询&解绑操作
+                        bindedServiceStubCache.put(pluginServiceClassName, new BindStubInfo(stubName, ProcessUtil.PLUGIN_PROCESS_INDEX_HOST));
                     } else {
-                        // 我去这个还真的在当前版本被删除了
+                        modifyStore = true;
+                        // 可能是版本升级做了调整,那就直接丢弃掉
                     }
                 }
-                // serviceMapping.putAll(mapping);
             }
 
-            // 只有service需要固化
-            save(hProcessServices, ProcessUtil.PLUGIN_PROCESS_INDEX_HOST);
+            if (modifyStore) {
+                save(hProcessServices, ProcessUtil.PLUGIN_PROCESS_INDEX_HOST);
+            }
         }
     }
 
@@ -253,28 +260,34 @@ class PluginStubBinding {
 
         List<ResolveInfo> list = PluginLoader.getApplication().getPackageManager().queryIntentServices(launchModeIntent, PackageManager.MATCH_DEFAULT_ONLY);
 
-        if (list != null && list.size() > 0) {
+        if (null != list && 0 < list.size()) {
             for (ResolveInfo resolveInfo : list) {
                 pMasterServices.put(resolveInfo.serviceInfo.name, null);
             }
 
             HashMap<String, String> mapping = restore(ProcessUtil.PLUGIN_PROCESS_INDEX_MASTER);
-            if (mapping != null) {
+            boolean modifyStore = false;
+            if (null != mapping) {
                 Iterator<String> iter = mapping.keySet().iterator();
-                String key;
+                String stubName, pluginServiceClassName;
                 while (iter.hasNext()) {
-                    key = iter.next();
-                    if (pMasterServices.containsKey(key)) {
-                        pMasterServices.put(key, mapping.get(key));
+                    stubName = iter.next();
+                    if (pMasterServices.containsKey(stubName)) {
+                        pluginServiceClassName = mapping.get(stubName);
+                        pMasterServices.put(stubName, pluginServiceClassName);
+
+                        //这里记录一下 插件组件的绑定关系，方便后面查询&解绑操作
+                        bindedServiceStubCache.put(pluginServiceClassName, new BindStubInfo(stubName, ProcessUtil.PLUGIN_PROCESS_INDEX_MASTER));
                     } else {
-                        // 我去这个还真的在当前版本被删除了
+                        // 可能是版本升级做了调整,那就直接丢弃掉
+                        modifyStore = true;
                     }
                 }
-                // serviceMapping.putAll(mapping);
             }
 
-            // 只有service需要固化
-            save(pMasterServices, ProcessUtil.PLUGIN_PROCESS_INDEX_MASTER);
+            if (modifyStore) {
+                save(pMasterServices, ProcessUtil.PLUGIN_PROCESS_INDEX_MASTER);
+            }
         }
     }
 
@@ -285,28 +298,34 @@ class PluginStubBinding {
 
         List<ResolveInfo> list = PluginLoader.getApplication().getPackageManager().queryIntentServices(launchModeIntent, PackageManager.MATCH_DEFAULT_ONLY);
 
-        if (list != null && list.size() > 0) {
+        if (null != list && 0 < list.size()) {
             for (ResolveInfo resolveInfo : list) {
                 pMinorServices.put(resolveInfo.serviceInfo.name, null);
             }
 
             HashMap<String, String> mapping = restore(ProcessUtil.PLUGIN_PROCESS_INDEX_MINOR);
-            if (mapping != null) {
+            boolean modifyStore = false;
+            if (null != mapping) {
                 Iterator<String> iter = mapping.keySet().iterator();
-                String key;
+                String stubName, pluginServiceClassName;
                 while (iter.hasNext()) {
-                    key = iter.next();
-                    if (pMinorServices.containsKey(key)) {
-                        pMinorServices.put(key, mapping.get(key));
+                    stubName = iter.next();
+                    if (pMinorServices.containsKey(stubName)) {
+                        pluginServiceClassName = mapping.get(stubName);
+                        pMinorServices.put(stubName, pluginServiceClassName);
+
+                        //这里记录一下 插件组件的绑定关系，方便后面查询&解绑操作
+                        bindedServiceStubCache.put(pluginServiceClassName, new BindStubInfo(stubName, ProcessUtil.PLUGIN_PROCESS_INDEX_MASTER));
                     } else {
-                        // 我去这个还真的在当前版本被删除了
+                        // 可能是版本升级做了调整,那就直接丢弃掉
+                        modifyStore = true;
                     }
                 }
-                // serviceMapping.putAll(mapping);
             }
 
-            // 只有service需要固化
-            save(pMinorServices, ProcessUtil.PLUGIN_PROCESS_INDEX_MINOR);
+            if (modifyStore) {
+                save(pMinorServices, ProcessUtil.PLUGIN_PROCESS_INDEX_MINOR);
+            }
         }
     }
 
@@ -317,28 +336,34 @@ class PluginStubBinding {
 
         List<ResolveInfo> list = PluginLoader.getApplication().getPackageManager().queryIntentServices(launchModeIntent, PackageManager.MATCH_DEFAULT_ONLY);
 
-        if (list != null && list.size() > 0) {
+        if (null != list && 0 < list.size()) {
             for (ResolveInfo resolveInfo : list) {
                 mpServiceMapping.put(resolveInfo.serviceInfo.name, null);
             }
 
             HashMap<String, String> mapping = restore(ProcessUtil.PLUGIN_PROCESS_INDEX_CUSTOMIZE);
-            if (mapping != null) {
+            boolean modifyStore = false;
+            if (null != mapping) {
                 Iterator<String> iter = mapping.keySet().iterator();
-                String key;
+                String stubName, pluginServiceClassName;
                 while (iter.hasNext()) {
-                    key = iter.next();
-                    if (mpServiceMapping.containsKey(key)) {
-                        mpServiceMapping.put(key, mapping.get(key));
+                    stubName = iter.next();
+                    if (mpServiceMapping.containsKey(stubName)) {
+                        pluginServiceClassName = mapping.get(stubName);
+                        mpServiceMapping.put(stubName, pluginServiceClassName);
+
+                        //这里记录一下 插件组件的绑定关系，方便后面查询&解绑操作
+                        bindedServiceStubCache.put(pluginServiceClassName, new BindStubInfo(stubName, ProcessUtil.PLUGIN_PROCESS_INDEX_CUSTOMIZE));
                     } else {
-                        // 我去这个还真的在当前版本被删除了
+                        // 可能是版本升级做了调整,那就直接丢弃掉
+                        modifyStore = true;
                     }
                 }
-                // mpServiceMapping.putAll(mapping);
             }
 
-            // 只有service需要固化
-            save(mpServiceMapping, ProcessUtil.PLUGIN_PROCESS_INDEX_CUSTOMIZE);
+            if (modifyStore) {
+                save(mpServiceMapping, ProcessUtil.PLUGIN_PROCESS_INDEX_CUSTOMIZE);
+            }
         }
     }
 
@@ -349,7 +374,7 @@ class PluginStubBinding {
 
         List<ResolveInfo> resolveInfos = PluginLoader.getApplication().getPackageManager().queryBroadcastReceivers(exactStub, PackageManager.MATCH_DEFAULT_ONLY);
 
-        if (resolveInfos != null && resolveInfos.size() > 0) {
+        if (null != resolveInfos && 0 < resolveInfos.size()) {
             receiver = resolveInfos.get(0).activityInfo.name;
         }
     }
@@ -421,7 +446,7 @@ class PluginStubBinding {
                 throw new IllegalAccessError("插件Activity组件当前只允许运行在[宿主(0)、插件master(1)、插件minor(2)]三个进程范围内，pIndex:" + pIndex + " 并不在这个范围内");
         }
 
-        if (stubActivitys != null) {
+        if (null != stubActivitys) {
             Iterator<Map.Entry<String, String>> itr = stubActivitys.entrySet().iterator();
             String stubName = null;
 
@@ -437,12 +462,14 @@ class PluginStubBinding {
                     BindStubInfo bindStubInfo = bindedActivityStubCache.get(pluginActivityClassName);
                     stubName = entry.getKey();
                     if (null == bindStubInfo) {
-                        bindStubInfo = new BindStubInfo(stubName, pIndex, launchMode);
-                        bindedActivityStubCache.put(pluginActivityClassName, bindStubInfo);
-                        QRomLog.e(TAG, "call bindStubActivity(" + pluginActivityClassName + ", " + launchMode + ", " + pIndex + ") 发现组件已经绑定了，绑定的stubInfo 却是null");
+                        //进这里是正常的，之前有绑定过，后来被解绑了就为null了
+                        bindedActivityStubCache.put(pluginActivityClassName, new ActivityStubInfo(stubName, pIndex, launchMode));
                     } else if (!stubName.equals(bindStubInfo.stubName) || pIndex != bindStubInfo.pIndex) {
-                        //之前绑定的和之前的结果不一样
-                        QRomLog.e(TAG, "call bindStubActivity(" + pluginActivityClassName + ", " + launchMode + ", " + pIndex + ") 发现组件已经绑定了，绑定的stubInfo is " + bindStubInfo);
+                        //先更新一下
+                        bindedActivityStubCache.put(pluginActivityClassName, new ActivityStubInfo(stubName, pIndex, launchMode));
+
+                        //当前的绑定结果和之前的结果不一样，可能是存在两个插件同名的组件，需要预警一下
+                        QRomLog.e(TAG, "call bindStubActivity(" + pluginActivityClassName + ", " + launchMode + ", " + pIndex + ") 发现组件已经绑定了，绑定的stubInfo却是：" + bindStubInfo);
                     }
 
                     // 已绑定过，直接返回【上面的判断是为了校准之前的赋值】
@@ -455,7 +482,7 @@ class PluginStubBinding {
                 stubActivitys.put(stubName, pluginActivityClassName);
 
                 //这里记录一下 插件组件的绑定关系，方便后面解绑操作
-                bindedActivityStubCache.put(pluginActivityClassName, new BindStubInfo(stubName, pIndex, launchMode));
+                bindedActivityStubCache.put(pluginActivityClassName, new ActivityStubInfo(stubName, pIndex, launchMode));
 
                 return stubName;
             } else {
@@ -473,7 +500,7 @@ class PluginStubBinding {
 
     public static synchronized void unBindLaunchModeStubActivity(String stubActivityName, String pluginActivityName) {
         QRomLog.i(TAG, "call unBindLaunchModeStubActivity:" + stubActivityName + " pluginActivityName is " + pluginActivityName);
-        final BindStubInfo bindStubInfo = bindedActivityStubCache.get(pluginActivityName);
+        final ActivityStubInfo bindStubInfo = bindedActivityStubCache.get(pluginActivityName);
         if (null != bindStubInfo) {
             //对于standard和singleTop的launchmode，不做处理。
             if ((bindStubInfo.launchMode == ActivityInfo.LAUNCH_MULTIPLE || bindStubInfo.launchMode == ActivityInfo.LAUNCH_SINGLE_TOP)) {
@@ -527,8 +554,12 @@ class PluginStubBinding {
             }
 
             if (null != stubActivitys) {
-                QRomLog.i(TAG, "找到绑定关系，解绑成功！");
                 stubActivitys.put(stubActivityName, null);
+                QRomLog.i(TAG, "找到绑定关系，成功解绑！");
+
+                //处理缓存记录
+                bindedActivityStubCache.put(pluginActivityName, null);
+
                 return;
             }
         }
@@ -561,6 +592,19 @@ class PluginStubBinding {
     public static synchronized String getBindedPluginServiceName(String stubServiceName) {
         initPool();
 
+        //先从cache中获取
+        Iterator<Map.Entry<String, BindStubInfo>> cacheItr = bindedServiceStubCache.entrySet().iterator();
+        BindStubInfo bindStubInfo;
+        while (cacheItr.hasNext()) {
+            Map.Entry<String, BindStubInfo> entry = cacheItr.next();
+            bindStubInfo = entry.getValue();
+            if (null != bindStubInfo && bindStubInfo.stubName.equals(stubServiceName)) {
+                return entry.getKey();
+            }
+        }
+
+        //cache失效了就只能一个一个遍历获取
+        //宿主进程坑位
         Iterator<Map.Entry<String, String>> itr = hProcessServices.entrySet().iterator();
         while (itr.hasNext()) {
             Map.Entry<String, String> entry = itr.next();
@@ -569,7 +613,7 @@ class PluginStubBinding {
             }
         }
 
-        //pMaster
+        //pMaster进程坑位
         Iterator<Map.Entry<String, String>> itrMaster = pMasterServices.entrySet().iterator();
         while (itrMaster.hasNext()) {
             Map.Entry<String, String> entry = itrMaster.next();
@@ -578,7 +622,7 @@ class PluginStubBinding {
             }
         }
 
-        //pMinor
+        //pMinor进程坑位
         Iterator<Map.Entry<String, String>> itrMinor = pMinorServices.entrySet().iterator();
         while (itrMinor.hasNext()) {
             Map.Entry<String, String> entry = itrMinor.next();
@@ -631,14 +675,34 @@ class PluginStubBinding {
             } else if (pluginServiceClassName.equals(entry.getValue())) {
                 // 已经绑定过，直接返回
                 QRomLog.i(TAG, "已经绑定过:" + entry.getKey() + " pluginServiceClassName is " + pluginServiceClassName);
-                return entry.getKey();
+                stubName = entry.getKey();
+
+                BindStubInfo bindStubInfo = bindedServiceStubCache.get(pluginServiceClassName);
+
+                //service没有launchMode,直接给-1就行
+                if (null == bindStubInfo) {
+                    //进这里是正常的，之前有绑定过，后来被解绑了就为null了
+                    bindedServiceStubCache.put(pluginServiceClassName, new BindStubInfo(stubName, pIndex));
+                } else if (!stubName.equals(bindStubInfo.stubName) || pIndex != bindStubInfo.pIndex) {
+                    //先更新一下
+                    bindedServiceStubCache.put(pluginServiceClassName, new BindStubInfo(stubName, pIndex));
+
+                    //当前的绑定结果和之前的结果不一样，可能是存在两个插件同名的组件，需要预警一下
+                    QRomLog.e(TAG, "call bindStubService(" + pluginServiceClassName + ", " + pIndex + ") 发现组件已经绑定了，绑定的stubInfo却是：" + bindStubInfo);
+                }
+
+                return stubName;
             }
         }
 
         // 没有绑定到StubService，而且还有空余的StubService，进行绑定
-        if (stubName != null) {
+        if (null != stubName) {
             QRomLog.i(TAG, "添加绑定:" + stubName + " pluginServiceClassName is " + pluginServiceClassName);
             stubServices.put(stubName, pluginServiceClassName);
+
+            //这里记录一下 插件组件的绑定关系，方便后面解绑操作
+            bindedServiceStubCache.put(pluginServiceClassName, new BindStubInfo(stubName, pIndex));
+
             // 对serviceMapping持久化是因为如果service处于运行状态时app发生了crash，系统会自动恢复之前的service，此时插件映射信息查不到的话会再次crash
             save(stubServices, pIndex);
 
@@ -650,6 +714,38 @@ class PluginStubBinding {
     }
 
     public static synchronized void unBindStubService(String pluginServiceName) {
+        final BindStubInfo bindStubInfo = bindedServiceStubCache.get(pluginServiceName);
+        if (null != bindStubInfo) {
+            HashMap<String, String> stubServices = null;
+            switch (bindStubInfo.pIndex) {
+                case ProcessUtil.PLUGIN_PROCESS_INDEX_HOST:
+                    stubServices = hProcessServices;
+                    break;
+                case ProcessUtil.PLUGIN_PROCESS_INDEX_MASTER:
+                    stubServices = pMasterServices;
+                    break;
+                case ProcessUtil.PLUGIN_PROCESS_INDEX_MINOR:
+                    stubServices = pMinorServices;
+                    break;
+                case ProcessUtil.PLUGIN_PROCESS_INDEX_CUSTOMIZE:
+                    stubServices = mpServiceMapping;
+                    break;
+            }
+
+            if (null != stubServices) {
+                stubServices.put(pluginServiceName, null);
+                QRomLog.i(TAG, "unBindStubService 找到绑定关系，成功解绑！");
+                save(stubServices, bindStubInfo.pIndex);
+
+                //处理缓存记录
+                bindedServiceStubCache.put(pluginServiceName, null);
+                return;
+            }
+        }
+
+        QRomLog.i(TAG, "unBindStubService 缓存失效，下面就只能通过遍历来处理解绑~");
+
+        //宿主进程坑位
         Iterator<Map.Entry<String, String>> itr = hProcessServices.entrySet().iterator();
         while (itr.hasNext()) {
             Map.Entry<String, String> entry = itr.next();
@@ -662,6 +758,7 @@ class PluginStubBinding {
             }
         }
 
+        //pmaster进程坑位
         Iterator<Map.Entry<String, String>> itrMaster = pMasterServices.entrySet().iterator();
         while (itrMaster.hasNext()) {
             Map.Entry<String, String> entry = itrMaster.next();
@@ -674,6 +771,7 @@ class PluginStubBinding {
             }
         }
 
+        //pminor进程坑位
         Iterator<Map.Entry<String, String>> itrMinor = pMinorServices.entrySet().iterator();
         while (itrMinor.hasNext()) {
             Map.Entry<String, String> entry = itrMinor.next();
@@ -705,7 +803,6 @@ class PluginStubBinding {
     }
 
     private static boolean save(HashMap<String, String> mapping, int pIndex) {
-
         ObjectOutputStream objectOutputStream = null;
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         try {
@@ -745,7 +842,7 @@ class PluginStubBinding {
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-            if (objectOutputStream != null) {
+            if (null != objectOutputStream) {
                 try {
                     objectOutputStream.close();
                 } catch (IOException e) {
@@ -753,7 +850,7 @@ class PluginStubBinding {
                 }
             }
 
-            if (byteArrayOutputStream != null) {
+            if (null != byteArrayOutputStream) {
                 try {
                     byteArrayOutputStream.close();
                 } catch (IOException e) {
@@ -761,6 +858,8 @@ class PluginStubBinding {
                 }
             }
         }
+
+        QRomLog.e(TAG, "save:" + pIndex + " failed!");
         return false;
     }
 
@@ -801,14 +900,14 @@ class PluginStubBinding {
             } catch (Exception e) {
                 e.printStackTrace();
             } finally {
-                if (objectInputStream != null) {
+                if (null != objectInputStream) {
                     try {
                         objectInputStream.close();
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
                 }
-                if (byteArrayInputStream != null) {
+                if (null != byteArrayInputStream) {
                     try {
                         byteArrayInputStream.close();
                     } catch (IOException e) {
@@ -817,10 +916,12 @@ class PluginStubBinding {
                 }
             }
         }
-        if (object != null) {
+
+        if (null != object) {
             HashMap<String, String> mapping = (HashMap<String, String>) object;
             return mapping;
         }
+
         return null;
     }
 

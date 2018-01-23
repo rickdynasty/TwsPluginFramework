@@ -90,7 +90,7 @@ public class PluginInjector {
             providers.add(p);
         }
 
-        if (providers.size() > 0) {
+        if (0 < providers.size()) {
             QRomLog.i(TAG,
                     "为插件:" + pluginContext.getPackageName() + " 安装ContentProvider size=" + pluginProviderInfos.size());
             // pluginContext.getPackageName().equals(applicationInfo.packageName)
@@ -100,7 +100,7 @@ public class PluginInjector {
         }
     }
 
-    static void injectInstrumetionFor360Safe(Activity activity, Instrumentation pluginInstrumentation) {
+    static void sureInjectInstrumetionIfNeed(Activity activity, Instrumentation pluginInstrumentation) {
         // 检查mInstrumention是否已经替换成功。
         // 之所以要检查，是因为如果手机上安装了360手机卫士等app，它们可能会劫持用户app的ActivityThread对象，
         // 导致在PluginApplication的onCreate方法里面替换mInstrumention可能会失败

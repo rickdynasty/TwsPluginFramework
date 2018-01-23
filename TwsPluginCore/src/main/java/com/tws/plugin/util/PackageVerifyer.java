@@ -125,7 +125,7 @@ public class PackageVerifyer {
 				mReadBuffer = readBufferRef;
 			}
 
-			if (certs != null && certs.length > 0) {
+			if (certs != null && 0 < certs.length) {
 				final int N = certs.length;
 				mSignatures = new Signature[certs.length];
 				for (int i = 0; i < N; i++) {

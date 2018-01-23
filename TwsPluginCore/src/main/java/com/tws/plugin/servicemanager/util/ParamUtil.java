@@ -30,7 +30,7 @@ public class ParamUtil {
     public static Object[] unwrapperParams(Bundle extras) {
         Object[] params = null;
         int maxKey = extras.getInt(method_args_count);
-        if (maxKey > 0) {
+        if (0 < maxKey) {
             params = new Object[maxKey];
             for(int i = 0; i< maxKey; i++) {
                 params[i] = extras.get(String.valueOf(i));

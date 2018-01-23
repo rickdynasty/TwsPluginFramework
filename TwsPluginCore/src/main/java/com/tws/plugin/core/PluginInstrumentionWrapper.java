@@ -107,7 +107,7 @@ public class PluginInstrumentionWrapper extends Instrumentation {
             String packageName = PluginLoader.getPackageName(intent);
             ArrayList<ComponentInfo> componentInfos = PluginIntentResolver.matchPluginComponents(intent, DisplayItem.TYPE_ACTIVITY, packageName);
             String pluginClassName = null;
-            if (componentInfos != null && componentInfos.size() > 0) {
+            if (componentInfos != null && 0 < componentInfos.size()) {
                 final ComponentInfo targetComponent = componentInfos.get(0);
                 pluginClassName = targetComponent.name;
                 packageName = targetComponent.packageName; //上面获取到的包名可能是宿主的，因此这里在赋值纠正一下
@@ -170,7 +170,7 @@ public class PluginInstrumentionWrapper extends Instrumentation {
                         cl = cls.getClassLoader();
 
                         intent.setExtrasClassLoader(cl);
-                        if (targetClassName.length > 1) {
+                        if (1 < targetClassName.length) {
                             // 之前为了传递classNae，intent的action被修改过
                             // 这里再把Action还原到原始的Action
                             intent.setAction(targetClassName[1]);
@@ -249,7 +249,7 @@ public class PluginInstrumentionWrapper extends Instrumentation {
     @Override
     public void callActivityOnCreate(Activity activity, Bundle icicle) {
 
-        PluginInjector.injectInstrumetionFor360Safe(activity, this);
+        PluginInjector.sureInjectInstrumetionIfNeed(activity, this);
 
         PluginInjector.injectActivityContext(activity);
 
@@ -303,7 +303,7 @@ public class PluginInstrumentionWrapper extends Instrumentation {
 
     @Override
     public void callActivityOnDestroy(Activity activity) {
-        PluginInjector.injectInstrumetionFor360Safe(activity, this);
+        PluginInjector.sureInjectInstrumetionIfNeed(activity, this);
 
         monitor.onActivityDestory(activity);
 
@@ -312,7 +312,7 @@ public class PluginInstrumentionWrapper extends Instrumentation {
 
     @Override
     public void callActivityOnRestoreInstanceState(Activity activity, Bundle savedInstanceState) {
-        PluginInjector.injectInstrumetionFor360Safe(activity, this);
+        PluginInjector.sureInjectInstrumetionIfNeed(activity, this);
 
         if (savedInstanceState != null) {
             savedInstanceState.setClassLoader(activity.getClassLoader());
@@ -323,7 +323,7 @@ public class PluginInstrumentionWrapper extends Instrumentation {
 
     @Override
     public void callActivityOnPostCreate(Activity activity, Bundle icicle) {
-        PluginInjector.injectInstrumetionFor360Safe(activity, this);
+        PluginInjector.sureInjectInstrumetionIfNeed(activity, this);
 
         if (icicle != null) {
             icicle.setClassLoader(activity.getClassLoader());
@@ -334,7 +334,7 @@ public class PluginInstrumentionWrapper extends Instrumentation {
 
     @Override
     public void callActivityOnNewIntent(Activity activity, Intent intent) {
-        PluginInjector.injectInstrumetionFor360Safe(activity, this);
+        PluginInjector.sureInjectInstrumetionIfNeed(activity, this);
 
         if (intent != null) {
             intent.setExtrasClassLoader(activity.getClassLoader());
@@ -345,32 +345,32 @@ public class PluginInstrumentionWrapper extends Instrumentation {
 
     @Override
     public void callActivityOnStart(Activity activity) {
-        PluginInjector.injectInstrumetionFor360Safe(activity, this);
+        PluginInjector.sureInjectInstrumetionIfNeed(activity, this);
         super.callActivityOnStart(activity);
     }
 
     @Override
     public void callActivityOnRestart(Activity activity) {
-        PluginInjector.injectInstrumetionFor360Safe(activity, this);
+        PluginInjector.sureInjectInstrumetionIfNeed(activity, this);
         super.callActivityOnRestart(activity);
     }
 
     @Override
     public void callActivityOnResume(Activity activity) {
-        PluginInjector.injectInstrumetionFor360Safe(activity, this);
+        PluginInjector.sureInjectInstrumetionIfNeed(activity, this);
         super.callActivityOnResume(activity);
         monitor.onActivityResume(activity);
     }
 
     @Override
     public void callActivityOnStop(Activity activity) {
-        PluginInjector.injectInstrumetionFor360Safe(activity, this);
+        PluginInjector.sureInjectInstrumetionIfNeed(activity, this);
         super.callActivityOnStop(activity);
     }
 
     @Override
     public void callActivityOnSaveInstanceState(Activity activity, Bundle outState) {
-        PluginInjector.injectInstrumetionFor360Safe(activity, this);
+        PluginInjector.sureInjectInstrumetionIfNeed(activity, this);
 
         if (outState != null) {
             outState.setClassLoader(activity.getClassLoader());
@@ -381,14 +381,14 @@ public class PluginInstrumentionWrapper extends Instrumentation {
 
     @Override
     public void callActivityOnPause(Activity activity) {
-        PluginInjector.injectInstrumetionFor360Safe(activity, this);
+        PluginInjector.sureInjectInstrumetionIfNeed(activity, this);
         super.callActivityOnPause(activity);
         monitor.onActivityPause(activity);
     }
 
     @Override
     public void callActivityOnUserLeaving(Activity activity) {
-        PluginInjector.injectInstrumetionFor360Safe(activity, this);
+        PluginInjector.sureInjectInstrumetionIfNeed(activity, this);
         super.callActivityOnUserLeaving(activity);
     }
 

@@ -128,7 +128,7 @@ public class AndroidAppIPackageManager extends MethodProxy {
             QRomLog.i(TAG, "beforeInvoke method:" + method.getName());
             final String packageName = PluginLoader.getPackageName((Intent) args[0]);
             ArrayList<ComponentInfo> componentInfos = PluginIntentResolver.matchPluginComponents((Intent) args[0], DisplayItem.TYPE_ACTIVITY, packageName);
-            if (componentInfos != null && componentInfos.size() > 0) {
+            if (componentInfos != null && 0 < componentInfos.size()) {
                 PluginDescriptor pluginDescriptor = PluginLoader.getApplication().getPackageName().equals(packageName) ? PluginManagerHelper
                         .getPluginDescriptorByClassName(componentInfos.get(0).name) : PluginManagerHelper
                         .getPluginDescriptorByPluginId(packageName);
@@ -247,7 +247,7 @@ public class AndroidAppIPackageManager extends MethodProxy {
             QRomLog.i(TAG, "queryIntentServices beforeInvoke method:" + method.getName());
             final String packageName = PluginLoader.getPackageName((Intent) args[0]);
             ArrayList<ComponentInfo> componentInfos = PluginIntentResolver.matchPluginComponents((Intent) args[0], DisplayItem.TYPE_SERVICE, packageName);
-            if (componentInfos != null && componentInfos.size() > 0) {
+            if (componentInfos != null && 0 < componentInfos.size()) {
                 PluginDescriptor pluginDescriptor = PluginLoader.getApplication().getPackageName().equals(packageName) ? PluginManagerHelper
                         .getPluginDescriptorByClassName(componentInfos.get(0).name) : PluginManagerHelper
                         .getPluginDescriptorByPluginId(packageName);
@@ -282,7 +282,7 @@ public class AndroidAppIPackageManager extends MethodProxy {
             QRomLog.i(TAG, "resolveIntent beforeInvoke method:" + method.getName());
             final String packageName = PluginLoader.getPackageName((Intent) args[0]);
             ArrayList<ComponentInfo> componentInfos = PluginIntentResolver.matchPluginComponents((Intent) args[0], DisplayItem.TYPE_ACTIVITY, packageName);
-            if (componentInfos != null && componentInfos.size() > 0) {
+            if (componentInfos != null && 0 < componentInfos.size()) {
                 PluginDescriptor pluginDescriptor = PluginLoader.getApplication().getPackageName().equals(packageName) ? PluginManagerHelper
                         .getPluginDescriptorByClassName(componentInfos.get(0).name) : PluginManagerHelper
                         .getPluginDescriptorByPluginId(packageName);
@@ -303,7 +303,7 @@ public class AndroidAppIPackageManager extends MethodProxy {
             QRomLog.i(TAG, "resolveService beforeInvoke method:" + method.getName());
             final String packageName = PluginLoader.getPackageName((Intent) args[0]);
             ArrayList<ComponentInfo> componentInfos = PluginIntentResolver.matchPluginComponents((Intent) args[0], DisplayItem.TYPE_SERVICE, packageName);
-            if (componentInfos != null && componentInfos.size() > 0) {
+            if (componentInfos != null && 0 < componentInfos.size()) {
                 PluginDescriptor pluginDescriptor = PluginLoader.getApplication().getPackageName().equals(packageName) ? PluginManagerHelper
                         .getPluginDescriptorByClassName(componentInfos.get(0).name) : PluginManagerHelper
                         .getPluginDescriptorByPluginId(packageName);

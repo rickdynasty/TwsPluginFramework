@@ -17,7 +17,7 @@ public class PluginReceiverIntent extends Intent {
 
 	@Override
 	public void setExtrasClassLoader(ClassLoader loader) {
-		if (Build.VERSION.SDK_INT > 11) {
+		if (11 < Build.VERSION.SDK_INT) {
 			Bundle extra = getExtras();
 			if (extra != null) {
 				loader = extra.getClassLoader();

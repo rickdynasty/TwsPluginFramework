@@ -59,7 +59,7 @@ public class HostProxy {
     public static int getStatusBarHeight() {
         int result = 0;
         int resourceId = getApplication().getResources().getIdentifier("status_bar_height", "dimen", "android");
-        if (resourceId > 0) {
+        if (0 < resourceId) {
             result = getApplication().getResources().getDimensionPixelSize(resourceId);
         }
 

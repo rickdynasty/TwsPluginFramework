@@ -3,6 +3,8 @@ package com.tws.plugin.core;
 import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.os.Environment;
 import android.text.TextUtils;
@@ -21,6 +23,7 @@ import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.List;
 
 public class PluginApplication extends Application {
 

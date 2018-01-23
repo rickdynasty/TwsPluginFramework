@@ -27,7 +27,7 @@ public class HackContextThemeWrapper extends HackContextWrapper {
     }
 
 	public final void setResources(Resources resources) {
-		if (Build.VERSION.SDK_INT > 16) {
+		if (16 < Build.VERSION.SDK_INT) {
 			RefInvoker.setField(instance, ClassName, Field_mResources, resources);
 		}
 	}

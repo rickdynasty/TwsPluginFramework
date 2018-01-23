@@ -377,7 +377,7 @@ public class FileUtil {
 	public static boolean deleteAll(File file) {
 		if (file.isDirectory()) {
 			File[] childFiles = file.listFiles();
-			if (childFiles != null && childFiles.length > 0) {
+			if (childFiles != null && 0 < childFiles.length) {
 				for (int i = 0; i < childFiles.length; i++) {
 					deleteAll(childFiles[i]);
 				}
@@ -390,7 +390,7 @@ public class FileUtil {
 	public static void printAll(File file) {
 		if (file.isDirectory()) {
 			File[] childFiles = file.listFiles();
-			if (childFiles != null && childFiles.length > 0) {
+			if (childFiles != null && 0 < childFiles.length) {
 				for (int i = 0; i < childFiles.length; i++) {
 					printAll(childFiles[i]);
 				}

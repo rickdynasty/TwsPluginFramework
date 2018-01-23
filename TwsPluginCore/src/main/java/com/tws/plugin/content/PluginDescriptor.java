@@ -492,7 +492,7 @@ public class PluginDescriptor implements Serializable {
 
         // 如果是通过IntentFilter进行匹配的
         ArrayList<ComponentInfo> list = scanToMatchComponents(intent, type);
-        if (list != null && list.size() > 0) {
+        if (list != null && 0 < list.size()) {
             switch (type) {
                 case DisplayItem.TYPE_ACTIVITY:
                     result = new ArrayList<ComponentInfo>(1);

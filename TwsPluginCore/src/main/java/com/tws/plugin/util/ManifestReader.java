@@ -723,7 +723,7 @@ class XmlResourceParser implements android.content.res.XmlResourceParser {
 				continue;
 			}
 
-			if (chunkType < CHUNK_XML_FIRST || chunkType > CHUNK_XML_LAST) {
+			if (chunkType < CHUNK_XML_FIRST || CHUNK_XML_LAST < chunkType) {
 				throw new IOException("Invalid chunk type (" + chunkType + ").");
 			}
 
@@ -879,7 +879,7 @@ final class IntReader {
 	}
 
 	public final int readInt(int length) throws IOException {
-		if (length < 0 || length > 4) {
+		if (length < 0 || 4 < length) {
 			throw new IllegalArgumentException();
 		}
 		int result = 0;
@@ -913,7 +913,7 @@ final class IntReader {
 	}
 
 	public final void readIntArray(int[] array, int offset, int length) throws IOException {
-		for (; length > 0; length -= 1) {
+		for (; 0 < length; length -= 1) {
 			array[offset++] = readInt();
 		}
 	}
@@ -1000,7 +1000,7 @@ final class NamespaceStack {
 		if (m_dataLength == 0 || depth < 0) {
 			return 0;
 		}
-		if (depth > m_depth) {
+		if (m_depth < depth) {
 			depth = m_depth;
 		}
 		int accumulatedCount = 0;
@@ -1120,7 +1120,7 @@ final class NamespaceStack {
 
 	private void ensureDataCapacity(int capacity) {
 		int available = (m_data.length - m_dataLength);
-		if (available > capacity) {
+		if (capacity < available) {
 			return;
 		}
 		int newLength = (m_data.length + available) * 2;
@@ -1272,7 +1272,7 @@ class StringBlock {
 				if (style[j + 1] == -1) {
 					continue;
 				}
-				if (i == -1 || style[i + 1] > style[j + 1]) {
+				if (i == -1 || style[j + 1] < style[i + 1]) {
 					i = j;
 				}
 			}

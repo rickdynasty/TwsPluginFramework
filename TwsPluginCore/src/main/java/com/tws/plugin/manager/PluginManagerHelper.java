@@ -4,7 +4,6 @@ import android.content.ContentResolver;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Looper;
 import android.text.TextUtils;
 
 import com.tws.plugin.content.PluginDescriptor;

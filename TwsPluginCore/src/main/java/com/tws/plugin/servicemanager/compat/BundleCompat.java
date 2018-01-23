@@ -43,7 +43,7 @@ public class BundleCompat {
             ArrayMap<String, Object> mMap = (ArrayMap<String, Object>) RefIectUtil.getFieldObject(bundle, Bundle.class, "mMap");
             mMap.put(key, value);
 
-        } else if(Build.VERSION.SDK_INT > 19) {
+        } else if(19 < Build.VERSION.SDK_INT) {
 
             RefIectUtil.invokeMethod(bundle, android.os.BaseBundle.class, "unparcel", (Class[])null, (Object[])null);
             ArrayMap<String, Object> mMap = (ArrayMap<String, Object>) RefIectUtil.getFieldObject(bundle, android.os.BaseBundle.class, "mMap");

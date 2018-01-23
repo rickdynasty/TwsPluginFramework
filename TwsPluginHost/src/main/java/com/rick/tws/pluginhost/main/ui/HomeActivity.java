@@ -90,8 +90,8 @@ public class HomeActivity extends AppCompatActivity implements HomeUIProxy {
 
         // 监听插件更新
         initPluginChangedMonitor();
-        // 监听应用的安装卸载
-        initAppUpdateMonitor();
+        // mDependOnMap有数据了，就需要监听应用的安装卸载
+        // initAppUpdateMonitor();
 
         //初始化插件的显示info
         initPluginsDisplayInfo();
@@ -501,7 +501,7 @@ public class HomeActivity extends AppCompatActivity implements HomeUIProxy {
 //                    Drawable drawable = PluginManagerHelper.getPluginIcon(actionBarInfo.ab_title);
 //                    if (drawable == null) {
 //                        int resId = getResources().getIdentifier(actionBarInfo.ab_title, "drawable", getPackageName());
-//                        if (resId > 0) {
+//                        if (0 < resId) {
 //                            drawable = getResources().getDrawable(resId);
 //                        } else {
 //                            String module = DeviceModelHelper.getInstance().getDeviceModel(GoerHomeActivity.this);
@@ -595,6 +595,9 @@ public class HomeActivity extends AppCompatActivity implements HomeUIProxy {
                 }
 
                 mDependOnMap.put(packageName, pid);
+                // mDependOnMap有数据了，就需要监听应用的安装卸载
+                initAppUpdateMonitor();
+
                 QRomLog.i(TAG, "mDependOnMap put:" + packageName + " " + pid);
 
                 if (!dependOnInstalledApp(packageName)) {

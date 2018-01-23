@@ -248,7 +248,7 @@ public class PluginContextTheme extends PluginBaseContextWrapper {
 	 */
 	@Override
 	public SharedPreferences getSharedPreferences(String name, int mode) {
-		if (Build.VERSION.SDK_INT > 23) {
+		if (23 < Build.VERSION.SDK_INT) {
 			synchronized (PluginContextTheme.class) {
 				HackContextImpl impl = new HackContextImpl(getContextImpl());
 

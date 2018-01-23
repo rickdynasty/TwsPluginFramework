@@ -85,7 +85,7 @@ public class HackContextImpl {
 	}
 
 	public void setOpPackageName(Object value) {
-		if (Build.VERSION.SDK_INT > 18) {
+		if (18 < Build.VERSION.SDK_INT) {
 			RefInvoker.setField(instance, ClassName, Field_mOpPackageName, value);
 		}
 	}

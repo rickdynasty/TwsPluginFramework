@@ -147,7 +147,7 @@ public class PluginContentProvider extends ContentProvider {
 
 		SQLiteDatabase db = mOpenHelper.getWritableDatabase();
 		long rowId = db.insert(TABLE_NAME, nullColumnHack, values);
-		if (rowId > 0) {
+		if (0 < rowId) {
 			Uri returnUri = ContentUris.withAppendedId(uri, rowId);
 			getContext().getContentResolver().notifyChange(returnUri, null);
 			return returnUri;

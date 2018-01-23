@@ -367,7 +367,7 @@ public class PluginIntentFilter implements Serializable {
         throws MalformedMimeTypeException {
         final int slashpos = type.indexOf('/');
         final int typelen = type.length();
-        if (slashpos > 0 && typelen >= slashpos+2) {
+        if (0 < slashpos && slashpos+2 <= typelen) {
             if (mDataTypes == null) mDataTypes = new ArrayList<String>();
             if (typelen == slashpos+2 && type.charAt(slashpos+1) == '*') {
                 String str = type.substring(0, slashpos);
@@ -488,7 +488,7 @@ public class PluginIntentFilter implements Serializable {
 
         public AuthorityEntry(String host, String port) {
             mOrigHost = host;
-            mWild = host.length() > 0 && host.charAt(0) == '*';
+            mWild = 0 < host.length() && host.charAt(0) == '*';
             mHost = mWild ? host.substring(1).intern() : host;
             mPort = port != null ? Integer.parseInt(port) : -1;
         }
@@ -1148,7 +1148,7 @@ public class PluginIntentFilter implements Serializable {
         }
 
         final int slashpos = type.indexOf('/');
-        if (slashpos > 0) {
+        if (0 < slashpos) {
             if (mHasPartialTypes && t.contains(type.substring(0, slashpos))) {
                 return true;
             }

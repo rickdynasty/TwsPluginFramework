@@ -35,7 +35,7 @@ public class PluginIntentResolver {
 
     public static void resolveService(Intent intent) {
         ArrayList<ComponentInfo> componentInfos = matchPluginComponents(intent, DisplayItem.TYPE_SERVICE, PluginLoader.getPackageName(intent));
-        if (componentInfos != null && componentInfos.size() > 0) {
+        if (componentInfos != null && 0 < componentInfos.size()) {
             final ComponentInfo targetComponent = componentInfos.get(0);
             String stubServiceName = PluginManagerHelper.bindStubService(targetComponent.name, targetComponent.processIndex);
             if (stubServiceName != null) {
@@ -57,7 +57,7 @@ public class PluginIntentResolver {
         ArrayList<Intent> result = new ArrayList<Intent>();
         final String packageName = PluginLoader.getPackageName(intent);
         ArrayList<ComponentInfo> componentInfos = matchPluginComponents(intent, DisplayItem.TYPE_BROADCAST, packageName);
-        if (componentInfos != null && componentInfos.size() > 0) {
+        if (componentInfos != null && 0 < componentInfos.size()) {
             for (ComponentInfo info : componentInfos) {
                 Intent newIntent = new Intent(intent);
                 newIntent.setComponent(new ComponentName(PluginLoader.getApplication().getPackageName(), PluginManagerHelper.bindStubReceiver()));
@@ -105,7 +105,7 @@ public class PluginIntentResolver {
                 if (cls != null) {
                     intent.setExtrasClassLoader(cls.getClassLoader());
                     // 由于之前intent被修改过 这里再吧Intent还原到原始的intent
-                    if (targetClassName.length > 1) {
+                    if (1 < targetClassName.length) {
                         intent.setAction(targetClassName[1]);
                     } else {
                         intent.setAction(null);
@@ -174,7 +174,7 @@ public class PluginIntentResolver {
         String packageName = PluginLoader.getPackageName(intent);
         // 如果在插件中发现Intent的匹配项，记下匹配的插件Activity的ClassName
         ArrayList<ComponentInfo> componentInfos = matchPluginComponents(intent, DisplayItem.TYPE_ACTIVITY, packageName);
-        if (componentInfos != null && componentInfos.size() > 0) {
+        if (componentInfos != null && 0 < componentInfos.size()) {
             final ComponentInfo tartgetComponent = componentInfos.get(0);
             String className = tartgetComponent.name;
             packageName = tartgetComponent.packageName; //tartgetComponent.packageName 才是最靠谱的插件包名
@@ -215,7 +215,7 @@ public class PluginIntentResolver {
             PluginDescriptor dp = PluginManagerHelper.getPluginDescriptorByPluginId(packageName);
             if (dp != null) {
                 List<ComponentInfo> list = dp.matchPluginComponents(intent, type);
-                if (list != null && list.size() > 0) {
+                if (list != null && 0 < list.size()) {
                     if (result == null) {
                         result = new ArrayList<ComponentInfo>();
                     }
@@ -226,7 +226,7 @@ public class PluginIntentResolver {
             Iterator<PluginDescriptor> itr = PluginManagerHelper.getPlugins().iterator();
             while (itr.hasNext()) {
                 List<ComponentInfo> list = itr.next().matchPluginComponents(intent, type);
-                if (list != null && list.size() > 0) {
+                if (list != null && 0 < list.size()) {
                     if (result == null) {
                         result = new ArrayList<ComponentInfo>();
                     }

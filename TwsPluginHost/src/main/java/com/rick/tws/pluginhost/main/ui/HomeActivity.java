@@ -51,18 +51,26 @@ import qrom.component.log.QRomLog;
 public class HomeActivity extends AppCompatActivity implements HomeUIProxy {
     protected final String TAG = "rick_Print:HomeActivity";
 
+    //指定map的初始化容量，有利于提高性能
+    private final int MAP_CAPACITY_DEPENDON = 2;
+    private final int MAP_CAPACITY_HOME_FRAGMENT_ITEM_NUM = 5;
+    private final int MAP_CAPACITY_HOTSEAT_ITEM_NUM = 3;
+
+    //onSaveInstanceState接口对fragment现场保存的标识，为解决单activity多fragment界面现场恢复异常【这个标识copy from system】
     protected static final String FRAGMENTS_TAG = "android:support:fragments";
-    //插件依赖的类型
+
+    //插件的依赖类型
     private final int DEPEND_ON_APPLICATION = 1;
     private final int DEPEND_ON_PLUGIN = 2;
-    private HashMap<String, String> mDependOnMap = new HashMap<String, String>();
+
+    private HashMap<String, String> mDependOnMap = new HashMap<String, String>(MAP_CAPACITY_DEPENDON);
 
     private HomeFragment mHomeFragment = null;
+    private ArrayList<HostDisplayItem> mHomeFragementDisplayInfos = new ArrayList<>(MAP_CAPACITY_HOME_FRAGMENT_ITEM_NUM);
 
     protected Hotseat mHotseat;
     private Hotseat.OnHotseatClickListener mHotseatClickCallback;
-    private ArrayList<HostDisplayItem> mHotseatDisplayInfos = new ArrayList<>();
-    private ArrayList<HostDisplayItem> mHomeFragementDisplayInfos = new ArrayList<>(); // myWatchfaceFragment
+    private ArrayList<HostDisplayItem> mHotseatDisplayInfos = new ArrayList<>(MAP_CAPACITY_HOTSEAT_ITEM_NUM);
 
     protected int mNormalTextColor;
     protected int mFocusTextColor;
@@ -73,7 +81,7 @@ public class HomeActivity extends AppCompatActivity implements HomeUIProxy {
     private BroadcastReceiver mAppUpdateReceiver = null;
 
     //首页tab fragment缓存
-    private HashMap<String, Fragment> mHotseatFragmentsCache = new HashMap<>(3);
+    private HashMap<String, Fragment> mHotseatFragmentsCache = new HashMap<>(MAP_CAPACITY_HOTSEAT_ITEM_NUM);
     //需要记切换前的tagIndex,方便隐藏之前的然后显示新的
     private String mSaveClassId = "";
 

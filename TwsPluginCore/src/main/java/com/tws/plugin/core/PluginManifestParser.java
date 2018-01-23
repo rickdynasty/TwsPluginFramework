@@ -349,7 +349,7 @@ public class PluginManifestParser {
                             } else { //注意这里插件指定了service为独立进程
                                 processIndex = ProcessUtil.PLUGIN_PROCESS_INDEX_CUSTOMIZE;
                             }
-                            
+
                             serviceInfo.setServiceName(name);
                             serviceInfo.setProcessName(process);
                             serviceInfo.setProcessIndex(processIndex);

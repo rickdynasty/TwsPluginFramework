@@ -32,46 +32,31 @@ public class ProcessUtil {
     private static Boolean isHostProcess = null;
     private static String hostProcessName = null;
     private static String masterProcessName = null;
-    //private static String minorProcessName = null;
+    private static String minorProcessName = null;
 
-    public static String getHostProcessName() {
+    public static void initProcessName(Context context) {
         if (TextUtils.isEmpty(hostProcessName)) {
-            hostProcessName = PluginApplication.getInstance().getPackageName();
-        }
+            try {
+                // 先查询ContentProvider的信息中包含的processName,因为Contentprovider是运行在宿主进程.但是这个api只支持9及以上,
+                ProviderInfo pinfo = context.getPackageManager().getProviderInfo(new ComponentName(context, PluginManagerProvider.class), 0);
+                hostProcessName = pinfo.processName;
+            } catch (PackageManager.NameNotFoundException e) {
+                e.printStackTrace();
+            }
 
-        return hostProcessName;
-    }
+            //上面如果获取异常，才使用包名作为宿主进程名【这样可以排除宿主指定了进程名的问题】
+            if (TextUtils.isEmpty(hostProcessName)) {
+                hostProcessName = PluginApplication.getInstance().getPackageName();
+            }
 
-    //插件master进程
-    public static String getPluginMasterProcessName() {
-        if (TextUtils.isEmpty(masterProcessName)) {
-            return getHostProcessName() + PLUGIN_MASTER_PROCESS_SUFFIX;
-        } else {
-            return masterProcessName;
-        }
-    }
-
-    //插件minor进程
-    public static String getPluginMinorProcessName() {
-        return getHostProcessName() + PLUGIN_MINOR_PROCESS_SUFFIX;
-    }
-
-    public static String getProcessNameByIndex(int processIndex) {
-        switch (processIndex) {
-            case PLUGIN_PROCESS_INDEX_HOST:
-                return getHostProcessName();
-            case PLUGIN_PROCESS_INDEX_MASTER:
-                return getPluginMasterProcessName();
-            case PLUGIN_PROCESS_INDEX_MINOR:
-                return getPluginMinorProcessName();
-            default: //自定义进程 有组件自己申明指定
-                return null;
+            //注意这里需要和AndroidManifest.xml保持一致
+            masterProcessName = hostProcessName + PLUGIN_MASTER_PROCESS_SUFFIX;
+            minorProcessName = hostProcessName + PLUGIN_MINOR_PROCESS_SUFFIX;
         }
     }
 
-    public static boolean isPluginProcess(Context context) {
-        ensure(context);
-        return isPluginProcess;
+    public static boolean isHostProcess() {
+        return isHostProcess(PluginLoader.getApplication());
     }
 
     public static boolean isHostProcess(Context context) {
@@ -79,32 +64,43 @@ public class ProcessUtil {
         return isHostProcess;
     }
 
-    private static void ensure(Context context) {
-        // 注意：当前宿主和插件是一个进程
-        if (isPluginProcess == null) {
-            final String hostProcessName = PluginApplication.getInstance().getPackageName();  //rick_Note：注意这里使用了系统默认的方式指定进程，如果自己指定了主进程的名称需要做处理
-            final String pluginMasterProcessName = getPluginMasterProcessName(context);
-            final String pluginMinorProcessName = getPluginMinorProcessName();
-
-            String processName = getCurProcessName(context);
-
-            isHostProcess = hostProcessName.equals(processName);
-            // 这是一个潜规则，插件的进程除PluginManagerProvider的标配外，其他的都统一规定前缀："HostPackageName:plugin"+"编号";
-            //rick_Note:这里是否要 ‘||’ isHostProcess，是有争议的，原则上是 存在运行在宿主中的插件才需要，不过这里做成多进程管理，宿主有需要知道哪些插件安装了，这样就需要这个操作
-            isPluginProcess = isHostProcess || pluginMasterProcessName.equals(processName) || pluginMinorProcessName.equals(processName)
-                    || processName.startsWith(PluginApplication.getInstance().getPackageName() + PLUGIN_MULTI_PROCESS_SUFFIX); // 注意这里不能用PluginLoader的Application
-        }
-    }
-
     public static boolean isPluginProcess() {
         return isPluginProcess(PluginLoader.getApplication());
     }
 
-    public static boolean isHostProcess() {
-        return isHostProcess(PluginLoader.getApplication());
+    public static boolean isPluginProcess(Context context) {
+        ensure(context);
+        return isPluginProcess;
     }
 
-    public static String getCurProcessName(Context context) {
+    private static void ensure(Context context) {
+        // 注意：当前宿主和插件是一个进程
+        if (isPluginProcess == null) {
+            String processName = getCurProcessName(context);
+            initProcessName(context);
+
+            isHostProcess = hostProcessName.equals(processName);
+            // 这是一个潜规则，插件的进程命名是有严格规范的，统一是主进程+一个后缀组成，而且必须由AndroidManifest.xml配合一起
+            //rick_Note:这里是否要 ‘||’ isHostProcess，是有争议的，原则上是 存在运行在宿主中的插件才需要，不过这里做成多进程管理，宿主有需要知道哪些插件安装了，这样就需要这个操作
+            isPluginProcess = isHostProcess || masterProcessName.equals(processName) || minorProcessName.equals(processName)
+                    || processName.startsWith(hostProcessName + PLUGIN_MULTI_PROCESS_SUFFIX);
+        }
+    }
+
+    public static String getProcessNameByIndex(int processIndex) {
+        switch (processIndex) {
+            case PLUGIN_PROCESS_INDEX_HOST:
+                return hostProcessName;
+            case PLUGIN_PROCESS_INDEX_MASTER:
+                return masterProcessName;
+            case PLUGIN_PROCESS_INDEX_MINOR:
+                return minorProcessName;
+            default: //自定义进程 有组件自己申明指定
+                return null;
+        }
+    }
+
+    private static String getCurProcessName(Context context) {
         final int pid = android.os.Process.myPid();
         QRomLog.i(TAG, "getCurProcessName pid=" + pid);
         ActivityManager activityManager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
@@ -117,17 +113,7 @@ public class ProcessUtil {
         return "";
     }
 
-    public static String getPluginMasterProcessName(Context context) {
-        try {
-            // 这里取个巧, 直接查询ContentProvider的信息中包含的processName,因为Contentprovider是被配置为插件pmaster进程.但是这个api只支持9及以上,
-            ProviderInfo pinfo = context.getPackageManager().getProviderInfo(new ComponentName(context, PluginManagerProvider.class), 0);
-            masterProcessName = pinfo.processName;
-            return masterProcessName;
-        } catch (PackageManager.NameNotFoundException e) {
-            e.printStackTrace();
-        }
-
-        //:pmaster
-        return PluginApplication.getInstance().getPackageName() + PLUGIN_MASTER_PROCESS_SUFFIX;
+    public static String getHostProcessName() {
+        return hostProcessName;
     }
 }

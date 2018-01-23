@@ -9,7 +9,7 @@
         android:layout_height="fill_parent"
         android:background="@color/tws_view_bg"
         android:orientation="vertical"
-        android:padding="16dp" >
+        android:padding="26dp" >
 
         <Button
             android:id="@+id/send_notification"

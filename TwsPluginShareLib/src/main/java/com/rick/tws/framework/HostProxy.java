@@ -56,18 +56,20 @@ public class HostProxy {
         return id;
     }
 
+    private static int cStatusBarHeight = 0;
     public static int getStatusBarHeight() {
-        int result = 0;
-        int resourceId = getApplication().getResources().getIdentifier("status_bar_height", "dimen", "android");
-        if (0 < resourceId) {
-            result = getApplication().getResources().getDimensionPixelSize(resourceId);
+        if (0 == cStatusBarHeight) {
+            int resourceId = getApplication().getResources().getIdentifier("status_bar_height", "dimen", "android");
+            if (0 < resourceId) {
+                cStatusBarHeight = getApplication().getResources().getDimensionPixelSize(resourceId);
+            }
+
+            if (cStatusBarHeight < 10) {
+                cStatusBarHeight = 0;
+            }
         }
 
-        if (result < 2) {
-            result = (int) getApplication().getResources().getDimension(R.dimen.status_bar_height);
-        }
-
-        return result;
+        return 0 < cStatusBarHeight ? cStatusBarHeight : (int) getApplication().getResources().getDimension(R.dimen.status_bar_height);
     }
 
     /**

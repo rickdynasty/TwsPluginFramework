@@ -5,6 +5,10 @@
     android:background="@color/tws_view_bg"
     android:orientation="vertical">
 
+    <android.support.v4.widget.Space
+        android:layout_width="match_parent"
+        android:layout_height="26dp" />
+
     <RelativeLayout
         android:id="@+id/about_watch_assistant_privacy_layout"
         android:layout_width="match_parent"
@@ -54,7 +58,6 @@
     </RelativeLayout>
 
     <TextView
-        android:id="@+id/debug_trapdoor"
         android:layout_width="match_parent"
         android:layout_height="@dimen/about_watch_assistant_top_divider"
         android:background="@color/tws_stipple" />

@@ -1,6 +1,5 @@
 package com.rick.tws.pluginhost.main.ui;
 
-import android.app.ActionBar;
 import android.app.ActivityManager;
 import android.content.Intent;
 import android.os.Bundle;
@@ -40,7 +39,12 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
 
     private void initActionBar() {
         AnimatedToolbar toolbar = (AnimatedToolbar) findViewById(R.id.toolbar);
+        toolbar.setNavigationIcon(toolbar.getBackDrawable());
         setSupportActionBar(toolbar);
+
+        //注意这里不能直接用setTitle()【这个接口获取的是v7默认的Toolbar】，
+        // 这里只能通过getSupportActionBar接口获取上面set的toolbar来执行【确实有点绕】
+        getSupportActionBar().setTitle(R.string.settings);
     }
 
     @Override

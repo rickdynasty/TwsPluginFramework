@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<com.rick.tws.widget.AnimatedToolbar
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<com.rick.tws.widget.AnimatedToolbar xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/toolbar"
     android:layout_width="match_parent"
@@ -14,15 +13,17 @@
         android:id="@+id/toolbar_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"/>
+        android:layout_gravity="center"
+        android:textColor="@color/tws_black"
+        android:textSize="@dimen/tws_larger_textSize" />
 
     <TextView
         android:id="@+id/toolbar_action"
-        android:visibility="gone"
-        android:paddingRight="20dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical|right"
-        android:textSize="14dp"/>
+        android:paddingRight="20dp"
+        android:textSize="@dimen/tws_small_textSize"
+        android:visibility="gone" />
 
 </com.rick.tws.widget.AnimatedToolbar>

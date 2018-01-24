@@ -1,5 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- text size -->
+    <dimen name="tws_superlargerbiger_textSize">80sp</dimen>
+    <dimen name="tws_superbiger_textSize">36sp</dimen>
+    <dimen name="tws_superbig_textSize">28sp</dimen>
+    <dimen name="tws_super_textSize">24sp</dimen>
+    <dimen name="tws_larger_textSize">20sp</dimen>
+    <dimen name="tws_medium_textSize">16sp</dimen>
+    <dimen name="tws_small_textSize">14sp</dimen>
+    <dimen name="tws_micro_textSize">12sp</dimen>
+    <dimen name="tws_mini_textSize">10sp</dimen>
+
     <dimen name="toolbarHeight">56dp</dimen>
 
     <dimen name="share_dimen_1">50dp</dimen>

@@ -13,6 +13,7 @@ import android.view.View.OnClickListener;
 
 import com.rick.tws.framework.HostProxy;
 import com.rick.tws.pluginhost.R;
+import com.rick.tws.widget.AnimatedToolbar;
 
 public class MessageManagerActivity extends AppCompatActivity implements OnClickListener {
 
@@ -21,7 +22,19 @@ public class MessageManagerActivity extends AppCompatActivity implements OnClick
 		super.onCreate(savedInstanceState);
 		
 		setContentView(R.layout.activity_message_manager);
+		initActionBar();
+
 		findViewById(R.id.send_notification).setOnClickListener(this);
+	}
+
+	private void initActionBar() {
+		AnimatedToolbar toolbar = (AnimatedToolbar) findViewById(R.id.toolbar);
+		toolbar.setNavigationIcon(toolbar.getBackDrawable());
+		setSupportActionBar(toolbar);
+
+		//注意这里不能直接用setTitle()【这个接口获取的是v7默认的Toolbar】，
+		// 这里只能通过getSupportActionBar接口获取上面set的toolbar来执行【确实有点绕】
+		getSupportActionBar().setTitle(R.string.message_mgr);
 	}
 
 	@Override

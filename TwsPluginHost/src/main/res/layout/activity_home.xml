@@ -15,6 +15,10 @@
         android:id="@+id/home_fragment_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@id/home_bottom_tab"/>
+        android:layout_above="@id/home_bottom_tab" />
+
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar" />
 
 </RelativeLayout>

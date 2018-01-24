@@ -18,6 +18,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.view.View;
 import android.widget.Toast;
 
 import com.rick.tws.framework.HomeUIProxy;
@@ -29,6 +30,7 @@ import com.rick.tws.pluginhost.main.content.HostDisplayItem;
 import com.rick.tws.pluginhost.main.ui.fragment.HomeFragment;
 import com.rick.tws.pluginhost.main.ui.fragment.ToastFragment;
 import com.rick.tws.pluginhost.main.widget.Hotseat;
+import com.rick.tws.widget.AnimatedToolbar;
 import com.tws.plugin.content.DisplayItem;
 import com.tws.plugin.content.LoadedPlugin;
 import com.tws.plugin.content.PluginDescriptor;
@@ -89,6 +91,7 @@ public class HomeActivity extends AppCompatActivity implements HomeUIProxy {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+        initActionBar();
 
         mHotseat = (Hotseat) findViewById(R.id.home_bottom_tab);
         initHotseatClickListener();
@@ -113,6 +116,11 @@ public class HomeActivity extends AppCompatActivity implements HomeUIProxy {
         // 默认聚焦位置
         final int fouceIndex = mHotseat.getPosByClassId(((HostApplication) HostApplication.getInstance()).getFouceTabClassId());
         switchFragment(mHotseat.setFocusIndex(fouceIndex), false);
+    }
+
+    private void initActionBar() {
+        AnimatedToolbar toolbar = (AnimatedToolbar) findViewById(R.id.toolbar);
+        toolbar.setVisibility(View.GONE);
     }
 
     private void initPluginChangedMonitor() {

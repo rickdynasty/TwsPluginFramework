@@ -9,6 +9,7 @@ import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.widget.TextView;
 
+import com.rick.tws.framework.HostProxy;
 import com.rick.tws.sharelib.R;
 
 public class AnimatedToolbar extends Toolbar {
@@ -49,6 +50,7 @@ public class AnimatedToolbar extends Toolbar {
                 ANIMATION_FINISHED_OFFSET_DP, getResources()
                         .getDisplayMetrics());
         mBackDrawable = ContextCompat.getDrawable(mContext, R.mipmap.ic_back_arrow_white);
+        setPadding(0, HostProxy.getStatusBarHeight(), 0, 0);
     }
 
     public void refreshToolbar(int scrollOffset) {

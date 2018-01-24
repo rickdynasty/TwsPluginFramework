@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import com.rick.tws.pluginhost.R;
 import com.rick.tws.pluginhost.debug.DebugPluginActivity;
+import com.rick.tws.widget.AnimatedToolbar;
 
 public class SettingsActivity extends AppCompatActivity implements OnClickListener {
 
@@ -21,9 +22,9 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_sttings);
         initActionBar();
 
-        setContentView(R.layout.activity_sttings);
         mPrivacyLayout = (RelativeLayout) findViewById(R.id.about_watch_assistant_privacy_layout);
         mAccountLogout = findViewById(R.id.settings_account_logout_btn);
         mDebugPluginFramework = (RelativeLayout) findViewById(R.id.debug_plugin_framework);
@@ -38,14 +39,8 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
     }
 
     private void initActionBar() {
-        ActionBar actionBar = getActionBar();
-        if (null != actionBar) {
-            actionBar.show();
-            actionBar.setTitle(getResources().getString(R.string.activity_settings_title));
-            actionBar.setStackedBackgroundDrawable(getResources().getDrawable(R.mipmap.ab_solid_light_holo_opacity));
-        } else {
-            setTitle(getResources().getString(R.string.activity_settings_title));
-        }
+        AnimatedToolbar toolbar = (AnimatedToolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
     }
 
     @Override

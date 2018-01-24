@@ -5,9 +5,9 @@
     android:background="@color/tws_view_bg"
     android:orientation="vertical">
 
-    <android.support.v4.widget.Space
-        android:layout_width="match_parent"
-        android:layout_height="26dp" />
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar"/>
 
     <RelativeLayout
         android:id="@+id/about_watch_assistant_privacy_layout"

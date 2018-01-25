@@ -4,7 +4,6 @@ import android.content.Context;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.widget.TintTypedArray;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.AttributeSet;
@@ -14,9 +13,9 @@ import android.widget.TextView;
 import com.rick.tws.framework.HostProxy;
 import com.rick.tws.sharelib.R;
 
-public class AnimatedToolbar extends Toolbar {
+public class TwsToolbar extends Toolbar {
 
-    private static final String TAG = AnimatedToolbar.class.getSimpleName();
+    private static final String TAG = TwsToolbar.class.getSimpleName();
 
     // This means that RecyclerViews in the app that doesn't have setHasFixedSize(true)
     // has to have a minimum height on the top View of 40dp
@@ -32,19 +31,19 @@ public class AnimatedToolbar extends Toolbar {
 
     private TextView mToolbarAction;
 
-    public AnimatedToolbar(Context context) {
+    public TwsToolbar(Context context) {
         super(context);
         mContext = context;
         init();
     }
 
-    public AnimatedToolbar(Context context, AttributeSet attrs) {
+    public TwsToolbar(Context context, AttributeSet attrs) {
         super(context, attrs);
         mContext = context;
         init();
     }
 
-    public AnimatedToolbar(Context context, AttributeSet attrs, int defStyle) {
+    public TwsToolbar(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         mContext = context;
         init();

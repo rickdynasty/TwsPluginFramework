@@ -1,9 +1,9 @@
 package com.rick.tws.pluginhost.main.ui;
 
 import android.app.ActivityManager;
+import android.app.TwsActivity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.RelativeLayout;
@@ -11,9 +11,8 @@ import android.widget.Toast;
 
 import com.rick.tws.pluginhost.R;
 import com.rick.tws.pluginhost.debug.DebugPluginActivity;
-import com.rick.tws.widget.AnimatedToolbar;
 
-public class SettingsActivity extends AppCompatActivity implements OnClickListener {
+public class SettingsActivity extends TwsActivity implements OnClickListener {
 
     private RelativeLayout mPrivacyLayout, mDebugPluginFramework;
     private View mAccountLogout;
@@ -22,7 +21,8 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sttings);
-        initActionBar();
+        initTwsActionBar(true);
+        setTitle(R.string.settings);
 
         mPrivacyLayout = (RelativeLayout) findViewById(R.id.about_watch_assistant_privacy_layout);
         mAccountLogout = findViewById(R.id.settings_account_logout_btn);
@@ -35,16 +35,6 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
         mDebugPluginFramework.setOnClickListener(this);
         mPrivacyLayout.setOnClickListener(this);
         mAccountLogout.setOnClickListener(this);
-    }
-
-    private void initActionBar() {
-        AnimatedToolbar toolbar = (AnimatedToolbar) findViewById(R.id.toolbar);
-        toolbar.setNavigationIcon(toolbar.getBackDrawable());
-        setSupportActionBar(toolbar);
-
-        //注意这里不能直接用setTitle()【这个接口获取的是v7默认的Toolbar】，
-        // 这里只能通过getSupportActionBar接口获取上面set的toolbar来执行【确实有点绕】
-        getSupportActionBar().setTitle(R.string.settings);
     }
 
     @Override

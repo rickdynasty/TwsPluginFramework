@@ -1,4 +1,4 @@
-package com.rick.tws.app;
+package android.app;
 
 import android.content.Context;
 import android.content.Intent;
@@ -16,23 +16,21 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.rick.tws.sharelib.R;
-import com.rick.tws.widget.AnimatedToolbar;
+import com.rick.tws.widget.TwsToolbar;
 
-/**
- * Created by Administrator on 2018/1/14 0014.
- */
+import qrom.component.log.QRomLog;
 
-public class BaseFragment extends Fragment {
-    private static final String TAG = BaseFragment.class.getSimpleName();
+public class TwsFragment extends Fragment {
+    private static final String TAG = TwsFragment.class.getSimpleName();
 
-    protected AnimatedToolbar mToolbar;
+    protected TwsToolbar mToolbar;
     private ViewTreeObserver.OnScrollChangedListener mScrollChangedListener;
 
     /* Android restores scroll position after resume and don't report it back in view tree observer, hence
     * we need this to keep track of it by ourselves.*/
     private int mSavedScrollOffset;
 
-    public BaseFragment() {
+    public TwsFragment() {
     }
 
     @Override
@@ -110,8 +108,7 @@ public class BaseFragment extends Fragment {
     }
 
     protected Drawable getToolbarBackDrawable() {
-        // use default back drawable, sub classes can override if needed
-        return null;
+        return null == mToolbar ? null : mToolbar.getBackDrawable();
     }
 
     @Override
@@ -119,17 +116,13 @@ public class BaseFragment extends Fragment {
         getActivity().startActivityForResult(intent, requestCode);
     }
 
-//    public void setBasePresenter(final BasePresenter basePresenter) {
-//        mBasePresenter = basePresenter;
-//    }
-
-    protected boolean accessEvenIfDisconnected() {
-        return false;
-    }
-
     private void setupToolbar(final View view) {
-        mToolbar = (AnimatedToolbar) view.findViewById(R.id.toolbar);
+        //当前这个接口只支持AppCompatActivity
+        if (!(getActivity() instanceof AppCompatActivity)) {
+            return;
+        }
 
+        mToolbar = (TwsToolbar) view.findViewById(R.id.toolbar);
         final AppCompatActivity activity = (AppCompatActivity) getActivity();
         activity.setSupportActionBar(mToolbar);
         final ActionBar supportActionBar = activity.getSupportActionBar();
@@ -140,9 +133,9 @@ public class BaseFragment extends Fragment {
             }
             supportActionBar.setHomeAsUpIndicator(mToolbar.getBackDrawable());
             supportActionBar.setDisplayShowTitleEnabled(false);
-            //supportActionBar.setDisplayHomeAsUpEnabled(RemoteConfigController.getInstance(KronabyApplication.getContext()).getAppToolBarBackButtonEnable());
+            supportActionBar.setDisplayHomeAsUpEnabled(false);
         } else {
-            Log.i(TAG, "setupToolbar: no support toolbar available");
+            QRomLog.i(TAG, "setupToolbar: no support toolbar available");
         }
 
         final TextView toolbarTitle = (TextView) view.findViewById(R.id.toolbar_title);
@@ -150,6 +143,12 @@ public class BaseFragment extends Fragment {
             toolbarTitle.setText(getFeaturePathName());
         } else {
             Log.i(TAG, "setupToolbar: no toolbar title available");
+        }
+    }
+
+    public void setNavigationOnClickListener(View.OnClickListener listener) {
+        if (null != mToolbar) {
+            mToolbar.setNavigationOnClickListener(listener);
         }
     }
 
@@ -169,11 +168,12 @@ public class BaseFragment extends Fragment {
         if (context == null) {
             return 0;
         }
+
         TypedValue tv = new TypedValue();
         if (context.getTheme().resolveAttribute(android.R.attr.actionBarSize, tv, true)) {
-            return TypedValue.complexToDimensionPixelSize(tv.data,
-                    getResources().getDisplayMetrics());
+            return TypedValue.complexToDimensionPixelSize(tv.data, getResources().getDisplayMetrics());
         }
+
         return 0;
     }
 }

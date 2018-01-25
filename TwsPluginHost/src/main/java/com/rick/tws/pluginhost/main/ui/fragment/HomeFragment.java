@@ -1,11 +1,12 @@
 package com.rick.tws.pluginhost.main.ui.fragment;
 
 import android.annotation.SuppressLint;
+import android.app.TwsFragment;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
+import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
@@ -35,7 +36,7 @@ import java.util.Locale;
 import qrom.component.log.QRomLog;
 
 @SuppressLint("ValidFragment")
-public class HomeFragment extends Fragment implements OnClickListener {
+public class HomeFragment extends TwsFragment implements OnClickListener {
     private static final String TAG = "rick_Print:HomeFragment";
 
     private static final int FIX_LOCATION_BEGIN = 99;
@@ -80,6 +81,17 @@ public class HomeFragment extends Fragment implements OnClickListener {
         initView(rootView);
 
         return rootView;
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        setToolbarTextAndActionColor(R.color.tws_black);
+    }
+
+    @Override
+    public String getFeaturePathName() {
+        return "HomeFragment";
     }
 
     @Override
@@ -183,7 +195,7 @@ public class HomeFragment extends Fragment implements OnClickListener {
         mWatchInfoLayout = (RelativeLayout) rootView.findViewById(R.id.my_watch_revision_watch_info_layout);
 
         final int statusBarH = HostProxy.getStatusBarHeight();
-        mWatchInfoLayout.setPadding(0,statusBarH,0,0);
+        mWatchInfoLayout.setPadding(0, statusBarH, 0, 0);
 //        boolean hasOverlayActionbar = getActivity().getWindow().hasFeature(Window.FEATURE_ACTION_BAR_OVERLAY);
 //        if (hasOverlayActionbar) {
 //            int top = (int) getResources().getDimension(R.dimen.tws_action_bar_height);

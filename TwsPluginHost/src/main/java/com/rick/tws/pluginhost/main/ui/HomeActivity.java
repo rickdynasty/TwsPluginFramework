@@ -30,7 +30,7 @@ import com.rick.tws.pluginhost.main.content.HostDisplayItem;
 import com.rick.tws.pluginhost.main.ui.fragment.HomeFragment;
 import com.rick.tws.pluginhost.main.ui.fragment.ToastFragment;
 import com.rick.tws.pluginhost.main.widget.Hotseat;
-import com.rick.tws.widget.AnimatedToolbar;
+import com.rick.tws.widget.TwsToolbar;
 import com.tws.plugin.content.DisplayItem;
 import com.tws.plugin.content.LoadedPlugin;
 import com.tws.plugin.content.PluginDescriptor;
@@ -119,7 +119,7 @@ public class HomeActivity extends AppCompatActivity implements HomeUIProxy {
     }
 
     private void initActionBar() {
-        AnimatedToolbar toolbar = (AnimatedToolbar) findViewById(R.id.toolbar);
+        TwsToolbar toolbar = (TwsToolbar) findViewById(R.id.toolbar);
         toolbar.setVisibility(View.GONE);
     }
 

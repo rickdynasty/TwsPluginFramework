@@ -18,7 +18,7 @@
         <!-- core need-->
         <provider
             android:name="com.tws.plugin.manager.PluginManagerProvider"
-            android:authorities="com.rick.tws.pluginhost.manager"
+            android:authorities="${applicationId}.manager"
             android:exported="false"
             android:process=":pmaster" />
 
@@ -27,7 +27,7 @@
             android:name="${applicationId}.stub.PluginStubReceiver"
             android:exported="true">
             <intent-filter>
-                <action android:name="com.rick.tws.pluginhost.STUB_DEFAULT" />
+                <action android:name="${applicationId}.STUB_DEFAULT" />
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
@@ -89,55 +89,55 @@
         <!-- service 组件申明 -->
         <service android:name="${applicationId}.stub.PluginHostService1">
             <intent-filter>
-                <action android:name="com.rick.tws.pluginhost.STUB_DEFAULT" />
+                <action android:name="${applicationId}.STUB_DEFAULT" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </service>
         <service android:name="${applicationId}.stub.PluginHostService2">
             <intent-filter>
-                <action android:name="com.rick.tws.pluginhost.STUB_DEFAULT" />
+                <action android:name="${applicationId}.STUB_DEFAULT" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </service>
         <service android:name="${applicationId}.stub.PluginHostService3">
             <intent-filter>
-                <action android:name="com.rick.tws.pluginhost.STUB_DEFAULT" />
+                <action android:name="${applicationId}.STUB_DEFAULT" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </service>
         <service android:name="${applicationId}.stub.PluginHostService4">
             <intent-filter>
-                <action android:name="com.rick.tws.pluginhost.STUB_DEFAULT" />
+                <action android:name="${applicationId}.STUB_DEFAULT" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </service>
         <service android:name="${applicationId}.stub.PluginHostService5">
             <intent-filter>
-                <action android:name="com.rick.tws.pluginhost.STUB_DEFAULT" />
+                <action android:name="${applicationId}.STUB_DEFAULT" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </service>
         <service android:name="${applicationId}.stub.PluginHostService6">
             <intent-filter>
-                <action android:name="com.rick.tws.pluginhost.STUB_DEFAULT" />
+                <action android:name="${applicationId}.STUB_DEFAULT" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </service>
         <service android:name="${applicationId}.stub.PluginHostService7">
             <intent-filter>
-                <action android:name="com.rick.tws.pluginhost.STUB_DEFAULT" />
+                <action android:name="${applicationId}.STUB_DEFAULT" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </service>
         <service android:name="${applicationId}.stub.PluginHostService8">
             <intent-filter>
-                <action android:name="com.rick.tws.pluginhost.STUB_DEFAULT" />
+                <action android:name="${applicationId}.STUB_DEFAULT" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </service>
         <service android:name="${applicationId}.stub.PluginHostService9">
             <intent-filter>
-                <action android:name="com.rick.tws.pluginhost.STUB_DEFAULT" />
+                <action android:name="${applicationId}.STUB_DEFAULT" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </service>
@@ -149,7 +149,7 @@
             android:exported="true"
             android:screenOrientation="portrait">
             <intent-filter>
-                <action android:name="com.rick.tws.pluginhost.STUB_DEFAULT" />
+                <action android:name="${applicationId}.STUB_DEFAULT" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
@@ -161,7 +161,7 @@
             android:launchMode="singleTop"
             android:screenOrientation="portrait">
             <intent-filter>
-                <action android:name="com.rick.tws.pluginhost.STUB_DEFAULT" />
+                <action android:name="${applicationId}.STUB_DEFAULT" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
@@ -171,7 +171,7 @@
             android:launchMode="singleTop"
             android:screenOrientation="portrait">
             <intent-filter>
-                <action android:name="com.rick.tws.pluginhost.STUB_DEFAULT" />
+                <action android:name="${applicationId}.STUB_DEFAULT" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
@@ -181,7 +181,7 @@
             android:launchMode="singleTop"
             android:screenOrientation="portrait">
             <intent-filter>
-                <action android:name="com.rick.tws.pluginhost.STUB_DEFAULT" />
+                <action android:name="${applicationId}.STUB_DEFAULT" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
@@ -191,7 +191,7 @@
             android:launchMode="singleTop"
             android:screenOrientation="portrait">
             <intent-filter>
-                <action android:name="com.rick.tws.pluginhost.STUB_DEFAULT" />
+                <action android:name="${applicationId}.STUB_DEFAULT" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
@@ -203,7 +203,7 @@
             android:launchMode="singleTask"
             android:screenOrientation="portrait">
             <intent-filter>
-                <action android:name="com.rick.tws.pluginhost.STUB_DEFAULT" />
+                <action android:name="${applicationId}.STUB_DEFAULT" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
@@ -213,7 +213,7 @@
             android:launchMode="singleTask"
             android:screenOrientation="portrait">
             <intent-filter>
-                <action android:name="com.rick.tws.pluginhost.STUB_DEFAULT" />
+                <action android:name="${applicationId}.STUB_DEFAULT" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
@@ -223,7 +223,7 @@
             android:launchMode="singleTask"
             android:screenOrientation="portrait">
             <intent-filter>
-                <action android:name="com.rick.tws.pluginhost.STUB_DEFAULT" />
+                <action android:name="${applicationId}.STUB_DEFAULT" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
@@ -233,7 +233,7 @@
             android:launchMode="singleTask"
             android:screenOrientation="portrait">
             <intent-filter>
-                <action android:name="com.rick.tws.pluginhost.STUB_DEFAULT" />
+                <action android:name="${applicationId}.STUB_DEFAULT" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
@@ -245,7 +245,7 @@
             android:launchMode="singleInstance"
             android:screenOrientation="portrait">
             <intent-filter>
-                <action android:name="com.rick.tws.pluginhost.STUB_DEFAULT" />
+                <action android:name="${applicationId}.STUB_DEFAULT" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
@@ -255,7 +255,7 @@
             android:launchMode="singleInstance"
             android:screenOrientation="portrait">
             <intent-filter>
-                <action android:name="com.rick.tws.pluginhost.STUB_DEFAULT" />
+                <action android:name="${applicationId}.STUB_DEFAULT" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
@@ -265,7 +265,7 @@
             android:launchMode="singleInstance"
             android:screenOrientation="portrait">
             <intent-filter>
-                <action android:name="com.rick.tws.pluginhost.STUB_DEFAULT" />
+                <action android:name="${applicationId}.STUB_DEFAULT" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
@@ -275,7 +275,7 @@
             android:launchMode="singleInstance"
             android:screenOrientation="portrait">
             <intent-filter>
-                <action android:name="com.rick.tws.pluginhost.STUB_DEFAULT" />
+                <action android:name="${applicationId}.STUB_DEFAULT" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
@@ -285,7 +285,7 @@
             android:launchMode="singleInstance"
             android:screenOrientation="portrait">
             <intent-filter>
-                <action android:name="com.rick.tws.pluginhost.STUB_DEFAULT" />
+                <action android:name="${applicationId}.STUB_DEFAULT" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>

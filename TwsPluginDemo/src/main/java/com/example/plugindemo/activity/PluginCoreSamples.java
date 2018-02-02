@@ -62,7 +62,7 @@ public class PluginCoreSamples extends Activity implements OnClickListener {
 
     private static void startFragmentInHostActivity(Context context, String targetId) {
         Intent pluginActivity = new Intent();
-        pluginActivity.setClassName(context, "com.rick.tws.pluginhost.debug.PluginFragmentActivity");
+        pluginActivity.setClassName(context, HostProxy.getApplication().getPackageName()+".debug.PluginFragmentActivity");
         pluginActivity.putExtra("PluginDispatcher.fragmentId", targetId);
         pluginActivity.putExtra("PluginDispatcher.fragment.PluginId", "com.example.plugindemo");
         pluginActivity.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -71,7 +71,7 @@ public class PluginCoreSamples extends Activity implements OnClickListener {
 
     private static void startTwsFragmentInHostActivity(Context context, String targetId) {
         Intent pluginActivity = new Intent();
-        pluginActivity.setClassName(context, "com.rick.tws.pluginhost.debug.PluginTwsFragmentActivity");
+        pluginActivity.setClassName(context, HostProxy.getApplication().getPackageName()+".debug.PluginTwsFragmentActivity");
         pluginActivity.putExtra("PluginDispatcher.fragmentId", targetId);
         pluginActivity.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(pluginActivity);

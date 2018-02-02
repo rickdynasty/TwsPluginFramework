@@ -1,6 +1,8 @@
 package qrom.component.config;
 
 
+import com.rick.tws.framework.HostProxy;
+
 import qrom.component.log.QRomLogBaseConfig;
 
 /**
@@ -20,7 +22,7 @@ public class QRomLogConfig extends QRomLogBaseConfig {
 
     @Override
     public String getPackageName() {
-        return "com.rick.tws.pluginhost";
+        return HostProxy.getApplication().getPackageName();
     }
 
 //	@Override

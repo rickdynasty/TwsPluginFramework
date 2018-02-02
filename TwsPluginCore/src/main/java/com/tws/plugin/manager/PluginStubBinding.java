@@ -9,6 +9,7 @@ import android.text.TextUtils;
 import android.util.Base64;
 
 import com.tws.plugin.content.DisplayItem;
+import com.tws.plugin.core.PluginApplication;
 import com.tws.plugin.core.PluginLoader;
 import com.tws.plugin.util.ProcessUtil;
 
@@ -52,7 +53,7 @@ class PluginStubBinding {
     // ACTION是固定的，在AndroidManifest.xml里面申明就确定好了
     //receiver 一直是跑在Host进程里面的
     private static String buildHostAction() {
-        return "com.rick.tws.pluginhost.STUB_DEFAULT";
+        return PluginApplication.getInstance().getPackageName()+".STUB_DEFAULT";
     }
 
     private static String buildMasterAction() {

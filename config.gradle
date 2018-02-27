@@ -24,7 +24,7 @@ ext {
     println "version name : " + versionName
 
     buildtools = "25.0.3"
-    minSdkVersion = 18
+    minSdkVersion = 19
     targetSdkVersion = 25
     compileSdkVersion = 25
 }

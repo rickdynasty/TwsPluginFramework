@@ -55,6 +55,14 @@ android {
         from('build/intermediates/classes/release/')
         from(project.zipTree("libs/qrom_component_log.jar"))
 
+        // zip compile jar，这样插件才可以使用宿主依赖的v4 v7
+        from(project.zipTree("ziplibs/appcompat-v7-25.1.1.jar"))
+        from(project.zipTree("ziplibs/support-compat-25.1.1.jar"))
+        from(project.zipTree("ziplibs/support-fragment-25.1.1.jar"))
+        from(project.zipTree("ziplibs/support-annotations-25.1.1.jar"))
+        from(project.zipTree("ziplibs/support-core-utils-25.1.1.jar"))
+        from(project.zipTree("ziplibs/support-core-ui-25.1.1.jar"))
+
         destinationDir = file(build_sdk_dir)
 
         // 如果是需要将R文件打包进去的话，需要将下面两行的代码屏蔽掉
@@ -64,6 +72,7 @@ android {
         // makeSDK 输出的内容
         include('com/rick/tws/**/*.class')
         include('qrom/component/**/*.class')
+        include('android/support/**/*.class')
     }
 
     makeSdk.dependsOn(build)
@@ -71,6 +80,6 @@ android {
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile 'com.android.support:support-v4:24.1.1'
-    compile 'com.android.support:appcompat-v7:24.1.1'
+    compile 'com.android.support:support-v4:25.1.1'
+    compile 'com.android.support:appcompat-v7:25.1.1'
 }

@@ -8,8 +8,12 @@
         android:minSdkVersion="19"
         android:targetSdkVersion="22" />
 
+    <!-- 允许程序连接到已配对的蓝牙设备 -->
+    <uses-permission android:name="android.permission.BLUETOOTH" />
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
     <uses-permission android:name="android.permission.BLUETOOTH_PRIVILEGED" />
+
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <!-- 连接网络权限 -->
     <uses-permission android:name="android.permission.INTERNET" />
@@ -23,8 +27,6 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <!-- 允许一个程序访问CellID或WiFi来获取粗略的位置 -->
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <!-- 允许程序连接到已配对的蓝牙设备 -->
-    <uses-permission android:name="android.permission.BLUETOOTH" />
     <!-- 允许程序读取所有者数据 -->
     <uses-permission android:name="android.permission.READ_OWNER_DATA" />
     <!-- 允许一个程序写入但不读取所有者数据 -->

@@ -1,1 +1,1 @@
-include ':TwsPluginHost', ':TwsPluginCore', ':TwsPluginShareLib', ':TwsPluginDemo'
+include ':TwsPluginHost', ':TwsPluginCore', ':TwsPluginShareLib', ':TwsPluginDemo', ':TwsPluginBluetooth'

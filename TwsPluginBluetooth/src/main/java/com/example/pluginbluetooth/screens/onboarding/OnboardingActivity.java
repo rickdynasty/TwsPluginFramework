@@ -35,6 +35,7 @@ public class OnboardingActivity extends BaseActivity implements Onboarding.Onboa
         mBackStackStartLevel = 0;
 
         setContentView(R.layout.activity_onboarding);
+        setTitle("Bluetooth");
 
         mOnboarding = Onboarding.getInstance();
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);

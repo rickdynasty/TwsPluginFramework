@@ -219,7 +219,7 @@ class PluginManagerImpl {
      * @return
      */
     synchronized InstallResult installPlugin(String srcPluginFile, boolean forDebug) {
-        QRomLog.i(TAG, "开始安装插件:" + srcPluginFile);
+        QRomLog.i(TAG, "开始安装插件:" + srcPluginFile + " forDebug:" + forDebug);
         if (TextUtils.isEmpty(srcPluginFile) || !new File(srcPluginFile).exists()) {
             return new InstallResult(InstallResult.SRC_FILE_NOT_FOUND);
         }
@@ -229,6 +229,7 @@ class PluginManagerImpl {
             String tempFilePath = PluginLoader.getApplication().getCacheDir().getAbsolutePath() + File.separator
                     + System.currentTimeMillis() + ".apk";
             if (FileUtil.copyFile(srcPluginFile, tempFilePath)) {
+                QRomLog.i(TAG, "step 1.copy :" + srcPluginFile + " to " + tempFilePath + " success!");
                 srcPluginFile = tempFilePath;
             } else {
                 QRomLog.e(TAG, "复制插件文件失败 srcPluginFile=" + srcPluginFile + " tempFilePath=" + tempFilePath);
@@ -262,6 +263,7 @@ class PluginManagerImpl {
                 new File(srcPluginFile).delete();
                 return new InstallResult(InstallResult.VERIFY_SIGNATURES_FAIL);
             }
+            QRomLog.i(TAG, "step 2.copy check Signatures success!");
         }
 
         // 第3步，解析Manifest，获得插件详情
@@ -286,6 +288,7 @@ class PluginManagerImpl {
             pluginDescriptor.setApplicationIcon(packageInfo.applicationInfo.icon);
             pluginDescriptor.setApplicationLogo(packageInfo.applicationInfo.logo);
         }
+        QRomLog.i(TAG, "step 3.parse Manifest success!");
 
         // 第4步，检查插件是否已经存在,若存在删除旧的
         PluginDescriptor oldPluginDescriptor = getPluginDescriptorByPluginId(pluginDescriptor.getPackageName());
@@ -308,36 +311,37 @@ class PluginManagerImpl {
             // remove旧插件
             remove(oldPluginDescriptor.getPackageName(), true);
         }
+        QRomLog.i(TAG, "step 4.check reInstall success!");
 
         // 第5步骤，复制插件到插件目录
         String destApkPath = genInstallPath(pluginDescriptor.getPackageName(), pluginDescriptor.getVersion());
+        QRomLog.i(TAG, "genInstallPath destApkPath=" + destApkPath);
         boolean isCopySuccess = FileUtil.copyFile(srcPluginFile, destApkPath);
 
         if (!isCopySuccess) {
-
             QRomLog.e(TAG, "复制插件到安装目录失败 srcPluginFile is " + srcPluginFile);
             // 删掉临时文件
             new File(srcPluginFile).delete();
             return new InstallResult(InstallResult.COPY_FILE_FAIL, pluginDescriptor.getPackageName(),
                     pluginDescriptor.getVersion());
         } else {
-
             // 第6步，先解压so、图标等必要资源到临时目录，再从临时目录复制到插件目录。
             // 在构造插件Dexclassloader的时候，会使用这个so目录作为参数
             // 插件在配置协议里面配置的图标会在DM首页上使用到
             File apkParent = new File(destApkPath).getParentFile();
-            File tempSoDir = new File(apkParent, "temp");
-            Set<String> necessaryResList = FileUtil.unZipNecessaryRes(srcPluginFile, tempSoDir);
+            File tempResDir = new File(apkParent, "temp");
+            Set<String> necessaryResList = FileUtil.unZipNecessaryRes(srcPluginFile, tempResDir);
+            QRomLog.i(TAG, "necessaryResList=" + necessaryResList);
             if (necessaryResList != null) {
                 for (String necessaryResName : necessaryResList) {
                     if (necessaryResName.toLowerCase().endsWith(FileUtil.FIX_LIB_NAME)) {
-                        FileUtil.copySo(tempSoDir, necessaryResName, apkParent.getAbsolutePath());
+                        FileUtil.copySo(tempResDir, necessaryResName, apkParent.getAbsolutePath());
                     } else if (necessaryResName.endsWith(FileUtil.FIX_ICON_NAME)) {
-                        FileUtil.copyIcon(tempSoDir, necessaryResName, apkParent.getAbsolutePath());
+                        FileUtil.copyIcon(tempResDir, necessaryResName, apkParent.getAbsolutePath());
                     }
                 }
                 // 删掉临时文件
-                FileUtil.deleteAll(tempSoDir);
+                FileUtil.deleteAll(tempResDir);
             }
 
             // 第7步 添加到已安装插件列表

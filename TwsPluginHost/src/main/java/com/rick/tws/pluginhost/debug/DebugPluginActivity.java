@@ -230,7 +230,6 @@ public class DebugPluginActivity extends AppCompatActivity {
                     }
                 }
             });
-
         }
     }
 
@@ -315,8 +314,6 @@ public class DebugPluginActivity extends AppCompatActivity {
             scn = null;
         }
     }
-
-    ;
 
     private ServiceConnection scn;
 

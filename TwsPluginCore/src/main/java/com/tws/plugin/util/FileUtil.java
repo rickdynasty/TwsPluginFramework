@@ -221,8 +221,7 @@ public class FileUtil {
 			}
 
 			if (sourceFile.exists()) {
-				isSuccess = copyFile(sourceFile.getAbsolutePath(), dest + File.separator + ICON_FOLDER + File.separator
-						+ icon);
+				isSuccess = copyFile(sourceFile.getAbsolutePath(), dest + File.separator + ICON_FOLDER + File.separator + icon);
 			}
 
 			if (!isSuccess) {

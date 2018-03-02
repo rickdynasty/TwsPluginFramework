@@ -87,10 +87,12 @@ public class PluginManifestParser {
 
                             desciptor.setPackageName(packageName);
                             if (TextUtils.isEmpty(versionCode)) {
+                                QRomLog.i(TAG,"versionCode isEmpty");
                                 versionCode = "1";
                             }
 
                             if (TextUtils.isEmpty(versionName)) {
+                                QRomLog.i(TAG,"versionName isEmpty");
                                 versionName = "1.0";
                             }
 

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingTop="@dimen/padding_super"
+                android:paddingLeft="@dimen/padding_quadruple"
+                android:paddingRight="@dimen/padding_quadruple"
+                android:paddingBottom="@dimen/padding_super">
+
+    <TextView
+        android:id="@+id/onboarding_location_permission_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center"
+        android:layout_centerHorizontal="true"
+        android:text="@string/onboarding_permission_title"/>
+
+    <ImageView
+        android:id="@+id/onboarding_location_permission_image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingTop="@dimen/padding_triple"
+        android:paddingBottom="@dimen/padding_triple"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/onboarding_location_permission_title"
+        android:src="@mipmap/bt_image"/>
+
+    <TextView
+        android:id="@+id/onboarding_location_permission_description"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="@string/onboarding_permission_description1"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/onboarding_location_permission_image"/>
+
+    <TextView
+            android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingTop="@dimen/padding_double"
+        android:gravity="center"
+        android:layout_below="@id/onboarding_location_permission_description"
+        android:text="@string/onboarding_permission_description2"
+        android:layout_centerHorizontal="true"/>
+
+    <Button
+        android:id="@+id/allow_permissions"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/allow"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"/>
+
+</RelativeLayout>

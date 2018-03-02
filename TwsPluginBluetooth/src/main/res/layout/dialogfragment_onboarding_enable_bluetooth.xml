@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <TextView
+            android:textSize="14sp"
+            android:textColor="@color/black"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/notification_actionbar_left_cancel"
+            android:textAlignment="center"
+            android:gravity="center_horizontal"
+            android:id="@+id/cancel"
+            android:layout_marginTop="@dimen/onboarding_fail_state_cancel_text_marigun_top"
+            android:layout_marginLeft="@dimen/screen_left_margin"
+            android:layout_alignParentTop="true" />
+
+
+    <ImageView
+            android:layout_width="@dimen/onboarding_blutooth_state_icon_weight_height"
+            android:layout_height="@dimen/onboarding_blutooth_state_icon_weight_height"
+            android:src="@mipmap/ic_bluetooth"
+            android:id="@+id/imageView"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/onboarding_blutooth_state_icon_maigin_top"/>
+
+
+    <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/dashboard_status_bluetooth_disabled"
+            android:textAlignment="center"
+            android:gravity="center_horizontal"
+            android:id="@+id/textView"
+            android:layout_below="@+id/imageView" android:layout_alignParentStart="true"
+            android:layout_marginTop="@dimen/onboarding_blutooth_state_text_maigin_top"/>
+
+    <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/onboarding_bluetooth_enable_title"
+            android:textAlignment="center"
+            android:gravity="center_horizontal"
+            android:id="@+id/textView_title"
+            android:layout_marginTop="@dimen/onboarding_blutooth_state_text2_maigin_top"
+            android:layout_below="@+id/textView"
+            />
+
+
+    <Button
+            android:id="@+id/btn_turn_on_bluetooth"
+            android:layout_width="@dimen/button_width"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="@string/onboarding_bluetooth_enable_btn_text"
+            android:layout_marginTop="@dimen/onboarding_blutooth_state_button_maigin_top"
+            android:layout_below="@+id/textView_title"
+            android:layout_centerHorizontal="true"/>
+
+</RelativeLayout>

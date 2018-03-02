@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<set xmlns:android="http://schemas.android.com/apk/res/android"
+     android:shareInterpolator="true"
+     android:interpolator="@android:anim/decelerate_interpolator"
+     android:fillBefore="true"
+     android:duration="@integer/screen_transition_onboarding_exit">
+    <alpha android:fromAlpha="1.0" android:toAlpha="0.0"/>
+    <translate
+            android:fromXDelta="0%" android:toXDelta="0%"
+            android:fromYDelta="0%" android:toYDelta="2.5%"/>
+</set>

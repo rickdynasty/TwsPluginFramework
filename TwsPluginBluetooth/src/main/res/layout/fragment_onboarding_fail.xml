@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+
+    <TextView
+        android:id="@+id/cancel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="@dimen/screen_left_margin"
+        android:layout_marginTop="@dimen/onboarding_fail_state_cancel_text_marigun_top"
+        android:gravity="center_horizontal"
+        android:text="@string/notification_actionbar_left_cancel"
+        android:textAlignment="center"
+        android:textColor="@color/black"
+        android:textSize="14sp" />
+
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="@dimen/onboarding_fail_state_icon_weight"
+        android:layout_height="@dimen/onboarding_fail_state_icon_height"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/onboarding_fail_state_icon_margin_top"
+        android:src="@mipmap/onboarding_watch_crown_body" />
+
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="@dimen/onboarding_fail_state_icon_weight"
+        android:layout_height="@dimen/onboarding_blutooth_state_icon_weight_height"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/onboarding_fail_state_icon2_margin_top"
+        android:src="@mipmap/ic_fail" />
+
+
+    <ImageView
+        android:id="@+id/imageView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/btn_turn_on_bluetooth"
+        android:layout_alignTop="@+id/imageView"
+        android:src="@mipmap/onboarding_the_crown" />
+
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/imageView"
+        android:layout_marginTop="@dimen/onboarding_fail_state_text_margin_top"
+        android:gravity="center_horizontal"
+        android:text="@string/onboarding_connect_failt"
+        android:textAlignment="center" />
+
+
+    <Button
+        android:id="@+id/btn_turn_on_bluetooth"
+        android:layout_width="@dimen/button_width"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textView"
+        android:layout_centerHorizontal="true"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="@dimen/onboarding_fail_state_button_margin_top"
+        android:text="@string/onboarding_timeout_try" />
+
+
+    <TextView
+        android:id="@+id/textView_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/btn_turn_on_bluetooth"
+        android:layout_marginTop="@dimen/onboarding_blutooth_state_text_maigin_top"
+        android:gravity="center_horizontal"
+        android:text="@string/blutooth_banner_isuee"
+        android:textAlignment="center"
+        android:textColor="@color/black" />
+
+</RelativeLayout>

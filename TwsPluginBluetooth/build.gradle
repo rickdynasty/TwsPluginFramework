@@ -30,4 +30,5 @@ android {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     provided fileTree(include: ['*.jar'], dir: 'linklib')
+    compile 'org.msgpack:msgpack-core:0.8.2'
 }

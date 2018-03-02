@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingTop="@dimen/padding_super"
+                android:paddingLeft="@dimen/padding_quadruple"
+                android:paddingRight="@dimen/padding_quadruple"
+                android:paddingBottom="@dimen/padding_super">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/onboarding_location_title"
+        android:layout_gravity="center_horizontal"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:gravity="center"
+        android:text="@string/onboarding_permission_title"/>
+
+    <ImageView
+        android:id="@+id/onboarding_location_hint"
+        android:paddingTop="@dimen/padding_triple"
+        android:paddingBottom="@dimen/padding_triple"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/onboarding_location_title"
+        android:layout_centerHorizontal="true"
+        android:src="@mipmap/location_hint"/>
+
+    <TextView
+        android:id="@+id/onboarding_location_needed"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/onboarding_location_hint"
+        android:text="@string/onboarding_location_needed"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:paddingTop="@dimen/padding_double"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/onboarding_location_needed"
+        android:text="@string/onboarding_location_needed_extra"/>
+
+    <Button
+        android:id="@+id/onboarding_location_hint_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/onboarding_location_link"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"/>
+
+</RelativeLayout>

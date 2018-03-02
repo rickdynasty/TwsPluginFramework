@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <dimen name="drop_target_top_margin">-32dp</dimen>
+
+    <!--Onboarding-->
+    <dimen name="onboarding_blutooth_state_icon_weight_height">128dp</dimen>
+    <dimen name="onboarding_blutooth_state_icon_maigin_top">176dp</dimen>
+    <dimen name="onboarding_blutooth_state_text_maigin_top">24dp</dimen>
+    <dimen name="onboarding_blutooth_state_text2_maigin_top">8dp</dimen>
+    <dimen name="onboarding_blutooth_state_button_maigin_top">120dp</dimen>
+    <dimen name="onboarding_fail_state_icon_weight">280dp</dimen>
+    <dimen name="onboarding_fail_state_icon_height">240dp</dimen>
+    <dimen name="onboarding_fail_state_icon_margin_top">144dp</dimen>
+    <dimen name="onboarding_fail_state_icon2_margin_top">200dp</dimen>
+    <dimen name="onboarding_fail_state_text_margin_top">16dp</dimen>
+    <dimen name="onboarding_fail_state_button_margin_top">70dp</dimen>
+    <dimen name="onboarding_fail_state_cancel_text_marigun_top">43dp</dimen>
+    <dimen name="onboarding_title_top_padding">24dp</dimen>
+    <dimen name="onboarding_horizontal_padding">40dp</dimen>
+
+    <!-- default_button -->
+    <dimen name="button_corners">2dp</dimen>
+    <dimen name="button_width">288dp</dimen>
+    <dimen name="button_height">48dp</dimen>
+
+    <dimen name="activity_horizontal_margin">8dp</dimen>
+    <dimen name="activity_vertical_margin">8dp</dimen>
+    <dimen name="padding">8dp</dimen>
+    <dimen name="padding_half">4dp</dimen>
+    <dimen name="padding_double">16dp</dimen>
+    <dimen name="padding_triple">0dp</dimen>
+    <dimen name="padding_quadruple">32dp</dimen>
+    <dimen name="padding_super">56dp</dimen>
+    <dimen name="padding_double_super">72dp</dimen>
+    <dimen name="screen_bottom_margin">20dp</dimen>
+    <dimen name="screen_left_margin">20dp</dimen>
+    <dimen name="screen_margin">12dp</dimen>
+</resources>

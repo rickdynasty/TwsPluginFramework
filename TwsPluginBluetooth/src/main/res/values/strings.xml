@@ -1,3 +1,88 @@
 <resources>
     <string name="app_name">TwsPluginBluetooth</string>
+
+    <string name="notification_actionbar_left_cancel">Cancel</string>
+
+
+    <string name="default_city">Beijing</string>
+    <string name="default_country">China</string>
+    <!-- Preference framework strings. -->
+    <string name="cancel">取消</string>
+
+    <!-- 蓝牙状态Dialog -->
+    <string name="blutooth_bandner_close_message">请开启蓝牙以连接手表。</string>
+    <string name="blutooth_bandner_disconnect_message">正在恢复连接，请确保手表在手机附近。</string>
+    <string name="blutooth_bandner_disconnect_message_error">连接失败。</string>
+    <string name="blutooth_banner_open"><u>开启蓝牙</u></string>
+    <string name="blutooth_banner_reset_connect"><u>重新连接</u></string>
+    <string name="blutooth_banner_isuee"><u>常见问题</u></string>
+    <string name="blutooth_close_message">为保证手机与手表的数据通信，请开启手机蓝牙</string>
+    <string name="blutooth_close_button_cancel">取消</string>
+    <string name="blutooth_close_button_open">开启蓝牙</string>
+    <string name="blutooth_close_button_disconnect">蓝牙连接中断</string>
+    <string name="blutooth_close_button_ok">好的</string>
+    <string name="blutooth_close_button_disconnect_message">为保证手机与手表的数据通信，请确保手表在手机附近。</string>
+    <string name="blutooth_close_button_close">蓝牙已关闭</string>
+    <string name="connect_timeout_issu_context_1">手表重连失败？</string>
+    <string name="connect_timeout_issu_context_2">1、请确保手机蓝牙已开启。\n\n2、请确保你的手表在手机附近。\n\n3、如果这些方法没有解决问题，请尝试同时按住手表的「上按键」和「下按键」，直到手表振动，这将使手表处于配对模式，然后返回首页，点击「重新连接」。如果手表在尝试重新设置时没有振动，或者指针不动，请联系客服。\n\n4、如果仍然失败，请关闭 Pacewear 和蓝牙，然后重新打开蓝牙，再次启动 Pacewear 进行重连，或重启手机进行尝试。</string>
+    <string name="connect_timeout_issu_context_3">特别注意</string>
+    <string name="connect_timeout_issu_context_4">如果你的问题仍然没有得到解决，可尝试将手表重启后，再与手机配对。\n\n重启方式：同时按住上下按键 5 秒，直到手表发出 2 次震动，并且手表指针开始转动。</string>
+
+    <!-- Onboarding -->
+    <string name="welcome">按一下表冠开始配对</string>
+    <string name="welcome_content">请确保手表在手机附近</string>
+    <string name="allow">允许</string>
+    <string name="dashboard_status_bluetooth_disabled">蓝牙未开启</string>
+    <string name="onboarding_permission_title">蓝牙连接</string>
+    <string name="onboarding_permission_description1">允许访问您的位置。这需要与任何蓝牙设备配对。</string>
+    <string name="onboarding_permission_description2">如果您使用手表使用基于位置的功能，我们只会跟踪您的位置。</string>
+    <string name="onboarding_permission_description1_simple">现在，还允许此应用的位置访问。</string>
+    <string name="onboarding_bluetooth_enable_title">保持手机蓝牙开启以连接手表</string>
+    <string name="onboarding_bluetooth_enable_btn_text">开启蓝牙</string>
+    <string name="onboarding_location_needed">为了连接任何蓝牙设备您的手机位置必须打开。</string>
+    <string name="onboarding_location_needed_extra">这是在手机的位置设置中完成的。</string>
+    <string name="onboarding_location_link">转到设置</string>
+    <string name="onboarding_connecting">正在配对</string>
+    <string name="onboarding_connect_failt">配对失败</string>
+    <string name="onboarding_connecting_desc">正在与Pacewear Kronaby配对</string>
+    <string name="connection_successful">配对成功</string>
+    <string name="onboarding_anima_signin_button">登录</string>
+    <string name="onboarding_anima_create_account_button">创建账号</string>
+    <string name="onboarding_create_account_title_text">创建帐户</string>
+    <string name="onboarding_create_account_first_name">名</string>
+    <string name="onboarding_create_account_last_name">姓</string>
+    <string name="onboarding_create_account_email">Email</string>
+    <string name="onboarding_create_account_password">密码</string>
+    <string name="onboarding_create_account_button">创建账号</string>
+    <string name="onboarding_create_account_confirm_dialog">请再次检查以确保您已正确输入电子邮件。</string>
+    <string name="onboarding_create_account_confirm_ok_button">是的，这是我的电子邮件</string>
+    <string name="onboarding_create_account_confirm_cancel_button">否，我需要纠正它</string>
+    <string name="onboarding_signin_title_text">登录</string>
+    <string name="onboarding_signin_button">登录</string>
+    <string name="onboarding_create_account_error_title">创建账号</string>
+    <string name="onboarding_create_account_error_description">无法创建帐户。请再试一次电子邮件地址。</string>
+    <string name="onboarding_create_account_signin_error_description">无法使用新创建的帐户登录。按返回，然后重试。</string>
+    <string name="onboarding_signin_error_title">登录</string>
+    <string name="onboarding_signin_error_description">无法登录。请检查您的电子邮件地址和密码。</string>
+    <string name="onboarding_signin_forgot_password">忘记密码？</string>
+    <string name="onboarding_signin_forgot_password_description">我们将向您发送一封电子邮件，重置说明</string>
+    <string name="onboarding_signin_forgot_action">发送指令</string>
+    <string name="onboarding_ok">OK</string>
+    <string name="onboarding_continue">继续</string>
+    <string name="onboarding_decline">Decline</string>
+    <string name="onboarding_internet_access_enable_title">Internet访问</string>
+    <string name="onboarding_internet_access_enable_description">要连接到您的Kronaby手表，您需要可以上网。请确保手机已连接到互联网。</string>
+    <string name="onboarding_signin_email_input_error">这不是有效的电子邮件地址</string>
+    <string name="onboarding_signin_name_input_error">名称不能为空</string>
+    <string name="onboarding_signin_password_input_hint">至少6个字符</string>
+    <string name="onboarding_signin_password_input_error">密码不正确</string>
+    <string name="onboarding_register_terms_of_use">我同意 <b><u>使用条款 &amp; Privacy Policy</u></b></string>
+    <string name="onboarding_timeout_try">重试</string>
+    <string name="onboarding_timeout_issu_actionbar_title">常见问题</string>
+    <string name="onboarding_timeout_issu_context_1">手表配对失败？</string>
+    <string name="onboarding_timeout_issu_context_2">1、请确保手机蓝牙已开启。\n\n2、请确保你的手表在手机附近。\n\n3、请确保连接过程中，已经按下手表的「表冠」（中间按钮）。\n\n4、请确保你的手表已和其他手机断开连接。\n\n5、如果仍然失败，请关闭手机蓝牙，然后重新打开蓝牙，再次启动 Pacewear 进行连接，或重启手机进行尝试。\n\n6、如果尝试以上方法仍然无法连接，请同时按住手表的「上按键」和「下按键」，直到手表振动使手表处于连接模式，再重新进行连接。如果手表在尝试重新设置时没有振动，或者指针不动，请联系客服 400-705-8885。</string>
+    <string name="onboarding_timeout_issu_context_3">特别注意</string>
+    <string name="onboarding_timeout_issu_context_4">如果你的问题仍然没有得到解决，可尝试将手表重启后，再与手机配对。\n\n重启方式：同时按住上下按键 5 秒，直到手表发出 2 次震动，并且手表指针开始转动。</string>
+    <string name="onboarding_check_watch_num_error">此手表暂未上线中国区，暂不支持使用。</string>
+    <string name="onboarding_check_watch_num_ok">好的</string>
 </resources>

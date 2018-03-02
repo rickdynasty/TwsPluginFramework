@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.example.pluginbluetooth.widget.WatchWithOneComplicationLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/imageViewMeterWatchHandContainer"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_alignParentLeft="true"
+    android:layout_centerVertical="true">
+
+    <ImageView
+        android:id="@+id/imageViewMeter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:adjustViewBounds="true"
+        android:scaleType="fitCenter"
+        android:src="@mipmap/secondo_apex" />
+
+    <ImageView
+        android:id="@+id/imageViewWatchHandHoursComplication"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:scaleType="fitCenter"
+        android:src="@mipmap/secondo_apex_sub_hr_hand" />
+
+    <ImageView
+        android:id="@+id/imageViewWatchHandMinutesComplication"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:scaleType="fitCenter"
+        android:src="@mipmap/secondo_apex_sub_min_hand" />
+
+    <ImageView
+        android:id="@+id/imageViewWatchHandHours"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:scaleType="fitCenter"
+        android:src="@mipmap/secondo_apex_main_hr" />
+
+    <ImageView
+        android:id="@+id/imageViewWatchHandMinutes"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:scaleType="fitCenter"
+        android:src="@mipmap/secondo_apex_main_min" />
+
+    <!-- 当前暂时不用这个遮罩 -->
+
+    <ImageView
+        android:id="@+id/imageViewWatchGlass"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:scaleType="fitCenter"
+        android:src="@mipmap/secondo_highlight"
+        android:visibility="gone" />
+
+</com.example.pluginbluetooth.widget.WatchWithOneComplicationLayout>

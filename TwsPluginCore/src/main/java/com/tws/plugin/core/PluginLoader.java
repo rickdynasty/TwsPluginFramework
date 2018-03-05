@@ -290,7 +290,7 @@ public class PluginLoader {
                     " curVersionName：" + curVersionName + " oldVersionName:" + curVersionName);
 
             //不管是verCode 还是 verName 变更了都认为是不同的包【旧的包可能插件会存在不谦容，因此这里的版本判断的 ！=】
-            if (saveVerCode != curVersionCode || !curVersionName.equals(saveVerName)) {
+            if (saveVerCode != curVersionCode || !saveVerName.equals(curVersionName)) {
                 QRomLog.i(TAG, "新的程序包安装,先清理...");
                 // 版本升级 清理掉之前安装的所有插件
                 PluginManagerHelper.removeAll();

@@ -16,7 +16,6 @@ import com.tws.plugin.core.PluginCreator;
 import com.tws.plugin.core.PluginLauncher;
 import com.tws.plugin.core.PluginLoader;
 import com.tws.plugin.core.PluginManifestParser;
-import com.tws.plugin.core.localservice.LocalServiceManager;
 import com.tws.plugin.util.FileUtil;
 import com.tws.plugin.util.PackageVerifyer;
 import com.tws.plugin.util.ProcessUtil;
@@ -374,9 +373,6 @@ class PluginManagerImpl {
                 }
 
                 QRomLog.i(TAG, "DEXOPT完毕");
-
-                LocalServiceManager.registerService(pluginDescriptor);
-
                 QRomLog.i(TAG, "安装插件成功:" + destApkPath);
 
                 // 打印一下目录结构

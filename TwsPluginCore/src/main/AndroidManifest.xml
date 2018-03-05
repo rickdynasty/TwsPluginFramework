@@ -5,10 +5,6 @@
     android:versionName="1.0">
 
     <application>
-        <provider
-            android:name="com.tws.plugin.servicemanager.ServiceProvider"
-            android:authorities="${applicationId}.svcmgr"
-            android:exported="true" />
 
         <receiver
             android:name="com.tws.plugin.bridge.TwsPluginBridgeReceiver"

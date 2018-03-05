@@ -22,7 +22,6 @@ import com.tws.plugin.content.PluginDescriptor;
 import com.tws.plugin.core.android.HackContextImpl;
 import com.tws.plugin.core.android.HackInstrumentation;
 import com.tws.plugin.core.annotation.PluginContainer;
-import com.tws.plugin.core.localservice.LocalServiceManager;
 import com.tws.plugin.core.viewfactory.PluginViewFactory;
 import com.tws.plugin.manager.PluginActivityMonitor;
 import com.tws.plugin.manager.PluginManagerHelper;
@@ -60,14 +59,6 @@ public class PluginInstrumentionWrapper extends Instrumentation {
     public void callApplicationOnCreate(Application app) {
         // 此方法在application的attach之后被ActivityThread调用
         super.callApplicationOnCreate(app);
-
-        if (ProcessUtil.isPluginProcess()) {
-            Iterator<PluginDescriptor> itr = PluginManagerHelper.getPlugins().iterator();
-            while (itr.hasNext()) {
-                PluginDescriptor plugin = itr.next();
-                LocalServiceManager.registerService(plugin);
-            }
-        }
     }
 
     @Override

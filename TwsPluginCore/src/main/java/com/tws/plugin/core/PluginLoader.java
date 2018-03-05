@@ -28,13 +28,11 @@ import com.tws.plugin.util.ProcessUtil;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 
 import dalvik.system.BaseDexClassLoader;
-import dalvik.system.DexClassLoader;
 import qrom.component.log.QRomLog;
 
 public class PluginLoader {
@@ -65,97 +63,97 @@ public class PluginLoader {
      * @param app
      */
     public static synchronized void initPluginFramework(Application app) {
-        if (!isLoaderInited) {
-            QRomLog.i(TAG, "begin init PluginFramework...");
-            long startTime = System.currentTimeMillis();
+            if (!isLoaderInited) {
+                QRomLog.i(TAG, "begin init PluginFramework...");
+                long startTime = System.currentTimeMillis();
 
-            isLoaderInited = true;
-            sApplication = app;
-            sHostPackageName = app.getPackageName();
-            QRomLog.i(TAG, "begin init PluginFramework... HostPackageName is " + sHostPackageName);
+                isLoaderInited = true;
+                sApplication = app;
+                sHostPackageName = app.getPackageName();
+                QRomLog.i(TAG, "begin init PluginFramework... HostPackageName is " + sHostPackageName);
 
-            // 这里的isPluginProcess方法需要在安装AndroidAppIActivityManager之前执行一次。
-            // 原因见AndroidAppIActivityManager的getRunningAppProcesses()方法
-            boolean isPluginProcess = ProcessUtil.isPluginProcess();
+                // 这里的isPluginProcess方法需要在安装AndroidAppIActivityManager之前执行一次。
+                // 原因见AndroidAppIActivityManager的getRunningAppProcesses()方法
+                boolean isPluginProcess = ProcessUtil.isPluginProcess();
 
-            // 进行PendingIntent的resolve、进程欺骗等主要是为了让插件在四大组件之外的组件等单元也具备自己的运行权限
-            AndroidAppIActivityManager.installProxy();
+                // 进行PendingIntent的resolve、进程欺骗等主要是为了让插件在四大组件之外的组件等单元也具备自己的运行权限
+                AndroidAppIActivityManager.installProxy();
 
-            // Notification在适配上出现了不少问题，暂时将这个交由宿主进行，如果DM出现了独立插件在放开进行适配
-            // AndroidAppINotificationManager.installProxy();
+                // Notification在适配上出现了不少问题，暂时将这个交由宿主进行，如果DM出现了独立插件在放开进行适配
+                // AndroidAppINotificationManager.installProxy();
 
-            // 这里是修正插件运行单元的info信息
-            AndroidAppIPackageManager.installProxy(sApplication.getPackageManager());
+                // 这里是修正插件运行单元的info信息
+                AndroidAppIPackageManager.installProxy(sApplication.getPackageManager());
 
-            if (isPluginProcess) {
-                HackLayoutInflater.installPluginCustomViewConstructorCache();
-                CompatForSupportv7ViewInflater.installPluginCustomViewConstructorCache();
-                // 不可在主进程中同步安装，因为此时ActivityThread还没有准备好, 会导致空指针。
-                new Handler().post(new Runnable() {
-                    @Override
-                    public void run() {
-                        // 这个注入 主要是为了解决插件加载本地页面问题
-                        AndroidWebkitWebViewFactoryProvider.installProxy();
-                    }
-                });
-            }
-
-            PluginInjector.injectHandlerCallback();// 本来宿主进程是不需要注入handlecallback的，这里加上是为了对抗360安全卫士等软件，提高Instrumentation的成功率
-            PluginInjector.injectInstrumentation();
-            PluginInjector.injectBaseContext(sApplication);
-
-            if (isPluginProcess) {
-                if (Build.VERSION.SDK_INT >= 14) {
-                    //Application中的registerActivityLifecycleCallbacks方法，可以在回调中把整个应用打开的Activity保存在集合中、销毁的Activity重集合中删除。
-                    sApplication.registerActivityLifecycleCallbacks(new Application.ActivityLifecycleCallbacks() {
+                if (isPluginProcess) {
+                    HackLayoutInflater.installPluginCustomViewConstructorCache();
+                    CompatForSupportv7ViewInflater.installPluginCustomViewConstructorCache();
+                    // 不可在主进程中同步安装，因为此时ActivityThread还没有准备好, 会导致空指针。
+                    new Handler().post(new Runnable() {
                         @Override
-                        public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
-                            //if (null == mActivitys) {
-                            //    return;
-                            //}
-                            //mActivitys.add(activity);
-                        }
-
-                        @Override
-                        public void onActivityStarted(Activity activity) {
-                        }
-
-                        @Override
-                        public void onActivityResumed(Activity activity) {
-                        }
-
-                        @Override
-                        public void onActivityPaused(Activity activity) {
-                        }
-
-                        @Override
-                        public void onActivityStopped(Activity activity) {
-                        }
-
-                        @Override
-                        public void onActivitySaveInstanceState(Activity activity, Bundle outState) {
-                        }
-
-                        @Override
-                        public void onActivityDestroyed(Activity activity) {
-                            if (null == activity/* && mActivitys.isEmpty()*/) {
-                                return;
-                            }
-                            //if (mActivitys.contains(activity)) {
-                            //    mActivitys.remove(activity);
-                            //}
-
-                            Intent intent = activity.getIntent();
-                            if (intent != null && intent.getComponent() != null) {
-                                PluginManagerHelper.unBindLaunchModeStubActivity(intent.getComponent().getClassName(), activity.getClass().getName());
-                            }
+                        public void run() {
+                            // 这个注入 主要是为了解决插件加载本地页面问题
+                            AndroidWebkitWebViewFactoryProvider.installProxy();
                         }
                     });
                 }
+
+                PluginInjector.injectHandlerCallback();// 本来宿主进程是不需要注入handlecallback的，这里加上是为了对抗360安全卫士等软件，提高Instrumentation的成功率
+                PluginInjector.injectInstrumentation();
+                PluginInjector.injectBaseContext(sApplication);
+
+                if (isPluginProcess) {
+                    if (Build.VERSION.SDK_INT >= 14) {
+                        //Application中的registerActivityLifecycleCallbacks方法，可以在回调中把整个应用打开的Activity保存在集合中、销毁的Activity重集合中删除。
+                        sApplication.registerActivityLifecycleCallbacks(new Application.ActivityLifecycleCallbacks() {
+                            @Override
+                            public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
+                                //if (null == mActivitys) {
+                                //    return;
+                                //}
+                                //mActivitys.add(activity);
+                            }
+
+                            @Override
+                            public void onActivityStarted(Activity activity) {
+                            }
+
+                            @Override
+                            public void onActivityResumed(Activity activity) {
+                            }
+
+                            @Override
+                            public void onActivityPaused(Activity activity) {
+                            }
+
+                            @Override
+                            public void onActivityStopped(Activity activity) {
+                            }
+
+                            @Override
+                            public void onActivitySaveInstanceState(Activity activity, Bundle outState) {
+                            }
+
+                            @Override
+                            public void onActivityDestroyed(Activity activity) {
+                                if (null == activity/* && mActivitys.isEmpty()*/) {
+                                    return;
+                                }
+                                //if (mActivitys.contains(activity)) {
+                                //    mActivitys.remove(activity);
+                                //}
+
+                                Intent intent = activity.getIntent();
+                                if (intent != null && intent.getComponent() != null) {
+                                    PluginManagerHelper.unBindLaunchModeStubActivity(intent.getComponent().getClassName(), activity.getClass().getName());
+                                }
+                            }
+                        });
+                    }
+                }
+                QRomLog.i(TAG, "Complete Init PluginFramework Take:" + (System.currentTimeMillis() - startTime) + "ms");
             }
-            QRomLog.i(TAG, "Complete Init PluginFramework Take:" + (System.currentTimeMillis() - startTime) + "ms");
         }
-    }
 
     public static Context fixBaseContextForReceiver(Context superApplicationContext) {
         if (superApplicationContext instanceof ContextWrapper) {
@@ -290,8 +288,10 @@ public class PluginLoader {
             final String saveVerName = getVersionName();
             QRomLog.i(TAG, "call loadPlugins !isLoaderPlugins - curVersionCode：" + curVersionCode + ", oldVersionCode:" + saveVerCode +
                     " curVersionName：" + curVersionName + " oldVersionName:" + curVersionName);
-            if (saveVerCode != curVersionCode || saveVerName != curVersionName) {
-                QRomLog.i(TAG, "首次/升级安装,先清理...");// rick_Note:这个有个问题需要确定：如果新版本里面不包含之前版本的插件包该怎么处理？？？？
+
+            //不管是verCode 还是 verName 变更了都认为是不同的包【旧的包可能插件会存在不谦容，因此这里的版本判断的 ！=】
+            if (saveVerCode != curVersionCode || !curVersionName.equals(saveVerName)) {
+                QRomLog.i(TAG, "新的程序包安装,先清理...");
                 // 版本升级 清理掉之前安装的所有插件
                 PluginManagerHelper.removeAll();
 

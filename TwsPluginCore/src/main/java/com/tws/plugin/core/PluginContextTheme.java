@@ -1,13 +1,5 @@
 package com.tws.plugin.core;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.util.ArrayList;
-import java.util.HashMap;
-
-import qrom.component.log.QRomLog;
 import android.app.Application;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -30,9 +22,17 @@ import com.tws.plugin.content.PluginDescriptor;
 import com.tws.plugin.core.android.HackContextImpl;
 import com.tws.plugin.core.android.HackResources;
 import com.tws.plugin.core.compat.CompatForSharedPreferencesImpl;
-import com.tws.plugin.core.localservice.LocalServiceManager;
 import com.tws.plugin.core.multidex.PluginMultiDexHelper;
 import com.tws.plugin.util.ProcessUtil;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.util.ArrayList;
+import java.util.HashMap;
+
+import qrom.component.log.QRomLog;
 
 /**
  * 注意：意外覆写父类方法可能会抛出LingageError 也就是说如果要在这个类里添加非override的public方法的话要小心了。
@@ -125,10 +125,6 @@ public class PluginContextTheme extends PluginBaseContextWrapper {
 		}
 
 		Object service = getBaseContext().getSystemService(name);
-
-		if (service == null) {
-			service = LocalServiceManager.getService(name);
-		}
 
 		return service;
 	}

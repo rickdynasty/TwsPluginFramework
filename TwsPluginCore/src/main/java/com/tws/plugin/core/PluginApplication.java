@@ -3,27 +3,19 @@ package com.tws.plugin.core;
 import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
 import android.content.res.Configuration;
-import android.os.Environment;
 import android.text.TextUtils;
 
 import com.tws.plugin.content.DisplayItem;
 import com.tws.plugin.content.PluginDescriptor;
-import com.tws.plugin.core.localservice.LocalServiceManager;
 import com.tws.plugin.manager.PluginManagerHelper;
 import com.tws.plugin.util.ProcessUtil;
 
-import qrom.component.log.QRomLog;
-
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
-import java.util.List;
+
+import qrom.component.log.QRomLog;
 
 public class PluginApplication extends Application {
 
@@ -46,19 +38,12 @@ public class PluginApplication extends Application {
         // 如果initPluginFramework都在进程启动时就执行，自然很轻松满足上述条件。
         if (ProcessUtil.isHostProcess(this)) {
             QRomLog.i(TAG, "宿主进程 PluginLoader.initPluginFramework");
-            initPluginFramework(this);
+            PluginLoader.initPluginFramework(this);
         } else if (ProcessUtil.isPluginProcess(this)) {
             QRomLog.i(TAG, "插件进程 PluginLoader.initPluginFramework");
             // 插件进程，必须在这里执行initPluginFramework
-            initPluginFramework(this);
+            PluginLoader.initPluginFramework(this);
         }
-    }
-
-    private void initPluginFramework(Application app) {
-        //init Plugin Framework
-        PluginLoader.initPluginFramework(app);
-        // init ServiceManager
-        LocalServiceManager.init();
     }
 
     /**

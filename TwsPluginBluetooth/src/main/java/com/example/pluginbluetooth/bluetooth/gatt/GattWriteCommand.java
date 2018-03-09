@@ -27,11 +27,11 @@ class GattWriteCommand extends GattCommand {
 
     @Override
     public void execute(final BluetoothGatt gatt) {
-        if (mIsDebugMode) QRomLog.d(TAG, "Writing " + ByteUtils.bytesToHex(mData) + " to " + mCharacteristic.getUuid());
+        if (mIsDebugMode) QRomLog.i(TAG, "Writing " + ByteUtils.bytesToHex(mData) + " to " + mCharacteristic.getUuid());
         mCharacteristic.setValue(mData);
         final boolean success = gatt.writeCharacteristic(mCharacteristic);
         if (!success) {
-            QRomLog.d(TAG, "Failed to initiate write characteristic");
+            QRomLog.i(TAG, "Failed to initiate write characteristic");
         }
     }
 

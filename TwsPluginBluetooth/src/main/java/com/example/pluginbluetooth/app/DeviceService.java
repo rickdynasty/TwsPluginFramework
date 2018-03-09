@@ -62,7 +62,7 @@ public class DeviceService extends Service {
     public void onCreate() {
         super.onCreate();
 
-        QRomLog.d(TAG, "Starting service");
+        QRomLog.i(TAG, "Starting service");
 
         // Note that we need to make sure we create a watch object and bootstrap everything here.
         ProviderFactory.getWatch().registerListener(mListener);
@@ -87,8 +87,8 @@ public class DeviceService extends Service {
 
         // Send phone diagnostics
         final ActivityManager am = (ActivityManager) getSystemService(ACTIVITY_SERVICE);
-        QRomLog.d(TAG, "Memory class: " + am.getMemoryClass() + " MB");
-        QRomLog.d(TAG, "Large memory class: " + am.getLargeMemoryClass() + " MB");
+        QRomLog.i(TAG, "Memory class: " + am.getMemoryClass() + " MB");
+        QRomLog.i(TAG, "Large memory class: " + am.getLargeMemoryClass() + " MB");
 
         mBatteryNotificationHandler = new Handler();
         mBatteryNotificationRunnable = new Runnable() {

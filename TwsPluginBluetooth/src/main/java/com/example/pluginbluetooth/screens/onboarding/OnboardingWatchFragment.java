@@ -23,6 +23,7 @@ import qrom.component.log.QRomLog;
 
 public class OnboardingWatchFragment extends BaseOnboardingFragment implements
         OnboardingWatchAnimationsLayout.CancelAnimationsStartedCallback {
+    private static final String TAG = "rick_Print:OnboardingWatchFragment";
 
     private static final int FADE_DURATION = 500;
     private static final int SCAN_TEXT_DURATION_MS = 11000;
@@ -78,10 +79,9 @@ public class OnboardingWatchFragment extends BaseOnboardingFragment implements
                 Onboarding.getInstance().gotoState(Onboarding.State.CANCEL);
             }
         });
-        QRomLog.i("kaelpu","onCreateView");
+        QRomLog.i(TAG,"onCreateView");
 
         return view;
-
     }
 
     @Override
@@ -97,7 +97,7 @@ public class OnboardingWatchFragment extends BaseOnboardingFragment implements
 
         mWelcomeTextStartOffset = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,
                                                             WELCOME_TEXT_START_OFFSET_DP, getResources().getDisplayMetrics());
-        QRomLog.i("kaelpu","onViewCreated");
+        QRomLog.i(TAG,"onViewCreated");
 
         initUI();
     }
@@ -113,7 +113,7 @@ public class OnboardingWatchFragment extends BaseOnboardingFragment implements
     @Override
     public void onResume() {
         super.onResume();
-        QRomLog.i("kaelpu","onResume");
+        QRomLog.i(TAG,"onResume");
         mOnboardingWatchAnimationsLayout.resetAnimations();
     }
 
@@ -124,17 +124,17 @@ public class OnboardingWatchFragment extends BaseOnboardingFragment implements
 
     protected void initUI() {
         final Onboarding.State state = getOnboarding().getState();
-        QRomLog.i("kaelpu","initUI state = "+state);
+        QRomLog.i(TAG,"initUI state = "+state);
         if (state == Onboarding.State.SCANNING) {
             mHandler.postDelayed(mScannningRunnable, SCAN_TEXT_DURATION_MS);
             if (getOnboarding().foundOneDeviceWhenScanning()) {
-                QRomLog.i("kaelpu","foundOneDeviceWhenScanning");
+                QRomLog.i(TAG,"foundOneDeviceWhenScanning");
                 mOnboardingWatchAnimationsLayout.cancelButtonAndArrowAnimations();
                 mOnboardingWatchAnimationsLayout.startWatchHandAnimations();
                 mHandler.removeCallbacks(mScannningRunnable);
 
             } else {
-                QRomLog.i("kaelpu","foundOneDeviceWhenScanning false");
+                QRomLog.i(TAG,"foundOneDeviceWhenScanning false");
                 mTitleTextView.setVisibility(View.VISIBLE);
                 mTitleTextView.setText(getString(R.string.welcome));
                 mDescriptionTextView.setVisibility(View.VISIBLE);
@@ -166,7 +166,7 @@ public class OnboardingWatchFragment extends BaseOnboardingFragment implements
 
     @Override
     protected void updateUI() {
-        QRomLog.i("kaelpu","updateUI state = "+getOnboarding().getState() + " getPreviousState = "+getOnboarding().getPreviousState());
+        QRomLog.i(TAG,"updateUI state = "+getOnboarding().getState() + " getPreviousState = "+getOnboarding().getPreviousState());
         if (getOnboarding().getPreviousState() == Onboarding.State.PAUSED) {
             initUI();
         } else {

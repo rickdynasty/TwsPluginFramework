@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
+import android.view.View;
 
 public abstract class BaseActivity extends FragmentActivity {
 
@@ -34,7 +35,7 @@ public abstract class BaseActivity extends FragmentActivity {
     }
 
     private void updateSystemUiVisibility() {
-//		getWindow().getDecorView().setSystemUiVisibility(
-//				View.SYSTEM_UI_FLAG_FULLSCREEN | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
+        getWindow().getDecorView().setSystemUiVisibility(
+                View.SYSTEM_UI_FLAG_FULLSCREEN | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
     }
 }

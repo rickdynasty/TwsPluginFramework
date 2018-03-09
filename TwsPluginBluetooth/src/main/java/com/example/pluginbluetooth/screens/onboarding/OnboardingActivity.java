@@ -32,6 +32,7 @@ public class OnboardingActivity extends BaseActivity implements Onboarding.Onboa
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        QRomLog.i(TAG, "onCreate");
         mBackStackStartLevel = 0;
 
         setContentView(R.layout.activity_onboarding);
@@ -43,6 +44,7 @@ public class OnboardingActivity extends BaseActivity implements Onboarding.Onboa
 
     @Override
     protected void onResume() {
+        QRomLog.i(TAG, "onResume");
         mIsResuming = true;
         super.onResume();
         mOnboarding.resume();
@@ -54,30 +56,40 @@ public class OnboardingActivity extends BaseActivity implements Onboarding.Onboa
 
     @Override
     protected void onNewIntent(Intent intent) {
+        QRomLog.i(TAG, "onNewIntent");
         super.onNewIntent(intent);
     }
 
     // OnboardingChangeListener
     @Override
     public void onOnboardingStateChanged() {
+        QRomLog.i(TAG, "onOnboardingStateChanged");
 
     }
 
     @Override
     public void foundOneDeviceWhenScanning() {
-
+        QRomLog.i(TAG, "foundOneDeviceWhenScanning");
+        BaseOnboardingFragment onboardingFragment = (BaseOnboardingFragment) getSupportFragmentManager()
+                .findFragmentById(R.id.contentOnboarding);
+        if (onboardingFragment != null) {
+            onboardingFragment.foundOneDeviceWhenScanning();
+        }
     }
 
     @Override
     public void onInternetConnectivityChanged(boolean requiredInState, boolean enabled) {
+        QRomLog.i(TAG, "onInternetConnectivityChanged");
 
     }
 
     public Onboarding getOnboarding() {
+        QRomLog.i(TAG, "getOnboarding");
         return mOnboarding;
     }
 
     private void updateOrReplaceCurrentFragment() {
+        QRomLog.i(TAG, "updateOrReplaceCurrentFragment");
         BaseOnboardingFragment baseOnboardingFragment = getCurrentDisplayedBaseOnboardingFragment();
         if (baseOnboardingFragment != null && baseOnboardingFragment.handlesState(mOnboarding.getState())) {
             baseOnboardingFragment.updateUI();
@@ -87,6 +99,7 @@ public class OnboardingActivity extends BaseActivity implements Onboarding.Onboa
     }
 
     private BaseOnboardingFragment getCurrentDisplayedBaseOnboardingFragment() {
+        QRomLog.i(TAG, "getCurrentDisplayedBaseOnboardingFragment");
         Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.contentOnboarding);
         if (fragment != null && fragment instanceof BaseOnboardingFragment) {
             return (BaseOnboardingFragment) fragment;
@@ -96,6 +109,7 @@ public class OnboardingActivity extends BaseActivity implements Onboarding.Onboa
     }
 
     private void displayNextFragment() {
+        QRomLog.i(TAG, "displayNextFragment mState:" + mOnboarding.getState());
         switch (mOnboarding.getState()) {
             case SCANNING:
             case CONNECTING:
@@ -138,6 +152,7 @@ public class OnboardingActivity extends BaseActivity implements Onboarding.Onboa
     }
 
     private void gotoNextFragment(final BaseFragment fragment) {
+        QRomLog.i(TAG, "gotoNextFragment fragment:" + fragment);
         gotoNextFragment(fragment, false);
     }
 
@@ -179,16 +194,11 @@ public class OnboardingActivity extends BaseActivity implements Onboarding.Onboa
     }
 
     public void onboardingFinished() {
-        // rick_Note
-        /*
-         * ProviderFactory.getCloudProvider().sendUserInfo(new CloudUserInfo("",
-		 * "", "", ProviderFactory .createSigninProvider().getEmail() , ""));
-		 */
-
         startMainActivity(true);
     }
 
     private void gotoPairActivity() {
+        QRomLog.i(TAG, "gotoPairActivity");
         // TODO Auto-generated method stub
         Intent intent = new Intent("com.tencent.tws.gdevicemanager.action.READY_PAIR");
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -202,6 +212,7 @@ public class OnboardingActivity extends BaseActivity implements Onboarding.Onboa
     }
 
     private void startMainActivity(boolean removeCurrentFragmentFirst) {
+        QRomLog.i(TAG, "startMainActivity");
         if (!removeCurrentFragmentFirst) {
             MainActivity.start(this);
             finish();
@@ -216,23 +227,6 @@ public class OnboardingActivity extends BaseActivity implements Onboarding.Onboa
                 }
             }, removeTime);
         }
-
-        // 原生的逻辑这里是跳转到MainActivity的
-        /*
-         * final Intent intent = new Intent(); intent.setAction(
-		 * "com.tencent.tws.gdevicemanager.action.KronabyHomeActivity"); if
-		 * (!removeCurrentFragmentFirst) { try { startActivity(intent);
-		 * finish(); } catch (ActivityNotFoundException e) { // TODO: handle
-		 * exception e.printStackTrace(); Log.e(TAG, "未装载配对模块"); } } else {
-		 * intent.putExtra(MainActivity.INTENT_EXTRA_ENTER_ANIM_RES,
-		 * R.anim.onboarding_enter_fast);
-		 *
-		 * int removeTime = removeCurrentFragment(); new
-		 * Handler().postDelayed(new Runnable() {
-		 *
-		 * @Override public void run() { startActivity(intent); finish(); } },
-		 * removeTime); }
-		 */
     }
 
     /**
@@ -256,6 +250,7 @@ public class OnboardingActivity extends BaseActivity implements Onboarding.Onboa
     @Override
     public void onBackPressed() {
         super.onBackPressed();
+        QRomLog.i(TAG, "onBackPressed");
         final BaseOnboardingFragment fragment = getCurrentDisplayedBaseOnboardingFragment();
 
         if (mBackStackStartLevel > 0 && getSupportFragmentManager().getBackStackEntryCount() <= mBackStackStartLevel) {

@@ -2,10 +2,12 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/GrowthNotes.iml" filepath="$PROJECT_DIR$/GrowthNotes.iml" />
-      <module fileurl="file://$PROJECT_DIR$/TwsPluginBurgeon/TwsPluginBurgeon.iml" filepath="$PROJECT_DIR$/TwsPluginBurgeon/TwsPluginBurgeon.iml" />
+      <module fileurl="file://D:\Github\TwsPluginFramework\GrowthNotes.iml" filepath="D:\Github\TwsPluginFramework\GrowthNotes.iml" />
+      <module fileurl="file://$PROJECT_DIR$/TwsPluginBluetooth/TwsPluginBluetooth.iml" filepath="$PROJECT_DIR$/TwsPluginBluetooth/TwsPluginBluetooth.iml" />
+      <module fileurl="file://D:\Github\TwsPluginFramework\TwsPluginBurgeon\TwsPluginBurgeon.iml" filepath="D:\Github\TwsPluginFramework\TwsPluginBurgeon\TwsPluginBurgeon.iml" />
       <module fileurl="file://$PROJECT_DIR$/TwsPluginCore/TwsPluginCore.iml" filepath="$PROJECT_DIR$/TwsPluginCore/TwsPluginCore.iml" />
       <module fileurl="file://$PROJECT_DIR$/TwsPluginDemo/TwsPluginDemo.iml" filepath="$PROJECT_DIR$/TwsPluginDemo/TwsPluginDemo.iml" />
+      <module fileurl="file://$PROJECT_DIR$/TwsPluginFramework.iml" filepath="$PROJECT_DIR$/TwsPluginFramework.iml" />
       <module fileurl="file://$PROJECT_DIR$/TwsPluginHost/TwsPluginHost.iml" filepath="$PROJECT_DIR$/TwsPluginHost/TwsPluginHost.iml" />
       <module fileurl="file://$PROJECT_DIR$/TwsPluginShareLib/TwsPluginShareLib.iml" filepath="$PROJECT_DIR$/TwsPluginShareLib/TwsPluginShareLib.iml" />
     </modules>

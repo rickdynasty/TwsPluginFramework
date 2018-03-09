@@ -34,7 +34,7 @@ import qrom.component.log.QRomLog;
 @SuppressLint("NewApi")
 class GattConnection {
 
-    private static final String TAG = GattConnection.class.getSimpleName();
+    private static final String TAG = "rick_Print:GattConnection";
 
     private static final long COMMAND_TIMEOUT = 60000;
     private static final long BONDING_TIMEOUT = 30000;
@@ -151,8 +151,11 @@ class GattConnection {
     }
 
     public void connect() {
-        if (mShouldBeDisconnected)
+        QRomLog.i(TAG, "connect()");
+        if (mShouldBeDisconnected) {
             throw new IllegalStateException("GattConnection can't be re-used");
+        }
+
         changeConnectionPhase(GattConnectionAttempt.WAITING_TO_START_CONNECTING);
         mHandler.postDelayed(new Runnable() {
             @Override
@@ -163,8 +166,9 @@ class GattConnection {
     }
 
     private void doConnect() {
+        QRomLog.i(TAG, "doConnect()");
         if (mShouldBeDisconnected) {
-            QRomLog.d(TAG, "Not connecting to " + mDevice.getAddress() + " due to cancellation");
+            QRomLog.i(TAG, "Not connecting to " + mDevice.getAddress() + " due to cancellation");
         } else {
             mContext.registerReceiver(mBondStateReceiver, new IntentFilter(BluetoothDevice.ACTION_BOND_STATE_CHANGED));
             mContext.registerReceiver(mAdapterStateReceiver, new IntentFilter(BluetoothAdapter.ACTION_STATE_CHANGED));
@@ -174,13 +178,13 @@ class GattConnection {
             if (BluetoothAdapter.getDefaultAdapter().isEnabled()) {
                 startActiveConnect();
             } else {
-                QRomLog.d(TAG, "Bluetooth is not enabled, just wait for it to be enabled!");
+                QRomLog.i(TAG, "Bluetooth is not enabled, just wait for it to be enabled!");
             }
         }
     }
 
     private void startActiveConnect() {
-        QRomLog.d(TAG, "Connecting to " + mDevice.getAddress());
+        QRomLog.i(TAG, "Connecting to " + mDevice.getAddress());
         startConnectGattTimeout(SHORT_GATT_CONNECT_TIMEOUT);
         changeConnectionPhase(GattConnectionAttempt.CONNECTING_ACTIVE);
 
@@ -204,13 +208,13 @@ class GattConnection {
      */
     public void disconnect() {
         if (!mShouldBeDisconnected) {
-            if (mIsDebugEnabled) QRomLog.d(TAG, "Disconnect");
+            if (mIsDebugEnabled) QRomLog.i(TAG, "Disconnect");
             mListener.onDisconnecting(); // Tell the listener that we're starting to disconnect (it may take a while)
             mShouldBeDisconnected = true;
             if (mExecutingCommand == null) {
                 doDisconnect();
             } else {
-                if (mIsDebugEnabled) QRomLog.d(TAG, "Waiting for current command to finish");
+                if (mIsDebugEnabled) QRomLog.i(TAG, "Waiting for current command to finish");
                 // We'll wait for the current command to finish or time out before calling
                 // doDisconnect(). This happens later since mShouldBeDisconnected is true.
             }
@@ -219,7 +223,7 @@ class GattConnection {
 
     private void doDisconnect() {
         if (mGatt != null) {
-            QRomLog.d(TAG, "Disconnecting...");
+            QRomLog.i(TAG, "Disconnecting...");
             startTimeout(COMMAND_TIMEOUT);
             mGatt.disconnect();
             if (!mHasBeenConnected) {
@@ -234,7 +238,7 @@ class GattConnection {
      * It's best to not call this while we're running any GATT operations.
      */
     private void close() {
-        QRomLog.d(TAG, "Closing...");
+        QRomLog.i(TAG, "Closing...");
         if (!mIsDisconnected) {
             mIsDisconnected = true;
 
@@ -259,7 +263,7 @@ class GattConnection {
                 try {
                     mGatt.close();
                 } catch (Throwable error) {
-                    QRomLog.d(TAG, "BluetoothGatt.close() threw: " + error);
+                    QRomLog.i(TAG, "BluetoothGatt.close() threw: " + error);
                     // Ignore these... We don't want to handle them.
                 }
                 mGatt = null;
@@ -273,7 +277,7 @@ class GattConnection {
             // Notify the listener even if we never actually connected
             mListener.onDisconnected();
         } else {
-            QRomLog.d(TAG, "Already closed");
+            QRomLog.i(TAG, "Already closed");
         }
     }
 
@@ -288,14 +292,14 @@ class GattConnection {
         stopBondingTimeout();
         mListener.onBonded();
         if (mIsBonding) {
-            QRomLog.d(TAG, "Bonding finished. Discovering services.");
+            QRomLog.i(TAG, "Bonding finished. Discovering services.");
             mIsBonding = false;
             discoverServices();
         } else if (mExecutingCommand != null && mGatt != null) {
-            QRomLog.d(TAG, "Bonded! Re-running current command.");
+            QRomLog.i(TAG, "Bonded! Re-running current command.");
             mExecutingCommand.execute(mGatt);
         } else {
-            QRomLog.d(TAG, "Bonded!");
+            QRomLog.i(TAG, "Bonded!");
         }
     }
 
@@ -310,14 +314,14 @@ class GattConnection {
      */
     private void onBondingTimeout() {
         if (mIsBonding) {
-            QRomLog.d(TAG, "Bonding timed out. Discovering services.");
+            QRomLog.i(TAG, "Bonding timed out. Discovering services.");
             mIsBonding = false;
             discoverServices();
         }
     }
 
     private void onConnectingTimeout() {
-        QRomLog.d(TAG, "Connection took too long, terminate and retry the whole connection!.");
+        QRomLog.i(TAG, "Connection took too long, terminate and retry the whole connection!.");
         if (mCurrentConnectionPhase == GattConnectionAttempt.CONNECTING_ACTIVE) {
             changeConnectionPhase(GattConnectionAttempt.CONNECTING_ACTIVE_TIMED_OUT_FORCED);
         } else {
@@ -327,7 +331,7 @@ class GattConnection {
     }
 
     private void onBluetoothTurnedOn() {
-        QRomLog.d(TAG, "Bluetooth was turned on. Lets retry the whole connection!");
+        QRomLog.i(TAG, "Bluetooth was turned on. Lets retry the whole connection!");
         close();
     }
 
@@ -359,13 +363,13 @@ class GattConnection {
     public void read(final UUID service,
                      final UUID characteristic,
                      final ReadCallback callback) {
-        if (mIsDebugEnabled) QRomLog.d(TAG, "read: " + service + " / " + characteristic);
+        if (mIsDebugEnabled) QRomLog.i(TAG, "read: " + service + " / " + characteristic);
         final BluetoothGattCharacteristic c = getCharacteristic(service, characteristic);
         if (c != null) {
             GattCommand command = new GattReadCommand(c, callback);
             runCommand(command);
         } else {
-            QRomLog.d(TAG, "Read failed!");
+            QRomLog.i(TAG, "Read failed!");
             if (callback != null) {
                 callback.onError(new RuntimeException("Couldn't find characteristic!"));
             }
@@ -376,13 +380,13 @@ class GattConnection {
                       final UUID characteristic,
                       final byte[] data,
                       final Callback<Void> callback) {
-        if (mIsDebugEnabled) QRomLog.d(TAG, "write: " + service + " / " + characteristic);
+        if (mIsDebugEnabled) QRomLog.i(TAG, "write: " + service + " / " + characteristic);
         final BluetoothGattCharacteristic c = getCharacteristic(service, characteristic);
         if (c != null) {
             GattCommand command = new GattWriteCommand(c, data, callback, mIsDebugEnabled);
             runCommand(command);
         } else {
-            QRomLog.d(TAG, "Write failed!");
+            QRomLog.i(TAG, "Write failed!");
             if (callback != null) {
                 callback.onError(new RuntimeException("Write failed. Didn't find characteristic!"));
             }
@@ -396,19 +400,19 @@ class GattConnection {
     public void setUseRefreshService(final boolean enable) {
         mUseRefreshServices = enable;
 
-        QRomLog.d(TAG, enable ? "Using refreshServices" : "Using removeBond");
+        QRomLog.i(TAG, enable ? "Using refreshServices" : "Using removeBond");
     }
 
     void setNotification(final UUID service,
                          final UUID characteristic,
                          final Callback<Void> callback) {
-        QRomLog.d(TAG, "Set notification: " + service + " / " + characteristic);
+        QRomLog.i(TAG, "Set notification: " + service + " / " + characteristic);
         final BluetoothGattCharacteristic c = getCharacteristic(service, characteristic);
         if (c != null) {
             GattCommand command = new GattSetNotificationCommand(c, true, callback);
             runCommand(command);
         } else {
-            QRomLog.d(TAG, "Setting notification failed!");
+            QRomLog.i(TAG, "Setting notification failed!");
             if (callback != null) {
                 callback.onError(new RuntimeException("Didn't find characteristic!"));
             }
@@ -417,16 +421,16 @@ class GattConnection {
 
     private void runCommand(final GattCommand command) {
         if (mShouldBeDisconnected) {
-            if (mIsDebugEnabled) QRomLog.d(TAG, "Rejecting new command since we're disconnecting");
+            if (mIsDebugEnabled) QRomLog.i(TAG, "Rejecting new command since we're disconnecting");
             command.onError(new RuntimeException("Disconnecting"));
         } else if (mExecutingCommand == null) {
-            if (mIsDebugEnabled) QRomLog.d(TAG, "Starting command directly: " +
+            if (mIsDebugEnabled) QRomLog.i(TAG, "Starting command directly: " +
                     command.getClass().getSimpleName());
             mExecutingCommand = command;
             startTimeout(COMMAND_TIMEOUT);
             command.execute(mGatt);
         } else {
-            if (mIsDebugEnabled) QRomLog.d(TAG, "Queuing command");
+            if (mIsDebugEnabled) QRomLog.i(TAG, "Queuing command");
             mCommandList.add(command);
         }
     }
@@ -440,10 +444,10 @@ class GattConnection {
             if (c != null) {
                 return c;
             } else {
-                QRomLog.d(TAG, "Characteristic not found: " + characteristic);
+                QRomLog.i(TAG, "Characteristic not found: " + characteristic);
             }
         } else {
-            QRomLog.d(TAG, "Service not found: " + service);
+            QRomLog.i(TAG, "Service not found: " + service);
         }
 
         return null;
@@ -451,7 +455,7 @@ class GattConnection {
 
     private void onCharacteristicRead(final byte[] value, final int status) {
         if (mExecutingCommand == null) return;
-        if (mIsDebugEnabled) QRomLog.d(TAG, "Characteristic read (status = " + status + ")");
+        if (mIsDebugEnabled) QRomLog.i(TAG, "Characteristic read (status = " + status + ")");
 
         if (status == BluetoothGatt.GATT_SUCCESS) {
             final boolean retry = mExecutingCommand.onRead(value);
@@ -465,7 +469,7 @@ class GattConnection {
 
     private void onCharacteristicWrite(final int status) {
         if (mExecutingCommand == null) return;
-        if (mIsDebugEnabled) QRomLog.d(TAG, "Characteristic written (status = " + status + ")");
+        if (mIsDebugEnabled) QRomLog.i(TAG, "Characteristic written (status = " + status + ")");
 
         if (status == BluetoothGatt.GATT_SUCCESS) {
             mExecutingCommand.onWrite();
@@ -475,7 +479,7 @@ class GattConnection {
 
     private void onDescriptorWrite(final int status) {
         if (mExecutingCommand == null) return;
-        if (mIsDebugEnabled) QRomLog.d(TAG, "Descriptor written (status = " + status + ")");
+        if (mIsDebugEnabled) QRomLog.i(TAG, "Descriptor written (status = " + status + ")");
 
         if (status == BluetoothGatt.GATT_SUCCESS) {
             mExecutingCommand.onDescriptorWrite();
@@ -489,13 +493,13 @@ class GattConnection {
             mExecutingCommand = null;
             doDisconnect();
         } else {
-            QRomLog.d(TAG, "Retrying command...");
+            QRomLog.i(TAG, "Retrying command...");
             mExecutingCommand.execute(mGatt);
         }
     }
 
     private void onSuccessfulCommand() {
-        if (mIsDebugEnabled) QRomLog.d(TAG, "Command succeeded");
+        if (mIsDebugEnabled) QRomLog.i(TAG, "Command succeeded");
         stopTimeout();
 
         if (mShouldBeDisconnected) {
@@ -506,12 +510,12 @@ class GattConnection {
 
         mExecutingCommand = mCommandList.poll();
         if (mExecutingCommand != null) { // queue not empty
-            if (mIsDebugEnabled) QRomLog.d(TAG, "Executing queued command: " +
+            if (mIsDebugEnabled) QRomLog.i(TAG, "Executing queued command: " +
                     mExecutingCommand.getClass().getSimpleName());
             startTimeout(COMMAND_TIMEOUT);
             mExecutingCommand.execute(mGatt);
         } else {
-            QRomLog.d(TAG, "No command in queue");
+            QRomLog.i(TAG, "No command in queue");
         }
     }
 
@@ -519,43 +523,49 @@ class GattConnection {
                                          final UUID characteristic,
                                          final byte[] value) {
         if (mGatt == null) return;
-        if (mIsDebugEnabled) QRomLog.d(TAG, "Characteristic changed: " + characteristic);
+        if (mIsDebugEnabled) QRomLog.i(TAG, "Characteristic changed: " + characteristic);
         mListener.onCharacteristicChanged(service, characteristic, value);
     }
 
     private void onConnectionStateChange(final int newState, final int status) {
+        QRomLog.i(TAG, "onConnectionStateChange (newState:" + newState + ", status:" + status + ")");
         stopConnectGattTimeout();
         if (newState == BluetoothProfile.STATE_CONNECTED) {
+            QRomLog.i(TAG, "onConnectionStateChange  STATE_CONNECTED");
             if (mCurrentConnectionPhase == GattConnectionAttempt.CONNECTING_ACTIVE) {
+                QRomLog.i(TAG, "onConnectionStateChange  01");
                 changeConnectionPhase(GattConnectionAttempt.CONNECTING_ACTIVE_SUCCESS);
             } else if (mCurrentConnectionPhase == GattConnectionAttempt.CONNECTING_PASSIVE) {
+                QRomLog.i(TAG, "onConnectionStateChange  02");
                 changeConnectionPhase(GattConnectionAttempt.CONNECTING_PASSIVE_SUCCESS);
             } else {
+                QRomLog.i(TAG, "onConnectionStateChange  03");
                 changeConnectionPhase(GattConnectionAttempt.IDLE); // best to do
-                QRomLog.d(TAG, "Weird connectionPhaseState, should not happen: " +
+                QRomLog.i(TAG, "Weird connectionPhaseState, should not happen: " +
                         mCurrentConnectionPhase);
             }
-            QRomLog.d(TAG, "Connected (status = " + status + ")");
+            QRomLog.i(TAG, "Connected (status = " + status + ")");
             mHasBeenConnected = true;
             createBondIfNeeded();
             if (!mIsBonding) {
                 discoverServices();
             }
         } else if (newState == BluetoothProfile.STATE_DISCONNECTED) {
-            QRomLog.d(TAG, "Disconnected (status = " + status + ")");
+            QRomLog.i(TAG, "onConnectionStateChange  STATE_DISCONNECTED");
+            QRomLog.i(TAG, "Disconnected (status = " + status + ")");
             // Stop all time-out timers (no reason when we're disconnected!)
             stopTimeout();
             stopBondingTimeout();
             // What to do next?
             if (mIsBonding && !mShouldBeDisconnected && mGatt != null && !mSkipBonding) {
-                QRomLog.d(TAG, "Bonding seemed to trigger a disconnect. Retry without bond request.");
+                QRomLog.i(TAG, "Bonding seemed to trigger a disconnect. Retry without bond request.");
                 mHasBeenConnected = false;
                 mIsBonding = false;
                 mSkipBonding = true;
                 startPassiveConnect();
             } else if (mHasBeenConnected || mShouldBeDisconnected) {
                 if (status != BluetoothGatt.GATT_SUCCESS) {
-                    QRomLog.d(TAG, "Disconnected with an error code. (Don't) Remove bond here.");
+                    QRomLog.i(TAG, "Disconnected with an error code. (Don't) Remove bond here.");
                 }
                 close();
             } else if ((status != BluetoothGatt.GATT_SUCCESS
@@ -566,7 +576,7 @@ class GattConnection {
                 } else if (mCurrentConnectionPhase == GattConnectionAttempt.CONNECTING_PASSIVE) {
                     changeConnectionPhase(GattConnectionAttempt.CONNECTING_PASSIVE_FAILED);
                 }
-                QRomLog.d(TAG, "Got directly disconnected with an error code. Removing bond and try again.");
+                QRomLog.i(TAG, "Got directly disconnected with an error code. Removing bond and try again.");
 
                 if (mUseRefreshServices) {
                     refreshServices();
@@ -580,14 +590,14 @@ class GattConnection {
                 }
 
                 if (mGattConnectionInstructor.shallContinueTrying(mCurrentConnectionPhase)) {
-                    QRomLog.d(TAG, "Starting a passive connection to " + mDevice.getAddress());
+                    QRomLog.i(TAG, "Starting a passive connection to " + mDevice.getAddress());
                     startPassiveConnect();
                 } else {
                     close();
                 }
             }
         } else {
-            Log.e(TAG, "Unknown connection state!");
+            QRomLog.e(TAG, "Unknown connection state!");
         }
 
         mListener.onConnectionStateChange(newState, status);
@@ -601,26 +611,26 @@ class GattConnection {
     }
 
     private void startConnectGattTimeout(final long timeoutTime) {
-        QRomLog.d(TAG, "Starting connection timeout with timeoutTime: " + timeoutTime + " ...");
+        QRomLog.i(TAG, "Starting connection timeout with timeoutTime: " + timeoutTime + " ...");
         mHandler.removeCallbacks(mConnectTooLongRunnable);
         mHandler.postDelayed(mConnectTooLongRunnable, timeoutTime);
     }
 
     private void stopConnectGattTimeout() {
-        QRomLog.d(TAG, "Stopping connection timeout...");
+        QRomLog.i(TAG, "Stopping connection timeout...");
         mHandler.removeCallbacks(mConnectTooLongRunnable);
     }
 
     private void createBondIfNeeded() {
         if (mDevice.getBondState() == BluetoothDevice.BOND_BONDED) {
-            QRomLog.d(TAG, "Already bonded");
+            QRomLog.i(TAG, "Already bonded");
         } else if (mSkipBonding) {
-            QRomLog.d(TAG, "Skipping bonding...");
+            QRomLog.i(TAG, "Skipping bonding...");
         } else if (mDevice.getBondState() == BluetoothDevice.BOND_BONDING) {
-            QRomLog.d(TAG, "Device is bonding");
+            QRomLog.i(TAG, "Device is bonding");
             mIsBonding = true;
         } else {
-            QRomLog.d(TAG, "Requesting bonding");
+            QRomLog.i(TAG, "Requesting bonding");
             final boolean result = mDevice.createBond();
             if (result) {
                 mIsBonding = true;
@@ -634,13 +644,13 @@ class GattConnection {
     }
 
     private void startBondingTimeout() {
-        QRomLog.d(TAG, "Starting bonding timeout...");
+        QRomLog.i(TAG, "Starting bonding timeout...");
         mHandler.removeCallbacks(mBondingRunnable);
         mHandler.postDelayed(mBondingRunnable, BONDING_TIMEOUT);
     }
 
     private void stopBondingTimeout() {
-        QRomLog.d(TAG, "Stopping bonding timeout...");
+        QRomLog.i(TAG, "Stopping bonding timeout...");
         mHandler.removeCallbacks(mBondingRunnable);
     }
 
@@ -650,14 +660,14 @@ class GattConnection {
                 final Method removeBondMethod = BluetoothDevice.class.getMethod("removeBond");
                 boolean result = (Boolean) removeBondMethod.invoke(mDevice);
                 if (!result) {
-                    QRomLog.d(TAG, "Failed to remove bond");
+                    QRomLog.i(TAG, "Failed to remove bond");
                 }
             } catch (IllegalAccessException e) {
-                QRomLog.d(TAG, "Failed to remove bond", e);
+                QRomLog.i(TAG, "Failed to remove bond", e);
             } catch (NoSuchMethodException e) {
-                QRomLog.d(TAG, "Failed to remove bond", e);
+                QRomLog.i(TAG, "Failed to remove bond", e);
             } catch (InvocationTargetException e) {
-                QRomLog.d(TAG, "Failed to remove bond", e);
+                QRomLog.i(TAG, "Failed to remove bond", e);
             }
         }
     }
@@ -680,7 +690,7 @@ class GattConnection {
 
     // TODO: handle multiple onServicesDiscovered() calls robustly
     private void onServicesDiscovered(final int status) {
-        QRomLog.d(TAG, "Services discovered");
+        QRomLog.i(TAG, "Services discovered");
         if (mExecutingCommand == null) return;
 
         if (status == BluetoothGatt.GATT_SUCCESS) {
@@ -695,6 +705,7 @@ class GattConnection {
         public void onCharacteristicRead(final BluetoothGatt gatt,
                                          final BluetoothGattCharacteristic characteristic,
                                          final int status) {
+            QRomLog.i(TAG, "BluetoothGattCallback::onCharacteristicRead");
             mHandler.post(new Runnable() {
                 @Override
                 public void run() {
@@ -710,6 +721,7 @@ class GattConnection {
         public void onCharacteristicWrite(final BluetoothGatt gatt,
                                           final BluetoothGattCharacteristic characteristic,
                                           final int status) {
+            QRomLog.i(TAG, "BluetoothGattCallback::onCharacteristicWrite");
             mHandler.post(new Runnable() {
                 @Override
                 public void run() {
@@ -722,6 +734,7 @@ class GattConnection {
         @Override
         public void onCharacteristicChanged(final BluetoothGatt gatt,
                                             final BluetoothGattCharacteristic characteristic) {
+            QRomLog.i(TAG, "BluetoothGattCallback::onCharacteristicChanged");
             mHandler.post(new Runnable() {
                 @Override
                 public void run() {
@@ -737,6 +750,7 @@ class GattConnection {
         public void onDescriptorWrite(final BluetoothGatt gatt,
                                       final BluetoothGattDescriptor descriptor,
                                       final int status) {
+            QRomLog.i(TAG, "BluetoothGattCallback::onDescriptorWrite");
             mHandler.post(new Runnable() {
                 @Override
                 public void run() {
@@ -749,6 +763,7 @@ class GattConnection {
         public void onConnectionStateChange(final BluetoothGatt gatt,
                                             final int status,
                                             final int newState) {
+            QRomLog.i(TAG, "BluetoothGattCallback::onConnectionStateChange status：" + status + " newState=" + newState);
             mHandler.post(new Runnable() {
                 @Override
                 public void run() {
@@ -759,6 +774,7 @@ class GattConnection {
 
         @Override
         public void onServicesDiscovered(final BluetoothGatt gatt, final int status) {
+            QRomLog.i(TAG, "BluetoothGattCallback::onServicesDiscovered");
             mHandler.post(new Runnable() {
                 @Override
                 public void run() {
@@ -776,7 +792,7 @@ class GattConnection {
     }
 
     private void onTimeout() {
-        QRomLog.d(TAG, "Timed out!");
+        QRomLog.i(TAG, "Timed out!");
         if (mExecutingCommand != null) {
             mExecutingCommand.onError(new RuntimeException("Timeout"));
             mExecutingCommand = null;
@@ -787,12 +803,12 @@ class GattConnection {
     }
 
     private void startTimeout(final long timeoutMs) {
-        if (mIsDebugEnabled) QRomLog.d(TAG, "Starting timeout");
+        if (mIsDebugEnabled) QRomLog.i(TAG, "Starting timeout");
         mHandler.postDelayed(mTimeoutRunnable, timeoutMs);
     }
 
     private void stopTimeout() {
-        if (mIsDebugEnabled) QRomLog.d(TAG, "Canceling timeout");
+        if (mIsDebugEnabled) QRomLog.i(TAG, "Canceling timeout");
         mHandler.removeCallbacks(mTimeoutRunnable);
     }
 

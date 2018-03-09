@@ -1,7 +1,6 @@
 package com.example.pluginbluetooth.watch;
 
 import android.content.Context;
-import android.util.Log;
 
 import com.example.pluginbluetooth.behaviour.Behaviour;
 import com.example.pluginbluetooth.bluetooth.device.DeviceConnectionListener;
@@ -21,13 +20,12 @@ import java.util.concurrent.CopyOnWriteArraySet;
 
 import qrom.component.log.QRomLog;
 
-import static android.content.ContentValues.TAG;
-
 /**
  * Created by Administrator on 2018/3/1.
  */
 
 public class WatchProvider implements DeviceConnectionListener {
+    public static final String TAG = "rick_Print:WatchProvider";
     private final Context mContext;
     private final DeviceDataStorage mDeviceDataStorage;
     private boolean mIsWritingDeviceSettings = false;
@@ -115,7 +113,7 @@ public class WatchProvider implements DeviceConnectionListener {
     }
 
     public void setGattDevice(final GattDevice device) {
-        QRomLog.d(TAG, "Setting device: " + (device != null ? device.getAddress() : null));
+        QRomLog.i(TAG, "Setting device: " + (device != null ? device.getAddress() : null));
 
         if (mWatchDevice != null) {
             for (DeviceAvailableListener listener : mDeviceAvailableListeners) {
@@ -169,7 +167,7 @@ public class WatchProvider implements DeviceConnectionListener {
     }
 
     private void onDeviceRemovedOrReset() {
-        QRomLog.d(TAG, "Device was removed or reset. Clearing caches and marking device data as dirty.");
+        QRomLog.i(TAG, "Device was removed or reset. Clearing caches and marking device data as dirty.");
         mDeviceDataStorage.setDirty();
         mDeviceDataStorage.setAllDirty();
         mWatchDevice.invalidateCache();
@@ -230,9 +228,9 @@ public class WatchProvider implements DeviceConnectionListener {
     }
 
     private void writeDeviceSettings() {
-        QRomLog.i("kaelpu", "writeDeviceSettings");
+        QRomLog.i(TAG, "writeDeviceSettings");
         if (!mIsWritingDeviceSettings && isConnected() && mDeviceDataStorage.isDirty()) {
-            QRomLog.d(TAG, "Starting device settings sync...");
+            QRomLog.i(TAG, "Starting device settings sync...");
             mDeviceDataStorage.setSyncPending(); // The settings sync starts here
             mIsWritingDeviceSettings = true;
 
@@ -262,7 +260,7 @@ public class WatchProvider implements DeviceConnectionListener {
                     .success(new SuccessCallback<List<Void>>() {
                         @Override
                         public void onSuccess(final List<Void> result) {
-                            QRomLog.d(TAG, "Device settings sent successfully");
+                            QRomLog.i(TAG, "Device settings sent successfully");
                             mDeviceDataStorage.setSyncDone(); // Mark the sync as successful!
                             mIsWritingDeviceSettings = false;
                             setWroteOnboardingDeviceSettings(true); // Only used in the onboarding
@@ -275,14 +273,14 @@ public class WatchProvider implements DeviceConnectionListener {
                     .fail(new FailCallback() {
                         @Override
                         public void onFail(final Throwable error) {
-                            QRomLog.d(TAG, "Failed to send device settings: " + error);
+                            QRomLog.i(TAG, "Failed to send device settings: " + error);
                             mIsWritingDeviceSettings = false;
                             // Don't try again if we failed. Wait for next connection. We don't
                             // want to get stuck in a loop here.
                         }
                     });
         } else {
-            QRomLog.d(TAG, "writeDeviceSettings NOT writing settings." + " " + "mIsWritingDeviceSettings " +
+            QRomLog.i(TAG, "writeDeviceSettings NOT writing settings." + " " + "mIsWritingDeviceSettings " +
                     mIsWritingDeviceSettings + " " + "isConnected() " + isConnected() + " " +
                     "mDeviceDataStorage.isDirty() " + mDeviceDataStorage.isDirty());
         }

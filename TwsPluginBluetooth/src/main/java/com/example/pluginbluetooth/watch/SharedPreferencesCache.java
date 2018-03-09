@@ -31,9 +31,9 @@ public class SharedPreferencesCache implements CacheCenter {
     public String getString(final String key) {
         final String value = mSharedPreferences.getString(key, null);
         if (value != null) {
-            QRomLog.d(TAG, "Found cached value for " + key);
+            QRomLog.i(TAG, "Found cached value for " + key);
         } else {
-            QRomLog.d(TAG, "No cached value for " + key);
+            QRomLog.i(TAG, "No cached value for " + key);
         }
         return value;
     }
@@ -42,14 +42,14 @@ public class SharedPreferencesCache implements CacheCenter {
     public Value getValue(final String key) {
         final String result = mSharedPreferences.getString(key, null);
         if (result == null) {
-            QRomLog.d(TAG, "No cached value for " + key);
+            QRomLog.i(TAG, "No cached value for " + key);
             return null;
         }
         try {
             final byte[] bytes = Base64.decode(result, Base64.DEFAULT);
             final MessageUnpacker unpacker = MessagePack.newDefaultUnpacker(bytes);
             final Value value = unpacker.unpackValue();
-            QRomLog.d(TAG, "Found cached value for " + key);
+            QRomLog.i(TAG, "Found cached value for " + key);
             return value;
         } catch (IOException e) {
             Log.e(TAG, "Failed to read value from cache", e);
@@ -59,13 +59,13 @@ public class SharedPreferencesCache implements CacheCenter {
 
     @Override
     public void put(final String key, final String value) {
-        QRomLog.d(TAG, "Caching value for " + key);
+        QRomLog.i(TAG, "Caching value for " + key);
         mSharedPreferences.edit().putString(key, value).apply();
     }
 
     @Override
     public void put(final String key, final Value value) {
-        QRomLog.d(TAG, "Caching value for " + key);
+        QRomLog.i(TAG, "Caching value for " + key);
         try {
             final MessageBufferPacker packer = MessagePack.newDefaultBufferPacker();
             packer.packValue(value);
@@ -78,7 +78,7 @@ public class SharedPreferencesCache implements CacheCenter {
 
     @Override
     public void invalidate() {
-        QRomLog.d(TAG, "Invalidating device read cache");
+        QRomLog.i(TAG, "Invalidating device read cache");
         mSharedPreferences.edit().clear().apply();
     }
 

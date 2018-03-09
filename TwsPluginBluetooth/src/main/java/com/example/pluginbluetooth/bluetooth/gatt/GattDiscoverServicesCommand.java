@@ -33,7 +33,7 @@ class GattDiscoverServicesCommand extends GattCommand {
     private void doDiscoverServices(final BluetoothGatt gatt) {
         final boolean success = gatt.discoverServices();
         if (!success) {
-            QRomLog.d(TAG, "Discover services did not successfully start!");
+            QRomLog.i(TAG, "Discover services did not successfully start!");
         }
     }
 

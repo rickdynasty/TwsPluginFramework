@@ -21,11 +21,11 @@ public class Bonding {
                 final Method removeBondMethod = BluetoothDevice.class.getMethod("removeBond");
                 boolean result = (Boolean) removeBondMethod.invoke(device);
                 if (!result) {
-                    QRomLog.d(TAG, "Failed to remove bond");
+                    QRomLog.i(TAG, "Failed to remove bond");
                 }
             }
         } catch (Exception e) {
-            QRomLog.d(TAG, "Failed to remove bond", e);
+            QRomLog.i(TAG, "Failed to remove bond", e);
         }
     }
 

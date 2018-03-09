@@ -21,7 +21,7 @@ class GattReadCommand extends GattCommand {
     public void execute(final BluetoothGatt gatt) {
         final boolean success = gatt.readCharacteristic(mCharacteristic);
         if (!success) {
-            QRomLog.d(TAG, "Read failed!");
+            QRomLog.i(TAG, "Read failed!");
         }
     }
 

@@ -58,7 +58,7 @@ public class DeviceWriter {
     }
 
     private Future<Void> write(final Command cmd, final boolean useCommandCache) {
-        QRomLog.d(TAG, "Initiate write - " + cmd.toString());
+        QRomLog.i(TAG, "Initiate write - " + cmd.toString());
 
         final Promise<Void> promise = new Promise<Void>();
 
@@ -81,7 +81,7 @@ public class DeviceWriter {
                         @Override
                         public void onSuccess(final Void result) {
                             if (mIsDebugEnabled) {
-                                QRomLog.d(TAG, "Wrote name: " + name + ", data: " + data);
+                                QRomLog.i(TAG, "Wrote name: " + name + ", data: " + data);
                             }
 
                             promise.resolve(result);
@@ -94,7 +94,7 @@ public class DeviceWriter {
                     });
         } catch (IOException e) {
             if (mIsDebugEnabled) {
-                QRomLog.d(TAG, e.getMessage());
+                QRomLog.i(TAG, e.getMessage());
             }
 
             promise.reject(e);
@@ -137,7 +137,7 @@ public class DeviceWriter {
     private Command createCommand(final String name, final int nbr, final Value value,
                                   final Promise<Void> promise) throws IOException {
         if (mIsDebugEnabled) {
-            QRomLog.d(TAG, "Create command name: " + name + ", value: " + value);
+            QRomLog.i(TAG, "Create command name: " + name + ", value: " + value);
         }
 
         if (nbr < 0) {

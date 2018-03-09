@@ -25,7 +25,7 @@ public class DeviceManager implements DeviceAvailableListener {
      */
     @Override
     public void onDeviceAdded() {
-        QRomLog.d(TAG, "Device added. Starting device service.");
+        QRomLog.i(TAG, "Device added. Starting device service.");
         DeviceService.start(mContext);
     }
 
@@ -34,7 +34,7 @@ public class DeviceManager implements DeviceAvailableListener {
      */
     @Override
     public void onDeviceRemoved() {
-        QRomLog.d(TAG, "Device removed. Stopping device service.");
+        QRomLog.i(TAG, "Device removed. Stopping device service.");
         DeviceService.stop(mContext);
     }
 

@@ -12,7 +12,7 @@ import qrom.component.log.QRomLog;
 
 public class GattDeviceScanner implements ScanListener {
 
-    private static final String TAG = GattDeviceScanner.class.getSimpleName();
+    private static final String TAG = "rick_Print:GattDeviceScanner";
     private final Context mContext;
     private final Handler mHandler = new Handler();
     private String mDeviceAddress;
@@ -51,7 +51,7 @@ public class GattDeviceScanner implements ScanListener {
 
     @Override
     public void onScanResult(final GattDevice device) {
-        QRomLog.i("kaelpu_ble", "[onScanResult] form GattDeviceScanner = " + device.getAddress());
+        QRomLog.i(TAG, "[onScanResult] form GattDeviceScanner = " + device.getAddress());
         if (device != null) {
             String address = device.getAddress();
             if (address != null && address.equals(mDeviceAddress)) {

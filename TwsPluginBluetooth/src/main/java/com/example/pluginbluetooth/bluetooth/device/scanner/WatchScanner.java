@@ -2,7 +2,6 @@ package com.example.pluginbluetooth.bluetooth.device.scanner;
 
 import android.content.Context;
 import android.os.Handler;
-import android.util.Log;
 
 import com.example.pluginbluetooth.bluetooth.gatt.DeviceScanner;
 import com.example.pluginbluetooth.bluetooth.gatt.GattDevice;
@@ -20,9 +19,9 @@ import qrom.component.log.QRomLog;
 
 public class WatchScanner implements ScanListener {
 
-    private static final String TAG = WatchScanner.class.getSimpleName();
+    private static final String TAG = "rick_Print:WatchScanner";
 
-    private static final int SCAN_MINIMUM_DURATION_MS = 11000;
+    private static final int SCAN_MINIMUM_DURATION_MS = 25 * 1000;
 
     private final Context mContext;
     private final Handler mHandler = new Handler();
@@ -59,6 +58,7 @@ public class WatchScanner implements ScanListener {
     }
 
     public void startScan(final int time) {
+        QRomLog.i(TAG, "startScan");
         init();
 
         mHandler.postDelayed(mMinimumScanRunnable, time);
@@ -72,6 +72,7 @@ public class WatchScanner implements ScanListener {
     }
 
     public void stopScan() {
+        QRomLog.i(TAG, "stopScan");
         mScanner.stop();
         mHandler.removeCallbacks(mMinimumScanRunnable);
     }
@@ -90,7 +91,7 @@ public class WatchScanner implements ScanListener {
 
     @Override
     public void onScanResult(final GattDevice device) {
-        QRomLog.i("kaelpu_ble","[onScanResult] form WatchScanner = " + device.getAddress());
+        QRomLog.i(TAG, "===[onScanResult]=== form WatchScanner = " + device.getAddress());
 
         mDevices.add(device);
 
@@ -106,19 +107,23 @@ public class WatchScanner implements ScanListener {
     }
 
     private void onMinimumScanDurationElapsed() {
+        QRomLog.i(TAG, "???????onMinimumScanDurationElapsed???????");
         mMinimumScanDurationElapsed = true;
 
         handleScanResults();
     }
 
     private void handleScanResults() {
+        QRomLog.i(TAG, "handleScanResults 01");
         if (mDevices.size() == 1 && !mFoundOneDeviceWhenScanning) {
+            QRomLog.i(TAG, "handleScanResults 02");
             onScanFirstWatchFound();
 
             mFoundOneDeviceWhenScanning = true;
         }
 
         if (mMinimumScanDurationElapsed) {
+            QRomLog.i(TAG, "handleScanResults 03");
             final GattDevice device = selectGattDevice();
 
             onScanFinished(device);
@@ -130,6 +135,7 @@ public class WatchScanner implements ScanListener {
             return null;
         }
 
+        QRomLog.i(TAG, "selectGattDevice");
         final List<GattDevice> devices = new ArrayList<GattDevice>(mDevices);
 
         Collections.sort(devices, new Comparator<GattDevice>() {
@@ -140,7 +146,7 @@ public class WatchScanner implements ScanListener {
         });
 
         for (GattDevice gattDevice : devices) {
-            QRomLog.d(TAG, "Found device: " + gattDevice.getAddress() + " " + gattDevice.getRssi());
+            QRomLog.i(TAG, "Found device: " + gattDevice.getAddress() + " " + gattDevice.getRssi());
         }
 
         if (mDevices.isEmpty()) {
@@ -156,9 +162,10 @@ public class WatchScanner implements ScanListener {
     }
 
     private void onScanFinished(final GattDevice device) {
-        if(device != null ){
-            QRomLog.i("kaelpu_ble","[onScanFinished] = " +device );
+        if (device != null) {
+            QRomLog.i(TAG, "===[onScanFinished]=== = " + device.getAddress());
         }
+
         for (final WatchScannerListener listener : mListeners) {
             listener.onScanFinished(device);
         }
@@ -166,6 +173,7 @@ public class WatchScanner implements ScanListener {
 
     public interface WatchScannerListener {
         void onScanFirstWatchFound();
+
         void onScanFinished(final GattDevice device);
     }
 }

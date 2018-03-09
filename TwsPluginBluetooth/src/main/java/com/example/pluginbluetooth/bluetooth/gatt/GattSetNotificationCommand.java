@@ -55,7 +55,7 @@ class GattSetNotificationCommand extends GattCommand {
                 descriptor.setValue(BluetoothGattDescriptor.ENABLE_INDICATION_VALUE);
                 final boolean descriptorSuccess = gatt.writeDescriptor(descriptor);
                 if (!descriptorSuccess) {
-                    QRomLog.d(TAG, "Failed to write to descriptor");
+                    QRomLog.i(TAG, "Failed to write to descriptor");
                 }
             }
         }, 1000);
@@ -63,7 +63,7 @@ class GattSetNotificationCommand extends GattCommand {
 
     @Override
     public void onError(final Throwable error) {
-        QRomLog.d(TAG, error.getMessage());
+        QRomLog.i(TAG, error.getMessage());
         if (mCallback != null) mCallback.onError(error);
     }
 

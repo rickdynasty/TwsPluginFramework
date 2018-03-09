@@ -60,7 +60,7 @@ public class Onboarding implements WatchScanner.WatchScannerListener, DeviceConn
     private final BaseWatchProviderListener mWatchProviderListener = new BaseWatchProviderListener() {
         @Override
         public void onWroteDeviceSettings() {
-            QRomLog.d(TAG, "Device settings written. Updating state.");
+            QRomLog.i(TAG, "Device settings written. Updating state.");
             updateState();
         }
     };
@@ -101,6 +101,35 @@ public class Onboarding implements WatchScanner.WatchScannerListener, DeviceConn
         }
     }
 
+    private String getStateDes(State state) {
+        switch (state) {
+            case BLUETOOTH_ENABLING:     // 蓝牙不可用(系统开关没开)
+                return "BLUETOOTH_ENABLING";
+            case LOCATION_ENABLING:      // 定位不可用(系统开关没开)
+                return "LOCATION_ENABLING";
+            case LOCATION_PERMISSION:    // 没定位权限
+                return "LOCATION_PERMISSION";
+            case SCANNING:               //扫描ing
+                return "SCANNING";
+            case CONNECTING:             //链接ing
+                return "CONNECTING";
+            case CONNECTED:              //已链接
+                return "CONNECTED";
+            case FINISHING: // calibration check for instance
+                return "FINISHING";
+            case FINISHED:
+                return "FINISHED";
+            case FAIL:
+                return "FAIL";
+            case PAUSED:
+                return "PAUSED";
+            case CANCEL:
+                return "CANCEL";
+            default:
+                return "unKown";
+        }
+    }
+
     private final Handler mHandler = new Handler();
     private final Runnable mTimerRunnable = new Runnable() {
         @Override
@@ -138,6 +167,7 @@ public class Onboarding implements WatchScanner.WatchScannerListener, DeviceConn
     };
 
     public Onboarding(@NonNull final BluetoothOnboardingProvider provider, @NonNull final Context context) {
+        QRomLog.i(TAG, "Onboarding");
         mProvider = provider;
 
         mContext = context;
@@ -160,7 +190,7 @@ public class Onboarding implements WatchScanner.WatchScannerListener, DeviceConn
     }
 
     public void resume() {
-        QRomLog.d(TAG, "Resuming. Updating state.");
+        QRomLog.i(TAG, "resume");
         updateState();
     }
 
@@ -179,6 +209,7 @@ public class Onboarding implements WatchScanner.WatchScannerListener, DeviceConn
 
     public void updateState() {
         final State nextState = getNextState(); // This could be the current state and then we leave and re-enter!
+
         gotoState(nextState);
     }
 
@@ -213,18 +244,21 @@ public class Onboarding implements WatchScanner.WatchScannerListener, DeviceConn
     }
 
     private void forgetCurrentDeviceIfNeeded() {
+        QRomLog.i(TAG, "forgetCurrentDeviceIfNeeded");
         if (!isConnected() && !isInOtaMode() && !isDeviceBonded()) {
-            QRomLog.d(TAG, "Failed to connect. Forgetting device.");
+            QRomLog.i(TAG, "Failed to connect. Forgetting device.");
             ProviderFactory.getWatch().forgetDevice();
         }
     }
 
     public void finishOnboarding() {
+        QRomLog.i(TAG, "finishOnboarding");
         ProviderFactory.getWatch().setOnboardingFinished(true);
         updateState();
     }
 
     public void startFinishingOnboarding() {
+        QRomLog.i(TAG, "startFinishingOnboarding");
         savePreviousTriedDevice(null);
         // Check if the watch is in DFU mode or got disconnected during the timeout
         if (!ProviderFactory.getWatch().isConnected()) {
@@ -301,7 +335,7 @@ public class Onboarding implements WatchScanner.WatchScannerListener, DeviceConn
     }
 
     public void gotoState(final State state) {
-        QRomLog.d(TAG, "Changing state: " + mState + " => " + state);
+        QRomLog.i(TAG, "Changing state: " + getStateDes(mState) + " => " + getStateDes(state));
         final boolean stateChanged = mState != state;
         leaveState(mState);
         mState = state;
@@ -314,6 +348,7 @@ public class Onboarding implements WatchScanner.WatchScannerListener, DeviceConn
     }
 
     private void leaveState(final State state) {
+        QRomLog.i(TAG, "leaveState: " + getStateDes(state));
         mPreviousState = state;
         switch (state) {
             case BLUETOOTH_ENABLING:
@@ -335,6 +370,7 @@ public class Onboarding implements WatchScanner.WatchScannerListener, DeviceConn
     }
 
     private void enterState(final State state) {
+        QRomLog.i(TAG, "enterState: " + getStateDes(state));
         mVisitedStateSet.add(state);
         switch (state) {
             case BLUETOOTH_ENABLING:
@@ -362,7 +398,7 @@ public class Onboarding implements WatchScanner.WatchScannerListener, DeviceConn
     private void onTimer() {
         switch (mState) {
             case CONNECTING:
-                QRomLog.d(TAG, "Connecting timed out");
+                QRomLog.i(TAG, "Connecting timed out");
                 forgetCurrentDeviceIfNeeded();
                 gotoState(State.FAIL);
                 break;
@@ -372,6 +408,7 @@ public class Onboarding implements WatchScanner.WatchScannerListener, DeviceConn
     }
 
     private void startTimer(final int milliseconds) {
+        QRomLog.i(TAG, "startTimer");
         mHandler.removeCallbacks(mTimerRunnable);
         mHandler.postDelayed(mTimerRunnable, milliseconds);
     }
@@ -381,12 +418,14 @@ public class Onboarding implements WatchScanner.WatchScannerListener, DeviceConn
     }
 
     public void startScan() {
+        QRomLog.i(TAG, "call startScan 开始扫描...");
         mWatchScanner.registerListener(this);
 
         mWatchScanner.startScan();
     }
 
     public void stopScan() {
+        QRomLog.i(TAG, "stopScan");
         mWatchScanner.unregisterListener(this);
 
         mWatchScanner.stopScan();
@@ -411,7 +450,7 @@ public class Onboarding implements WatchScanner.WatchScannerListener, DeviceConn
         });
 
         for (GattDevice gattDevice : devices) {
-            QRomLog.d(TAG, "Found device: " + gattDevice.getAddress() + " " + gattDevice.getRssi());
+            QRomLog.i(TAG, "Found device: " + gattDevice.getAddress() + " " + gattDevice.getRssi());
         }
 
         if (mDevices.isEmpty()) {
@@ -421,6 +460,7 @@ public class Onboarding implements WatchScanner.WatchScannerListener, DeviceConn
     }
 
     private void setDevice(final GattDevice device) {
+        QRomLog.i(TAG, "setDevice .. ");
         if (device != null) {
             String address = device.getAddress();
             if (address != null) {
@@ -431,16 +471,18 @@ public class Onboarding implements WatchScanner.WatchScannerListener, DeviceConn
     }
 
     private void startConnecting() {
+        QRomLog.i(TAG, "startConnecting");
         mProvider.registerDeviceConnectionListener(this);
         ProviderFactory.getWatch().registerListener(mWatchProviderListener);
         if (isConnected() && getWroteOnboardingDeviceSettings() && !isInOtaMode()) {
-            QRomLog.d(TAG, "Already connected. Updating state.");
+            QRomLog.i(TAG, "Already connected. Updating state.");
             updateState();
         }
         startTimer(CONNECTING_TIMEOUT_MS);
     }
 
     private void stopConnecting() {
+        QRomLog.i(TAG, "stopConnecting");
         mProvider.unregisterDeviceConnectionListener(this);
         ProviderFactory.getWatch().unregisterListener(mWatchProviderListener);
         stopTimer();
@@ -449,11 +491,12 @@ public class Onboarding implements WatchScanner.WatchScannerListener, DeviceConn
     }
 
     private void onBluetoothToggled() {
+        QRomLog.i(TAG, "onBluetoothToggled");
         if (mState == State.BLUETOOTH_ENABLING) {
-            QRomLog.d(TAG, "Bluetooth toggled. Updating state.");
+            QRomLog.i(TAG, "Bluetooth toggled. Updating state.");
             updateState();
         } else {
-            QRomLog.d(TAG, "Bluetooth was toggled in unexpected state " + mState);
+            QRomLog.i(TAG, "Bluetooth was toggled in unexpected state " + mState);
         }
     }
 
@@ -502,25 +545,28 @@ public class Onboarding implements WatchScanner.WatchScannerListener, DeviceConn
 
     @Override
     public void onScanFirstWatchFound() {
+        QRomLog.i(TAG, "onScanFirstWatchFound");
         mListener.foundOneDeviceWhenScanning();
     }
 
     @Override
     public void onScanFinished(GattDevice device) {
+        QRomLog.i(TAG, "onScanFinished");
         if (device != null) {
             // Remove bonding information before attempting to connect to device
             try {
                 device.removeBond();
             } catch (Exception e) {
-                QRomLog.d(TAG, "Remove bond failed", e);
+                QRomLog.i(TAG, "Remove bond failed", e);
             }
 
             // Set the selected device as our globally used device
             setDevice(device);
 
             // Continue to the next state
-            QRomLog.d(TAG, "Continuing to next state after setting device");
+            QRomLog.i(TAG, "Continuing to next state after setting device");
         }
+
         if (device == null) {
             gotoState(State.FAIL);
         } else {
@@ -530,12 +576,12 @@ public class Onboarding implements WatchScanner.WatchScannerListener, DeviceConn
 
     @Override
     public void onConnecting() {
-        QRomLog.d(TAG, "Connecting");
+        QRomLog.i(TAG, "Connecting");
     }
 
     @Override
     public void onConnected() {
-        QRomLog.d(TAG, "Connected. Updating state.");
+        QRomLog.i(TAG, "Connected. Updating state.");
         ProviderFactory.getWatch().getDeviceInformation(); // Start this read here so it's cached when we enter app
         updateState();
     }

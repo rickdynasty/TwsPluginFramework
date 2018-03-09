@@ -24,7 +24,7 @@ public class CommandCenter {
 
     public Map<String, Value> translate(final Value value) {
         HashMap<String, Value> map = new HashMap<String, Value>();
-        if (DEBUG) QRomLog.d(TAG, "parsed data: " + value.toString());
+        if (DEBUG) QRomLog.i(TAG, "parsed data: " + value.toString());
 
         for (Map.Entry<Value, Value> entry : value.asMapValue().entrySet()) {
             final int key = entry.getKey().asIntegerValue().asInt();
@@ -34,7 +34,7 @@ public class CommandCenter {
     }
 
     public void parseMap(final String command, final Value pages) {
-        if (DEBUG) QRomLog.d(TAG, "parsed data: " + pages.toString());
+        if (DEBUG) QRomLog.i(TAG, "parsed data: " + pages.toString());
 
         for (final Value page : pages.asArrayValue()) {
             for (final Map.Entry<Value, Value> entry : page.asMapValue().entrySet()) {

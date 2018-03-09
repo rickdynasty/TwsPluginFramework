@@ -72,6 +72,7 @@ public class GattDevice implements GattConnection.GattConnectionInstructor, Gatt
     private final GattListener mGattListener = new GattListener() {
         @Override
         public void onConnected() {
+            QRomLog.i(TAG, "GattListener::onConnected");
             mIsDisconnecting = false;
             mIsConnected = true;
             mConnectionAttemptTimestamp = Long.MAX_VALUE;
@@ -82,11 +83,13 @@ public class GattDevice implements GattConnection.GattConnectionInstructor, Gatt
 
         @Override
         public void onDisconnecting() {
+            QRomLog.i(TAG, "GattListener::onDisconnecting");
             mIsDisconnecting = true;
         }
 
         @Override
         public void onDisconnected() {
+            QRomLog.i(TAG, "GattListener::onDisconnected");
             if (mIsConnected && mShouldBeConnected) {
                 restartHardToConnectCheck();
             }
@@ -107,6 +110,7 @@ public class GattDevice implements GattConnection.GattConnectionInstructor, Gatt
 
         @Override
         public void onCharacteristicChanged(final UUID service, final UUID characteristic, final byte[] data) {
+            QRomLog.i(TAG, "GattListener::onCharacteristicChanged");
             for (DeviceListener listener : mListeners) {
                 listener.onCharacteristicChanged(service, characteristic, data);
             }
@@ -114,6 +118,7 @@ public class GattDevice implements GattConnection.GattConnectionInstructor, Gatt
 
         @Override
         public void onBonded() {
+            QRomLog.i(TAG, "GattListener::onBonded");
             for (DeviceListener listener : mListeners) {
                 listener.onBonded();
             }
@@ -121,6 +126,7 @@ public class GattDevice implements GattConnection.GattConnectionInstructor, Gatt
 
         @Override
         public void onConnectionStateChange(int newState, int status) {
+            QRomLog.i(TAG, "GattListener::onConnectionStateChange");
             for (DeviceListener listener : mListeners) {
                 listener.onConnectionStateChange(newState, status);
             }
@@ -128,6 +134,7 @@ public class GattDevice implements GattConnection.GattConnectionInstructor, Gatt
     };
 
     public GattDevice(final Context context, final BluetoothDevice device, final int deviceType, final int itemId, final int rssi) {
+        QRomLog.i(TAG, "构造GattDevice");
         mContext = context.getApplicationContext();
         mBluetoothDevice = device;
         mType = deviceType;
@@ -256,6 +263,7 @@ public class GattDevice implements GattConnection.GattConnectionInstructor, Gatt
     }
 
     public void connect() {
+        QRomLog.i(TAG, "connect");
         if (!mShouldBeConnected) {
             restartHardToConnectCheck();
             mShouldBeConnected = true;
@@ -274,11 +282,11 @@ public class GattDevice implements GattConnection.GattConnectionInstructor, Gatt
     }
 
     public void tryHardToConnect() {
-        QRomLog.d(TAG, "tryHardToConnect");
+        QRomLog.i(TAG, "tryHardToConnect");
         if (!mIsConnected) {
             mTryHardToConnect = true;
             if (mGattConnection != null && mGattConnection.isPassivelyTryingToConnect()) {
-                QRomLog.d(TAG, "gattConnection is passively trying to connect... refreshConnection");
+                QRomLog.i(TAG, "gattConnection is passively trying to connect... refreshConnection");
                 refreshConnection();
             }
         }
@@ -298,7 +306,7 @@ public class GattDevice implements GattConnection.GattConnectionInstructor, Gatt
                 new GattDeviceScanner.GattDeviceScannerListener() {
                     @Override
                     public void onScanFinished(GattDevice device) {
-                        QRomLog.d(TAG, "onScanFinished device: " + device);
+                        QRomLog.i(TAG, "onScanFinished device: " + device);
                         if (device != null) {
                             mBluetoothDevice = device.mBluetoothDevice;
                         }
@@ -330,6 +338,7 @@ public class GattDevice implements GattConnection.GattConnectionInstructor, Gatt
     }
 
     private void gattConnect() {
+        QRomLog.i(TAG, "gattConnect");
         mGattConnection = new GattConnection(mContext, mBluetoothDevice, mGattListener, this, mUseRefreshServices);
         mGattConnection.setConnectionAttemptListener(this);
         mGattConnection.setDebugMode(mIsDebugEnabled);
@@ -338,7 +347,7 @@ public class GattDevice implements GattConnection.GattConnectionInstructor, Gatt
 
     @Override
     public void onConnectionPhaseChanged(GattConnectionAttempt gattConnectionAttempt) {
-        QRomLog.d(TAG, "onConnectionPhaseChanged: " + gattConnectionAttempt);
+        QRomLog.i(TAG, "onConnectionPhaseChanged: " + gattConnectionAttempt);
 
         switch (gattConnectionAttempt) {
             case CONNECTING_ACTIVE_SUCCESS:
@@ -368,6 +377,18 @@ public class GattDevice implements GattConnection.GattConnectionInstructor, Gatt
             if (!result) {
                 throw new RuntimeException("removeBond failed!");
             }
+        }
+    }
+
+    public void setNotification(UUID service, UUID characteristic) {
+        setNotification(service, characteristic, null);
+    }
+
+    public void setNotification(UUID service, UUID characteristic, Callback<Void> callback) {
+        if (mIsConnected) {
+            mGattConnection.setNotification(service, characteristic, callback);
+        } else {
+            callback.onError(new RuntimeException("Not connected"));
         }
     }
 }

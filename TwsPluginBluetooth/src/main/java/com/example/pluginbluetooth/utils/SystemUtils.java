@@ -8,9 +8,6 @@ import java.io.IOException;
 import java.lang.reflect.Method;
 import java.util.Properties;
 
-/**
- * Created by p_kaelpu on 2017/8/31.
- */
 public class SystemUtils {
 
     public static final String SYS_EMUI = "sys_emui";

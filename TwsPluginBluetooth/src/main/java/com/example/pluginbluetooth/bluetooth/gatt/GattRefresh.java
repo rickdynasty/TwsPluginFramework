@@ -33,11 +33,11 @@ public class GattRefresh {
                     success = (Boolean) refresh.invoke(gatt);
                 }
             } catch (Exception e) {
-                QRomLog.d(TAG, "An exception occurred while refreshing device", e);
+                QRomLog.i(TAG, "An exception occurred while refreshing device", e);
             }
         }
 
-        QRomLog.d(TAG, "Refreshing result: " + success);
+        QRomLog.i(TAG, "Refreshing result: " + success);
 
         return success;
     }

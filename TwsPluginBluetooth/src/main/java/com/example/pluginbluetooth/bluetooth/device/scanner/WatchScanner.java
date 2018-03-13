@@ -21,7 +21,7 @@ public class WatchScanner implements ScanListener {
 
     private static final String TAG = "rick_Print:WatchScanner";
 
-    private static final int SCAN_MINIMUM_DURATION_MS = 25 * 1000;
+    private static final int SCAN_MINIMUM_DURATION_MS = 11000;
 
     private final Context mContext;
     private final Handler mHandler = new Handler();

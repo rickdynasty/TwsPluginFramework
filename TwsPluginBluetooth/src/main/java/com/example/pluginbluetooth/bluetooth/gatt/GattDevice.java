@@ -391,4 +391,8 @@ public class GattDevice implements GattConnection.GattConnectionInstructor, Gatt
             callback.onError(new RuntimeException("Not connected"));
         }
     }
+
+    public boolean isHighProbabilityForDFUSuccess() {
+        return true;//highProbabilityForDFUSuccess;
+    }
 }

@@ -44,22 +44,10 @@ public class Onboarding implements WatchScanner.WatchScannerListener, DeviceConn
     private static final String PREFS_KEY_PREVIOUS_ONBOARDED_DEVICE = "previous_onboarded_device";
     private static final String SP_PAIR = "sp_pair";
     private static final String KEY_HAS_PAIR_SUCCESS = "key_has_pair_success";
-    private static final int WELCOME_DURATION_MS = 2500;
     private static final int SCAN_MINIMUM_DURATION_MS = 11000;
     private static final int CONNECTING_TIMEOUT_MS = 90000;
 
     private static Onboarding sInstance;
-    private final Context mContext;
-
-    private WatchScanner mWatchScanner;
-
-    private State mState = State.PAUSED;
-    private State mPreviousState = State.PAUSED;
-
-    private final BluetoothOnboardingProvider mProvider;
-    private final Set<GattDevice> mDevices = new HashSet<GattDevice>();
-
-    private OnboardingChangeListener mListener;
 
     private Set<State> mVisitedStateSet;
     private boolean mLastKnownInternetAvailable;
@@ -156,6 +144,18 @@ public class Onboarding implements WatchScanner.WatchScannerListener, DeviceConn
             });
         }
     };
+
+
+    private final Context mContext;
+    private final BluetoothOnboardingProvider mProvider;
+    private final Set<GattDevice> mDevices = new HashSet<GattDevice>();
+
+    private OnboardingChangeListener mListener;
+    private WatchScanner mWatchScanner;
+
+    private State mState = State.PAUSED;
+    private State mPreviousState = State.PAUSED;
+
 
 
     private final BaseWatchProviderListener mWatchProviderListener = new BaseWatchProviderListener() {
@@ -272,7 +272,7 @@ public class Onboarding implements WatchScanner.WatchScannerListener, DeviceConn
             return State.LOCATION_PERMISSION;
         } else if (!hasDevice()) {
             return State.SCANNING;
-        } else if (!isConnected() || !getWroteOnboardingDeviceSettings()) {
+        } else if (!isInDfuMode() && (!isConnected() || !getWroteOnboardingDeviceSettings())) {
             return State.CONNECTING;
         } else {
             return State.CONNECTED;
@@ -512,6 +512,8 @@ public class Onboarding implements WatchScanner.WatchScannerListener, DeviceConn
     @Override
     public void onConnecting() {
         QRomLog.i(TAG, "Connecting");
+        // TODO: react on this and give the user some kind of feedback!
+        // This means that we're now in contact with the device, but not ready handshaking with it yet.
     }
 
     @Override
@@ -533,7 +535,8 @@ public class Onboarding implements WatchScanner.WatchScannerListener, DeviceConn
 
     @Override
     public void onEnterDfuMode() {
-        QRomLog.i(TAG, "onEnterDfuMode");
+        QRomLog.i(TAG, "Connected (DFU mode). Updating state.");
+        updateState();
     }
 
     @Override

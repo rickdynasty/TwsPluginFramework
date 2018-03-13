@@ -182,6 +182,17 @@ public class WatchProvider implements DeviceConnectionListener {
 
     @Override
     public void onConnected() {
+        QRomLog.i(TAG, "onConnected");
+        for (WatchProviderListener listener : mListeners) {
+            QRomLog.i(TAG, "onConnected 回调listener：" + listener + " onConnectionChanged(true)");
+            listener.onConnectionChanged(true);
+        }
+
+        for (DeviceConnectionListener listener : mDeviceConnectionListeners) {
+            QRomLog.i(TAG, "onConnected 回调listener：" + listener + " 的onConnected()");
+            listener.onConnected();
+        }
+
         deviceConnected()
                 .always(new AlwaysCallback() {
                     @Override

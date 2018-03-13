@@ -431,8 +431,10 @@ public class WatchDevice implements WatchDeviceInterface {
 
         connectInputDeviceIfNeeded();
 
+        QRomLog.i(TAG, "--==-- onCommandMapReady() 01");
         // Notify listeners that we are connected
         for (DeviceConnectionListener listener : mConnectionListeners) {
+            QRomLog.i(TAG, "--==-- onCommandMapReady() 回调：" + listener);
             listener.onConnected();
         }
     }

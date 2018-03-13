@@ -108,8 +108,8 @@ public class WatchProvider implements DeviceConnectionListener {
         return mWatchDevice != null && mWatchDevice.isConnected();
     }
 
-    public boolean isInOtaMode() {
-        return mWatchDevice != null && mWatchDevice.isInOtaMode();
+    public boolean isInDfuMode() {
+        return mWatchDevice != null && mWatchDevice.isInDfuMode();
     }
 
     public void setGattDevice(final GattDevice device) {
@@ -214,12 +214,12 @@ public class WatchProvider implements DeviceConnectionListener {
     }
 
     @Override
-    public void onEnterOtaMode() {
+    public void onEnterDfuMode() {
 
     }
 
     @Override
-    public void onLeaveOtaMode() {
+    public void onLeaveDfuMode() {
 
     }
 

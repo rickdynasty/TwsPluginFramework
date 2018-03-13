@@ -42,8 +42,8 @@ class BluetoothOnboardingProviderImpl implements BluetoothOnboardingProvider {
     }
 
     @Override
-    public boolean isInOtaMode() {
-        return mWatch.isInOtaMode();
+    public boolean isInDfuMode() {
+        return mWatch.isInDfuMode();
     }
 
     @Override

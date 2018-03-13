@@ -43,6 +43,12 @@ public class OnboardingActivity extends BaseActivity implements Onboarding.Onboa
     }
 
     @Override
+    protected void onNewIntent(final Intent intent) {
+        QRomLog.i(TAG, "onNewIntent");
+        super.onNewIntent(intent);
+    }
+
+    @Override
     protected void onResume() {
         QRomLog.i(TAG, "onResume");
         mIsResuming = true;
@@ -55,12 +61,13 @@ public class OnboardingActivity extends BaseActivity implements Onboarding.Onboa
     }
 
     @Override
-    protected void onNewIntent(Intent intent) {
-        QRomLog.i(TAG, "onNewIntent");
-        super.onNewIntent(intent);
+    public void onPause() {
+        QRomLog.i(TAG, "onPause");
+        mOnboarding.setChangeListener(null);
+        mOnboarding.pause();
+        super.onPause();
     }
 
-    // OnboardingChangeListener
     @Override
     public void onOnboardingStateChanged() {
         QRomLog.i(TAG, "onOnboardingStateChanged");
@@ -249,7 +256,6 @@ public class OnboardingActivity extends BaseActivity implements Onboarding.Onboa
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
         QRomLog.i(TAG, "onBackPressed");
         final BaseOnboardingFragment fragment = getCurrentDisplayedBaseOnboardingFragment();
 

@@ -13,7 +13,6 @@ import android.os.Handler;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
-import android.util.Log;
 
 import com.example.pluginbluetooth.SecondoApplication;
 import com.example.pluginbluetooth.bluetooth.device.DeviceConnectionListener;
@@ -56,14 +55,6 @@ public class Onboarding implements WatchScanner.WatchScannerListener, DeviceConn
 
     private State mState = State.PAUSED;
     private State mPreviousState = State.PAUSED;
-
-    private final BaseWatchProviderListener mWatchProviderListener = new BaseWatchProviderListener() {
-        @Override
-        public void onWroteDeviceSettings() {
-            QRomLog.i(TAG, "Device settings written. Updating state.");
-            updateState();
-        }
-    };
 
     private final BluetoothOnboardingProvider mProvider;
     private final Set<GattDevice> mDevices = new HashSet<GattDevice>();
@@ -166,6 +157,15 @@ public class Onboarding implements WatchScanner.WatchScannerListener, DeviceConn
         }
     };
 
+
+    private final BaseWatchProviderListener mWatchProviderListener = new BaseWatchProviderListener() {
+        @Override
+        public void onWroteDeviceSettings() {
+            QRomLog.i(TAG, "Device settings written. Updating state.");
+            updateState();
+        }
+    };
+
     public Onboarding(@NonNull final BluetoothOnboardingProvider provider, @NonNull final Context context) {
         QRomLog.i(TAG, "Onboarding");
         mProvider = provider;
@@ -190,7 +190,7 @@ public class Onboarding implements WatchScanner.WatchScannerListener, DeviceConn
     }
 
     public void resume() {
-        QRomLog.i(TAG, "resume");
+        QRomLog.i(TAG, "Resuming. Updating state.");
         updateState();
     }
 
@@ -202,53 +202,46 @@ public class Onboarding implements WatchScanner.WatchScannerListener, DeviceConn
         return mVisitedStateSet.contains(state);
     }
 
+    public boolean hasLocationPermission() {
+        return ContextCompat.checkSelfPermission(mContext, Manifest.permission.ACCESS_COARSE_LOCATION)
+                == PackageManager.PERMISSION_GRANTED;
+    }
+
+    public boolean isBluetoothEnabled() {
+        return BluetoothAdapter.getDefaultAdapter().getDefaultAdapter().isEnabled();
+    }
+
+    public boolean isInternetAccessEnabled() {
+        ConnectivityManager cm =
+                (ConnectivityManager) mContext.getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+        return activeNetwork != null && activeNetwork.isConnectedOrConnecting();
+    }
+
+    public boolean isLocationEnabled() {
+        try {
+            final int mode = Settings.Secure.getInt(mContext.getContentResolver(), Settings.Secure.LOCATION_MODE);
+            return mode != Settings.Secure.LOCATION_MODE_OFF;
+        } catch (Settings.SettingNotFoundException e) {
+            QRomLog.i(TAG, "Failed to get location settings. Assuming that it's on.");
+            return true;
+        }
+    }
+
+    public void onLocationPermissionGranted() {
+        QRomLog.i(TAG, "Location permission granted. Updating state.");
+        updateState();
+    }
+
     public void onLocationEnabled() {
-        Log.d(TAG, "Location has been enabled. Updating state.");
+        QRomLog.i(TAG, "Location has been enabled. Updating state.");
         updateState();
     }
 
     public void updateState() {
         final State nextState = getNextState(); // This could be the current state and then we leave and re-enter!
-
         gotoState(nextState);
-    }
-
-    public static Onboarding getInstance() {
-        // Onboarding instance is not thread safe
-        if (sInstance == null) {
-            sInstance = new Onboarding(ProviderFactory.createBluetoothOnboardingProvider(),
-                    SecondoApplication.getContext());
-        }
-
-        return sInstance;
-    }
-
-    interface OnboardingChangeListener {
-
-        void onOnboardingStateChanged();
-
-        void foundOneDeviceWhenScanning();
-
-        void onInternetConnectivityChanged(boolean requiredInState, boolean enabled);
-    }
-
-    private boolean isDeviceBonded() {
-        WatchDevice watchDevice = ProviderFactory.getWatch().getDevice();
-        if (watchDevice != null) {
-            String address = watchDevice.getAddress();
-            if (address != null) {
-                return Bonding.isDeviceBonded(address);
-            }
-        }
-        return false;
-    }
-
-    private void forgetCurrentDeviceIfNeeded() {
-        QRomLog.i(TAG, "forgetCurrentDeviceIfNeeded");
-        if (!isConnected() && !isInOtaMode() && !isDeviceBonded()) {
-            QRomLog.i(TAG, "Failed to connect. Forgetting device.");
-            ProviderFactory.getWatch().forgetDevice();
-        }
     }
 
     public void finishOnboarding() {
@@ -286,32 +279,12 @@ public class Onboarding implements WatchScanner.WatchScannerListener, DeviceConn
         }
     }
 
-    public boolean hasLocationPermission() {
-        return ContextCompat.checkSelfPermission(mContext, Manifest.permission.ACCESS_COARSE_LOCATION)
-                == PackageManager.PERMISSION_GRANTED;
-    }
-
-    public boolean isBluetoothEnabled() {
-        return BluetoothAdapter.getDefaultAdapter().getDefaultAdapter().isEnabled();
-    }
-
-    public boolean isLocationEnabled() {
-        try {
-            final int mode = Settings.Secure.getInt(mContext.getContentResolver(), Settings.Secure.LOCATION_MODE);
-            return mode != Settings.Secure.LOCATION_MODE_OFF;
-        } catch (Settings.SettingNotFoundException e) {
-            QRomLog.i(TAG, "Failed to get location settings. Assuming that it's on.");
-            return true;
-        }
-    }
-
-    public void onLocationPermissionGranted() {
-        Log.d(TAG, "Location permission granted. Updating state.");
-        updateState();
-    }
-
     private boolean onboardingIsFinished() {
         return mProvider.isOnboardingFinished();
+    }
+
+    private boolean getWroteOnboardingDeviceSettings() {
+        return mProvider.getWroteOnboardingDeviceSettings();
     }
 
     private boolean hasDevice() {
@@ -326,12 +299,8 @@ public class Onboarding implements WatchScanner.WatchScannerListener, DeviceConn
         return mProvider.isConnected();
     }
 
-    public boolean isInOtaMode() {
-        return mProvider.isInOtaMode();
-    }
-
-    private boolean getWroteOnboardingDeviceSettings() {
-        return mProvider.getWroteOnboardingDeviceSettings();
+    public boolean isInDfuMode() {
+        return mProvider.isInDfuMode();
     }
 
     public void gotoState(final State state) {
@@ -344,28 +313,6 @@ public class Onboarding implements WatchScanner.WatchScannerListener, DeviceConn
             mListener.onOnboardingStateChanged();
             mLastKnownInternetAvailable = isInternetAccessEnabled();
             mListener.onInternetConnectivityChanged(mState.isRequiringInternet(), mLastKnownInternetAvailable);
-        }
-    }
-
-    private void leaveState(final State state) {
-        QRomLog.i(TAG, "leaveState: " + getStateDes(state));
-        mPreviousState = state;
-        switch (state) {
-            case BLUETOOTH_ENABLING:
-                mContext.unregisterReceiver(mAdapterStateReceiver);
-                break;
-            case SCANNING:
-                stopScan();
-                break;
-            case CONNECTING:
-                stopConnecting();
-                break;
-            default:
-                break; // Ignore. Not all states do something when leaving.
-        }
-
-        if (state.isRequiringInternet()) {
-            mContext.unregisterReceiver(mConnectivityChangedReceiver);
         }
     }
 
@@ -395,7 +342,30 @@ public class Onboarding implements WatchScanner.WatchScannerListener, DeviceConn
         }
     }
 
+    private void leaveState(final State state) {
+        QRomLog.i(TAG, "leaveState: " + getStateDes(state));
+        mPreviousState = state;
+        switch (state) {
+            case BLUETOOTH_ENABLING:
+                mContext.unregisterReceiver(mAdapterStateReceiver);
+                break;
+            case SCANNING:
+                stopScan();
+                break;
+            case CONNECTING:
+                stopConnecting();
+                break;
+            default:
+                break; // Ignore. Not all states do something when leaving.
+        }
+
+        if (state.isRequiringInternet()) {
+            mContext.unregisterReceiver(mConnectivityChangedReceiver);
+        }
+    }
+
     private void onTimer() {
+        QRomLog.i(TAG, "startTimer mState is " + getStateDes(mState));
         switch (mState) {
             case CONNECTING:
                 QRomLog.i(TAG, "Connecting timed out");
@@ -431,12 +401,35 @@ public class Onboarding implements WatchScanner.WatchScannerListener, DeviceConn
         mWatchScanner.stopScan();
     }
 
-    public boolean isInternetAccessEnabled() {
-        ConnectivityManager cm =
-                (ConnectivityManager) mContext.getSystemService(Context.CONNECTIVITY_SERVICE);
+    @Override
+    public void onScanFirstWatchFound() {
+        QRomLog.i(TAG, "onScanFirstWatchFound");
+        mListener.foundOneDeviceWhenScanning();
+    }
 
-        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
-        return activeNetwork != null && activeNetwork.isConnectedOrConnecting();
+    @Override
+    public void onScanFinished(final GattDevice device) {
+        QRomLog.i(TAG, "onScanFinished");
+        if (device != null) {
+            // Remove bonding information before attempting to connect to device
+            try {
+                device.removeBond();
+            } catch (Exception e) {
+                QRomLog.i(TAG, "Remove bond failed", e);
+            }
+
+            // Set the selected device as our globally used device
+            setDevice(device);
+
+            // Continue to the next state
+            QRomLog.i(TAG, "Continuing to next state after setting device");
+        }
+
+        if (device == null) {
+            gotoState(State.FAIL);
+        } else {
+            updateState();
+        }
     }
 
     private GattDevice selectGattDevice() {
@@ -474,7 +467,7 @@ public class Onboarding implements WatchScanner.WatchScannerListener, DeviceConn
         QRomLog.i(TAG, "startConnecting");
         mProvider.registerDeviceConnectionListener(this);
         ProviderFactory.getWatch().registerListener(mWatchProviderListener);
-        if (isConnected() && getWroteOnboardingDeviceSettings() && !isInOtaMode()) {
+        if (isConnected() && getWroteOnboardingDeviceSettings() && !isInDfuMode()) {
             QRomLog.i(TAG, "Already connected. Updating state.");
             updateState();
         }
@@ -516,6 +509,78 @@ public class Onboarding implements WatchScanner.WatchScannerListener, DeviceConn
         }
     }
 
+    @Override
+    public void onConnecting() {
+        QRomLog.i(TAG, "Connecting");
+    }
+
+    @Override
+    public void onConnected() {
+        QRomLog.i(TAG, "Connected. Updating state.");
+        ProviderFactory.getWatch().getDeviceInformation(); // Start this read here so it's cached when we enter app
+        updateState();
+    }
+
+    @Override
+    public void onDisconnected() {
+        QRomLog.i(TAG, "onDisconnected");
+    }
+
+    @Override
+    public void onHardToConnect() {
+        QRomLog.i(TAG, "onHardToConnect");
+    }
+
+    @Override
+    public void onEnterDfuMode() {
+        QRomLog.i(TAG, "onEnterDfuMode");
+    }
+
+    @Override
+    public void onLeaveDfuMode() {
+        QRomLog.i(TAG, "onLeaveDfuMode");
+    }
+
+
+    public static Onboarding getInstance() {
+        // Onboarding instance is not thread safe
+        if (sInstance == null) {
+            sInstance = new Onboarding(ProviderFactory.createBluetoothOnboardingProvider(),
+                    SecondoApplication.getContext());
+        }
+
+        return sInstance;
+    }
+
+    interface OnboardingChangeListener {
+
+        void onOnboardingStateChanged();
+
+        void foundOneDeviceWhenScanning();
+
+        void onInternetConnectivityChanged(boolean requiredInState, boolean enabled);
+    }
+
+    private boolean isDeviceBonded() {
+        WatchDevice watchDevice = ProviderFactory.getWatch().getDevice();
+        if (watchDevice != null) {
+            String address = watchDevice.getAddress();
+            if (address != null) {
+                return Bonding.isDeviceBonded(address);
+            }
+        }
+        return false;
+    }
+
+    private void forgetCurrentDeviceIfNeeded() {
+        QRomLog.i(TAG, "forgetCurrentDeviceIfNeeded");
+        if (!isConnected() && !isInDfuMode() && !isDeviceBonded()) {
+            QRomLog.i(TAG, "Failed to connect. Forgetting device.");
+            ProviderFactory.getWatch().forgetDevice();
+        }
+    }
+
+
     private void cleanUpAnyPreviousTriedDevice() {
         String address = getPreviousTriedDevice();
         if (address != null) {
@@ -541,68 +606,5 @@ public class Onboarding implements WatchScanner.WatchScannerListener, DeviceConn
         Context context = SecondoApplication.getContext();
         context.getSharedPreferences(SP_PAIR, Context.MODE_PRIVATE).edit().putBoolean(
                 KEY_HAS_PAIR_SUCCESS, hasPairSuccess).apply();
-    }
-
-    @Override
-    public void onScanFirstWatchFound() {
-        QRomLog.i(TAG, "onScanFirstWatchFound");
-        mListener.foundOneDeviceWhenScanning();
-    }
-
-    @Override
-    public void onScanFinished(GattDevice device) {
-        QRomLog.i(TAG, "onScanFinished");
-        if (device != null) {
-            // Remove bonding information before attempting to connect to device
-            try {
-                device.removeBond();
-            } catch (Exception e) {
-                QRomLog.i(TAG, "Remove bond failed", e);
-            }
-
-            // Set the selected device as our globally used device
-            setDevice(device);
-
-            // Continue to the next state
-            QRomLog.i(TAG, "Continuing to next state after setting device");
-        }
-
-        if (device == null) {
-            gotoState(State.FAIL);
-        } else {
-            updateState();
-        }
-    }
-
-    @Override
-    public void onConnecting() {
-        QRomLog.i(TAG, "Connecting");
-    }
-
-    @Override
-    public void onConnected() {
-        QRomLog.i(TAG, "Connected. Updating state.");
-        ProviderFactory.getWatch().getDeviceInformation(); // Start this read here so it's cached when we enter app
-        updateState();
-    }
-
-    @Override
-    public void onDisconnected() {
-        QRomLog.i(TAG, "onDisconnected");
-    }
-
-    @Override
-    public void onHardToConnect() {
-        QRomLog.i(TAG, "onHardToConnect");
-    }
-
-    @Override
-    public void onEnterOtaMode() {
-        QRomLog.i(TAG, "onEnterOtaMode");
-    }
-
-    @Override
-    public void onLeaveOtaMode() {
-        QRomLog.i(TAG, "onLeaveOtaMode");
     }
 }

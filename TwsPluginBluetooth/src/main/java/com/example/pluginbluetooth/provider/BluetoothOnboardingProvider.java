@@ -16,7 +16,7 @@ public interface BluetoothOnboardingProvider {
 
     boolean isConnected();
 
-    boolean isInOtaMode();
+    boolean isInDfuMode();
 
     void setGattDevice(GattDevice device);
 

@@ -28,8 +28,8 @@ public interface DeviceConnectionListener {
      */
     void onHardToConnect();
 
-    void onEnterOtaMode();
+    void onEnterDfuMode();
 
-    void onLeaveOtaMode();
+    void onLeaveDfuMode();
 
 }

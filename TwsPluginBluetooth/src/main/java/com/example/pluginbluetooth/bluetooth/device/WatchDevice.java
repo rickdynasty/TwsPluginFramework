@@ -54,7 +54,7 @@ public class WatchDevice implements WatchDeviceInterface {
 
     private boolean mIsConnected = false; // Do we have a BT connection up and running?
     private boolean mIsReady = false; // Are we ready to run arbitrary commands?
-    private boolean mInOtaMode = false;
+    private boolean mInDfuMode = false;
 
     private CapabilityCenter mCapabilityCenter;
 
@@ -97,7 +97,7 @@ public class WatchDevice implements WatchDeviceInterface {
             cachedResult = null;
         }
 
-        if (isInOtaMode()) {
+        if (isInDfuMode()) {
             QRomLog.i(TAG, "readDeviceInformation: in DFU(OTA) mode without cache");
             promise.resolve("");
         } else if (cachedResult != null) {
@@ -159,15 +159,15 @@ public class WatchDevice implements WatchDeviceInterface {
     public boolean isConnecting() {
         // We're connecting if we have a BT connection and aren't ready (i.e.
         // "connected") or in DFU mode yet
-        return mIsConnected && !mIsReady && !mInOtaMode;
+        return mIsConnected && !mIsReady && !mInDfuMode;
     }
 
     public boolean isConnected() {
         return mIsReady;
     }
 
-    public boolean isInOtaMode() {
-        return mInOtaMode;
+    public boolean isInDfuMode() {
+        return mInDfuMode;
     }
 
     private final Set<DeviceConnectionListener> mConnectionListeners = new CopyOnWriteArraySet<DeviceConnectionListener>();
@@ -205,10 +205,10 @@ public class WatchDevice implements WatchDeviceInterface {
                 for (DeviceConnectionListener listener : mConnectionListeners) {
                     listener.onDisconnected();
                 }
-            } else if (mInOtaMode) {
-                mInOtaMode = false;
+            } else if (mInDfuMode) {
+                mInDfuMode = false;
                 for (DeviceConnectionListener listener : mConnectionListeners) {
-                    listener.onLeaveOtaMode();
+                    listener.onLeaveDfuMode();
                 }
             } else {
                 // We were connecting and failed, so send onDisconnected() to
@@ -349,7 +349,7 @@ public class WatchDevice implements WatchDeviceInterface {
      * Read command with a parameter
      */
     private Future<Value> readAsArray(final String command, final int param) {
-        if (mInOtaMode) {
+        if (mInDfuMode) {
             return FutureUtils.error(new IllegalStateException("Can't read '" + command + "' in DFU mode"));
         }
 
@@ -476,19 +476,19 @@ public class WatchDevice implements WatchDeviceInterface {
     private void enterDfuMode() {
         if (mIsConnected) {
             QRomLog.i(TAG, "Entering DFU mode");
-            mInOtaMode = true;
+            mInDfuMode = true;
             for (DeviceConnectionListener listener : mConnectionListeners) {
-                listener.onEnterOtaMode();
+                listener.onEnterDfuMode();
             }
         }
     }
 
-    private void onEnterOtaMode() {
+    private void onEnterDfuMode() {
         if (mIsConnected) {
             QRomLog.i(TAG, "Entering DFU mode");
-            mInOtaMode = true;
+            mInDfuMode = true;
             for (DeviceConnectionListener listener : mConnectionListeners) {
-                listener.onEnterOtaMode();
+                listener.onEnterDfuMode();
             }
         }
     }
@@ -512,10 +512,10 @@ public class WatchDevice implements WatchDeviceInterface {
             }
         }
 
-        if (mInOtaMode) {
-            mInOtaMode = false;
+        if (mInDfuMode) {
+            mInDfuMode = false;
             for (DeviceConnectionListener listener : mConnectionListeners) {
-                listener.onLeaveOtaMode();
+                listener.onLeaveDfuMode();
             }
         }
 
@@ -588,7 +588,7 @@ public class WatchDevice implements WatchDeviceInterface {
     private Future<Value> read(final String command) {
         QRomLog.i(TAG, "read: " + command);
 
-        if (mInOtaMode) {
+        if (mInDfuMode) {
             return FutureUtils.error(new IllegalStateException("Can't read '" + command + "' in DFU mode"));
         }
 

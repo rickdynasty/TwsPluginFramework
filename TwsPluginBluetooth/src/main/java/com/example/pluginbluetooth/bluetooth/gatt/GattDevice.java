@@ -38,25 +38,28 @@ public class GattDevice implements GattConnection.GattConnectionInstructor, Gatt
     public static final int TYPE_SECONDO = 2;
     public static final int TYPE_GARBO = 3;
 
+    private static final String[] sTypeNames = {"Unknown", "Primo", "Secondo", "Garbo"};
+
     private final Context mContext;
     private BluetoothDevice mBluetoothDevice;
     private final int mType;
     private final int mItemId;
     private final int mRssi;
+
     private final Set<DeviceListener> mListeners = new CopyOnWriteArraySet<DeviceListener>();
+
     private GattConnection mGattConnection;
     private boolean mShouldBeConnected = false;
     private boolean mIsConnected = false;
     private boolean mIsDisconnecting = false;
     private boolean mIsDebugEnabled = BuildConfig.DEBUG;
     private boolean mUseRefreshServices = false;
-
     private GattDeviceScanner mGattDeviceScanner;
     private boolean mTryHardToConnect;
     private int mCurrentNbrOfHardConnectionAttempts;
     private long mConnectionAttemptTimestamp;
-    private Handler mHandler;
 
+    private Handler mHandler;
 
     private Runnable mCheckForConnectionRunnable = new Runnable() {
         @Override
@@ -134,7 +137,7 @@ public class GattDevice implements GattConnection.GattConnectionInstructor, Gatt
     };
 
     public GattDevice(final Context context, final BluetoothDevice device, final int deviceType, final int itemId, final int rssi) {
-        QRomLog.i(TAG, "构造GattDevice");
+        QRomLog.i(TAG, "构造GattDevice 01");
         mContext = context.getApplicationContext();
         mBluetoothDevice = device;
         mType = deviceType;
@@ -142,13 +145,35 @@ public class GattDevice implements GattConnection.GattConnectionInstructor, Gatt
         mRssi = rssi;
     }
 
+    /**
+     * Construct a GattDevice from saved device info
+     * <p/>
+     * This is completely thread safe (but the rest of the class isn't necessarily).
+     */
     public GattDevice(final Context context, final String deviceAddress, final int deviceType, final int itemId) {
+        QRomLog.i(TAG, "构造GattDevice 02");
         mContext = context;
         mBluetoothDevice = BluetoothAdapter.getDefaultAdapter().getRemoteDevice(deviceAddress); // thread-safe call
         mType = deviceType;
         mItemId = itemId;
         mRssi = 0;
         mTryHardToConnect = false;
+    }
+
+    /**
+     * Try to remove the bond for this device
+     * <p/>
+     * It might fail by throwing an exception. It's not necessarily safe to assume that the bond is gone immediately
+     * if it returns successfully.
+     */
+    public void removeBond() throws Exception {
+        if (mBluetoothDevice.getBondState() != BluetoothDevice.BOND_NONE) {
+            final Method removeBondMethod = BluetoothDevice.class.getMethod("removeBond");
+            boolean result = (Boolean) removeBondMethod.invoke(mBluetoothDevice);
+            if (!result) {
+                throw new RuntimeException("removeBond failed!");
+            }
+        }
     }
 
     /**
@@ -201,12 +226,48 @@ public class GattDevice implements GattConnection.GattConnectionInstructor, Gatt
         return mItemId;
     }
 
+    public String getTypeName() {
+        return sTypeNames[mType];
+    }
+
     public int getRssi() {
         return mRssi;
     }
 
-    public Context getContext() {
-        return mContext;
+    public boolean isBonded() {
+        return mBluetoothDevice.getBondState() == BluetoothDevice.BOND_BONDED;
+    }
+
+    public void connect() {
+        QRomLog.i(TAG, "connect");
+        if (!mShouldBeConnected) {
+            restartHardToConnectCheck();
+            mShouldBeConnected = true;
+            gattConnect();
+        }
+    }
+
+    public void disconnect() {
+        if (mShouldBeConnected) {
+            mShouldBeConnected = false;
+            mGattConnection.disconnect();
+        }
+    }
+
+    public void refreshConnection() {
+        if (mShouldBeConnected) {
+            // calling disconnect while mShouldBeConnected will result in a disconnect,
+            // ondisconnected, and connect!
+            mGattConnection.disconnect();
+        }
+    }
+
+    private void gattConnect() {
+        mGattConnection = new GattConnection(mContext, mBluetoothDevice, mGattListener, this,
+                mUseRefreshServices);
+        mGattConnection.setConnectionAttemptListener(this);
+        mGattConnection.setDebugMode(mIsDebugEnabled);
+        mGattConnection.connect();
     }
 
     public void registerListener(DeviceListener listener) {
@@ -233,12 +294,27 @@ public class GattDevice implements GattConnection.GattConnectionInstructor, Gatt
         }
     }
 
-    public @NonNull
-    List<UUID> getGattServices() {
+    public @NonNull List<UUID> getGattServices() {
         if (mIsConnected) {
             return mGattConnection.getGattServices();
         } else {
             return Collections.emptyList();
+        }
+    }
+
+    public boolean hasGattCharacteristic(final UUID service, final UUID characteristic) {
+        if (mIsConnected) {
+            return mGattConnection.hasGattCharacteristic(service, characteristic);
+        } else {
+            return false;
+        }
+    }
+
+    public boolean refreshServices() {
+        if (mIsConnected) {
+            return mGattConnection.refreshServices();
+        } else {
+            return false;
         }
     }
 
@@ -262,23 +338,66 @@ public class GattDevice implements GattConnection.GattConnectionInstructor, Gatt
         }
     }
 
-    public void connect() {
-        QRomLog.i(TAG, "connect");
-        if (!mShouldBeConnected) {
-            restartHardToConnectCheck();
-            mShouldBeConnected = true;
-            gattConnect();
+    public void setNotification(UUID service, UUID characteristic) {
+        setNotification(service, characteristic, null);
+    }
+
+    public void setNotification(UUID service, UUID characteristic, Callback<Void> callback) {
+        if (mIsConnected) {
+            mGattConnection.setNotification(service, characteristic, callback);
+        } else {
+            callback.onError(new RuntimeException("Not connected"));
         }
     }
 
-    private void restartHardToConnectCheck() {
-        if (mHandler == null) {
-            mHandler = new Handler();
-        } else {
-            mHandler.removeCallbacks(mCheckForConnectionRunnable);
+    public void setDebugMode(final boolean enable) {
+        mIsDebugEnabled = enable;
+
+        if (mGattConnection != null) {
+            mGattConnection.setDebugMode(enable);
         }
-        mConnectionAttemptTimestamp = SystemClock.uptimeMillis();
-        mHandler.postDelayed(mCheckForConnectionRunnable, HARD_TO_CONNECT_TIME_MS + 1);
+    }
+
+    public void setUseRefreshService(final boolean enable) {
+        if (mGattConnection != null) {
+            mUseRefreshServices = enable;
+
+            mGattConnection.setUseRefreshService(enable);
+        }
+    }
+
+    @Override
+    public String toString() {
+        if (mBluetoothDevice.getName() != null) {
+            return mBluetoothDevice.getAddress() + " (" + mBluetoothDevice.getName() + ")";
+        }
+        return mBluetoothDevice.getAddress();
+    }
+
+    @Override
+    public boolean equals(final Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        final GattDevice that = (GattDevice) o;
+        return mBluetoothDevice.getAddress().equals(that.getAddress());
+    }
+
+    @Override
+    public int hashCode() {
+        return mBluetoothDevice.getAddress().hashCode();
+    }
+
+    public Context getContext() {
+        return mContext;
+    }
+
+    @Override
+    public boolean shallContinueTrying(GattConnectionAttempt currentConnectionAttempt) {
+        return !mTryHardToConnect;
     }
 
     public void tryHardToConnect() {
@@ -295,6 +414,10 @@ public class GattDevice implements GattConnection.GattConnectionInstructor, Gatt
     public boolean isHardToConnect() {
         return mGattConnection != null &&
                 (SystemClock.uptimeMillis() - mConnectionAttemptTimestamp > HARD_TO_CONNECT_TIME_MS);
+    }
+
+    public boolean isHighProbabilityForDFUSuccess() {
+        return mGattConnection != null && mGattConnection.didConnectUsingActiveConnect();
     }
 
     private void scanToRefreshBluetoothDevice() {
@@ -318,31 +441,14 @@ public class GattDevice implements GattConnection.GattConnectionInstructor, Gatt
                 });
     }
 
-    public boolean isBonded() {
-        return mBluetoothDevice.getBondState() == BluetoothDevice.BOND_BONDED;
-    }
-
-    public void disconnect() {
-        if (mShouldBeConnected) {
-            mShouldBeConnected = false;
-            mGattConnection.disconnect();
+    private void restartHardToConnectCheck() {
+        if (mHandler == null) {
+            mHandler = new Handler();
+        } else {
+            mHandler.removeCallbacks(mCheckForConnectionRunnable);
         }
-    }
-
-    public void refreshConnection() {
-        if (mShouldBeConnected) {
-            // calling disconnect while mShouldBeConnected will result in a disconnect,
-            // ondisconnected, and connect!
-            mGattConnection.disconnect();
-        }
-    }
-
-    private void gattConnect() {
-        QRomLog.i(TAG, "gattConnect");
-        mGattConnection = new GattConnection(mContext, mBluetoothDevice, mGattListener, this, mUseRefreshServices);
-        mGattConnection.setConnectionAttemptListener(this);
-        mGattConnection.setDebugMode(mIsDebugEnabled);
-        mGattConnection.connect();
+        mConnectionAttemptTimestamp = SystemClock.uptimeMillis();
+        mHandler.postDelayed(mCheckForConnectionRunnable, HARD_TO_CONNECT_TIME_MS + 1);
     }
 
     @Override
@@ -357,42 +463,5 @@ public class GattDevice implements GattConnection.GattConnectionInstructor, Gatt
             default:
                 break;
         }
-    }
-
-    @Override
-    public boolean shallContinueTrying(GattConnectionAttempt currentConnectionAttempt) {
-        return !mTryHardToConnect;
-    }
-
-    /**
-     * Try to remove the bond for this device
-     * <p/>
-     * It might fail by throwing an exception. It's not necessarily safe to assume that the bond is gone immediately
-     * if it returns successfully.
-     */
-    public void removeBond() throws Exception {
-        if (mBluetoothDevice.getBondState() != BluetoothDevice.BOND_NONE) {
-            final Method removeBondMethod = BluetoothDevice.class.getMethod("removeBond");
-            boolean result = (Boolean) removeBondMethod.invoke(mBluetoothDevice);
-            if (!result) {
-                throw new RuntimeException("removeBond failed!");
-            }
-        }
-    }
-
-    public void setNotification(UUID service, UUID characteristic) {
-        setNotification(service, characteristic, null);
-    }
-
-    public void setNotification(UUID service, UUID characteristic, Callback<Void> callback) {
-        if (mIsConnected) {
-            mGattConnection.setNotification(service, characteristic, callback);
-        } else {
-            callback.onError(new RuntimeException("Not connected"));
-        }
-    }
-
-    public boolean isHighProbabilityForDFUSuccess() {
-        return true;//highProbabilityForDFUSuccess;
     }
 }

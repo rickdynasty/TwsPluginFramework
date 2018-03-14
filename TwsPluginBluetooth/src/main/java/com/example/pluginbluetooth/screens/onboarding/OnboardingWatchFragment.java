@@ -79,7 +79,7 @@ public class OnboardingWatchFragment extends BaseOnboardingFragment implements
                 Onboarding.getInstance().gotoState(Onboarding.State.CANCEL);
             }
         });
-        QRomLog.i(TAG,"onCreateView");
+        QRomLog.i(TAG, "onCreateView");
 
         return view;
     }
@@ -96,8 +96,8 @@ public class OnboardingWatchFragment extends BaseOnboardingFragment implements
                 TEXT_CONTAINER_ANIMATION_OFFSET_DP, getResources().getDisplayMetrics());
 
         mWelcomeTextStartOffset = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,
-                                                            WELCOME_TEXT_START_OFFSET_DP, getResources().getDisplayMetrics());
-        QRomLog.i(TAG,"onViewCreated");
+                WELCOME_TEXT_START_OFFSET_DP, getResources().getDisplayMetrics());
+        QRomLog.i(TAG, "onViewCreated");
 
         initUI();
     }
@@ -113,28 +113,28 @@ public class OnboardingWatchFragment extends BaseOnboardingFragment implements
     @Override
     public void onResume() {
         super.onResume();
-        QRomLog.i(TAG,"onResume");
+        QRomLog.i(TAG, "onResume");
         mOnboardingWatchAnimationsLayout.resetAnimations();
     }
 
-        @Override
+    @Override
     public String getName() {
         return "OnboardingAnimations";
     }
 
     protected void initUI() {
         final Onboarding.State state = getOnboarding().getState();
-        QRomLog.i(TAG,"initUI state = "+state);
+        QRomLog.i(TAG, "initUI state = " + state);
         if (state == Onboarding.State.SCANNING) {
             mHandler.postDelayed(mScannningRunnable, SCAN_TEXT_DURATION_MS);
             if (getOnboarding().foundOneDeviceWhenScanning()) {
-                QRomLog.i(TAG,"foundOneDeviceWhenScanning");
+                QRomLog.i(TAG, "foundOneDeviceWhenScanning");
                 mOnboardingWatchAnimationsLayout.cancelButtonAndArrowAnimations();
                 mOnboardingWatchAnimationsLayout.startWatchHandAnimations();
                 mHandler.removeCallbacks(mScannningRunnable);
 
             } else {
-                QRomLog.i(TAG,"foundOneDeviceWhenScanning false");
+                QRomLog.i(TAG, "foundOneDeviceWhenScanning false");
                 mTitleTextView.setVisibility(View.VISIBLE);
                 mTitleTextView.setText(getString(R.string.welcome));
                 mDescriptionTextView.setVisibility(View.VISIBLE);
@@ -166,11 +166,10 @@ public class OnboardingWatchFragment extends BaseOnboardingFragment implements
 
     @Override
     protected void updateUI() {
-        QRomLog.i(TAG,"updateUI state = "+getOnboarding().getState() + " getPreviousState = "+getOnboarding().getPreviousState());
+        QRomLog.i(TAG, "updateUI state = " + getOnboarding().getState() + " getPreviousState = " + getOnboarding().getPreviousState());
         if (getOnboarding().getPreviousState() == Onboarding.State.PAUSED) {
             initUI();
         } else {
-
             final Onboarding.State state = getOnboarding().getState();
             if (state == Onboarding.State.SCANNING) {
                 mHandler.postDelayed(mScannningRunnable, SCAN_TEXT_DURATION_MS);
@@ -218,8 +217,8 @@ public class OnboardingWatchFragment extends BaseOnboardingFragment implements
     @Override
     boolean handlesState(final Onboarding.State state) {
         return state == Onboarding.State.SCANNING ||
-               state == Onboarding.State.CONNECTING ||
-               state == Onboarding.State.CONNECTED;
+                state == Onboarding.State.CONNECTING ||
+                state == Onboarding.State.CONNECTED;
     }
 
     private void startTextContainerInTransition() {
@@ -313,7 +312,7 @@ public class OnboardingWatchFragment extends BaseOnboardingFragment implements
     }
 
     private void startConnectingInTransition() {
-
+        QRomLog.i(TAG, "startConnectingInTransition()");
         mTextContainerView.animate()
                 .alpha(0f)
                 .yBy(-mTextContainerOffset)
@@ -378,7 +377,6 @@ public class OnboardingWatchFragment extends BaseOnboardingFragment implements
         }
         return R.anim.onboarding_resume;
     }
-
 
 
     @Override

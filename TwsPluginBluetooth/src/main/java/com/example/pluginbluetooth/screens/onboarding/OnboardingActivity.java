@@ -1,7 +1,9 @@
 package com.example.pluginbluetooth.screens.onboarding;
 
+import android.app.ProgressDialog;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
@@ -12,6 +14,10 @@ import android.view.WindowManager;
 import com.example.pluginbluetooth.BuildConfig;
 import com.example.pluginbluetooth.MainActivity;
 import com.example.pluginbluetooth.R;
+import com.example.pluginbluetooth.future.AlwaysCallback;
+import com.example.pluginbluetooth.future.FailCallback;
+import com.example.pluginbluetooth.future.SuccessCallback;
+import com.example.pluginbluetooth.provider.ProviderFactory;
 import com.example.pluginbluetooth.screens.BaseActivity;
 import com.example.pluginbluetooth.screens.BaseFragment;
 
@@ -46,6 +52,7 @@ public class OnboardingActivity extends BaseActivity implements Onboarding.Onboa
     protected void onNewIntent(final Intent intent) {
         QRomLog.i(TAG, "onNewIntent");
         super.onNewIntent(intent);
+        handleNewIntent(intent);
     }
 
     @Override
@@ -71,7 +78,23 @@ public class OnboardingActivity extends BaseActivity implements Onboarding.Onboa
     @Override
     public void onOnboardingStateChanged() {
         QRomLog.i(TAG, "onOnboardingStateChanged");
+        updateOrReplaceCurrentFragment();
+    }
 
+    @Override
+    public void onInternetConnectivityChanged(boolean requiredInState, boolean enabled) {
+        QRomLog.i(TAG, "onInternetConnectivityChanged");
+//        if (enabled || !requiredInState) {
+//            if (mEnableInternetAccessDialogFragment != null) {
+//                mEnableInternetAccessDialogFragment.dismiss();
+//                mEnableInternetAccessDialogFragment = null;
+//            }
+//        } else {
+//            if (mEnableInternetAccessDialogFragment == null) {
+//                mEnableInternetAccessDialogFragment = new EnableInternetAccessDialogFragment();
+//                mEnableInternetAccessDialogFragment.show(getSupportFragmentManager(), null);
+//            }
+//        }
     }
 
     @Override
@@ -84,34 +107,12 @@ public class OnboardingActivity extends BaseActivity implements Onboarding.Onboa
         }
     }
 
-    @Override
-    public void onInternetConnectivityChanged(boolean requiredInState, boolean enabled) {
-        QRomLog.i(TAG, "onInternetConnectivityChanged");
-
-    }
-
-    public Onboarding getOnboarding() {
-        QRomLog.i(TAG, "getOnboarding");
-        return mOnboarding;
-    }
-
-    private void updateOrReplaceCurrentFragment() {
-        QRomLog.i(TAG, "updateOrReplaceCurrentFragment");
-        BaseOnboardingFragment baseOnboardingFragment = getCurrentDisplayedBaseOnboardingFragment();
-        if (baseOnboardingFragment != null && baseOnboardingFragment.handlesState(mOnboarding.getState())) {
-            baseOnboardingFragment.updateUI();
-        } else {
-            displayNextFragment();
-        }
-    }
-
-    private BaseOnboardingFragment getCurrentDisplayedBaseOnboardingFragment() {
-        QRomLog.i(TAG, "getCurrentDisplayedBaseOnboardingFragment");
-        Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.contentOnboarding);
-        if (fragment != null && fragment instanceof BaseOnboardingFragment) {
-            return (BaseOnboardingFragment) fragment;
-        } else {
-            return null;
+    private void handleNewIntent(final Intent intent) {
+        if (intent != null) {
+            final Uri data = intent.getData();
+//            if (data != null && isEmailValidationIntent(data)) {
+//                receivedEmailValidationIntent();
+//            }
         }
     }
 
@@ -139,15 +140,8 @@ public class OnboardingActivity extends BaseActivity implements Onboarding.Onboa
                 gotoPairActivity();
                 break;
             case FINISHING:
-                // debug 留后门
-                if (BuildConfig.DEBUG) {
-                    Onboarding.getInstance().setHasPairSuccess(true);
-                    //HealthDataProcessor.getInstance().updateMacAddress();
-                    //gotoNextFragment(OnboardingCalibrationInitiationFragment.newInstance());
-                } else {
-                    // 检查是否为中国区发行的表
-                    // checoutWatchNumber();
-                }
+                Onboarding.getInstance().setHasPairSuccess(true);
+                //gotoNextFragment(OnboardingCalibrationInitiationFragment.newInstance());
                 break;
             case FINISHED:
                 onboardingFinished();
@@ -157,6 +151,49 @@ public class OnboardingActivity extends BaseActivity implements Onboarding.Onboa
                 break;
         }
     }
+
+    public static final long RESET_DEVICE_TIMEOUT = 15000;
+    public static final String ACTION_FORGET_WATCH = "forget_watch";
+
+    private void forgetWatch() {
+        final ProgressDialog progressDialog = android.app.ProgressDialog.show(this, "提示", "正在解除配对...");
+
+        // progressDialog.setIconAttribute(android.R.attr.alertDialogIcon);
+        // progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        // progressDialog.show();
+
+        //AnalyticsFeatureProvider.getInstance().sendAction(ACTION_FORGET_WATCH);
+        ProviderFactory.getWatch().resetDevice().timeout(RESET_DEVICE_TIMEOUT).success(new SuccessCallback<Void>() {
+
+            @Override
+            public void onSuccess(final Void result) {
+                QRomLog.i("forgetWatch()", "Resetting device succeeded");
+                progressDialog.dismiss();
+            }
+        }).fail(new FailCallback() {
+            @Override
+            public void onFail(final Throwable error) {
+                QRomLog.i("forgetWatch()", "Resetting device failed", error);
+                progressDialog.dismiss();
+            }
+        }).always(new AlwaysCallback() {
+            @Override
+            public void onFinished() {
+//                final LoginProvider loginProvider = ProviderFactory.getCurrentLoginProvider(getApplicationContext());
+//                if (loginProvider != null)
+//                    loginProvider.logout();
+
+                ProviderFactory.getWatch().forgetDevice();
+                Onboarding.getInstance().setHasPairSuccess(false);
+                ProviderFactory.getWatch().setOnboardingFinished(false);
+                ProviderFactory.getWatch().setWroteOnboardingDeviceSettings(false);
+                gotoPairActivity();
+
+                progressDialog.dismiss();
+            }
+        });
+    }
+
 
     private void gotoNextFragment(final BaseFragment fragment) {
         QRomLog.i(TAG, "gotoNextFragment fragment:" + fragment);
@@ -200,21 +237,21 @@ public class OnboardingActivity extends BaseActivity implements Onboarding.Onboa
         }
     }
 
+    public void calibrationFinished() {
+        mOnboarding.finishOnboarding();
+    }
+
     public void onboardingFinished() {
         startMainActivity(true);
     }
 
-    private void gotoPairActivity() {
-        QRomLog.i(TAG, "gotoPairActivity");
-        // TODO Auto-generated method stub
-        Intent intent = new Intent("com.tencent.tws.gdevicemanager.action.READY_PAIR");
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        try {
-            startActivity(intent);
-            finish();
-        } catch (ActivityNotFoundException e) {
-            // TODO: handle exception
-            e.printStackTrace();
+    @Override
+    protected void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        final BaseOnboardingFragment baseOnboardingFragment = getCurrentDisplayedBaseOnboardingFragment();
+        if (baseOnboardingFragment != null) {
+            baseOnboardingFragment.onActivityResult(requestCode, resultCode, data);
         }
     }
 
@@ -233,6 +270,32 @@ public class OnboardingActivity extends BaseActivity implements Onboarding.Onboa
                     finish();
                 }
             }, removeTime);
+        }
+    }
+
+
+    public Onboarding getOnboarding() {
+        QRomLog.i(TAG, "getOnboarding");
+        return mOnboarding;
+    }
+
+    private void updateOrReplaceCurrentFragment() {
+        QRomLog.i(TAG, "updateOrReplaceCurrentFragment");
+        BaseOnboardingFragment baseOnboardingFragment = getCurrentDisplayedBaseOnboardingFragment();
+        if (baseOnboardingFragment != null && baseOnboardingFragment.handlesState(mOnboarding.getState())) {
+            baseOnboardingFragment.updateUI();
+        } else {
+            displayNextFragment();
+        }
+    }
+
+    private BaseOnboardingFragment getCurrentDisplayedBaseOnboardingFragment() {
+        QRomLog.i(TAG, "getCurrentDisplayedBaseOnboardingFragment");
+        Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.contentOnboarding);
+        if (fragment != null && fragment instanceof BaseOnboardingFragment) {
+            return (BaseOnboardingFragment) fragment;
+        } else {
+            return null;
         }
     }
 
@@ -263,6 +326,21 @@ public class OnboardingActivity extends BaseActivity implements Onboarding.Onboa
             finish();
         } else if (fragment == null || fragment.isBackAllowed()) {
             super.onBackPressed();
+        }
+    }
+
+
+    private void gotoPairActivity() {
+        QRomLog.i(TAG, "gotoPairActivity");
+        // TODO Auto-generated method stub
+        Intent intent = new Intent("com.tencent.tws.gdevicemanager.action.READY_PAIR");
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        try {
+            startActivity(intent);
+            finish();
+        } catch (ActivityNotFoundException e) {
+            // TODO: handle exception
+            e.printStackTrace();
         }
     }
 }

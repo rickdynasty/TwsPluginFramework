@@ -36,4 +36,9 @@
     <dimen name="screen_bottom_margin">20dp</dimen>
     <dimen name="screen_left_margin">20dp</dimen>
     <dimen name="screen_margin">12dp</dimen>
+
+    <dimen name="abc_text_size_body_2_material">14sp</dimen>
+    <dimen name="abc_text_size_body_1_material">14sp</dimen>
+    <dimen name="abc_text_size_caption_material">12sp</dimen>
+    <dimen name="abc_text_size_button_material">14sp</dimen>
 </resources>

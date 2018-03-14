@@ -85,4 +85,31 @@
     <string name="onboarding_timeout_issu_context_4">如果你的问题仍然没有得到解决，可尝试将手表重启后，再与手机配对。\n\n重启方式：同时按住上下按键 5 秒，直到手表发出 2 次震动，并且手表指针开始转动。</string>
     <string name="onboarding_check_watch_num_error">此手表暂未上线中国区，暂不支持使用。</string>
     <string name="onboarding_check_watch_num_ok">好的</string>
+
+    <!-- 校准 -->
+    <string name="calibration_title_text">校准指针</string>
+    <string name="calibration_description_text">通过转动手机屏幕上的圆盘控制手表指针,使每个针均指向 12 点方向。</string>
+    <string name="calibration_start">开始校准</string>
+    <string name="calibration_description_main_minute">转动圆盘并<b>观察手表</b>，使分针<b>指向12点</b></string>
+    <string name="calibration_description_main_minute_title">校准主表盘分针</string>
+    <string name="calibration_description_main_hour">转动圆盘并<b>观察手表</b>，使时针<b>指向12点</b></string>
+    <string name="calibration_description_main_hour_title">校准主表盘时针</string>
+    <string name="calibration_description_complication_minute">转动圆盘并<b>观察手表</b>，使分针<b>指向12点</b></string>
+    <string name="calibration_description_complication_minute_title">校准副表盘分针</string>
+    <string name="calibration_description_complication_hour">转动圆盘并<b>观察手表</b>，使时针<b>指向12点</b></string>
+    <string name="calibration_description_complication_hour_title">校准副表盘时针</string>
+    <string name="calibration_button_next">下一步</string>
+    <string name="calibration_button_done">完成</string>
+    <string name="calibration_button_previous">上一步</string>
+    <string name="calibration_aborted_title">校准失败</string>
+    <string name="calibration_aborted_description">指针校准超时，请重新校准</string>
+    <string name="calibration_aborted_reset">好的</string>
+    <string name="calibration_aborted_reason">这样可以节省电池时间.</string>
+    <string name="calibration_two_step_1">1/2</string>
+    <string name="calibration_two_step_2">2/2</string>
+    <string name="calibration_four_step_1">1/4</string>
+    <string name="calibration_four_step_2">2/4</string>
+    <string name="calibration_four_step_3">3/4</string>
+    <string name="calibration_four_step_4">4/4</string>
+    <string name="calibration_step_null">N/N</string>
 </resources>

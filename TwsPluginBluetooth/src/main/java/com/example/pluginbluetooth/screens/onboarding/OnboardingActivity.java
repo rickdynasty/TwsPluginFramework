@@ -141,7 +141,7 @@ public class OnboardingActivity extends BaseActivity implements Onboarding.Onboa
                 break;
             case FINISHING:
                 Onboarding.getInstance().setHasPairSuccess(true);
-                //gotoNextFragment(OnboardingCalibrationInitiationFragment.newInstance());
+                gotoNextFragment(OnboardingCalibrationInitiationFragment.newInstance());
                 break;
             case FINISHED:
                 onboardingFinished();

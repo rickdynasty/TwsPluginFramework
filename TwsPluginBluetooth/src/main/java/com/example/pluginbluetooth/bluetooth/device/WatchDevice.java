@@ -68,7 +68,7 @@ public class WatchDevice implements WatchDeviceInterface {
     // this constant is defined in a header file of the device sw
     private static final int CONFIG_VIBRATOR_FIRST_VIBRATION = 8;
 
-    private static final String TAG = WatchDevice.class.getSimpleName();
+    private static final String TAG = "rick_Print:WatchDevice";
 
     private boolean mIsDebugEnabled = BuildConfig.DEBUG; // Set to false to get
     // rid of most debug
@@ -1219,6 +1219,7 @@ public class WatchDevice implements WatchDeviceInterface {
 
     /* Write commands wrapping interaction with DeviceWriter. */
     private Future<Void> write(final String command, final Value value) {
+        QRomLog.i(TAG, "write(" + command + "," + value + ")");
         try {
             final Command cmd = mDeviceWriter.createCommand(command, value, new Promise<Void>());
 
@@ -1229,6 +1230,7 @@ public class WatchDevice implements WatchDeviceInterface {
     }
 
     private Future<Void> write(final String command) {
+        QRomLog.i(TAG, "write(" + command + ")");
         try {
             final Command cmd = mDeviceWriter.createCommand(command, ValueFactory.newInteger(0), new Promise<Void>());
 
@@ -1239,6 +1241,7 @@ public class WatchDevice implements WatchDeviceInterface {
     }
 
     private Future<Void> writeAsList(final String command, final int value) {
+        QRomLog.i(TAG, "writeAsList(" + command + "," + value + ")");
         try {
             final Value intValue = ValueFactory.newInteger(value);
             final List<Value> listValue = Collections.singletonList(intValue);
@@ -1251,6 +1254,7 @@ public class WatchDevice implements WatchDeviceInterface {
     }
 
     private Future<Void> writeEmpty(final String command) {
+        QRomLog.i(TAG, "writeEmpty(" + command + ")");
         try {
             final Command cmd = mDeviceWriter.createCommand(command, (Value) null, new Promise<Void>());
 
@@ -1498,6 +1502,8 @@ public class WatchDevice implements WatchDeviceInterface {
     @Override
     public Future<Void> writeDateTime(final int year, final int month, final int day, final int hour, final int min,
                                       final int sec, final int weekday) {
+        QRomLog.i(TAG, "writeDateTime(" + year + ", " + month + "," + day +
+                "," + hour + ", " + min + "," + sec + "," + weekday + ")");
         final ImmutableIntegerValue hourEx = ValueFactory.newInteger(hour);
         final ImmutableIntegerValue minuteEx = ValueFactory.newInteger(min);
         final ImmutableIntegerValue secondEx = ValueFactory.newInteger(sec);
@@ -1602,12 +1608,14 @@ public class WatchDevice implements WatchDeviceInterface {
 
     @Override
     public Future<Void> writeForgetDevice() {
+        QRomLog.i(TAG, "writeForgetDevice()");
         writeStepsDay(0, Calendar.getInstance().get(Calendar.DATE));
         return write("forget_device");
     }
 
     @Override
     public Future<Void> writeIncomingCall(final int number, final boolean isRinging, final Integer alert) {
+        QRomLog.i(TAG, "writeIncomingCall(" + number + ", " + isRinging + "," + alert + ")");
         Future<Void> future = write("call",
                 ValueFactory.newArray(ValueFactory.newInteger(number), ValueFactory.newInteger(isRinging ? 1 : 0)));
 
@@ -1622,38 +1630,45 @@ public class WatchDevice implements WatchDeviceInterface {
 
     @Override
     public Future<Void> writeMotor(final int motor, final int value) {
+        QRomLog.i(TAG, "writeMotor(" + motor + ", " + value + ")");
         return write("stepper_goto",
                 ValueFactory.newArray(ValueFactory.newInteger(motor), ValueFactory.newInteger(value)));
     }
 
     @Override
     public Future<Void> writeMotorDelay(final int value) {
+        QRomLog.i(TAG, "writeMotorDelay(" + value + ")");
         return write("stepper_delay", ValueFactory.newInteger(value));
     }
 
     @Override
     public Future<Void> writeOnboardingDone(final boolean finished) {
+        QRomLog.i(TAG, "writeOnboardingDone(" + finished + ")");
         return write("onboarding_done", ValueFactory.newInteger(finished ? 1 : 0));
     }
 
     @Override
     public Future<Void> writePostMortem() {
+        QRomLog.i(TAG, "writePostMortem()");
         return write("postmortem", ValueFactory.newInteger(0));
     }
 
     @Override
     public Future<Void> writeRecalibrate(final boolean enable) {
+        QRomLog.i(TAG, "writeRecalibrateMove(" + enable + ")");
         return write("recalibrate", ValueFactory.newBoolean(enable));
     }
 
     @Override
     public Future<Void> writeRecalibrateMove(final int motor, final int steps) {
+        QRomLog.i(TAG, "writeRecalibrateMove(" + motor + ", " + steps + ")");
         final Value data = ValueFactory.newArray(ValueFactory.newInteger(motor), ValueFactory.newInteger(steps));
         return write("recalibrate_move", data);
     }
 
     @Override
     public Future<Void> writeStartVibrator() {
+        QRomLog.i(TAG, "writeRecalibrateMove()");
         return write("vibrator_start");
     }
 
@@ -1678,6 +1693,7 @@ public class WatchDevice implements WatchDeviceInterface {
 
     @Override
     public Future<Void> writeSteps(final int total, final int[] weekdays) {
+        QRomLog.i(TAG, "writeSteps(" + total + "," + weekdays + ")");
         final List<Value> values = new ArrayList<Value>();
         values.add(ValueFactory.newInteger(total));
         for (Integer weekdayValue : weekdays) {
@@ -1688,12 +1704,14 @@ public class WatchDevice implements WatchDeviceInterface {
 
     @Override
     public Future<Void> writeStepsDay(int steps, int dayOfMonth) {
+        QRomLog.i(TAG, "writeStepsDay(" + steps + "," + dayOfMonth + ")");
         return write("steps_day",
                 ValueFactory.newArray(ValueFactory.newInteger(steps), ValueFactory.newInteger(dayOfMonth)));
     }
 
     @Override
     public Future<Void> writeStepsTarget(final int stepsTarget) {
+        QRomLog.i(TAG, "writeStepsTarget(" + stepsTarget + ")");
         return write("steps_target", ValueFactory.newInteger(stepsTarget));
     }
 
@@ -1818,8 +1836,6 @@ public class WatchDevice implements WatchDeviceInterface {
                 for (Value value : result.asArrayValue().list()) {
                     values.add(value.asIntegerValue().asInt());
                 }
-
-                // HealthDataProcessor.getInstance().logReadWatchTime(values);
 
                 return true;
             }

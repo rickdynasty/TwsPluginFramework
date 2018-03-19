@@ -16,15 +16,16 @@ import android.content.IntentFilter;
 import android.os.Build;
 import android.os.Handler;
 import android.os.SystemClock;
-import android.util.Log;
 
 import com.example.pluginbluetooth.BuildConfig;
 import com.example.pluginbluetooth.utils.Callback;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.security.InvalidParameterException;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Queue;
 import java.util.UUID;
@@ -509,6 +510,7 @@ class GattConnection {
         }
 
         mExecutingCommand = mCommandList.poll();
+
         if (mExecutingCommand != null) { // queue not empty
             if (mIsDebugEnabled) QRomLog.i(TAG, "Executing queued command: " +
                     mExecutingCommand.getClass().getSimpleName());
@@ -516,6 +518,31 @@ class GattConnection {
             mExecutingCommand.execute(mGatt);
         } else {
             QRomLog.i(TAG, "No command in queue");
+        }
+    }
+
+    /**
+     * Convert Calendar.DAY_OF_WEEK to the device day of week 0 => Mon, .., 6 =>
+     * Sun
+     */
+    private int getDeviceDayOfWeek(int dayOfWeek) {
+        switch (dayOfWeek) {
+            case Calendar.MONDAY:
+                return 0;
+            case Calendar.TUESDAY:
+                return 1;
+            case Calendar.WEDNESDAY:
+                return 2;
+            case Calendar.THURSDAY:
+                return 3;
+            case Calendar.FRIDAY:
+                return 4;
+            case Calendar.SATURDAY:
+                return 5;
+            case Calendar.SUNDAY:
+                return 6;
+            default:
+                throw new InvalidParameterException("Not a valid day of week");
         }
     }
 
@@ -635,7 +662,7 @@ class GattConnection {
             if (result) {
                 mIsBonding = true;
             } else {
-                Log.e(TAG, "createBond() failed");
+                QRomLog.e(TAG, "createBond() failed");
             }
         }
         if (mIsBonding) {

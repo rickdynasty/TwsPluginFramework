@@ -11,9 +11,13 @@ import android.widget.Toast;
 
 import com.rick.tws.pluginhost.R;
 import com.rick.tws.pluginhost.debug.DebugPluginActivity;
+import com.rick.tws.pluginhost.main.content.TestBundleObject;
+
+import qrom.component.log.QRomLog;
 
 public class SettingsActivity extends TwsActivity implements OnClickListener {
 
+    private static final String TAG = "SettingsActivity";
     private RelativeLayout mPrivacyLayout, mDebugPluginFramework;
     private View mAccountLogout;
 
@@ -23,6 +27,16 @@ public class SettingsActivity extends TwsActivity implements OnClickListener {
         setContentView(R.layout.activity_sttings);
         initTwsActionBar(true);
         setTitle(R.string.settings);
+
+        Intent intent = getIntent();
+//        TestBundleObject testObjcet = (TestBundleObject) intent.getSerializableExtra(TestBundleObject.INTENT_EXTRA_NAME);
+        TestBundleObject testObjcet = (TestBundleObject) intent.getParcelableExtra(TestBundleObject.INTENT_EXTRA_NAME);
+        QRomLog.i(TAG, "getted testObjcet is " + testObjcet);
+        Toast.makeText(this, "" + testObjcet, Toast.LENGTH_SHORT).show();
+        if (null != intent) {
+            String intentClassLoader = "intent ClassLoader is " + intent.getClass().getClassLoader();
+            QRomLog.i(TAG, intentClassLoader);
+        }
 
         mPrivacyLayout = (RelativeLayout) findViewById(R.id.about_watch_assistant_privacy_layout);
         mAccountLogout = findViewById(R.id.settings_account_logout_btn);

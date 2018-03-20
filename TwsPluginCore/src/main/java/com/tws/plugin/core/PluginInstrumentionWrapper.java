@@ -25,6 +25,7 @@ import com.tws.plugin.core.annotation.PluginContainer;
 import com.tws.plugin.core.viewfactory.PluginViewFactory;
 import com.tws.plugin.manager.PluginActivityMonitor;
 import com.tws.plugin.manager.PluginManagerHelper;
+import com.tws.plugin.manager.PluginManagerProvider;
 import com.tws.plugin.util.ProcessUtil;
 
 import java.util.ArrayList;
@@ -137,7 +138,7 @@ public class PluginInstrumentionWrapper extends Instrumentation {
             // 将PluginStubActivity替换成插件中的activity
             // 之前在resolveActivity::resolveActivity解析intent的时候 如果被认定为是插件的activity组件，除调整Action外，
             // 还另外打上了INTENT_EXTRA_TWS_PLUGIN_STUB为true的表示，就是为了方便这里的判断
-            final boolean isStub = intent.getBooleanExtra(PluginIntentResolver.INTENT_EXTRA_TWS_PLUGIN_STUB, false);
+            final boolean isStub = PluginManagerHelper.isStub(className, DisplayItem.TYPE_ACTIVITY);//intent.getBooleanExtra(PluginIntentResolver.INTENT_EXTRA_TWS_PLUGIN_STUB, false);
             if (isStub) {
                 String action = intent.getAction();
                 QRomLog.i(TAG, "newActivity action=" + action + " className=" + className);

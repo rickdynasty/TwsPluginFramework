@@ -10,11 +10,17 @@ import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.Toast;
 
 import com.rick.tws.framework.HostProxy;
 import com.rick.tws.pluginhost.R;
+import com.rick.tws.pluginhost.main.content.TestBundleObject;
+
+import qrom.component.log.QRomLog;
 
 public class MessageManagerActivity extends TwsActivity implements OnClickListener {
+
+    private static final String TAG = "MessageManagerActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,6 +29,16 @@ public class MessageManagerActivity extends TwsActivity implements OnClickListen
         setContentView(R.layout.activity_message_manager);
         initTwsActionBar(true);
         setTitle(R.string.message_mgr);
+
+        Intent intent = getIntent();
+//        TestBundleObject testObjcet = (TestBundleObject) intent.getSerializableExtra(TestBundleObject.INTENT_EXTRA_NAME);
+        TestBundleObject testObjcet = (TestBundleObject) intent.getParcelableExtra(TestBundleObject.INTENT_EXTRA_NAME);
+        QRomLog.i(TAG, "getted testObjcet is " + testObjcet);
+        Toast.makeText(this, "" + testObjcet, Toast.LENGTH_SHORT).show();
+        if (null != intent) {
+            String intentClassLoader = "intent ClassLoader is " + intent.getClass().getClassLoader();
+            QRomLog.i(TAG, intentClassLoader);
+        }
 
         findViewById(R.id.send_notification).setOnClickListener(this);
     }

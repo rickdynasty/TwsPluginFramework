@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.view.ContextThemeWrapper;
@@ -24,6 +25,7 @@ import com.rick.tws.pluginhost.R;
 import com.rick.tws.pluginhost.main.HostApplication;
 import com.rick.tws.pluginhost.main.content.HomeFragmentContentItem;
 import com.rick.tws.pluginhost.main.content.HostDisplayItem;
+import com.rick.tws.pluginhost.main.content.TestBundleObject;
 import com.rick.tws.pluginhost.main.ui.MessageManagerActivity;
 import com.rick.tws.pluginhost.main.ui.SettingsActivity;
 import com.tws.plugin.content.DisplayItem;
@@ -289,6 +291,8 @@ public class HomeFragment extends TwsFragment implements OnClickListener {
             } else {
                 intent.setClassName(item.getPluginPackageName(), item.getClassId());
             }
+
+            intent.putExtra(TestBundleObject.INTENT_EXTRA_NAME, ((Parcelable) new TestBundleObject("TestName", 21)));
 
             switch (item.getComponentType()) {
                 case DisplayItem.TYPE_ACTIVITY:

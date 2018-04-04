@@ -1029,7 +1029,6 @@ public class PluginIntentFilter implements Serializable {
      * @param data The data URI to match against (Intent.getData()).
      * @param categories The categories to match against
      *                   (Intent.getCategories()).
-     * @param logTag Tag to use in debugging messages.
      *
      * @return Returns either a valid match constant (a combination of
      * {@link #MATCH_CATEGORY_MASK} and {@link #MATCH_ADJUSTMENT_MASK}),

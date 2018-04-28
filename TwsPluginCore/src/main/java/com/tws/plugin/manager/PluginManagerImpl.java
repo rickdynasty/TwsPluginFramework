@@ -45,10 +45,12 @@ class PluginManagerImpl {
 
     private static final String INSTALLED_KEY = "plugins.list";
     private static final String PENDING_KEY = "plugins.pending";
+    private static final String UPGRADE_PLUGNI_INFO = "upgrade.plugin.info";
 
     private static final String PLUGIN_DIR = "plugin_dir";
     private final Hashtable<String, PluginDescriptor> sInstalledPlugins = new Hashtable<String, PluginDescriptor>();
     private final Hashtable<String, PluginDescriptor> sPendingPlugins = new Hashtable<String, PluginDescriptor>();
+    private final Hashtable<String, String> sUpgradePluginsInfo = new Hashtable<String, String>();
 
     PluginManagerImpl() {
         if (!ProcessUtil.isPluginProcess()) {
@@ -100,8 +102,26 @@ class PluginManagerImpl {
         }
     }
 
+    @SuppressWarnings("unchecked")
+    synchronized void loadsUpgradePluginsInfo() {
+        if (sUpgradePluginsInfo.size() == 0) {
+            Hashtable<String, String> upgradePluginsInfo = readUpgradePlugins();
+            if (upgradePluginsInfo != null) {
+                sUpgradePluginsInfo.putAll(upgradePluginsInfo);
+            }
+        }
+    }
+
     private boolean addOrReplace(PluginDescriptor pluginDescriptor) {
+        //安装流程结束，将插件更新包地址信息重置
+        pluginDescriptor.setUpgradeFilePath("");
         sInstalledPlugins.put(pluginDescriptor.getPackageName(), pluginDescriptor);
+
+        if (sUpgradePluginsInfo.containsKey(pluginDescriptor.getPackageName())) {
+            sUpgradePluginsInfo.remove(pluginDescriptor.getPackageName());
+            saveUpgradePlugins();
+        }
+
         return savePlugins(INSTALLED_KEY, sInstalledPlugins);
     }
 
@@ -163,6 +183,10 @@ class PluginManagerImpl {
 
     Collection<PluginDescriptor> getPlugins() {
         return sInstalledPlugins.values();
+    }
+
+    Hashtable<String, String> getUpgradePluginsInfo() {
+        return sUpgradePluginsInfo;
     }
 
     /**
@@ -458,6 +482,88 @@ class PluginManagerImpl {
         }
 
         return (Hashtable<String, PluginDescriptor>) object;
+    }
+
+    public void updateUpgradePluginPackageInfo(String packagename, String pluginPath) {
+        QRomLog.i(TAG, "updateUpgradePluginPackageInfo:" + packagename + " " + pluginPath);
+
+        if (TextUtils.isEmpty(pluginPath)) {
+            if (!sUpgradePluginsInfo.contains(packagename))
+                return;
+
+            sUpgradePluginsInfo.remove(packagename);
+        } else {
+            sUpgradePluginsInfo.put(packagename, pluginPath);
+        }
+        saveUpgradePlugins();
+    }
+
+    private synchronized boolean saveUpgradePlugins() {
+        ObjectOutputStream objectOutputStream = null;
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        try {
+            objectOutputStream = new ObjectOutputStream(byteArrayOutputStream);
+            objectOutputStream.writeObject(sUpgradePluginsInfo);
+            objectOutputStream.flush();
+
+            byte[] data = byteArrayOutputStream.toByteArray();
+            String list = Base64.encodeToString(data, Base64.DEFAULT);
+
+            getSharedPreference().edit().putString(UPGRADE_PLUGNI_INFO, list).commit();
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (objectOutputStream != null) {
+                try {
+                    objectOutputStream.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (byteArrayOutputStream != null) {
+                try {
+                    byteArrayOutputStream.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return false;
+    }
+
+    @SuppressWarnings("unchecked")
+    private synchronized Hashtable<String, String> readUpgradePlugins() {
+        String list = getSharedPreference().getString(UPGRADE_PLUGNI_INFO, "");
+        Serializable object = null;
+        if (!TextUtils.isEmpty(list)) {
+            ByteArrayInputStream byteArrayInputStream = null;
+            ObjectInputStream objectInputStream = null;
+            try {
+                byteArrayInputStream = new ByteArrayInputStream(Base64.decode(list, Base64.DEFAULT));
+                objectInputStream = new ObjectInputStream(byteArrayInputStream);
+                object = (Serializable) objectInputStream.readObject();
+            } catch (Exception e) {
+                e.printStackTrace();
+            } finally {
+                if (objectInputStream != null) {
+                    try {
+                        objectInputStream.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+                if (byteArrayInputStream != null) {
+                    try {
+                        byteArrayInputStream.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }
+
+        return (Hashtable<String, String>) object;
     }
 
 }

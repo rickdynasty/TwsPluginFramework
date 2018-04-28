@@ -113,6 +113,9 @@ public class PluginDescriptor implements Serializable {
     public ArrayList<String> dependOns = null;
     // ////////////////////////////////////定制化配置//////////////////////////////////////
 
+    //插件后台更新下载包路径
+    private String upgradeFilePath = null;
+
     public String getPackageName() {
         return packageName;
     }
@@ -318,6 +321,14 @@ public class PluginDescriptor implements Serializable {
 
     public void setDisplayConfigs(ArrayList<DisplayItem> displayItems) {
         this.displayItems = displayItems;
+    }
+
+    public String getUpgradeFilePath() {
+        return upgradeFilePath;
+    }
+
+    public void setUpgradeFilePath(String upgradeFilePath) {
+        this.upgradeFilePath = upgradeFilePath;
     }
 
     public List<String> getMuliDexList() {

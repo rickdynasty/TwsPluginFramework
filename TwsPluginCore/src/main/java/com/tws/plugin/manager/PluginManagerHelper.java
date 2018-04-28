@@ -12,6 +12,7 @@ import com.tws.plugin.core.PluginLoader;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.Hashtable;
 
 import qrom.component.log.QRomLog;
 
@@ -70,6 +71,29 @@ public class PluginManagerHelper {
         }
 
         return list == null ? new ArrayList<PluginDescriptor>() : list;
+    }
+
+    @SuppressWarnings("unchecked")
+    public static Hashtable<String, String> getUpgradePluginsInfo() {
+        Bundle bundle = call(PluginManagerProvider.buildUri(), PluginManagerProvider.ACTION_QUERY_UPGRADE_PLUGINS_INFO, null, null);
+
+        Hashtable<String, String> list = null;
+        if (bundle != null) {
+            list = (Hashtable<String, String>) bundle.getSerializable(PluginManagerProvider.QUERY_UPGRADE_PLUGINS_INFO_RESULT);
+        }
+
+        if (list == null) {
+            list = new Hashtable<String, String>();
+        }
+
+        return list;
+    }
+
+    public static void updateUpgradePluginPackageInfo(String packagename, String filePath) {
+        Bundle extras = new Bundle();
+        extras.putString(PluginManagerProvider.EXTRAS_BUNDLE_PACKAGE_NAME, packagename);
+        extras.putString(PluginManagerProvider.EXTRAS_BUNDLE_PLUGIN_PATH, filePath);
+        call(PluginManagerProvider.buildUri(), PluginManagerProvider.ACTION_UPDATE_UPGRADE_INFO, packagename, extras);
     }
 
     public static PluginDescriptor getPluginDescriptorByPluginId(String pluginId) {

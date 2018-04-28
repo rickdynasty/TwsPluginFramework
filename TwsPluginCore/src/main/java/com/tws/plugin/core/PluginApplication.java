@@ -43,6 +43,10 @@ public class PluginApplication extends Application {
             QRomLog.i(TAG, "插件进程 PluginLoader.initPluginFramework");
             // 插件进程，必须在这里执行initPluginFramework
             PluginLoader.initPluginFramework(this);
+        } else if (ProcessUtil.isTionProcess(this)) {
+            QRomLog.i(TAG, "tion进程 PluginLoader.initPluginFramework");
+            // tion进程，在这里执行initPluginFramework【这个后续可以优化一下】
+            PluginLoader.initPluginFramework(this);
         }
     }
 

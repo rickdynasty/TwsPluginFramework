@@ -22,6 +22,7 @@ import com.tws.plugin.core.compat.CompatForSupportv7ViewInflater;
 import com.tws.plugin.core.proxy.systemservice.AndroidAppIActivityManager;
 import com.tws.plugin.core.proxy.systemservice.AndroidAppIPackageManager;
 import com.tws.plugin.core.proxy.systemservice.AndroidWebkitWebViewFactoryProvider;
+import com.tws.plugin.manager.InstallResult;
 import com.tws.plugin.manager.PluginManagerHelper;
 import com.tws.plugin.util.FileUtil;
 import com.tws.plugin.util.ProcessUtil;
@@ -30,6 +31,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.Hashtable;
 import java.util.Iterator;
 
 import dalvik.system.BaseDexClassLoader;
@@ -339,6 +341,26 @@ public class PluginLoader {
                     final PluginDescriptor pluginDescriptor = itr.next();
                     if (!pluginApksInfo.containsKey(pluginDescriptor.getPackageName())) {
                         PluginManagerHelper.remove(pluginDescriptor.getPackageName());
+
+                        //如果存在后台下了的插件，这里直接安装更新包，并将config配置的插件包名置空
+                        if(!TextUtils.isEmpty(pluginDescriptor.getUpgradeFilePath()) && InstallResult.SUCCESS == PluginManagerHelper.installPlugin(pluginDescriptor.getUpgradeFilePath())) {
+                            QRomLog.i(TAG, "loadPlugins:" + 01);
+                            pluginApksInfo.put(pluginDescriptor.getPackageName(),"");//pluginApksInfo对应key的记录value置为空
+                        }
+                    }
+                }
+
+                final Hashtable<String, String> upgradePluginsInfo = PluginManagerHelper.getUpgradePluginsInfo();
+                QRomLog.i(TAG, "loadPlugins::getUpgradePluginsInfo:" + upgradePluginsInfo);
+                //先判断一下插件是否存在更新
+                for (String pid : pluginApksInfo.keySet()) {
+                    if (upgradePluginsInfo.containsKey(pid)) {
+                        if (InstallResult.SUCCESS == PluginManagerHelper.installPlugin(upgradePluginsInfo.get(pid))) {
+                            QRomLog.i(TAG, "loadPlugins:" + 02);
+                            pluginApksInfo.put(pid, "");
+                        }
+                        //将更新包置空
+                        PluginManagerHelper.updateUpgradePluginPackageInfo(pid, "");
                     }
                 }
 
@@ -349,6 +371,18 @@ public class PluginLoader {
             // save Version info
             saveVersionCode(curVersionCode);
             saveVersionName(curVersionName);
+        } else {
+            final Hashtable<String, String> upgradePluginsInfo = PluginManagerHelper.getUpgradePluginsInfo();
+            QRomLog.i(TAG, "loadPlugins::getUpgradePluginsInfo:" + upgradePluginsInfo);
+            //先判断一下插件是否存在更新
+            for (String pid : pluginApksInfo.keySet()) {
+                if (upgradePluginsInfo.containsKey(pid)){
+                    PluginManagerHelper.installPlugin(upgradePluginsInfo.get(pid));
+
+                    //将更新包置空
+                    PluginManagerHelper.updateUpgradePluginPackageInfo(pid, "");
+                }
+            }
         }
 
         QRomLog.i(TAG, "loadPlugins 耗时：" + (System.currentTimeMillis() - beginTime) + "ms");
@@ -448,8 +482,7 @@ public class PluginLoader {
 
         String dest = getApplication().getCacheDir().getAbsolutePath() + "/" + name;
         if (FileUtil.copyFile(assestInput, dest)) {
-            PluginManagerHelper.installPlugin(dest);
-            isSuccess = true;
+            isSuccess = InstallResult.SUCCESS == PluginManagerHelper.installPlugin(dest);
         } else {
             QRomLog.e(TAG, "抽取assets中的Apk失败");
         }

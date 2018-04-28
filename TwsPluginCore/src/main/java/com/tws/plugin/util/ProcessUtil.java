@@ -27,12 +27,15 @@ public class ProcessUtil {
 
     private static final String PLUGIN_MASTER_PROCESS_SUFFIX = ":pmaster";  //PluginManagerProvider 就配置在插件master进程里面
     private static final String PLUGIN_MINOR_PROCESS_SUFFIX = ":pminor";
+    private static final String TION_PROCESS_SUFFIX = ":tion";              //upgreade进程
 
     private static Boolean isPluginProcess = null;
     private static Boolean isHostProcess = null;
+    private static Boolean isTionProcess = null;
     private static String hostProcessName = null;
     private static String masterProcessName = null;
     private static String minorProcessName = null;
+    private static String tionProcessName = null;
 
     public static void initProcessName(Context context) {
         if (TextUtils.isEmpty(hostProcessName)) {
@@ -57,6 +60,7 @@ public class ProcessUtil {
             }
 
             minorProcessName = hostProcessName + PLUGIN_MINOR_PROCESS_SUFFIX;
+            tionProcessName = hostProcessName + TION_PROCESS_SUFFIX;
         }
     }
 
@@ -78,6 +82,15 @@ public class ProcessUtil {
         return isPluginProcess;
     }
 
+    public static boolean isTionProcess() {
+        return isTionProcess(PluginLoader.getApplication());
+    }
+
+    public static boolean isTionProcess(Context context) {
+        ensure(context);
+        return isTionProcess;
+    }
+
     private static void ensure(Context context) {
         // 注意：当前宿主和插件是一个进程
         if (isPluginProcess == null) {
@@ -89,6 +102,8 @@ public class ProcessUtil {
             //rick_Note:这里是否要 ‘||’ isHostProcess，是有争议的，原则上是 存在运行在宿主中的插件才需要，不过这里做成多进程管理，宿主有需要知道哪些插件安装了，这样就需要这个操作
             isPluginProcess = isHostProcess || masterProcessName.equals(processName) || minorProcessName.equals(processName)
                     || processName.startsWith(hostProcessName + PLUGIN_MULTI_PROCESS_SUFFIX);
+
+            isTionProcess = tionProcessName.equals(processName);
         }
     }
 

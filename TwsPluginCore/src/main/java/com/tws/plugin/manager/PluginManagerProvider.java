@@ -19,6 +19,7 @@ import com.tws.plugin.util.ProcessUtil;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Hashtable;
 
 import qrom.component.log.QRomLog;
 
@@ -88,6 +89,13 @@ public class PluginManagerProvider extends ContentProvider {
     public static final String ACTION_DUMP_SERVICE_INFO = "dump_service_info";
     public static final String DUMP_SERVICE_INFO_RESULT = "dump_service_info_result";
 
+    //upgrade plugin
+    public static final String ACTION_QUERY_UPGRADE_PLUGINS_INFO = "query_upgrade_pluginsinfo";
+    public static final String QUERY_UPGRADE_PLUGINS_INFO_RESULT = "query_upgrade_pluginsinfo_result";
+    public static final String ACTION_UPDATE_UPGRADE_INFO = "update_upgrade_plugin_info";
+    public static final String EXTRAS_BUNDLE_PACKAGE_NAME = "extras_upgrade_packagename";
+    public static final String EXTRAS_BUNDLE_PLUGIN_PATH = "extras_upgrade_plugin_path";
+
     // for debug parameter EXTRAS KEY
     public static final String EXTRAS_FOR_DEBUG = "extras_for_debug";
 
@@ -106,6 +114,7 @@ public class PluginManagerProvider extends ContentProvider {
         manager = new PluginManagerImpl();
         changeListener = new PluginCallbackImpl();
         manager.loadInstalledPlugins();
+        manager.loadsUpgradePluginsInfo();
         return false;
     }
 
@@ -232,7 +241,14 @@ public class PluginManagerProvider extends ContentProvider {
 
             return bundle;
 
-        } else if (ACTION_BIND_ACTIVITY.equals(method)) {
+        } else if (ACTION_QUERY_UPGRADE_PLUGINS_INFO.equals(method)) {
+
+            Hashtable<String, String> result = manager.getUpgradePluginsInfo();
+            bundle.putSerializable(QUERY_UPGRADE_PLUGINS_INFO_RESULT, result);
+
+            return bundle;
+
+        }else if (ACTION_BIND_ACTIVITY.equals(method)) {
             int launchMode = extras.getInt(PluginManagerHelper.CONSTANT_KEY_LAUNCH_MODE);
             int processIndex = extras.getInt(PluginManagerHelper.CONSTANT_KEY_PROCESS_INDEX, ProcessUtil.PLUGIN_PROCESS_INDEX_HOST);
             bundle.putString(BIND_ACTIVITY_RESULT, PluginStubBinding.bindStubActivity(arg, launchMode, processIndex));
@@ -281,6 +297,10 @@ public class PluginManagerProvider extends ContentProvider {
             bundle.putBoolean(WAKEUP_PLUGIN_RESULT, loadedPlugin != null);
 
             return bundle;
+        } else if(ACTION_UPDATE_UPGRADE_INFO.equals(method)){
+            String packagename = extras.getString(EXTRAS_BUNDLE_PACKAGE_NAME,arg);
+            String pluginPath = extras.getString(EXTRAS_BUNDLE_PLUGIN_PATH,arg);
+            manager.updateUpgradePluginPackageInfo(packagename, pluginPath);
         }
 
         return null;

@@ -49,7 +49,7 @@ android {
     task makeSdk(type: Jar) {
         delete(build_sdk_dir)
 
-//        archiveName 'twspluginsharelib' + '_' + version_code + '.' + version_date + '.jar'
+        // archiveName 'twspluginsharelib' + '_' + version_code + '.' + version_date + '.jar'
         archiveName 'twspluginsharelib' + '.jar'
 
         from('build/intermediates/classes/release/')
@@ -80,6 +80,7 @@ android {
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile 'com.android.support:support-v4:25.1.1'
-    compile 'com.android.support:appcompat-v7:25.1.1'
+    compile rootProject.ext.dependencies.support_v4
+    compile rootProject.ext.dependencies.appcompat_v7
+    compile rootProject.ext.dependencies.support_design
 }

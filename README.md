@@ -9,7 +9,7 @@
   - [2.3 引入框架module](#22)
   - [2.4 主工程的Application继承PluginApplication](#23)
 - [3. 其他](#3)
-  - [3.1 替换掉环境下的aapt](#21)
+  - [3.1 工程module - TwsPluginShareLib](#31)
   - [3.2 other](#22)
 
 ## 1. TPF简介

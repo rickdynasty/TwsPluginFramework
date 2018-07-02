@@ -15,10 +15,10 @@ import com.tws.plugin.core.android.HackActivityThread;
 import com.tws.plugin.core.android.HackSingleton;
 import com.tws.plugin.core.proxy.MethodDelegate;
 import com.tws.plugin.core.proxy.MethodProxy;
-import com.tws.plugin.core.proxy.ProxyUtil;
+import com.tws.plugin.core.proxy.ProxyUtils;
 import com.tws.plugin.util.PendingIntentHelper;
-import com.tws.plugin.util.ProcessUtil;
-import com.tws.plugin.util.ResourceUtil;
+import com.tws.plugin.util.ProcessUtils;
+import com.tws.plugin.util.ResourceUtils;
 
 import java.lang.reflect.Method;
 import java.util.List;
@@ -43,7 +43,7 @@ public class AndroidAppIActivityManager extends MethodProxy {
     public static void installProxy() {
         QRomLog.i(TAG, "安装ActivityManagerProxy");
         Object androidAppActivityManagerProxy = HackActivityManagerNative.getDefault();
-        Object androidAppIActivityManagerStubProxyProxy = ProxyUtil.createProxy(androidAppActivityManagerProxy,
+        Object androidAppIActivityManagerStubProxyProxy = ProxyUtils.createProxy(androidAppActivityManagerProxy,
                 new AndroidAppIActivityManager());
         if (Build.VERSION.SDK_INT <= 25) {//Build.VERSION_CODES.N_MR1
             Object singleton = HackActivityManagerNative.getGDefault();
@@ -79,7 +79,7 @@ public class AndroidAppIActivityManager extends MethodProxy {
             // 但是这会导致插件框架也无法判断当前的进程了，因此框架中判断插件进程的方法一定要在安装ActivityManager代理之前执行并记住状态
             // 同时要保证主进程能正确判断进程。
             // 这里不会导致无限递归，因为ProcessUtil.isPluginProcess方法内部有缓存，再安装ActivityManager代理之前已经执行并缓存了
-            if (ProcessUtil.isPluginProcess()) {
+            if (ProcessUtils.isPluginProcess()) {
                 List<ActivityManager.RunningAppProcessInfo> result = (List<ActivityManager.RunningAppProcessInfo>) invokeResult;
                 for (ActivityManager.RunningAppProcessInfo appProcess : result) {
                     if (appProcess != null && appProcess.pid == android.os.Process.myPid()) {
@@ -131,11 +131,11 @@ public class AndroidAppIActivityManager extends MethodProxy {
 
     public static class overridePendingTransition extends MethodDelegate {
         public Object beforeInvoke(Object target, Method method, Object[] args) {
-            if (ProcessUtil.isPluginProcess()) {
-                if (!ResourceUtil.isMainResId((Integer) args[2])) {
+            if (ProcessUtils.isPluginProcess()) {
+                if (!ResourceUtils.isMainResId((Integer) args[2])) {
                     args[2] = 0;
                 }
-                if (!ResourceUtil.isMainResId((Integer) args[3])) {
+                if (!ResourceUtils.isMainResId((Integer) args[3])) {
                     args[3] = 0;
                 }
             }
@@ -145,7 +145,7 @@ public class AndroidAppIActivityManager extends MethodProxy {
 
     public static class serviceDoneExecuting extends MethodDelegate {
         public Object beforeInvoke(Object target, Method method, Object[] args) {
-            if (ProcessUtil.isPluginProcess()) {
+            if (ProcessUtils.isPluginProcess()) {
                 if (((Integer) args[1]).equals(HackActivityThread.getSERVICE_DONE_EXECUTING_ANON())) {
                     for (Object obj : args) {
                         if (obj instanceof IBinder) {

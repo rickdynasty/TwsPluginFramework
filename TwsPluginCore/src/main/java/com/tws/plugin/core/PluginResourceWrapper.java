@@ -13,7 +13,7 @@ import android.text.TextUtils;
 import android.util.DisplayMetrics;
 
 import com.tws.plugin.content.PluginDescriptor;
-import com.tws.plugin.util.ResourceUtil;
+import com.tws.plugin.util.ResourceUtils;
 
 /**
  * 根据不同的rom，可能需要重写更多的方法，目前发现的几个机型的问题暂时只需要重写下面2个方法。
@@ -47,7 +47,7 @@ public class PluginResourceWrapper extends Resources {
 
 			// 就目前测试的情况来看，只有Coolpad、vivo、oppo等手机会在上面抛异常，走到这里来，
 			// 华为、三星、小米等手机不会到这里来。
-			if (ResourceUtil.isMainResId(resid)) {
+			if (ResourceUtils.isMainResId(resid)) {
 				idCaches.add(resid);
 				return PluginLoader.getApplication().getPackageName();
 			}
@@ -65,7 +65,7 @@ public class PluginResourceWrapper extends Resources {
 
 			// 就目前测试的情况来看，只有Coolpad、vivo、oppo等手机会在上面抛异常，走到这里来，
 			// 华为、三星、小米等手机不会到这里来。
-			if (ResourceUtil.isMainResId(resid)) {
+			if (ResourceUtils.isMainResId(resid)) {
 				return PluginLoader.getApplication().getResources().getResourceName(resid);
 			}
 			throw new NotFoundException("Unable to find resource ID #0x" + Integer.toHexString(resid));
@@ -78,7 +78,7 @@ public class PluginResourceWrapper extends Resources {
 			return super.getResourceEntryName(resid);
 		} catch (NotFoundException e) {
 			// vivo
-			if (ResourceUtil.isMainResId(resid)) {
+			if (ResourceUtils.isMainResId(resid)) {
 				return PluginLoader.getApplication().getResources().getResourceEntryName(resid);
 			}
 			QRomLog.e(TAG, "NotFoundException Try Following");
@@ -92,7 +92,7 @@ public class PluginResourceWrapper extends Resources {
 			return super.getResourceTypeName(resid);
 		} catch (NotFoundException e) {
 			// vivo
-			if (ResourceUtil.isMainResId(resid)) {
+			if (ResourceUtils.isMainResId(resid)) {
 				return PluginLoader.getApplication().getResources().getResourceTypeName(resid);
 			}
 			QRomLog.e(TAG, "NotFoundException Try Following");
@@ -182,7 +182,7 @@ public class PluginResourceWrapper extends Resources {
 			QRomLog.e(TAG, "NotFoundException Try Following");
 
 			// 7.1 Nexus 6p会跑到这里来
-			if (ResourceUtil.isMainResId(id)) {
+			if (ResourceUtils.isMainResId(id)) {
 				return PluginLoader.getApplication().getResources().getDrawable(id);
 			}
 			throw new NotFoundException("Unable to find Drawable resource ID #0x" + Integer.toHexString(id));
@@ -197,7 +197,7 @@ public class PluginResourceWrapper extends Resources {
 			QRomLog.e(TAG, "NotFoundException Try Following");
 
 			// 7.1 Nexus 6p会跑到这里来
-			if (ResourceUtil.isMainResId(id)) {
+			if (ResourceUtils.isMainResId(id)) {
 				return PluginLoader.getApplication().getResources().getDrawable(id, theme);
 			}
 			throw new NotFoundException("Unable to find Drawable resource ID #0x" + Integer.toHexString(id));
@@ -212,7 +212,7 @@ public class PluginResourceWrapper extends Resources {
 			QRomLog.e(TAG, "NotFoundException Try Following");
 
 			// 7.1 Nexus 6p会跑到这里来
-			if (ResourceUtil.isMainResId(id)) {
+			if (ResourceUtils.isMainResId(id)) {
 				return PluginLoader.getApplication().getResources().getColor(id);
 			}
 			throw new NotFoundException("Unable to find Color resource ID #0x" + Integer.toHexString(id));
@@ -227,7 +227,7 @@ public class PluginResourceWrapper extends Resources {
 			QRomLog.e(TAG, "NotFoundException Try Following");
 
 			// 7.1 Nexus 6p会跑到这里来
-			if (ResourceUtil.isMainResId(id)) {
+			if (ResourceUtils.isMainResId(id)) {
 				return PluginLoader.getApplication().getResources().getColorStateList(id);
 			}
 			throw new NotFoundException("Unable to find Color resource ID #0x" + Integer.toHexString(id));

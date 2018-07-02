@@ -16,9 +16,9 @@ import com.tws.plugin.core.PluginCreator;
 import com.tws.plugin.core.PluginLauncher;
 import com.tws.plugin.core.PluginLoader;
 import com.tws.plugin.core.PluginManifestParser;
-import com.tws.plugin.util.FileUtil;
+import com.tws.plugin.util.PluginFileUtils;
 import com.tws.plugin.util.PackageVerifyer;
-import com.tws.plugin.util.ProcessUtil;
+import com.tws.plugin.util.ProcessUtils;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -53,7 +53,7 @@ class PluginManagerImpl {
     private final Hashtable<String, String> sUpgradePluginsInfo = new Hashtable<String, String>();
 
     PluginManagerImpl() {
-        if (!ProcessUtil.isPluginProcess()) {
+        if (!ProcessUtils.isPluginProcess()) {
             throw new IllegalAccessError("本类仅在插件进程使用");
         }
     }
@@ -135,7 +135,7 @@ class PluginManagerImpl {
         sInstalledPlugins.clear();
         boolean isSuccess = savePlugins(INSTALLED_KEY, sInstalledPlugins);
 
-        FileUtil.deleteAll(new File(getPluginRootDir()));
+        PluginFileUtils.deleteAll(new File(getPluginRootDir()));
 
         return isSuccess;
     }
@@ -159,7 +159,7 @@ class PluginManagerImpl {
                             continue;
                         }
 
-                        FileUtil.deleteAll(childFile);
+                        PluginFileUtils.deleteAll(childFile);
                     }
                 }
                 if (hasDataFile) {
@@ -170,7 +170,7 @@ class PluginManagerImpl {
 
                 QRomLog.i(TAG, "delete:" + file.getAbsolutePath());
             } else {
-                deleteSuccess = FileUtil.deleteAll(file);
+                deleteSuccess = PluginFileUtils.deleteAll(file);
             }
             QRomLog.i(TAG, "delete old result:" + result + " deleteSuccess=" + deleteSuccess + " old.getInstalledPath="
                     + old.getInstalledPath() + " old.getPackageName=" + old.getPackageName());
@@ -251,7 +251,7 @@ class PluginManagerImpl {
         if (!srcPluginFile.startsWith(PluginLoader.getApplication().getCacheDir().getAbsolutePath())) {
             String tempFilePath = PluginLoader.getApplication().getCacheDir().getAbsolutePath() + File.separator
                     + System.currentTimeMillis() + ".apk";
-            if (FileUtil.copyFile(srcPluginFile, tempFilePath)) {
+            if (PluginFileUtils.copyFile(srcPluginFile, tempFilePath)) {
                 QRomLog.i(TAG, "step 1.copy :" + srcPluginFile + " to " + tempFilePath + " success!");
                 srcPluginFile = tempFilePath;
             } else {
@@ -339,7 +339,7 @@ class PluginManagerImpl {
         // 第5步骤，复制插件到插件目录
         String destApkPath = genInstallPath(pluginDescriptor.getPackageName(), pluginDescriptor.getVersion());
         QRomLog.i(TAG, "genInstallPath destApkPath=" + destApkPath);
-        boolean isCopySuccess = FileUtil.copyFile(srcPluginFile, destApkPath);
+        boolean isCopySuccess = PluginFileUtils.copyFile(srcPluginFile, destApkPath);
 
         if (!isCopySuccess) {
             QRomLog.e(TAG, "复制插件到安装目录失败 srcPluginFile is " + srcPluginFile);
@@ -353,18 +353,18 @@ class PluginManagerImpl {
             // 插件在配置协议里面配置的图标会在DM首页上使用到
             File apkParent = new File(destApkPath).getParentFile();
             File tempResDir = new File(apkParent, "temp");
-            Set<String> necessaryResList = FileUtil.unZipNecessaryRes(srcPluginFile, tempResDir);
+            Set<String> necessaryResList = PluginFileUtils.unZipNecessaryRes(srcPluginFile, tempResDir);
             QRomLog.i(TAG, "necessaryResList=" + necessaryResList);
             if (necessaryResList != null) {
                 for (String necessaryResName : necessaryResList) {
-                    if (necessaryResName.toLowerCase().endsWith(FileUtil.FIX_LIB_NAME)) {
-                        FileUtil.copySo(tempResDir, necessaryResName, apkParent.getAbsolutePath());
-                    } else if (necessaryResName.endsWith(FileUtil.FIX_ICON_NAME)) {
-                        FileUtil.copyIcon(tempResDir, necessaryResName, apkParent.getAbsolutePath());
+                    if (necessaryResName.toLowerCase().endsWith(PluginFileUtils.FIX_LIB_NAME)) {
+                        PluginFileUtils.copySo(tempResDir, necessaryResName, apkParent.getAbsolutePath());
+                    } else if (necessaryResName.endsWith(PluginFileUtils.FIX_ICON_NAME)) {
+                        PluginFileUtils.copyIcon(tempResDir, necessaryResName, apkParent.getAbsolutePath());
                     }
                 }
                 // 删掉临时文件
-                FileUtil.deleteAll(tempResDir);
+                PluginFileUtils.deleteAll(tempResDir);
             }
 
             // 第7步 添加到已安装插件列表
@@ -387,7 +387,7 @@ class PluginManagerImpl {
                 // 通过创建classloader来触发dexopt，但不加载
                 QRomLog.i(TAG, "正在进行DEXOPT..." + pluginDescriptor.getInstalledPath());
                 // ActivityThread.getPackageManager().performDexOptIfNeeded()
-                FileUtil.deleteAll(new File(apkParent, "dalvik-cache"));
+                PluginFileUtils.deleteAll(new File(apkParent, "dalvik-cache"));
                 ClassLoader cl = PluginCreator.createPluginClassLoader(pluginDescriptor.getInstalledPath(),
                         pluginDescriptor.isStandalone(), null, null);
                 try {
@@ -401,7 +401,7 @@ class PluginManagerImpl {
 
                 // 打印一下目录结构
                 if (isDebugable) {
-                    FileUtil.printAll(new File(PluginLoader.getApplication().getApplicationInfo().dataDir));
+                    PluginFileUtils.printAll(new File(PluginLoader.getApplication().getApplicationInfo().dataDir));
                 }
 
                 return new InstallResult(InstallResult.SUCCESS, pluginDescriptor.getPackageName(), pluginDescriptor.getVersion());

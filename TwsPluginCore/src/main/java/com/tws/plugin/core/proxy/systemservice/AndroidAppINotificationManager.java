@@ -19,10 +19,10 @@ import com.tws.plugin.core.android.HackPendingIntent;
 import com.tws.plugin.core.android.HackRemoteViews;
 import com.tws.plugin.core.proxy.MethodDelegate;
 import com.tws.plugin.core.proxy.MethodProxy;
-import com.tws.plugin.core.proxy.ProxyUtil;
+import com.tws.plugin.core.proxy.ProxyUtils;
 import com.tws.plugin.manager.PluginManagerHelper;
-import com.tws.plugin.util.FileUtil;
-import com.tws.plugin.util.ResourceUtil;
+import com.tws.plugin.util.PluginFileUtils;
+import com.tws.plugin.util.ResourceUtils;
 
 /**
  * Created by yongchen
@@ -40,7 +40,7 @@ public class AndroidAppINotificationManager extends MethodProxy {
     public static void installProxy() {
         QRomLog.i(TAG, "安装NotificationManagerProxy");
         Object androidAppINotificationStubProxy = HackNotificationManager.getService();
-        Object androidAppINotificationStubProxyProxy = ProxyUtil.createProxy(androidAppINotificationStubProxy,
+        Object androidAppINotificationStubProxyProxy = ProxyUtils.createProxy(androidAppINotificationStubProxy,
                 new AndroidAppINotificationManager());
         HackNotificationManager.setService(androidAppINotificationStubProxyProxy);
         QRomLog.i(TAG, "安装完成");
@@ -133,7 +133,7 @@ public class AndroidAppINotificationManager extends MethodProxy {
             }
 
             // 检查资源布局资源Id是否属于宿主
-            if (ResourceUtil.isMainResId(layoutId)) {
+            if (ResourceUtils.isMainResId(layoutId)) {
                 return;
             }
 
@@ -232,7 +232,7 @@ public class AndroidAppINotificationManager extends MethodProxy {
         QRomLog.i(TAG, "正在为通知栏准备插件资源。。。这里现在暂时是同步复制，注意大文件卡顿！！");
         File worldReadableFile = new File(worldReadablePath);
 
-        if (FileUtil.copyFile(pluginInstalledPath, worldReadableFile.getAbsolutePath())) {
+        if (PluginFileUtils.copyFile(pluginInstalledPath, worldReadableFile.getAbsolutePath())) {
             QRomLog.i(TAG, "通知栏插件资源准备完成，请确保此路径SystemUi有读权限:" + worldReadableFile.getAbsolutePath());
             return worldReadableFile.getAbsolutePath();
         } else {

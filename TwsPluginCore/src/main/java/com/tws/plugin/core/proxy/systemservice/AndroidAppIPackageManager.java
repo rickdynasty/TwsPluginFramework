@@ -25,7 +25,6 @@ import com.tws.plugin.content.DisplayItem;
 import com.tws.plugin.content.PluginActivityInfo;
 import com.tws.plugin.content.PluginDescriptor;
 import com.tws.plugin.content.PluginProviderInfo;
-import com.tws.plugin.content.PluginServiceInfo;
 import com.tws.plugin.core.PluginIntentResolver;
 import com.tws.plugin.core.PluginLoader;
 import com.tws.plugin.core.android.HackActivityThread;
@@ -33,11 +32,10 @@ import com.tws.plugin.core.android.HackApplicationPackageManager;
 import com.tws.plugin.core.android.HackParceledListSlice;
 import com.tws.plugin.core.proxy.MethodDelegate;
 import com.tws.plugin.core.proxy.MethodProxy;
-import com.tws.plugin.core.proxy.ProxyUtil;
+import com.tws.plugin.core.proxy.ProxyUtils;
 import com.tws.plugin.manager.PluginManagerHelper;
 import com.tws.plugin.manager.PluginManagerProvider;
-import com.tws.plugin.util.ProcessUtil;
-import com.tws.plugin.util.ResourceUtil;
+import com.tws.plugin.util.ResourceUtils;
 
 /**
  * @author yongchen
@@ -64,7 +62,7 @@ public class AndroidAppIPackageManager extends MethodProxy {
     public static void installProxy(PackageManager manager) {
         QRomLog.i(TAG, "安装PackageManagerProxy");
         Object androidAppIPackageManagerStubProxy = HackActivityThread.getPackageManager();
-        Object androidAppIPackageManagerStubProxyProxy = ProxyUtil.createProxy(androidAppIPackageManagerStubProxy,
+        Object androidAppIPackageManagerStubProxyProxy = ProxyUtils.createProxy(androidAppIPackageManagerStubProxy,
                 new AndroidAppIPackageManager());
         HackActivityThread.setPackageManager(androidAppIPackageManagerStubProxyProxy);
         HackApplicationPackageManager hackApplicationPackageManager = new HackApplicationPackageManager(manager);
@@ -382,7 +380,7 @@ public class AndroidAppIPackageManager extends MethodProxy {
         if (pluginDescriptor.containsComponent(className, DisplayItem.TYPE_ACTIVITY)) {
             PluginActivityInfo detail = pluginDescriptor.getActivityInfos().get(className);
             activityInfo.launchMode = Integer.valueOf(detail.getLaunchMode());
-            activityInfo.theme = ResourceUtil.getResourceId(detail.getTheme());
+            activityInfo.theme = ResourceUtils.getResourceId(detail.getTheme());
             if (detail.getUiOptions() != null) {
                 activityInfo.uiOptions = Integer.parseInt(detail.getUiOptions().replace("0x", ""), 16);
             }

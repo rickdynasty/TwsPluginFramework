@@ -16,7 +16,6 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.Window;
 
-import com.tws.plugin.bridge.TwsPluginBridgeActivity;
 import com.tws.plugin.content.LoadedPlugin;
 import com.tws.plugin.content.PluginActivityInfo;
 import com.tws.plugin.content.PluginDescriptor;
@@ -36,8 +35,8 @@ import com.tws.plugin.core.android.TwsActivityInterface;
 import com.tws.plugin.core.annotation.PluginContainer;
 import com.tws.plugin.core.compat.CompatForSupportv7_23_2;
 import com.tws.plugin.manager.PluginManagerHelper;
-import com.tws.plugin.util.ProcessUtil;
-import com.tws.plugin.util.ResourceUtil;
+import com.tws.plugin.util.ProcessUtils;
+import com.tws.plugin.util.ResourceUtils;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -121,7 +120,7 @@ public class PluginInjector {
         String pluginId = null;
         boolean isStubActivity = false;
 
-        if (ProcessUtil.isPluginProcess()) {
+        if (ProcessUtils.isPluginProcess()) {
             // 如果是打开插件中的activity,
             final Intent intent = activity.getIntent();
             isStubActivity = intent.getBooleanExtra(PluginIntentResolver.INTENT_EXTRA_TWS_PLUGIN_STUB, false);
@@ -266,7 +265,7 @@ public class PluginInjector {
                 }
             }
             if (Build.VERSION.SDK_INT >= 18 && !activity.isChild()) {
-                Boolean isImmersive = ResourceUtil.getBoolean(pluginActivityInfo.getImmersive(), pluginContext);
+                Boolean isImmersive = ResourceUtils.getBoolean(pluginActivityInfo.getImmersive(), pluginContext);
                 if (isImmersive != null) {
                     activity.setImmersive(isImmersive);
                 }

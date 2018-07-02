@@ -26,8 +26,8 @@ import com.tws.plugin.manager.InstallResult;
 import com.tws.plugin.manager.PluginCallback;
 import com.tws.plugin.manager.PluginManagerHelper;
 import com.tws.plugin.manager.PluginManagerProvider;
-import com.tws.plugin.util.FileUtil;
-import com.tws.plugin.util.ResourceUtil;
+import com.tws.plugin.util.PluginFileUtils;
+import com.tws.plugin.util.ResourceUtils;
 
 import java.io.File;
 import java.io.IOException;
@@ -258,7 +258,7 @@ public class DebugPluginActivity extends AppCompatActivity {
             root.addView(button, layoutParam);
 
             QRomLog.i(TAG, "插件id：" + pluginDescriptor.getPackageName());
-            String pluginLabel = ResourceUtil.getLabel(pluginDescriptor);
+            String pluginLabel = ResourceUtils.getLabel(pluginDescriptor);
             mBuildinMap.put(pluginLabel, pluginDescriptor.getPackageName());
             button.setText("打开插件：" + pluginLabel + ", V" + pluginDescriptor.getVersion());
             button.setOnClickListener(new View.OnClickListener() {
@@ -394,7 +394,7 @@ public class DebugPluginActivity extends AppCompatActivity {
         super.onResume();
 
         // 打印一下目录结构
-        FileUtil.printAll(new File(getApplicationInfo().dataDir));
+        PluginFileUtils.printAll(new File(getApplicationInfo().dataDir));
     }
 
     @Override

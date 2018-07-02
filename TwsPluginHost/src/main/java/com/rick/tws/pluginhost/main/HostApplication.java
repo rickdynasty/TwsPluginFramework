@@ -4,18 +4,9 @@ import android.content.Context;
 
 import com.rick.tws.framework.HostProxy;
 import com.rick.tws.pluginhost.main.widget.Hotseat;
-import com.tws.plugin.content.PluginDescriptor;
 import com.tws.plugin.core.PluginApplication;
-import com.tws.plugin.core.PluginLauncher;
 import com.tws.plugin.core.PluginLoader;
-import com.tws.plugin.manager.PluginManagerHelper;
-import com.tws.plugin.util.ProcessUtil;
-
-import java.io.File;
-import java.util.Collection;
-import java.util.Iterator;
-
-import qrom.component.log.QRomLog;
+import com.tws.plugin.util.ProcessUtils;
 
 /**
  * Created by Administrator on 2017/11/6 0006.
@@ -31,7 +22,7 @@ public class HostApplication extends PluginApplication {
 
         //宿主进程只有一个，插件进程却又好几个，放宿主进程也可以保证插件的加载只有一次
         //插件的具体安装操作确是在Provider进程，不过provider本身能夸进程，不影响宿主获取插件info
-        if (ProcessUtil.isHostProcess(this)) {
+        if (ProcessUtils.isHostProcess(this)) {
             //加载插件：如果是新安装或者升级，需要安装
             PluginLoader.loadPlugins(this);
 

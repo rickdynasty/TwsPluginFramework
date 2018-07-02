@@ -8,7 +8,7 @@ import java.util.List;
 import qrom.component.log.QRomLog;
 
 import com.tws.plugin.content.LoadedPlugin;
-import com.tws.plugin.util.FileUtil;
+import com.tws.plugin.util.PluginFileUtils;
 
 import dalvik.system.DexClassLoader;
 
@@ -66,7 +66,7 @@ public class PluginClassLoader extends DexClassLoader {
 						return soPathOfCopyN;
 					} else if (soLoaderOfCopyN == null) {
 						if (!new File(soPathOfCopyN).exists()) {
-							boolean isSuccess = FileUtil.copyFile(soPath, soPathOfCopyN);
+							boolean isSuccess = PluginFileUtils.copyFile(soPath, soPathOfCopyN);
 							if (isSuccess) {
 								soClassloaderMapper.put(soPathOfCopyN, thisLoader);
 								QRomLog.i(TAG, "findLibrary acturely so path : " + soPathOfCopyN

@@ -12,9 +12,8 @@ import com.tws.plugin.content.PluginDescriptor;
 import com.tws.plugin.core.android.HackActivityThread;
 import com.tws.plugin.core.android.HackContextImpl;
 import com.tws.plugin.manager.PluginManagerHelper;
-import com.tws.plugin.util.ProcessUtil;
+import com.tws.plugin.util.ProcessUtils;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Map;
 
@@ -90,7 +89,7 @@ public class PluginAppTrace implements Handler.Callback {
     }
 
     private static Result beforeReceiver(Message msg) {
-        if (ProcessUtil.isPluginProcess()) {//判断进程是为了提高效率, 因为插件组件都是在插件进程中运行的.
+        if (ProcessUtils.isPluginProcess()) {//判断进程是为了提高效率, 因为插件组件都是在插件进程中运行的.
 
             // rick_Note:cls is "Context newBase"???
             Class cls = PluginIntentResolver.resolveReceiverForClassLoader(msg.obj);
@@ -124,7 +123,7 @@ public class PluginAppTrace implements Handler.Callback {
     }
 
     private static Result beforeStopService(Message msg) {
-        if (ProcessUtil.isPluginProcess()) {
+        if (ProcessUtils.isPluginProcess()) {
             //销毁service时回收映射关系, 之所以要回收映射关系是为了能在宿主中尽量少的注册占位组件.
             //即回收映射关系并不是必须的, 只要预注册的占位组件数据足够即可.
             if (HackActivityThread.get() != null) {
@@ -166,7 +165,7 @@ public class PluginAppTrace implements Handler.Callback {
     }
 
     private static void afterReceiver(Result result) {
-        if (ProcessUtil.isPluginProcess()) {
+        if (ProcessUtils.isPluginProcess()) {
             if (result != null && result.baseContext != null) {
                 new HackContextImpl(result.baseContext).setReceiverRestrictedContext(null);
             }
@@ -187,7 +186,7 @@ public class PluginAppTrace implements Handler.Callback {
     }
 
     private static void afterConfigurationChanged(Message msg) {
-        if (ProcessUtil.isPluginProcess()) {
+        if (ProcessUtils.isPluginProcess()) {
             Collection<PluginDescriptor> pluginDescriptors = PluginManagerHelper.getPlugins();
             for (PluginDescriptor pluginDescriptor : pluginDescriptors) {
                 LoadedPlugin loadedPlugin = PluginLauncher.instance().getRunningPlugin(pluginDescriptor.getPackageName());

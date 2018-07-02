@@ -23,7 +23,7 @@ import com.tws.plugin.core.android.HackContextImpl;
 import com.tws.plugin.core.android.HackResources;
 import com.tws.plugin.core.compat.CompatForSharedPreferencesImpl;
 import com.tws.plugin.core.multidex.PluginMultiDexHelper;
-import com.tws.plugin.util.ProcessUtil;
+import com.tws.plugin.util.ProcessUtils;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -59,7 +59,7 @@ public class PluginContextTheme extends PluginBaseContextWrapper {
 		mResources = resources;
 		mClassLoader = classLoader;
 
-		if (!ProcessUtil.isPluginProcess()) {
+		if (!ProcessUtils.isPluginProcess()) {
 			throw new IllegalAccessError("本类仅在插件进程使用");
 		}
 	}

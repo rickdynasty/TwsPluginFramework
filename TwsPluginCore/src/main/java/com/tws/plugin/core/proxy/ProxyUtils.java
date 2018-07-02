@@ -6,7 +6,7 @@ import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.List;
 
-public class ProxyUtil {
+public class ProxyUtils {
 
 	public static Object createProxy2(Object target, Object delegate) {
 		MethodDelegate realDelegate = (MethodDelegate) delegate;

@@ -9,7 +9,7 @@ import com.tws.plugin.content.LoadedPlugin;
 import com.tws.plugin.content.PluginDescriptor;
 import com.tws.plugin.core.android.HackAssetManager;
 import com.tws.plugin.manager.PluginManagerHelper;
-import com.tws.plugin.util.FileUtil;
+import com.tws.plugin.util.PluginFileUtils;
 
 import java.io.File;
 import java.util.List;
@@ -36,10 +36,10 @@ public class PluginCreator {
 
 		String apkParentDir = new File(absolutePluginApkPath).getParent();
 
-		File optDir = new File(apkParentDir, FileUtil.DALVIK_CACHE_FOLDER);
+		File optDir = new File(apkParentDir, PluginFileUtils.DALVIK_CACHE_FOLDER);
 		optDir.mkdirs();
 
-		File libDir = new File(apkParentDir, FileUtil.LIB_FOLDER);
+		File libDir = new File(apkParentDir, PluginFileUtils.LIB_FOLDER);
 		libDir.mkdirs();
 
 		if (!isStandalone) {// 非独立插件

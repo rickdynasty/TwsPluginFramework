@@ -9,7 +9,7 @@ import android.text.TextUtils;
 import com.tws.plugin.content.DisplayItem;
 import com.tws.plugin.content.PluginDescriptor;
 import com.tws.plugin.manager.PluginManagerHelper;
-import com.tws.plugin.util.ProcessUtil;
+import com.tws.plugin.util.ProcessUtils;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -36,14 +36,14 @@ public class PluginApplication extends Application {
         // 2、在插件进程和宿主进程的initPluginFramework方法都执行完毕之前，不可和插件交互
         // 3、在插件进程和宿主进程的initPluginFramework方法都执行完毕之前启动的组件，即使在initPluginFramework都执行完毕之后，也不可和插件交互
         // 如果initPluginFramework都在进程启动时就执行，自然很轻松满足上述条件。
-        if (ProcessUtil.isHostProcess(this)) {
+        if (ProcessUtils.isHostProcess(this)) {
             QRomLog.i(TAG, "宿主进程 PluginLoader.initPluginFramework");
             PluginLoader.initPluginFramework(this);
-        } else if (ProcessUtil.isPluginProcess(this)) {
+        } else if (ProcessUtils.isPluginProcess(this)) {
             QRomLog.i(TAG, "插件进程 PluginLoader.initPluginFramework");
             // 插件进程，必须在这里执行initPluginFramework
             PluginLoader.initPluginFramework(this);
-        } else if (ProcessUtil.isTionProcess(this)) {
+        } else if (ProcessUtils.isTionProcess(this)) {
             QRomLog.i(TAG, "tion进程 PluginLoader.initPluginFramework");
             // tion进程，在这里执行initPluginFramework【这个后续可以优化一下】
             PluginLoader.initPluginFramework(this);
@@ -113,7 +113,7 @@ public class PluginApplication extends Application {
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
-        if (mSaveConfiguration.diff(newConfig) != 0 && ProcessUtil.isPluginProcess(this)) {
+        if (mSaveConfiguration.diff(newConfig) != 0 && ProcessUtils.isPluginProcess(this)) {
             mSaveConfiguration.updateFrom(newConfig);
             QRomLog.i(TAG, "更新所有插件的Config配置");
             PluginLauncher.instance().onConfigurationChanged(newConfig);

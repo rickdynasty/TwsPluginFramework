@@ -24,8 +24,8 @@ import com.tws.plugin.core.proxy.systemservice.AndroidAppIPackageManager;
 import com.tws.plugin.core.proxy.systemservice.AndroidWebkitWebViewFactoryProvider;
 import com.tws.plugin.manager.InstallResult;
 import com.tws.plugin.manager.PluginManagerHelper;
-import com.tws.plugin.util.FileUtil;
-import com.tws.plugin.util.ProcessUtil;
+import com.tws.plugin.util.PluginFileUtils;
+import com.tws.plugin.util.ProcessUtils;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -76,7 +76,7 @@ public class PluginLoader {
 
                 // 这里的isPluginProcess方法需要在安装AndroidAppIActivityManager之前执行一次。
                 // 原因见AndroidAppIActivityManager的getRunningAppProcesses()方法
-                boolean isPluginProcess = ProcessUtil.isPluginProcess();
+                boolean isPluginProcess = ProcessUtils.isPluginProcess();
 
                 // 进行PendingIntent的resolve、进程欺骗等主要是为了让插件在四大组件之外的组件等单元也具备自己的运行权限
                 AndroidAppIActivityManager.installProxy();
@@ -481,7 +481,7 @@ public class PluginLoader {
         }
 
         String dest = getApplication().getCacheDir().getAbsolutePath() + "/" + name;
-        if (FileUtil.copyFile(assestInput, dest)) {
+        if (PluginFileUtils.copyFile(assestInput, dest)) {
             isSuccess = InstallResult.SUCCESS == PluginManagerHelper.installPlugin(dest);
         } else {
             QRomLog.e(TAG, "抽取assets中的Apk失败");

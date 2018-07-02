@@ -13,8 +13,8 @@ import com.tws.plugin.manager.PluginManagerProvider;
 
 import qrom.component.log.QRomLog;
 
-public class ProcessUtil {
-    private static final String TAG = "rick_Print:ProcessUtil";
+public class ProcessUtils {
+    private static final String TAG = "rick_Print:" + ProcessUtils.class.getSimpleName();
 
     //插件运行所在的进程
     public static final int PLUGIN_PROCESS_INDEX_HOST = 0;

@@ -21,7 +21,7 @@ import com.tws.plugin.core.android.HackActivityThread;
 import com.tws.plugin.core.android.HackCreateServiceData;
 import com.tws.plugin.core.android.HackReceiverData;
 import com.tws.plugin.manager.PluginManagerHelper;
-import com.tws.plugin.util.ProcessUtil;
+import com.tws.plugin.util.ProcessUtils;
 
 public class PluginIntentResolver {
     private static final String TAG = "PluginIntentResolver";
@@ -135,7 +135,7 @@ public class PluginIntentResolver {
         HackCreateServiceData hackCreateServiceData = new HackCreateServiceData(msgObj);
         ServiceInfo info = hackCreateServiceData.getInfo();
 
-        if (ProcessUtil.isPluginProcess()) {
+        if (ProcessUtils.isPluginProcess()) {
 
             PluginInjector.hackHostClassLoaderIfNeeded();
 

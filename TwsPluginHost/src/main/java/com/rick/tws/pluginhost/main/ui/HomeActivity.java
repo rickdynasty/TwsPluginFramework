@@ -39,7 +39,7 @@ import com.tws.plugin.core.PluginLoader;
 import com.tws.plugin.manager.InstallResult;
 import com.tws.plugin.manager.PluginCallback;
 import com.tws.plugin.manager.PluginManagerHelper;
-import com.tws.plugin.util.FileUtil;
+import com.tws.plugin.util.PluginFileUtils;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -306,7 +306,7 @@ public class HomeActivity extends AppCompatActivity implements HomeUIProxy {
 
         final ArrayList<DisplayItem> dis = pluginDescriptor.getDisplayItems();
         if (dis != null && 0 < dis.size()) {
-            String iconDir = new File(pluginDescriptor.getInstalledPath()).getParent() + File.separator + FileUtil.ICON_FOLDER;
+            String iconDir = new File(pluginDescriptor.getInstalledPath()).getParent() + File.separator + PluginFileUtils.ICON_FOLDER;
             for (DisplayItem di : dis) {
                 ArrayList<DisplayItem> gemelItems = null;
                 if (DisplayItem.INVALID_POS == di.gemel_x && DisplayItem.INVALID_POS == di.gemel_y) {
@@ -416,7 +416,7 @@ public class HomeActivity extends AppCompatActivity implements HomeUIProxy {
             final ArrayList<DisplayItem> dis = pluginDescriptor.getDisplayItems();
             if (dis != null && 0 < dis.size()) {
                 hasGetHotSeatPos = false;
-                String iconDir = new File(pluginDescriptor.getInstalledPath()).getParent() + File.separator + FileUtil.ICON_FOLDER;
+                String iconDir = new File(pluginDescriptor.getInstalledPath()).getParent() + File.separator + PluginFileUtils.ICON_FOLDER;
                 ArrayList<DisplayItem> gemelItems = null;
                 for (DisplayItem di : dis) {
                     if (DisplayItem.INVALID_POS == di.gemel_x && DisplayItem.INVALID_POS == di.gemel_y) {
@@ -656,7 +656,7 @@ public class HomeActivity extends AppCompatActivity implements HomeUIProxy {
         String iconPath;
         Bitmap normalIcon = null;
         if (null == PluginManagerHelper.getPluginIcon(item.normalResName)) {
-            iconPath = iconDir + File.separator + item.normalResName + FileUtil.FIX_ICON_NAME;
+            iconPath = iconDir + File.separator + item.normalResName + PluginFileUtils.FIX_ICON_NAME;
             normalIcon = BitmapFactory.decodeFile(iconPath);
             if (normalIcon != null) {
                 PluginManagerHelper.addPluginIcon(item.normalResName, new BitmapDrawable(getResources(), normalIcon));
@@ -665,7 +665,7 @@ public class HomeActivity extends AppCompatActivity implements HomeUIProxy {
 
         if (null == PluginManagerHelper.getPluginIcon(item.focusResName)
                 && !item.normalResName.equals(item.focusResName)) {
-            iconPath = iconDir + File.separator + item.focusResName + FileUtil.FIX_ICON_NAME;
+            iconPath = iconDir + File.separator + item.focusResName + PluginFileUtils.FIX_ICON_NAME;
             Bitmap focusIcon = BitmapFactory.decodeFile(iconPath);
             if (focusIcon != null) {
                 PluginManagerHelper.addPluginIcon(item.focusResName, new BitmapDrawable(getResources(), focusIcon));
@@ -677,7 +677,7 @@ public class HomeActivity extends AppCompatActivity implements HomeUIProxy {
 
 //        if (hostDI.ab_titlerestype == 1 && !TextUtils.isEmpty(hostDI.ab_title)
 //                && null == PluginManagerHelper.getPluginIcon(hostDI.ab_title)) {
-//            iconPath = iconDir + File.separator + info.ab_title + FileUtil.FIX_ICON_NAME;
+//            iconPath = iconDir + File.separator + info.ab_title + FileUtils.FIX_ICON_NAME;
 //            Bitmap icon = BitmapFactory.decodeFile(iconPath);
 //            if (icon != null) {
 //                PluginManagerHelper.addPluginIcon(hostDI.ab_title, new BitmapDrawable(getResources(), icon));
@@ -687,7 +687,7 @@ public class HomeActivity extends AppCompatActivity implements HomeUIProxy {
 //        if (info.ab_rbtnrestype == DisplayItem.RES_TYPE_DRAWABLE && !TextUtils.isEmpty(info.ab_rbtnres_normal)
 //                && null == PluginManagerHelper.getPluginIcon(info.ab_rbtnres_normal)) {
 //
-//            iconPath = iconDir + File.separator + info.ab_rbtnres_normal + FileUtil.FIX_ICON_NAME;
+//            iconPath = iconDir + File.separator + info.ab_rbtnres_normal + PluginFileUtils.FIX_ICON_NAME;
 //            Bitmap abr_normalIcon = BitmapFactory.decodeFile(iconPath);
 //            if (abr_normalIcon != null) {
 //                PluginManagerHelper.addPluginIcon(info.ab_rbtnres_normal, new BitmapDrawable(getResources(),
@@ -696,7 +696,7 @@ public class HomeActivity extends AppCompatActivity implements HomeUIProxy {
 //
 //            if (null == PluginManagerHelper.getPluginIcon(info.ab_rbtnres_focus)
 //                    && !info.ab_rbtnres_normal.equals(info.ab_rbtnres_focus)) {
-//                iconPath = iconDir + File.separator + info.ab_rbtnres_focus + FileUtil.FIX_ICON_NAME;
+//                iconPath = iconDir + File.separator + info.ab_rbtnres_focus + PluginFileUtils.FIX_ICON_NAME;
 //                Bitmap abr_focusIcon = BitmapFactory.decodeFile(iconPath);
 //                if (abr_focusIcon != null) {
 //                    PluginManagerHelper.addPluginIcon(info.ab_rbtnres_focus, new BitmapDrawable(getResources(),
@@ -708,7 +708,7 @@ public class HomeActivity extends AppCompatActivity implements HomeUIProxy {
 //        if (info.ab_lbtnrestype == DisplayItem.RES_TYPE_DRAWABLE && !TextUtils.isEmpty(info.ab_lbtnres_normal)
 //                && null == PluginManagerHelper.getPluginIcon(info.ab_lbtnres_normal)) {
 //
-//            iconPath = iconDir + File.separator + info.ab_lbtnres_normal + FileUtil.FIX_ICON_NAME;
+//            iconPath = iconDir + File.separator + info.ab_lbtnres_normal + PluginFileUtils.FIX_ICON_NAME;
 //            Bitmap abr_normalIcon = BitmapFactory.decodeFile(iconPath);
 //            if (abr_normalIcon != null) {
 //                PluginManagerHelper.addPluginIcon(info.ab_lbtnres_normal, new BitmapDrawable(getResources(), abr_normalIcon));
@@ -716,7 +716,7 @@ public class HomeActivity extends AppCompatActivity implements HomeUIProxy {
 //
 //            if (null == PluginManagerHelper.getPluginIcon(info.ab_lbtnres_focus)
 //                    && !info.ab_lbtnres_normal.equals(info.ab_lbtnres_focus)) {
-//                iconPath = iconDir + File.separator + info.ab_lbtnres_focus + FileUtil.FIX_ICON_NAME;
+//                iconPath = iconDir + File.separator + info.ab_lbtnres_focus + PluginFileUtils.FIX_ICON_NAME;
 //                Bitmap abr_focusIcon = BitmapFactory.decodeFile(iconPath);
 //                if (abr_focusIcon != null) {
 //                    PluginManagerHelper.addPluginIcon(info.ab_lbtnres_focus, new BitmapDrawable(getResources(), abr_focusIcon));
@@ -725,14 +725,14 @@ public class HomeActivity extends AppCompatActivity implements HomeUIProxy {
 //        }
 //
 //        if (!TextUtils.isEmpty(info.giconres_normal) && PluginManagerHelper.getPluginIcon(info.giconres_normal) == null) {
-//            iconPath = iconDir + File.separator + info.giconres_normal + FileUtil.FIX_ICON_NAME;
+//            iconPath = iconDir + File.separator + info.giconres_normal + PluginFileUtils.FIX_ICON_NAME;
 //            Bitmap giconres_normal = BitmapFactory.decodeFile(iconPath);
 //            if (giconres_normal != null) {
 //                PluginManagerHelper.addPluginIcon(info.giconres_normal, new BitmapDrawable(getResources(), giconres_normal));
 //            }
 //        }
 //        if (!TextUtils.isEmpty(info.giconres_focus) && PluginManagerHelper.getPluginIcon(info.giconres_focus) == null) {
-//            iconPath = iconDir + File.separator + info.giconres_focus + FileUtil.FIX_ICON_NAME;
+//            iconPath = iconDir + File.separator + info.giconres_focus + PluginFileUtils.FIX_ICON_NAME;
 //            Bitmap giconres_normal = BitmapFactory.decodeFile(iconPath);
 //            if (giconres_normal != null) {
 //                PluginManagerHelper.addPluginIcon(info.giconres_focus, new BitmapDrawable(getResources(), giconres_normal));

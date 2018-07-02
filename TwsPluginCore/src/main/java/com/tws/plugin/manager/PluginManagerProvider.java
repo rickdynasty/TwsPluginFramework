@@ -15,7 +15,7 @@ import com.tws.plugin.content.LoadedPlugin;
 import com.tws.plugin.content.PluginDescriptor;
 import com.tws.plugin.core.PluginLauncher;
 import com.tws.plugin.core.PluginLoader;
-import com.tws.plugin.util.ProcessUtil;
+import com.tws.plugin.util.ProcessUtils;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -250,7 +250,7 @@ public class PluginManagerProvider extends ContentProvider {
 
         }else if (ACTION_BIND_ACTIVITY.equals(method)) {
             int launchMode = extras.getInt(PluginManagerHelper.CONSTANT_KEY_LAUNCH_MODE);
-            int processIndex = extras.getInt(PluginManagerHelper.CONSTANT_KEY_PROCESS_INDEX, ProcessUtil.PLUGIN_PROCESS_INDEX_HOST);
+            int processIndex = extras.getInt(PluginManagerHelper.CONSTANT_KEY_PROCESS_INDEX, ProcessUtils.PLUGIN_PROCESS_INDEX_HOST);
             bundle.putString(BIND_ACTIVITY_RESULT, PluginStubBinding.bindStubActivity(arg, launchMode, processIndex));
 
             return bundle;
@@ -260,7 +260,7 @@ public class PluginManagerProvider extends ContentProvider {
             PluginStubBinding.unBindLaunchModeStubActivity(arg, extras.getString(PluginManagerHelper.CONSTANT_KEY_CLASS_NAME));
 
         } else if (ACTION_BIND_SERVICE.equals(method)) {
-            int process = extras.getInt(PluginManagerHelper.CONSTANT_KEY_LAUNCH_MODE, ProcessUtil.PLUGIN_PROCESS_INDEX_HOST);
+            int process = extras.getInt(PluginManagerHelper.CONSTANT_KEY_LAUNCH_MODE, ProcessUtils.PLUGIN_PROCESS_INDEX_HOST);
             bundle.putString(BIND_SERVICE_RESULT, PluginStubBinding.bindStubService(arg, process));
 
             return bundle;

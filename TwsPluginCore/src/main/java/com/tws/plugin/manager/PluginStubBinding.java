@@ -11,7 +11,7 @@ import android.util.Base64;
 import com.tws.plugin.content.DisplayItem;
 import com.tws.plugin.core.PluginApplication;
 import com.tws.plugin.core.PluginLoader;
-import com.tws.plugin.util.ProcessUtil;
+import com.tws.plugin.util.ProcessUtils;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -127,7 +127,7 @@ class PluginStubBinding {
     private static boolean isPoolInited = false;
 
     private static void initPool() {
-        if (!ProcessUtil.isPluginProcess()) {
+        if (!ProcessUtils.isPluginProcess()) {
             throw new IllegalAccessError("此类只能在插件所在进程使用");
         }
 
@@ -228,7 +228,7 @@ class PluginStubBinding {
                 hProcessServices.put(resolveInfo.serviceInfo.name, null);
             }
 
-            HashMap<String, String> mapping = restore(ProcessUtil.PLUGIN_PROCESS_INDEX_HOST);
+            HashMap<String, String> mapping = restore(ProcessUtils.PLUGIN_PROCESS_INDEX_HOST);
             boolean modifyStore = false;
             if (null != mapping) {
                 Iterator<String> iter = mapping.keySet().iterator();
@@ -240,7 +240,7 @@ class PluginStubBinding {
                         hProcessServices.put(stubName, pluginServiceClassName);
 
                         //这里记录一下 插件组件的绑定关系，方便后面查询&解绑操作
-                        bindedServiceStubCache.put(pluginServiceClassName, new BindStubInfo(stubName, ProcessUtil.PLUGIN_PROCESS_INDEX_HOST));
+                        bindedServiceStubCache.put(pluginServiceClassName, new BindStubInfo(stubName, ProcessUtils.PLUGIN_PROCESS_INDEX_HOST));
                     } else {
                         modifyStore = true;
                         // 可能是版本升级做了调整,那就直接丢弃掉
@@ -249,7 +249,7 @@ class PluginStubBinding {
             }
 
             if (modifyStore) {
-                save(hProcessServices, ProcessUtil.PLUGIN_PROCESS_INDEX_HOST);
+                save(hProcessServices, ProcessUtils.PLUGIN_PROCESS_INDEX_HOST);
             }
         }
     }
@@ -266,7 +266,7 @@ class PluginStubBinding {
                 pMasterServices.put(resolveInfo.serviceInfo.name, null);
             }
 
-            HashMap<String, String> mapping = restore(ProcessUtil.PLUGIN_PROCESS_INDEX_MASTER);
+            HashMap<String, String> mapping = restore(ProcessUtils.PLUGIN_PROCESS_INDEX_MASTER);
             boolean modifyStore = false;
             if (null != mapping) {
                 Iterator<String> iter = mapping.keySet().iterator();
@@ -278,7 +278,7 @@ class PluginStubBinding {
                         pMasterServices.put(stubName, pluginServiceClassName);
 
                         //这里记录一下 插件组件的绑定关系，方便后面查询&解绑操作
-                        bindedServiceStubCache.put(pluginServiceClassName, new BindStubInfo(stubName, ProcessUtil.PLUGIN_PROCESS_INDEX_MASTER));
+                        bindedServiceStubCache.put(pluginServiceClassName, new BindStubInfo(stubName, ProcessUtils.PLUGIN_PROCESS_INDEX_MASTER));
                     } else {
                         // 可能是版本升级做了调整,那就直接丢弃掉
                         modifyStore = true;
@@ -287,7 +287,7 @@ class PluginStubBinding {
             }
 
             if (modifyStore) {
-                save(pMasterServices, ProcessUtil.PLUGIN_PROCESS_INDEX_MASTER);
+                save(pMasterServices, ProcessUtils.PLUGIN_PROCESS_INDEX_MASTER);
             }
         }
     }
@@ -304,7 +304,7 @@ class PluginStubBinding {
                 pMinorServices.put(resolveInfo.serviceInfo.name, null);
             }
 
-            HashMap<String, String> mapping = restore(ProcessUtil.PLUGIN_PROCESS_INDEX_MINOR);
+            HashMap<String, String> mapping = restore(ProcessUtils.PLUGIN_PROCESS_INDEX_MINOR);
             boolean modifyStore = false;
             if (null != mapping) {
                 Iterator<String> iter = mapping.keySet().iterator();
@@ -316,7 +316,7 @@ class PluginStubBinding {
                         pMinorServices.put(stubName, pluginServiceClassName);
 
                         //这里记录一下 插件组件的绑定关系，方便后面查询&解绑操作
-                        bindedServiceStubCache.put(pluginServiceClassName, new BindStubInfo(stubName, ProcessUtil.PLUGIN_PROCESS_INDEX_MASTER));
+                        bindedServiceStubCache.put(pluginServiceClassName, new BindStubInfo(stubName, ProcessUtils.PLUGIN_PROCESS_INDEX_MASTER));
                     } else {
                         // 可能是版本升级做了调整,那就直接丢弃掉
                         modifyStore = true;
@@ -325,7 +325,7 @@ class PluginStubBinding {
             }
 
             if (modifyStore) {
-                save(pMinorServices, ProcessUtil.PLUGIN_PROCESS_INDEX_MINOR);
+                save(pMinorServices, ProcessUtils.PLUGIN_PROCESS_INDEX_MINOR);
             }
         }
     }
@@ -342,7 +342,7 @@ class PluginStubBinding {
                 mpServiceMapping.put(resolveInfo.serviceInfo.name, null);
             }
 
-            HashMap<String, String> mapping = restore(ProcessUtil.PLUGIN_PROCESS_INDEX_CUSTOMIZE);
+            HashMap<String, String> mapping = restore(ProcessUtils.PLUGIN_PROCESS_INDEX_CUSTOMIZE);
             boolean modifyStore = false;
             if (null != mapping) {
                 Iterator<String> iter = mapping.keySet().iterator();
@@ -354,7 +354,7 @@ class PluginStubBinding {
                         mpServiceMapping.put(stubName, pluginServiceClassName);
 
                         //这里记录一下 插件组件的绑定关系，方便后面查询&解绑操作
-                        bindedServiceStubCache.put(pluginServiceClassName, new BindStubInfo(stubName, ProcessUtil.PLUGIN_PROCESS_INDEX_CUSTOMIZE));
+                        bindedServiceStubCache.put(pluginServiceClassName, new BindStubInfo(stubName, ProcessUtils.PLUGIN_PROCESS_INDEX_CUSTOMIZE));
                     } else {
                         // 可能是版本升级做了调整,那就直接丢弃掉
                         modifyStore = true;
@@ -363,7 +363,7 @@ class PluginStubBinding {
             }
 
             if (modifyStore) {
-                save(mpServiceMapping, ProcessUtil.PLUGIN_PROCESS_INDEX_CUSTOMIZE);
+                save(mpServiceMapping, ProcessUtils.PLUGIN_PROCESS_INDEX_CUSTOMIZE);
             }
         }
     }
@@ -392,7 +392,7 @@ class PluginStubBinding {
         HashMap<String, String> stubActivitys = null;
         String tandardActivity = "";
         switch (pIndex) {
-            case ProcessUtil.PLUGIN_PROCESS_INDEX_HOST: {   //host进程stbu
+            case ProcessUtils.PLUGIN_PROCESS_INDEX_HOST: {   //host进程stbu
                 switch (launchMode) {
                     case ActivityInfo.LAUNCH_SINGLE_TASK:
                         stubActivitys = hProcessSTaskActivitys;
@@ -409,7 +409,7 @@ class PluginStubBinding {
                 tandardActivity = hProcessStandardActivity;
             }
             break;
-            case ProcessUtil.PLUGIN_PROCESS_INDEX_MASTER: { //pMaster进程stbu
+            case ProcessUtils.PLUGIN_PROCESS_INDEX_MASTER: { //pMaster进程stbu
                 switch (launchMode) {
                     case ActivityInfo.LAUNCH_SINGLE_TASK:
                         stubActivitys = pMasterSTaskActivitys;
@@ -426,7 +426,7 @@ class PluginStubBinding {
                 tandardActivity = pMasterStandardActivity;
             }
             break;
-            case ProcessUtil.PLUGIN_PROCESS_INDEX_MINOR: {  //pMinor进程stbu
+            case ProcessUtils.PLUGIN_PROCESS_INDEX_MINOR: {  //pMinor进程stbu
                 switch (launchMode) {
                     case ActivityInfo.LAUNCH_SINGLE_TASK:
                         stubActivitys = pMinorSTaskActivitys;
@@ -511,7 +511,7 @@ class PluginStubBinding {
             QRomLog.i(TAG, "get bindStubInfo from cache is " + bindStubInfo);
             HashMap<String, String> stubActivitys = null;
             switch (bindStubInfo.pIndex) {
-                case ProcessUtil.PLUGIN_PROCESS_INDEX_HOST: {   //host进程stbu
+                case ProcessUtils.PLUGIN_PROCESS_INDEX_HOST: {   //host进程stbu
                     switch (bindStubInfo.launchMode) {
                         case ActivityInfo.LAUNCH_SINGLE_TASK:
                             stubActivitys = hProcessSTaskActivitys;
@@ -524,7 +524,7 @@ class PluginStubBinding {
                     }
                 }
                 break;
-                case ProcessUtil.PLUGIN_PROCESS_INDEX_MASTER: { //pMaster进程stbu
+                case ProcessUtils.PLUGIN_PROCESS_INDEX_MASTER: { //pMaster进程stbu
                     switch (bindStubInfo.launchMode) {
                         case ActivityInfo.LAUNCH_SINGLE_TASK:
                             stubActivitys = pMasterSTaskActivitys;
@@ -537,7 +537,7 @@ class PluginStubBinding {
                     }
                 }
                 break;
-                case ProcessUtil.PLUGIN_PROCESS_INDEX_MINOR: {  //pMinor进程stbu
+                case ProcessUtils.PLUGIN_PROCESS_INDEX_MINOR: {  //pMinor进程stbu
                     switch (bindStubInfo.launchMode) {
                         case ActivityInfo.LAUNCH_SINGLE_TASK:
                             stubActivitys = pMinorSTaskActivitys;
@@ -648,16 +648,16 @@ class PluginStubBinding {
         initPool();
         HashMap<String, String> stubServices = null;
         switch (pIndex) {
-            case ProcessUtil.PLUGIN_PROCESS_INDEX_HOST:
+            case ProcessUtils.PLUGIN_PROCESS_INDEX_HOST:
                 stubServices = hProcessServices;
                 break;
-            case ProcessUtil.PLUGIN_PROCESS_INDEX_MASTER:
+            case ProcessUtils.PLUGIN_PROCESS_INDEX_MASTER:
                 stubServices = pMasterServices;
                 break;
-            case ProcessUtil.PLUGIN_PROCESS_INDEX_MINOR:
+            case ProcessUtils.PLUGIN_PROCESS_INDEX_MINOR:
                 stubServices = pMinorServices;
                 break;
-            case ProcessUtil.PLUGIN_PROCESS_INDEX_CUSTOMIZE:
+            case ProcessUtils.PLUGIN_PROCESS_INDEX_CUSTOMIZE:
                 stubServices = mpServiceMapping;
                 break;
             default:
@@ -719,16 +719,16 @@ class PluginStubBinding {
         if (null != bindStubInfo) {
             HashMap<String, String> stubServices = null;
             switch (bindStubInfo.pIndex) {
-                case ProcessUtil.PLUGIN_PROCESS_INDEX_HOST:
+                case ProcessUtils.PLUGIN_PROCESS_INDEX_HOST:
                     stubServices = hProcessServices;
                     break;
-                case ProcessUtil.PLUGIN_PROCESS_INDEX_MASTER:
+                case ProcessUtils.PLUGIN_PROCESS_INDEX_MASTER:
                     stubServices = pMasterServices;
                     break;
-                case ProcessUtil.PLUGIN_PROCESS_INDEX_MINOR:
+                case ProcessUtils.PLUGIN_PROCESS_INDEX_MINOR:
                     stubServices = pMinorServices;
                     break;
-                case ProcessUtil.PLUGIN_PROCESS_INDEX_CUSTOMIZE:
+                case ProcessUtils.PLUGIN_PROCESS_INDEX_CUSTOMIZE:
                     stubServices = mpServiceMapping;
                     break;
             }
@@ -754,7 +754,7 @@ class PluginStubBinding {
                 // 如果存在绑定关系，解绑
                 QRomLog.i(TAG, "回收绑定 Key:" + entry.getKey() + " Value:" + entry.getValue());
                 hProcessServices.put(entry.getKey(), null);
-                save(hProcessServices, ProcessUtil.PLUGIN_PROCESS_INDEX_HOST);
+                save(hProcessServices, ProcessUtils.PLUGIN_PROCESS_INDEX_HOST);
                 break;
             }
         }
@@ -767,7 +767,7 @@ class PluginStubBinding {
                 // 如果存在绑定关系，解绑
                 QRomLog.i(TAG, "回收绑定 Key:" + entry.getKey() + " Value:" + entry.getValue());
                 pMasterServices.put(entry.getKey(), null);
-                save(pMasterServices, ProcessUtil.PLUGIN_PROCESS_INDEX_MASTER);
+                save(pMasterServices, ProcessUtils.PLUGIN_PROCESS_INDEX_MASTER);
                 break;
             }
         }
@@ -780,7 +780,7 @@ class PluginStubBinding {
                 // 如果存在绑定关系，解绑
                 QRomLog.i(TAG, "回收绑定 Key:" + entry.getKey() + " Value:" + entry.getValue());
                 pMinorServices.put(entry.getKey(), null);
-                save(pMinorServices, ProcessUtil.PLUGIN_PROCESS_INDEX_MINOR);
+                save(pMinorServices, ProcessUtils.PLUGIN_PROCESS_INDEX_MINOR);
                 break;
             }
         }
@@ -793,7 +793,7 @@ class PluginStubBinding {
                 // 如果存在绑定关系，解绑
                 QRomLog.i(TAG, "回收绑定 Key:" + entry.getKey() + " Value:" + entry.getValue());
                 mpServiceMapping.put(entry.getKey(), null);
-                save(mpServiceMapping, ProcessUtil.PLUGIN_PROCESS_INDEX_CUSTOMIZE);
+                save(mpServiceMapping, ProcessUtils.PLUGIN_PROCESS_INDEX_CUSTOMIZE);
                 break;
             }
         }
@@ -815,22 +815,22 @@ class PluginStubBinding {
             String list = Base64.encodeToString(data, Base64.DEFAULT);
 
             switch (pIndex) {
-                case ProcessUtil.PLUGIN_PROCESS_INDEX_HOST:
+                case ProcessUtils.PLUGIN_PROCESS_INDEX_HOST:
                     PluginLoader.getApplication()
                             .getSharedPreferences(PREFERENCES_NAME_HOST_PROCESS_SERVICES, Context.MODE_PRIVATE).edit()
                             .putString(KEY_HOST_PROCESS_SERVICES_MAP, list).apply();
                     break;
-                case ProcessUtil.PLUGIN_PROCESS_INDEX_MASTER:
+                case ProcessUtils.PLUGIN_PROCESS_INDEX_MASTER:
                     PluginLoader.getApplication()
                             .getSharedPreferences(PREFERENCES_NAME_PMASTER_PROCESS_SERVICES, Context.MODE_PRIVATE).edit()
                             .putString(KEY_PMASTER_PROCESS_SERVICES_MAP, list).apply();
                     break;
-                case ProcessUtil.PLUGIN_PROCESS_INDEX_MINOR:
+                case ProcessUtils.PLUGIN_PROCESS_INDEX_MINOR:
                     PluginLoader.getApplication()
                             .getSharedPreferences(PREFERENCES_NAME_PMINOR_PROCESS_SERVICES, Context.MODE_PRIVATE).edit()
                             .putString(KEY_PMINOR_PROCESS_SERVICES_MAP, list).apply();
                     break;
-                case ProcessUtil.PLUGIN_PROCESS_INDEX_CUSTOMIZE:
+                case ProcessUtils.PLUGIN_PROCESS_INDEX_CUSTOMIZE:
                     PluginLoader.getApplication()
                             .getSharedPreferences(KEY_MP_SERVICE_MAP_PREFERENCES_NAME, Context.MODE_PRIVATE).edit()
                             .putString(KEY_MP_SERVICE_MAP_MAP_PREFERENCES_NAME, list).apply();
@@ -867,22 +867,22 @@ class PluginStubBinding {
     private static HashMap<String, String> restore(int pIndex) {
         String list = null;
         switch (pIndex) {
-            case ProcessUtil.PLUGIN_PROCESS_INDEX_HOST:
+            case ProcessUtils.PLUGIN_PROCESS_INDEX_HOST:
                 list = PluginLoader.getApplication()
                         .getSharedPreferences(PREFERENCES_NAME_HOST_PROCESS_SERVICES, Context.MODE_PRIVATE)
                         .getString(KEY_HOST_PROCESS_SERVICES_MAP, "");
                 break;
-            case ProcessUtil.PLUGIN_PROCESS_INDEX_MASTER:
+            case ProcessUtils.PLUGIN_PROCESS_INDEX_MASTER:
                 list = PluginLoader.getApplication()
                         .getSharedPreferences(PREFERENCES_NAME_PMASTER_PROCESS_SERVICES, Context.MODE_PRIVATE)
                         .getString(KEY_PMASTER_PROCESS_SERVICES_MAP, "");
                 break;
-            case ProcessUtil.PLUGIN_PROCESS_INDEX_MINOR:
+            case ProcessUtils.PLUGIN_PROCESS_INDEX_MINOR:
                 list = PluginLoader.getApplication()
                         .getSharedPreferences(PREFERENCES_NAME_PMINOR_PROCESS_SERVICES, Context.MODE_PRIVATE)
                         .getString(KEY_PMINOR_PROCESS_SERVICES_MAP, "");
                 break;
-            case ProcessUtil.PLUGIN_PROCESS_INDEX_CUSTOMIZE:
+            case ProcessUtils.PLUGIN_PROCESS_INDEX_CUSTOMIZE:
                 list = PluginLoader.getApplication()
                         .getSharedPreferences(KEY_MP_SERVICE_MAP_PREFERENCES_NAME, Context.MODE_PRIVATE)
                         .getString(KEY_MP_SERVICE_MAP_MAP_PREFERENCES_NAME, "");

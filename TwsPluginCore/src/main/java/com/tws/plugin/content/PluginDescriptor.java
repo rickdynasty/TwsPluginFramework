@@ -7,8 +7,8 @@ import android.text.TextUtils;
 
 import com.tws.plugin.bridge.TwsPluginBridgeActivity;
 import com.tws.plugin.core.PluginLoader;
-import com.tws.plugin.util.ProcessUtil;
-import com.tws.plugin.util.ResourceUtil;
+import com.tws.plugin.util.ProcessUtils;
+import com.tws.plugin.util.ResourceUtils;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -57,7 +57,7 @@ public class PluginDescriptor implements Serializable {
 
     // 插件进程info配置
     // rick_Note:注意这里可能需要另外添加一个逻辑：如果插件配置了要显示在宿主里面的exported-fragment，那么插件的进程就只能是host进程，否则这会显示不出来
-    private int processIndex = ProcessUtil.PLUGIN_PROCESS_INDEX_HOST;
+    private int processIndex = ProcessUtils.PLUGIN_PROCESS_INDEX_HOST;
 
     /**
      * 定义在插件Manifest中的meta-data标签
@@ -223,18 +223,18 @@ public class PluginDescriptor implements Serializable {
         QRomLog.i(TAG, "setProcessIndexByProcessName:" + process);
         //1、没有配置 2、配置了宿主的包名 3、配置了插件的包名 这三种情况会被视为跑在宿主进程中
         if (TextUtils.isEmpty(process) || process.equals(PluginLoader.getApplication().getPackageName()) || process.equals(packageName)) {
-            this.processIndex = ProcessUtil.PLUGIN_PROCESS_INDEX_HOST;
+            this.processIndex = ProcessUtils.PLUGIN_PROCESS_INDEX_HOST;
         } else if (process.endsWith(":pminor")) { //除非特别指定了进程为pminor，否则不应该指定为：次要的插件进程
-            this.processIndex = ProcessUtil.PLUGIN_PROCESS_INDEX_MINOR;
+            this.processIndex = ProcessUtils.PLUGIN_PROCESS_INDEX_MINOR;
         } else {
-            this.processIndex = ProcessUtil.PLUGIN_PROCESS_INDEX_MASTER;
+            this.processIndex = ProcessUtils.PLUGIN_PROCESS_INDEX_MASTER;
         }
     }
 
     public Bundle getMetaData() {
         if (metaData == null) {
             if (installedPath != null) {
-                metaData = ResourceUtil.getApplicationMetaData(installedPath);
+                metaData = ResourceUtils.getApplicationMetaData(installedPath);
                 if (metaData == null) {
                     metaData = new Bundle();
                 }
@@ -472,7 +472,7 @@ public class PluginDescriptor implements Serializable {
                 result = new ArrayList<ComponentInfo>(1);
 
                 int pIndex = getProcessIndex();
-                String pName = ProcessUtil.getProcessNameByIndex(processIndex);
+                String pName = ProcessUtils.getProcessNameByIndex(processIndex);
                 switch (type) {
                     //目前就service存在可能和application不在一个进程
                     case DisplayItem.TYPE_SERVICE:
@@ -551,7 +551,7 @@ public class PluginDescriptor implements Serializable {
                         }
 
                         int pIndex = getProcessIndex();
-                        String pName = ProcessUtil.getProcessNameByIndex(processIndex);
+                        String pName = ProcessUtils.getProcessNameByIndex(processIndex);
                         switch (type) {
                             //目前就service存在可能和application不在一个进程
                             case DisplayItem.TYPE_SERVICE:

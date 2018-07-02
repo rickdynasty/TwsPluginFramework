@@ -12,7 +12,7 @@ import com.tws.plugin.content.PluginProviderInfo;
 import com.tws.plugin.content.PluginServiceInfo;
 import com.tws.plugin.manager.PluginManagerHelper;
 import com.tws.plugin.util.ManifestReader;
-import com.tws.plugin.util.ProcessUtil;
+import com.tws.plugin.util.ProcessUtils;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
@@ -346,10 +346,10 @@ public class PluginManifestParser {
                             // 记录每一个插件的进程信息
                             // 只要配置的不是插件进程和宿主就需要记录配置的process属性
                             //如果没有配置进程或者和application一样，就跟application走
-                            if (TextUtils.isEmpty(process) || process.equals(appProcess) || process.equals(ProcessUtil.getHostProcessName())) {
-                                process = ProcessUtil.getProcessNameByIndex(desciptor.getProcessIndex());
+                            if (TextUtils.isEmpty(process) || process.equals(appProcess) || process.equals(ProcessUtils.getHostProcessName())) {
+                                process = ProcessUtils.getProcessNameByIndex(desciptor.getProcessIndex());
                             } else { //注意这里插件指定了service为独立进程
-                                processIndex = ProcessUtil.PLUGIN_PROCESS_INDEX_CUSTOMIZE;
+                                processIndex = ProcessUtils.PLUGIN_PROCESS_INDEX_CUSTOMIZE;
                             }
 
                             serviceInfo.setServiceName(name);

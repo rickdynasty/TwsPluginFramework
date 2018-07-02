@@ -26,7 +26,7 @@ import com.tws.plugin.core.android.HackSupportV4LocalboarcastManager;
 import com.tws.plugin.core.compat.CompatForWebViewFactoryApi21;
 import com.tws.plugin.manager.PluginActivityMonitor;
 import com.tws.plugin.manager.PluginManagerHelper;
-import com.tws.plugin.util.ProcessUtil;
+import com.tws.plugin.util.ProcessUtils;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -55,7 +55,7 @@ public class PluginLauncher implements Serializable {
 	private ConcurrentHashMap<String, BaseDexClassLoader> plulginClassLoaderMap = new ConcurrentHashMap<String, BaseDexClassLoader>();
 
 	private PluginLauncher() {
-		if (!ProcessUtil.isPluginProcess()) {
+		if (!ProcessUtils.isPluginProcess()) {
 			throw new IllegalAccessError("本类仅在插件进程使用");
 		}
 	}

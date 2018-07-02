@@ -25,8 +25,7 @@ import com.tws.plugin.core.annotation.PluginContainer;
 import com.tws.plugin.core.viewfactory.PluginViewFactory;
 import com.tws.plugin.manager.PluginActivityMonitor;
 import com.tws.plugin.manager.PluginManagerHelper;
-import com.tws.plugin.manager.PluginManagerProvider;
-import com.tws.plugin.util.ProcessUtil;
+import com.tws.plugin.util.ProcessUtils;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -76,7 +75,7 @@ public class PluginInstrumentionWrapper extends Instrumentation {
     @Override
     public Application newApplication(ClassLoader cl, String className, Context context) throws InstantiationException,
             IllegalAccessException, ClassNotFoundException {
-        if (ProcessUtil.isPluginProcess()) {
+        if (ProcessUtils.isPluginProcess()) {
             PluginDescriptor pluginDescriptor = PluginManagerHelper.getPluginDescriptorByClassName(className);
             if (pluginDescriptor != null) {
                 return PluginLauncher.instance().getRunningPlugin(pluginDescriptor.getPackageName()).pluginApplication;
@@ -94,7 +93,7 @@ public class PluginInstrumentionWrapper extends Instrumentation {
         String orignalIntent = intent.toString();
 
         //先判断一下是否是第三方应用 试图启动 插件activity组件?
-        if (ProcessUtil.isHostProcess() && TwsPluginBridgeActivity.class.getName().equals(className)) {
+        if (ProcessUtils.isHostProcess() && TwsPluginBridgeActivity.class.getName().equals(className)) {
             // 第三方应用启动了TwsPluginBridgeActivity
             String packageName = PluginLoader.getPackageName(intent);
             ArrayList<ComponentInfo> componentInfos = PluginIntentResolver.matchPluginComponents(intent, DisplayItem.TYPE_ACTIVITY, packageName);
@@ -134,7 +133,7 @@ public class PluginInstrumentionWrapper extends Instrumentation {
                     }
                 }
             }
-        } else if (ProcessUtil.isPluginProcess()) {
+        } else if (ProcessUtils.isPluginProcess()) {
             // 将PluginStubActivity替换成插件中的activity
             // 之前在resolveActivity::resolveActivity解析intent的时候 如果被认定为是插件的activity组件，除调整Action外，
             // 还另外打上了INTENT_EXTRA_TWS_PLUGIN_STUB为true的表示，就是为了方便这里的判断
@@ -227,7 +226,7 @@ public class PluginInstrumentionWrapper extends Instrumentation {
             throw new ClassNotFoundException("  orignalCl : " + orignalCl.toString() + ", orginalClassName : "
                     + orginalClassName + ", orignalIntent : " + orignalIntent + ", currentCl : " + cl.toString()
                     + ", currentClassName : " + className + ", currentIntent : " + intent.toString() + ", process : "
-                    + ProcessUtil.isPluginProcess() + ", isStubActivity : " + PluginManagerHelper.isStub(orginalClassName, DisplayItem.TYPE_ACTIVITY), e);
+                    + ProcessUtils.isPluginProcess() + ", isStubActivity : " + PluginManagerHelper.isStub(orginalClassName, DisplayItem.TYPE_ACTIVITY), e);
         }
     }
 
@@ -257,7 +256,7 @@ public class PluginInstrumentionWrapper extends Instrumentation {
             icicle.setClassLoader(activity.getClassLoader());
         }
 
-        if (ProcessUtil.isPluginProcess()) {
+        if (ProcessUtils.isPluginProcess()) {
             installPluginViewFactory(activity);
 
             if (activity.isChild()) {

@@ -11,7 +11,7 @@ import android.webkit.WebView;
 import com.tws.plugin.core.android.HackWebViewFactory;
 import com.tws.plugin.core.proxy.MethodDelegate;
 import com.tws.plugin.core.proxy.MethodProxy;
-import com.tws.plugin.core.proxy.ProxyUtil;
+import com.tws.plugin.core.proxy.ProxyUtils;
 import com.tws.plugin.util.RefInvoker;
 
 /**
@@ -32,7 +32,7 @@ public class AndroidWebkitWebViewFactoryProvider extends MethodProxy {
 			// implements WebViewFactoryProvider
 			Object webViewFactoryProvider = HackWebViewFactory.getProvider();
 			if (webViewFactoryProvider != null) {
-				Object webViewFactoryProviderProxy = ProxyUtil.createProxy(webViewFactoryProvider,
+				Object webViewFactoryProviderProxy = ProxyUtils.createProxy(webViewFactoryProvider,
 						new AndroidWebkitWebViewFactoryProvider());
 				HackWebViewFactory.setProviderInstance(webViewFactoryProviderProxy);
 			} else {
@@ -54,7 +54,7 @@ public class AndroidWebkitWebViewFactoryProvider extends MethodProxy {
 			final WebView webView = (WebView) args[0];
 			fixWebViewAsset(webView.getContext());
 			return super.afterInvoke(target, method, args, beforeInvoke, invokeResult);
-			// return ProxyUtil.createProxy(invokeResult, new MethodDelegate() {
+			// return ProxyUtils.createProxy(invokeResult, new MethodDelegate() {
 			//
 			// @Override
 			// public Object beforeInvoke(Object target, Method method, Object[]
